@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for a card links.
+    /// </summary>
     public partial class CardLink : BaseComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CardLink() );
@@ -34,6 +34,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string Alt { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="CardLink"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

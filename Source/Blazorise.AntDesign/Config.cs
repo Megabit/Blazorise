@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -26,62 +24,73 @@ namespace Blazorise.AntDesign
             serviceCollection.AddScoped<IJSRunner, AntDesignJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
 
-            serviceCollection.AddTransient<Blazorise.Addons, AntDesign.Addons>();
-            serviceCollection.AddTransient<Blazorise.Addon, AntDesign.Addon>();
-            serviceCollection.AddTransient<Blazorise.AddonLabel, AntDesign.AddonLabel>();
-            serviceCollection.AddTransient<Blazorise.AlertMessage, AntDesign.AlertMessage>();
-            serviceCollection.AddTransient<Blazorise.AlertDescription, AntDesign.AlertDescription>();
-            serviceCollection.AddTransient<Blazorise.Badge, AntDesign.Badge>();
-            serviceCollection.AddTransient<Blazorise.Bar, AntDesign.Bar>();
-            serviceCollection.AddTransient<Blazorise.BarBrand, AntDesign.BarBrand>();
-            serviceCollection.AddTransient<Blazorise.BarIcon, AntDesign.BarIcon>();
-            serviceCollection.AddTransient<Blazorise.BarItem, AntDesign.BarItem>();
-            serviceCollection.AddTransient<Blazorise.BarMenu, AntDesign.BarMenu>();
-            serviceCollection.AddTransient<Blazorise.BarStart, AntDesign.BarStart>();
-            serviceCollection.AddTransient<Blazorise.BarEnd, AntDesign.BarEnd>();
-            serviceCollection.AddTransient<Blazorise.BarDropdown, AntDesign.BarDropdown>();
-            serviceCollection.AddTransient<Blazorise.BarLink, AntDesign.BarLink>();
-            serviceCollection.AddTransient<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
-            serviceCollection.AddTransient<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
-            serviceCollection.AddTransient<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();
-            serviceCollection.AddTransient<Blazorise.BarToggler, AntDesign.BarToggler>();
-            serviceCollection.AddTransient<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
-            serviceCollection.AddTransient<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
-            serviceCollection.AddTransient<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
-            serviceCollection.AddTransient( typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) );
-            serviceCollection.AddTransient<Blazorise.Button, AntDesign.Button>();
-            serviceCollection.AddTransient<Blazorise.CardHeader, AntDesign.CardHeader>();
-            serviceCollection.AddTransient<Blazorise.CardLink, AntDesign.CardLink>();
-            serviceCollection.AddTransient<Blazorise.Carousel, AntDesign.Carousel>();
-            serviceCollection.AddTransient<Blazorise.CloseButton, AntDesign.CloseButton>();
-            serviceCollection.AddTransient<Blazorise.CollapseHeader, AntDesign.CollapseHeader>();
-            serviceCollection.AddTransient<Blazorise.Dropdown, AntDesign.Dropdown>();
-            serviceCollection.AddTransient<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
-            serviceCollection.AddTransient<Blazorise.DropdownItem, AntDesign.DropdownItem>();
-            serviceCollection.AddTransient<Blazorise.DropdownToggle, AntDesign.DropdownToggle>();
-            serviceCollection.AddTransient<Blazorise.Field, AntDesign.Field>();
-            serviceCollection.AddTransient<Blazorise.FieldBody, AntDesign.FieldBody>();
-            serviceCollection.AddTransient<Blazorise.FieldLabel, AntDesign.FieldLabel>();
-            serviceCollection.AddTransient<Blazorise.FileEdit, AntDesign.FileEdit>();
-            serviceCollection.AddTransient<Blazorise.ListGroup, AntDesign.ListGroup>();
-            serviceCollection.AddTransient<Blazorise.ModalContent, AntDesign.ModalContent>();
-            serviceCollection.AddTransient<Blazorise.Progress, AntDesign.Progress>();
-            serviceCollection.AddTransient( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) );
-            serviceCollection.AddTransient<Blazorise.SelectGroup, AntDesign.SelectGroup>();
-            serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( AntDesign.Radio<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) );
-            serviceCollection.AddTransient<Blazorise.Tabs, AntDesign.Tabs>();
-            serviceCollection.AddTransient<Blazorise.Tab, AntDesign.Tab>();
-            serviceCollection.AddTransient<Blazorise.TabPanel, AntDesign.TabPanel>();
-            serviceCollection.AddTransient<Blazorise.TabsContent, AntDesign.TabsContent>();
-            serviceCollection.AddTransient<Blazorise.Table, AntDesign.Table>();
-            serviceCollection.AddTransient<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
-            serviceCollection.AddTransient<Blazorise.TextEdit, AntDesign.TextEdit>();
-            serviceCollection.AddTransient<Blazorise.Step, AntDesign.Step>();
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
 
             return serviceCollection;
         }
+
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
+        {
+            { typeof( Blazorise.Addons ), typeof( AntDesign.Addons ) },
+            { typeof( Blazorise.Addon ), typeof( AntDesign.Addon ) },
+            { typeof( Blazorise.AddonLabel ), typeof( AntDesign.AddonLabel ) },
+            { typeof( Blazorise.AlertMessage ), typeof( AntDesign.AlertMessage ) },
+            { typeof( Blazorise.AlertDescription ), typeof( AntDesign.AlertDescription ) },
+            { typeof( Blazorise.Badge ), typeof( AntDesign.Badge ) },
+            { typeof( Blazorise.Bar ), typeof( AntDesign.Bar ) },
+            { typeof( Blazorise.BarBrand ), typeof( AntDesign.BarBrand ) },
+            { typeof( Blazorise.BarIcon ), typeof( AntDesign.BarIcon ) },
+            { typeof( Blazorise.BarItem ), typeof( AntDesign.BarItem ) },
+            { typeof( Blazorise.BarMenu ), typeof( AntDesign.BarMenu ) },
+            { typeof( Blazorise.BarStart ), typeof( AntDesign.BarStart ) },
+            { typeof( Blazorise.BarEnd ), typeof( AntDesign.BarEnd ) },
+            { typeof( Blazorise.BarDropdown ), typeof( AntDesign.BarDropdown ) },
+            { typeof( Blazorise.BarLink ), typeof( AntDesign.BarLink ) },
+            { typeof( Blazorise.BarDropdownMenu ), typeof( AntDesign.BarDropdownMenu ) },
+            { typeof( Blazorise.BarDropdownItem ), typeof( AntDesign.BarDropdownItem ) },
+            { typeof( Blazorise.BarDropdownDivider ), typeof( AntDesign.BarDropdownDivider ) },
+            { typeof( Blazorise.BarDropdownToggle ), typeof( AntDesign.BarDropdownToggle ) },
+            { typeof( Blazorise.BarToggler ), typeof( AntDesign.BarToggler ) },
+            { typeof( Blazorise.Breadcrumb ), typeof( AntDesign.Breadcrumb ) },
+            { typeof( Blazorise.BreadcrumbItem ), typeof( AntDesign.BreadcrumbItem ) },
+            { typeof( Blazorise.BreadcrumbLink ), typeof( AntDesign.BreadcrumbLink ) },
+            { typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) },
+            { typeof( Blazorise.Button ), typeof( AntDesign.Button ) },
+            { typeof( Blazorise.CardHeader ), typeof( AntDesign.CardHeader ) },
+            { typeof( Blazorise.CardLink ), typeof( AntDesign.CardLink ) },
+            { typeof( Blazorise.Carousel ), typeof( AntDesign.Carousel ) },
+            { typeof( Blazorise.CloseButton ), typeof( AntDesign.CloseButton ) },
+            { typeof( Blazorise.CollapseHeader ), typeof( AntDesign.CollapseHeader ) },
+            { typeof( Blazorise.Dropdown ), typeof( AntDesign.Dropdown ) },
+            { typeof( Blazorise.DropdownMenu ), typeof( AntDesign.DropdownMenu ) },
+            { typeof( Blazorise.DropdownItem ), typeof( AntDesign.DropdownItem ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( AntDesign.DropdownToggle ) },
+            { typeof( Blazorise.Field ), typeof( AntDesign.Field ) },
+            { typeof( Blazorise.FieldBody ), typeof( AntDesign.FieldBody ) },
+            { typeof( Blazorise.FieldLabel ), typeof( AntDesign.FieldLabel ) },
+            { typeof( Blazorise.FileEdit ), typeof( AntDesign.FileEdit ) },
+            { typeof( Blazorise.ListGroup ), typeof( AntDesign.ListGroup ) },
+            { typeof( Blazorise.ModalContent ), typeof( AntDesign.ModalContent ) },
+            { typeof( Blazorise.Progress ), typeof( AntDesign.Progress ) },
+            { typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) },
+            { typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) },
+            { typeof( Blazorise.SelectGroup ), typeof( AntDesign.SelectGroup ) },
+            { typeof( Blazorise.Radio<> ), typeof( AntDesign.Radio<> ) },
+            { typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) },
+            { typeof( Blazorise.Tabs ), typeof( AntDesign.Tabs ) },
+            { typeof( Blazorise.Tab ), typeof( AntDesign.Tab ) },
+            { typeof( Blazorise.TabPanel ), typeof( AntDesign.TabPanel ) },
+            { typeof( Blazorise.TabsContent ), typeof( AntDesign.TabsContent ) },
+            { typeof( Blazorise.Table ), typeof( AntDesign.Table ) },
+            { typeof( Blazorise.TableRowHeader ), typeof( AntDesign.TableRowHeader ) },
+            { typeof( Blazorise.TextEdit ), typeof( AntDesign.TextEdit ) },
+            { typeof( Blazorise.Step ), typeof( AntDesign.Step ) },
+            { typeof( Blazorise.Rating ), typeof( AntDesign.Rating ) },
+            { typeof( Blazorise.RatingItem ), typeof( AntDesign.RatingItem ) },
+        };
     }
 }

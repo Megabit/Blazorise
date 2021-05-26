@@ -26,6 +26,8 @@ namespace Blazorise.AntDesign
 
         public override string MemoEdit() => "ant-input";
 
+        public override string MemoEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -151,6 +153,26 @@ namespace Blazorise.AntDesign
 
         public override string SliderColor( Color color ) => $"ant-slider-{ToColor( color )}";
 
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        public override string Rating() => "ant-rate";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "ant-rate-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "ant-rate-readonly" : null;
+
+        public override string RatingItem() => "ant-rate-star";
+
+        public override string RatingItemColor( Color color ) => $"ant-rate-star-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : "ant-rate-star-zero";
+
+        public override string RatingItemHovered( bool hover ) => hover ? "ant-rate-star-focused" : null;
+
         #endregion
 
         #region Label
@@ -260,6 +282,8 @@ namespace Blazorise.AntDesign
 
         public override string Addons() => "ant-input-group-wrapper";
 
+        public override string AddonsSize( Size size ) => $"ant-input-group-wrapper-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
         public override string Addon( AddonType addonType )
@@ -301,21 +325,26 @@ namespace Blazorise.AntDesign
 
         public override string ButtonActive() => "ant-btn-active";
 
+        public override string ButtonDisabled() => "ant-btn-disabled";
+
         public override string ButtonLoading() => "ant-btn-loading";
 
         #endregion
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "btn-toolbar";
 
-        public override string ButtonsAddons() => "ant-btn-group";
+            if ( orientation == Orientation.Vertical )
+                return "ant-btn-group btn-group-vertical";
 
-        public override string ButtonsToolbar() => "btn-toolbar";
+            return "ant-btn-group";
+        }
 
         public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 
@@ -342,6 +371,8 @@ namespace Blazorise.AntDesign
         public override string DropdownItemDisabled( bool disabled ) => disabled ? "ant-dropdown-menu-item-disabled" : null;
 
         public override string DropdownDivider() => "ant-dropdown-menu-divider";
+
+        public override string DropdownHeader() => "ant-dropdown-menu-header";
 
         public override string DropdownMenu() => "ant-dropdown";
 
@@ -484,8 +515,6 @@ namespace Blazorise.AntDesign
 
         public override string CardWhiteText() => "ant-text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "ant-card-actions";
 
         public override string CardBody() => "ant-card-body";
@@ -518,9 +547,13 @@ namespace Blazorise.AntDesign
 
         public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
+        public override string ListGroupItemSelectable() => "ant-list-item-actionable";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"ant-list-item-{ToColor( color )}";
 
         #endregion
 
@@ -535,8 +568,6 @@ namespace Blazorise.AntDesign
         #region Bar
 
         public override string Bar() => "ant-menu ant-menu-root";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
@@ -585,6 +616,8 @@ namespace Blazorise.AntDesign
 
         public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 
+        public override string BarDropdownDivider( BarMode mode ) => "ant-menu-item-divider";
+
         public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? $"ant-menu ant-menu-sub ant-menu-vertical" : $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";
@@ -627,6 +660,16 @@ namespace Blazorise.AntDesign
 
         public override string Row() => "ant-row";
 
+        public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
+        {
+            if ( rowColumnsDefinition.Breakpoint != Breakpoint.None && rowColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+                return $"ant-row-columns-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
+
+            return $"ant-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
+        }
+
+        public override string RowNoGutters() => "ant-row-no-gutters";
+
         #endregion
 
         #region Column
@@ -656,14 +699,14 @@ namespace Blazorise.AntDesign
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None
-                ? $"ant-display-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None
+                ? $"ant-display-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"ant-display-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} ant-flex-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} ant-flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
@@ -748,15 +791,23 @@ namespace Blazorise.AntDesign
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
+        public override string ProgressColor( Color color ) => null;
+
+        public override string ProgressStriped() => null;
+
+        public override string ProgressAnimated() => null;
+
+        public override string ProgressWidth( int width ) => null;
+
         public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
-        public override string ProgressBarSize( Size size ) => null;
+        public override string ProgressBarSize( Size size ) => $"ant-progress-bg-{ToSize( size )}";
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
+        public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
 
-        public override string ProgressBarStriped() => "progress-bar-striped";
+        public override string ProgressBarStriped() => "ant-progress-bar-striped";
 
-        public override string ProgressBarAnimated() => "progress-bar-animated";
+        public override string ProgressBarAnimated() => "ant-progress-bar-animated";
 
         public override string ProgressBarWidth( int width ) => null;
 
@@ -770,7 +821,7 @@ namespace Blazorise.AntDesign
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -804,8 +855,6 @@ namespace Blazorise.AntDesign
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => "ant-table-tbody";
@@ -813,10 +862,6 @@ namespace Blazorise.AntDesign
         public override string TableRow() => "ant-table-row";
 
         public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
-
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "ant-table-row-selectable";
 
@@ -828,13 +873,9 @@ namespace Blazorise.AntDesign
 
         public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
 
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
-
         public override string TableResponsive() => "ant-table-responsive";
+
+        public override string TableFixedHeader() => "ant-table-fixed-header";
 
         #endregion
 
@@ -872,6 +913,8 @@ namespace Blazorise.AntDesign
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "font-italic";
 
         #endregion
@@ -907,6 +950,14 @@ namespace Blazorise.AntDesign
         public override string FigureImageRounded() => "ant-figure-rounded";
 
         public override string FigureCaption() => "ant-figure-caption";
+
+        #endregion
+
+        #region Image
+
+        public override string Image() => "ant-image-img";
+
+        public override string ImageFluid( bool fluid ) => fluid ? "ant-image-img-fluid" : null;
 
         #endregion
 
@@ -974,9 +1025,157 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Borders
+
+        public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+        {
+            var sb = new StringBuilder( "ant-border" );
+
+            if ( borderSide != BorderSide.All )
+                sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+
+            if ( borderSize == BorderSize.Is0 )
+                sb.Append( "-0" );
+
+            if ( borderColor != BorderColor.None )
+            {
+                sb.Append( " ant-border-" ).Append( ToBorderColor( borderColor ) );
+            }
+
+            return sb.ToString();
+        }
+
+        public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
+            => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+
+        public override string BorderRadius( BorderRadius borderRadius )
+            => $"ant-{ToBorderRadius( borderRadius )}";
+
+        #endregion
+
         #region Flex
 
+        public override string Flex( FlexType flexType )
+        {
+            return flexType != FlexType.None
+                ? $"ant-display-{ToFlexType( flexType )}"
+                : null;
+        }
+
+        public override string Flex( FlexDefinition flexDefinition )
+        {
+            var sb = new StringBuilder();
+
+            var breakpoint = flexDefinition.Breakpoint != Breakpoint.None && flexDefinition.Breakpoint != Breakpoint.Mobile
+                ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
+                : null;
+
+            if ( flexDefinition.Direction != FlexDirection.None )
+                sb.Append( "ant-flex-direction-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+
+            if ( flexDefinition.JustifyContent != FlexJustifyContent.None )
+                sb.Append( "ant-justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+
+            if ( flexDefinition.AlignItems != FlexAlignItems.None )
+                sb.Append( "ant-align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+
+            if ( flexDefinition.AlignSelf != FlexAlignSelf.None )
+                sb.Append( "ant-align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+
+            if ( flexDefinition.AlignContent != FlexAlignContent.None )
+                sb.Append( "ant-align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+
+            if ( flexDefinition.GrowShrink != FlexGrowShrink.None && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.None )
+                sb.Append( "ant-flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+
+            if ( flexDefinition.Wrap != FlexWrap.None )
+                sb.Append( "ant-flex-wrap-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+
+            if ( flexDefinition.Order != FlexOrder.None )
+                sb.Append( "ant-flex-order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+
+            if ( flexDefinition.Fill )
+                sb.Append( "ant-flex-" ).Append( breakpoint ).Append( "fill" );
+
+            return sb.ToString();
+        }
+
+        public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+        {
+            var sb = new StringBuilder();
+
+            if ( flexType != FlexType.None )
+                sb.Append( $"ant-display-{ToFlexType( flexType )}" ).Append( ' ' );
+
+            sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+
+            return sb.ToString();
+        }
+
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
+
+        #endregion
+
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder( "ant-" );
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-wiewport-" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "max-" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "viewport-" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "width"
+                : "height" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "ant-visible",
+                Blazorise.Visibility.Invisible => "ant-invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"ant-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "ant-shadow";
+
+            return $"ant-shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"ant-overflow-{ToOverflow( overflow )}";
 
         #endregion
 
@@ -1035,6 +1234,60 @@ namespace Blazorise.AntDesign
                 default:
                     return null;
             }
+        }
+
+        public override string ToJustifyContent( FlexJustifyContent justifyContent )
+        {
+            return justifyContent switch
+            {
+                Blazorise.FlexJustifyContent.Start => "flex-start",
+                Blazorise.FlexJustifyContent.End => "flex-end",
+                Blazorise.FlexJustifyContent.Center => "center",
+                Blazorise.FlexJustifyContent.Between => "space-between",
+                Blazorise.FlexJustifyContent.Around => "space-around",
+                _ => null,
+            };
+        }
+
+        public override string ToAlignItems( FlexAlignItems alignItems )
+        {
+            return alignItems switch
+            {
+                Blazorise.FlexAlignItems.Start => "flex-start",
+                Blazorise.FlexAlignItems.End => "flex-end",
+                Blazorise.FlexAlignItems.Center => "center",
+                Blazorise.FlexAlignItems.Baseline => "baseline",
+                Blazorise.FlexAlignItems.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public override string ToAlignSelf( FlexAlignSelf alignSelf )
+        {
+            return alignSelf switch
+            {
+                Blazorise.FlexAlignSelf.Auto => "auto",
+                Blazorise.FlexAlignSelf.Start => "flex-start",
+                Blazorise.FlexAlignSelf.End => "flex-end",
+                Blazorise.FlexAlignSelf.Center => "center",
+                Blazorise.FlexAlignSelf.Baseline => "baseline",
+                Blazorise.FlexAlignSelf.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public override string ToAlignContent( FlexAlignContent alignContent )
+        {
+            return alignContent switch
+            {
+                Blazorise.FlexAlignContent.Start => "flex-start",
+                Blazorise.FlexAlignContent.End => "flex-end",
+                Blazorise.FlexAlignContent.Center => "center",
+                Blazorise.FlexAlignContent.Between => "space-between",
+                Blazorise.FlexAlignContent.Around => "space-around",
+                Blazorise.FlexAlignContent.Stretch => "stretch",
+                _ => null,
+            };
         }
 
         #endregion

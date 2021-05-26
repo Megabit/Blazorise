@@ -1,5 +1,8 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -54,11 +57,7 @@ namespace Blazorise.RichTextEdit
                 richTextEdit.ReadOnly,
                 richTextEdit.PlaceHolder,
                 richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
-                nameof( RichTextEdit.OnContentChanged ),
                 richTextEdit.SubmitOnEnter,
-                nameof( RichTextEdit.OnEnter ),
-                nameof( RichTextEdit.OnEditorFocus ),
-                nameof( RichTextEdit.OnEditorBlur ),
                 richTextEdit.ConfigureQuillJsMethod );
 
             return AsyncDisposable.Create( async () =>
@@ -160,33 +159,23 @@ namespace Blazorise.RichTextEdit
                 return;
             }
 
-            await LoadScript();
+            await LoadDynamicReferences();
+            await CheckIsLoaded();
 
             isLoaded = true;
         }
 
-        private async ValueTask LoadScript()
+        private async ValueTask LoadDynamicReferences()
         {
             // Make sure only one thread loads the javascript files
-            if ( options.DynamicLoadReferences && Interlocked.Increment( ref loadStarted ) == 1 )
+            if ( options.DynamicallyLoadReferences && Interlocked.Increment( ref loadStarted ) == 1 )
             {
-                var qjsVersion = options.QuillJsVersion;
-
-                await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.js", true );
-                await LoadElementAsync( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.js", true );
-                await LoadElementAsync( @"_content/Blazorise.RichTextEdit/Blazorise.RichTextEdit.bundle.scp.css", false );
-
-                if ( options.UseBubbleTheme )
-                {
-                    await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.bubble.css", false );
-                }
-
-                if ( options.UseShowTheme )
-                {
-                    await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.snow.css", false );
-                }
+                await LoadElementsAsync( options.DynamicReferences );
             }
+        }
 
+        private async ValueTask CheckIsLoaded()
+        {
             var loaderLoopBreaker = 0;
             while ( !await IsLoaded() )
             {
@@ -208,31 +197,35 @@ namespace Blazorise.RichTextEdit
             return quillLoaded && await jsRuntime.InvokeAsync<bool>( "window.hasOwnProperty", JsRoot );
         }
 
-        private async ValueTask LoadElementAsync( string uri, bool isScript )
+        /// <summary>
+        /// Dynamically load an additional script or stylesheet.
+        /// </summary>
+        public async ValueTask LoadElementsAsync( IEnumerable<DynamicReference> references )
         {
-            string bootStrapScript;
-            if ( isScript )
+            StringBuilder bootStrapScript = new( "(function() {" );
+
+            foreach ( var (reference, index) in references.Select( ( reference, index ) => (reference, index) ) )
             {
-                bootStrapScript = "(function()" +
-                                  "{" +
-                                  "var s = document.createElement('script'); " +
-                                  "s.type = 'text/javascript';" +
-                                  $"s.src='{uri}'; " +
-                                  "document['body'].appendChild(s); " +
-                                  "})();";
-            }
-            else
-            {
-                bootStrapScript = "(function()" +
-                                  "{" +
-                                  "var l = document.createElement('link'); " +
-                                  "l.rel = 'stylesheet';" +
-                                  $"l.href='{uri}'; " +
-                                  "document['head'].appendChild(l); " +
-                                  "})();";
+                var element = $"e{index}";
+                if ( reference.Type == DynamicReferenceType.Script )
+                {
+                    bootStrapScript.AppendLine( $"    var {element} = document.createElement( 'script' ); " );
+                    bootStrapScript.AppendLine( $"    {element}.type = 'text/javascript';" );
+                    bootStrapScript.AppendLine( $"    {element}.src='{reference.Uri}'; " );
+                    bootStrapScript.AppendLine( $"    document['body'].appendChild( {element} );" );
+                }
+                else
+                {
+                    bootStrapScript.AppendLine( $"    var {element} = document.createElement( 'link' ); " );
+                    bootStrapScript.AppendLine( $"    {element}.rel = 'stylesheet';" );
+                    bootStrapScript.AppendLine( $"    {element}.href='{reference.Uri}'; " );
+                    bootStrapScript.AppendLine( $"    document['head'].appendChild( {element} );" );
+                }
             }
 
-            await jsRuntime.InvokeVoidAsync( "eval", bootStrapScript );
+            bootStrapScript.AppendLine( "} )();" );
+
+            await jsRuntime.InvokeVoidAsync( "eval", bootStrapScript.ToString() );
         }
 
         #endregion

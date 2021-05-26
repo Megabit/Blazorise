@@ -123,6 +123,7 @@ namespace Blazorise.DataGrid
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken )
         {
             Page = page;
@@ -186,10 +187,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="item">Model that belongs to the grid row.</param>
         /// <param name="selected">Indicates if the row is selected or not.</param>
-        public MultiSelectEventArgs( TItem item, bool selected )
+        /// <param name="shiftKey">True if the user is holding shifg key.</param>
+        public MultiSelectEventArgs( TItem item, bool selected, bool shiftKey )
         {
             Item = item;
             Selected = selected;
+            ShiftKey = shiftKey;
         }
 
         /// <summary>
@@ -201,5 +204,10 @@ namespace Blazorise.DataGrid
         /// Returns true if the row is selected.
         /// </summary>
         public bool Selected { get; }
+
+        /// <summary>
+        /// Returns true if user has ShiftClicked.
+        /// </summary>
+        public bool ShiftKey { get; }
     }
 }

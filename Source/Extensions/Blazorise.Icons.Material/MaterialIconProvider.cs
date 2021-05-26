@@ -333,19 +333,47 @@ namespace Blazorise.Icons.Material
             { IconStyle.DuoTone, "material-icons-two-tone" },
         };
 
-        #endregion
-
-        #region Constructors
+        // Some material icons have a special outline names so we need to override them.
+        private static Dictionary<string, string> outlineNameOverrides = new Dictionary<string, string>
+        {
+            { "star", "star_outline" }
+        };
 
         #endregion
 
         #region Methods
 
-        public override string GetIconName( IconName iconName )
+        public override string IconSize( IconSize iconSize )
         {
-            names.TryGetValue( iconName, out var value );
+            return iconSize switch
+            {
+                Blazorise.IconSize.ExtraSmall => "md-xs",
+                Blazorise.IconSize.Small => "md-sm",
+                Blazorise.IconSize.Large => "md-lg",
+                Blazorise.IconSize.x2 => "md-2x",
+                Blazorise.IconSize.x3 => "md-3x",
+                Blazorise.IconSize.x4 => "md-4x",
+                Blazorise.IconSize.x5 => "md-5x",
+                Blazorise.IconSize.x6 => "md-6x",
+                Blazorise.IconSize.x7 => "md-7x",
+                Blazorise.IconSize.x8 => "md-8x",
+                Blazorise.IconSize.x9 => "md-9x",
+                Blazorise.IconSize.x10 => "md-10x",
+                _ => null,
+            };
+        }
 
-            return value;
+        public override string GetIconName( IconName iconName, IconStyle iconStyle )
+        {
+            if ( names.TryGetValue( iconName, out var value ) )
+            {
+                if ( iconStyle == IconStyle.Regular && outlineNameOverrides.TryGetValue( value, out var valueOverride ) )
+                    return valueOverride;
+
+                return value;
+            }
+
+            return null;
         }
 
         public override void SetIconName( IconName name, string newName )

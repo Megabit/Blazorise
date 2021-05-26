@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Tooltips display informative text when users hover over, focus on, or tap an element.
+    /// </summary>
     public partial class Tooltip : BaseComponent
     {
         #region Members
@@ -15,14 +18,21 @@ namespace Blazorise
 
         private bool alwaysActive;
 
+        private bool showArrow = true;
+
         private bool inline;
 
         private bool fade;
+
+        private int fadeDuration = 300;
+
+        private TooltipTrigger trigger = TooltipTrigger.MouseEnterFocus;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Tooltip() );
@@ -35,6 +45,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( !Inline )
@@ -42,11 +53,32 @@ namespace Blazorise
                 // try to detect if inline is needed
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.InitializeTooltip( ElementRef, ElementId );
+                    await JSRunner.InitializeTooltip( ElementRef, ElementId, new
+                    {
+                        Text,
+                        Placement = ClassProvider.ToPlacement( Placement ),
+                        Multiline,
+                        AlwaysActive,
+                        ShowArrow,
+                        Fade,
+                        FadeDuration,
+                        Trigger = ToTippyTrigger( Trigger ),
+                    } );
                 } );
             }
 
             base.OnInitialized();
+        }
+
+        private static string ToTippyTrigger( TooltipTrigger trigger )
+        {
+            return trigger switch
+            {
+                TooltipTrigger.Click => "click",
+                TooltipTrigger.Focus => "focusin",
+                TooltipTrigger.MouseEnterClick => "mouseenter click",
+                _ => "mouseenter focus",
+            };
         }
 
         #endregion
@@ -107,6 +139,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets or sets the tooltip arrow visibility.
+        /// </summary>
+        [Parameter]
+        public bool ShowArrow
+        {
+            get => showArrow;
+            set
+            {
+                showArrow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Force inline block instead of trying to detect the element block.
         /// </summary>
         [Parameter]
@@ -136,6 +183,39 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Duration in ms of the fade transition animation.
+        /// </summary>
+        [Parameter]
+        public int FadeDuration
+        {
+            get => fadeDuration;
+            set
+            {
+                fadeDuration = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Determines the events that cause the tooltip to show.
+        /// </summary>
+        [Parameter]
+        public TooltipTrigger Trigger
+        {
+            get => trigger;
+            set
+            {
+                trigger = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -72,10 +72,13 @@ $radius-small: 2px !default;
 $radius: 4px !default;
 $radius-large: 6px !default;
 $radius-rounded: 290486px !default;
+$radius-pill: 50rem !default;
 $speed: 86ms !default;
-
 $speed-slow: 150ms !default;
 $speed-slower: 250ms !default;
+
+$border-width: 1px;
+$border-color: #adb5bd;
 
 // TODO: add these to theme generator
 $control-height: 2.5em !default;
@@ -125,3 +128,10 @@ $steps-default-color: $grey-lighter !default
 $steps-completed-color: $success !default
 $steps-active-color: $primary !default
 $steps-divider-height: .2em !default
+
+$sizes: () !default;
+$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+
+$box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
+$box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
+$box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;

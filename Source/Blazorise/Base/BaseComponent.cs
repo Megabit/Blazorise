@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base class for all DOM based components.
+    /// </summary>
     public abstract class BaseComponent : BaseAfterRenderComponent
     {
         #region Members
@@ -19,18 +22,49 @@ namespace Blazorise
 
         private Float @float = Float.None;
 
+        private Visibility visibility = Visibility.None;
+
+        private IFluentSizing width;
+
+        private IFluentSizing height;
+
         private IFluentSpacing margin;
 
         private IFluentSpacing padding;
 
         private IFluentDisplay display;
 
+        private IFluentBorder border;
+
+        private IFluentFlex flex;
+
         private CharacterCasing characterCasing = CharacterCasing.Normal;
+
+        private TextColor textColor = TextColor.None;
+
+        private TextAlignment textAlignment = TextAlignment.None;
+
+        private TextTransform textTransform = TextTransform.None;
+
+        private TextWeight textWeight = TextWeight.None;
+
+        private TextOverflow textOverflow = TextOverflow.None;
+
+        private VerticalAlignment verticalAlignment = VerticalAlignment.None;
+
+        private Background background = Background.None;
+
+        private Shadow shadow = Shadow.None;
+
+        private Overflow overflow = Overflow.None;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor for <see cref="BaseComponent"/>.
+        /// </summary>
         public BaseComponent()
         {
             ClassBuilder = new ClassBuilder( BuildClasses );
@@ -41,6 +75,47 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            object heightAttribute = null;
+
+            // WORKAROUND for: https://github.com/dotnet/aspnetcore/issues/32252
+            // HTML native width/height attributes are recognized as Width/Height parameters
+            // and Blazor tries to convert them resulting in error. This workworund tries to fix it by removing
+            // width/height from parameter list and moving them to Attributes(as unmatched values).
+            //
+            // This behavior is really an edge-case and shouldn't affect performance too much.
+            // Only in some rare cases when width/height are used will the parameters be rebuilt.
+            if ( parameters.TryGetValue( "width", out object widthAttribute )
+                || parameters.TryGetValue( "height", out heightAttribute ) )
+            {
+                var paremetersDictionary = parameters.ToDictionary() as Dictionary<string, object>;
+
+                if ( Attributes == null )
+                    Attributes = new();
+
+                if ( widthAttribute != null && paremetersDictionary.ContainsKey( "width" ) )
+                {
+                    paremetersDictionary.Remove( "width" );
+
+                    Attributes.Add( "width", widthAttribute );
+                }
+
+                if ( heightAttribute != null && paremetersDictionary.ContainsKey( "height" ) )
+                {
+                    paremetersDictionary.Remove( "height" );
+
+                    Attributes.Add( "height", heightAttribute );
+                }
+
+                return base.SetParametersAsync( ParameterView.FromDictionary( paremetersDictionary ) );
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ShouldAutoGenerateId && ElementId == null )
@@ -51,6 +126,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
@@ -86,11 +162,53 @@ namespace Blazorise
             if ( Display != null )
                 builder.Append( Display.Class( ClassProvider ) );
 
+            if ( Border != null )
+                builder.Append( Border.Class( ClassProvider ) );
+
+            if ( Flex != null )
+                builder.Append( Flex.Class( ClassProvider ) );
+
             if ( Float != Float.None )
-                builder.Append( ClassProvider.ToFloat( Float ) );
+                builder.Append( ClassProvider.Float( Float ) );
+
+            if ( Visibility != Visibility.None )
+                builder.Append( ClassProvider.Visibility( Visibility ) );
+
+            if ( VerticalAlignment != VerticalAlignment.None )
+                builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
+
+            if ( Width != null )
+                builder.Append( Width.Class( ClassProvider ) );
+
+            if ( Height != null )
+                builder.Append( Height.Class( ClassProvider ) );
 
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
+
+            if ( TextColor != TextColor.None )
+                builder.Append( ClassProvider.TextColor( TextColor ) );
+
+            if ( TextAlignment != TextAlignment.None )
+                builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
+
+            if ( TextTransform != TextTransform.None )
+                builder.Append( ClassProvider.TextTransform( TextTransform ) );
+
+            if ( TextWeight != TextWeight.None )
+                builder.Append( ClassProvider.TextWeight( TextWeight ) );
+
+            if ( TextOverflow != TextOverflow.None )
+                builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
+
+            if ( Background != Background.None )
+                builder.Append( ClassProvider.BackgroundColor( Background ) );
+
+            if ( Shadow != Shadow.None )
+                builder.Append( ClassProvider.Shadow( Shadow ) );
+
+            if ( Overflow != Overflow.None )
+                builder.Append( ClassProvider.Overflow( Overflow ) );
         }
 
         /// <summary>
@@ -119,11 +237,22 @@ namespace Blazorise
             StyleBuilder.Dirty();
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="DotNetObjectReference{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the object.</typeparam>
+        /// <param name="value">The reference of the tracked object.</param>
+        /// <returns>An instance of <see cref="DotNetObjectReference{T}"/>.</returns>
         protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
         {
             return DotNetObjectReference.Create( value );
         }
 
+        /// <summary>
+        /// Destroys the instance of <see cref="DotNetObjectReference{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the object.</typeparam>
+        /// <param name="value">The reference of the tracked object.</param>
         protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
         {
             value?.Dispose();
@@ -243,6 +372,51 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Controls the visibility, without modifying the display, of elements with visibility utilities.
+        /// </summary>
+        [Parameter]
+        public Visibility Visibility
+        {
+            get => visibility;
+            set
+            {
+                visibility = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defined the sizing for the element width attribute(s).
+        /// </summary>
+        [Parameter]
+        public IFluentSizing Width
+        {
+            get => width;
+            set
+            {
+                width = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defined the sizing for the element height attribute(s).
+        /// </summary>
+        [Parameter]
+        public IFluentSizing Height
+        {
+            get => height;
+            set
+            {
+                height = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Defines the element margin spacing.
         /// </summary>
         [Parameter]
@@ -288,6 +462,36 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Specifies the border of an element.
+        /// </summary>
+        [Parameter]
+        public IFluentBorder Border
+        {
+            get => border;
+            set
+            {
+                border = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Specifies flexbox properties of an element.
+        /// </summary>
+        [Parameter]
+        public IFluentFlex Flex
+        {
+            get => flex;
+            set
+            {
+                flex = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Changes the character casing of a element.
         /// </summary>
         [Parameter]
@@ -297,6 +501,141 @@ namespace Blazorise
             set
             {
                 characterCasing = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text color.
+        /// </summary>
+        [Parameter]
+        public TextColor TextColor
+        {
+            get => textColor;
+            set
+            {
+                textColor = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text alignment.
+        /// </summary>
+        [Parameter]
+        public TextAlignment TextAlignment
+        {
+            get => textAlignment;
+            set
+            {
+                textAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text transformation.
+        /// </summary>
+        [Parameter]
+        public TextTransform TextTransform
+        {
+            get => textTransform;
+            set
+            {
+                textTransform = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text weight.
+        /// </summary>
+        [Parameter]
+        public TextWeight TextWeight
+        {
+            get => textWeight;
+            set
+            {
+                textWeight = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Determines how the text will behave when it is larger than a parent container.
+        /// </summary>
+        [Parameter]
+        public TextOverflow TextOverflow
+        {
+            get => textOverflow;
+            set
+            {
+                textOverflow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Changes the vertical alignment of inline, inline-block, inline-table, and table cell elements.
+        /// </summary>
+        [Parameter]
+        public VerticalAlignment VerticalAlignment
+        {
+            get => verticalAlignment;
+            set
+            {
+                verticalAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the component background color.
+        /// </summary>
+        [Parameter]
+        public Background Background
+        {
+            get => background;
+            set
+            {
+                background = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the component shadow box.
+        /// </summary>
+        [Parameter]
+        public Shadow Shadow
+        {
+            get => shadow;
+            set
+            {
+                shadow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// The overflow property controls what happens to content that is too big to fit into an area.
+        /// </summary>
+        [Parameter]
+        public Overflow Overflow
+        {
+            get => overflow;
+            set
+            {
+                overflow = value;
 
                 DirtyClasses();
             }

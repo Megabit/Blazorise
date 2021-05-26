@@ -4,7 +4,7 @@
 {
     <div class="field">
         <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" step="@Step" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback
@@ -13,7 +13,7 @@
 else
 {
     <div class="control">
-        <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" step="@Step" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" @attributes="@Attributes" />
         @ChildContent
     </div>
     @Feedback

@@ -78,11 +78,7 @@ namespace Blazorise
                 }
                 else
                 {
-                    var caret = await JSRunner.GetCaret( ElementRef );
-
                     await CurrentValueHandler( eventArgs?.Value?.ToString() );
-
-                    await JSRunner.SetCaret( ElementRef, caret );
                 }
             }
         }
@@ -143,6 +139,12 @@ namespace Blazorise
         /// </summary>
         protected int DelayTextOnKeyPressIntervalValue
             => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
+
+        /// <summary>
+        /// the name of the event for the input element.
+        /// </summary>
+        protected string BindValueEventName
+            => IsChangeTextOnKeyPress ? "oninput" : "onchange";
 
         /// <summary>
         /// Sets the placeholder for the empty text.

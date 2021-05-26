@@ -64,5 +64,7 @@ namespace Blazorise.DataGrid
         [Parameter] public string Style { get; set; }
 
         [Parameter] public TextAlignment TextAlignment { get; set; }
+
+        [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
     }
 }

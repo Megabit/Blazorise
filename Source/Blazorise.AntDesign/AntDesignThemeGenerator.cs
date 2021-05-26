@@ -1,6 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 #endregion
 
@@ -8,6 +7,15 @@ namespace Blazorise.AntDesign
 {
     public class AntDesignThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public AntDesignThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
@@ -19,6 +27,13 @@ namespace Blazorise.AntDesign
             sb.Append( $".ant-hero-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".ant-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -121,6 +136,11 @@ namespace Blazorise.AntDesign
                 .Append( "{" )
                 .Append( $"color: currentColor !important;" )
                 .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".ant-btn-{variant}[disabled]" ).Append( "{" )
+                    .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
+                    .AppendLine( "}" );
         }
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -235,6 +255,11 @@ namespace Blazorise.AntDesign
                 sb.Append( $".ant-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".ant-btn[disabled]" ).Append( "{" )
+                    .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
+                    .AppendLine( "}" );
         }
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
@@ -311,6 +336,51 @@ namespace Blazorise.AntDesign
             {
                 GenerateInputSliderStyles( sb, theme, options );
             }
+
+            sb
+                .Append( $".flatpickr-months .flatpickr-month:hover svg," )
+                .Append( $".flatpickr-months .flatpickr-next-month:hover svg," )
+                .Append( $".flatpickr-months .flatpickr-prev-month:hover svg" )
+                .Append( "{" )
+                .Append( $"fill: { Var( ThemeVariables.Color( "primary" ) )} !important;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
+                .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-day:hover" ).Append( "{" )
+                .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
+                .Append( $"box-shadow: -10px 0 0 { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-day.today" ).Append( "{" )
+                .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-day.today:hover" ).Append( "{" )
+                .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
+                .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-monthSelect-month.selected" ).Append( "{" )
+                .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
         }
 
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
@@ -422,6 +492,12 @@ namespace Blazorise.AntDesign
                 .Append( $".ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
                 .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-steps-item.ant-steps-item-active.ant-steps-item-process .ant-steps-item-icon" ).Append( "{" )
+                .Append( $"background: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
@@ -473,6 +549,25 @@ namespace Blazorise.AntDesign
             sb
                 .Append( $".ant-steps-item-{variant} .ant-steps-item-content .ant-steps-item-title" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
+        {
+            if ( ratingOptions?.HoverOpacity != null )
+            {
+                sb
+                    .Append( $".ant-rate .ant-rate-star.ant-rate-star-focused" ).Append( "{" )
+                    .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
+        {
+            sb
+                .Append( $".ant-rate .ant-rate-star.ant-rate-star-{variant}" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
                 .AppendLine( "}" );
         }
 
@@ -758,6 +853,53 @@ namespace Blazorise.AntDesign
                 .Append( $".ant-form-text.ant-form-text-{variant}" )
                 .Append( "{" )
                 .Append( $"color: {color};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+        {
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var white = Var( ThemeVariables.White );
+                var primary = Var( ThemeVariables.Color( "primary" ) );
+
+                sb
+                    .Append( $".ant-list-item.active" )
+                    .Append( "{" )
+                    .Append( $"color: {white};" )
+                    .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )
+                    .Append( $"border-color: {primary};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var textColor = ParseColor( inColor );
+
+            var background = ToHex( backgroundColor );
+            var text = ToHex( textColor );
+
+            sb.Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}" ).Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable:hover," )
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable:focus" )
+                .Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( ToHex( Darken( GetGradientBg( theme, background, options?.GradientBlendPercentage ), 5 ) ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable.active" )
+                .Append( "{" )
+                .Append( $"color: #fff;" )
+                .Append( $"background-color: {text};" )
+                .Append( $"border-color: {text};" )
                 .AppendLine( "}" );
         }
 

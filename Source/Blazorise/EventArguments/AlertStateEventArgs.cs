@@ -9,6 +9,10 @@ namespace Blazorise
     /// </summary>
     public class AlertStateEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="AlertStateEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="visible">Visibility flag.</param>
         public AlertStateEventArgs( bool visible )
         {
             Visible = visible;

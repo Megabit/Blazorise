@@ -300,6 +300,448 @@
         </Card>
     </Column>
 </Row>
-@code{
-
-}
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Addons sizes with NumericEdit</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.ExtraSmall">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <NumericEdit TValue="decimal?" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Small">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <NumericEdit TValue="decimal?" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <NumericEdit TValue="decimal?" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Medium">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <NumericEdit TValue="decimal?" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Large">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <NumericEdit TValue="decimal?" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.ExtraLarge">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <NumericEdit TValue="decimal?" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Addons sizes with TextEdit</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.ExtraSmall">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Small">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Medium">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Large">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.ExtraLarge">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Addons sizes with Select</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.ExtraSmall">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Select TValue="string"></Select>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Small">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Select TValue="string"></Select>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Select TValue="string"></Select>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Medium">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Select TValue="string"></Select>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.Large">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Select TValue="string"></Select>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Addons Size="Size.ExtraLarge">
+                            <Addon AddonType="AddonType.Start">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronLeft" />
+                                </Button>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Select TValue="string"></Select>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>hours</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary">
+                                    <Icon Name="IconName.ChevronRight" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

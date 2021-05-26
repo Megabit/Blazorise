@@ -1,0 +1,15 @@
+﻿@inherits Blazorise.Rating
+<CascadingValue Value="@this" IsFixed="true">
+    <ul id="@ElementId" class="@ClassNames" style="@StyleNames" role="radiogroup" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
+        @for ( int i = 1; i <= MaxValue; i++ )
+        {
+            <Blazorise.RatingItem @key="@i"
+                                  Class="@RatingItemsClass"
+                                  Style="@RatingItemsStyle"
+                                  Value="@i"
+                                  Color="Color"
+                                  ItemClicked="HandleItemClicked"
+                                  ItemHovered="HandleItemHovered" />
+        }
+    </ul>
+</CascadingValue>

@@ -68,8 +68,14 @@
                                     <BarDropdownItem To="tests/carousel">
                                         Carousel
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="tests/layout">
-                                        Layout
+                                    <BarDropdownItem To="tests/ratings">
+                                        Rating
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/icons">
+                                        Icons
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/listgroup">
+                                        List group
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -131,11 +137,45 @@
                                     <BarDropdownItem To="tests/richtextedit">
                                         RichTextEdit
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/spinkit">
+                                        Spin Kit
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
                     </BarStart>
                     <BarEnd>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Flask" />
+                                    Utilities
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="tests/utilities/borders">
+                                        Borders
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/flex">
+                                        Flex
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/overflow">
+                                        Overflow
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/layout">
+                                        Layout
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/shadows">
+                                        Shadows
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/sizing">
+                                        Sizing
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/vertical-align">
+                                        Vertical align
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
                         <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
@@ -181,6 +221,7 @@
                                     <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
                                         Quick-Start Guide
                                     </BarDropdownItem>
+                                    <BarDropdownDivider />
                                     <BarDropdownItem To="https://blazorise.com/docs/usage/">
                                         Usage
                                     </BarDropdownItem>
@@ -330,11 +371,17 @@
         Theme.InputOptions.CheckColor = value;
         Theme.InputOptions.SliderColor = value;
 
+        if ( Theme.SpinKitOptions == null )
+            Theme.SpinKitOptions = new ThemeSpinKitOptions();
+
+        Theme.SpinKitOptions.Color = value;
+
         Theme.ThemeHasChanged();
     }
 
     private bool topbarVisible = false;
     private bool uiElementsVisible = true;
+    private bool utilitiesVisible = false;
 
     [CascadingParameter] protected Theme Theme { get; set; }
 

@@ -1,0 +1,693 @@
+﻿@page "/tests/utilities/flex"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Direction</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph>
+                    Set the direction of flex items in a flex container with direction utilities.
+                </Paragraph>
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use <code>Flex="Flex.Row"</code> to set a horizontal direction (the browser default), or <code>Flex="Flex.ReverseRow"</code> to start the horizontal direction from the opposite side.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Row" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.ReverseRow" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Use <code>Flex="Flex.Column"</code> to set a vertical direction, or <code>Flex="Flex.ReverseColumn"</code> to start the vertical direction from the opposite side.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Column" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.ReverseColumn" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>flex-direction</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.Row"</code></li>
+                    <li><code>Flex="Flex.ReverseRow"</code></li>
+                    <li><code>Flex="Flex.Column"</code></li>
+                    <li><code>Flex="Flex.ReverseColumn"</code></li>
+                    <li><code>Flex="Flex.Row.OnTablet"</code></li>
+                    <li><code>Flex="Flex.ReverseRow.OnTablet"</code></li>
+                    <li><code>Flex="Flex.Column.OnTablet"</code></li>
+                    <li><code>Flex="Flex.ReverseColumn.OnTablet"</code></li>
+                    <li><code>Flex="Flex.Row.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.ReverseRow.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.Column.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.ReverseColumn.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.Row.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.ReverseRow.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.Column.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.ReverseColumn.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.Row.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.ReverseRow.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.Column.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.ReverseColumn.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Justify content</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use <code>JustifyContent</code> utilities on flexbox containers to change the alignment of flex items on the main axis (the x-axis to start, y-axis if flex-direction: column). Choose from <code>Start</code> (browser default), <code>End</code>, <code>Center</code>, <code>Between</code>, or <code>Around</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.JustifyContent.End" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.JustifyContent.Center" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.JustifyContent.Around" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>justify-content</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.JustifyContent.Start"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.End"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Center"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Between"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Around"</code></li>
+
+                    <li><code>Flex="Flex.JustifyContent.Start.OnTablet"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.End.OnTablet"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Center.OnTablet"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Between.OnTablet"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Around.OnTablet"</code></li>
+
+                    <li><code>Flex="Flex.JustifyContent.Start.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.End.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Center.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Between.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Around.OnDesktop"</code></li>
+
+                    <li><code>Flex="Flex.JustifyContent.Start.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.End.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Center.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Between.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Around.OnWidescreen"</code></li>
+
+                    <li><code>Flex="Flex.JustifyContent.Start.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.End.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Center.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Between.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.JustifyContent.Around.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Align items</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use <code>AlignItems</code> utilities on flexbox containers to change the alignment of flex items on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from <code>Start</code>, <code>End</code>, <code>Center</code>, <code>Baseline</code>, or <code>Stretch</code> (browser default).
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.AlignItems.Start" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.AlignItems.End" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.AlignItems.Baseline" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Flex="Flex.AlignItems.Stretch" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>align-items</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.AlignItems.Start"</code></li>
+                    <li><code>Flex="Flex.AlignItems.End"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Center"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Baseline"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Stretch"</code></li>
+
+                    <li><code>Flex="Flex.AlignItems.Start.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignItems.End.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Center.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Baseline.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Stretch.OnTablet"</code></li>
+
+                    <li><code>Flex="Flex.AlignItems.Start.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignItems.End.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Center.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Baseline.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Stretch.OnDesktop"</code></li>
+
+                    <li><code>Flex="Flex.AlignItems.Start.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignItems.End.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Center.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Baseline.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Stretch.OnWidescreen"</code></li>
+
+                    <li><code>Flex="Flex.AlignItems.Start.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignItems.End.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Center.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Baseline.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignItems.Stretch.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Align self</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use <code>AlignSelf</code> utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: <code>Start</code>, <code>End</code>, <code>Center</code>, <code>Baseline</code>, or <code>Stretch</code> (browser default).
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Flex="Flex.AlignSelf.Start" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Flex="Flex.AlignSelf.End" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Flex="Flex.AlignSelf.Center" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Flex="Flex.AlignSelf.Baseline" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@alignItemsFlexContainerStyle">
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 1
+                    </Div>
+                    <Div Flex="Flex.AlignSelf.Stretch" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 2
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item 3
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>align-items</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.AlignSelf.Start"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.End"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Center"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Baseline"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Stretch"</code></li>
+
+                    <li><code>Flex="Flex.AlignSelf.Start.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.End.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Center.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Baseline.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Stretch.OnTablet"</code></li>
+
+                    <li><code>Flex="Flex.AlignSelf.Start.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.End.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Center.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Baseline.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Stretch.OnDesktop"</code></li>
+
+                    <li><code>Flex="Flex.AlignSelf.Start.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.End.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Center.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Baseline.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Stretch.OnWidescreen"</code></li>
+
+                    <li><code>Flex="Flex.AlignSelf.Start.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.End.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Center.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Baseline.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignSelf.Stretch.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Align content</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use <code>AlignContent</code> utilities on flexbox containers to align flex items together on the cross axis. Choose from <code>Start</code> (browser default), <code>End</code>, <code>Center</code>, <code>Between</code>,<code>Around</code>, or <code>Stretch</code>. To demonstrate these utilities, we’ve enforced flex-wrap: wrap and increased the number of flex items.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.AlignContent.Start.Wrap" Margin="Margin.Is3.FromBottom" Style="@alignContentFlexContainerStyle">
+                    @for ( int i = 0; i < 20; ++i )
+                    {
+                        var index = i.ToString();
+                        <Div @key="@i" Padding="Padding.Is2" Style="@flexItemStyle">Flex item @index</Div>
+                    }
+                </Div>
+                <Div Flex="Flex.AlignContent.End.Wrap" Margin="Margin.Is3.FromBottom" Style="@alignContentFlexContainerStyle">
+                    @for ( int i = 0; i < 20; ++i )
+                    {
+                        var index = i.ToString();
+                        <Div @key="@i" Padding="Padding.Is2" Style="@flexItemStyle">Flex item @index</Div>
+                    }
+                </Div>
+                <Div Flex="Flex.AlignContent.Center.Wrap" Margin="Margin.Is3.FromBottom" Style="@alignContentFlexContainerStyle">
+                    @for ( int i = 0; i < 20; ++i )
+                    {
+                        var index = i.ToString();
+                        <Div @key="@i" Padding="Padding.Is2" Style="@flexItemStyle">Flex item @index</Div>
+                    }
+                </Div>
+                <Div Flex="Flex.AlignContent.Between.Wrap" Margin="Margin.Is3.FromBottom" Style="@alignContentFlexContainerStyle">
+                    @for ( int i = 0; i < 20; ++i )
+                    {
+                        var index = i.ToString();
+                        <Div @key="@i" Padding="Padding.Is2" Style="@flexItemStyle">Flex item @index</Div>
+                    }
+                </Div>
+                <Div Flex="Flex.AlignContent.Around.Wrap" Margin="Margin.Is3.FromBottom" Style="@alignContentFlexContainerStyle">
+                    @for ( int i = 0; i < 20; ++i )
+                    {
+                        var index = i.ToString();
+                        <Div @key="@i" Padding="Padding.Is2" Style="@flexItemStyle">Flex item @index</Div>
+                    }
+                </Div>
+                <Div Flex="Flex.AlignContent.Stretch.Wrap" Margin="Margin.Is3.FromBottom" Style="@alignContentFlexContainerStyle">
+                    @for ( int i = 0; i < 20; ++i )
+                    {
+                        var index = i.ToString();
+                        <Div @key="@i" Padding="Padding.Is2" Style="@flexItemStyle">Flex item @index</Div>
+                    }
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>align-items</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.AlignContent.Start"</code></li>
+                    <li><code>Flex="Flex.AlignContent.End"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Center"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Between"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Around"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Stretch"</code></li>
+
+                    <li><code>Flex="Flex.AlignContent.Start.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignContent.End.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Center.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Between.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Around.OnTablet"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Stretch.OnTablet"</code></li>
+
+                    <li><code>Flex="Flex.AlignContent.Start.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignContent.End.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Center.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Between.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Around.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Stretch.OnDesktop"</code></li>
+
+                    <li><code>Flex="Flex.AlignContent.Start.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignContent.End.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Center.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Between.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Around.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Stretch.OnWidescreen"</code></li>
+
+                    <li><code>Flex="Flex.AlignContent.Start.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignContent.End.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Center.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Between.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Around.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.AlignContent.Stretch.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Grow and shrink</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use <code>Flex.Grow</code> utilities to toggle a flex item’s ability to grow to fill available space. In the example below, the <code>Flex.Grow.Is1</code> elements uses all available space it can, while allowing the remaining two flex items their necessary space.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Flex="Flex.Grow.Is1" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item
+                    </Div>
+                    <Div Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Use <code>Flex.Shrink</code> utilities to toggle a flex item’s ability to shrink if necessary. In the example below, the second flex item with <code>Flex.Shrink.Is1</code> is forced to wrap its contents to a new line, “shrinking” to allow more space for the previous flex item with <code>Width.Is100</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Padding="Padding.Is2" Width="Width.Is100" Style="@shrinkItemStyle">
+                        Flex item
+                    </Div>
+                    <Div Flex="Flex.Shrink.Is1" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>flex-grow</code> and <code>flex-shrink</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is0"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is1"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is0.OnTablet"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is1.OnTablet"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is0.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is1.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is0.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is1.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is0.OnFullHD"</code></li>
+                    <li><code>Flex="Flex.{Grow|Shrink}.Is1.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Grow and shrink</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Use the <code>Flex.Fill</code> class on a series of sibling elements to force them into widths equal to their content (or equal widths if their content does not surpass their border-boxes) while taking up all available horizontal space.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex._" Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Flex="Flex.Fill" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item with a lot of content
+                    </Div>
+                    <Div Flex="Flex.Fill" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item
+                    </Div>
+                    <Div Flex="Flex.Fill" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Flex item
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>flex-fill</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.Fill"</code></li>
+                    <li><code>Flex="Flex.Fill.OnTablet"</code></li>
+                    <li><code>Flex="Flex.Fill.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.Fill.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.Fill.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Order</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Change the visual order of specific flex items with a handful of order utilities. We only provide options for making an item first or last, as well as a reset to use the DOM order. As order takes any integer value (e.g., 5), add custom CSS for any additional values needed.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex._" Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
+                    <Div Flex="Flex.Order.Is3" Padding="Padding.Is2" Style="@flexItemStyle">
+                        First flex item
+                    </Div>
+                    <Div Flex="Flex.Order.Is2" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Second flex item
+                    </Div>
+                    <Div Flex="Flex.Order.Is1" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Third flex item
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Responsive variations also exist for <code>order</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <ul>
+                    <li><code>Flex="Flex.Order.Is{0-12}"</code></li>
+                    <li><code>Flex="Flex.Order.Is{0-12}.OnTablet"</code></li>
+                    <li><code>Flex="Flex.Order.Is{0-12}.OnDesktop"</code></li>
+                    <li><code>Flex="Flex.Order.Is{0-12}.OnWidescreen"</code></li>
+                    <li><code>Flex="Flex.Order.Is{0-12}.OnFullHD"</code></li>
+                </ul>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+    const string ContainerBackgroundColor = "rgba(165, 181, 167,.15)";
+    const string ContainerBorderColor = "rgba(165, 181, 167,.15)";
+
+    const string ItemBackgroundColor = "rgba(95, 163, 103,.15)";
+    const string ItemBorderColor = "rgba(95, 163, 103,.15)";
+
+    string flexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};";
+    string alignItemsFlexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;";
+    string alignContentFlexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 200px;";
+
+    string flexItemStyle = $"background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};";
+    string shrinkItemStyle = $"background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};";
+}

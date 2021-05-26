@@ -2,6 +2,7 @@
 using System;
 using Blazorise.Localization;
 using Blazorise.Providers;
+using Blazorise.Themes;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Extension methods for building the blazorise options.
+    /// </summary>
     public static class Config
     {
         /// <summary>
@@ -20,7 +24,7 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
-            serviceCollection.Replace( ServiceDescriptor.Singleton<IComponentActivator, ComponentActivator>() );
+            serviceCollection.Replace( ServiceDescriptor.Transient<IComponentActivator, ComponentActivator>() );
 
             // If options handler is not defined we will get an exception so
             // we need to initialize and empty action.
@@ -31,6 +35,7 @@ namespace Blazorise
             serviceCollection.AddSingleton<BlazoriseOptions>();
 
             serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
+            serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 
@@ -41,6 +46,8 @@ namespace Blazorise
             serviceCollection.AddScoped<ValidatorValidationHandler>();
             serviceCollection.AddScoped<PatternValidationHandler>();
             serviceCollection.AddScoped<DataAnnotationValidationHandler>();
+
+            serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 
             return serviceCollection;
         }

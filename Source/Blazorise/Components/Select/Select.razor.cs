@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The browser built-in select dropdown.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the <see cref="SelectedValue"/>.</typeparam>
     public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         #region Members
@@ -19,12 +23,13 @@ namespace Blazorise
 
         private bool loading;
 
-        private List<ISelectItem<TValue>> selectItems = new List<ISelectItem<TValue>>();
+        private readonly List<ISelectItem<TValue>> selectItems = new();
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -41,18 +46,19 @@ namespace Blazorise
                 if ( Multiple )
                 {
                     if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( SelectedValuesExpression ), out var expression ) )
-                        ParentValidation.InitializeInputExpression( expression );
+                        await ParentValidation.InitializeInputExpression( expression );
                 }
                 else
                 {
                     if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( SelectedValueExpression ), out var expression ) )
-                        ParentValidation.InitializeInputExpression( expression );
+                        await ParentValidation.InitializeInputExpression( expression );
                 }
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Select() );
@@ -63,11 +69,17 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        /// <summary>
+        /// Handles the select onchange event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about an change event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            return CurrentValueHandler( eventArgs?.Value?.ToString() );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( IReadOnlyList<TValue> value )
         {
             if ( Multiple )
@@ -76,6 +88,7 @@ namespace Blazorise
                 return SelectedValueChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
         }
 
+        /// <inheritdoc/>
         protected override object PrepareValueForValidation( IReadOnlyList<TValue> value )
         {
             if ( Multiple )
@@ -84,6 +97,7 @@ namespace Blazorise
                 return value == null ? default : value.FirstOrDefault();
         }
 
+        /// <inheritdoc/>
         protected override async Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
         {
             if ( string.IsNullOrEmpty( value ) )
@@ -109,6 +123,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( IReadOnlyList<TValue> value )
         {
             if ( value == null || value.Count == 0 )
@@ -127,6 +142,11 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Indicates if <see cref="Select{TValue}"/> contains the provided item value.
+        /// </summary>
+        /// <param name="value">Item value.</param>
+        /// <returns>True if value is found.</returns>
         public bool ContainsValue( TValue value )
         {
             var currentValue = CurrentValue;
@@ -163,6 +183,7 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         public override object ValidationValue
         {
             get
@@ -174,6 +195,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override IReadOnlyList<TValue> InternalValue
         {
             get => Multiple ? SelectedValues : new TValue[] { SelectedValue };
@@ -213,14 +235,12 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the selected item value.
         /// </summary>
-        [Parameter]
-        public TValue SelectedValue { get; set; }
+        [Parameter] public TValue SelectedValue { get; set; }
 
         /// <summary>
         /// Gets or sets the multiple selected item values.
         /// </summary>
-        [Parameter]
-        public IReadOnlyList<TValue> SelectedValues { get; set; }
+        [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
 
         /// <summary>
         /// Occurs when the selected item value has changed.

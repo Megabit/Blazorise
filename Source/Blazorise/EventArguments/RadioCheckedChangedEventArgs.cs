@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.ComponentModel;
 #endregion
 
 namespace Blazorise
@@ -10,6 +9,10 @@ namespace Blazorise
     /// </summary>
     public class RadioCheckedChangedEventArgs<TValue> : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="RadioCheckedChangedEventArgs{TValue}"/> constructor.
+        /// </summary>
+        /// <param name="value">Radio value.</param>
         public RadioCheckedChangedEventArgs( TValue value )
         {
             Value = value;

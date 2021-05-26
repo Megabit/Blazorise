@@ -6,7 +6,7 @@ main:
     url: /news/
   - title: "GitHub"
     icon: "fab fa-fw fa-github"
-    url: https://github.com/stsrki/Blazorise
+    url: https://github.com/Megabit/Blazorise
 
 
 # documentation links
@@ -31,6 +31,8 @@ docs:
         url: /docs/components/color/
       - title: "Date"
         url: /docs/components/date/
+      - title: "Date Picker"
+        url: /docs/components/date-picker/
       - title: "Divider"
         url: /docs/components/divider/
       - title: "Field"
@@ -94,6 +96,8 @@ docs:
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Rating"
+        url: /docs/components/rating/
       - title: "Repeater"
         url: /docs/components/repeater/
       - title: "Step"

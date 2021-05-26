@@ -79,6 +79,7 @@ namespace Blazorise
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
             await base.DisposeAsync( disposing );
@@ -95,7 +96,7 @@ namespace Blazorise
                 ParentDropdown?.Toggle();
             }
 
-            return Task.CompletedTask;
+            return Clicked.InvokeAsync( null );
         }
 
         /// <summary>
@@ -103,6 +104,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Id of an element.</param>
         /// <param name="closeReason">Close reason.</param>
+        /// <param name="isChildClicked">Indicates if the child element was clicked.</param>
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
@@ -112,8 +114,8 @@ namespace Blazorise
         /// <summary>
         /// Forces the parent dropdown to close the dropdown-menu.
         /// </summary>
-        /// <param name="closeReason"></param>
-        /// <returns></returns>
+        /// <param name="closeReason">Reeason for closing the parent.</param>
+        /// <returns>Returns the awaitable task.</returns>
         public Task Close( CloseReason closeReason )
         {
             ParentDropdown?.Hide();
@@ -130,6 +132,10 @@ namespace Blazorise
             _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
+        /// <summary>
+        /// Handles the visibility styles and JS interop states.
+        /// </summary>
+        /// <param name="visible">True if component is visible.</param>
         protected virtual void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
@@ -261,6 +267,11 @@ namespace Blazorise
         [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
+        /// Occurs when the toggle button is clicked.
+        /// </summary>
+        [Parameter] public EventCallback Clicked { get; set; }
+
+        /// <summary>
         /// The applied theme.
         /// </summary>
         [CascadingParameter] protected Theme Theme { get; set; }
@@ -271,7 +282,7 @@ namespace Blazorise
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="DropdownToggle"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 

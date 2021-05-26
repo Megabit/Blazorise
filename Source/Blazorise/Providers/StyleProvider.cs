@@ -1,11 +1,10 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Text;
 #endregion
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class StyleProvider : IStyleProvider
     {
         #region Modal
@@ -66,4 +65,5 @@ namespace Blazorise
 
         #endregion
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

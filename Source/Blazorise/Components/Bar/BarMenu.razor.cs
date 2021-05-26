@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The main part of the <see cref="Bar"/>, hidden on touch devices, visible on desktop.
+    /// </summary>
     public partial class BarMenu : BaseComponent
     {
         #region Members
@@ -16,10 +19,11 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarMenu( ParentBarState.Mode ) );
-            builder.Append( ClassProvider.BarMenuShow( ParentBarState.Mode ), ParentBarState.Visible );
+            builder.Append( ClassProvider.BarMenu( ParentBarState?.Mode ?? BarMode.Horizontal ) );
+            builder.Append( ClassProvider.BarMenuShow( ParentBarState?.Mode ?? BarMode.Horizontal ), ParentBarState?.Visible ?? false );
 
             base.BuildClasses( builder );
         }
@@ -28,6 +32,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="BarMenu"/> component.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Bar"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected BarState ParentBarState
         {
@@ -42,8 +54,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

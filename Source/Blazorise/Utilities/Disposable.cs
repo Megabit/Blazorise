@@ -4,6 +4,9 @@ using System;
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Helper class for disposing of short lived objects.
+    /// </summary>
     public sealed class Disposable : IDisposable
     {
         #region Members
@@ -14,6 +17,10 @@ namespace Blazorise.Utilities
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="Disposable"/> constructor.
+        /// </summary>
+        /// <param name="action">Action with operations to run before disposed.</param>
         private Disposable( Action action )
         {
             this.action = action ?? throw new ArgumentNullException( nameof( action ) );
@@ -23,8 +30,17 @@ namespace Blazorise.Utilities
 
         #region Methods
 
-        public static IDisposable Create( Action action ) => new Disposable( action );
+        /// <summary>
+        /// Create a new <see cref="Disposable"/> object.
+        /// </summary>
+        /// <param name="action">Action with operations to run before disposed.</param>
+        /// <returns>Returns a new <see cref="IDisposable"/> object.</returns>
+        public static IDisposable Create( Action action )
+            => new Disposable( action );
 
+        /// <summary>
+        /// Disposes of any resources.
+        /// </summary>
         public void Dispose()
         {
             action?.Invoke();

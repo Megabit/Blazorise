@@ -55,7 +55,7 @@ namespace Blazorise
         /// <summary>
         /// A list of all elements id that could potentially trigger the modal close event.
         /// </summary>
-        private List<string> closeActivatorElementIds = new List<string>();
+        private readonly List<string> closeActivatorElementIds = new();
 
         #endregion
 
@@ -113,6 +113,7 @@ namespace Blazorise
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 // TODO: implement IAsyncDisposable once it is supported by Blazor!
                 //
@@ -217,6 +218,10 @@ namespace Blazorise
             return safeToClose;
         }
 
+        /// <summary>
+        /// Handles the styles based on the visibility flag.
+        /// </summary>
+        /// <param name="visible">Modal visibility flag.</param>
         protected virtual void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
@@ -255,12 +260,18 @@ namespace Blazorise
             DirtyStyles();
         }
 
+        /// <summary>
+        /// Fires all the events for this modal
+        /// </summary>
+        /// <param name="visible"></param>
         protected virtual void RaiseEvents( bool visible )
         {
             if ( !visible )
             {
                 Closed.InvokeAsync( null );
             }
+
+            VisibleChanged.InvokeAsync( visible );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
@@ -372,6 +383,11 @@ namespace Blazorise
                 }
             }
         }
+
+        /// <summary>
+        /// Occurs when the modal visibility state changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// If true modal will scroll to top when opened.

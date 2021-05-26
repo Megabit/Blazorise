@@ -1,8 +1,19 @@
 ﻿$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
 $black: #000 !default;
 
 $text-light: #fff !default;
 $text-dark: #212529 !default;
+
+$theme-color-interval: 8% !default;
 
 $yiq-text-light: $text-light !default;
 $yiq-text-dark: $text-dark !default;
@@ -26,6 +37,11 @@ $grey-lightest: hsl(0, 0%, 93%) !default;
 $white-ter: hsl(0, 0%, 96%) !default;
 $white-bis: hsl(0, 0%, 98%) !default;
 $white: hsl(0, 0%, 100%) !default;
+
+// Body
+
+$body-bg: $white !default;
+$body-color: $gray-900 !default;
 
 // Text colors
 
@@ -67,6 +83,8 @@ $spacers: () !default;
 
 $spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers);
 
+$grid-columns: 12 !default;
+$grid-row-columns: 6 !default;
 $grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, hd: $fullhd ) !default;
 
 $dimensions: 256 512 !default;
@@ -116,10 +134,27 @@ $radius-small: 2px !default;
 $radius: 4px !default;
 $radius-large: 6px !default;
 $radius-rounded: 290486px !default;
+$radius-pill: 50rem !default;
 $speed: 86ms !default;
-
 $speed-slow: 150ms !default;
 $speed-slower: 250ms !default;
+
+$border-width: 1px;
+$border-color: #adb5bd;
+
+$border: $grey-lighter !default;
+$border-hover: $grey-light !default;
+$border-light: $grey-lightest !default;
+$border-light-hover: $grey-light !default;
+
+// Components
+
+$border-radius: .25rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-sm: .2rem !default;
+
+$component-active-color: $white !default;
+$component-active-bg: theme-color("primary") !default;
 
 // Cards
 
@@ -136,3 +171,42 @@ $steps-default-color: $grey-lighter !default
 $steps-completed-color: $success !default
 $steps-active-color: $primary !default
 $steps-divider-height: .2em !default
+
+$sizes: () !default;
+$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+
+$box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
+$box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
+$box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;
+
+$dropdown-padding-y: .5rem !default;
+$dropdown-item-padding-y: .375rem !default;
+$dropdown-item-padding-x: 1rem !default;
+
+$dropdown-header-color: $grey-light !default;
+$dropdown-header-padding: $dropdown-padding-y $dropdown-item-padding-x !default;
+
+// List group
+
+$list-group-color: null !default;
+$list-group-bg: $white !default;
+$list-group-border-color: rgba($black, .125) !default;
+$list-group-border-width: $border-width !default;
+$list-group-border-radius: $border-radius !default;
+
+$list-group-item-padding-y: .75rem !default;
+$list-group-item-padding-x: 1.25rem !default;
+
+$list-group-hover-bg: $gray-100 !default;
+$list-group-active-color: $component-active-color !default;
+$list-group-active-bg: $component-active-bg !default;
+$list-group-active-border-color: $list-group-active-bg !default;
+
+$list-group-disabled-color: $gray-600 !default;
+$list-group-disabled-bg: $list-group-bg !default;
+
+$list-group-action-color: $gray-700 !default;
+$list-group-action-hover-color: $list-group-action-color !default;
+
+$list-group-action-active-color: $body-color !default;
+$list-group-action-active-bg: $gray-200 !default;

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Component for larger text that should act as a title.
+    /// </summary>
     public partial class Title : BaseComponent
     {
         #region Members
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Title() );
@@ -27,6 +31,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Size of the title.
+        /// </summary>
         [Parameter]
         public int Size
         {
@@ -39,6 +46,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Title"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

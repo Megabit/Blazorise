@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -25,6 +22,10 @@ namespace Blazorise
         RenderFragment ChildContent { get; set; }
     }
 
+    /// <summary>
+    /// Option item in the <see cref="Select{TValue}"/> component.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the <see cref="Value"/>.</typeparam>
     public partial class SelectItem<TValue> : BaseComponent,
         ISelectItem<TValue>
     {
@@ -78,6 +79,11 @@ namespace Blazorise
         /// Disable the item from mouse click.
         /// </summary>
         [Parameter] public bool Disabled { get; set; }
+
+        /// <summary>
+        /// Hide the item from the list so it can be used as a placeholder.
+        /// </summary>
+        [Parameter] public bool Hidden { get; set; }
 
         /// <summary>
         /// Specifies the select component in which this select item is placed.

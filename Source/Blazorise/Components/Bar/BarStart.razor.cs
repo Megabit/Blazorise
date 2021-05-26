@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The near part of the menu, which appears next to the navbar brand on desktop.
+    /// </summary>
     public partial class BarStart : BaseComponent
     {
         #region Members
@@ -16,9 +19,10 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarStart( ParentBarState.Mode ) );
+            builder.Append( ClassProvider.BarStart( ParentBarState?.Mode ?? BarMode.Horizontal ) );
 
             base.BuildClasses( builder );
         }
@@ -27,6 +31,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="BarStart"/> component.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Bar"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected BarState ParentBarState
         {
@@ -41,8 +53,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

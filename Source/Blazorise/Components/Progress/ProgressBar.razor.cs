@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Background background = Background.None;
+        private Color color = Color.Primary;
 
         private bool striped;
 
@@ -25,13 +25,24 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            ParentProgress?.NotifyHasMessage();
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ProgressBar() );
-            builder.Append( ClassProvider.ProgressBarWidth( Value ?? 0 ) );
-            builder.Append( ClassProvider.ProgressBarColor( Background ), Background != Background.None );
+            builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
+
+            if ( ParentProgress?.Size != Size.None )
+                builder.Append( ClassProvider.ProgressBarSize( ParentProgress.Size ) );
 
             base.BuildClasses( builder );
         }
@@ -39,8 +50,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
-            if ( Value != null )
-                builder.Append( StyleProvider.ProgressBarValue( Value ?? 0 ) );
+            if ( Percentage != null )
+                builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
             builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.Size ?? Size.None ) );
 
@@ -63,15 +74,21 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Defines the progress bar background color.
+        /// Calculates the percentage based on the current value and max parameters.
+        /// </summary>
+        protected int? Percentage
+            => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
+
+        /// <summary>
+        /// Defines the progress bar color.
         /// </summary>
         [Parameter]
-        public Background Background
+        public Color Color
         {
-            get => background;
+            get => color;
             set
             {
-                background = value;
+                color = value;
 
                 DirtyClasses();
             }
@@ -136,12 +153,15 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected Progress ParentProgress { get; set; }
-
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="ProgressBar"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Progress"/> component.
+        /// </summary>
+        [CascadingParameter] protected Progress ParentProgress { get; set; }
 
         #endregion
     }

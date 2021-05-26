@@ -63,6 +63,35 @@ The same structure is for all **Edit** components(check, radio, select, etc). No
 </Validation>
 ```
 
+## Async Validation
+
+In case you need to run validation using the external source or rest API, we also support async validation. The process  is similar to regular validator. You just need to define awaitable handler using the `AsyncValidator` parameter.
+
+### Example
+
+```html
+<Validation AsyncValidator="@ValidateNameAsync">
+    <TextEdit Placeholder="Enter name">
+        <Feedback>
+            <ValidationError>Enter valid name!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+@code{
+    async Task ValidateNameAsync( ValidatorEventArgs e, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        // some long running task or call to the rest API
+        await Task.Delay( random.Next( 600 ) );
+
+        e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+    }
+}
+```
+
 ## Manual validation
 
 Sometimes you don't want to do validation on every input change. In that case you use `<Validations>` component to group multiple validations and then run the validation manually.
@@ -203,7 +232,7 @@ public class User
 }
 ```
 
-**Note:** For a full source code you can look at the [validation page](https://github.com/stsrki/Blazorise/blob/master/Demos/Blazorise.Demo/Pages/Tests/ValidationsPage.razor) inside of a demo application.
+**Note:** For a full source code you can look at the [validation page](https://github.com/Megabit/Blazorise/blob/master/Demos/Blazorise.Demo/Pages/Tests/ValidationsPage.razor) inside of a demo application.
 {: .notice--info}
 
 ## Localization

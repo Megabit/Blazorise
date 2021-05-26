@@ -33,3 +33,22 @@ tr.table-row-selectable:hover {
 .e-table-responsive > .bordered {
     border: 0;
 }
+
+.e-table-fixed-header {
+    overflow-y: auto;
+
+    .e-table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    thead tr th {
+        border-top: none;
+        position: sticky;
+        background: white;
+    }
+
+    thead tr:nth-child(1) th {
+        top: 0;
+    }
+}

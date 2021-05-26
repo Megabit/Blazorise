@@ -68,6 +68,11 @@ namespace Blazorise
         [Parameter] public string Title { get; set; }
 
         /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarLink"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
         /// Cascaded <see cref="Bar"/> component state object.
         /// </summary>
         [CascadingParameter]
@@ -84,11 +89,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="BarLink"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

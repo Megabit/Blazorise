@@ -12,11 +12,20 @@ namespace Blazorise
     {
         private readonly IFileEdit fileEdit;
 
+        /// <summary>
+        /// Default constructor for <see cref="FileEditAdapter"/>.
+        /// </summary>
+        /// <param name="fileEdit">File input to which the adapter is referenced.</param>
         public FileEditAdapter( IFileEdit fileEdit )
         {
             this.fileEdit = fileEdit;
         }
 
+        /// <summary>
+        /// Notify us from JS that file(s) has changed.
+        /// </summary>
+        /// <param name="files">List of changed files.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyChange( FileEntry[] files )
         {

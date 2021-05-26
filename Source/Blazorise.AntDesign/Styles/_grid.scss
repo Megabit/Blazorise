@@ -52,3 +52,28 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+.ant-row-no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .ant-col,
+    > [class*="ant-col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @if $grid-row-columns > 0 {
+            @for $i from 1 through $grid-row-columns {
+                .are-columns#{$infix}-#{$i} {
+                    @include row-cols($i);
+                }
+            }
+        }
+    }
+}

@@ -5,10 +5,19 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Provides data for the <see cref="Validations.StatusChanged"/> event.
+    /// </summary>
     public class ValidationsStatusChangedEventArgs : EventArgs
     {
-        public static new readonly ValidationsStatusChangedEventArgs Empty = new ValidationsStatusChangedEventArgs( ValidationStatus.None, null );
+        /// <summary>
+        /// Gets the default <see cref="ValidationsStatusChangedEventArgs"/>.
+        /// </summary>
+        public static new readonly ValidationsStatusChangedEventArgs Empty = new( ValidationStatus.None, null );
 
+        /// <summary>
+        /// A default <see cref="ValidationsStatusChangedEventArgs"/> constructor.
+        /// </summary>
         public ValidationsStatusChangedEventArgs( ValidationStatus status, IReadOnlyCollection<string> messages )
         {
             Status = status;

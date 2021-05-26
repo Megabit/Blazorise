@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -57,6 +59,27 @@ namespace Blazorise.Sidebar
         protected string DataToggle => Collapsable ? "sidebar-collapse" : null;
 
         protected string AriaExpanded => Collapsable ? Visible.ToString().ToLowerInvariant() : null;
+
+        /// <summary>
+        /// Gets the combined list of link attributes and any receiving attribute.
+        /// </summary>
+        protected Dictionary<string, object> LinkAttributes
+        {
+            get
+            {
+                var linkAttributes = new Dictionary<string, object>()
+                {
+                    { "data-toggle", DataToggle },
+                    { "aria-expanded", AriaExpanded },
+                };
+
+                if ( Attributes != null )
+                    return linkAttributes.Concat( Attributes ).ToDictionary( x => x.Key, x => x.Value );
+
+                return linkAttributes;
+            }
+        }
+
 
         [Parameter]
         public bool Visible

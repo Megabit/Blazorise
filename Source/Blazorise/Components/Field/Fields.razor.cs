@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Container for multiple <see cref="Field"/> component that needs to be placed in a flexbox grid row.
+    /// </summary>
     public partial class Fields : BaseComponent
     {
         #region Members
@@ -19,6 +22,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Fields() );
@@ -81,6 +85,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Fields"/> component.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

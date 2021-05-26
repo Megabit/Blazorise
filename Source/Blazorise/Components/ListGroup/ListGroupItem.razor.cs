@@ -24,6 +24,11 @@ namespace Blazorise
         /// </summary>
         private bool disabled;
 
+        /// <summary>
+        /// The list-group-item color.
+        /// </summary>
+        private Color color = Color.None;
+
         #endregion
 
         #region Methods
@@ -32,8 +37,10 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ListGroupItem() );
+            builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
             builder.Append( ClassProvider.ListGroupItemActive(), Active );
             builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
+            builder.Append( ClassProvider.ListGroupItemColor( Color ), Color != Color.None );
 
             base.BuildClasses( builder );
         }
@@ -118,6 +125,21 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="ListGroupItem"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list-group-item color.
+        /// </summary>
+        [Parameter]
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+
+                DirtyClasses();
+            }
+        }
 
         #endregion
     }

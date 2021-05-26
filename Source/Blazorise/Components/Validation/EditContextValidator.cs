@@ -24,25 +24,45 @@ namespace Blazorise
         /// <param name="editContext">Edit context</param>
         /// <param name="messages">Holds the list of error messages if any error is found.</param>
         /// <param name="fieldIdentifier">Identifies the field for validation.</param>
-        /// <param name="forLocalization">If true, error messages will be returned as raw messages that needs to be manually localized.</param>
+        /// <param name="messageLocalizer">Handler for message localizer..</param>
         void ValidateField( EditContext editContext, ValidationMessageStore messages, in FieldIdentifier fieldIdentifier, Func<string, IEnumerable<string>, string> messageLocalizer );
     }
 
+    /// <summary>
+    /// Default Blazorise implementation of <see cref="IEditContextValidator"/>.
+    /// </summary>
     public class EditContextValidator : IEditContextValidator
     {
         #region Members       
 
-        protected readonly IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder;
+        /// <summary>
+        /// Comparer for message localizer.
+        /// </summary>
+        private readonly IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder;
 
-        protected readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache
-           = new ConcurrentDictionary<(Type, string), ValidationPropertyInfo>();
+        /// <summary>
+        /// Cached list of fields for validation.
+        /// </summary>
+        private readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache = new();
 
+        /// <summary>
+        /// Helper object to hold all infomation about validated field.
+        /// </summary>
         protected class ValidationPropertyInfo
         {
+            /// <summary>
+            /// Gets or sets the property data.
+            /// </summary>
             public PropertyInfo PropertyInfo { get; set; }
 
+            /// <summary>
+            /// Gets or sets the array of validation attributes.
+            /// </summary>
             public ValidationAttribute[] ValidationAttributes { get; set; }
 
+            /// <summary>
+            /// Gets or sets the array of formated validation attributes for the localization.
+            /// </summary>
             public ValidationAttribute[] FormatedValidationAttributes { get; set; }
         }
 
@@ -50,6 +70,10 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="EditContextValidator"/> constructor.
+        /// </summary>
+        /// <param name="validationMessageLocalizerAttributeFinder">Comparer for message localizer.</param>
         public EditContextValidator( IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder )
         {
             this.validationMessageLocalizerAttributeFinder = validationMessageLocalizerAttributeFinder;
@@ -117,6 +141,13 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ValidationPropertyInfo"/> for a given <see cref="FieldIdentifier"/>.
+        /// </summary>
+        /// <param name="fieldIdentifier">Field identifier.</param>
+        /// <param name="validationPropertyInfo">When this method returns it will return the information for the found property.</param>
+        /// <param name="forLocalization">True if method should also handle localization.</param>
+        /// <returns>True if property is found.</returns>
         protected virtual bool TryGetValidatableProperty( in FieldIdentifier fieldIdentifier, out ValidationPropertyInfo validationPropertyInfo, bool forLocalization )
         {
             var cacheKey = (ModelType: fieldIdentifier.Model.GetType(), fieldIdentifier.FieldName);
