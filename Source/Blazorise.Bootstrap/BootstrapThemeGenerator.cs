@@ -707,6 +707,7 @@ namespace Blazorise.Bootstrap
                     .AppendLine( "}" );
 
                 sb.Append( $".page-item.active .page-link" ).Append( "{" )
+                    .Append( $"color: {ToHex( Contrast( theme, theme.ColorOptions.Primary ) )};" )
                     .Append( $"background-color: {theme.ColorOptions.Primary};" )
                     .Append( $"border-color: {theme.ColorOptions.Primary};" )
                     .AppendLine( "}" );
