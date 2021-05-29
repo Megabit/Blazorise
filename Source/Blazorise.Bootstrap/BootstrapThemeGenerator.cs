@@ -695,6 +695,14 @@ namespace Blazorise.Bootstrap
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
+                sb.Append( $".page-link" ).Append( "{" )
+                    .Append( $"color: {theme.ColorOptions.Primary};" )
+                    .AppendLine( "}" );
+
+                sb.Append( $".page-link:hover" ).Append( "{" )
+                    .Append( $"color: {ToHex( Darken( theme.ColorOptions.Primary, 15f ) )};" )
+                    .AppendLine( "}" );
+
                 sb.Append( $".page-item.active .page-link" ).Append( "{" )
                     .Append( $"background-color: {theme.ColorOptions.Primary};" )
                     .Append( $"border-color: {theme.ColorOptions.Primary};" )
