@@ -194,7 +194,8 @@ namespace Blazorise.Demo.Pages.Tests
 
         string customFilterValue;
 
-        private Task customFilterValueChanged(string e) { 
+        private Task customFilterValueChanged( string e )
+        {
             customFilterValue = e;
             return dataGrid.Reload();
         }
@@ -212,14 +213,13 @@ namespace Blazorise.Demo.Pages.Tests
 
         async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            await Task.Delay( random.Next( 100 ) );
-
             if ( !e.CancellationToken.IsCancellationRequested )
             {
                 List<Employee> response = null;
 
-                // this can be call to anything, in this case we're calling a fictional api
                 var filteredData = await FilterData( e.Columns );
+
+                // this can be call to anything, in this case we're calling a fictional api
                 if ( e.ReadDataMode is ReadDataMode.Virtualize )
                     response = filteredData.Skip( e.VirtualizeStartIndex ).Take( e.VirtualizeCount ).ToList();
                 else if ( e.ReadDataMode is ReadDataMode.Paging )
@@ -227,11 +227,15 @@ namespace Blazorise.Demo.Pages.Tests
                 else
                     throw new Exception( "Unhandled ReadDataMode" );
 
-                totalEmployees = filteredData.Count;
-                employeeList = new List<Employee>( response ); // an actual data for the current page
+                await Task.Delay( random.Next( 100 ) );
+                if ( !e.CancellationToken.IsCancellationRequested )
+                {
+                    totalEmployees = filteredData.Count;
+                    employeeList = new List<Employee>( response ); // an actual data for the current page
 
-                // always call StateHasChanged!
-                await InvokeAsync( StateHasChanged );
+                    // always call StateHasChanged!
+                    await InvokeAsync( StateHasChanged );
+                }
             }
         }
 
@@ -290,11 +294,11 @@ namespace Blazorise.Demo.Pages.Tests
                 //else
                 //{
 
-                    filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
+                filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
                 //}
 
             }
-            return Task.FromResult(filteredData);
+            return Task.FromResult( filteredData );
         }
 
         Task Reset()
