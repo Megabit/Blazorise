@@ -170,7 +170,7 @@
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@customFilterValue" />
+                                    <TextEdit Text="@customFilterValue" TextChanged="@customFilterValueChanged" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -264,7 +264,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="CheckEMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="Email" Validator="CheckEmail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption

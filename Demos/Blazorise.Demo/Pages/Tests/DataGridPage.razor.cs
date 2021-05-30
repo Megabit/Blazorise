@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
+using Blazorise.Demo.Utils;
 #endregion
 
 namespace Blazorise.Demo.Pages.Tests
@@ -131,7 +134,7 @@ namespace Blazorise.Demo.Pages.Tests
             return base.OnInitializedAsync();
         }
 
-        public void CheckEMail( ValidatorEventArgs validationArgs )
+        public void CheckEmail( ValidatorEventArgs validationArgs )
         {
             ValidationRule.IsEmail( validationArgs );
 
@@ -191,6 +194,11 @@ namespace Blazorise.Demo.Pages.Tests
 
         string customFilterValue;
 
+        private Task customFilterValueChanged(string e) { 
+            customFilterValue = e;
+            return dataGrid.Reload();
+        }
+
         bool OnCustomFilter( Employee model )
         {
             if ( string.IsNullOrEmpty( customFilterValue ) )
@@ -211,19 +219,82 @@ namespace Blazorise.Demo.Pages.Tests
                 List<Employee> response = null;
 
                 // this can be call to anything, in this case we're calling a fictional api
+                var filteredData = await FilterData( e.Columns );
                 if ( e.ReadDataMode is ReadDataMode.Virtualize )
-                    response = dataModels.Skip( e.VirtualizeStartIndex ).Take( e.VirtualizeCount ).ToList();
+                    response = filteredData.Skip( e.VirtualizeStartIndex ).Take( e.VirtualizeCount ).ToList();
                 else if ( e.ReadDataMode is ReadDataMode.Paging )
-                    response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                    response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
                 else
                     throw new Exception( "Unhandled ReadDataMode" );
-                
 
+                totalEmployees = filteredData.Count;
                 employeeList = new List<Employee>( response ); // an actual data for the current page
 
                 // always call StateHasChanged!
                 await InvokeAsync( StateHasChanged );
             }
+        }
+
+
+        /// <summary>
+        /// Simple demo purposes example filter
+        /// </summary>
+        /// <param name="dataGridColumns"></param>
+        /// <returns></returns>
+        public Task<List<Employee>> FilterData( IEnumerable<DataGridColumnInfo> dataGridColumns )
+        {
+            var filteredData = dataModels.ToList();
+            var sortByColumns = dataGridColumns.Where( x => x.Direction != SortDirection.None );
+            var firstSort = true;
+            if ( sortByColumns?.Any() ?? false )
+            {
+                IOrderedEnumerable<Employee> sortedCols = null;
+                foreach ( var sortByColumn in sortByColumns )
+                {
+                    var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.Field );
+
+                    if ( firstSort )
+                    {
+                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                            sortedCols = dataModels.OrderBy( x => valueGetter( x ) );
+                        else
+                            sortedCols = dataModels.OrderByDescending( x => valueGetter( x ) );
+
+                        firstSort = false;
+                    }
+                    else
+                    {
+                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                            sortedCols = sortedCols.ThenBy( x => valueGetter( x ) );
+                        else
+                            sortedCols = sortedCols.ThenByDescending( x => valueGetter( x ) );
+                    }
+                }
+                filteredData = sortedCols.ToList();
+            }
+
+            if ( dataGrid.CustomFilter != null )
+                filteredData = filteredData.Where( item => item != null && dataGrid.CustomFilter( item ) ).ToList();
+
+            foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
+            {
+
+                var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( column.Field );
+                //if ( column.CustomFilter != null )
+                //{
+                //    filteredData = from item in filteredData.Where(x=> column. valueGetter( x))
+                //            let cellRealValue = column.GetValue( item )
+                //            where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
+                //            select item;
+                //}
+                //else
+                //{
+
+                    filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
+                //}
+
+            }
+            return Task.FromResult(filteredData);
         }
 
         Task Reset()

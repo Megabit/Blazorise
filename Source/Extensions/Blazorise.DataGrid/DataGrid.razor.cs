@@ -553,24 +553,25 @@ namespace Blazorise.DataGrid
         /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
         /// </summary>
         /// <returns>Returns the awaitable task.</returns>
-        public Task Reload()
+        public async Task Reload()
         {
             dirtyFilter = dirtyView = true;
 
             if ( ManualReadMode )
             {
-                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
+                await InvokeAsync( () => HandleReadData( CancellationToken.None ) );
             }
             else if ( VirtualizeManualReadMode )
             {
                 if ( virtualizeRef is null )
-                    return InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, CancellationToken.None ) );
+                    await InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, CancellationToken.None ) );
                 else
-                    return virtualizeRef.RefreshDataAsync();
+                    await virtualizeRef.RefreshDataAsync();
+                await InvokeAsync( StateHasChanged );
             }
             else
             {
-                return InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
             }
         }
 
@@ -601,8 +602,6 @@ namespace Blazorise.DataGrid
             finally
             {
                 IsLoading = false;
-
-                await InvokeAsync( StateHasChanged );
             }
         }
 
