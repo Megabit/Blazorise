@@ -274,7 +274,7 @@
                                     var selectedValue = @context.SearchValue?.ToString() ?? "*";
                                     <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                         <SelectItem Value="@("*")">All</SelectItem>
-                                        @foreach ( var item in dataModels )
+                                        @foreach (var item in dataModels)
                                         {
                                             <SelectItem Value="@item.City">@item.City</SelectItem>
                                         }
@@ -300,17 +300,17 @@
                             </FilterTemplate>
                             <DisplayTemplate>
                                 @{
-                                    var gender = ( context as Employee )?.Gender;
+                                    var gender = (context as Employee)?.Gender;
 
-                                    @if ( gender == "M" )
+                                    @if (gender == "M")
                                     {
                                         @("Male")
                                     }
-                                    else if ( gender == "F" )
+                                    else if (gender == "F")
                                     {
                                         @("Female")
                                     }
-                                    else if ( gender == "D" )
+                                    else if (gender == "D")
                                     {
                                         @("Diverse")
                                     }
@@ -338,7 +338,7 @@
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = ( context as Employee ).Salaries;
+                            var salaries = (context as Employee).Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"
@@ -351,7 +351,7 @@
                         }
                     </DetailRowTemplate>
                     <PopupTitleTemplate>
-                        @if ( context.EditState == DataGridEditState.Edit )
+                        @if (context.EditState == DataGridEditState.Edit)
                         {
                             @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
                         }
@@ -364,10 +364,10 @@
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
                     @*<LoadingTemplate>
-                        Loading...
-                    </LoadingTemplate>*@
+                            Loading...
+                        </LoadingTemplate>*@
                     <ButtonRowTemplate>
-                        @if ( showButtonRow )
+                        @if (showButtonRow)
                         {
                             <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
                             <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
@@ -416,40 +416,65 @@
     </Column>
 </Row>
 
-@if ( selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0 )
+@if (selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0)
 {
     <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
-    @foreach ( var employee in selectedEmployees )
+    @if (selectedEmployees?.Count <= 10)
     {
-        <Row @key="employee" Margin="Margin.Is1.FromTop">
+        @foreach (var employee in selectedEmployees)
+        {
+            <Row @key="employee" Margin="Margin.Is1.FromTop">
+                <Column>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Selected Employee</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>First Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>Last Name</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
+                                </Field>
+                            </Fields>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>Email</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.EMail"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>City</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
+                                </Field>
+                            </Fields>
+                        </CardBody>
+                    </Card>
+                </Column>
+            </Row>
+        }
+    }
+    else
+    {
+        <Row Margin="Margin.Is1.FromTop">
             <Column>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Selected Employee</CardTitle>
+                        <CardTitle>Selected Employees</CardTitle>
                     </CardHeader>
                     <CardBody>
                         <Fields>
                             <Field>
-                                <FieldLabel>First Name</FieldLabel>
+                                <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                    <TextEdit ReadOnly="true" Text="@selectedEmployees.Count.ToString()"></TextEdit>
                                 </FieldBody>
-                            </Field>
-                            <Field>
-                                <FieldLabel>Last Name</FieldLabel>
-                                <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
-                            </Field>
-                        </Fields>
-                        <Fields>
-                            <Field>
-                                <FieldLabel>Email</FieldLabel>
-                                <FieldBody>
-                                    <TextEdit ReadOnly="true" Text="@employee?.EMail"></TextEdit>
-                                </FieldBody>
-                            </Field>
-                            <Field>
-                                <FieldLabel>City</FieldLabel>
-                                <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
                             </Field>
                         </Fields>
                     </CardBody>
