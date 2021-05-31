@@ -14,6 +14,17 @@
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
+## Commercial support
+
+Paid support for the Blazorise Components is available as part of the [Blazorise Commercial](https://commercial.blazorise.com/) subscription.
+
+With the commercial license you get:
+
+- Access to premium themes and templates
+- Premium forum support
+- Dedicated customer support with 24 or 16 hour response time
+- Priority fixes and feature requests
+
 ## Supporting Blazorise
 
 Blazorise is an Apache 2.0-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers.
