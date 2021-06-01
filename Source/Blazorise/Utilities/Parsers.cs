@@ -33,7 +33,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Internal time format. Compatible with HTML time inputs.
         /// </summary>
-        public const string InternalTimeFormat = "hh\\:mm\\:ss";
+        public const string InternalTimeFormat = "HH\\:mm\\:ss";
 
         /// <summary>
         /// Possible date formats.
