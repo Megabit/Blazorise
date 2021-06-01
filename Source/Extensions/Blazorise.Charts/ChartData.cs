@@ -65,6 +65,7 @@ namespace Blazorise.Charts
         /// List of data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
+        [JsonNumberHandling( JsonNumberHandling.AllowNamedFloatingPointLiterals )]
         public List<T> Data { get; set; }
 
         /// <summary>
