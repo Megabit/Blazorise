@@ -293,6 +293,19 @@ namespace Blazorise.Bootstrap
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
+                var focusColor = ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) );
+
+                sb
+                    .Append( $".form-control:focus," )
+                    .Append( $".custom-select:focus" )
+                    .Append( "{" )
+                    .Append( $"border-color: {focusColor};" )
+                    .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusColor};" )
+                    .AppendLine( "}" );
+            }
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
                 sb
                     .Append( $".flatpickr-months .flatpickr-month:hover svg," )
                     .Append( $".flatpickr-months .flatpickr-next-month:hover svg," )
