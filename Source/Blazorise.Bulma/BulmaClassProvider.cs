@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bulma
 {
-    class BulmaClassProvider : ClassProvider
+    public class BulmaClassProvider : ClassProvider
     {
         #region TextEdit
 
