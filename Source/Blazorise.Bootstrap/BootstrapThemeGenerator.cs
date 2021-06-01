@@ -271,6 +271,19 @@ namespace Blazorise.Bootstrap
             {
                 GenerateInputCheckEditStyles( sb, theme, options );
             }
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var focusColor = ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) );
+
+                sb
+                    .Append( $".form-control:focus," )
+                    .Append( $".custom-select:focus" )
+                    .Append( "{" )
+                    .Append( $"border-color: {focusColor};" )
+                    .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusColor};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )

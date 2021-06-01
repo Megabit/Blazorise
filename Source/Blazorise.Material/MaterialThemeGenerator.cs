@@ -120,6 +120,37 @@ namespace Blazorise.Material
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+        {
+            base.GenerateInputStyles( sb, theme, options );
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var focusColor = Var( ThemeVariables.Color( "primary" ) );
+
+                sb
+                    .Append( $".form-control:focus," )
+                    .Append( $".custom-select:focus" )
+                    .Append( "{" )
+                    .Append( $"border-color: {focusColor};" )
+                    .Append( $"box-shadow: inset 0 -2px 0 -1px {focusColor};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $"select.custom-select:focus[multiple], select.custom-select:focus[size]:not([size=\"1\"]), select.form-control:focus[multiple], select.form-control:focus[size]:not([size=\"1\"]), textarea.form-control:focus:not([rows=\"1\"])" )
+                    .Append( "{" )
+                    .Append( $"border-color: {focusColor};" )
+                    .Append( $"box-shadow: inset 2px 2px 0 -1px {focusColor}, inset -2px -2px 0 -1px {focusColor};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".form-group:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link), [class*=form-ripple]:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link)" )
+                    .Append( "{" )
+                    .Append( $"color: {focusColor};" )
+                    .AppendLine( "}" );
+            }
+        }
+
         protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb
