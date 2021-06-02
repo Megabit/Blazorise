@@ -81,7 +81,7 @@ namespace Blazorise
                 case null:
                     return null;
                 case TimeSpan timeSpan:
-                    return timeSpan.ToString( Parsers.InternalTimeFormat );
+                    return timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() );
                 case DateTime datetime:
                     return datetime.ToString( Parsers.InternalTimeFormat );
                 default:
