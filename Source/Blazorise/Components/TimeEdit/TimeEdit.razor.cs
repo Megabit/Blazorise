@@ -72,7 +72,7 @@ namespace Blazorise
             return value switch
             {
                 null => null,
-                TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat ),
+                TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
                 DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
                 _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
             };
