@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Base
+namespace Blazorise
 {
     /// <summary>
     /// Base render component that implements render-queue logic.
