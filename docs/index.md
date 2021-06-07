@@ -23,8 +23,8 @@ feature_row:
   - image_path: /assets/images/open-source-2-small.jpg
     alt: "Open-source & free"
     title: "Open-source & free"
-    excerpt: "Free to use however you want under the MIT License. Clone it, fork it, customize it... whatever!"
-    url: "/docs/licence/"
+    excerpt: "Free to use in a Non-Commercial-Manner, under the Apache License. Clone it, fork it, customize it... whatever!"
+    url: "https://commercial.blazorise.com/community"
     btn_class: "btn--primary"
     btn_label: "Blazorise on GitHub"
   - image_path: /assets/images/faq-2.jpg
