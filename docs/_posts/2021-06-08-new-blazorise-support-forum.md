@@ -11,6 +11,8 @@ tags:
   - forum
 ---
 
+{% include figure image_path="/assets/images/news/support.png" alt="Support" %}
+
 Today we're happy to announce the release of our very new Blazorise Support forum 🎉! It marks a new milestone for our commercial Blazorise users, and I really hope the new web will be self-explanatory. It has that familiar _GitHub feel_, so I think everyone will very quickly get used to it.
 
 The new support web can be found by visiting [https://support.blazorise.com](https://support.blazorise.com/) . 
