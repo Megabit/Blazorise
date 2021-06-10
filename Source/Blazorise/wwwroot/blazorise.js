@@ -368,14 +368,14 @@ window.blazorise = {
                 dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
                 allowInput: true,
                 altInput: true,
-                altFormat: options.displayFormat ?? (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
+                altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
                 defaultValue: options.default,
                 minDate: options.min,
                 maxDate: options.max,
                 locale: {
                     firstDayOfWeek: options.firstDayOfWeek
                 },
-                time_24hr: options.timeAs24hr ?? false
+                time_24hr: options.timeAs24hr ? options.timeAs24hr : false
             };
 
             const pluginOptions = options.inputMode === 2 ? {
@@ -444,11 +444,11 @@ window.blazorise = {
                 dateFormat: "H:i",
                 allowInput: true,
                 altInput: true,
-                altFormat: options.displayFormat ?? "H:i",
+                altFormat: options.displayFormat ? options.displayFormat : "H:i",
                 defaultValue: options.default,
                 minTime: options.min,
                 maxTime: options.max,
-                time_24hr: options.timeAs24hr ?? false
+                time_24hr: options.timeAs24hr ? options.timeAs24hr : false
             });
 
             window.blazorise.timePicker.pickers[elementId] = picker;
