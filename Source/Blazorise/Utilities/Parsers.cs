@@ -90,6 +90,7 @@ namespace Blazorise.Utilities
         public static readonly string[] SupportedParseTimeFormats = new string[]
         {
             InternalTimeFormat,
+            InternalTimeFormat.ToLowerInvariant(), // TimeSpan has a slightly diferent format for hours part
             "hh\\:mm",
             CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern,
             CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
