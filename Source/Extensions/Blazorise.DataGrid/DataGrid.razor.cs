@@ -24,6 +24,12 @@ namespace Blazorise.DataGrid
         #region Members
 
         /// <summary>
+        /// Keeps track of Virtualize last State.
+        /// When Virtualize is de-activated the grid should refresh.
+        /// </summary>
+        private bool virtualizeWasActive;
+
+        /// <summary>
         /// Element reference to the DataGrid's inner virtualize.
         /// </summary>
         private Virtualize<TItem> virtualizeRef;
@@ -211,9 +217,13 @@ namespace Blazorise.DataGrid
         private async ValueTask HandleVirtualize()
         {
             if ( Virtualize )
-            {
                 VirtualizeOptions ??= new();
+            else
+            {
+                if ( virtualizeWasActive )
+                    await Reload();
             }
+            virtualizeWasActive = Virtualize;
             await ValueTask.CompletedTask;
         }
 
@@ -344,7 +354,7 @@ namespace Blazorise.DataGrid
 
                     await RowRemoved.InvokeAsync( item );
 
-                    dirtyFilter = dirtyView = true;
+                    SetDirty();
                 }
             }
 
@@ -387,7 +397,7 @@ namespace Blazorise.DataGrid
                 if ( editState == DataGridEditState.New )
                 {
                     await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
-                    dirtyFilter = dirtyView = true;
+                    SetDirty();
 
                     // If a new item is added, the data should be refreshed
                     // to account for paging, sorting, and filtering
@@ -549,13 +559,18 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
+        private void SetDirty()
+        {
+            dirtyFilter = dirtyView = true;
+        }
+
         /// <summary>
         /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
         /// </summary>
         /// <returns>Returns the awaitable task.</returns>
         public async Task Reload()
         {
-            dirtyFilter = dirtyView = true;
+            SetDirty();
 
             if ( ManualReadMode )
             {
@@ -1039,8 +1054,7 @@ namespace Blazorise.DataGrid
             {
                 data = value;
 
-                // make sure everything is recalculated
-                dirtyFilter = dirtyView = true;
+                SetDirty();
             }
         }
 
