@@ -178,7 +178,7 @@
                                                  Save="@OnSaveCommand" Cancel="@OnCancelCommand"
                                                  Selected="@OnSelectedCommand" MultiSelect="OnMultiSelectCommand"
                                                  Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand"
-                                                 DisplayDetailRowTemplate="@( DetailRowTemplate != null && (DetailRowTrigger?.Invoke(item) ?? true) )">
+                                                 DisplayDetailRowTemplate="@( DetailRowTemplate != null && (DetailRowTrigger?.Invoke(item) ?? true) && !Virtualize )">
                                 <DetailRowTemplate>
                                     @if (DetailRowTemplate != null)
                                         @DetailRowTemplate(context)
@@ -216,7 +216,7 @@
                                              Save="@OnSaveCommand" Cancel="@OnCancelCommand"
                                              Selected="@OnSelectedCommand" MultiSelect="OnMultiSelectCommand"
                                              Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand"
-                                             DisplayDetailRowTemplate="@( DetailRowTemplate != null && (DetailRowTrigger?.Invoke(item) ?? true) )">
+                                             DisplayDetailRowTemplate="@( DetailRowTemplate != null && (DetailRowTrigger?.Invoke(item) ?? true) && !Virtualize )">
                             <DetailRowTemplate>
                                 @if (DetailRowTemplate != null)
                                     @DetailRowTemplate(context)
@@ -238,7 +238,7 @@
                 </_DataGridFullColumnSpanRow>
             }
         </TableBody>
-        @if (HasAggregates)
+        @if (HasAggregates && !Virtualize)
         {
             <TableFooter>
                 <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />

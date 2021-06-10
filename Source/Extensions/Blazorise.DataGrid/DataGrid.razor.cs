@@ -217,7 +217,12 @@ namespace Blazorise.DataGrid
         private async ValueTask HandleVirtualize()
         {
             if ( Virtualize )
+            { 
                 VirtualizeOptions ??= new();
+                //Not supported
+                if ( EditMode is DataGridEditMode.Form )
+                    EditMode = DataGridEditMode.Inline;
+            }
             else
             {
                 if ( virtualizeWasActive )
