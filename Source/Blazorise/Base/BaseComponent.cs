@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Base;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;

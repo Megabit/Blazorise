@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bulma
 {
-    class BulmaStyleProvider : StyleProvider
+    public class BulmaStyleProvider : StyleProvider
     {
         #region Modal
 

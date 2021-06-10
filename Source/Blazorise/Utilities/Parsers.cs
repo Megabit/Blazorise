@@ -43,7 +43,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Internal time format. Compatible with HTML time inputs.
         /// </summary>
-        public const string InternalTimeFormat = "hh\\:mm\\:ss";
+        public const string InternalTimeFormat = "HH\\:mm\\:ss";
 
         /// <summary>
         /// Possible date formats.
@@ -90,6 +90,7 @@ namespace Blazorise.Utilities
         public static readonly string[] SupportedParseTimeFormats = new string[]
         {
             InternalTimeFormat,
+            InternalTimeFormat.ToLowerInvariant(), // TimeSpan has a slightly diferent format for hours part
             "hh\\:mm",
             CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern,
             CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,

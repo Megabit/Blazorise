@@ -1440,6 +1440,11 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Makes table responsive by adding the horizontal scroll bar.
         /// </summary>
+        /// <remarks>
+        /// In some cases <see cref="Dropdown"/> component placed inside of a table marked with <see cref="Responsive"/>
+        /// flag might not show dropdown menu properly. To make it work you might need to add some
+        /// <see href="https://stackoverflow.com/questions/49346755/bootstrap-4-drop-down-menu-in-table">additional CSS rules</see>.
+        /// </remarks>
         [Parameter] public bool Responsive { get; set; }
 
         /// <summary>
