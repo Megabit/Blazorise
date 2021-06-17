@@ -15,10 +15,19 @@ namespace Blazorise
     {
         #region Members
 
-        private Size size = Size.None;
+        /// <summary>
+        /// Size of an input element.
+        /// </summary>
+        private Size? size;
 
+        /// <summary>
+        /// Specifies that an input field is read-only.
+        /// </summary>
         private bool readOnly;
 
+        /// <summary>
+        /// Specifies that the input element should be disabled.
+        /// </summary>
         private bool disabled;
 
         /// <summary>
@@ -26,6 +35,9 @@ namespace Blazorise
         /// </summary>
         private bool autofocus;
 
+        /// <summary>
+        /// Flag that tells us validation is already being initialized so we don't do it more than once.
+        /// </summary>
         private bool validationInitialized;
 
         #endregion
@@ -67,6 +79,17 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -80,6 +103,11 @@ namespace Blazorise
                 if ( ParentModal != null )
                 {
                     ParentModal.NotifyFocusableComponentRemoved( this );
+                }
+
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
                 }
             }
 
@@ -276,6 +304,19 @@ namespace Blazorise
             await InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -336,6 +377,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
+
+        /// <summary>
         /// Holds the information about the Blazorise global options.
         /// </summary>
         [Inject] protected BlazoriseOptions Options { get; set; }
@@ -344,7 +390,7 @@ namespace Blazorise
         /// Sets the size of the input control.
         /// </summary>
         [Parameter]
-        public Size Size
+        public Size? Size
         {
             get => size;
             set
@@ -464,6 +510,11 @@ namespace Blazorise
         /// Parent modal dialog.
         /// </summary>
         [CascadingParameter] protected Modal ParentModal { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

@@ -117,7 +117,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TimeEdit( Plaintext ) );
-            builder.Append( ClassProvider.TimeEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.TimeEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.TimeEditColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
@@ -230,7 +230,6 @@ namespace Blazorise
         /// <summary>
         /// Defines the display format of the time input.
         /// </summary>
-        /// <remarks>
         [Parameter] public string DisplayFormat { get; set; }
 
         /// <summary>

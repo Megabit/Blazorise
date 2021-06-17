@@ -113,7 +113,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Size of a select field.
         /// </summary>
-        [Parameter] public Size Size { get; set; } = Size.None;
+        [Parameter] public Size? Size { get; set; }
 
         /// <summary>
         /// Specifies how many options should be shown at once.

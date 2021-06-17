@@ -83,6 +83,14 @@
             Target.Self => "_self",
             _ => null,
         };
+
+        /// <summary>
+        /// Indicates whether the specified enum size is null or a default value.
+        /// </summary>
+        /// <param name="size">Enum to test.</param>
+        /// <returns>True if the value parameter is null or a default value; otherwise, false.</returns>
+        public static bool IsNullOrNone( this Size? size )
+            => size == null || size == Size.None;
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

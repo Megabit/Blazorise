@@ -83,6 +83,8 @@ namespace Blazorise.Providers
 
         public string ColorEdit() => null;
 
+        public string ColorEditSize( Size size ) => null;
+
         #endregion
 
         #region Check
@@ -102,6 +104,8 @@ namespace Blazorise.Providers
         #region RadioGroup
 
         public string RadioGroup( bool buttons, Orientation orientation ) => null;
+
+        public string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => null;
 
         public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
 
@@ -140,6 +144,8 @@ namespace Blazorise.Providers
         #region FileEdit
 
         public string FileEdit() => null;
+
+        public string FileEditSize( Size size ) => null;
 
         public string FileEditValidation( ValidationStatus validationStatus ) => null;
 

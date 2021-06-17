@@ -293,9 +293,9 @@ namespace Blazorise.Components
         [Parameter] public string Placeholder { get; set; }
 
         /// <summary>
-        /// Size of an search field.
+        /// Size of a search field.
         /// </summary>
-        [Parameter] public Size Size { get; set; }
+        [Parameter] public Size? Size { get; set; }
 
         /// <summary>
         /// Prevents a user from entering a value to the search field.

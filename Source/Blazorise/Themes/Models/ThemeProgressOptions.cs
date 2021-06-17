@@ -9,5 +9,10 @@
         /// Default color of the progress bar.
         /// </summary>
         public string PageProgressDefaultColor { get; set; } = "#ffffff";
+
+        /// <summary>
+        /// Gets or sets the global size for progress components.
+        /// </summary>
+        public Size? Size { get; set; }
     }
 }
