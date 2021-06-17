@@ -157,6 +157,11 @@ namespace Blazorise.Extensions
             return Aria( builder, "label", value );
         }
 
+        public static RenderTreeBuilder AriaDisabled( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
+        {
+            return Aria( builder, "disabled", value, line );
+        }
+
         public static RenderTreeBuilder Data( this RenderTreeBuilder builder, string name, object value, [CallerLineNumber] int line = 0 )
         {
             builder.AddAttribute( GetSequence( line ), $"data-{name}", value );

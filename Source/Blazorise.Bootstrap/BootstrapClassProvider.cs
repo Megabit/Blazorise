@@ -26,6 +26,8 @@ namespace Blazorise.Bootstrap
 
         public override string MemoEdit() => "form-control";
 
+        public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -154,6 +156,8 @@ namespace Blazorise.Bootstrap
 
         public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
 
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Label
@@ -256,7 +260,7 @@ namespace Blazorise.Bootstrap
 
         public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
-        public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
+        public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
         public override string ControlText() => null;
 
@@ -307,21 +311,26 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonActive() => "active";
 
+        public override string ButtonDisabled() => "disabled";
+
         public override string ButtonLoading() => null;
 
         #endregion
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "btn-toolbar";
 
-        public override string ButtonsAddons() => "btn-group";
+            if ( orientation == Orientation.Vertical )
+                return "btn-group-vertical";
 
-        public override string ButtonsToolbar() => "btn-toolbar";
+            return "btn-group";
+        }
 
-        public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
+        public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
 
         #endregion
 

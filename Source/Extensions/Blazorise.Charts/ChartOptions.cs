@@ -475,7 +475,7 @@ namespace Blazorise.Charts
         public string LabelString { get; set; } = "";
 
         /// <summary>
-        /// Height of an individual line of text (<see cref="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height"/>).
+        /// Height of an individual line of text (https://developer.mozilla.org/en-US/docs/Web/CSS/line-height).
         /// </summary>
         [DataMember]
         public double LineHeight { get; set; } = 1.2d;
@@ -524,7 +524,7 @@ namespace Blazorise.Charts
         public int Duration { get; set; } = 1000;
 
         /// <summary>
-        /// Easing function to use. <seealso cref="https://www.chartjs.org/docs/latest/configuration/animations.html#easing"/>
+        /// Easing function to use (https://www.chartjs.org/docs/latest/configuration/animations.html#easing).
         /// </summary>
         [DataMember]
         public string Easing { get; set; } = "easeOutQuart";

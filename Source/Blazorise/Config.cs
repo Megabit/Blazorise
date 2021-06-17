@@ -20,7 +20,7 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
-            serviceCollection.Replace( ServiceDescriptor.Singleton<IComponentActivator, ComponentActivator>() );
+            serviceCollection.Replace( ServiceDescriptor.Transient<IComponentActivator, ComponentActivator>() );
 
             // If options handler is not defined we will get an exception so
             // we need to initialize and empty action.

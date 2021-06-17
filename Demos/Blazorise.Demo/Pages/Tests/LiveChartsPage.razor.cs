@@ -330,6 +330,7 @@ namespace Blazorise.Demo.Pages.Tests
         {
             return new BarChartDataset<LiveDataPoint>
             {
+                Type = "horizontalBar",
                 Data = new List<LiveDataPoint>(),
                 Label = "Dataset 1",
                 BackgroundColor = backgroundColors[0],

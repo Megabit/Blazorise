@@ -19,7 +19,7 @@ namespace Blazorise
         /// <summary>
         /// Used to keep track of the breakpoint state for this component.
         /// </summary>
-        private bool isBroken;
+        private bool isBroken = true;
 
         /// <summary>
         /// Reference to the object that should be accessed through JSInterop.
@@ -125,6 +125,7 @@ namespace Blazorise
                     _ = JSRunner.UnregisterBreakpointComponent( this );
 
                     DisposeDotNetObjectRef( dotNetObjectRef );
+                    dotNetObjectRef = null;
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )

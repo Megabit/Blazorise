@@ -25,6 +25,8 @@ namespace Blazorise
 
         string MemoEdit();
 
+        string MemoEditSize( Size size );
+
         string MemoEditValidation( ValidationStatus validationStatus );
 
         #endregion
@@ -148,6 +150,8 @@ namespace Blazorise
         string Slider();
 
         string SliderColor( Color color );
+
+        string SliderValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -277,21 +281,17 @@ namespace Blazorise
 
         string ButtonActive();
 
+        string ButtonDisabled();
+
         string ButtonLoading();
 
         #endregion
 
         #region Buttons
 
-        //string Buttons();
-
-        string ButtonsAddons();
-
-        string ButtonsToolbar();
+        string Buttons( ButtonsRole role, Orientation orientation );
 
         string ButtonsSize( Size size );
-
-        string ButtonsOrientation( Orientation orientation );
 
         #endregion
 

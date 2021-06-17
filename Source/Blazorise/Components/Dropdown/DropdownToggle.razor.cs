@@ -67,6 +67,7 @@ namespace Blazorise
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
             base.Dispose( disposing );
@@ -91,6 +92,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Id of an element.</param>
         /// <param name="closeReason">Close reason.</param>
+        /// <param name="isChildClicked">Indicates if the child element was clicked.</param>
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {

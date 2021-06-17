@@ -26,6 +26,8 @@ namespace Blazorise.AntDesign
 
         public override string MemoEdit() => "ant-input";
 
+        public override string MemoEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -150,6 +152,8 @@ namespace Blazorise.AntDesign
         public override string Slider() => "ant-slider";
 
         public override string SliderColor( Color color ) => $"ant-slider-{ToColor( color )}";
+
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -301,21 +305,26 @@ namespace Blazorise.AntDesign
 
         public override string ButtonActive() => "ant-btn-active";
 
+        public override string ButtonDisabled() => "ant-btn-disabled";
+
         public override string ButtonLoading() => "ant-btn-loading";
 
         #endregion
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "btn-toolbar";
 
-        public override string ButtonsAddons() => "ant-btn-group";
+            if ( orientation == Orientation.Vertical )
+                return "ant-btn-group btn-group-vertical";
 
-        public override string ButtonsToolbar() => "btn-toolbar";
+            return "ant-btn-group";
+        }
 
         public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 

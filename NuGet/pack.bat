@@ -4,6 +4,7 @@ call build.cmd
 cd NuGet
 
 del *.nupkg
+del *.snupkg
 
 nuget pack Blazorise.nuspec
 nuget pack Blazorise.Bootstrap.nuspec

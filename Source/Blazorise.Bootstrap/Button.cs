@@ -28,6 +28,13 @@ namespace Blazorise.Bootstrap
                     .Role( "button" )
                     .Href( To )
                     .Target( Target );
+
+                if ( Disabled )
+                {
+                    builder
+                        .TabIndex( -1 )
+                        .AriaDisabled( "true" );
+                }
             }
             else
             {

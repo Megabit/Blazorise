@@ -35,6 +35,10 @@ window.blazoriseBootstrap = {
 
             modals -= 1;
 
+            if (modals < 0) {
+                modals = 0;
+            }
+
             if (modals === 0) {
                 window.blazorise.removeClassFromBody("modal-open");
             }

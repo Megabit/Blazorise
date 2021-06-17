@@ -1,12 +1,14 @@
 # main links
 main:
+  - title: "Commercial"
+    url: https://commercial.blazorise.com
   - title: "Documentation"
     url: /docs/
   - title: "News"
     url: /news/
   - title: "GitHub"
     icon: "fab fa-fw fa-github"
-    url: https://github.com/stsrki/Blazorise
+    url: https://github.com/Megabit/Blazorise
 
 
 # documentation links

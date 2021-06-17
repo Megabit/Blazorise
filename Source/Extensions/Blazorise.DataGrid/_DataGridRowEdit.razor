@@ -88,19 +88,29 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( ParentDataGrid.IsCommandVisible )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
+                    <_DataGridRowCommand TItem="TItem"
+                                         Item="@Item"
+                                         Class="@column.CellClass?.Invoke(Item)"
+                                         Style="@column.BuildCellStyle(Item)"
+                                         TextAlignment="@column.TextAlignment"
+                                         EditState="DataGridEditState.Edit"
+                                         Save="@SaveWithValidation"
+                                         Cancel="@Cancel"
+                                         Width="@column.Width" />
                 }
             }
             else if ( column.IsMultiSelectColumn )
             {
                 @if ( ParentDataGrid.MultiSelect )
                 {
-                    <TableRowCell></TableRowCell>
+                    <TableRowCell Class="@column.CellClass?.Invoke(Item)"
+                                  Style="@column.BuildCellStyle(Item)"
+                                  TextAlignment="@column.TextAlignment"></TableRowCell>
                 }
             }
             else if ( column.Displayable )
             {
-                <TableRowCell Style="@column.BuildCellStyle(Item)">
+                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment">
                     @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
                     {
                         <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />

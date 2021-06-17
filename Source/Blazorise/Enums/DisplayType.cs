@@ -53,17 +53,17 @@ namespace Blazorise
         InlineFlex,
 
         /// <summary>
-        /// Let the element behave like a <table> element.
+        /// Let the element behave like a table element.
         /// </summary>
         Table,
 
         /// <summary>
-        /// Let the element behave like a <tr> element.
+        /// Let the element behave like a tr element.
         /// </summary>
         TableRow,
 
         /// <summary>
-        /// Let the element behave like a <td> element.
+        /// Let the element behave like a td element.
         /// </summary>
         TableCell,
     }

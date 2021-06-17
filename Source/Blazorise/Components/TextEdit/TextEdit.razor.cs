@@ -147,9 +147,8 @@ namespace Blazorise
         [Parameter] public int? MaxLength { get; set; }
 
         /// <summary>
-        /// The size attribute specifies the visible width, in characters, of an <input> element.
+        /// The size attribute specifies the visible width, in characters, of an input element. https://www.w3schools.com/tags/att_input_size.asp".
         /// </summary>
-        /// <see cref="https://www.w3schools.com/tags/att_input_size.asp"/>
         [Parameter] public int? VisibleCharacters { get; set; }
 
         #endregion

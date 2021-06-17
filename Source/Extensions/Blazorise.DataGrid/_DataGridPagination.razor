@@ -4,7 +4,7 @@
     @if ( ButtonRowTemplate != null && ParentDataGrid.IsButtonRowVisible )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
-            <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">
+            <Field Display="Blazorise.Display.InlineBlock">
                 @{
                     var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
@@ -74,7 +74,14 @@
 
                 <PaginationItem Display="Blazorise.Display.None.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                     <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                        @pageNumberString
+                        @if ( PageButtonTemplate != null )
+                        {
+                            @PageButtonTemplate( new PageButtonContext( pageNumber, pageActive ) )
+                        }
+                        else
+                        {
+                            @pageNumberString
+                        }
                     </PaginationLink>
                 </PaginationItem>
             }
@@ -142,9 +149,18 @@
             }
             else
             {
-                var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
-                var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default );
-                <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, PaginationContext.TotalItems )</Text>
+                var totalItems = PaginationContext?.TotalItems ?? default;
+
+                if ( totalItems == 0 )
+                {
+                    <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", 0, 0, 0 )</Text>
+                }
+                else
+                {
+                    var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
+                    var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, totalItems );
+                    <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, totalItems )</Text>
+                }
             }
         </Field>
         <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.InlineBlock.None.OnDesktop">

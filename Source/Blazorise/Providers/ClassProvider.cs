@@ -26,6 +26,8 @@ namespace Blazorise
 
         public abstract string MemoEdit();
 
+        public abstract string MemoEditSize( Size size );
+
         public abstract string MemoEditValidation( ValidationStatus validationStatus );
 
         #endregion
@@ -149,6 +151,8 @@ namespace Blazorise
         public abstract string Slider();
 
         public abstract string SliderColor( Color color );
+
+        public abstract string SliderValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -278,21 +282,17 @@ namespace Blazorise
 
         public abstract string ButtonActive();
 
+        public abstract string ButtonDisabled();
+
         public abstract string ButtonLoading();
 
         #endregion
 
         #region Buttons
 
-        //public abstract string Buttons();
-
-        public abstract string ButtonsAddons();
-
-        public abstract string ButtonsToolbar();
+        public abstract string Buttons( ButtonsRole role, Orientation orientation );
 
         public abstract string ButtonsSize( Size size );
-
-        public abstract string ButtonsOrientation( Orientation orientation );
 
         #endregion
 

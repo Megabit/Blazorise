@@ -29,6 +29,8 @@ namespace Blazorise.Providers
 
         public string MemoEdit() => null;
 
+        public string MemoEditSize( Size size ) => null;
+
         public string MemoEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
@@ -152,6 +154,8 @@ namespace Blazorise.Providers
         public string Slider() => null;
 
         public string SliderColor( Color color ) => null;
+
+        public string SliderValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -281,21 +285,17 @@ namespace Blazorise.Providers
 
         public string ButtonActive() => null;
 
+        public string ButtonDisabled() => null;
+
         public string ButtonLoading() => null;
 
         #endregion
 
         #region Buttons
 
-        //public  string Buttons() => null;
-
-        public string ButtonsAddons() => null;
-
-        public string ButtonsToolbar() => null;
+        public string Buttons( ButtonsRole role, Orientation orientation ) => null;
 
         public string ButtonsSize( Size size ) => null;
-
-        public string ButtonsOrientation( Orientation orientation ) => null;
 
         #endregion
 

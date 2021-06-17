@@ -64,11 +64,6 @@ namespace Blazorise
 
         ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
-        /// <summary>
-        /// Handles the closing of the components that can be toggled.
-        /// </summary>
-        /// <param name="component">Toggle component.</param>
-        /// <returns></returns>
         ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef );
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );

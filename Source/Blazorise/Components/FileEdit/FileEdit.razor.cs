@@ -91,6 +91,7 @@ namespace Blazorise
             {
                 JSRunner.DestroyFileEdit( ElementRef, ElementId );
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
@@ -120,7 +121,7 @@ namespace Blazorise
             InternalValue = files;
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged<IFileEntry[]>( default );
+            ParentValidation?.NotifyInputChanged<IFileEntry[]>( files );
 
             await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
 
@@ -293,9 +294,8 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Specifies the types of files that the input accepts.
+        /// Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
         /// </summary>
-        /// <see cref="https://www.w3schools.com/tags/att_input_accept.asp"/>
         [Parameter] public string Filter { get; set; }
 
         /// <summary>

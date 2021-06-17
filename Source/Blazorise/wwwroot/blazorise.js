@@ -3,6 +3,8 @@ if (!window.blazorise) {
 }
 
 window.blazorise = {
+    lastClickedDocumentElement: null,
+
     utils: {
         getRequiredElement: (element, elementId) => {
             if (element)
@@ -161,7 +163,7 @@ window.blazorise = {
             for (var i = 0; i < len; i++) {
                 const opt = element.options[i];
 
-                if (values && values.find(x => x?.toString() === opt.value)) {
+                if (values && values.find(x => x !== null && x.toString() === opt.value)) {
                     opt.selected = true;
                 } else {
                     opt.selected = false;
@@ -322,6 +324,11 @@ window.blazorise = {
             return true;
         },
         keyDown: (validator, e) => {
+            if (e.target.readOnly) {
+                e.preventDefault();
+                return true;
+            }
+
             if (e.which === 38) {
                 validator.stepApply(1);
             } else if (e.which === 40) {
@@ -620,8 +627,14 @@ window.blazorise = {
     }
 };
 
-document.addEventListener('click', function handler(evt) {
-    if (window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
+
+
+document.addEventListener('mousedown', function handler(evt) {
+    window.blazorise.lastClickedDocumentElement = evt.target;
+});
+
+document.addEventListener('mouseup', function handler(evt) {
+    if (evt.target === window.blazorise.lastClickedDocumentElement && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {

@@ -28,7 +28,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Default class builder constructor that accepts build action.
         /// </summary>
-        /// <param name="buildStyles">Action responsible for building the classes.</param>
+        /// <param name="buildClasses">Action responsible for building the classes.</param>
         public ClassBuilder( Action<ClassBuilder> buildClasses )
         {
             this.buildClasses = buildClasses;

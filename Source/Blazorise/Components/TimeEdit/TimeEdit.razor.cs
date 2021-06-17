@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a time value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeEdit{TValue}"/> property.</typeparam>
     public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     {
         #region Members
@@ -81,7 +81,7 @@ namespace Blazorise
                 case null:
                     return null;
                 case TimeSpan timeSpan:
-                    return timeSpan.ToString( Parsers.InternalTimeFormat );
+                    return timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() );
                 case DateTime datetime:
                     return datetime.ToString( Parsers.InternalTimeFormat );
                 default:
