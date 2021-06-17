@@ -128,18 +128,21 @@
                             }
                     </Select>
                 </PaginationItem>
-                <Field Margin="Blazorise.Margin.IsAuto.OnY.Is0.FromBottom.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                    @if ( ItemsPerPageTemplate != null )
-                    {
-                        @ItemsPerPageTemplate
-                    }
-                    else
-                    {
-                        <Text>@Localizer.Localize( ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
-                    }
-                </Field>
             }
         </Pagination>
+        @if ( PaginationContext.ShowPageSizes )
+        {
+            <Field Margin="Blazorise.Margin.IsAuto.OnY.Is0.FromBottom.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
+                @if ( ItemsPerPageTemplate != null )
+                {
+                    @ItemsPerPageTemplate
+                }
+                else
+                {
+                    <Text>@Localizer.Localize( ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
+                }
+            </Field>
+        }
     </Column>
     <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.ReverseRow">
         <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
