@@ -84,6 +84,8 @@ namespace Blazorise.AntDesign
 
         public override string ColorEdit() => "ant-input";
 
+        public override string ColorEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
         #endregion
 
         #region Check
@@ -104,6 +106,8 @@ namespace Blazorise.AntDesign
 
         public override string RadioGroup( bool buttons, Orientation orientation )
             => "ant-radio-group ant-radio-group-outline" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
+
+        public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => $"ant-btn-group-{ToSize( size )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -142,6 +146,8 @@ namespace Blazorise.AntDesign
         #region FileEdit
 
         public override string FileEdit() => null;
+
+        public override string FileEditSize( Size size ) => null;
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

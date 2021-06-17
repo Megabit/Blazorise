@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -46,10 +47,35 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Progress() );
-            builder.Append( ClassProvider.ProgressSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.ProgressSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.ProgressColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.ProgressStriped(), Striped );
             builder.Append( ClassProvider.ProgressAnimated(), Animated );
@@ -69,8 +95,8 @@ namespace Blazorise
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
 
-            if ( Size != Size.None )
-                builder.Append( ClassProvider.ProgressBarSize( Size ) );
+            if ( ThemeSize != Blazorise.Size.None )
+                builder.Append( ClassProvider.ProgressBarSize( ThemeSize ) );
         }
 
         /// <summary>
@@ -82,7 +108,7 @@ namespace Blazorise
             if ( Percentage != null )
                 builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
-            builder.Append( StyleProvider.ProgressBarSize( Size ) );
+            builder.Append( StyleProvider.ProgressBarSize( ThemeSize ) );
         }
 
         /// <inheritdoc/>
@@ -108,6 +134,19 @@ namespace Blazorise
         {
             hasProgressBar = true;
 
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
             DirtyClasses();
             DirtyStyles();
 
@@ -147,6 +186,12 @@ namespace Blazorise
             => ProgressBarStyleBuilder.Styles;
 
         /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected internal Size ThemeSize
+            => Size ?? Theme?.ProgressOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
         /// Progress bar class builder.
         /// </summary>
         protected ClassBuilder ProgressBarClassBuilder { get; private set; }
@@ -175,7 +220,7 @@ namespace Blazorise
         /// Size of the progress bar.
         /// </summary>
         [Parameter]
-        public Size Size
+        public Size? Size
         {
             get => state.Size;
             set
@@ -269,6 +314,11 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Progress"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

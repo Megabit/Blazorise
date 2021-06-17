@@ -84,6 +84,8 @@ namespace Blazorise.Bootstrap
 
         public override string ColorEdit() => "form-control";
 
+        public override string ColorEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
         #endregion
 
         #region Check
@@ -104,6 +106,10 @@ namespace Blazorise.Bootstrap
 
         public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
             ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
+            : null;
+
+        public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
+            ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
             : null;
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -145,6 +151,8 @@ namespace Blazorise.Bootstrap
         #region FileEdit
 
         public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+
+        public override string FileEditSize( Size size ) => $"{FileEdit()}-{ToSize( size )}";
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

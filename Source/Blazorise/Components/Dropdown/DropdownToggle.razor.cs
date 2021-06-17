@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -30,6 +31,17 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
@@ -43,7 +55,7 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownToggle() );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
             builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
@@ -80,6 +92,11 @@ namespace Blazorise
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
+
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
             }
 
             await base.DisposeAsync( disposing );
@@ -161,6 +178,19 @@ namespace Blazorise
             DirtyStyles();
         }
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -184,6 +214,11 @@ namespace Blazorise
         protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
         /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size ?? Theme?.DropdownOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
         /// Gets the data-boundary value.
         /// </summary>
         protected string DataBoundary
@@ -197,7 +232,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the dropdown size.
         /// </summary>
-        [Parameter] public Size Size { get; set; } = Size.None;
+        [Parameter] public Size? Size { get; set; }
 
         /// <summary>
         /// Button outline.

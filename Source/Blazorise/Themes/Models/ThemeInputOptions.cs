@@ -20,12 +20,18 @@
         /// </summary>
         public string SliderColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the global size for input components.
+        /// </summary>
+        public Size? Size { get; set; }
+
         /// <inheritdoc/>
         public override bool HasOptions()
         {
             return !string.IsNullOrEmpty( Color )
                 || !string.IsNullOrEmpty( CheckColor )
                 || !string.IsNullOrEmpty( SliderColor )
+                || Size != null
                 || base.HasOptions();
         }
     }

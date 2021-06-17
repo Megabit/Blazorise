@@ -84,6 +84,8 @@ namespace Blazorise.Bulma
 
         public override string ColorEdit() => "input";
 
+        public override string ColorEditSize( Size size ) => $"is-{ToSize( size )}";
+
         #endregion
 
         #region Check
@@ -104,6 +106,8 @@ namespace Blazorise.Bulma
 
         public override string RadioGroup( bool buttons, Orientation orientation )
             => $"{( buttons ? "buttons has-addons" : "control" )}{( orientation == Orientation.Horizontal ? null : " are-vertical" )}";
+
+        public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => $"are-{ToSize( size )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -142,6 +146,8 @@ namespace Blazorise.Bulma
         #region FileEdit
 
         public override string FileEdit() => "file-input";
+
+        public override string FileEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
