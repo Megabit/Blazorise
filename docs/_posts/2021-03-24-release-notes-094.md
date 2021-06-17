@@ -79,6 +79,10 @@ All Typography utilities are now moved to the `BaseComponent` class so they can 
 
 Having the ability to set background color to any component is a must-have feature. That's why from now on, the `Background` parameter is available to all components making it much easier to customize the look of your application.
 
+### Global Theme Size
+
+Now it is possible to globally change input and button sizes. This will greatly improve the ability to customize the application look and feel.
+
 ### Dropping eFrolic support
 
 Since eFrolic author has stopped maintaining eFrolic, I have decided to stop supporting it and move my focus elsewhere. This will allow me to make more work on new providers that are actively worked on.
