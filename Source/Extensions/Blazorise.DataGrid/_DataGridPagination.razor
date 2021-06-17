@@ -4,7 +4,7 @@
     @if ( ButtonRowTemplate != null && ParentDataGrid.IsButtonRowVisible )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
-            <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">
+            <Field Display="Blazorise.Display.InlineBlock">
                 @{
                     var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
