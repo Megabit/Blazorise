@@ -211,3 +211,4 @@ By default after each file upload has finished, file input will automatically re
 | Ended                 | event                     |             | Occurs when an individual file upload has ended.                                                        |
 | AutoReset             | boolean                   | true        | If true file input will be automatically reset after it has being uploaded.                             |
 | BrowseButtonLocalizer | `TextLocalizerHandler`    | `null`      | Function used to handle browse button localization that will override a default `ITextLocalizer`.       |
+| Placeholder           | string                    | null        | Sets the placeholder for the empty file input.                                                          |
