@@ -759,7 +759,9 @@ namespace Blazorise.AntDesign
 
         public override string ModalContentSize( ModalSize modalSize ) => null;
 
-        public override string ModalContentCentered() => "ant-modal-dialog-centered";
+        public override string ModalContentCentered( bool centered ) => centered ? "ant-modal-content-centered" : null;
+
+        public override string ModalContentScrollable( bool scrollable ) => scrollable ? "ant-modal-content-scrollable" : null;
 
         public override string ModalBody() => "ant-modal-body";
 

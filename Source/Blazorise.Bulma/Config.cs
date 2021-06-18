@@ -53,6 +53,7 @@ namespace Blazorise.Bulma
             { typeof( Blazorise.Heading ), typeof( Bulma.Heading ) },
             { typeof( Blazorise.Jumbotron ), typeof( Bulma.Jumbotron ) },
             { typeof( Blazorise.JumbotronSubtitle ), typeof( Bulma.JumbotronSubtitle ) },
+            { typeof( Blazorise.ModalContent ), typeof( Bulma.ModalContent ) },
             { typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) },
             { typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) },
             { typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) },
