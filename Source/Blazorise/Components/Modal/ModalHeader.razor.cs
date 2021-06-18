@@ -13,6 +13,17 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            if ( ParentModalContent != null )
+            {
+                ParentModalContent.NotifyHasModalHeader();
+            }
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalHeader() );
@@ -23,6 +34,11 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the cascaded parent modal-content component.
+        /// </summary>
+        [CascadingParameter] protected ModalContent ParentModalContent { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="ModalHeader"/>.

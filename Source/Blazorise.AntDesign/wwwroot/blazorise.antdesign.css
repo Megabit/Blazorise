@@ -1830,6 +1830,12 @@ li.ant-list-item-actionable {
     animation-fill-mode: both;
     animation-name: fadeIn; }
 
+.ant-modal .ant-modal-content.ant-modal-content-scrollable {
+    max-height: calc(100% - 3.5rem); }
+    .ant-modal .ant-modal-content.ant-modal-content-scrollable .ant-modal-body {
+        max-height: calc(100vh - 13.5rem);
+        overflow-y: auto; }
+
 .ant-pagination.ant-pagination-xs .ant-pagination-total-text,
 .ant-pagination.ant-pagination-xs .ant-pagination-simple-pager {
     height: 16px;

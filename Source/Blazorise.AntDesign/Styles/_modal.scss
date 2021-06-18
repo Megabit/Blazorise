@@ -26,3 +26,14 @@
     animation-fill-mode: both;
     animation-name: fadeIn;
 }
+
+.ant-modal {
+    .ant-modal-content.ant-modal-content-scrollable {
+        max-height: calc(100% - 3.5rem);
+
+        .ant-modal-body {
+            max-height: calc(100vh - 13.5rem);
+            overflow-y: auto;
+        }
+    }
+}
