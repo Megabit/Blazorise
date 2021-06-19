@@ -246,7 +246,7 @@ namespace Blazorise
         /// <summary>
         /// Defines the first day of the week.
         /// </summary>
-        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
 
         /// <summary>
         /// Defines the display format of the date input.
