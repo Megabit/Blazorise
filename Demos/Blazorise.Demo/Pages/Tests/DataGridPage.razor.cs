@@ -68,6 +68,7 @@ namespace Blazorise.Demo.Pages.Tests
         int totalEmployees;
 
         string selectedGenderFilter;
+        string selectedCityFilter;
 
         Random random = new Random();
 

@@ -271,9 +271,8 @@
                             </CaptionTemplate>
                             <FilterTemplate>
                                 @{
-                                    var selectedValue = @context.SearchValue?.ToString() ?? "*";
-                                    <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
-                                        <SelectItem Value="@("*")">All</SelectItem>
+                                    <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
+                                        <SelectItem Value="@("")">All</SelectItem>
                                         @foreach (var item in dataModels)
                                         {
                                             <SelectItem Value="@item.City">@item.City</SelectItem>
@@ -292,7 +291,7 @@
                         <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
-                                    <SelectItem TValue="string" Value="@("*")">All</SelectItem>
+                                    <SelectItem TValue="string" Value="@("")">All</SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
                                     <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
