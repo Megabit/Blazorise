@@ -69,6 +69,8 @@ namespace Blazorise.DataGrid
         /// </summary>
         private bool dirtyFilter = true;
 
+
+
         /// <summary>
         /// Marks the grid to refresh currently visible page.
         /// </summary>
@@ -606,7 +608,6 @@ namespace Blazorise.DataGrid
             finally
             {
                 IsLoading = false;
-
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -622,6 +623,7 @@ namespace Blazorise.DataGrid
             finally
             {
                 IsLoading = false;
+                await InvokeAsync( StateHasChanged );
             }
         }
 
@@ -924,7 +926,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if LoadingTemplate is set and IsLoading is true.
         /// </summary>
-        protected bool IsLoadingTemplateVisible => !IsNewItemInGrid && LoadingTemplate != null && IsLoading;
+        protected bool IsLoadingTemplateVisible => !IsNewItemInGrid && LoadingTemplate != null && IsLoading && !Virtualize;
 
         /// <summary>
         /// Returns true if ReadData will be invoked.

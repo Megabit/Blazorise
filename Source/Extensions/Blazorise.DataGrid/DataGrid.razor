@@ -150,15 +150,8 @@
                         </ChildContent>
                         <Placeholder>
                             <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                Loading...
+                                @LoadingTemplate
                             </_DataGridFullColumnSpanRow>
-                            @* TODO: LoadingTemplate Acts Weird *@
-                            @if (IsLoadingTemplateVisible)
-                            {
-                                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @LoadingTemplate
-                                </_DataGridFullColumnSpanRow>
-                            }
                         </Placeholder>
                     </Virtualize>
                 }
@@ -187,15 +180,8 @@
                         </ChildContent>
                         <Placeholder>
                             <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                Loading...
+                                @LoadingTemplate
                             </_DataGridFullColumnSpanRow>
-                            @* TODO: LoadingTemplate Acts Weird *@
-                            @if (IsLoadingTemplateVisible)
-                            {
-                                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @LoadingTemplate
-                                </_DataGridFullColumnSpanRow>
-                            }
                         </Placeholder>
                     </Virtualize>
 
