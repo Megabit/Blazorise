@@ -195,6 +195,21 @@ namespace Blazorise
             return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.updateOptions", elementRef, elementId, options );
         }
 
+        public virtual ValueTask OpenDatePicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.open", elementRef, elementId );
+        }
+
+        public virtual ValueTask CloseDatePicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.close", elementRef, elementId );
+        }
+
+        public virtual ValueTask ToggleDatePicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.toggle", elementRef, elementId );
+        }
+
         #endregion
 
         #region TimePicker
@@ -222,6 +237,21 @@ namespace Blazorise
         public virtual ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value )
         {
             return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.updateValue", elementRef, elementId, value );
+        }
+
+        public virtual ValueTask OpenTimePicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.open", elementRef, elementId );
+        }
+
+        public virtual ValueTask CloseTimePicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.close", elementRef, elementId );
+        }
+
+        public virtual ValueTask ToggleTimePicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.toggle", elementRef, elementId );
         }
 
         #endregion

@@ -1,0 +1,21 @@
+﻿@page "/tests/theming"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Buttons and Input sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Define the global size for button and input components.</CardText>
+            </CardBody>
+            <CardBody>
+                <Select TValue="Size?" SelectedValue="@selectedSize" SelectedValueChanged="@OnThemeInputSizeChanged">
+                    <SelectItem TValue="Size?" Value="@(null)"></SelectItem>
+                    <SelectItem TValue="Size?" Value="Size.Small">Small</SelectItem>
+                    <SelectItem TValue="Size?" Value="Size.None">Default</SelectItem>
+                    <SelectItem TValue="Size?" Value="Size.Large">Large</SelectItem>
+                </Select>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

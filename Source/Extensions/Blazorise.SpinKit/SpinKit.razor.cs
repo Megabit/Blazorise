@@ -67,7 +67,18 @@ namespace Blazorise.SpinKit
         /// <summary>
         /// Gets the outer spinner classnames.
         /// </summary>
-        protected string WrapperClassNames => $"sk-{ToSpinKitName( Type )}";
+        protected string WrapperClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder( $"sk-{ToSpinKitName( Type )}" );
+
+                if ( Centered )
+                    sb.Append( " sk-center" );
+
+                return sb.ToString();
+            }
+        }
 
         /// <summary>
         /// Gets the outer spinner styles.
@@ -118,6 +129,11 @@ namespace Blazorise.SpinKit
         /// Gets or sets the spinner size.
         /// </summary>
         [Parameter] public string Size { get; set; }
+
+        /// <summary>
+        /// Position the spinner to the center of it's container.
+        /// </summary>
+        [Parameter] public bool Centered { get; set; }
 
         #endregion
     }

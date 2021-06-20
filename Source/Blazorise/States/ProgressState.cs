@@ -13,7 +13,7 @@
         /// <summary>
         /// Size of the progress bar.
         /// </summary>
-        public Size Size { get; init; }
+        public Size? Size { get; init; }
 
         /// <summary>
         /// Set to true to make the progress bar stripped.

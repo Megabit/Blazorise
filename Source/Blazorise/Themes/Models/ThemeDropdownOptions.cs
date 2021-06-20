@@ -14,5 +14,10 @@
         /// Defines the visibility of dropdown toggle icon.
         /// </summary>
         public bool ToggleIconVisible { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the global size for dropdown components.
+        /// </summary>
+        public Size? Size { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Blazorise
 
         private Color color = Color.None;
 
-        private Size size = Size.None;
+        private Size? size;
 
         private bool outline;
 
@@ -50,7 +50,7 @@ namespace Blazorise
             builder.Append( ClassProvider.Button() );
             builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.ButtonSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
             builder.Append( ClassProvider.ButtonDisabled(), Disabled );
@@ -76,6 +76,11 @@ namespace Blazorise
             if ( LoadingTemplate == null )
             {
                 LoadingTemplate = ProvideDefaultLoadingTemplate();
+            }
+
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
             }
 
             base.OnInitialized();
@@ -116,6 +121,11 @@ namespace Blazorise
                 if ( command != null )
                 {
                     command.CanExecuteChanged -= OnCanExecuteChanged;
+                }
+
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
                 }
             }
 
@@ -235,6 +245,19 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties 
@@ -256,6 +279,11 @@ namespace Blazorise
         /// True if button is placed inside of a <see cref="Field"/>.
         /// </summary>
         protected bool ParentIsField => ParentField != null;
+
+        /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.None;
 
         /// <summary>
         /// Occurs when the button is clicked.
@@ -286,7 +314,7 @@ namespace Blazorise
         /// Changes the size of a button.
         /// </summary>
         [Parameter]
-        public Size Size
+        public Size? Size
         {
             get => size;
             set
@@ -467,6 +495,11 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Button"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

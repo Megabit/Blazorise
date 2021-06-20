@@ -95,6 +95,12 @@ namespace Blazorise
 
         ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options );
 
+        ValueTask OpenDatePicker( ElementReference elementRef, string elementId );
+
+        ValueTask CloseDatePicker( ElementReference elementRef, string elementId );
+
+        ValueTask ToggleDatePicker( ElementReference elementRef, string elementId );
+
         #endregion
 
         #region TimePicker
@@ -108,6 +114,12 @@ namespace Blazorise
         ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value );
 
         ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options );
+
+        ValueTask OpenTimePicker( ElementReference elementRef, string elementId );
+
+        ValueTask CloseTimePicker( ElementReference elementRef, string elementId );
+
+        ValueTask ToggleTimePicker( ElementReference elementRef, string elementId );
 
         #endregion
 

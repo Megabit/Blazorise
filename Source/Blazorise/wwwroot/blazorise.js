@@ -432,10 +432,34 @@ window.blazorise = {
                 }
             }
         },
+
+        open: (element, elementId) => {
+            const picker = window.blazorise.datePicker._pickers[elementId];
+
+            if (picker) {
+                picker.open();
+            }
+        },
+
+        close: (element, elementId) => {
+            const picker = window.blazorise.datePicker._pickers[elementId];
+
+            if (picker) {
+                picker.close();
+            }
+        },
+
+        toggle: (element, elementId) => {
+            const picker = window.blazorise.datePicker._pickers[elementId];
+
+            if (picker) {
+                picker.toggle();
+            }
+        }
     },
 
     timePicker: {
-        pickers: [],
+        _pickers: [],
 
         initialize: (element, elementId, options) => {
             const picker = flatpickr(element, {
@@ -451,16 +475,16 @@ window.blazorise = {
                 time_24hr: options.timeAs24hr ? options.timeAs24hr : false
             });
 
-            window.blazorise.timePicker.pickers[elementId] = picker;
+            window.blazorise.timePicker._pickers[elementId] = picker;
         },
 
         destroy: (element, elementId) => {
-            const instances = window.blazorise.timePicker.pickers || {};
+            const instances = window.blazorise.timePicker._pickers || {};
             delete instances[elementId];
         },
 
         updateValue: (element, elementId, value) => {
-            const picker = window.blazorise.timePicker.pickers[elementId];
+            const picker = window.blazorise.timePicker._pickers[elementId];
 
             if (picker) {
                 picker.setDate(value);
@@ -468,7 +492,7 @@ window.blazorise = {
         },
 
         updateOptions: (element, elementId, options) => {
-            const picker = window.blazorise.timePicker.pickers[elementId];
+            const picker = window.blazorise.timePicker._pickers[elementId];
 
             if (picker) {
                 if (options.displayFormat.changed) {
@@ -486,6 +510,30 @@ window.blazorise = {
                 if (options.max.changed) {
                     picker.set("maxTime", options.max.value);
                 }
+            }
+        },
+
+        open: (element, elementId) => {
+            const picker = window.blazorise.timePicker._pickers[elementId];
+
+            if (picker) {
+                picker.open();
+            }
+        },
+
+        close: (element, elementId) => {
+            const picker = window.blazorise.timePicker._pickers[elementId];
+
+            if (picker) {
+                picker.close();
+            }
+        },
+
+        toggle: (element, elementId) => {
+            const picker = window.blazorise.timePicker._pickers[elementId];
+
+            if (picker) {
+                picker.toggle();
             }
         }
     },

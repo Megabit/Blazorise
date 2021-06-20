@@ -83,6 +83,8 @@ namespace Blazorise
 
         public abstract string ColorEdit();
 
+        public abstract string ColorEditSize( Size size );
+
         #endregion
 
         #region Check
@@ -102,6 +104,8 @@ namespace Blazorise
         #region RadioGroup
 
         public abstract string RadioGroup( bool buttons, Orientation orientation );
+
+        public abstract string RadioGroupSize( bool buttons, Orientation orientation, Size size );
 
         public abstract string RadioGroupValidation( ValidationStatus validationStatus );
 
@@ -140,6 +144,8 @@ namespace Blazorise
         #region FileEdit
 
         public abstract string FileEdit();
+
+        public abstract string FileEditSize( Size size );
 
         public abstract string FileEditValidation( ValidationStatus validationStatus );
 
@@ -705,7 +711,9 @@ namespace Blazorise
 
         public abstract string ModalContentSize( ModalSize modalSize );
 
-        public abstract string ModalContentCentered();
+        public abstract string ModalContentCentered( bool centered );
+
+        public abstract string ModalContentScrollable( bool scrollable );
 
         public abstract string ModalBody();
 

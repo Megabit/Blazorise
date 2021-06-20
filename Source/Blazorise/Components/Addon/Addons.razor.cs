@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -14,7 +15,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Size size = Size.None;
+        private Size? size;
 
         private IFluentColumn columnSize;
 
@@ -23,6 +24,17 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+        }
 
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -38,10 +50,24 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addons() );
-            builder.Append( ClassProvider.AddonsSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.AddonsSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
             base.BuildClasses( builder );
@@ -80,6 +106,19 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -88,6 +127,11 @@ namespace Blazorise
         /// True if <see cref="Addons"/> is placed inside of <see cref="Field"/> component.
         /// </summary>
         protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
+
+        /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
 
         /// <summary>
         /// Determines how much space will be used by the addons inside of the grid row.
@@ -108,7 +152,7 @@ namespace Blazorise
         /// Changes the size of the elements placed inside of this <see cref="Accordion"/>.
         /// </summary>
         [Parameter]
-        public Size Size
+        public Size? Size
         {
             get => size;
             set
@@ -128,6 +172,11 @@ namespace Blazorise
         /// Gets or sets the reference to the parent <see cref="Field"/> component.
         /// </summary>
         [CascadingParameter] protected Field ParentField { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

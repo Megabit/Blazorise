@@ -41,8 +41,8 @@ namespace Blazorise
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
 
-            if ( ParentProgress?.Size != Size.None )
-                builder.Append( ClassProvider.ProgressBarSize( ParentProgress.Size ) );
+            if ( ParentProgress?.ThemeSize != Size.None )
+                builder.Append( ClassProvider.ProgressBarSize( ParentProgress.ThemeSize ) );
 
             base.BuildClasses( builder );
         }
@@ -53,7 +53,7 @@ namespace Blazorise
             if ( Percentage != null )
                 builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
-            builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.Size ?? Size.None ) );
+            builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.ThemeSize ?? Size.None ) );
 
             base.BuildStyles( builder );
         }

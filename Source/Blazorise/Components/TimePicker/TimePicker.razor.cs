@@ -117,7 +117,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TimeEdit( Plaintext ) );
-            builder.Append( ClassProvider.TimeEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.TimeEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.TimeEditColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
@@ -187,6 +187,33 @@ namespace Blazorise
             return Blur.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Opens the time dropdown.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task OpenAsync()
+        {
+            await JSRunner.OpenTimePicker( ElementRef, ElementId );
+        }
+
+        /// <summary>
+        /// Closes the time dropdown.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task CloseAsync()
+        {
+            await JSRunner.CloseTimePicker( ElementRef, ElementId );
+        }
+
+        /// <summary>
+        /// Shows/opens the time dropdown if its closed, hides/closes it otherwise.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task ToggleAsync()
+        {
+            await JSRunner.ToggleTimePicker( ElementRef, ElementId );
+        }
+
         #endregion
 
         #region Properties
@@ -230,7 +257,6 @@ namespace Blazorise
         /// <summary>
         /// Defines the display format of the time input.
         /// </summary>
-        /// <remarks>
         [Parameter] public string DisplayFormat { get; set; }
 
         /// <summary>

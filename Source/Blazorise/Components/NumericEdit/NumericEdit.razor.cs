@@ -128,7 +128,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.NumericEdit( Plaintext ) );
-            builder.Append( ClassProvider.NumericEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.NumericEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.NumericEditColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
