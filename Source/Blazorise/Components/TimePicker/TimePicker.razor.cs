@@ -187,6 +187,33 @@ namespace Blazorise
             return Blur.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Opens the time dropdown.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task OpenAsync()
+        {
+            await JSRunner.OpenTimePicker( ElementRef, ElementId );
+        }
+
+        /// <summary>
+        /// Closes the time dropdown.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task CloseAsync()
+        {
+            await JSRunner.CloseTimePicker( ElementRef, ElementId );
+        }
+
+        /// <summary>
+        /// Shows/opens the time dropdown if its closed, hides/closes it otherwise.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task ToggleAsync()
+        {
+            await JSRunner.ToggleTimePicker( ElementRef, ElementId );
+        }
+
         #endregion
 
         #region Properties

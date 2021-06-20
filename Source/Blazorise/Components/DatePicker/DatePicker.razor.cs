@@ -188,6 +188,33 @@ namespace Blazorise
             return Blur.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Opens the calendar dropdown.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task OpenAsync()
+        {
+            await JSRunner.OpenDatePicker( ElementRef, ElementId );
+        }
+
+        /// <summary>
+        /// Closes the calendar dropdown.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task CloseAsync()
+        {
+            await JSRunner.CloseDatePicker( ElementRef, ElementId );
+        }
+
+        /// <summary>
+        /// Shows/opens the calendar if its closed, hides/closes it otherwise.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task ToggleAsync()
+        {
+            await JSRunner.ToggleDatePicker( ElementRef, ElementId );
+        }
+
         #endregion
 
         #region Properties

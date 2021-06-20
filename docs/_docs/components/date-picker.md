@@ -16,6 +16,26 @@ DatePicker is based on a [flatpickr](https://flatpickr.js.org/) datetime picker 
 <DatePicker TValue="DateTime?" />
 ```
 
+## Add icon
+
+To add icon you can combine `DatePicker` with an `Addon`.
+
+```html
+<Addons>
+    <Addon AddonType="AddonType.Body">
+        <DatePicker @ref="@datePicker" TValue="DateTime?" />
+    </Addon>
+    <Addon AddonType="AddonType.End">
+        <Button Color="Color.Light" Clicked="@(()=>datePicker.ToggleAsync())">
+            <Icon Name="IconName.CalendarDay" />
+        </Button>
+    </Addon>
+</Addons>
+@code{
+    DatePicker<DateTime?> datePicker;
+}
+```
+
 ### Format
 
 Native **Flatpickr** component has some special rules regarding the date format string. To make it easier to use we tried to map the flatpickr custom formatter to behave as close to `.Net` date format string. Bellow you can find the list of available and supported mappings between Blazorise and flatpickr.
