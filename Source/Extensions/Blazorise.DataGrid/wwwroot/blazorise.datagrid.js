@@ -1,4 +1,11 @@
 ﻿window.blazoriseDataGrid = {
+    virtualize: {
+        scrollToTop: function (table) {
+            if (table !== null) {
+                table.parentElement.scrollTop = 0;
+            }
+        }
+    },
     initResizable: function (table, mode) {
         const resizerClass = "b-datagrid-resizer";
         const resizingClass = "b-datagrid-resizing";

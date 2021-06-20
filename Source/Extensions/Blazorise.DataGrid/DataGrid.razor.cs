@@ -69,12 +69,15 @@ namespace Blazorise.DataGrid
         /// </summary>
         private bool dirtyFilter = true;
 
-
-
         /// <summary>
         /// Marks the grid to refresh currently visible page.
         /// </summary>
         private bool dirtyView = true;
+
+        /// <summary>
+        /// Keeps track whether the user has changed the filter for Virtualize purposes.
+        /// </summary>
+        private bool virtualizeFilterChanged;
 
         /// <summary>
         /// Keeps track of whether the object has already been disposed.
@@ -234,6 +237,9 @@ namespace Blazorise.DataGrid
             await ValueTask.CompletedTask;
         }
 
+
+        private ValueTask VirtualizeScrollToTop()
+            => JSRuntime.InvokeVoidAsync( JSInteropFunction.Virtualize.SCROLL_TOP, tableRef.ElementRef );
 
         private ValueTask InitResizable()
             => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef, ResizeMode );
@@ -585,6 +591,12 @@ namespace Blazorise.DataGrid
             }
             else if ( VirtualizeManualReadMode )
             {
+                if ( virtualizeFilterChanged )
+                {
+                    virtualizeFilterChanged = false;
+                    await VirtualizeScrollToTop();
+                }
+
                 if ( virtualizeRef is null )
                     await InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, CancellationToken.None ) );
                 else
@@ -675,6 +687,7 @@ namespace Blazorise.DataGrid
 
         protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
         {
+            virtualizeFilterChanged = true;
             column.Filter.SearchValue = value;
             return Reload();
         }
