@@ -1,74 +1,74 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @if (ButtonRowTemplate != null && ParentDataGrid.IsButtonRowVisible)
+    @if ( ButtonRowTemplate != null && ParentDataGrid.IsButtonRowVisible )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
             <Field Display="Blazorise.Display.InlineBlock">
                 @{
-                    var newButtonString = Localizer.Localize(ParentDataGrid.Localizers?.NewButtonLocalizer, "New");
-                    var editButtonString = Localizer.Localize(ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit");
-                    var deleteButtonString = Localizer.Localize(ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete");
-                    var clearFilterButtonString = Localizer.Localize(ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter");
+                    var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+                    var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
+                    var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
+                    var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
 
-                    @ButtonRowTemplate(new ButtonRowContext<TItem>()
+                    @ButtonRowTemplate( new ButtonRowContext<TItem>()
                     {
                         NewCommand = new NewCommandContext()
                         {
-                            Clicked = EventCallback.Factory.Create(this, NewClick),
+                            Clicked = EventCallback.Factory.Create( this, NewClick ),
                             LocalizationString = newButtonString,
                         },
                         EditCommand = new EditCommandContext<TItem>()
                         {
-                            Clicked = EventCallback.Factory.Create(this, EditClick),
+                            Clicked = EventCallback.Factory.Create( this, EditClick ),
                             LocalizationString = editButtonString,
                             Item = SelectedRow
                         },
                         DeleteCommand = new DeleteCommandContext<TItem>()
                         {
-                            Clicked = EventCallback.Factory.Create(this, DeleteClick),
+                            Clicked = EventCallback.Factory.Create( this, DeleteClick ),
                             LocalizationString = deleteButtonString,
                             Item = SelectedRow
                         },
                         ClearFilterCommand = new CommandContext()
                         {
-                            Clicked = EventCallback.Factory.Create(this, ClearFilter),
+                            Clicked = EventCallback.Factory.Create( this, ClearFilter ),
                             LocalizationString = clearFilterButtonString,
                         }
-                    });
+                    } );
                 }
             </Field>
         </Column>
     }
-    @if (!ParentDataGrid.Virtualize)
+    @if ( !ParentDataGrid.Virtualize )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
             <Pagination>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                     <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
-                        @if (FirstPageButtonTemplate != null)
+                        @if ( FirstPageButtonTemplate != null )
                         {
                             @FirstPageButtonTemplate
                         }
                         else
                         {
-                            @Localizer.Localize(ParentDataGrid.Localizers?.FirstPageButtonLocalizer, "First")
+                            @Localizer.Localize( ParentDataGrid.Localizers?.FirstPageButtonLocalizer, "First" )
                         }
                     </PaginationLink>
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                     <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                        @if (PreviousPageButtonTemplate != null)
+                        @if ( PreviousPageButtonTemplate != null )
                         {
                             @PreviousPageButtonTemplate
                         }
                         else
                         {
-                            @Localizer.Localize(ParentDataGrid.Localizers?.PreviousPageButtonLocalizer, "Prev")
+                            @Localizer.Localize( ParentDataGrid.Localizers?.PreviousPageButtonLocalizer, "Prev" )
                         }
                     </PaginationLink>
                 </PaginationItem>
-                @for (int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i)
+                @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                 {
                     var pageNumber = i;
                     var pageNumberString = i.ToString();
@@ -76,9 +76,9 @@
 
                     <PaginationItem Display="Blazorise.Display.None.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                            @if (PageButtonTemplate != null)
+                            @if ( PageButtonTemplate != null )
                             {
-                                @PageButtonTemplate(new PageButtonContext(pageNumber, pageActive))
+                                @PageButtonTemplate( new PageButtonContext( pageNumber, pageActive ) )
                             }
                             else
                             {
@@ -89,7 +89,7 @@
                 }
                 <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
                     <Select @bind-SelectedValue="@PaginationContext.CurrentPage">
-                        @for (int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i)
+                        @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                             {
                                 var pageNumber = i;
                             <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
@@ -98,46 +98,46 @@
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                     <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                        @if (NextPageButtonTemplate != null)
+                        @if ( NextPageButtonTemplate != null )
                         {
                             @NextPageButtonTemplate
                         }
                         else
                         {
-                            @Localizer.Localize(ParentDataGrid.Localizers?.NextPageButtonLocalizer, "Next")
+                            @Localizer.Localize( ParentDataGrid.Localizers?.NextPageButtonLocalizer, "Next" )
                         }
                     </PaginationLink>
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                     <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
-                        @if (LastPageButtonTemplate != null)
+                        @if ( LastPageButtonTemplate != null )
                         {
                             @LastPageButtonTemplate
                         }
                         else
                         {
-                            @Localizer.Localize(ParentDataGrid.Localizers?.LastPageButtonLocalizer, "Last")
+                            @Localizer.Localize( ParentDataGrid.Localizers?.LastPageButtonLocalizer, "Last" )
                         }
                     </PaginationLink>
                 </PaginationItem>
-                @if (PaginationContext.ShowPageSizes)
+                @if ( PaginationContext.ShowPageSizes )
                 {
                     <PaginationItem Margin="Blazorise.Margin.Is0.FromBottom.Is3.FromLeft">
                         <Select @bind-SelectedValue="@PaginationContext.CurrentPageSize">
-                            @foreach (var curPageSize in PaginationContext.PageSizes)
+                            @foreach ( var curPageSize in PaginationContext.PageSizes )
                                     {
                                 <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
                                     }
                         </Select>
                     </PaginationItem>
                     <Field Margin="Blazorise.Margin.IsAuto.OnY.Is0.FromBottom.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                        @if (ItemsPerPageTemplate != null)
+                        @if ( ItemsPerPageTemplate != null )
                         {
                             @ItemsPerPageTemplate
                         }
                         else
                         {
-                            <Text>@Localizer.Localize(ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page")</Text>
+                            <Text>@Localizer.Localize( ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
                         }
                     </Field>
                 }
@@ -145,34 +145,34 @@
         </Column>
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.ReverseRow">
             <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                @if (TotalItemsTemplate != null)
+                @if ( TotalItemsTemplate != null )
                 {
-                    @TotalItemsTemplate(PaginationContext)
+                    @TotalItemsTemplate( PaginationContext )
                 }
                 else
                 {
                     var totalItems = PaginationContext?.TotalItems ?? default;
 
-                    if (totalItems == 0)
+                    if ( totalItems == 0 )
                     {
-                        <Text>@Localizer.Localize(ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", 0, 0, 0)</Text>
+                        <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", 0, 0, 0 )</Text>
                     }
                     else
                     {
-                        var curStart = ((PaginationContext.CurrentPage - 1) * PaginationContext.CurrentPageSize + 1);
-                        var curEnd = Math.Min(PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, totalItems);
-                        <Text>@Localizer.Localize(ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, totalItems)</Text>
+                        var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
+                        var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, totalItems );
+                        <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, totalItems )</Text>
                     }
                 }
             </Field>
             <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
-                @if (TotalItemsTemplate != null)
+                @if ( TotalItemsTemplate != null )
                 {
-                    @TotalItemsTemplate(PaginationContext)
+                    @TotalItemsTemplate( PaginationContext )
                 }
                 else
                 {
-                    var text = $"{PaginationContext.TotalItems} {Localizer.Localize(ParentDataGrid.Localizers?.ItemsLocalizer, "items")}";
+                    var text = $"{PaginationContext.TotalItems} {Localizer.Localize( ParentDataGrid.Localizers?.ItemsLocalizer, "items" )}";
                     <Text>@text</Text>
                 }
             </Field>

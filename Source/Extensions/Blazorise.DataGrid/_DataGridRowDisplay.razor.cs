@@ -12,7 +12,6 @@ namespace Blazorise.DataGrid
 {
     public partial class _DataGridRowDisplay<TItem>
     {
-
         #region Properties
 
         /// <summary>
@@ -98,6 +97,5 @@ namespace Blazorise.DataGrid
         public EventCallback Cancel { get; set; }
 
         #endregion
-
     }
 }

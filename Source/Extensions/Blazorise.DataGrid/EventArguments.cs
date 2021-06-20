@@ -127,7 +127,7 @@ namespace Blazorise.DataGrid
         /// <param name="virtualizeStartIndex">Requested data start index by Virtualize.</param>
         /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public DataGridReadDataEventArgs( ReadDataMode readDataMode, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken, int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0)
+        public DataGridReadDataEventArgs( ReadDataMode readDataMode, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken, int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0 )
         {
             Page = page;
             PageSize = pageSize;

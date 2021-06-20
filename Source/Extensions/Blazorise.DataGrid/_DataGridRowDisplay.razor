@@ -1,17 +1,17 @@
 @typeparam TItem
 @{
-@if ( IsEdit  )
-{
-    <_DataGridRowEdit TItem="TItem" Item="@EditItem" Columns="@Columns" CellValues="@EditItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
-}
-else
-{
-    <_DataGridRow @key="@Item" TItem="TItem" Item="@Item" Columns="@DisplayableColumns" HoverCursor="@HoverCursor" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Selected" Clicked="@Clicked" DoubleClicked="@DoubleClicked" MultiSelect="MultiSelect" />
-    @if ( DisplayDetailRowTemplate )
+    @if ( IsEdit )
     {
-        <_DataGridDetailRow TItem="TItem" Item="@Item" Columns="@Columns.ToList()">
-            @DetailRowTemplate( Item )
-        </_DataGridDetailRow>
+        <_DataGridRowEdit TItem="TItem" Item="@EditItem" Columns="@Columns" CellValues="@EditItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
     }
-}
+    else
+    {
+        <_DataGridRow @key="@Item" TItem="TItem" Item="@Item" Columns="@DisplayableColumns" HoverCursor="@HoverCursor" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Selected" Clicked="@Clicked" DoubleClicked="@DoubleClicked" MultiSelect="MultiSelect" />
+        @if ( DisplayDetailRowTemplate )
+        {
+            <_DataGridDetailRow TItem="TItem" Item="@Item" Columns="@Columns.ToList()">
+                @DetailRowTemplate( Item )
+            </_DataGridDetailRow>
+        }
+    }
 }
