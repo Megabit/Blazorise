@@ -132,6 +132,9 @@ namespace Blazorise.DataGrid
         {
             Columns.Add( column );
 
+            if ( column.SortDirection != SortDirection.None )
+                HandleSortColumn( column );
+
             // save command column reference for later
             if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
             {
@@ -394,29 +397,7 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
-                if ( SortMode == DataGridSortMode.Single )
-                {
-                    // in single-mode we need to reset all other columns to default state
-                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
-                    {
-                        c.CurrentDirection = SortDirection.None;
-                    }
-
-                    // and also remove any column sort info except for current one
-                    SortByColumns.RemoveAll( x => x.Field != column.Field );
-                }
-
-                column.CurrentDirection = column.CurrentDirection.NextDirection();
-
-                if ( !ManualReadMode )
-                {
-                    if ( !SortByColumns.Any( c => c.Field == column.Field ) )
-                    {
-                        SortByColumns.Add( column );
-                    }
-                    else if ( column.CurrentDirection == SortDirection.None )
-                        SortByColumns.Remove( column );
-                }
+                HandleSortColumn( column );
 
                 dirtyFilter = dirtyView = true;
 
@@ -698,7 +679,34 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        #region Filtering       
+        #region Filtering
+
+        protected void HandleSortColumn( DataGridColumn<TItem> column )
+        {
+            if ( Sortable && column.Sortable && !string.IsNullOrEmpty( column.Field ) )
+            {
+                if ( SortMode == DataGridSortMode.Single )
+                {
+                    // in single-mode we need to reset all other columns to default state
+                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
+                    {
+                        c.CurrentSortDirection = SortDirection.None;
+                    }
+
+                    // and also remove any column sort info except for current one
+                    SortByColumns.RemoveAll( x => x.Field != column.Field );
+                }
+
+                column.CurrentSortDirection = column.CurrentSortDirection.NextDirection();
+
+                if ( !SortByColumns.Any( c => c.Field == column.Field ) )
+                {
+                    SortByColumns.Add( column );
+                }
+                else if ( column.CurrentSortDirection == SortDirection.None )
+                    SortByColumns.Remove( column );
+            }
+        }
 
         protected async Task HandleReadData( CancellationToken cancellationToken )
         {
@@ -706,7 +714,7 @@ namespace Blazorise.DataGrid
             {
                 IsLoading = true;
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, cancellationToken ) );
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, SortByColumns, cancellationToken ) );
             }
             finally
             {
@@ -746,7 +754,7 @@ namespace Blazorise.DataGrid
                 {
                     if ( firstSort )
                     {
-                        if ( sortByColumn.CurrentDirection == SortDirection.Ascending )
+                        if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
                             query = query.OrderBy( x => sortByColumn.GetValue( x ) );
                         else
                             query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
@@ -755,7 +763,7 @@ namespace Blazorise.DataGrid
                     }
                     else
                     {
-                        if ( sortByColumn.CurrentDirection == SortDirection.Ascending )
+                        if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
                             query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
                         else
                             query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );

@@ -26,7 +26,8 @@ tags:
   - Use only `Progress` component because `ProgressBar` is now needed only for multiple stacked bars, eg. `<Progress Value="50" />`
   - Instead of `Background` parameter use the `Color` parameter
 - Remove usage of `Dialog` parameter for `ModalContent`
-  
+- On DataGridColumn, rename `Direction` parameter to `SortDirection`
+- For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
 
 ## Highlights 🚀
 
