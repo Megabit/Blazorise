@@ -104,7 +104,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the last known selected row index.
         /// </summary>
-        protected internal short lastSelectedRowIndex;
+        protected internal int lastSelectedRowIndex;
 
         #endregion
 
@@ -249,49 +249,13 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        #region Editing
+        #region Commands
 
         /// <summary>
-        /// Create new empty instance of TItem.
+        /// Sets the DataGrid into the New state mode.
         /// </summary>
-        /// <returns>Return new instance of TItem.</returns>
-        private TItem CreateNewItem()
-            => newItemCreator.Value();
-
-        /// <summary>
-        /// Prepares edit item and it's cell values for editing.
-        /// </summary>
-        /// <param name="item">Item to set.</param>
-        private void InitEditItem( TItem item )
-        {
-            editItem = item;
-            editItemCellValues = new Dictionary<string, CellEditContext<TItem>>();
-
-            foreach ( var column in EditableColumns )
-            {
-                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item )
-                {
-                    CellValue = column.GetValue( editItem ),
-                } );
-            }
-        }
-
-        protected Task OnSelectedCommand( TItem item )
-        {
-            return SelectRow( item );
-        }
-
-        protected Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
-        {
-            return RowClicked.InvokeAsync( eventArgs );
-        }
-
-        protected Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
-        {
-            return RowDoubleClicked.InvokeAsync( eventArgs );
-        }
-
-        protected void OnNewCommand()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task New()
         {
             TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
 
@@ -301,21 +265,29 @@ namespace Blazorise.DataGrid
 
             editState = DataGridEditState.New;
 
-            if ( EditMode == DataGridEditMode.Popup )
-                PopupVisible = true;
+            return Task.CompletedTask;
         }
 
-        protected void OnEditCommand( TItem item )
+        /// <summary>
+        /// Sets the DataGrid into the Edit state mode for the specified item.
+        /// </summary>
+        /// <param name="item">Item for which to set the edit mode.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Edit( TItem item )
         {
             InitEditItem( item );
 
             editState = DataGridEditState.Edit;
 
-            if ( EditMode == DataGridEditMode.Popup )
-                PopupVisible = true;
+            return Task.CompletedTask;
         }
 
-        protected async Task OnDeleteCommand( TItem item )
+        /// <summary>
+        /// Deleted the specified item from the <see cref="Data"/> source.
+        /// </summary>
+        /// <param name="item">Item to delete.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Delete( TItem item )
         {
             if ( Data is ICollection<TItem> data )
             {
@@ -337,11 +309,15 @@ namespace Blazorise.DataGrid
             // go to the previous page
             if ( ManualReadMode && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
             {
-                await OnPaginationItemClick( ( CurrentPage - 1 ).ToString() );
+                await Paginate( ( CurrentPage - 1 ).ToString() );
             }
         }
 
-        protected async Task OnSaveCommand()
+        /// <summary>
+        /// Save the internal state of the editing items.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Save()
         {
             if ( Data == null )
                 return;
@@ -383,21 +359,199 @@ namespace Blazorise.DataGrid
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
 
                 editState = DataGridEditState.None;
-
-                if ( EditMode == DataGridEditMode.Popup )
-                    PopupVisible = false;
             }
         }
 
-        protected void OnCancelCommand()
+        /// <summary>
+        /// Cancels the editing of DataGrid item.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Cancel()
         {
             editState = DataGridEditState.None;
 
-            if ( EditMode == DataGridEditMode.Popup )
-                PopupVisible = false;
+            return Task.CompletedTask;
         }
 
-        protected internal short ResolveItemIndex( TItem item )
+        /// <summary>
+        /// Selects the specified item.
+        /// </summary>
+        /// <param name="item">Item to select.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Select( TItem item )
+        {
+            return SelectRow( item );
+        }
+
+        /// <summary>
+        /// Sorts the Data for the specified column.
+        /// 
+        /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> must be enabled to be able to sort!
+        /// </summary>
+        /// <param name="column">Column to sort.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Sort( DataGridColumn<TItem> column )
+        {
+            if ( Sortable && column.Sortable )
+            {
+                if ( SortMode == DataGridSortMode.Single )
+                {
+                    // in single-mode we need to reset all other columns to default state
+                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
+                    {
+                        c.CurrentDirection = SortDirection.None;
+                    }
+
+                    // and also remove any column sort info except for current one
+                    SortByColumns.RemoveAll( x => x.Field != column.Field );
+                }
+
+                column.CurrentDirection = column.CurrentDirection.NextDirection();
+
+                if ( !ManualReadMode )
+                {
+                    if ( !SortByColumns.Any( c => c.Field == column.Field ) )
+                    {
+                        SortByColumns.Add( column );
+                    }
+                    else if ( column.CurrentDirection == SortDirection.None )
+                        SortByColumns.Remove( column );
+                }
+
+                dirtyFilter = dirtyView = true;
+
+                if ( ManualReadMode )
+                    return HandleReadData( CancellationToken.None );
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Triggers the DataGrid to change data source page.
+        /// </summary>
+        /// <remarks>
+        /// Valid <paramref name="pageName"/> values are:
+        /// 1-n:    Number of the page.
+        /// prev:   Go to first page.
+        /// next:   Go to next page.
+        /// first:  Go to first page.
+        /// last:   Go to last page.
+        /// </remarks>
+        /// <param name="pageName">Name or number(1 indexed) of the page.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Paginate( string pageName )
+        {
+            if ( int.TryParse( pageName, out var pageNumber ) )
+            {
+                CurrentPage = pageNumber;
+            }
+            else
+            {
+                if ( pageName == "prev" )
+                {
+                    CurrentPage--;
+
+                    if ( CurrentPage < 1 )
+                        CurrentPage = 1;
+                }
+                else if ( pageName == "next" )
+                {
+                    CurrentPage++;
+
+                    if ( CurrentPage > paginationContext.LastPage )
+                        CurrentPage = paginationContext.LastPage;
+                }
+                else if ( pageName == "first" )
+                {
+                    CurrentPage = 1;
+                }
+                else if ( pageName == "last" )
+                {
+                    CurrentPage = paginationContext.LastPage;
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Clears all filters from the grid.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ClearFilter()
+        {
+            foreach ( var column in Columns )
+            {
+                column.Filter.SearchValue = null;
+            }
+
+            dirtyFilter = dirtyView = true;
+
+            if ( ManualReadMode )
+                return HandleReadData( CancellationToken.None );
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Reload()
+        {
+            dirtyFilter = dirtyView = true;
+
+            if ( ManualReadMode )
+            {
+                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
+            }
+            else
+            {
+                return InvokeAsync( StateHasChanged );
+            }
+        }
+
+        #endregion
+
+        #region Editing
+
+        /// <summary>
+        /// Create new empty instance of TItem.
+        /// </summary>
+        /// <returns>Return new instance of TItem.</returns>
+        private TItem CreateNewItem()
+            => newItemCreator.Value();
+
+        /// <summary>
+        /// Prepares edit item and it's cell values for editing.
+        /// </summary>
+        /// <param name="item">Item to set.</param>
+        private void InitEditItem( TItem item )
+        {
+            editItem = item;
+            editItemCellValues = new Dictionary<string, CellEditContext<TItem>>();
+
+            foreach ( var column in EditableColumns )
+            {
+                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item )
+                {
+                    CellValue = column.GetValue( editItem ),
+                } );
+            }
+        }
+
+        protected Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowClicked.InvokeAsync( eventArgs );
+        }
+
+        protected Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowDoubleClicked.InvokeAsync( eventArgs );
+        }
+
+        protected internal int ResolveItemIndex( TItem item )
         {
             short index = 0;
             foreach ( var displayItem in DisplayData )
@@ -532,25 +686,7 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        #region Filtering
-
-        /// <summary>
-        /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
-        /// </summary>
-        /// <returns>Returns the awaitable task.</returns>
-        public Task Reload()
-        {
-            dirtyFilter = dirtyView = true;
-
-            if ( ManualReadMode )
-            {
-                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
-            }
-            else
-            {
-                return InvokeAsync( StateHasChanged );
-            }
-        }
+        #region Filtering       
 
         protected async Task HandleReadData( CancellationToken cancellationToken )
         {
@@ -568,43 +704,6 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected Task OnSortClicked( DataGridColumn<TItem> column )
-        {
-            if ( Sortable && column.Sortable )
-            {
-                if ( SortMode == DataGridSortMode.Single )
-                {
-                    // in single-mode we need to reset all other columns to default state
-                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
-                    {
-                        c.CurrentDirection = SortDirection.None;
-                    }
-
-                    // and also remove any column sort info except for current one
-                    SortByColumns.RemoveAll( x => x.Field != column.Field );
-                }
-
-                column.CurrentDirection = column.CurrentDirection.NextDirection();
-
-                if ( !ManualReadMode )
-                {
-                    if ( !SortByColumns.Any( c => c.Field == column.Field ) )
-                    {
-                        SortByColumns.Add( column );
-                    }
-                    else if ( column.CurrentDirection == SortDirection.None )
-                        SortByColumns.Remove( column );
-                }
-
-                dirtyFilter = dirtyView = true;
-
-                if ( ManualReadMode )
-                    return HandleReadData( CancellationToken.None );
-            }
-
-            return Task.CompletedTask;
-        }
-
         protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
         {
             column.Filter.SearchValue = value;
@@ -612,56 +711,6 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
                 return HandleReadData( CancellationToken.None );
-
-            return Task.CompletedTask;
-        }
-
-        protected Task OnClearFilterCommand()
-        {
-            foreach ( var column in Columns )
-            {
-                column.Filter.SearchValue = null;
-            }
-
-            dirtyFilter = dirtyView = true;
-
-            if ( ManualReadMode )
-                return HandleReadData( CancellationToken.None );
-
-            return Task.CompletedTask;
-        }
-
-        protected Task OnPaginationItemClick( string pageName )
-        {
-            if ( int.TryParse( pageName, out var pageNumber ) )
-            {
-                CurrentPage = pageNumber;
-            }
-            else
-            {
-                if ( pageName == "prev" )
-                {
-                    CurrentPage--;
-
-                    if ( CurrentPage < 1 )
-                        CurrentPage = 1;
-                }
-                else if ( pageName == "next" )
-                {
-                    CurrentPage++;
-
-                    if ( CurrentPage > paginationContext.LastPage )
-                        CurrentPage = paginationContext.LastPage;
-                }
-                else if ( pageName == "first" )
-                {
-                    CurrentPage = 1;
-                }
-                else if ( pageName == "last" )
-                {
-                    CurrentPage = paginationContext.LastPage;
-                }
-            }
 
             return Task.CompletedTask;
         }
@@ -787,7 +836,7 @@ namespace Blazorise.DataGrid
             return filteredData;
         }
 
-        public Task SelectRow( TItem item )
+        private Task SelectRow( TItem item )
         {
             if ( editState != DataGridEditState.None )
                 return Task.CompletedTask;
@@ -954,7 +1003,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the flag which indicates if popup editor is visible.
         /// </summary>
-        protected bool PopupVisible = false;
+        protected bool PopupVisible => EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None;
 
         /// <summary>
         /// Defines the size of popup dialog.
