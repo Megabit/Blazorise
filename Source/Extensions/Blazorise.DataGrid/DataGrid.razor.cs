@@ -512,6 +512,18 @@ namespace Blazorise.DataGrid
             }
         }
 
+        /// <summary>
+        /// Forces the internal DataGrid data to be filtered.
+        /// </summary>
+        /// <remarks>
+        /// Keep in mind that this command will always trigger <see cref="FilteredDataChanged"/> even
+        /// though not any data is actually changed.
+        /// </remarks>
+        public void FilterData()
+        {
+            FilterData( Data?.AsQueryable() );
+        }
+
         #endregion
 
         #region Editing
@@ -713,11 +725,6 @@ namespace Blazorise.DataGrid
                 return HandleReadData( CancellationToken.None );
 
             return Task.CompletedTask;
-        }
-
-        private void FilterData()
-        {
-            FilterData( Data?.AsQueryable() );
         }
 
         private void FilterData( IQueryable<TItem> query )
