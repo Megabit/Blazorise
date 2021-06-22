@@ -132,8 +132,8 @@ namespace Blazorise.DataGrid
         {
             Columns.Add( column );
 
-            if ( column.SortDirection != SortDirection.None )
-                HandleSortColumn( column );
+            if ( column.CurrentSortDirection != SortDirection.None )
+                HandleSortColumn( column, true );
 
             // save command column reference for later
             if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
@@ -397,7 +397,7 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
-                HandleSortColumn( column );
+                HandleSortColumn( column, false );
 
                 dirtyFilter = dirtyView = true;
 
@@ -681,7 +681,7 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
-        protected void HandleSortColumn( DataGridColumn<TItem> column )
+        protected void HandleSortColumn( DataGridColumn<TItem> column, bool initializing )
         {
             if ( Sortable && column.Sortable && !string.IsNullOrEmpty( column.Field ) )
             {
@@ -697,7 +697,8 @@ namespace Blazorise.DataGrid
                     SortByColumns.RemoveAll( x => x.Field != column.Field );
                 }
 
-                column.CurrentSortDirection = column.CurrentSortDirection.NextDirection();
+                if ( !initializing )
+                    column.CurrentSortDirection = column.CurrentSortDirection.NextDirection();
 
                 if ( !SortByColumns.Any( c => c.Field == column.Field ) )
                 {
