@@ -176,6 +176,28 @@ else if ( ValueType == typeof( DateTimeOffset? ) )
         </Feedback>
     </DateEdit>
 }
+else if ( ValueType == typeof( TimeSpan ) )
+{
+    <TimeEdit TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TimeEdit>
+}
+else if ( ValueType == typeof( TimeSpan? ) )
+{
+    <TimeEdit TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TimeEdit>
+}
 else if ( ValueType == typeof( string ) )
 {
     <NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" Pattern="@ValidationPattern">
