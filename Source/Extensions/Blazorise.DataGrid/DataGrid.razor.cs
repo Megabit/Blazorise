@@ -741,7 +741,7 @@ namespace Blazorise.DataGrid
             if ( query == null )
             {
                 filteredData.Clear();
-                FilteredDataChanged?.Invoke( filteredData );
+                FilteredDataChanged?.Invoke( new DataGridFilteredDataEventArgs<TItem>( filteredData, 0, 0 ) );
 
                 return;
             }
@@ -811,7 +811,10 @@ namespace Blazorise.DataGrid
 
             dirtyFilter = false;
 
-            FilteredDataChanged?.Invoke( filteredData );
+            FilteredDataChanged?.Invoke( new DataGridFilteredDataEventArgs<TItem>(
+                filteredData,
+                filteredData.Count,
+                ( ManualReadMode ? TotalItems : Data?.Count() ) ?? 0 ) );
         }
 
         private bool CompareFilterValues( string searchValue, string compareTo )
@@ -1110,7 +1113,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Raises an event every time that filtered data is refreshed.
         /// </summary>
-        [Parameter] public Action<IEnumerable<TItem>> FilteredDataChanged { get; set; }
+        [Parameter] public Action<DataGridFilteredDataEventArgs<TItem>> FilteredDataChanged { get; set; }
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.

@@ -28,6 +28,7 @@ tags:
 - Remove usage of `Dialog` parameter for `ModalContent`
 - On DataGridColumn, rename `Direction` parameter to `SortDirection`
 - For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
+- DataGrid `FilteredDataChanged` now accepts the `DataGridFilteredDataEventArgs<TItem>` as the argument instead of `IEnumerable<TItem>`
 
 ## Highlights 🚀
 

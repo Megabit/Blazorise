@@ -200,7 +200,8 @@
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
                           CurrentPage="currentPage"
-                          PageChanged="(e) => currentPage = e.Page">
+                          PageChanged="(e) => currentPage = e.Page"
+                          FilteredDataChanged="@OnFilteredDataChanged">
                     <EmptyTemplate>No records...</EmptyTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">

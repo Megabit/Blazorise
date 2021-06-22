@@ -217,6 +217,11 @@ namespace Blazorise.Demo.Pages.Tests
             return true;
         }
 
+        private void OnFilteredDataChanged( DataGridFilteredDataEventArgs<Employee> eventArgs )
+        {
+            Console.WriteLine( $"Filtered: {eventArgs.FilteredItems}; Total: {eventArgs.TotalItems};" );
+        }
+
         #endregion
     }
 }
