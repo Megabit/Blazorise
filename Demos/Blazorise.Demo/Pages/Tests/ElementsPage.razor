@@ -337,7 +337,7 @@
                         <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
                     </FieldBody>
                 </Field>
-                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync("Some success message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync((MarkupString)("Some success message with &nbsp;<strong>some HTML markup</strong>! Timeout: " + intervalBeforeMsgClose), SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
                     Show Success message
                 </Button>
                 <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Info, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
