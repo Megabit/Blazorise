@@ -62,6 +62,8 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TItem EditItem { get; set; }
 
+        [Parameter] public TItem ValidationItem { get; set; }
+
         [Parameter] public RenderFragment<PopupTitleContext<TItem>> TitleTemplate { get; set; }
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }

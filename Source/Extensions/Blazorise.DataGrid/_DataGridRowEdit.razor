@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRowEdit<TItem>
 @if ( EditMode == DataGridEditMode.Form )
 {
-    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
         <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
             @if ( ParentDataGrid.ShowValidationsSummary )
             {
@@ -20,7 +20,7 @@
                                     @column.Caption
                                 </FieldLabel>
                                 <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                 </FieldBody>
                             </Field>
                         }
@@ -73,7 +73,7 @@
 }
 else if ( EditMode == DataGridEditMode.Inline )
 {
-    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
         @if ( ParentDataGrid.ShowValidationsSummary )
         {
             <TableRow Display="@(isInvalid ? Display.TableRow : Display.None)">
@@ -113,7 +113,7 @@ else if ( EditMode == DataGridEditMode.Inline )
                 <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment">
                     @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
                     {
-                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                     }
                     else
                     {

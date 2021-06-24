@@ -119,7 +119,7 @@
         <TableBody>
             @if ( IsNewItemInGrid )
             {
-                <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
+                <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
             }
             @if ( IsDisplayDataVisible )
             {
@@ -127,7 +127,7 @@
                 {
                     @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )
                     {
-                        <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
+                        <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
                     }
                     else
                     {
@@ -175,6 +175,7 @@
         <_DataGridModal TItem="TItem"
                         TitleTemplate="@PopupTitleTemplate"
                         EditItem="@editItem"
+                        ValidationItem="@validationItem"
                         EditItemCellValues="@editItemCellValues"
                         Columns="@Columns"
                         PopupVisible="@PopupVisible"

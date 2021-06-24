@@ -83,12 +83,23 @@ namespace Blazorise.DataGrid
         protected TItem editItem;
 
         /// <summary>
+        /// Copy of the <see cref="editItem"/> that is used only as temporary object for data-annotation validation.
+        /// </summary>
+        protected internal TItem validationItem;
+
+        /// <summary>
         /// State of the currently editing item.
         /// </summary>
         protected DataGridEditState editState = DataGridEditState.None;
 
+        /// <summary>
+        /// Holds the values for the editing fields.
+        /// </summary>
         protected Dictionary<string, CellEditContext<TItem>> editItemCellValues;
 
+        /// <summary>
+        /// Holds the values for the filter fields.
+        /// </summary>
         protected Dictionary<string, CellEditContext<TItem>> filterCellValues;
 
         /// <summary>
@@ -155,6 +166,13 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
+
+        //public override Task SetParametersAsync( ParameterView parameters )
+        //{
+        //    HasValidationModel = parameters.TryGetValue<object>( nameof( ValidationModel ), out var model );
+
+        //    return base.SetParametersAsync( parameters );
+        //}
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
@@ -525,12 +543,16 @@ namespace Blazorise.DataGrid
             editItem = item;
             editItemCellValues = new Dictionary<string, CellEditContext<TItem>>();
 
+            validationItem = (TItem)Activator.CreateInstance( typeof( TItem ) );
+
             foreach ( var column in EditableColumns )
             {
                 editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item )
                 {
                     CellValue = column.GetValue( editItem ),
                 } );
+
+                column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
             }
         }
 
@@ -1506,6 +1528,11 @@ namespace Blazorise.DataGrid
         /// Template for holding the datagrid aggregate columns.
         /// </summary>
         [Parameter] public RenderFragment DataGridAggregates { get; set; }
+
+        /// <summary>
+        /// If true, DataGrid will use validation when editing the fields.
+        /// </summary>
+        [Parameter] public bool UseValidation { get; set; }
 
         /// <summary>
         /// If true, shows feedbacks for all validations.
