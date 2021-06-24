@@ -972,7 +972,7 @@ namespace Blazorise.Bootstrap
 
         public override string Tooltip() => "b-tooltip";
 
-        public override string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+        public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
         public override string TooltipMultiline() => "b-tooltip-multiline";
 
