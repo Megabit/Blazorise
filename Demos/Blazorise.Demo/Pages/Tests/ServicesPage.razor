@@ -1,0 +1,37 @@
+﻿@page "/tests/utilities/services"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Message Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText><code>IMessageService</code> is used to show a simple message or prompt dialog with an optional icon.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@ShowInfoMessage">Say hi!</Button>
+                <Button Color="Color.Secondary" Clicked="@ShowConfirmMessage">Confirm</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+    [Inject] IMessageService MessageService { get; set; }
+
+    Task ShowInfoMessage()
+    {
+        return MessageService.Info( "This is a simple info message!", "Hello" );
+    }
+
+    async Task ShowConfirmMessage()
+    {
+        if ( await MessageService.Confirm( "Are you sure you want to confirm?", "Confirmation" ) )
+        {
+            Console.WriteLine( "OK Clicked" );
+        }
+        else
+        {
+            Console.WriteLine( "Cancel Clicked" );
+        }
+    }
+}
