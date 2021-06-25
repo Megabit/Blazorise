@@ -138,6 +138,8 @@ docs:
     children:
       - title: "Messages"
         url: /docs/services/message/
+      - title: "Notifications"
+        url: /docs/services/notification/
   - title: Helpers
     url: /docs/helpers/
     children:

@@ -47,6 +47,7 @@ namespace Blazorise
             serviceCollection.AddScoped<PatternValidationHandler>();
             serviceCollection.AddScoped<DataAnnotationValidationHandler>();
             serviceCollection.AddScoped<IMessageService, MessageService>();
+            serviceCollection.AddScoped<INotificationService, NotificationService>();
 
             serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 

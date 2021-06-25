@@ -10,13 +10,30 @@
             </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Clicked="@ShowInfoMessage">Say hi!</Button>
-                <Button Color="Color.Secondary" Clicked="@ShowConfirmMessage">Confirm</Button>
+                <Button Color="Color.Danger" Clicked="@ShowConfirmMessage">Confirm</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Notification Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText><code>INotificationService</code> is used to show a simple alerts.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show alert!</Button>
             </CardBody>
         </Card>
     </Column>
 </Row>
 @code{
     [Inject] IMessageService MessageService { get; set; }
+
+    [Inject] INotificationService NotificationService { get; set; }
 
     Task ShowInfoMessage()
     {
@@ -33,5 +50,10 @@
         {
             Console.WriteLine( "Cancel Clicked" );
         }
+    }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( "This is a simple notification message!", "Hello" );
     }
 }
