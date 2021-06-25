@@ -10,6 +10,9 @@ namespace Blazorise.Demo.Pages.Tests
         bool borderless;
         bool hoverable;
         bool small;
+        bool resizable = true;
+
+        TableResizeMode resizeMode;
 
         class TableUser
         {

@@ -328,6 +328,12 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeTableFixedHeader", elementRef, elementId );
         }
 
+        public ValueTask InitResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode )
+            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initResizable", elementRef, elementId, resizeMode );
+
+        public ValueTask DestroyResizable( ElementReference elementRef, string elementId )
+            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyResizable", elementRef, elementId );
+
         #endregion
 
         #region Closables

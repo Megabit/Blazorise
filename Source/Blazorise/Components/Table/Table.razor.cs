@@ -31,6 +31,8 @@ namespace Blazorise
 
         private string fixedHeaderTableHeight = "300px";
 
+        private bool resizable;
+
         #endregion
 
         #region Constructors
@@ -53,12 +55,15 @@ namespace Blazorise
         {
             await InitializeTableFixedHeader();
 
+            await RecalculateResize();
+
             await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
+            builder.Append( "b-table" );
             builder.Append( ClassProvider.Table() );
             builder.Append( ClassProvider.TableFullWidth(), FullWidth );
             builder.Append( ClassProvider.TableStriped(), Striped );
@@ -112,6 +117,26 @@ namespace Blazorise
             return ValueTask.CompletedTask;
         }
 
+        /// <summary>
+        /// If Table is resizable. 
+        /// Resizable columns should be constantly recalculated to keep up with the current Table's height dimensions.
+        /// </summary>
+        /// <returns></returns>
+        private async ValueTask RecalculateResize()
+        {
+            if ( resizable )
+            {
+                await DestroyResizable();
+                await InitResizable();
+            }
+        }
+
+        private ValueTask InitResizable()
+            => JSRunner.InitResizable(ElementRef, ElementId, ResizeMode);
+
+        private ValueTask DestroyResizable()
+            => JSRunner.DestroyResizable( ElementRef, ElementId );
+
         #endregion
 
         #region Properties
@@ -139,7 +164,7 @@ namespace Blazorise
         /// <summary>
         /// True if table needs to be placed inside of container element.
         /// </summary>
-        protected bool HasContainer => Responsive || FixedHeader;
+        protected bool HasContainer => Responsive || FixedHeader || Resizable;
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -286,6 +311,30 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Table"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether users can resize Table's columns.
+        /// </summary>
+        [Parameter]
+        public bool Resizable
+        {
+            get => resizable;
+            set
+            {
+                if ( resizable == value )
+                    return;
+
+                resizable = value;
+
+                if ( !resizable )
+                    ExecuteAfterRender( () => DestroyResizable().AsTask() );
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the user can resize on header or columns.
+        /// </summary>
+        [Parameter] public TableResizeMode ResizeMode { get; set; }
 
         #endregion
     }

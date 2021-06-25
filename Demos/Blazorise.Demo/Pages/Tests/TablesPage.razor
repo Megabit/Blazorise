@@ -508,10 +508,21 @@
                     <Column><Switch @bind-Checked="@borderless">Borderless</Switch></Column>
                     <Column><Switch @bind-Checked="@hoverable">Hoverable</Switch></Column>
                     <Column><Switch @bind-Checked="@small">Narrow rows</Switch></Column>
+                    <Column>
+                        <Switch @bind-Checked="@resizable">Resizable</Switch>
+                        @if ( resizable )
+                        { 
+                            <Select  Size="Size.Small" @bind-SelectedValue="@resizeMode">
+                                <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
+                                <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
+                            </Select>
+                        }
+                    </Column>
                 </Row>
+
             </CardBody>
             <CardBody>
-                <Table FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" FixedHeaderTableHeight="300px">
+                <Table FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" FixedHeaderTableHeight="300px">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
