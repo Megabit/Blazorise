@@ -133,6 +133,11 @@ docs:
         url: /docs/extensions/snackbar/
       - title: "TreeView"
         url: /docs/extensions/treeview/
+  - title: Services
+    url: /docs/services/
+    children:
+      - title: "Messages"
+        url: /docs/services/message/
   - title: Helpers
     url: /docs/helpers/
     children:
