@@ -8,7 +8,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IMessageService"/> to show the message dialog.
     /// </summary>
-    public partial class MessageDialog : BaseComponent
+    public partial class MessageAlert : BaseComponent
     {
         #region Methods
 

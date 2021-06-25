@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Defines the possible ui message types with predefined actions.
+    /// Defines the possible UI message types with predefined actions.
     /// </summary>
     public enum MessageType
     {
