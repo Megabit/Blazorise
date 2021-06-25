@@ -37,11 +37,15 @@ There are situations when you need to do validation by using the external method
 
 For more information and an example just look at the [Async Validation]({{ "/docs/components/validation/#async-validation" | relative_url }}) page section.
 
-### Message Service
+### Message and Notification Service
 
-This is one of the most requested feature for the long time and we finally introduce it. Message Service is used to show simple messages and confirmation dialogs to which the user can respond. It contains some of the standard methods like `Info`, `Success` or `Warning`, and also `Confirm` method for use cases when you need to wait for the user confirmation.
+For the long time this was one of the most requested features and we finally introduce it.
 
-For more information and a simple usage visit [Message Service]({{ "/docs/services/message" | relative_url }}) page.
+Message Service is used to show simple messages and confirmation dialogs to which the user can respond. It contains some of the standard methods like `Info`, `Success` or `Warning`, and also `Confirm` method for use cases when you need to wait for the user action.
+
+Notification Service is used to show simple alerts and notifications with a small timeout after which it will auto-close.
+
+To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}) and [Notification Service]({{ "/docs/services/notification" | relative_url }}) pages.
 
 ### Flex utilities
 
