@@ -334,6 +334,9 @@ namespace Blazorise
         public ValueTask DestroyResizable( ElementReference elementRef, string elementId )
             => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyResizable", elementRef, elementId );
 
+        public ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId )
+            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyTableFixedHeader", elementRef, elementId );
+
         #endregion
 
         #region Closables

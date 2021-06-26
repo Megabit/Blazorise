@@ -105,6 +105,14 @@ namespace Blazorise
             base.DirtyStyles();
         }
 
+        /// <inheritdoc/>
+        internal protected override void DirtyClasses()
+        {
+            ContainerClassBuilder.Dirty();
+
+            base.DirtyClasses();
+        }
+
         /// <summary>
         /// Makes sure that the table header is properly sized.
         /// </summary>
@@ -136,6 +144,9 @@ namespace Blazorise
 
         private ValueTask DestroyResizable()
             => JSRunner.DestroyResizable( ElementRef, ElementId );
+
+        private ValueTask DestroyTableFixedHeader()
+            => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );      
 
         #endregion
 
@@ -285,9 +296,14 @@ namespace Blazorise
             get => fixedHeader;
             set
             {
+                if ( fixedHeader == value )
+                    return;
                 fixedHeader = value;
 
                 DirtyClasses();
+
+                if ( !fixedHeader )
+                    ExecuteAfterRender( () => DestroyTableFixedHeader().AsTask() );
             }
         }
 
@@ -325,6 +341,8 @@ namespace Blazorise
                     return;
 
                 resizable = value;
+
+                DirtyClasses();
 
                 if ( !resizable )
                     ExecuteAfterRender( () => DestroyResizable().AsTask() );

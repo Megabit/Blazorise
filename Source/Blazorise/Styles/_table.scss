@@ -20,3 +20,8 @@
         cursor: col-resize !important;
     }
 }
+
+//For low specificity
+th {
+    position: relative;
+}

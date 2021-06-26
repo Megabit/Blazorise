@@ -828,6 +828,16 @@ window.blazorise = {
                 }
             }
         },
+        destroyTableFixedHeader: (element, elementId) => {
+            const tableRows = element.querySelectorAll("thead tr");
+
+            if (tableRows !== null && tableRows.length > 1) {
+                for (let i = 0; i < tableRows.length; i++) {
+                    let currentTh = tableRows[i].querySelectorAll("th");
+                    currentTh.forEach(x => x.style.top = `${0}px`);
+                }
+            }
+        },
         initResizable: function (element, elementId, mode) {
             const resizerClass = "b-table-resizer";
             const resizingClass = "b-table-resizing";
