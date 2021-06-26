@@ -16,7 +16,7 @@ namespace Blazorise.Snackbar
 
         private class SnackbarInfo
         {
-            public SnackbarInfo( string message,
+            public SnackbarInfo( MarkupString message,
                 string title,
                 SnackbarColor color,
                 string key,
@@ -43,7 +43,7 @@ namespace Blazorise.Snackbar
                 IntervalBeforeClose = intervalBeforeClose;
             }
 
-            public string Message { get; }
+            public MarkupString Message { get; }
 
             public string Title { get; }
 
@@ -95,6 +95,18 @@ namespace Blazorise.Snackbar
         /// <returns>Returns awaitable task.</returns>
         public Task PushAsync( string message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
+            return PushAsync( (MarkupString)message, null, color, options );
+        }
+
+        /// <summary>
+        /// Pushes the message to the stack to be shown as a snackbar.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="color">Message color.</param>
+        /// <param name="options">Additional message options.</param>
+        /// <returns>Returns awaitable task.</returns>
+        public Task PushAsync( MarkupString message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
+        {
             return PushAsync( message, null, color, options );
         }
 
@@ -107,6 +119,19 @@ namespace Blazorise.Snackbar
         /// <param name="options">Additional message options.</param>
         /// <returns>Returns awaitable task.</returns>
         public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
+        {
+            return PushAsync( (MarkupString)message, null, color, options );
+        }
+
+        /// <summary>
+        /// Pushes the message to the stack to be shown as a snackbar.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="title">Message caption.</param>
+        /// <param name="color">Message color.</param>
+        /// <param name="options">Additional message options.</param>
+        /// <returns>Returns awaitable task.</returns>
+        public Task PushAsync( MarkupString message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
             var snackbarOptions = CreateDefaultOptions();
             options?.Invoke( snackbarOptions );

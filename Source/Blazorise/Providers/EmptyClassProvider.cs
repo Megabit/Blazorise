@@ -937,7 +937,7 @@ namespace Blazorise.Providers
 
         public string Tooltip() => null;
 
-        public string TooltipPlacement( Placement placement ) => null;
+        public string TooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
         public string TooltipMultiline() => null;
 
@@ -1096,6 +1096,8 @@ namespace Blazorise.Providers
         public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
+
+        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
 
