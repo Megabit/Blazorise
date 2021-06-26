@@ -6,7 +6,7 @@ namespace Blazorise.Demo.Pages.Tests
     {
         bool fixedHeader = true;
         bool stripped;
-        bool bordered;
+        bool bordered = true;
         bool borderless;
         bool hoverable;
         bool small;
