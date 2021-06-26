@@ -37,6 +37,18 @@ There are situations when you need to do validation by using the external method
 
 For more information and an example just look at the [Async Validation]({{ "/docs/components/validation/#async-validation" | relative_url }}) page section.
 
+### Services
+
+For the long time this was one of the most requested features and we finally introduce it.
+
+- Message Service is used to show simple messages and confirmation dialogs to which the user can respond. It contains some of the standard methods like `Info`, `Success` or `Warning`, and also `Confirm` method for use cases when you need to wait for the user action.
+
+- Notification Service is used to show simple alerts and notifications with a small timeout after which it will auto-close.
+
+- PageProgress Service is used to show simple progress bar at the top of the page.
+
+To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}), [Notification Service]({{ "/docs/services/notification" | relative_url }}) and [PageProgress Service]({{ "/docs/services/page-progress" | relative_url }}) pages.
+
 ### Flex utilities
 
 I think this is our most advanced _fluent builder_ so far. If you're familiar with [Bootstrap Flex](https://getbootstrap.com/docs/4.5/utilities/flex/) utilities you will find our new feature quite similar. We support **all** Bootstrap Flex utilities, including the media breakpoints. The same feature is also done for all other providers, Bulma, AntDesign, Material and eFrolic.
