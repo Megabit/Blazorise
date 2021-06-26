@@ -737,6 +737,25 @@ hr.divider.divider-text {
         .b-bar-vertical-inline:not([data-collapse]) .b-bar-mobile-toggle {
             display: flex; } }
 
+.b-table.table {
+    position: relative; }
+    .b-table.table .b-table-resizer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5px;
+        cursor: col-resize;
+        user-select: none;
+        z-index: 1; }
+    .b-table.table .b-table-resizer:hover, .b-table.table .b-table-resizing {
+        cursor: col-resize !important;
+        border-right: 2px solid var(--b-theme-primary, blue); }
+    .b-table.table .b-table-resizing {
+        cursor: col-resize !important; }
+
+thead tr th {
+    position: relative; }
+
 .b-character-casing-lower {
     text-transform: lowercase; }
 
