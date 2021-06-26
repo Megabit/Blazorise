@@ -30,9 +30,9 @@ namespace Blazorise
         /// Handles the row onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler( MouseEventArgs e )
+        protected Task ClickHandler( MouseEventArgs eventArgs )
         {
-            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
 
         #endregion
