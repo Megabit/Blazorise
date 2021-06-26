@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
   </ItemGroup>
 
   <ItemGroup>

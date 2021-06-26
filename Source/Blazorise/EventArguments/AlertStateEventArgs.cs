@@ -5,7 +5,7 @@ using System;
 namespace Blazorise
 {
     /// <summary>
-    /// Supplies the information about the alert visiblity state.
+    /// Supplies the information about the alert visibility state.
     /// </summary>
     public class AlertStateEventArgs : EventArgs
     {

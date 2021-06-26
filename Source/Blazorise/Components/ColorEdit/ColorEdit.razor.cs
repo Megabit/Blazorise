@@ -46,9 +46,9 @@ namespace Blazorise
         /// Handles the input onchange event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            return CurrentValueHandler( eventArgs?.Value?.ToString() );
         }
 
         /// <inheritdoc/>
