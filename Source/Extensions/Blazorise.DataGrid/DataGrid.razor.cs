@@ -962,6 +962,11 @@ namespace Blazorise.DataGrid
         protected bool IsNewItemInGrid => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
 
         /// <summary>
+        /// Returns true if the datagrid is in edit mode and the item is the currently selected edititem 
+        /// </summary>
+        protected bool IsEditItemInGrid( TItem item ) => Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem );
+
+        /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
         /// </summary>
         public bool ManualReadMode => ReadData.HasDelegate && !Virtualize;
