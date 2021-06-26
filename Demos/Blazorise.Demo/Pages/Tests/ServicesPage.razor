@@ -30,10 +30,34 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>PageProgress Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText><code>IPageProgressService</code> is used to show a simple page progress at the top of the page.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress25">25 %</Button>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress50">50 %</Button>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress75">75 %</Button>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress100">100 %</Button>
+
+                <Button Color="Color.Secondary" Clicked="@SetPageProgressIndeterminate">Indeterminate</Button>
+
+                <Button Color="Color.Secondary" Clicked="@SetPageProgressHidden">Hide</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code{
     [Inject] IMessageService MessageService { get; set; }
 
     [Inject] INotificationService NotificationService { get; set; }
+
+    [Inject] IPageProgressService PageProgressService { get; set; }
 
     Task ShowInfoMessage()
     {
@@ -55,5 +79,35 @@
     Task ShowWarningNotification()
     {
         return NotificationService.Warning( "This is a simple notification message!", "Hello" );
+    }
+
+    Task SetPageProgress25()
+    {
+        return PageProgressService.Go( 25, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgress50()
+    {
+        return PageProgressService.Go( 50, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgress75()
+    {
+        return PageProgressService.Go( 75, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgress100()
+    {
+        return PageProgressService.Go( 100, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgressIndeterminate()
+    {
+        return PageProgressService.Go( null, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgressHidden()
+    {
+        return PageProgressService.Go( -1 );
     }
 }
