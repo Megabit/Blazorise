@@ -140,13 +140,13 @@ namespace Blazorise
         }
 
         private ValueTask InitResizable()
-            => JSRunner.InitResizable(ElementRef, ElementId, ResizeMode);
+            => JSRunner.InitResizable( ElementRef, ElementId, ResizeMode );
 
         private ValueTask DestroyResizable()
             => JSRunner.DestroyResizable( ElementRef, ElementId );
 
         private ValueTask DestroyTableFixedHeader()
-            => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );      
+            => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );
 
         #endregion
 

@@ -511,8 +511,8 @@
                     <Column>
                         <Switch @bind-Checked="@resizable">Resizable</Switch>
                         @if ( resizable )
-                        { 
-                            <Select  Size="Size.Small" @bind-SelectedValue="@resizeMode">
+                        {
+                            <Select Size="Size.Small" @bind-SelectedValue="@resizeMode">
                                 <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
                                 <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
                             </Select>

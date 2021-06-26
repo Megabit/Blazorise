@@ -154,7 +154,7 @@ namespace Blazorise
         ValueTask DestroyResizable( ElementReference elementRef, string elementId );
 
         ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId );
-        
+
         #endregion
 
         #region Closables
