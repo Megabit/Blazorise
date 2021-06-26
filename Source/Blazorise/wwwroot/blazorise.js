@@ -845,7 +845,7 @@ window.blazorise = {
             let cols = null;
 
             if (element !== null) {
-                cols = element.querySelectorAll('tr:first-child > th');
+                cols = element.querySelectorAll('thead tr:first-child > th');
             }
 
             if (cols !== null) {
