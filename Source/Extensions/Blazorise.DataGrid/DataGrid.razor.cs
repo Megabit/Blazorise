@@ -167,13 +167,6 @@ namespace Blazorise.DataGrid
             Aggregates.Add( aggregate );
         }
 
-        //public override Task SetParametersAsync( ParameterView parameters )
-        //{
-        //    HasValidationModel = parameters.TryGetValue<object>( nameof( ValidationModel ), out var model );
-
-        //    return base.SetParametersAsync( parameters );
-        //}
-
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
