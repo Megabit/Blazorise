@@ -149,11 +149,11 @@ namespace Blazorise
 
         ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId );
 
-        ValueTask InitResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode );
-
-        ValueTask DestroyResizable( ElementReference elementRef, string elementId );
-
         ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId );
+
+        ValueTask InitializeTableResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode );
+
+        ValueTask DestroyTableResizable( ElementReference elementRef, string elementId );
 
         #endregion
 

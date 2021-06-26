@@ -98,19 +98,19 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void DirtyStyles()
-        {
-            ContainerStyleBuilder.Dirty();
-
-            base.DirtyStyles();
-        }
-
-        /// <inheritdoc/>
         internal protected override void DirtyClasses()
         {
             ContainerClassBuilder.Dirty();
 
             base.DirtyClasses();
+        }
+
+        /// <inheritdoc/>
+        protected override void DirtyStyles()
+        {
+            ContainerStyleBuilder.Dirty();
+
+            base.DirtyStyles();
         }
 
         /// <summary>
@@ -140,10 +140,10 @@ namespace Blazorise
         }
 
         private ValueTask InitResizable()
-            => JSRunner.InitResizable( ElementRef, ElementId, ResizeMode );
+            => JSRunner.InitializeTableResizable( ElementRef, ElementId, ResizeMode );
 
         private ValueTask DestroyResizable()
-            => JSRunner.DestroyResizable( ElementRef, ElementId );
+            => JSRunner.DestroyTableResizable( ElementRef, ElementId );
 
         private ValueTask DestroyTableFixedHeader()
             => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );
@@ -298,6 +298,7 @@ namespace Blazorise
             {
                 if ( fixedHeader == value )
                     return;
+
                 fixedHeader = value;
 
                 DirtyClasses();
@@ -324,11 +325,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="Table"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        /// <summary>
         /// Gets or sets whether users can resize Table's columns.
         /// </summary>
         [Parameter]
@@ -353,6 +349,11 @@ namespace Blazorise
         /// Gets or sets whether the user can resize on header or columns.
         /// </summary>
         [Parameter] public TableResizeMode ResizeMode { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Table"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

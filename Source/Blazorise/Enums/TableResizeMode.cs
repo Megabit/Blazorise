@@ -1,6 +1,5 @@
 ﻿namespace Blazorise
 {
-
     /// <summary>
     /// Defines the resize mode of the Table's columns.
     /// </summary>

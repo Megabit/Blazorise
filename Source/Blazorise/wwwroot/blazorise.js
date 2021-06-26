@@ -838,7 +838,7 @@ window.blazorise = {
                 }
             }
         },
-        initResizable: function (element, elementId, mode) {
+        initializeResizable: function (element, elementId, mode) {
             const resizerClass = "b-table-resizer";
             const resizingClass = "b-table-resizing";
             const resizerHeaderMode = 0;
