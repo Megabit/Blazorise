@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -64,6 +63,8 @@ namespace Blazorise.DataGrid
         [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
         [Parameter] public TItem Item { get; set; }
+
+        [Parameter] public TItem ValidationItem { get; set; }
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 

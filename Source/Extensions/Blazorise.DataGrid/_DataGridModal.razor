@@ -20,7 +20,7 @@
             <CloseButton Clicked="@Cancel" AutoClose="false" />
         </ModalHeader>
         <ModalBody>
-            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
                 @if ( ParentDataGrid.ShowValidationsSummary )
                 {
                     <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
@@ -33,7 +33,7 @@
                                 @column.Caption
                             </FieldLabel>
                             <FieldBody>
-                                <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                                <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" ValidationItem="@ValidationItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                             </FieldBody>
                         </Field>
                     }

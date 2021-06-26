@@ -147,13 +147,32 @@ The DataGrid provider several built-in aggregates for column values. Supported a
 
 The DataGrid provides validations of column values at editing or creating items. For using validation of DataGrid you have to use these properties:
 
+- `UseValidation` must be set to `true` to enable validation.
 - `ShowValidationFeedback` of DataGrid to hide or show feedback for validation.
 - `ShowValidationsSummary` of DataGrid to hide or show validations summary.
 - `ValidationsSummaryLabel` of DataGrid to set label of validations summary.
 - `Validator` of DataGridColumn validates the input value after trying to save.
 - `ValidationPattern` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
 
-To enable basic validation you only need to define a `Validator` attribute and assign it to your validation method.
+By default, DataGrid will use data-annotation to validate editing fields. You only need to define them on your model and they will automatically be picked up by the grid.
+
+```cs
+public class Employee
+{
+    [Required]
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+}
+```
+
+**Note:** Don't forget to enable validation by setting `UseValidation="true"`.
+{: .notice--warning}
+
+---
+
+To override data-annotation you only need to define a `Validator` attribute and assign it to your validation method.
 
 ```html
 <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="@CheckEMail" Editable="true" />
@@ -705,6 +724,7 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                                                   |                        | Template for custom title of edit popup dialog                                                                       |
 | NewItemDefaultSetter      | `Action<TItem>`                                                                              |                        | Action will be called for setting default values of property, when create new entry                                  |
 | PageButtonTemplate        | `RenderTemplate<PageButtonContext>`                                                          |                        | Define the format a pagination button                                                                                |
+| UseValidation             | boolean                                                                                      | false                  | If true, validation will be used when editing the fields                                                             |
 | ShowValidationFeedback    | boolean                                                                                      | false                  | Hide or show feedback for validation                                                                                 |
 | ShowValidationsSummary    | boolean                                                                                      | true                   | Hide or show validations summary                                                                                     |
 | ValidationsSummaryLabel   | string                                                                                       | null                   | Label for validations summary.                                                                                       |
