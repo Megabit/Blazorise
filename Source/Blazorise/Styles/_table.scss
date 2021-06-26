@@ -22,6 +22,9 @@
 }
 
 //For low specificity
-th {
-    position: relative;
+thead {
+    tr th {
+        position: relative;
+    }
 }
+    
