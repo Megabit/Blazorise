@@ -138,7 +138,7 @@ namespace Blazorise.DataGrid
             if ( ParentDataGrid != null )
             {
                 // connect column to the parent datagrid
-                ParentDataGrid.Hook( this );
+                ParentDataGrid.AddAggregate( this );
             }
 
             base.OnInitialized();

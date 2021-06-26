@@ -47,7 +47,7 @@ namespace Blazorise.DataGrid
             if ( ParentDataGrid != null )
             {
                 // connect column to the parent datagrid
-                ParentDataGrid.Hook( this );
+                ParentDataGrid.AddColumn( this );
 
                 if ( Filter != null )
                 {
