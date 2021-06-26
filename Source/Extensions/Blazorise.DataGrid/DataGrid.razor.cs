@@ -27,11 +27,6 @@ namespace Blazorise.DataGrid
         private Table tableRef;
 
         /// <summary>
-        /// Gets or sets whether users can resize datagrid columns.
-        /// </summary>
-        private bool resizable;
-
-        /// <summary>
         /// Original data-source.
         /// </summary>
         private IEnumerable<TItem> data;
@@ -185,8 +180,6 @@ namespace Blazorise.DataGrid
                 await InvokeAsync( StateHasChanged );
             }
 
-            await RecalculateResize();
-
             await base.OnAfterRenderAsync( firstRender );
         }
 
@@ -202,26 +195,6 @@ namespace Blazorise.DataGrid
                 base.Dispose( disposing );
             }
         }
-
-        /// <summary>
-        /// If DataGrid is resizable. 
-        /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
-        /// </summary>
-        /// <returns></returns>
-        private async ValueTask RecalculateResize()
-        {
-            if ( resizable )
-            {
-                await DestroyResizable();
-                await InitResizable();
-            }
-        }
-
-        private ValueTask InitResizable()
-            => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef, ResizeMode );
-
-        private ValueTask DestroyResizable()
-            => JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef );
 
         #endregion
 
@@ -886,8 +859,6 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
-
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
@@ -1160,21 +1131,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
         /// </summary>
-        [Parameter]
-        public bool Resizable
-        {
-            get => resizable;
-            set
-            {
-                if ( resizable == value )
-                    return;
-
-                resizable = value;
-
-                if ( !resizable )
-                    ExecuteAfterRender( () => DestroyResizable().AsTask() );
-            }
-        }
+        [Parameter] public bool Resizable { get; set; }
 
         /// <summary>
         /// Gets or sets whether the user can resize on header or columns.
