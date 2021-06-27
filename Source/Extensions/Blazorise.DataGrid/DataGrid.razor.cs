@@ -1136,7 +1136,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether the user can resize on header or columns.
         /// </summary>
-        [Parameter] public DataGridResizeMode ResizeMode { get; set; }
+        [Parameter] public TableResizeMode ResizeMode { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.
