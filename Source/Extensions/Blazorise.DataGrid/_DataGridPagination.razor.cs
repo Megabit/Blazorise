@@ -179,7 +179,10 @@ namespace Blazorise.DataGrid
         [Parameter]
         public Func<string, Task> OnPaginationItemClick { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }
