@@ -423,42 +423,42 @@ namespace Blazorise.DataGrid
         /// Triggers the DataGrid to change data source page.
         /// </summary>
         /// <remarks>
-        /// Valid <paramref name="pageName"/> values are:
+        /// Valid <paramref name="paginationCommandOrNumber"/> values are:
         /// 1-n:    Number of the page.
         /// prev:   Go to first page.
         /// next:   Go to next page.
         /// first:  Go to first page.
         /// last:   Go to last page.
         /// </remarks>
-        /// <param name="pageName">Name or number(1 indexed) of the page.</param>
+        /// <param name="paginationCommandOrNumber">Pagination command name or number(1 indexed) of the page.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Paginate( string pageName )
+        public Task Paginate( string paginationCommandOrNumber )
         {
-            if ( int.TryParse( pageName, out var pageNumber ) )
+            if ( int.TryParse( paginationCommandOrNumber, out var pageNumber ) )
             {
                 CurrentPage = pageNumber;
             }
             else
             {
-                if ( pageName == "prev" )
+                if ( paginationCommandOrNumber == "prev" )
                 {
                     CurrentPage--;
 
                     if ( CurrentPage < 1 )
                         CurrentPage = 1;
                 }
-                else if ( pageName == "next" )
+                else if ( paginationCommandOrNumber == "next" )
                 {
                     CurrentPage++;
 
                     if ( CurrentPage > paginationContext.LastPage )
                         CurrentPage = paginationContext.LastPage;
                 }
-                else if ( pageName == "first" )
+                else if ( paginationCommandOrNumber == "first" )
                 {
                     CurrentPage = 1;
                 }
-                else if ( pageName == "last" )
+                else if ( paginationCommandOrNumber == "last" )
                 {
                     CurrentPage = paginationContext.LastPage;
                 }
