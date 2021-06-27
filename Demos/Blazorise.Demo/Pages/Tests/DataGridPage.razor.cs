@@ -53,7 +53,7 @@ namespace Blazorise.Demo.Pages.Tests
         DataGridSortMode sortMode = DataGridSortMode.Multiple;
         DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
-        DataGridResizeMode resizableMode = DataGridResizeMode.Header;
+        TableResizeMode resizableMode = TableResizeMode.Header;
 
         DataGrid<Employee> dataGrid;
         public int currentPage { get; set; } = 1;
