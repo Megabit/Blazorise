@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +18,12 @@ namespace Blazorise
         /// Holds the reference to the parent carousel state object.
         /// </summary>
         private CarouselState parentCarouselState;
+
+        private bool active;
+        private bool left;
+        private bool right;
+        private bool prev;
+        private bool next;
 
         #endregion
 
@@ -39,7 +46,9 @@ namespace Blazorise
         {
             if ( ParentCarousel != null )
             {
-                ParentCarousel.NotifyCarouselSlideInitialized( this );
+                ParentCarousel.AddSlide( this );
+
+                Active = Name == ParentCarousel.SelectedSlide;
             }
 
             base.OnInitialized();
@@ -50,6 +59,10 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.CarouselSlide() );
             builder.Append( ClassProvider.CarouselSlideActive( Active ) );
+            builder.Append( ClassProvider.CarouselSlideSlidingLeft( Left ) );
+            builder.Append( ClassProvider.CarouselSlideSlisingRight( Right ) );
+            builder.Append( ClassProvider.CarouselSlideSlidingPrev( Prev ) );
+            builder.Append( ClassProvider.CarouselSlideSlisingNext( Next ) );
 
             base.BuildClasses( builder );
         }
@@ -69,27 +82,108 @@ namespace Blazorise
         private void BuildIndicatorClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CarouselIndicator() );
-            builder.Append( ClassProvider.CarouselIndicatorActive( Active ) );
+            builder.Append( ClassProvider.CarouselIndicatorActive( IndicatorActive ) );
         }
 
         /// <summary>
         /// Makes this slide active.
         /// </summary>
-        public void Activate()
+        public Task Activate()
         {
             DirtyClasses();
 
-            ParentCarousel.Select( Name );
+            return ParentCarousel.Select( Name );
+        }
+
+        internal void Clean()
+        {
+            Active = false;
+            Left = false;
+            Right = false;
+            Prev = false;
+            Next = false;
+
+            DirtyClasses();
         }
 
         #endregion
 
         #region Properties
 
+        bool IndicatorActive => ParentCarousel.SelectedSlideIndex < ParentCarousel.NumberOfSlides
+            ? ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this )
+            : false;
+
+        internal bool Active
+        {
+            get => active;
+            set
+            {
+                if ( active == value )
+                    return;
+
+                active = value;
+
+                DirtyClasses();
+            }
+        }
+
+        internal bool Left
+        {
+            get => left; set
+            {
+                if ( left == value )
+                    return;
+
+                left = value;
+
+                DirtyClasses();
+            }
+        }
+
+        internal bool Right
+        {
+            get => right; set
+            {
+                if ( right == value )
+                    return;
+
+                right = value;
+
+                DirtyClasses();
+            }
+        }
+
+        internal bool Prev
+        {
+            get => prev; set
+            {
+                if ( prev == value )
+                    return;
+
+                prev = value;
+
+                DirtyClasses();
+            }
+        }
+
+        internal bool Next
+        {
+            get => next; set
+            {
+                if ( next == value )
+                    return;
+
+                next = value;
+
+                DirtyClasses();
+            }
+        }
+
         /// <summary>
-        /// True if this slide is currently active.
+        /// Defines the interval(in milliseconds) after which this item will automatically slide.
         /// </summary>
-        public bool Active => ParentCarouselState?.CurrentSlide == Name;
+        [Parameter] public int? Interval { get; set; }
 
         /// <summary>
         /// Gets or sets the class builder for the indicator element.

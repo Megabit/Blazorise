@@ -487,6 +487,14 @@ namespace Blazorise.AntDesign
 
         public override string CarouselSlideActive( bool active ) => active ? "slick-active slick-current" : null;
 
+        public override string CarouselSlideSlidingLeft( bool left ) => null;
+
+        public override string CarouselSlideSlisingRight( bool right ) => null;
+
+        public override string CarouselSlideSlidingPrev( bool previous ) => null;
+
+        public override string CarouselSlideSlisingNext( bool next ) => null;
+
         public override string CarouselIndicators() => "slick-dots slick-dots-bottom";
 
         public override string CarouselIndicator() => null;
