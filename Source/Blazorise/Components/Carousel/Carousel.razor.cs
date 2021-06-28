@@ -25,8 +25,8 @@ namespace Blazorise
         private CarouselState state = new CarouselState
         {
             Autoplay = true,
-            Autorepeat = true,
-            Crossfade = true,
+            AutoRepeat = true,
+            Crossfade = false,
         };
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Blazorise
             if ( Interval != 0 )
                 TimerEnabled = true;
 
-            if ( Autoplay && SelectedSlideIndex == 0 )
+            if ( Autoplay /*&& SelectedSlideIndex == 0*/ )
             {
                 if ( TimerEnabled )
                     Timer.Start();
@@ -104,13 +104,6 @@ namespace Blazorise
         {
             if ( firstRender )
             {
-                var carouselSlide = carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide );
-
-                if ( carouselSlide != null )
-                {
-                    state = state with { SelectedSlideIndex = carouselSlides.IndexOf( carouselSlide ) };
-                }
-
                 await InvokeAsync( StateHasChanged );
             }
 
@@ -168,6 +161,36 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets the next slide in sequence.
+        /// </summary>
+        /// <param name="slideName">Slide name from where the search will start.</param>
+        /// <returns>Next slide in a sequence or first if not found.</returns>
+        private CarouselSlide FindNextSlide( string slideName )
+        {
+            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) + 1;
+
+            if ( slideIndex >= carouselSlides.Count )
+                slideIndex = 0;
+
+            return carouselSlides[slideIndex];
+        }
+
+        /// <summary>
+        /// Gets the previous slide in sequence.
+        /// </summary>
+        /// <param name="slideName">Slide name from where the search will start.</param>
+        /// <returns>Previous slide in a sequence or last if not found.</returns>
+        private CarouselSlide FindPreviousSlide( string slideName )
+        {
+            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) - 1;
+
+            if ( slideIndex < 0 )
+                slideIndex = carouselSlides.Count - 1;
+
+            return carouselSlides[slideIndex];
+        }
+
+        /// <summary>
         /// Adds the slide to the list of running slides.
         /// </summary>
         /// <param name="slide">Slide to add.</param>
@@ -185,7 +208,7 @@ namespace Blazorise
                 return;
 
             ResetTimer();
-            SelectedSlideIndex = SelectedSlideIndex == NumberOfSlides - 1 ? 0 : SelectedSlideIndex + 1;
+            SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
             await RunAnimations();
         }
@@ -199,7 +222,7 @@ namespace Blazorise
                 return;
 
             ResetTimer();
-            SelectedSlideIndex = SelectedSlideIndex == 0 ? NumberOfSlides - 1 : SelectedSlideIndex - 1;
+            SelectedSlide = FindPreviousSlide( SelectedSlide )?.Name;
 
             await RunAnimations();
         }
@@ -211,27 +234,10 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Select( string name )
         {
-            var carouselSlide = carouselSlides.FirstOrDefault( x => x.Name == name );
-
-            if ( carouselSlide != null )
-            {
-                await Select( carouselSlides.IndexOf( carouselSlide ) );
-            }
-        }
-
-        /// <summary>
-        /// Selects the slide by its index.
-        /// </summary>
-        /// <param name="index">Index of the slide.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task Select( int index )
-        {
-            if ( AnimationRunning )
-                return;
-
             ResetTimer();
 
-            SelectedSlideIndex = index;
+            SelectedSlide = name;
+
             await RunAnimations();
         }
 
@@ -286,16 +292,15 @@ namespace Blazorise
             if ( AnimationRunning )
                 return;
 
-            if ( SelectedSlideIndex == NumberOfSlides - 1 && !Autorepeat )
+            if ( SelectedSlideIndex == NumberOfSlides - 1 && !AutoRepeat )
             {
                 Timer.Stop();
                 return;
             }
 
-            SelectedSlideIndex = SelectedSlideIndex == NumberOfSlides - 1 ? 0 : SelectedSlideIndex + 1;
+            SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
             await InvokeAsync( RunAnimations );
-            await SlideStarted.InvokeAsync( null );
         }
 
         private async void OnTransitionTimerEvent( object source, ElapsedEventArgs e )
@@ -313,6 +318,11 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Finish the slide animation.
+        /// </summary>
+        /// <param name="slide">Target slide.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual async Task AnimationEnd( CarouselSlide slide )
         {
             if ( slide.Name == carouselSlides[SelectedSlideIndex].Name )
@@ -331,10 +341,14 @@ namespace Blazorise
                     Timer.Start();
                 }
 
-                await SelectedSlideIndexChanged.InvokeAsync( SelectedSlideIndex );
+                await SelectedSlideChanged.InvokeAsync( SelectedSlide );
             }
         }
 
+        /// <summary>
+        /// Runs the animation for the active slide.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual async Task RunAnimations()
         {
             if ( NumberOfSlides == 0 )
@@ -422,13 +436,6 @@ namespace Blazorise
         internal protected int NumberOfSlides => carouselSlides.Count;
 
         /// <summary>
-        /// Gets or sets the previously active slide index.
-        /// </summary>
-        protected int PreviouslySelectedSlideIndex { get; set; }
-
-        public bool AnimationRunning { get; set; } = false;
-
-        /// <summary>
         /// Gets or sets the flag that indicates if the timer is running.
         /// </summary>
         private bool TimerEnabled { get; set; } = true;
@@ -457,6 +464,23 @@ namespace Blazorise
         /// Gets the class-names for a carousel slides.
         /// </summary>
         protected string SlidesClassNames => SlidesClassBuilder.Class;
+
+        /// <summary>
+        /// Gets the index of the current active slide.
+        /// </summary>
+        public int SelectedSlideIndex
+            => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == state.SelectedSlide ) );
+
+        /// <summary>
+        /// Gets the index of the previously active slide.
+        /// </summary>
+        public int PreviouslySelectedSlideIndex
+            => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == state.PreviouslySelectedSlide ) );
+
+        /// <summary>
+        /// Indicates if slide animation is currently running.
+        /// </summary>
+        public bool AnimationRunning { get; private set; } = false;
 
         /// <summary>
         /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
@@ -519,12 +543,12 @@ namespace Blazorise
         /// Auto-repeats the carousel slides once they reach the end.
         /// </summary>
         [Parameter]
-        public bool Autorepeat
+        public bool AutoRepeat
         {
-            get => state.Autorepeat;
+            get => state.AutoRepeat;
             set
             {
-                state = state with { Autorepeat = value };
+                state = state with { AutoRepeat = value };
 
                 DirtyClasses();
             }
@@ -545,10 +569,8 @@ namespace Blazorise
             }
         }
 
-        [Parameter] public bool Wrap { get; set; } = true;
-
         /// <summary>
-        /// Defines the interval(in milliseconds) after which the item will be automatically slide.
+        /// Defines the interval(in milliseconds) after which the item will automatically slide.
         /// </summary>
         [Parameter] public double Interval { get; set; } = 2000;
 
@@ -574,7 +596,11 @@ namespace Blazorise
                 if ( value == state.SelectedSlide )
                     return;
 
-                state = state with { SelectedSlide = value };
+                state = state with
+                {
+                    PreviouslySelectedSlide = SelectedSlide,
+                    SelectedSlide = value
+                };
 
                 InvokeAsync( () => SelectedSlideChanged.InvokeAsync( state.SelectedSlide ) );
 
@@ -586,33 +612,6 @@ namespace Blazorise
         /// Occurs after the selected slide has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current active slide index.
-        /// </summary>
-        internal protected int SelectedSlideIndex
-        {
-            get => state.SelectedSlideIndex;
-            set
-            {
-                if ( value == state.SelectedSlideIndex )
-                    return;
-
-                PreviouslySelectedSlideIndex = state.SelectedSlideIndex;
-
-                state = state with { SelectedSlideIndex = value };
-
-                InvokeAsync( () => SelectedSlideIndexChanged.InvokeAsync( state.SelectedSlideIndex ) );
-
-                SelectedSlide = carouselSlides[value].Name;
-
-                DirtyClasses();
-            }
-        }
-
-        [Parameter] public EventCallback<int> SelectedSlideIndexChanged { get; set; }
-
-        [Parameter] public EventCallback SlideStarted { get; set; }
 
         /// <summary>
         /// Function used to handle custom localization for previous button that will override a default <see cref="ITextLocalizer"/>.

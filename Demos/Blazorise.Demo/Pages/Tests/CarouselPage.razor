@@ -16,6 +16,9 @@
                 </Fields>
             </CardBody>
             <CardBody>
+                <Heading>
+                    @selectedSlide
+                </Heading>
                 <Carousel @bind-SelectedSlide="@selectedSlide" ShowIndicators="@showIndicators" ShowControls="@showControls">
                     <CarouselSlide Name="1">
                         <Image Source="assets/images/slides/430-1230x500.jpg" Text="City Skyline" Display="Display.Block" Width="Width.Is100" />
@@ -26,7 +29,7 @@
                     <CarouselSlide Name="3">
                         <Image Source="assets/images/slides/432-1230x500.jpg" Text="Mountain" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
-                    <CarouselSlide Name="4">
+                    @*<CarouselSlide Name="4">
                         <Image Source="assets/images/slides/433-1230x500.jpg" Text="Bear" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                     <CarouselSlide Name="5">
@@ -34,7 +37,7 @@
                     </CarouselSlide>
                     <CarouselSlide Name="6">
                         <Image Source="assets/images/slides/435-1230x500.jpg" Text="Camera" Display="Display.Block" Width="Width.Is100" />
-                    </CarouselSlide>
+                    </CarouselSlide>*@
                 </Carousel>
             </CardBody>
         </Card>

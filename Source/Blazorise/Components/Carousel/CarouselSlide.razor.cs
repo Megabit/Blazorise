@@ -95,7 +95,7 @@ namespace Blazorise
             return ParentCarousel.Select( Name );
         }
 
-        public void Clean()
+        internal void Clean()
         {
             Active = false;
             Left = false;
@@ -114,17 +114,7 @@ namespace Blazorise
             ? ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this )
             : false;
 
-        //public bool Active { get; set; }
-
-        //public bool Left { get; set; }
-
-        //public bool Right { get; set; }
-
-        //public bool Prev { get; set; }
-
-        //public bool Next { get; set; }
-
-        public bool Active
+        internal bool Active
         {
             get => active;
             set
@@ -138,7 +128,7 @@ namespace Blazorise
             }
         }
 
-        public bool Left
+        internal bool Left
         {
             get => left; set
             {
@@ -151,7 +141,7 @@ namespace Blazorise
             }
         }
 
-        public bool Right
+        internal bool Right
         {
             get => right; set
             {
@@ -164,7 +154,7 @@ namespace Blazorise
             }
         }
 
-        public bool Prev
+        internal bool Prev
         {
             get => prev; set
             {
@@ -177,7 +167,7 @@ namespace Blazorise
             }
         }
 
-        public bool Next
+        internal bool Next
         {
             get => next; set
             {
@@ -190,6 +180,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Defines the interval(in milliseconds) after which this item will automatically slide.
+        /// </summary>
         [Parameter] public int? Interval { get; set; }
 
         /// <summary>

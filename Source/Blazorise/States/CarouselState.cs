@@ -13,7 +13,7 @@
         /// <summary>
         /// Auto-repeats the carousel slides from the beginning once it reaches the end slide.
         /// </summary>
-        public bool Autorepeat { get; init; }
+        public bool AutoRepeat { get; init; }
 
         /// <summary>
         /// Animate slides with a fade transition instead of a slide animation.
@@ -26,8 +26,8 @@
         public string SelectedSlide { get; init; }
 
         /// <summary>
-        /// Gets or sets currently selected slide index.
+        /// Gets or sets previously selected slide name.
         /// </summary>
-        public int SelectedSlideIndex { get; init; }
+        public string PreviouslySelectedSlide { get; init; }
     }
 }
