@@ -27,7 +27,15 @@ tags:
   - Instead of `Background` parameter use the `Color` parameter
 - Remove usage of `Dialog` parameter for `ModalContent`
 - Change `Tooltip` `Placement` parameter to `TooltipPlacement`, eg. `Placement="Placement.Left"` to `Placement="TooltipPlacement.Left"`
-  
+- On DataGridColumn, rename `Direction` parameter to `SortDirection`
+- For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
+- DataGrid `FilteredDataChanged` now accepts the `DataGridFilteredDataEventArgs<TItem>` as the argument instead of `IEnumerable<TItem>`
+- Datagrid: Due to a realocation of the resizable feature to the Table component, you should note the following:
+  - The datagrid resources(js and css) we had previously introduced, no longer exist, and do not need to be added to your application.
+    - If you had any of the resources below, you can now safely remove them:
+      - `<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
+      - `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
+  - The `DataGridResizeMode` enum no longer exists, and you will need to use `TableResizeMode` enum instead.
 
 ## Highlights 🚀
 
@@ -48,6 +56,10 @@ For the long time this was one of the most requested features and we finally int
 - PageProgress Service is used to show simple progress bar at the top of the page.
 
 To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}), [Notification Service]({{ "/docs/services/notification" | relative_url }}) and [PageProgress Service]({{ "/docs/services/page-progress" | relative_url }}) pages.
+
+### DataGrid data-annotations
+
+We finally enabled data-annotations for validating the DataGrid edit fields. This feature is now the default option once `UseValidation` on `DataGrid` is enabled. If you want to have any other validation method, like `Validator` for example, you just need to define it on `DataGridColumn` and it will override default data-annotation. We hope this new feature will help you in building your applications even more.
 
 ### Flex utilities
 

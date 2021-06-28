@@ -147,13 +147,32 @@ The DataGrid provider several built-in aggregates for column values. Supported a
 
 The DataGrid provides validations of column values at editing or creating items. For using validation of DataGrid you have to use these properties:
 
+- `UseValidation` must be set to `true` to enable validation.
 - `ShowValidationFeedback` of DataGrid to hide or show feedback for validation.
 - `ShowValidationsSummary` of DataGrid to hide or show validations summary.
 - `ValidationsSummaryLabel` of DataGrid to set label of validations summary.
 - `Validator` of DataGridColumn validates the input value after trying to save.
 - `ValidationPattern` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
 
-To enable basic validation you only need to define a `Validator` attribute and assign it to your validation method.
+By default, DataGrid will use data-annotation to validate editing fields. You only need to define them on your model and they will automatically be picked up by the grid.
+
+```cs
+public class Employee
+{
+    [Required]
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+}
+```
+
+**Note:** Don't forget to enable validation by setting `UseValidation="true"`.
+{: .notice--warning}
+
+---
+
+To override data-annotation you only need to define a `Validator` attribute and assign it to your validation method.
 
 ```html
 <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="@CheckEMail" Editable="true" />
@@ -674,7 +693,7 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | UseInternalEditing        | boolean                                                                                      | `true`                 | Specifies the behavior of DataGrid editing.                                                                          |
 | Editable                  | boolean                                                                                      | `false`                | Whether users can edit DataGrid rows.                                                                                |
 | Resizable                 | boolean                                                                                      | `false`                | Whether users can resize DataGrid columns.                                                                           |
-| ResizeMode                | [DataGridResizeMode]({{ "/docs/helpers/enums/#datagridresizemode" | relative_url }})         | `Header`               | Defines the resize mode of the data grid columns.                                                                    |
+| ResizeMode                | [TableResizeMode]({{ "/docs/helpers/enums/#tableresizemode" | relative_url }})               | `Header`               | Defines the resize mode of the data grid columns.                                                                    |
 | Sortable                  | boolean                                                                                      | `true`                 | Whether end-users can sort data by the column's values.                                                              |
 | ShowCaptions              | boolean                                                                                      | `true`                 | Gets or sets whether user can see a column captions.                                                                 |
 | Filterable                | boolean                                                                                      | `false`                | Whether users can filter rows by its cell values.                                                                    |
@@ -705,6 +724,7 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                                                   |                        | Template for custom title of edit popup dialog                                                                       |
 | NewItemDefaultSetter      | `Action<TItem>`                                                                              |                        | Action will be called for setting default values of property, when create new entry                                  |
 | PageButtonTemplate        | `RenderTemplate<PageButtonContext>`                                                          |                        | Define the format a pagination button                                                                                |
+| UseValidation             | boolean                                                                                      | false                  | If true, validation will be used when editing the fields                                                             |
 | ShowValidationFeedback    | boolean                                                                                      | false                  | Hide or show feedback for validation                                                                                 |
 | ShowValidationsSummary    | boolean                                                                                      | true                   | Hide or show validations summary                                                                                     |
 | ValidationsSummaryLabel   | string                                                                                       | null                   | Label for validations summary.                                                                                       |
@@ -729,7 +749,7 @@ Specifies the grid editing modes.
 | Field                     | string                                                              |                     | TItem data field name.                                                                                        |
 | Caption                   | string                                                              |                     | Column's display caption. It will be displayed, if ColumnTemplate is not set.                                 |
 | Filter                    | FilterContext                                                       |                     | Filter value for this column.                                                                                 |
-| Direction                 | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
+| SortDirection             | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
 | TextAlignment             | TextAlignment                                                       | `None`              | Defines the alignment for display cell.                                                                       |
 | HeaderTextAlignment       | TextAlignment                                                       | `None`              | Defines the alignment for column header cell.                                                                 |
 | Editable                  | bool                                                                | false               | Whether users can edit cell values under this column.                                                         |

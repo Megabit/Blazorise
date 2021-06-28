@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
@@ -15,8 +16,15 @@ namespace Blazorise.Demo.Pages.Tests
         public class Employee
         {
             public int Id { get; set; }
+
+            [Required]
             public string FirstName { get; set; }
+
+            [Required]
             public string LastName { get; set; }
+
+            [Required]
+            [EmailAddress]
             public string EMail { get; set; }
             public string City { get; set; }
             public string Zip { get; set; }
@@ -39,11 +47,13 @@ namespace Blazorise.Demo.Pages.Tests
 
         #region Members
 
+        Employee editModel = new Employee();
+
         DataGridEditMode editMode = DataGridEditMode.Form;
         DataGridSortMode sortMode = DataGridSortMode.Multiple;
         DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
-        DataGridResizeMode resizableMode = DataGridResizeMode.Header;
+        TableResizeMode resizableMode = TableResizeMode.Header;
 
         DataGrid<Employee> dataGrid;
         public int currentPage { get; set; } = 1;
@@ -215,6 +225,11 @@ namespace Blazorise.Demo.Pages.Tests
             }
 
             return true;
+        }
+
+        private void OnFilteredDataChanged( DataGridFilteredDataEventArgs<Employee> eventArgs )
+        {
+            Console.WriteLine( $"Filtered: {eventArgs.FilteredItems}; Total: {eventArgs.TotalItems};" );
         }
 
         #endregion

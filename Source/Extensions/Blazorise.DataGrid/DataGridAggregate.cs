@@ -138,7 +138,7 @@ namespace Blazorise.DataGrid
             if ( ParentDataGrid != null )
             {
                 // connect column to the parent datagrid
-                ParentDataGrid.Hook( this );
+                ParentDataGrid.AddAggregate( this );
             }
 
             base.OnInitialized();
@@ -253,7 +253,10 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

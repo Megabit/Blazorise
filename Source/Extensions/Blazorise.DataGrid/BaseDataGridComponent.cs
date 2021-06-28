@@ -15,10 +15,10 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
+
             if ( ElementId == null )
                 ElementId = IdGenerator.Generate;
-
-            base.OnInitialized();
         }
 
         #endregion

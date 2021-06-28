@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -65,6 +64,8 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TItem Item { get; set; }
 
+        [Parameter] public TItem ValidationItem { get; set; }
+
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
         protected IEnumerable<DataGridColumn<TItem>> OrderedEditableColumns
@@ -95,7 +96,10 @@ namespace Blazorise.DataGrid
 
         [Parameter] public EventCallback Cancel { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public string Width { get; set; }
 

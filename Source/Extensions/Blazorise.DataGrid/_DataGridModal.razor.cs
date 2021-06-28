@@ -62,6 +62,8 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TItem EditItem { get; set; }
 
+        [Parameter] public TItem ValidationItem { get; set; }
+
         [Parameter] public RenderFragment<PopupTitleContext<TItem>> TitleTemplate { get; set; }
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
@@ -101,7 +103,10 @@ namespace Blazorise.DataGrid
 
         [Parameter] public EventCallback Cancel { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }
