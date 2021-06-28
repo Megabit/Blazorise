@@ -61,6 +61,10 @@ To learn more about both components please visit [Message Service]({{ "/docs/ser
 
 We finally enabled data-annotations for validating the DataGrid edit fields. This feature is now the default option once `UseValidation` on `DataGrid` is enabled. If you want to have any other validation method, like `Validator` for example, you just need to define it on `DataGridColumn` and it will override default data-annotation. We hope this new feature will help you in building your applications even more.
 
+### Carousel animations
+
+A lot of refactoring went into Carousel component and we now fully support slide animations. Crossfade animations are also supported.
+
 ### Flex utilities
 
 I think this is our most advanced _fluent builder_ so far. If you're familiar with [Bootstrap Flex](https://getbootstrap.com/docs/4.5/utilities/flex/) utilities you will find our new feature quite similar. We support **all** Bootstrap Flex utilities, including the media breakpoints. The same feature is also done for all other providers, Bulma, AntDesign, Material and eFrolic.
