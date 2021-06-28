@@ -25,20 +25,24 @@ namespace Blazorise
         private CarouselState state = new CarouselState
         {
             Autoplay = true,
-            Crossfade = false,
+            Autorepeat = true,
+            Crossfade = true,
         };
 
         /// <summary>
         /// A times used to activate the slide animation.
         /// </summary>
-        private Timer autoplayTimer;
+        public Timer Timer { get; set; }
+
+        /// <summary>
+        /// A times used to animate the slide transition.
+        /// </summary>
+        public Timer TransitionTimer { get; set; }
 
         /// <summary>
         /// A list of slides placed inside of this carousel.
         /// </summary>
-        protected List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
-
-        protected ValueDebouncer valueDebouncer;
+        protected internal List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
 
         #endregion
 
@@ -58,50 +62,59 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnParametersSet()
+        {
+            if ( Interval != 0 )
+                TimerEnabled = true;
+
+            if ( Autoplay && SelectedSlideIndex == 0 )
+            {
+                if ( TimerEnabled )
+                    Timer.Start();
+            }
+
+            base.OnParametersSet();
+        }
+
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            valueDebouncer = new ValueDebouncer( 1200 );
-            valueDebouncer.Debounced += ValueDebouncer_Debounced;
-            //countdownTimer = new CountdownTimer( 2000 );
-            //countdownTimer.Elapsed += CountdownTimer_Elapsed;
+            if ( Interval == 0 )
+                TimerEnabled = false;
+
+            if ( Timer == null && TimerEnabled )
+            {
+                InitializeTimer();
+
+                Timer.Start();
+            }
+
+            if ( TransitionTimer == null )
+            {
+                InitializeTransitionTimer();
+            }
 
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
             base.OnInitialized();
         }
 
-        //private void CountdownTimer_Elapsed( object sender, EventArgs e )
-        //{
-        //    state = state with { FromSlide = FindNextSlide( state.SelectedSlide ).Name };
-
-        //    InvokeAsync( StateHasChanged );
-        //}
-
         /// <inheritdoc/>
-        protected override void OnAfterRender( bool firstRender )
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
-                if ( autoplayTimer == null )
+                var carouselSlide = carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide );
+
+                if ( carouselSlide != null )
                 {
-                    autoplayTimer = new Timer
-                    {
-                        Interval = AutoplayInterval
-                    };
-
-                    autoplayTimer.Elapsed += OnAutoplayTimerElapsed;
-                    autoplayTimer.AutoReset = true;
-
-                    if ( Autoplay )
-                    {
-                        autoplayTimer.Start();
-                    }
+                    state = state with { SelectedSlideIndex = carouselSlides.IndexOf( carouselSlide ) };
                 }
 
-                InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
             }
 
-            base.OnAfterRender( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <inheritdoc/>
@@ -109,11 +122,16 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( autoplayTimer != null )
+                if ( Timer != null )
                 {
-                    autoplayTimer.Elapsed -= OnAutoplayTimerElapsed;
-                    autoplayTimer.Dispose();
-                    autoplayTimer = null;
+                    Timer.Stop();
+                    Timer.Dispose();
+                }
+
+                if ( TransitionTimer != null )
+                {
+                    TransitionTimer.Stop();
+                    TransitionTimer.Dispose();
                 }
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
@@ -126,6 +144,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Carousel() );
+            builder.Append( ClassProvider.CarouselFade( Crossfade ) );
 
             base.BuildClasses( builder );
         }
@@ -149,126 +168,71 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// 
+        /// Adds the slide to the list of running slides.
         /// </summary>
-        /// <param name="slide"></param>
-        internal void NotifyCarouselSlideInitialized( CarouselSlide slide )
+        /// <param name="slide">Slide to add.</param>
+        internal void AddSlide( CarouselSlide slide )
         {
             carouselSlides.Add( slide );
         }
 
         /// <summary>
-        /// Sets the active item by the name.
-        /// </summary>
-        /// <param name="slideName"></param>
-        public virtual void Select( string slideName )
-        {
-            if ( Autoplay )
-            {
-                autoplayTimer.Stop();
-                autoplayTimer.Start();
-            }
-
-            state = state with
-            {
-                SlidingPrev = SelectedSlide,
-                SlidingNext = slideName
-            };
-
-            valueDebouncer.Update( slideName );
-
-            //countdownTimer.Start()
-
-            //SelectedSlide = slideName;
-
-            InvokeAsync( StateHasChanged );
-        }
-
-        private void ValueDebouncer_Debounced( object sender, string slideName )
-        {
-            state = state with
-            {
-                SlidingPrev = null,
-                SlidingNext = null
-            };
-
-            SelectedSlide = slideName;
-
-            InvokeAsync( StateHasChanged );
-        }
-
-        /// <summary>
-        /// Gets the next slide in sequence.
-        /// </summary>
-        /// <param name="slideName">Slide name from where the search will start.</param>
-        /// <returns>Next slide in a sequence or first if not found.</returns>
-        private CarouselSlide FindNextSlide( string slideName )
-        {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) + 1;
-
-            if ( slideIndex >= carouselSlides.Count )
-                slideIndex = 0;
-
-            return carouselSlides[slideIndex];
-        }
-
-        /// <summary>
-        /// Gets the previous slide in sequence.
-        /// </summary>
-        /// <param name="slideName">Slide name from where the search will start.</param>
-        /// <returns>Previous slide in a sequence or last if not found.</returns>
-        private CarouselSlide FindPreviousSlide( string slideName )
-        {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) - 1;
-
-            if ( slideIndex < 0 )
-                slideIndex = carouselSlides.Count - 1;
-
-            return carouselSlides[slideIndex];
-        }
-
-        /// <summary>
         /// Selects the next slide in a sequence, relative to the current slide.
         /// </summary>
-        public void SelectNext()
+        public async Task SelectNext()
         {
-            if ( carouselSlides.Count == 0 )
+            if ( AnimationRunning )
                 return;
 
-            Select( FindNextSlide( SelectedSlide ).Name );
+            ResetTimer();
+            SelectedSlideIndex = SelectedSlideIndex == NumberOfSlides - 1 ? 0 : SelectedSlideIndex + 1;
+
+            await RunAnimations();
         }
 
         /// <summary>
         /// Selects the previous slide in a sequence, relative to the current slide.
         /// </summary>
-        public void SelectPrevious()
+        public async Task SelectPrevious()
         {
-            if ( carouselSlides.Count == 0 )
+            if ( AnimationRunning )
                 return;
 
-            Select( FindPreviousSlide( SelectedSlide ).Name );
+            ResetTimer();
+            SelectedSlideIndex = SelectedSlideIndex == 0 ? NumberOfSlides - 1 : SelectedSlideIndex - 1;
+
+            await RunAnimations();
         }
 
         /// <summary>
-        /// Handles the indicator clicked event.
+        /// Selects the slide by its name.
         /// </summary>
-        /// <param name="slideName">Slide name for which the indicator was clicked.</param>
+        /// <param name="name">Name of the slide.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnIndicatorClicked( string slideName )
+        public async Task Select( string name )
         {
-            Select( slideName );
+            var carouselSlide = carouselSlides.FirstOrDefault( x => x.Name == name );
 
-            return Task.CompletedTask;
+            if ( carouselSlide != null )
+            {
+                await Select( carouselSlides.IndexOf( carouselSlide ) );
+            }
         }
 
         /// <summary>
-        /// Handles the timer elapsed event.
+        /// Selects the slide by its index.
         /// </summary>
-        /// <param name="sender">Object that raised the event.</param>
-        /// <param name="eventArgs">Data about the timer event.</param>
-        private async void OnAutoplayTimerElapsed( object sender, ElapsedEventArgs eventArgs )
+        /// <param name="index">Index of the slide.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Select( int index )
         {
-            await InvokeAsync( () => SelectNext() );
+            if ( AnimationRunning )
+                return;
+
+            ResetTimer();
+
+            SelectedSlideIndex = index;
+            await RunAnimations();
         }
 
         /// <summary>
@@ -281,9 +245,193 @@ namespace Blazorise
             await InvokeAsync( StateHasChanged );
         }
 
+        private void InitializeTimer()
+        {
+            Timer = new Timer( Interval );
+            Timer.Elapsed += OnTimerEvent;
+            Timer.AutoReset = true;
+        }
+
+        private void InitializeTransitionTimer()
+        {
+            TransitionTimer = new Timer( 2000 );
+            TransitionTimer.Elapsed += OnTransitionTimerEvent;
+            TransitionTimer.AutoReset = false;
+        }
+
+        private void ResetTimer()
+        {
+            if ( Timer != null )
+                Timer.Stop();
+
+            if ( TimerEnabled )
+            {
+                Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
+                Timer.Start();
+            }
+        }
+
+        private void ResetTransitionTimer()
+        {
+            if ( TransitionTimer != null )
+            {
+                TransitionTimer.Stop();
+                InitializeTransitionTimer(); // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
+                TransitionTimer.Start();
+            }
+        }
+
+        private async void OnTimerEvent( object source, ElapsedEventArgs e )
+        {
+            if ( AnimationRunning )
+                return;
+
+            if ( SelectedSlideIndex == NumberOfSlides - 1 && !Autorepeat )
+            {
+                Timer.Stop();
+                return;
+            }
+
+            SelectedSlideIndex = SelectedSlideIndex == NumberOfSlides - 1 ? 0 : SelectedSlideIndex + 1;
+
+            await InvokeAsync( RunAnimations );
+            await SlideStarted.InvokeAsync( null );
+        }
+
+        private async void OnTransitionTimerEvent( object source, ElapsedEventArgs e )
+        {
+            if ( !AnimationRunning )
+                return;
+
+            // If the active index is not "active" by the time the timer is elapsed something is very wrong, reset the animation
+            if ( !carouselSlides[SelectedSlideIndex].Active )
+            {
+                await InvokeAsync( async () =>
+                {
+                    await AnimationEnd( carouselSlides[SelectedSlideIndex] );
+                } );
+            }
+        }
+
+        protected virtual async Task AnimationEnd( CarouselSlide slide )
+        {
+            if ( slide.Name == carouselSlides[SelectedSlideIndex].Name )
+            {
+                AnimationRunning = false;
+
+                carouselSlides[PreviouslySelectedSlideIndex].Clean();
+                carouselSlides[SelectedSlideIndex].Clean();
+                carouselSlides[SelectedSlideIndex].Active = true;
+
+                await InvokeAsync( StateHasChanged );
+
+                if ( TimerEnabled )
+                {
+                    InitializeTimer();
+                    Timer.Start();
+                }
+
+                await SelectedSlideIndexChanged.InvokeAsync( SelectedSlideIndex );
+            }
+        }
+
+        protected virtual async Task RunAnimations()
+        {
+            if ( NumberOfSlides == 0 )
+                return;
+
+            if ( TimerEnabled )
+            {
+                Timer.Stop();
+                Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
+            }
+
+            AnimationRunning = true;
+            carouselSlides[SelectedSlideIndex].Clean();
+
+            Direction = DetermineDirection();
+
+            //Add new item to DOM on appropriate side
+            carouselSlides[SelectedSlideIndex].Next = Direction == CarouselDirection.Previous;
+            carouselSlides[SelectedSlideIndex].Prev = Direction == CarouselDirection.Next;
+
+            await InvokeAsync( StateHasChanged );
+
+            await Task.Delay( 300 ); //Ensure new item is rendered on DOM before continuing
+
+            //Trigger Animation
+            carouselSlides[SelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
+            carouselSlides[PreviouslySelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
+
+            carouselSlides[SelectedSlideIndex].Right = Direction == CarouselDirection.Next;
+            carouselSlides[PreviouslySelectedSlideIndex].Right = Direction == CarouselDirection.Next;
+
+            await InvokeAsync( StateHasChanged );
+
+            ResetTransitionTimer();
+        }
+
+        private CarouselDirection DetermineDirection()
+        {
+            if ( PreviouslySelectedSlideIndex == 0 )
+            {
+                if ( SelectedSlideIndex == NumberOfSlides - 1 )
+                {
+                    return CarouselDirection.Next;
+                }
+                else
+                {
+                    return CarouselDirection.Previous;
+                }
+            }
+
+            if ( PreviouslySelectedSlideIndex == NumberOfSlides - 1 )
+            {
+                if ( SelectedSlideIndex == 0 )
+                {
+                    return CarouselDirection.Previous;
+                }
+                else
+                {
+                    return CarouselDirection.Next;
+                }
+            }
+
+            if ( SelectedSlideIndex > PreviouslySelectedSlideIndex )
+            {
+                return CarouselDirection.Previous;
+            }
+            else
+            {
+                return CarouselDirection.Next;
+            }
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the direction of slide animation.
+        /// </summary>
+        internal protected CarouselDirection Direction { get; set; }
+
+        /// <summary>
+        /// Gets the total number of slides in a carousel.
+        /// </summary>
+        internal protected int NumberOfSlides => carouselSlides.Count;
+
+        /// <summary>
+        /// Gets or sets the previously active slide index.
+        /// </summary>
+        protected int PreviouslySelectedSlideIndex { get; set; }
+
+        public bool AnimationRunning { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the flag that indicates if the timer is running.
+        /// </summary>
+        private bool TimerEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets the carousel state.
@@ -353,7 +501,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Autoplays the carousel slides from left to right.
+        /// Autoplays the carousel slides.
         /// </summary>
         [Parameter]
         public bool Autoplay
@@ -367,25 +515,42 @@ namespace Blazorise
             }
         }
 
-        ///// <summary>
-        ///// Animate slides with a fade transition instead of a slide.
-        ///// </summary>
-        //[Parameter]
-        //public bool Crossfade
-        //{
-        //    get => state.Crossfade;
-        //    set
-        //    {
-        //        state = state with { Crossfade = value };
+        /// <summary>
+        /// Auto-repeats the carousel slides once they reach the end.
+        /// </summary>
+        [Parameter]
+        public bool Autorepeat
+        {
+            get => state.Autorepeat;
+            set
+            {
+                state = state with { Autorepeat = value };
 
-        //        DirtyClasses();
-        //    }
-        //}
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Animate slides with a fade transition instead of a slide.
+        /// </summary>
+        [Parameter]
+        public bool Crossfade
+        {
+            get => state.Crossfade;
+            set
+            {
+                state = state with { Crossfade = value };
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter] public bool Wrap { get; set; } = true;
 
         /// <summary>
         /// Defines the interval(in milliseconds) after which the item will be automatically slide.
         /// </summary>
-        [Parameter] public double AutoplayInterval { get; set; } = 5000;
+        [Parameter] public double Interval { get; set; } = 2000;
 
         /// <summary>
         /// Specifies whether to show an indicator for each slide.
@@ -411,7 +576,7 @@ namespace Blazorise
 
                 state = state with { SelectedSlide = value };
 
-                SelectedSlideChanged.InvokeAsync( state.SelectedSlide );
+                InvokeAsync( () => SelectedSlideChanged.InvokeAsync( state.SelectedSlide ) );
 
                 DirtyClasses();
             }
@@ -421,6 +586,33 @@ namespace Blazorise
         /// Occurs after the selected slide has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current active slide index.
+        /// </summary>
+        internal protected int SelectedSlideIndex
+        {
+            get => state.SelectedSlideIndex;
+            set
+            {
+                if ( value == state.SelectedSlideIndex )
+                    return;
+
+                PreviouslySelectedSlideIndex = state.SelectedSlideIndex;
+
+                state = state with { SelectedSlideIndex = value };
+
+                InvokeAsync( () => SelectedSlideIndexChanged.InvokeAsync( state.SelectedSlideIndex ) );
+
+                SelectedSlide = carouselSlides[value].Name;
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter] public EventCallback<int> SelectedSlideIndexChanged { get; set; }
+
+        [Parameter] public EventCallback SlideStarted { get; set; }
 
         /// <summary>
         /// Function used to handle custom localization for previous button that will override a default <see cref="ITextLocalizer"/>.
