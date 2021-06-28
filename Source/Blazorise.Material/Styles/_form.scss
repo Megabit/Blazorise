@@ -143,6 +143,94 @@ input.form-control[type=color] {
     }
 }
 
+.input-group-xs {
+    > .form-control,
+    > .custom-select,
+    > .b-numeric > .form-control {
+        font-size: $textfield-font-size-xs;
+        line-height: $textfield-line-height-xs;
+        padding: $textfield-padding-y-xs $textfield-padding-x-xs calc(#{$textfield-padding-y-xs} - #{$textfield-border-width});
+    }
+
+    > .input-group-append,
+    > .input-group-prepend {
+        > .btn {
+            height: $btn-height-xs;
+        }
+
+        > .input-group-text {
+            font-size: $textfield-font-size-xs;
+            line-height: $textfield-line-height-xs;
+        }
+    }
+}
+
+.input-group-md {
+    > .form-control,
+    > .custom-select,
+    > .b-numeric > .form-control {
+        font-size: $textfield-font-size-md;
+        line-height: $textfield-line-height-md;
+        padding: $textfield-padding-y-md $textfield-padding-x-md calc(#{$textfield-padding-y-md} - #{$textfield-border-width});
+    }
+
+    > .input-group-append,
+    > .input-group-prepend {
+        > .btn {
+            height: $btn-height-md;
+        }
+
+        > .input-group-text {
+            font-size: $textfield-font-size-md;
+            line-height: $textfield-line-height-md;
+        }
+    }
+}
+
+.input-group-lg {
+    > .form-control,
+    > .custom-select,
+    > .b-numeric > .form-control {
+        font-size: $textfield-font-size-lg;
+        line-height: $textfield-line-height-lg;
+        padding: $textfield-padding-y-lg $textfield-padding-x-lg calc(#{$textfield-padding-y-lg} - #{$textfield-border-width});
+    }
+
+    > .input-group-append,
+    > .input-group-prepend {
+        > .btn {
+            height: $btn-height-lg;
+        }
+
+        > .input-group-text {
+            font-size: $textfield-font-size-lg;
+            line-height: $textfield-line-height-lg;
+        }
+    }
+}
+
+.input-group-xl {
+    > .form-control,
+    > .custom-select,
+    > .b-numeric > .form-control {
+        font-size: $textfield-font-size-xl;
+        line-height: $textfield-line-height-xl;
+        padding: $textfield-padding-y-xl $textfield-padding-x-xl calc(#{$textfield-padding-y-xl} - #{$textfield-border-width});
+    }
+
+    > .input-group-append,
+    > .input-group-prepend {
+        > .btn {
+            height: $btn-height-xl;
+        }
+
+        > .input-group-text {
+            font-size: $textfield-font-size-xl;
+            line-height: $textfield-line-height-xl;
+        }
+    }
+}
+
 @mixin checkbox($size, $font-size, $line-height, $padding-left) {
     .custom-control.custom-checkbox {
         > .custom-control-input.custom-control-input-#{$size} {

@@ -63,7 +63,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Radio( AsButton ) );
-            builder.Append( ClassProvider.RadioSize( AsButton, Size ), Size != Size.None );
+            builder.Append( ClassProvider.RadioSize( AsButton, ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.RadioCursor( Cursor ), Cursor != Cursor.Default );
             builder.Append( ClassProvider.RadioValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
@@ -85,7 +85,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override Task OnChangeHandler( ChangeEventArgs e )
+        protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
             if ( ParentRadioGroup != null )
                 return ParentRadioGroup.NotifyRadioChanged( this );
@@ -93,7 +93,7 @@ namespace Blazorise
             // Radio should always be inside of RadioGroup or otherwise it's "checked" state will not
             // be activated like it should be. I will leave this just in case that users want to use it
             // but I will need to state in the documentation that it's generally not supported.
-            return CurrentValueHandler( e?.Value?.ToString() );
+            return CurrentValueHandler( eventArgs?.Value?.ToString() );
         }
 
         /// <summary>

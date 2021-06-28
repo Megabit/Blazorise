@@ -64,6 +64,134 @@
     font-size: $custom-select-font-size-xl;
 }
 
+.input-group {
+    > .b-numeric > input {
+        &:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
+
+
+.input-group-xs > .form-control:not(textarea),
+.input-group-xs > .custom-select,
+.input-group-xs > .b-numeric > input {
+    height: $input-height-xs;
+}
+
+.input-group-xs > .form-control,
+.input-group-xs > .custom-select,
+.input-group-xs > .input-group-prepend > .input-group-text,
+.input-group-xs > .input-group-append > .input-group-text,
+.input-group-xs > .input-group-prepend > .btn,
+.input-group-xs > .input-group-append > .btn,
+.input-group-xs > .b-numeric > input {
+    padding: $input-padding-y-xs $input-padding-x-xs;
+    font-size: $input-font-size-xs;
+    line-height: $input-line-height-xs;
+    border-radius: $input-border-radius-xs;
+}
+
+.input-group-sm > .b-numeric > input {
+    height: $input-height-sm;
+}
+
+.input-group-sm > .b-numeric > input {
+    padding: $input-padding-y-sm $input-padding-x-sm;
+    font-size: $input-font-size-sm;
+    line-height: $input-line-height-sm;
+    border-radius: $input-border-radius-sm;
+}
+
+.input-group-md > .form-control:not(textarea),
+.input-group-md > .custom-select,
+.input-group-md > .b-numeric > input {
+    height: $input-height-md;
+}
+
+.input-group-md > .form-control,
+.input-group-md > .custom-select,
+.input-group-md > .input-group-prepend > .input-group-text,
+.input-group-md > .input-group-append > .input-group-text,
+.input-group-md > .input-group-prepend > .btn,
+.input-group-md > .input-group-append > .btn,
+.input-group-md > .b-numeric > input {
+    padding: $input-padding-y-md $input-padding-x-md;
+    font-size: $input-font-size-md;
+    line-height: $input-line-height-md;
+    border-radius: $input-border-radius-md;
+}
+
+.input-group-lg > .b-numeric > input {
+    height: $input-height-lg;
+}
+
+.input-group-lg > .b-numeric > input {
+    padding: $input-padding-y-lg $input-padding-x-lg;
+    font-size: $input-font-size-lg;
+    line-height: $input-line-height-lg;
+    border-radius: $input-border-radius-lg;
+}
+
+.input-group-xl > .form-control:not(textarea),
+.input-group-xl > .custom-select,
+.input-group-xl > .b-numeric > input {
+    height: $input-height-xl;
+}
+
+.input-group-xl > .form-control,
+.input-group-xl > .custom-select,
+.input-group-xl > .input-group-prepend > .input-group-text,
+.input-group-xl > .input-group-append > .input-group-text,
+.input-group-xl > .input-group-prepend > .btn,
+.input-group-xl > .input-group-append > .btn,
+.input-group-xl > .b-numeric > input {
+    padding: $input-padding-y-xl $input-padding-x-xl;
+    font-size: $input-font-size-xl;
+    line-height: $input-line-height-xl;
+    border-radius: $input-border-radius-xl;
+}
+
+.input-group-xs > .custom-select,
+.input-group-md > .custom-select,
+.input-group-xl > .custom-select {
+    padding-right: $custom-select-padding-x + $custom-select-indicator-padding;
+}
+
+
+// Prepend and append rounded corners
+//
+// These rulesets must come after the sizing ones to properly override sm and lg
+// border-radius values when extending. They're more specific than we'd like
+// with the `.input-group >` part, but without it, we cannot override the sizing.
+
+
+.input-group > .input-group-prepend > .btn,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-append:not(:last-child) > .btn,
+.input-group > .input-group-append:not(:last-child) > .input-group-text,
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 @mixin checkbox($size, $width, $height, $line-height, $padding-left) {
     .custom-control.custom-checkbox {
         > .custom-control-input.custom-control-input-#{$size} {

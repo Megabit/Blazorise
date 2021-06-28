@@ -528,3 +528,33 @@
 .ant-shadow-none {
     box-shadow: none !important;
 }
+
+.ant-overflow-visible {
+    overflow: visible !important;
+}
+
+.ant-overflow-hidden {
+    overflow: hidden !important;
+}
+
+.ant-overflow-scroll {
+    overflow: scroll !important;
+}
+
+.ant-overflow-auto {
+    overflow: auto !important;
+}
+
+.ant-typography-wrap {
+    white-space: normal !important;
+}
+
+.ant-typography-nowrap {
+    white-space: nowrap !important;
+}
+
+.ant-typography-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

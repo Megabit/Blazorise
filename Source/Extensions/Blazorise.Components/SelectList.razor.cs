@@ -96,6 +96,11 @@ namespace Blazorise.Components
         [Parameter] public bool DefaultItemDisabled { get; set; } = false;
 
         /// <summary>
+        /// If true, disables the default item.
+        /// </summary>
+        [Parameter] public bool DefaultItemHidden { get; set; } = false;
+
+        /// <summary>
         /// Custom css class-names.
         /// </summary>
         [Parameter] public string Class { get; set; }
@@ -108,7 +113,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Size of a select field.
         /// </summary>
-        [Parameter] public Size Size { get; set; } = Size.None;
+        [Parameter] public Size? Size { get; set; }
 
         /// <summary>
         /// Specifies how many options should be shown at once.

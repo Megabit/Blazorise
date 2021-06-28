@@ -336,6 +336,54 @@ namespace Blazorise.AntDesign
             {
                 GenerateInputSliderStyles( sb, theme, options );
             }
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb
+                    .Append( $".flatpickr-months .flatpickr-month:hover svg," )
+                    .Append( $".flatpickr-months .flatpickr-next-month:hover svg," )
+                    .Append( $".flatpickr-months .flatpickr-prev-month:hover svg" )
+                    .Append( "{" )
+                    .Append( $"fill: { Var( ThemeVariables.Color( "primary" ) )} !important;" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
+                    .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-day:hover" ).Append( "{" )
+                    .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
+                    .Append( $"box-shadow: -10px 0 0 { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-day.today" ).Append( "{" )
+                    .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-day.today:hover" ).Append( "{" )
+                    .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
+                    .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".flatpickr-monthSelect-month.selected" ).Append( "{" )
+                    .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
@@ -808,6 +856,53 @@ namespace Blazorise.AntDesign
                 .Append( $".ant-form-text.ant-form-text-{variant}" )
                 .Append( "{" )
                 .Append( $"color: {color};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+        {
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var white = Var( ThemeVariables.White );
+                var primary = Var( ThemeVariables.Color( "primary" ) );
+
+                sb
+                    .Append( $".ant-list-item.active" )
+                    .Append( "{" )
+                    .Append( $"color: {white};" )
+                    .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )
+                    .Append( $"border-color: {primary};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var textColor = ParseColor( inColor );
+
+            var background = ToHex( backgroundColor );
+            var text = ToHex( textColor );
+
+            sb.Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}" ).Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable:hover," )
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable:focus" )
+                .Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( ToHex( Darken( GetGradientBg( theme, background, options?.GradientBlendPercentage ), 5 ) ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable.active" )
+                .Append( "{" )
+                .Append( $"color: #fff;" )
+                .Append( $"background-color: {text};" )
+                .Append( $"border-color: {text};" )
                 .AppendLine( "}" );
         }
 

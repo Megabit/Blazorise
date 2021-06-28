@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using Blazorise.Base;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,10 +15,10 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
+
             if ( ElementId == null )
                 ElementId = IdGenerator.Generate;
-
-            base.OnInitialized();
         }
 
         #endregion

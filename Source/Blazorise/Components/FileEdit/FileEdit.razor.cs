@@ -335,6 +335,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Sets the placeholder for the empty file input.
+        /// </summary>
+        [Parameter] public string Placeholder { get; set; }
+
+        /// <summary>
         /// Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
         /// </summary>
         [Parameter] public string Filter { get; set; }

@@ -4,7 +4,7 @@
     <ChildContent>
         @if ( DefaultItemText != null )
         {
-            <SelectItem @key="@DefaultItemValue" TValue="TValue" Value="@DefaultItemValue" Disabled="@DefaultItemDisabled">@DefaultItemText</SelectItem>
+            <SelectItem @key="@DefaultItemValue" TValue="TValue" Value="@DefaultItemValue" Disabled="@DefaultItemDisabled" Hidden="@DefaultItemHidden">@DefaultItemText</SelectItem>
         }
         @if ( Data != null )
         {

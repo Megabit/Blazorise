@@ -240,7 +240,15 @@ namespace Blazorise
                 {
                     ExecuteAfterRender( async () =>
                     {
-                        await FocusableComponents.First().FocusAsync();
+                        //TODO: This warrants further investigation
+                        //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
+                        //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
+                        var firstFocusableComponent = FocusableComponents.FirstOrDefault();
+
+                        if ( firstFocusableComponent != null )
+                        {
+                            await firstFocusableComponent.FocusAsync();
+                        }
                     } );
                 }
             }

@@ -31,6 +31,8 @@ docs:
         url: /docs/components/color/
       - title: "Date"
         url: /docs/components/date/
+      - title: "Date Picker"
+        url: /docs/components/date-picker/
       - title: "Divider"
         url: /docs/components/divider/
       - title: "Field"
@@ -131,6 +133,15 @@ docs:
         url: /docs/extensions/snackbar/
       - title: "TreeView"
         url: /docs/extensions/treeview/
+  - title: Services
+    url: /docs/services/
+    children:
+      - title: "Messages"
+        url: /docs/services/message/
+      - title: "Notifications"
+        url: /docs/services/notification/
+      - title: "Page Progress"
+        url: /docs/services/page-progress/
   - title: Helpers
     url: /docs/helpers/
     children:

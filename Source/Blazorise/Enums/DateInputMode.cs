@@ -13,6 +13,13 @@
         /// <summary>
         /// Both date and time are allowed to be entered.
         /// </summary>
-        DateTime
+        DateTime,
+
+        /// <summary>
+        /// Allowed to select only year and month.
+        /// 
+        /// Note that not all browser supports this mode, see <see href="https://caniuse.com/input-datetime" /> for more info.
+        /// </summary>
+        Month,
     }
 }

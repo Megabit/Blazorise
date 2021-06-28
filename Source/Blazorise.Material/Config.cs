@@ -30,8 +30,7 @@ namespace Blazorise.Material
         public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
         {
             // material overrides
-            [typeof( Blazorise.DateEdit<> )] = typeof( Material.DateEdit<> ),
-            [typeof( Blazorise.TimeEdit<> )] = typeof( Material.TimeEdit<> ),
+            [typeof( Blazorise.NumericEdit<> )] = typeof( Material.NumericEdit<> ),
             [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
             [typeof( Blazorise.Step )] = typeof( Material.Step ),
             [typeof( Blazorise.Steps )] = typeof( Material.Steps )

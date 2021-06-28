@@ -284,6 +284,8 @@ namespace Blazorise.Frolic
 
         public override string Addons() => "e-form-group unified";
 
+        public override string AddonsSize( Size size ) => null;
+
         public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType ) => "e-control-helper";
@@ -574,9 +576,13 @@ namespace Blazorise.Frolic
 
         public override string ListGroupItem() => "e-list-item";
 
+        public override string ListGroupItemSelectable() => null;
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => null;
 
         #endregion
 
@@ -769,7 +775,9 @@ namespace Blazorise.Frolic
 
         public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
-        public override string ModalContentCentered() => "modal-dialog-centered";
+        public override string ModalContentCentered( bool centered ) => centered ? "modal-dialog-centered" : null;
+
+        public override string ModalContentScrollable( bool scrollable ) => null;
 
         public override string ModalBody() => "e-modal-body";
 

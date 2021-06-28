@@ -31,6 +31,8 @@ namespace Blazorise
 
         private string fixedHeaderTableHeight = "300px";
 
+        private bool resizable;
+
         #endregion
 
         #region Constructors
@@ -53,12 +55,15 @@ namespace Blazorise
         {
             await InitializeTableFixedHeader();
 
+            await RecalculateResize();
+
             await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
+            builder.Append( "b-table" );
             builder.Append( ClassProvider.Table() );
             builder.Append( ClassProvider.TableFullWidth(), FullWidth );
             builder.Append( ClassProvider.TableStriped(), Striped );
@@ -93,6 +98,14 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        internal protected override void DirtyClasses()
+        {
+            ContainerClassBuilder.Dirty();
+
+            base.DirtyClasses();
+        }
+
+        /// <inheritdoc/>
         protected override void DirtyStyles()
         {
             ContainerStyleBuilder.Dirty();
@@ -111,6 +124,29 @@ namespace Blazorise
 
             return ValueTask.CompletedTask;
         }
+
+        /// <summary>
+        /// If Table is resizable. 
+        /// Resizable columns should be constantly recalculated to keep up with the current Table's height dimensions.
+        /// </summary>
+        /// <returns></returns>
+        private async ValueTask RecalculateResize()
+        {
+            if ( resizable )
+            {
+                await DestroyResizable();
+                await InitResizable();
+            }
+        }
+
+        private ValueTask InitResizable()
+            => JSRunner.InitializeTableResizable( ElementRef, ElementId, ResizeMode );
+
+        private ValueTask DestroyResizable()
+            => JSRunner.DestroyTableResizable( ElementRef, ElementId );
+
+        private ValueTask DestroyTableFixedHeader()
+            => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );
 
         #endregion
 
@@ -139,7 +175,7 @@ namespace Blazorise
         /// <summary>
         /// True if table needs to be placed inside of container element.
         /// </summary>
-        protected bool HasContainer => Responsive || FixedHeader;
+        protected bool HasContainer => Responsive || FixedHeader || Resizable;
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -234,6 +270,11 @@ namespace Blazorise
         /// <summary>
         /// Makes table responsive by adding the horizontal scroll bar.
         /// </summary>
+        /// <remarks>
+        /// In some cases <see cref="Dropdown"/> component placed inside of a table marked with <see cref="Responsive"/>
+        /// flag might not show dropdown menu properly. To make it work you might need to add some
+        /// <see href="https://stackoverflow.com/questions/49346755/bootstrap-4-drop-down-menu-in-table">additional CSS rules</see>.
+        /// </remarks>
         [Parameter]
         public bool Responsive
         {
@@ -255,9 +296,15 @@ namespace Blazorise
             get => fixedHeader;
             set
             {
+                if ( fixedHeader == value )
+                    return;
+
                 fixedHeader = value;
 
                 DirtyClasses();
+
+                if ( !fixedHeader )
+                    ExecuteAfterRender( () => DestroyTableFixedHeader().AsTask() );
             }
         }
 
@@ -276,6 +323,32 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
+
+        /// <summary>
+        /// Gets or sets whether users can resize Table's columns.
+        /// </summary>
+        [Parameter]
+        public bool Resizable
+        {
+            get => resizable;
+            set
+            {
+                if ( resizable == value )
+                    return;
+
+                resizable = value;
+
+                DirtyClasses();
+
+                if ( !resizable )
+                    ExecuteAfterRender( () => DestroyResizable().AsTask() );
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the user can resize on header or columns.
+        /// </summary>
+        [Parameter] public TableResizeMode ResizeMode { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Table"/>.

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bulma
 {
-    class BulmaClassProvider : ClassProvider
+    public class BulmaClassProvider : ClassProvider
     {
         #region TextEdit
 
@@ -84,6 +84,8 @@ namespace Blazorise.Bulma
 
         public override string ColorEdit() => "input";
 
+        public override string ColorEditSize( Size size ) => $"is-{ToSize( size )}";
+
         #endregion
 
         #region Check
@@ -104,6 +106,8 @@ namespace Blazorise.Bulma
 
         public override string RadioGroup( bool buttons, Orientation orientation )
             => $"{( buttons ? "buttons has-addons" : "control" )}{( orientation == Orientation.Horizontal ? null : " are-vertical" )}";
+
+        public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => $"are-{ToSize( size )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -142,6 +146,8 @@ namespace Blazorise.Bulma
         #region FileEdit
 
         public override string FileEdit() => "file-input";
+
+        public override string FileEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -285,6 +291,8 @@ namespace Blazorise.Bulma
         #region Addons
 
         public override string Addons() => "field has-addons";
+
+        public override string AddonsSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string AddonsHasButton( bool hasButton ) => null;
 
@@ -552,9 +560,13 @@ namespace Blazorise.Bulma
 
         public override string ListGroupItem() => "list-group-item";
 
+        public override string ListGroupItemSelectable() => "list-group-item-action";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"is-{ToColor( color )}";
 
         #endregion
 
@@ -618,6 +630,8 @@ namespace Blazorise.Bulma
         public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-link" : "b-bar-link b-bar-dropdown-toggle";
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
+
+        public override string BarDropdownDivider( BarMode mode ) => "navbar-divider";
 
         public override string BarTogglerIcon( BarMode mode ) => null;
 
@@ -754,7 +768,9 @@ namespace Blazorise.Bulma
 
         public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
-        public override string ModalContentCentered() => null;
+        public override string ModalContentCentered( bool centered ) => null;
+
+        public override string ModalContentScrollable( bool scrollable ) => null;
 
         public override string ModalBody() => "modal-card-body";
 
@@ -792,15 +808,25 @@ namespace Blazorise.Bulma
 
         public override string ProgressSize( Size size ) => $"is-{ToSize( size )}";
 
-        public override string ProgressBar() => "progress";
+        public override string ProgressColor( Color color ) => $"is-{ToColor( color )}";
 
-        public override string ProgressBarSize( Size size ) => null;
+        public override string ProgressStriped() => "progress-striped";
 
-        public override string ProgressBarStriped() => "progress-bar-striped";
+        public override string ProgressAnimated() => "progress-animated";
 
-        public override string ProgressBarAnimated() => "progress-bar-animated";
+        public override string ProgressWidth( int width ) => null;
 
-        public override string ProgressBarWidth( int width ) => $"w-{width}";
+        public override string ProgressBar() => "progress-bar";
+
+        public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
+
+        public override string ProgressBarColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string ProgressBarStriped() => "progress-striped";
+
+        public override string ProgressBarAnimated() => "progress-animated";
+
+        public override string ProgressBarWidth( int width ) => null;
 
         #endregion
 
@@ -904,6 +930,8 @@ namespace Blazorise.Bulma
 
         public override string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "is-italic";
 
         #endregion
@@ -966,7 +994,7 @@ namespace Blazorise.Bulma
 
         public override string Tooltip() => "b-tooltip";
 
-        public override string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+        public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
         public override string TooltipMultiline() => "b-tooltip-multiline";
 
@@ -1166,6 +1194,12 @@ namespace Blazorise.Bulma
 
             return $"has-shadow-{ToShadow( shadow )}";
         }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"is-overflow-{ToOverflow( overflow )}";
 
         #endregion
 

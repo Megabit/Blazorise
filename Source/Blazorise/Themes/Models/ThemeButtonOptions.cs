@@ -64,5 +64,10 @@
         /// Defined the opacity of disabled button(range 0-1).
         /// </summary>
         public float? DisabledOpacity { get; set; } = .65f;
+
+        /// <summary>
+        /// Gets or sets the global size for button components.
+        /// </summary>
+        public Size? Size { get; set; }
     }
 }

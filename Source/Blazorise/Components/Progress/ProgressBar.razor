@@ -1,5 +1,12 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 <div class="@ClassNames" style="@StyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
-    @ChildContent
+    @if ( ChildContent != null )
+    {
+        @ChildContent
+    }
+    else
+    {
+        @Value
+    }
 </div>

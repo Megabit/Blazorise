@@ -81,6 +81,8 @@ namespace Blazorise
 
         string ColorEdit();
 
+        string ColorEditSize( Size size );
+
         #endregion
 
         #region Check
@@ -100,6 +102,8 @@ namespace Blazorise
         #region RadioGroup
 
         string RadioGroup( bool buttons, Orientation orientation );
+
+        public string RadioGroupSize( bool buttons, Orientation orientation, Size size );
 
         string RadioGroupValidation( ValidationStatus validationStatus );
 
@@ -138,6 +142,8 @@ namespace Blazorise
         #region FileEdit
 
         string FileEdit();
+
+        string FileEditSize( Size size );
 
         string FileEditValidation( ValidationStatus validationStatus );
 
@@ -266,6 +272,8 @@ namespace Blazorise
         #region Addons
 
         string Addons();
+
+        string AddonsSize( Size size );
 
         string AddonsHasButton( bool hasButton );
 
@@ -499,9 +507,13 @@ namespace Blazorise
 
         string ListGroupItem();
 
+        string ListGroupItemSelectable();
+
         string ListGroupItemActive();
 
         string ListGroupItemDisabled();
+
+        string ListGroupItemColor( Color color );
 
         #endregion
 
@@ -588,6 +600,8 @@ namespace Blazorise
         string BarDropdownToggle( BarMode mode );
 
         string BarDropdownItem( BarMode mode );
+
+        string BarDropdownDivider( BarMode mode );
 
         string BarTogglerIcon( BarMode mode );
 
@@ -693,7 +707,9 @@ namespace Blazorise
 
         string ModalContentSize( ModalSize modalSize );
 
-        string ModalContentCentered();
+        string ModalContentCentered( bool centered );
+
+        string ModalContentScrollable( bool scrollable );
 
         string ModalBody();
 
@@ -731,9 +747,19 @@ namespace Blazorise
 
         string ProgressSize( Size size );
 
+        string ProgressColor( Color color );
+
+        string ProgressStriped();
+
+        string ProgressAnimated();
+
+        string ProgressWidth( int width );
+
         string ProgressBar();
 
         string ProgressBarSize( Size size );
+
+        string ProgressBarColor( Color color );
 
         string ProgressBarStriped();
 
@@ -843,6 +869,8 @@ namespace Blazorise
 
         string TextWeight( TextWeight textWeight );
 
+        string TextOverflow( TextOverflow textOverflow );
+
         string TextItalic();
 
         #endregion
@@ -905,7 +933,7 @@ namespace Blazorise
 
         string Tooltip();
 
-        string TooltipPlacement( Placement placement );
+        string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
         string TooltipMultiline();
 
@@ -999,6 +1027,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Overflow
+
+        string Overflow( Overflow overflow );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );
@@ -1040,6 +1074,8 @@ namespace Blazorise
 
         string ToTextWeight( TextWeight textWeight );
 
+        string ToTextOverflow( TextOverflow textOverflow );
+
         string ToColumnWidth( ColumnWidth columnWidth );
 
         string ToDisplayType( DisplayType displayType );
@@ -1061,6 +1097,8 @@ namespace Blazorise
         string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
 
         string ToPlacement( Placement placement );
+
+        string ToTooltipPlacement( TooltipPlacement tooltipPlacement );
 
         string ToFigureSize( FigureSize figureSize );
 

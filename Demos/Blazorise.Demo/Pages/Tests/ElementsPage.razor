@@ -39,17 +39,23 @@
             <CardBody>
                 <Row>
                     <Column>
-                        <Tooltip Text="Hello tooltip" Placement="Placement.Left">
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Left" ShowArrow="false">
                             <Button Color="Color.Primary">Left</Button>
                         </Tooltip>
-                        <Tooltip Text="Hello tooltip" Placement="Placement.Top">
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Top" ShowArrow="false">
                             <Button Color="Color.Primary">Top</Button>
                         </Tooltip>
-                        <Tooltip Text="Hello tooltip" Placement="Placement.Bottom">
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Bottom" ShowArrow="false">
                             <Button Color="Color.Primary">Bottom</Button>
                         </Tooltip>
-                        <Tooltip Text="Hello tooltip" Placement="Placement.Right">
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Right" ShowArrow="false">
                             <Button Color="Color.Primary">Right</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+                            <Button Color="Color.Primary" Padding="Padding.Is5.OnX">Top Start</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.TopEnd" ShowArrow="false">
+                            <Button Color="Color.Primary" Padding="Padding.Is5.OnX">Top End</Button>
                         </Tooltip>
                     </Column>
                     <Column>
@@ -331,7 +337,7 @@
                         <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
                     </FieldBody>
                 </Field>
-                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync("Some success message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync((MarkupString)("Some success message with &nbsp;<strong>some HTML markup</strong>! Timeout: " + intervalBeforeMsgClose), SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
                     Show Success message
                 </Button>
                 <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Info, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">

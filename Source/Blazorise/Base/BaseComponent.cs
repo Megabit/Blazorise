@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Base;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -49,11 +47,15 @@ namespace Blazorise
 
         private TextWeight textWeight = TextWeight.None;
 
+        private TextOverflow textOverflow = TextOverflow.None;
+
         private VerticalAlignment verticalAlignment = VerticalAlignment.None;
 
         private Background background = Background.None;
 
         private Shadow shadow = Shadow.None;
+
+        private Overflow overflow = Overflow.None;
 
         #endregion
 
@@ -195,11 +197,17 @@ namespace Blazorise
             if ( TextWeight != TextWeight.None )
                 builder.Append( ClassProvider.TextWeight( TextWeight ) );
 
+            if ( TextOverflow != TextOverflow.None )
+                builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
+
             if ( Background != Background.None )
                 builder.Append( ClassProvider.BackgroundColor( Background ) );
 
             if ( Shadow != Shadow.None )
                 builder.Append( ClassProvider.Shadow( Shadow ) );
+
+            if ( Overflow != Overflow.None )
+                builder.Append( ClassProvider.Overflow( Overflow ) );
         }
 
         /// <summary>
@@ -558,6 +566,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Determines how the text will behave when it is larger than a parent container.
+        /// </summary>
+        [Parameter]
+        public TextOverflow TextOverflow
+        {
+            get => textOverflow;
+            set
+            {
+                textOverflow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Changes the vertical alignment of inline, inline-block, inline-table, and table cell elements.
         /// </summary>
         [Parameter]
@@ -597,6 +620,21 @@ namespace Blazorise
             set
             {
                 shadow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// The overflow property controls what happens to content that is too big to fit into an area.
+        /// </summary>
+        [Parameter]
+        public Overflow Overflow
+        {
+            get => overflow;
+            set
+            {
+                overflow = value;
 
                 DirtyClasses();
             }

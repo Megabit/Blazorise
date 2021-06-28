@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private Color color = Color.Primary;
+
         private bool striped;
 
         private bool animated;
@@ -23,12 +25,24 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            ParentProgress?.NotifyHasMessage();
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ProgressBar() );
+            builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
+
+            if ( ParentProgress?.ThemeSize != Size.None )
+                builder.Append( ClassProvider.ProgressBarSize( ParentProgress.ThemeSize ) );
 
             base.BuildClasses( builder );
         }
@@ -39,7 +53,7 @@ namespace Blazorise
             if ( Percentage != null )
                 builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
-            builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.Size ?? Size.None ) );
+            builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.ThemeSize ?? Size.None ) );
 
             base.BuildStyles( builder );
         }
@@ -62,7 +76,23 @@ namespace Blazorise
         /// <summary>
         /// Calculates the percentage based on the current value and max parameters.
         /// </summary>
-        protected int? Percentage => Max == 0 ? 0 : (int)( Value.GetValueOrDefault() / (float)Max * 100f );
+        protected int? Percentage
+            => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
+
+        /// <summary>
+        /// Defines the progress bar color.
+        /// </summary>
+        [Parameter]
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Set to true to make the progress bar stripped.

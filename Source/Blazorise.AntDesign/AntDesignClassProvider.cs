@@ -84,6 +84,8 @@ namespace Blazorise.AntDesign
 
         public override string ColorEdit() => "ant-input";
 
+        public override string ColorEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
         #endregion
 
         #region Check
@@ -104,6 +106,8 @@ namespace Blazorise.AntDesign
 
         public override string RadioGroup( bool buttons, Orientation orientation )
             => "ant-radio-group ant-radio-group-outline" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
+
+        public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => $"ant-btn-group-{ToSize( size )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -142,6 +146,8 @@ namespace Blazorise.AntDesign
         #region FileEdit
 
         public override string FileEdit() => null;
+
+        public override string FileEditSize( Size size ) => null;
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -281,6 +287,8 @@ namespace Blazorise.AntDesign
         #region Addons
 
         public override string Addons() => "ant-input-group-wrapper";
+
+        public override string AddonsSize( Size size ) => $"ant-input-group-wrapper-{ToSize( size )}";
 
         public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
@@ -549,9 +557,13 @@ namespace Blazorise.AntDesign
 
         public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
+        public override string ListGroupItemSelectable() => "ant-list-item-actionable";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"ant-list-item-{ToColor( color )}";
 
         #endregion
 
@@ -613,6 +625,8 @@ namespace Blazorise.AntDesign
         public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 
         public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
+
+        public override string BarDropdownDivider( BarMode mode ) => "ant-menu-item-divider";
 
         public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
@@ -749,7 +763,9 @@ namespace Blazorise.AntDesign
 
         public override string ModalContentSize( ModalSize modalSize ) => null;
 
-        public override string ModalContentCentered() => "ant-modal-dialog-centered";
+        public override string ModalContentCentered( bool centered ) => centered ? "ant-modal-content-centered" : null;
+
+        public override string ModalContentScrollable( bool scrollable ) => scrollable ? "ant-modal-content-scrollable" : null;
 
         public override string ModalBody() => "ant-modal-body";
 
@@ -787,13 +803,23 @@ namespace Blazorise.AntDesign
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
+        public override string ProgressColor( Color color ) => null;
+
+        public override string ProgressStriped() => null;
+
+        public override string ProgressAnimated() => null;
+
+        public override string ProgressWidth( int width ) => null;
+
         public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
-        public override string ProgressBarSize( Size size ) => null;
+        public override string ProgressBarSize( Size size ) => $"ant-progress-bg-{ToSize( size )}";
 
-        public override string ProgressBarStriped() => "progress-bar-striped";
+        public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
 
-        public override string ProgressBarAnimated() => "progress-bar-animated";
+        public override string ProgressBarStriped() => "ant-progress-bar-striped";
+
+        public override string ProgressBarAnimated() => "ant-progress-bar-animated";
 
         public override string ProgressBarWidth( int width ) => null;
 
@@ -899,6 +925,8 @@ namespace Blazorise.AntDesign
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "font-italic";
 
         #endregion
@@ -961,7 +989,7 @@ namespace Blazorise.AntDesign
 
         public override string Tooltip() => "b-tooltip";
 
-        public override string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+        public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
         public override string TooltipMultiline() => "b-tooltip-multiline";
 
@@ -1154,6 +1182,12 @@ namespace Blazorise.AntDesign
 
             return $"ant-shadow-{ToShadow( shadow )}";
         }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"ant-overflow-{ToOverflow( overflow )}";
 
         #endregion
 

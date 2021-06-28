@@ -1,0 +1,51 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<Modal @ref="@ModalRef" Closing="@OnModalClosing">
+    <ModalContent Centered="@CenterMessage" Scrollable="@ScrollableMessage">
+        <ModalHeader>
+            <ModalTitle>
+                @Title
+            </ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+            @if ( ShowMessageIcon )
+            {
+                <Heading Size="HeadingSize.Is1" TextAlignment="TextAlignment.Center">
+                    <Icon Name="@MessageIcon" TextColor="@MessageIconColor" />
+                </Heading>
+            }
+            <Text TextAlignment="TextAlignment.Center">
+                @Message
+            </Text>
+        </ModalBody>
+        <ModalFooter>
+            @if ( IsConfirmation )
+            {
+                <Button Color="Color.Danger" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnCancelClicked">
+                    @if ( Options?.CancelButtonIcon != null )
+                    {
+                        <Icon Name="@Options.CancelButtonIcon" Margin="Blazorise.Margin.Is2.FromRight" />
+                    }
+                    @CancelButtonText
+                </Button>
+                <Button Color="Color.Primary" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnConfirmClicked">
+                    @if ( Options?.ConfirmButtonIcon != null )
+                    {
+                        <Icon Name="@Options.ConfirmButtonIcon" Margin="Blazorise.Margin.Is2.FromRight" />
+                    }
+                    @ConfirmButtonText
+                </Button>
+            }
+            else
+            {
+                <Button Color="Color.Primary" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnOkClicked">
+                    @if ( Options?.OkButtonIcon != null )
+                    {
+                        <Icon Name="@Options.OkButtonIcon" Margin="Blazorise.Margin.Is2.FromRight" />
+                    }
+                    @OkButtonText
+                </Button>
+            }
+        </ModalFooter>
+    </ModalContent>
+</Modal>

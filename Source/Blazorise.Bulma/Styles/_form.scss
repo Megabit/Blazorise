@@ -52,10 +52,39 @@ label.radio.button {
     width: 100%;
 }
 
+.has-addons.is-extra-small > .control > .button,
+.has-addons.is-extra-small > .control > .control > .button,
+.has-addons.is-extra-small > .control > .field > .control > .input,
+.has-addons.is-extra-small > .control > .field > .control > .select,
 .input.is-extra-small {
     font-size: $size-extra-small;
 }
 
+.has-addons.is-small > .control > .button,
+.has-addons.is-small > .control > .control > .button,
+.has-addons.is-small > .control > .field > .control > .input,
+.has-addons.is-small > .control > .field > .control > .select {
+    font-size: $size-small;
+}
+
+.has-addons.is-medium > .control > .button,
+.has-addons.is-medium > .control > .control > .button,
+.has-addons.is-medium > .control > .field > .control > .input,
+.has-addons.is-medium > .control > .field > .control > .select {
+    font-size: $size-medium;
+}
+
+.has-addons.is-large > .control > .button,
+.has-addons.is-large > .control > .control > .button,
+.has-addons.is-large > .control > .field > .control > .input,
+.has-addons.is-large > .control > .field > .control > .select {
+    font-size: $size-large;
+}
+
+.has-addons.is-extra-large > .control > .button,
+.has-addons.is-extra-large > .control > .control > .button,
+.has-addons.is-extra-large > .control > .field > .control > .input,
+.has-addons.is-extra-large > .control > .field > .control > .select,
 .input.is-extra-large {
     font-size: $size-extra-large;
 }

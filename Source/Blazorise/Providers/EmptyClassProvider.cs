@@ -83,6 +83,8 @@ namespace Blazorise.Providers
 
         public string ColorEdit() => null;
 
+        public string ColorEditSize( Size size ) => null;
+
         #endregion
 
         #region Check
@@ -102,6 +104,8 @@ namespace Blazorise.Providers
         #region RadioGroup
 
         public string RadioGroup( bool buttons, Orientation orientation ) => null;
+
+        public string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => null;
 
         public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
 
@@ -140,6 +144,8 @@ namespace Blazorise.Providers
         #region FileEdit
 
         public string FileEdit() => null;
+
+        public string FileEditSize( Size size ) => null;
 
         public string FileEditValidation( ValidationStatus validationStatus ) => null;
 
@@ -268,6 +274,8 @@ namespace Blazorise.Providers
         #region Addons
 
         public string Addons() => null;
+
+        public string AddonsSize( Size size ) => null;
 
         public string AddonsHasButton( bool hasButton ) => null;
 
@@ -501,9 +509,13 @@ namespace Blazorise.Providers
 
         public string ListGroupItem() => null;
 
+        public string ListGroupItemSelectable() => null;
+
         public string ListGroupItemActive() => null;
 
         public string ListGroupItemDisabled() => null;
+
+        public string ListGroupItemColor( Color color ) => null;
 
         #endregion
 
@@ -594,6 +606,8 @@ namespace Blazorise.Providers
         public string BarDropdownToggle( BarMode mode ) => null;
 
         public string BarDropdownItem( BarMode mode ) => null;
+
+        public string BarDropdownDivider( BarMode mode ) => null;
 
         public string BarTogglerIcon( BarMode mode ) => null;
 
@@ -701,7 +715,9 @@ namespace Blazorise.Providers
 
         public string ModalContentSize( ModalSize modalSize ) => null;
 
-        public string ModalContentCentered() => null;
+        public string ModalContentCentered( bool centered ) => null;
+
+        public string ModalContentScrollable( bool scrollable ) => null;
 
         public string ModalBody() => null;
 
@@ -739,9 +755,19 @@ namespace Blazorise.Providers
 
         public string ProgressSize( Size size ) => null;
 
+        public string ProgressColor( Color color ) => null;
+
+        public string ProgressStriped() => null;
+
+        public string ProgressAnimated() => null;
+
+        public string ProgressWidth( int width ) => null;
+
         public string ProgressBar() => null;
 
         public string ProgressBarSize( Size size ) => null;
+
+        public string ProgressBarColor( Color color ) => null;
 
         public string ProgressBarStriped() => null;
 
@@ -851,6 +877,8 @@ namespace Blazorise.Providers
 
         public string TextWeight( TextWeight textWeight ) => null;
 
+        public string TextOverflow( TextOverflow textOverflow ) => null;
+
         public string TextItalic() => null;
 
         #endregion
@@ -913,7 +941,7 @@ namespace Blazorise.Providers
 
         public string Tooltip() => null;
 
-        public string TooltipPlacement( Placement placement ) => null;
+        public string TooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
         public string TooltipMultiline() => null;
 
@@ -1007,6 +1035,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Overflow
+
+        public string Overflow( Overflow overflow ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
@@ -1043,6 +1077,8 @@ namespace Blazorise.Providers
 
         public string ToTextWeight( TextWeight textWeight ) => null;
 
+        public string ToTextOverflow( TextOverflow textOverflow ) => null;
+
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 
         public string ToDisplayType( DisplayType displayType ) => null;
@@ -1064,6 +1100,8 @@ namespace Blazorise.Providers
         public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
+
+        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
 

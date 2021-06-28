@@ -84,6 +84,8 @@ namespace Blazorise.Bootstrap
 
         public override string ColorEdit() => "form-control";
 
+        public override string ColorEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
         #endregion
 
         #region Check
@@ -104,6 +106,10 @@ namespace Blazorise.Bootstrap
 
         public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
             ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
+            : null;
+
+        public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
+            ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
             : null;
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -145,6 +151,8 @@ namespace Blazorise.Bootstrap
         #region FileEdit
 
         public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+
+        public override string FileEditSize( Size size ) => $"{FileEdit()}-{ToSize( size )}";
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -281,6 +289,8 @@ namespace Blazorise.Bootstrap
         #region Addons
 
         public override string Addons() => "input-group";
+
+        public override string AddonsSize( Size size ) => $"input-group-{ToSize( size )}";
 
         public override string AddonsHasButton( bool hasButton ) => null;
 
@@ -540,9 +550,13 @@ namespace Blazorise.Bootstrap
 
         public override string ListGroupItem() => "list-group-item";
 
+        public override string ListGroupItemSelectable() => "list-group-item-action";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"{ListGroupItem()}-{ToColor( color )}";
 
         #endregion
 
@@ -604,6 +618,8 @@ namespace Blazorise.Bootstrap
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
         public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
+
+        public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
 
@@ -734,7 +750,9 @@ namespace Blazorise.Bootstrap
 
         public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
-        public override string ModalContentCentered() => "modal-dialog-centered";
+        public override string ModalContentCentered( bool centered ) => null;
+
+        public override string ModalContentScrollable( bool scrollable ) => null;
 
         public override string ModalBody() => "modal-body";
 
@@ -772,15 +790,25 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
+        public override string ProgressColor( Color color ) => null;
+
+        public override string ProgressStriped() => null;
+
+        public override string ProgressAnimated() => null;
+
+        public override string ProgressWidth( int width ) => null;
+
         public override string ProgressBar() => "progress-bar";
 
         public override string ProgressBarSize( Size size ) => null;
+
+        public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
 
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
 
-        public override string ProgressBarWidth( int width ) => $"w-{width}";
+        public override string ProgressBarWidth( int width ) => null;
 
         #endregion
 
@@ -884,6 +912,8 @@ namespace Blazorise.Bootstrap
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "font-italic";
 
         #endregion
@@ -946,7 +976,7 @@ namespace Blazorise.Bootstrap
 
         public override string Tooltip() => "b-tooltip";
 
-        public override string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+        public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
         public override string TooltipMultiline() => "b-tooltip-multiline";
 
@@ -1136,6 +1166,12 @@ namespace Blazorise.Bootstrap
 
             return $"shadow-{ToShadow( shadow )}";
         }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"overflow-{ToOverflow( overflow )}";
 
         #endregion
 

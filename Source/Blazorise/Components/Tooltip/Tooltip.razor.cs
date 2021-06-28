@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Placement placement = Placement.Top;
+        private TooltipPlacement placement = TooltipPlacement.Top;
 
         private bool multiline;
 
@@ -56,7 +56,7 @@ namespace Blazorise
                     await JSRunner.InitializeTooltip( ElementRef, ElementId, new
                     {
                         Text,
-                        Placement = ClassProvider.ToPlacement( Placement ),
+                        Placement = ClassProvider.ToTooltipPlacement( Placement ),
                         Multiline,
                         AlwaysActive,
                         ShowArrow,
@@ -97,7 +97,7 @@ namespace Blazorise
         /// Gets or sets the tooltip location relative to it's component.
         /// </summary>
         [Parameter]
-        public Placement Placement
+        public TooltipPlacement Placement
         {
             get => placement;
             set

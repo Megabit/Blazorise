@@ -37,6 +37,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ColorEdit() );
+            builder.Append( ClassProvider.ColorEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
 
             base.BuildClasses( builder );
         }
@@ -45,9 +46,9 @@ namespace Blazorise
         /// Handles the input onchange event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            return CurrentValueHandler( eventArgs?.Value?.ToString() );
         }
 
         /// <inheritdoc/>
@@ -78,8 +79,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the input color value.
         /// </summary>
-        [Parameter]
-        public string Color { get; set; }
+        [Parameter] public string Color { get; set; }
 
         /// <summary>
         /// Occurs when the color has changed.

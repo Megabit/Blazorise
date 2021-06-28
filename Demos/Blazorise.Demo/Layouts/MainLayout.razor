@@ -74,6 +74,9 @@
                                     <BarDropdownItem To="tests/icons">
                                         Icons
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/listgroup">
+                                        List group
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -155,6 +158,9 @@
                                     <BarDropdownItem To="tests/utilities/flex">
                                         Flex
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/overflow">
+                                        Overflow
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="tests/utilities/layout">
                                         Layout
                                     </BarDropdownItem>
@@ -166,6 +172,9 @@
                                     </BarDropdownItem>
                                     <BarDropdownItem To="tests/utilities/vertical-align">
                                         Vertical align
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/services">
+                                        Services
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -215,6 +224,7 @@
                                     <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
                                         Quick-Start Guide
                                     </BarDropdownItem>
+                                    <BarDropdownDivider />
                                     <BarDropdownItem To="https://blazorise.com/docs/usage/">
                                         Usage
                                     </BarDropdownItem>
@@ -286,97 +296,6 @@
         </LayoutContent>
     </Layout>
 </Layout>
-
 @code{
-    [Inject] protected ITextLocalizerService LocalizationService { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await SelectCulture( "en-US" );
-
-        await base.OnInitializedAsync();
-    }
-
-    Task SelectCulture( string name )
-    {
-        LocalizationService.ChangeLanguage( name );
-
-        return Task.CompletedTask;
-    }
-
-    void OnThemeEnabledChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.Enabled = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnGradientChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsGradient = value;
-
-        //if ( Theme.GradientOptions == null )
-        //    Theme.GradientOptions = new GradientOptions();
-
-        //Theme.GradientOptions.BlendPercentage = 80;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnRoundedChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsRounded = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnThemeColorChanged( string value )
-    {
-        if ( Theme == null )
-            return;
-
-        if ( Theme.ColorOptions == null )
-            Theme.ColorOptions = new ThemeColorOptions();
-
-        if ( Theme.BackgroundOptions == null )
-            Theme.BackgroundOptions = new ThemeBackgroundOptions();
-
-        if ( Theme.TextColorOptions == null )
-            Theme.TextColorOptions = new ThemeTextColorOptions();
-
-        Theme.ColorOptions.Primary = value;
-        Theme.BackgroundOptions.Primary = value;
-        Theme.TextColorOptions.Primary = value;
-
-        if ( Theme.InputOptions == null )
-            Theme.InputOptions = new ThemeInputOptions();
-
-        //Theme.InputOptions.Color = value;
-        Theme.InputOptions.CheckColor = value;
-        Theme.InputOptions.SliderColor = value;
-
-        if ( Theme.SpinKitOptions == null )
-            Theme.SpinKitOptions = new ThemeSpinKitOptions();
-
-        Theme.SpinKitOptions.Color = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    private bool topbarVisible = false;
-    private bool uiElementsVisible = true;
-    private bool utilitiesVisible = false;
-
-    [CascadingParameter] protected Theme Theme { get; set; }
-
     RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
 }
