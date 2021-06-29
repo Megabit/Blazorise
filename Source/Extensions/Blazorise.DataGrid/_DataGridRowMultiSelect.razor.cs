@@ -12,6 +12,9 @@ namespace Blazorise.DataGrid
 
         internal Task OnCheckedChanged( bool @checked )
         {
+            if ( @checked )
+                @checked = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
+
             Checked = @checked;
             return CheckedChanged.InvokeAsync( @checked );
         }
