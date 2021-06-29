@@ -79,9 +79,14 @@ namespace Blazorise
         public int ThemeCacheSize { get; set; } = 10;
 
         /// <summary>
-        /// If true, the spin buttons on <see cref="NumericEdit{TValue}"/>. will be visible.
+        /// If true, the spin buttons on <see cref="NumericEdit{TValue}"/> will be visible.
         /// </summary>
-        public bool ShowSpinButtons { get; set; } = true;
+        public bool ShowNumericStepButtons { get; set; } = true;
+
+        /// <summary>
+        /// If true, enables change of <see cref="NumericEdit{TValue}"/> by pressing on step buttons or by keyboard up/down keys.
+        /// </summary>
+        public bool? EnableNumericStep { get; set; }
 
         /// <summary>
         /// Gets the service provider.
