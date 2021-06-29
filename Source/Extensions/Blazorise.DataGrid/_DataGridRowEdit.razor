@@ -3,72 +3,74 @@
 @if ( EditMode == DataGridEditMode.Form )
 {
     <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
-        <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
-            @if ( ParentDataGrid.ShowValidationsSummary )
-            {
+        <TableRow>
+            <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
+                @if ( ParentDataGrid.ShowValidationsSummary )
+                {
+                    <Row>
+                        <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
+                    </Row>
+                }
                 <Row>
-                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
+                    <Column>
+                        <Fields>
+                            @foreach ( var column in OrderedEditableColumns )
+                            {
+                                <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                    <FieldLabel>
+                                        @column.Caption
+                                    </FieldLabel>
+                                    <FieldBody>
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                                    </FieldBody>
+                                </Field>
+                            }
+                        </Fields>
+                    </Column>
                 </Row>
-            }
-            <Row>
-                <Column>
-                    <Fields>
-                        @foreach ( var column in OrderedEditableColumns )
-                        {
-                            <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                                <FieldLabel>
-                                    @column.Caption
-                                </FieldLabel>
-                                <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
-                                </FieldBody>
-                            </Field>
-                        }
-                    </Fields>
-                </Column>
-            </Row>
-            <Row>
-                <Column>
-                    @{
-                        var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
+                <Row>
+                    <Column>
+                        @{
+                            var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                        @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
-                        {
-                            @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                            @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                             {
-                                Clicked = callbackFactory.Create( this, SaveWithValidation ),
-                                LocalizationString = saveButtonString,
-                                Item = Item,
-                            } );
-                        }
-                        else
-                        {
-                            <Button Color="Color.Link" Clicked="@SaveWithValidation">
-                                @saveButtonString
-                            </Button>
-                        }
-
-                        var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
-
-                        @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
-                        {
-                            @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                                @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                                {
+                                    Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                                    LocalizationString = saveButtonString,
+                                    Item = Item,
+                                } );
+                            }
+                            else
                             {
-                                Clicked = Cancel,
-                                LocalizationString = cancelButtonString,
-                                Item = Item,
-                            } );
+                                <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                                    @saveButtonString
+                                </Button>
+                            }
+
+                            var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
+
+                            @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                            {
+                                @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                                {
+                                    Clicked = Cancel,
+                                    LocalizationString = cancelButtonString,
+                                    Item = Item,
+                                } );
+                            }
+                            else
+                            {
+                                <Button Color="Color.Link" Clicked="@Cancel">
+                                    @cancelButtonString
+                                </Button>
+                            }
                         }
-                        else
-                        {
-                            <Button Color="Color.Link" Clicked="@Cancel">
-                                @cancelButtonString
-                            </Button>
-                        }
-                    }
-                </Column>
-            </Row>
-        </TableRowCell>
+                    </Column>
+                </Row>
+            </TableRowCell>
+        </TableRow>
     </Validations>
 }
 else if ( EditMode == DataGridEditMode.Inline )
@@ -82,52 +84,54 @@ else if ( EditMode == DataGridEditMode.Inline )
                 </TableRowCell>
             </TableRow>
         }
-        @foreach ( var column in DisplayableColumns )
-        {
-            @if ( column.IsCommandColumn )
+        <TableRow>
+            @foreach ( var column in DisplayableColumns )
             {
-                @if ( ParentDataGrid.IsCommandVisible )
+                @if ( column.IsCommandColumn )
                 {
-                    <_DataGridRowCommand TItem="TItem"
-                                         Item="@Item"
-                                         Class="@column.CellClass?.Invoke(Item)"
-                                         Style="@column.BuildCellStyle(Item)"
-                                         TextAlignment="@column.TextAlignment"
-                                         EditState="DataGridEditState.Edit"
-                                         Save="@SaveWithValidation"
-                                         Cancel="@Cancel"
-                                         Width="@column.Width" />
-                }
-            }
-            else if ( column.IsMultiSelectColumn )
-            {
-                @if ( ParentDataGrid.MultiSelect )
-                {
-                    <TableRowCell Class="@column.CellClass?.Invoke(Item)"
-                                  Style="@column.BuildCellStyle(Item)"
-                                  TextAlignment="@column.TextAlignment"></TableRowCell>
-                }
-            }
-            else if ( column.Displayable )
-            {
-                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment">
-                    @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
+                    @if ( ParentDataGrid.IsCommandVisible )
                     {
-                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                        <_DataGridRowCommand TItem="TItem"
+                                             Item="@Item"
+                                             Class="@column.CellClass?.Invoke(Item)"
+                                             Style="@column.BuildCellStyle(Item)"
+                                             TextAlignment="@column.TextAlignment"
+                                             EditState="DataGridEditState.Edit"
+                                             Save="@SaveWithValidation"
+                                             Cancel="@Cancel"
+                                             Width="@column.Width" />
                     }
-                    else
+                }
+                else if ( column.IsMultiSelectColumn )
+                {
+                    @if ( ParentDataGrid.MultiSelect )
                     {
-                        if ( column.DisplayTemplate != null )
+                        <TableRowCell Class="@column.CellClass?.Invoke(Item)"
+                                      Style="@column.BuildCellStyle(Item)"
+                                      TextAlignment="@column.TextAlignment"></TableRowCell>
+                    }
+                }
+                else if ( column.Displayable )
+                {
+                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment">
+                        @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
                         {
-                            @column.DisplayTemplate( Item )
+                            <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                         }
                         else
                         {
-                            @column.FormatDisplayValue( Item )
+                            if ( column.DisplayTemplate != null )
+                            {
+                                @column.DisplayTemplate( Item )
+                            }
+                            else
+                            {
+                                @column.FormatDisplayValue( Item )
+                            }
                         }
-                    }
-                </TableRowCell>
+                    </TableRowCell>
+                }
             }
-        }
+        </TableRow>
     </Validations>
 }
