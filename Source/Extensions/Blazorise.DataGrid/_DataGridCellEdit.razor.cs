@@ -89,5 +89,15 @@ namespace Blazorise.DataGrid
         /// https://www.w3schools.com/tags/ref_language_codes.asp
         /// </remarks>
         [Parameter] public string Culture { get; set; }
+
+        /// <summary>
+        /// If true, step buttons will be visible.
+        /// </summary>
+        [Parameter] public bool? ShowStepButtons { get; set; }
+
+        /// <summary>
+        /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
+        /// </summary>
+        [Parameter] public bool? EnableStep { get; set; }
     }
 }
