@@ -110,6 +110,14 @@ window.blazoriseCharts = {
         }
     },
 
+    removeDataset: (canvasId, datasetIndex) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart && datasetIndex >= 0) {
+            chart.data.datasets.splice(datasetIndex, 1);
+        }
+    },
+
     addData: (canvasId, datasetIndex, newData) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 

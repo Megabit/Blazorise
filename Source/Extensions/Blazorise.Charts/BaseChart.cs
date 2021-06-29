@@ -40,6 +40,7 @@ namespace Blazorise.Charts
         /// <summary>
         /// Clears all the labels and data from the chart.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Clear()
         {
             dirty = true;
@@ -55,6 +56,7 @@ namespace Blazorise.Charts
         /// Adds a new label to the chart.
         /// </summary>
         /// <param name="labels">Label name(s).</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Obsolete( "This method will likely be removed in the future. Please use " + nameof( AddLabels ) + " instead." )]
         public Task AddLabel( params object[] labels )
         {
@@ -90,11 +92,26 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
+        /// Removed the dataset at the specified index.
+        /// </summary>
+        /// <param name="dataSetIndex">Index of the dataset in the data list.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task RemoveDataSet( int dataSetIndex )
+        {
+            dirty = true;
+
+            Datasets.RemoveAt( dataSetIndex );
+
+            if ( initialized )
+                await JS.RemoveDataSet( JSRuntime, ElementId, dataSetIndex );
+        }
+
+        /// <summary>
         /// Sets the new data point(s) to the specified dataset.
         /// </summary>
         /// <param name="dataSetIndex">Dataset index to which we set the data point(s).</param>
         /// <param name="data">Data point(s) to set.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetData( int dataSetIndex, List<TItem> data )
         {
             dirty = true;
@@ -110,7 +127,7 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="dataSetIndex">Dataset index to which we add the data point(s).</param>
         /// <param name="data">Data point(s) to add.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddData( int dataSetIndex, params TItem[] data )
         {
             dirty = true;
@@ -125,7 +142,7 @@ namespace Blazorise.Charts
         /// Adds new datasets and then update the chart.
         /// </summary>
         /// <param name="datasets">List of datasets.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddDatasetsAndUpdate( params TDataSet[] datasets )
         {
             dirty = true;
@@ -141,7 +158,7 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="labels">List of labels.</param>
         /// <param name="datasets">List of datasets.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<string> labels, params TDataSet[] datasets )
         {
             dirty = true;
