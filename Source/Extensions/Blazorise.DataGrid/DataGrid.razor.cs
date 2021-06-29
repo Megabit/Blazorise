@@ -426,15 +426,21 @@ namespace Blazorise.DataGrid
             if ( selectAll )
             {
                 SelectedRows.Clear();
+
                 if ( RowSelectable != null )
                 {
                     foreach ( var item in viewData )
+                    {
                         if ( RowSelectable.Invoke( item ) )
+                        {
                             SelectedRows.Add( item );
+                        }
+                    }
                 }
                 else
+                {
                     SelectedRows.AddRange( viewData );
-
+                }
             }
             else
             {
