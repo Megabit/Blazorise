@@ -28,7 +28,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ProgressBar() );
-            builder.Append( ClassProvider.ProgressBarWidth( Value ?? 0 ) );
+            builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
             builder.Append( ClassProvider.ProgressBarColor( Background ), Background != Background.None );
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
@@ -39,8 +39,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
-            if ( Value != null )
-                builder.Append( StyleProvider.ProgressBarValue( Value ?? 0 ) );
+            if ( Percentage != null )
+                builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
             builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.Size ?? Size.None ) );
 
@@ -61,6 +61,12 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Calculates the percentage based on the current value and max parameters.
+        /// </summary>
+        protected int? Percentage
+            => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
 
         /// <summary>
         /// Defines the progress bar background color.
