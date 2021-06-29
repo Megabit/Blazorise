@@ -45,7 +45,10 @@
                                       ValueField="@((item)=>item.MyTextField)"
                                       SelectedValue="@selectedSearchValue"
                                       SelectedValueChanged="@MySearchHandler"
-                                      Placeholder="Search..." Filter="AutocompleteFilter.StartsWith" />
+                                      Placeholder="Search..." 
+                                      Filter="AutocompleteFilter.StartsWith">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                        </Autocomplete>
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">

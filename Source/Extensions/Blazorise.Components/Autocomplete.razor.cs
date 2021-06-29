@@ -65,7 +65,7 @@ namespace Blazorise.Components
             SelectedText = CurrentSearch;
             dirtyFilter = true;
 
-            if ( text?.Length >= MinLength && FilteredData.Any() )
+            if ( CanSearch || NotFoundVisible )
                 dropdownRef.Show();
             else
                 dropdownRef.Hide();
@@ -75,10 +75,11 @@ namespace Blazorise.Components
                 await Clear();
 
             await SearchChanged.InvokeAsync( CurrentSearch );
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
-        /// Handles the search field onfocusin event.
+        /// Handles the search field OnKeyDown event.
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
@@ -269,7 +270,19 @@ namespace Blazorise.Components
         /// True if the dropdown menu should be visible.
         /// </summary>
         protected bool DropdownVisible
-            => FilteredData?.Count > 0 && TextField != null && CurrentSearch?.Length >= MinLength && TextFocused;
+            => CanSearch && TextField != null;
+
+        /// <summary>
+        /// True if the not found content should be visible.
+        /// </summary>
+        protected bool NotFoundVisible
+            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused;
+
+        protected bool CanSearch
+            => FilteredData?.Count > 0 && IsTextSearchable && TextFocused;
+
+        protected bool IsTextSearchable
+            => CurrentSearch?.Length >= MinLength;
 
         /// <summary>
         /// Gets the custom classnames for dropdown element.
@@ -424,6 +437,11 @@ namespace Blazorise.Components
         /// Specifies the content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found.
+        /// </summary>
+        [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
 
         #endregion
     }

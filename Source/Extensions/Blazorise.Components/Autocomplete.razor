@@ -25,14 +25,21 @@
         </TextEdit>
     </Validation>
     <DropdownMenu>
+        @if ( NotFoundVisible && NotFoundContent != null )
+        {
+            <DropdownItem Disabled="true" >
+                @NotFoundContent( SelectedText )
+            </DropdownItem>
+        }
+
         @if ( DropdownVisible )
         {
-            for ( int i = 0; i < FilteredData.Count; ++i )
+            for (int i = 0; i < FilteredData.Count; ++i)
             {
                 var item = FilteredData[i];
 
-                var text = TextField?.Invoke( item );
-                var value = ValueField != null ? ValueField.Invoke( item ) : default;
+                var text = TextField?.Invoke(item);
+                var value = ValueField != null ? ValueField.Invoke(item) : default;
 
                 <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
             }
