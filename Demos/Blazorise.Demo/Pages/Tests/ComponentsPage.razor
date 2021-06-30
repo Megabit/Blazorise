@@ -45,7 +45,8 @@
                                       ValueField="@((item)=>item.MyTextField)"
                                       SelectedValue="@selectedSearchValue"
                                       SelectedValueChanged="@MySearchHandler"
-                                      Placeholder="Search..." 
+                                      @bind-SelectedText="selectedAutoCompleteText"
+                                      Placeholder="Search..."
                                       Filter="AutocompleteFilter.StartsWith">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                         </Autocomplete>
@@ -54,6 +55,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected search value: @selectedSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteText
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -140,25 +144,26 @@
     }
 
     static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range(1, Countries.Length).Select(x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x });
 
     int selectedListValue { get; set; }
     int selectedDropValue { get; set; } = 2;
     string selectedSearchValue { get; set; }
-    ObservableCollection<int> items { get; } = new ObservableCollection<int>( Enumerable.Range( 1, 4 ) );
+    string selectedAutoCompleteText { get; set; }
+    ObservableCollection<int> items { get; } = new ObservableCollection<int>(Enumerable.Range(1, 4));
     Random random = new Random();
 
-    void MyListValueChangedHandler( int newValue )
+    void MyListValueChangedHandler(int newValue)
     {
         selectedListValue = newValue;
     }
 
-    void MyDropValueChangedHandler( int newValue )
+    void MyDropValueChangedHandler(int newValue)
     {
         selectedDropValue = newValue;
     }
 
-    void MySearchHandler( string newValue )
+    void MySearchHandler(string newValue)
     {
         selectedSearchValue = newValue;
     }
@@ -167,24 +172,24 @@
     {
         var maxIndex = items.Count - 1;
 
-        if ( maxIndex == -1 )
+        if (maxIndex == -1)
             return;
 
-        var orgPos = random.Next( maxIndex );
-        var newPos = random.Next( maxIndex );
+        var orgPos = random.Next(maxIndex);
+        var newPos = random.Next(maxIndex);
 
-        items.Move( orgPos, newPos );
+        items.Move(orgPos, newPos);
     }
 
-    private static string GetColor( int number )
+    private static string GetColor(int number)
     {
         const string letters = "0123456789ABCDEF";
 
         var color = "";
 
-        for ( var i = 0; i < 6; i++ )
+        for (var i = 0; i < 6; i++)
         {
-            color += letters[( 3 * number + i ) % letters.Length];
+            color += letters[(3 * number + i) % letters.Length];
         }
 
         return $"color: #{color}";

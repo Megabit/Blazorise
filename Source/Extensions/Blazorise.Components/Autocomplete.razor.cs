@@ -65,7 +65,8 @@ namespace Blazorise.Components
                 await Clear();
 
             await SearchChanged.InvokeAsync( CurrentSearch );
-            
+            await SelectedTextChanged.InvokeAsync( SelectedText );
+
             if ( FilteredData?.Count == 0 && NotFound.HasDelegate )
                 await NotFound.InvokeAsync( CurrentSearch );
 
@@ -101,11 +102,11 @@ namespace Blazorise.Components
             }
             else if ( eventArgs.Code == "ArrowUp" )
             {
-                UpdateActiveFilterIndex( --activeItemIndex );
+                await UpdateActiveFilterIndex( --activeItemIndex );
             }
             else if ( eventArgs.Code == "ArrowDown" )
             {
-                UpdateActiveFilterIndex( ++activeItemIndex );
+                await UpdateActiveFilterIndex( ++activeItemIndex );
             }
         }
 
@@ -146,6 +147,8 @@ namespace Blazorise.Components
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
+            await SelectedTextChanged.InvokeAsync( SelectedText );
+
 
             await textEditRef?.Revalidate();
         }
@@ -198,9 +201,11 @@ namespace Blazorise.Components
 
             await SelectedValueChanged.InvokeAsync( selectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
+            await SelectedTextChanged.InvokeAsync(SelectedText );
+
         }
 
-        private void UpdateActiveFilterIndex( int activeItemIndex )
+        private async Task UpdateActiveFilterIndex( int activeItemIndex )
         {
             if ( activeItemIndex < 0 )
                 activeItemIndex = 0;
@@ -216,6 +221,7 @@ namespace Blazorise.Components
                 var item = FilteredData[ActiveItemIndex];
 
                 SelectedText = TextField?.Invoke( item ) ?? string.Empty;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
 
@@ -240,12 +246,17 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the current search value.
         /// </summary>
-        protected string CurrentSearch { get; set; } = string.Empty;
+        protected string CurrentSearch { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected item text.
         /// </summary>
-        protected string SelectedText { get; set; } = string.Empty;
+        [Parameter] public string SelectedText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the currently active item index.
@@ -253,7 +264,7 @@ namespace Blazorise.Components
         protected int ActiveItemIndex { get; set; }
 
         /// <summary>
-        /// Gets or sets the serach field focus state.
+        /// Gets or sets the search field focus state.
         /// </summary>
         protected bool TextFocused { get; set; }
 
@@ -369,10 +380,6 @@ namespace Blazorise.Components
                 var item = Data != null
                     ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
                     : default;
-
-                SelectedText = item != null
-                    ? TextField?.Invoke( item )
-                    : string.Empty;
             }
         }
 
