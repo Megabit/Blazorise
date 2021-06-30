@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"

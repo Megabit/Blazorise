@@ -21,11 +21,6 @@ namespace Blazorise.Components
         #region Members
 
         /// <summary>
-        /// Reference to the Dropdown component.
-        /// </summary>
-        private Dropdown dropdownRef;
-
-        /// <summary>
         /// Reference to the TextEdit component.
         /// </summary>
         private TextEdit textEditRef;
@@ -64,11 +59,6 @@ namespace Blazorise.Components
             CurrentSearch = text ?? string.Empty;
             SelectedText = CurrentSearch;
             dirtyFilter = true;
-
-            if ( CanSearch || NotFoundVisible )
-                dropdownRef.Show();
-            else
-                dropdownRef.Hide();
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
@@ -144,7 +134,6 @@ namespace Blazorise.Components
         private async Task OnDropdownItemClicked( object value )
         {
             CurrentSearch = null;
-            dropdownRef.Hide();
 
             var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
@@ -200,8 +189,6 @@ namespace Blazorise.Components
         public async Task Clear()
         {
             CurrentSearch = null;
-            dropdownRef.Hide();
-
             SelectedText = string.Empty;
             SelectedValue = default;
 
@@ -394,6 +381,11 @@ namespace Blazorise.Components
         /// Occurs on every search text change.
         /// </summary>
         [Parameter] public EventCallback<string> SearchChanged { get; set; }
+
+        /// <summary>
+        /// Occurs on every search text change where the data does not contain the text being searched.
+        /// </summary>
+        [Parameter] public EventCallback<string> NotFound { get; set; }
 
         /// <summary>
         /// Custom classname for dropdown element.
