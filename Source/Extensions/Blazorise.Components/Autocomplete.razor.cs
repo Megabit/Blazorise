@@ -65,6 +65,10 @@ namespace Blazorise.Components
                 await Clear();
 
             await SearchChanged.InvokeAsync( CurrentSearch );
+            
+            if ( FilteredData?.Count == 0 && NotFound.HasDelegate )
+                await NotFound.InvokeAsync( CurrentSearch );
+
             await InvokeAsync( StateHasChanged );
         }
 
