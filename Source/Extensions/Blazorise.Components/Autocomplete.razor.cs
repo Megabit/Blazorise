@@ -263,7 +263,7 @@ namespace Blazorise.Components
         /// True if the not found content should be visible.
         /// </summary>
         protected bool NotFoundVisible
-            => FilteredData?.Count == 0 && IsTextSearchable &&  NotFoundContent != null;
+            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused && NotFoundContent != null;
 
         /// <summary>
         /// True if the component has the pre-requirements to search
