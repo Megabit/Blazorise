@@ -16,7 +16,7 @@
                   ChangeTextOnKeyPress="@ChangeTextOnKeyPress"
                   DelayTextOnKeyPress="@DelayTextOnKeyPress"
                   DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval"
-                  CustomValidationValue="@(()=>SelectedValue?.ToString())">
+                  CustomValidationValue="@(( ) => AllowFreeTyping ? SelectedText?.ToString() : SelectedValue?.ToString())">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess />

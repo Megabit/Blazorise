@@ -47,7 +47,8 @@
                                       SelectedValueChanged="@MySearchHandler"
                                       @bind-SelectedText="selectedAutoCompleteText"
                                       Placeholder="Search..."
-                                      Filter="AutocompleteFilter.StartsWith">
+                                      Filter="AutocompleteFilter.StartsWith"
+                                      AllowFreeTyping="true">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                         </Autocomplete>
                     </FieldBody>

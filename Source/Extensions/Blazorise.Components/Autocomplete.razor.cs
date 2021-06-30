@@ -83,7 +83,6 @@ namespace Blazorise.Components
             if ( !DropdownVisible )
                 return;
 
-            // make sure everything is filtered
             if ( dirtyFilter )
                 FilterData();
 
@@ -132,6 +131,11 @@ namespace Blazorise.Components
             // Give enought time for other events to do their stuff before closing
             // the dropdown.
             await Task.Delay( 250 );
+            if ( !AllowFreeTyping && SelectedValue == null )
+            {
+                SelectedText = string.Empty;
+                await SelectedTextChanged.InvokeAsync( string.Empty );
+            }
 
             TextFocused = false;
         }
@@ -201,7 +205,7 @@ namespace Blazorise.Components
 
             await SelectedValueChanged.InvokeAsync( selectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
-            await SelectedTextChanged.InvokeAsync(SelectedText );
+            await SelectedTextChanged.InvokeAsync( SelectedText );
 
         }
 
@@ -247,16 +251,6 @@ namespace Blazorise.Components
         /// Gets or sets the current search value.
         /// </summary>
         protected string CurrentSearch { get; set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected item text.
-        /// </summary>
-        [Parameter] public string SelectedText { get; set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected item text.
-        /// </summary>
-        [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the currently active item index.
@@ -352,6 +346,22 @@ namespace Blazorise.Components
                 return filteredData;
             }
         }
+
+        /// <summary>
+        /// Allows the value to not be on the data source.
+        /// The value will be bound to the <see cref="SelectedText"/>
+        /// </summary>
+        [Parameter] public bool AllowFreeTyping { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public string SelectedText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
 
         /// <summary>
         /// Method used to get the display field from the supplied data source.
