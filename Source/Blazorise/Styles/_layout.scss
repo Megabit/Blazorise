@@ -63,8 +63,25 @@
 
 .b-layout-header {
     color: rgba(0, 0, 0, 0.65);
+}
 
-    &-fixed {
+.b-layout.b-layout-root.b-layout-has-sider,
+.b-layout.b-layout-root.b-layout-has-sider > .b-layout {
+    > .b-layout-header-fixed {
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        flex: 0;
+
+        + .b-layout-content {
+            margin-top: var(--b-bar-horizontal-height, auto);
+        }
+    }
+}
+
+.b-layout.b-layout-root:not(.b-layout-has-sider),
+.b-layout.b-layout-root:not(.b-layout-has-sider) > .b-layout {
+    .b-layout-header-fixed {
         position: sticky;
         z-index: 1;
         top: 0;
