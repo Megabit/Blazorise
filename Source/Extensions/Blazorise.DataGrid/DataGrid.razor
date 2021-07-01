@@ -4,7 +4,7 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value="@this" IsFixed="true">
-    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    @if ( IsPagerVisible && (PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom) )
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
@@ -71,7 +71,7 @@
                 <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
                     @foreach ( var column in DisplayableColumns )
                     {
-                        if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                        @if ( column.ColumnType == DataGridColumnType.MultiSelect )
                         {
                             @if ( MultiSelect )
                             {
@@ -165,7 +165,7 @@
             </TableFooter>
         }
     </Table>
-    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    @if ( IsPagerVisible && (PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom) )
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
