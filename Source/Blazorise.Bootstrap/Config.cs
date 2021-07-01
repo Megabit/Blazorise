@@ -44,6 +44,7 @@ namespace Blazorise.Bootstrap
             { typeof( Blazorise.Addon ), typeof( Bootstrap.Addon ) },
             { typeof( Blazorise.BarToggler ), typeof( Bootstrap.BarToggler ) },
             { typeof( Blazorise.BarDropdown ), typeof( Bootstrap.BarDropdown ) },
+            { typeof( Blazorise.BarDropdownMenu ), typeof( Bootstrap.BarDropdownMenu ) },
             { typeof( Blazorise.CardTitle ), typeof( Bootstrap.CardTitle ) },
             { typeof( Blazorise.CardSubtitle ), typeof( Bootstrap.CardSubtitle ) },
             { typeof( Blazorise.Carousel ), typeof( Bootstrap.Carousel ) },
