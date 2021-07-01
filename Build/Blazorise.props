@@ -5,7 +5,7 @@
 
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Mladen Macanovic</Authors>
-		<Company></Company>
+		<Company>Megabit Ltd</Company>
 		<Copyright>Copyright 2018-2021 Megabit Ltd</Copyright>
 		<RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>

@@ -7,7 +7,7 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components icons material</PackageTags>
   </PropertyGroup>
 
