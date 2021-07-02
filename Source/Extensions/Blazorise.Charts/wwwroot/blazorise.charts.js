@@ -13,6 +13,27 @@ window.blazoriseCharts = {
             options = optionsObject;
         }
 
+        if (type === "pie") {
+            options = {
+                ...options,
+                ...{
+                    tooltips: {
+                        callbacks: {
+                            title: function (item, data) {
+                                const label = data.labels[item[0].index];
+                                return label;
+                            },
+                            label: function (item, data) {
+                                const label = data.datasets[item.datasetIndex].label;
+                                const value = data.datasets[item.datasetIndex].data[item.index];
+                                return label + ': ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // search for canvas element
         const canvas = document.getElementById(canvasId);
 
