@@ -14,6 +14,7 @@ window.blazoriseCharts = {
         }
 
         if (type === "pie") {
+            // workaround for: https://github.com/Megabit/Blazorise/issues/2287
             options = {
                 ...options,
                 ...{
