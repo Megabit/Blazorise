@@ -79,8 +79,8 @@ namespace Blazorise.Demo.Pages.Tests
             {
                 Label = "# of randoms",
                 Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
+                BackgroundColor = backgroundColors[0], // line chart can only have one color
+                BorderColor = borderColors[0],
                 Fill = true,
                 PointRadius = 3,
                 BorderWidth = 1,
@@ -145,7 +145,7 @@ namespace Blazorise.Demo.Pages.Tests
             {
                 Label = "custom radar",
                 Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
+                BackgroundColor = backgroundColors[0], // radar chart can only have one color
                 BorderColor = borderColors,
                 LineTension = 0.0f,
                 BorderWidth = 1
