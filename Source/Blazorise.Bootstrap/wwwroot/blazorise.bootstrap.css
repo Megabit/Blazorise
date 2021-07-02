@@ -91,7 +91,9 @@
     cursor: pointer; }
 
 .b-is-autocomplete .dropdown-menu {
-    width: 100%; }
+    width: 100%;
+    max-height: 200px;
+    overflow-y: scroll; }
 
 .figure-is-16x16 {
     height: 16px;

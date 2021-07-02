@@ -3362,7 +3362,9 @@
     white-space: nowrap; }
 
 .b-is-autocomplete .dropdown-menu {
-    width: 100%; }
+    width: 100%;
+    max-height: 200px;
+    overflow-y: scroll; }
 
 label.radio.button {
     display: flex; }
