@@ -3361,6 +3361,9 @@
     color: #b5b5b5;
     white-space: nowrap; }
 
+.b-is-autocomplete .dropdown-menu {
+    width: 100%; }
+
 label.radio.button {
     display: flex; }
 

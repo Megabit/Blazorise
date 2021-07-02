@@ -90,6 +90,9 @@
 .dropdown-menu a:not([href]).dropdown-item:not(.disabled) {
     cursor: pointer; }
 
+.b-is-autocomplete .dropdown-menu {
+    width: 100%; }
+
 .figure-is-16x16 {
     height: 16px;
     width: 16px; }

@@ -17,3 +17,7 @@
     color: $dropdown-header-color;
     white-space: nowrap; // as with > li > a
 }
+
+.b-is-autocomplete .dropdown-menu {
+    width: 100%
+}
