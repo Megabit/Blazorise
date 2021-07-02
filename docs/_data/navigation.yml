@@ -123,6 +123,8 @@ docs:
         url: /docs/extensions/dropdownlist/
       - title: "Icons"
         url: /docs/extensions/icons/
+      - title: "Markdown"
+        url: /docs/extensions/markdown/
       - title: "RichTextEdit"
         url: /docs/extensions/richtextedit/
       - title: "SelectList"

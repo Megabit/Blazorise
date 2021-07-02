@@ -57,6 +57,12 @@ For the long time this was one of the most requested features and we finally int
 
 To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}), [Notification Service]({{ "/docs/services/notification" | relative_url }}) and [PageProgress Service]({{ "/docs/services/page-progress" | relative_url }}) pages.
 
+### Markdown component
+
+New Markdown component is also part of the release. It is based on the excellent and well maintained [Easy MarkDown Editor](https://easy-markdown-editor.tk/) JavaScript library. It has all the basic editing features like bold, italic, code snippets, headings, etc. With time we hope to introduce and support even more once the people start using it.
+
+To learn more about the components please visit [Markdown]({{ "/docs/extensions/markdown" | relative_url }}) page.
+
 ### DataGrid data-annotations
 
 We finally enabled data-annotations for validating the DataGrid edit fields. This feature is now the default option once `UseValidation` on `DataGrid` is enabled. If you want to have any other validation method, like `Validator` for example, you just need to define it on `DataGridColumn` and it will override default data-annotation. We hope this new feature will help you in building your applications even more.
