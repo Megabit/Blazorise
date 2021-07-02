@@ -131,7 +131,7 @@ namespace Blazorise.Components
             // Give enought time for other events to do their stuff before closing
             // the dropdown.
             await Task.Delay( 250 );
-            if ( !AllowFreeTyping && SelectedValue == null )
+            if ( !FreeTyping && SelectedValue == null )
             {
                 SelectedText = string.Empty;
                 await SelectedTextChanged.InvokeAsync( string.Empty );
@@ -173,18 +173,26 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Filter == AutocompleteFilter.Contains )
+            var currentSearch = CurrentSearch ?? string.Empty;
+            if ( CustomFilter != null )
+            {
+                query = from q in query
+                        where q != null
+                        where CustomFilter( q, currentSearch )
+                        select q;
+            }
+            else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
                         let text = TextField.Invoke( q ) ?? string.Empty
-                        where text.IndexOf( CurrentSearch ?? string.Empty, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                        where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = TextField.Invoke( q ) ?? string.Empty
-                        where text.StartsWith( CurrentSearch ?? string.Empty, StringComparison.OrdinalIgnoreCase )
+                        where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
 
@@ -351,7 +359,7 @@ namespace Blazorise.Components
         /// Allows the value to not be on the data source.
         /// The value will be bound to the <see cref="SelectedText"/>
         /// </summary>
-        [Parameter] public bool AllowFreeTyping { get; set; }
+        [Parameter] public bool FreeTyping { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected item text.
@@ -461,6 +469,11 @@ namespace Blazorise.Components
         /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found.
         /// </summary>
         [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
+
+        /// <summary>
+        /// Handler for custom filtering on auto complete's data source.
+        /// </summary>
+        [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
 
         #endregion
     }

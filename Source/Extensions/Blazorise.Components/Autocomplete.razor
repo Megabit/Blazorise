@@ -16,7 +16,7 @@
                   ChangeTextOnKeyPress="@ChangeTextOnKeyPress"
                   DelayTextOnKeyPress="@DelayTextOnKeyPress"
                   DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval"
-                  CustomValidationValue="@(( ) => AllowFreeTyping ? SelectedText?.ToString() : SelectedValue?.ToString())">
+                  CustomValidationValue="@(( ) => FreeTyping ? SelectedText?.ToString() : SelectedValue?.ToString())">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess />
@@ -24,7 +24,7 @@
             </Feedback>
         </TextEdit>
     </Validation>
-    <DropdownMenu> 
+    <DropdownMenu>
         @if ( NotFoundVisible )
         {
             <DropdownItem Disabled="true">
@@ -34,11 +34,11 @@
 
         @if ( DropdownVisible )
         {
-            for (int i = 0; i < FilteredData.Count; ++i)
+            for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
 
-                var text = TextField?.Invoke(item);
+                var text = TextField?.Invoke( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
                 <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
