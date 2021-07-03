@@ -71,31 +71,30 @@
                 <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
                     @foreach ( var column in DisplayableColumns )
                     {
-                        @if ( !column.Filterable )
+                        if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                        {
+                            @if ( MultiSelect )
+                            {
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
+                                    @if ( column.FilterTemplate != null && column.Filterable )
+                                    {
+                                        @(column.FilterTemplate( column.Filter ))
+                                    }
+                                </TableHeaderCell>
+                            }
+                        }
+                        else if ( !column.Filterable )
                         {
                             <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()"></TableHeaderCell>
                             continue;
                         }
-
-                        @if ( column.ColumnType == DataGridColumnType.Command )
+                        else if ( column.ColumnType == DataGridColumnType.Command )
                         {
                             @if ( IsCommandVisible )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
                                     <_DataGridClearFilterCommand TItem="TItem" ClearFilter="@ClearFilter" />
-                                </TableHeaderCell>
-                            }
-                        }
-                        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
-                        {
-                            @if ( MultiSelect )
-                            {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
-                                    @if ( column.FilterTemplate != null )
-                                    {
-                                        @(column.FilterTemplate( column.Filter ))
-                                    }
                                 </TableHeaderCell>
                             }
                         }
