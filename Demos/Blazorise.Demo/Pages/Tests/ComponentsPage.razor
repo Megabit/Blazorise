@@ -191,7 +191,7 @@
 
         for ( var i = 0; i < 6; i++ )
         {
-            color += letters[( 3 * number + i ) % letters.Length];
+            color += letters[(3 * number + i) % letters.Length];
         }
 
         return $"color: #{color}";
