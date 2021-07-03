@@ -123,6 +123,23 @@ Defines the placement of an element.
 - `Left` Left side.
 - `Right` Right side.
 
+## TooltipPlacement
+
+Defines the placement of an element.
+
+- `Top` Top-center side.
+- `TopStart` Top-left side.
+- `TopEnd` Top-right side.
+- `Bottom` Bottom-center side.
+- `BottomStart` Bottom-left side.
+- `BottomEnd` Bottom-right side.
+- `Left` Left-center side.
+- `LeftStart` Left-top side.
+- `LeftEnd` Left-bottom side.
+- `Right` Right-center side.
+- `RightStart` Right-top side.
+- `RightEnd` Right-bottom side.
+
 ## DataGridFilterMethod
 
 - `Contains` search for any occurrence (default)
@@ -317,12 +334,12 @@ Defines the orientation of the elements.
 - `Horizontal` - Elements will be stacked horizontally.
 - `Vertical` - - Elements will be stacked vertically.
 
-## DataGridResizeMode
+## TableResizeMode
 
 Defines the resize mode of the data grid columns.
 
-- `Header` - The data grid can only be resized from the columns header.
-- `Columns` - The data grid can be resized from the entire column area.
+- `Header` - The table can only be resized from the columns header.
+- `Columns` - The table can be resized from the entire column area.
 
 ## TooltipTrigger
 

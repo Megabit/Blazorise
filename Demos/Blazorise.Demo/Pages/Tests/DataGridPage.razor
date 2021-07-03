@@ -137,8 +137,8 @@
                                 </FieldLabel>
                                 <FieldBody>
                                     <Select @bind-SelectedValue="@resizableMode">
-                                        <SelectItem Value="DataGridResizeMode.Header">Header</SelectItem>
-                                        <SelectItem Value="DataGridResizeMode.Columns">Columns</SelectItem>
+                                        <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
+                                        <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
                                     </Select>
                                 </FieldBody>
                             </Field>
@@ -211,7 +211,9 @@
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
                           CurrentPage="currentPage"
-                          PageChanged="(e) => currentPage = e.Page">
+                          PageChanged="(e) => currentPage = e.Page"
+                          FilteredDataChanged="@OnFilteredDataChanged"
+                          UseValidation="true">
                     <EmptyTemplate>No records...</EmptyTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
@@ -264,7 +266,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="Email" Validator="CheckEmail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption

@@ -480,6 +480,14 @@ namespace Blazorise.Bootstrap
 
         public override string CarouselSlideActive( bool active ) => active ? Active() : null;
 
+        public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-left" : null;
+
+        public override string CarouselSlideSlisingRight( bool right ) => right ? "carousel-item-right" : null;
+
+        public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "carousel-item-prev" : null;
+
+        public override string CarouselSlideSlisingNext( bool next ) => next ? "carousel-item-next" : null;
+
         public override string CarouselIndicators() => "carousel-indicators";
 
         public override string CarouselIndicator() => null;
@@ -972,7 +980,7 @@ namespace Blazorise.Bootstrap
 
         public override string Tooltip() => "b-tooltip";
 
-        public override string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+        public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
         public override string TooltipMultiline() => "b-tooltip-multiline";
 

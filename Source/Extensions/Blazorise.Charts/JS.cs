@@ -76,6 +76,11 @@ namespace Blazorise.Charts
             return runtime.InvokeVoidAsync( "blazoriseCharts.addDataset", canvasId, newDataSet );
         }
 
+        public static ValueTask RemoveDataSet( IJSRuntime runtime, string canvasId, int dataSetIndex )
+        {
+            return runtime.InvokeVoidAsync( "blazoriseCharts.removeDataset", canvasId, dataSetIndex );
+        }
+
         public static ValueTask AddDatasetsAndUpdate( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newDataSet )
         {
             return runtime.InvokeVoidAsync( "blazoriseCharts.addDatasetsAndUpdate", canvasId, newDataSet );

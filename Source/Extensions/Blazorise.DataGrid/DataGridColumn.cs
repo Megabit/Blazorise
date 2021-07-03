@@ -17,7 +17,7 @@ namespace Blazorise.DataGrid
         private readonly Lazy<Func<TItem, object>> valueGetter;
         private readonly Lazy<Action<TItem, object>> valueSetter;
 
-        private Dictionary<DataGridSortMode, SortDirection> currentDirection { get; set; } = new Dictionary<DataGridSortMode, SortDirection>();
+        private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new Dictionary<DataGridSortMode, SortDirection>();
 
         #endregion
 
@@ -38,22 +38,22 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
+
+            // initialize temporary variables
+            currentSortDirection[DataGridSortMode.Single] = SortDirection;
+            currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
+
             if ( ParentDataGrid != null )
             {
                 // connect column to the parent datagrid
-                ParentDataGrid.Hook( this );
+                ParentDataGrid.AddColumn( this );
 
                 if ( Filter != null )
                 {
                     Filter.Subscribe( OnSearchValueChanged );
                 }
             }
-
-            // initialize temporary variables
-            currentDirection[DataGridSortMode.Single] = Direction;
-            currentDirection[DataGridSortMode.Multiple] = Direction;
-
-            base.OnInitialized();
         }
 
         protected override void Dispose( bool disposing )
@@ -196,13 +196,13 @@ namespace Blazorise.DataGrid
         /// Gets or sets the current sort direction.
         /// </summary>
         /// <remarks>
-        /// The reason for this field is that <see cref="Direction"/> is reseted every
+        /// The reason for this field is that <see cref="SortDirection"/> is reseted every
         /// time when the grid is refreshed by the user.
         /// </remarks>
-        internal SortDirection CurrentDirection
+        internal SortDirection CurrentSortDirection
         {
-            get => currentDirection[ParentDataGrid.SortMode];
-            set => currentDirection[ParentDataGrid.SortMode] = value;
+            get => currentSortDirection[ParentDataGrid.SortMode];
+            set => currentSortDirection[ParentDataGrid.SortMode] = value;
         }
 
         /// <summary>
@@ -237,7 +237,13 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the column initial sort direction.
         /// </summary>
-        [Parameter] public SortDirection Direction { get; set; }
+        [Obsolete( "This property will likely be removed in the future. Please use " + nameof( SortDirection ) + " instead." )]
+        [Parameter] public SortDirection Direction { get => SortDirection; set => SortDirection = value; }
+
+        /// <summary>
+        /// Gets or sets the column initial sort direction.
+        /// </summary>
+        [Parameter] public SortDirection SortDirection { get; set; }
 
         /// <summary>
         /// Gets or sets the column's display sort direction template.

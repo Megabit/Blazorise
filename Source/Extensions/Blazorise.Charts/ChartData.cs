@@ -101,6 +101,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public int Order { get; set; }
+
+        /// <summary>
+        /// If true, makes the dataset hidden.
+        /// </summary>
+        [DataMember]
+        public bool Hidden { get; set; }
     }
 
     /// <remarks>

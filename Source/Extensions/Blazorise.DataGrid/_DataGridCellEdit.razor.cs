@@ -6,19 +6,46 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// Internal component for editing the row item cell value.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
     public partial class _DataGridCellEdit<TItem> : ComponentBase
     {
+        /// <summary>
+        /// Updated the internal cell values.
+        /// </summary>
+        /// <typeparam name="T">Type of the value being changed.</typeparam>
+        /// <param name="value">Value that is updating.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnEditValueChanged<T>( T value )
         {
             CellEditContext.CellValue = value;
+
+            Column.SetValue( ValidationItem, value );
 
             return CellValueChanged.InvokeAsync( value );
         }
 
         /// <summary>
-        /// Row model.
+        /// Column that this cell belongs to.
+        /// </summary>
+        [Parameter] public DataGridColumn<TItem> Column { get; set; }
+
+        /// <summary>
+        /// Field name that this cell belongs to.
+        /// </summary>
+        [Parameter] public string Field { get; set; }
+
+        /// <summary>
+        /// Instance of the currently editing row item.
         /// </summary>
         [Parameter] public TItem Item { get; set; }
+
+        /// <summary>
+        /// Instance of the currently validating row item.
+        /// </summary>
+        [Parameter] public TItem ValidationItem { get; set; }
 
         /// <summary>
         /// Value data type.
@@ -62,5 +89,15 @@ namespace Blazorise.DataGrid
         /// https://www.w3schools.com/tags/ref_language_codes.asp
         /// </remarks>
         [Parameter] public string Culture { get; set; }
+
+        /// <summary>
+        /// If true, step buttons will be visible.
+        /// </summary>
+        [Parameter] public bool? ShowStepButtons { get; set; }
+
+        /// <summary>
+        /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
+        /// </summary>
+        [Parameter] public bool? EnableStep { get; set; }
     }
 }

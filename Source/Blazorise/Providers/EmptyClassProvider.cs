@@ -439,6 +439,14 @@ namespace Blazorise.Providers
 
         public string CarouselSlideActive( bool active ) => null;
 
+        public string CarouselSlideSlidingLeft( bool left ) => null;
+
+        public string CarouselSlideSlisingRight( bool right ) => null;
+
+        public string CarouselSlideSlidingPrev( bool previous ) => null;
+
+        public string CarouselSlideSlisingNext( bool next ) => null;
+
         public string CarouselIndicators() => null;
 
         public string CarouselIndicator() => null;
@@ -937,7 +945,7 @@ namespace Blazorise.Providers
 
         public string Tooltip() => null;
 
-        public string TooltipPlacement( Placement placement ) => null;
+        public string TooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
         public string TooltipMultiline() => null;
 
@@ -1096,6 +1104,8 @@ namespace Blazorise.Providers
         public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
+
+        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
 

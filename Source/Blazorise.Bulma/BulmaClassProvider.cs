@@ -490,6 +490,14 @@ namespace Blazorise.Bulma
 
         public override string CarouselSlideActive( bool active ) => active ? null : "carousel-item-hidden";
 
+        public override string CarouselSlideSlidingLeft( bool left ) => null;
+
+        public override string CarouselSlideSlisingRight( bool right ) => null;
+
+        public override string CarouselSlideSlidingPrev( bool previous ) => null;
+
+        public override string CarouselSlideSlisingNext( bool next ) => null;
+
         public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
 
         public override string CarouselIndicator() => "indicator-item";
@@ -990,7 +998,7 @@ namespace Blazorise.Bulma
 
         public override string Tooltip() => "b-tooltip";
 
-        public override string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+        public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
         public override string TooltipMultiline() => "b-tooltip-multiline";
 

@@ -198,11 +198,9 @@ namespace Blazorise.DataGrid
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
         /// <summary>
-        /// List of display columns used to build the view row.
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
         /// </summary>
-        [Parameter] public IEnumerable<DataGridColumn<TItem>> DisplayableColumns { get; set; }
-
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         /// <summary>
         /// Occurs after the row is selected.

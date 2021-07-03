@@ -1,9 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise.DataGrid.Utils
@@ -51,6 +51,35 @@ namespace Blazorise.DataGrid.Utils
             return Expression.Condition( Expression.Equal( item, Expression.Constant( null ) ),
                 Expression.Constant( null, field.Type ),
                 field );
+        }
+
+        private static MemberExpression GetPropertyOrField( Expression item, string propertyOrFieldName )
+        {
+            if ( string.IsNullOrEmpty( propertyOrFieldName ) )
+                throw new ArgumentException( $"{nameof( propertyOrFieldName )} is not specified." );
+
+            var parts = propertyOrFieldName.Split( new char[] { '.' }, 2 );
+
+            MemberExpression field = null;
+
+            MemberInfo memberInfo = GetSafeMember( item.Type, parts[0] );
+
+            if ( memberInfo is PropertyInfo propertyInfo )
+                field = Expression.Property( item, propertyInfo );
+            else if ( memberInfo is FieldInfo fieldInfo )
+                field = Expression.Field( item, fieldInfo );
+
+            if ( field == null )
+                throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
+
+            if ( parts.Length > 1 )
+                field = GetPropertyOrField( field, parts[1] );
+
+            // if the value type cannot be null there's no reason to check it for null
+            if ( !IsNullable( field.Type ) )
+                return field;
+
+            return field;
         }
 
         // inspired by: https://stackoverflow.com/questions/2496256/expression-tree-with-property-inheritance-causes-an-argument-exception
@@ -125,6 +154,24 @@ namespace Blazorise.DataGrid.Utils
                 subPropertyOrField = GetField( subPropertyOrField, parts[1] );
 
             return subPropertyOrField;
+        }
+
+        /// <summary>
+        /// Creates the lambda expression that is suitable for usage with Blazor <see cref="FieldIdentifier"/>.
+        /// </summary>
+        /// <typeparam name="TItem">Type of model that contains the data-annotations.</typeparam>
+        /// <typeparam name="TValue">Teturn type of validation field.</typeparam>
+        /// <param name="item">An actual instance of the validation model.</param>
+        /// <param name="fieldName">Field name to validate.</param>
+        /// <returns>Expression compatible with <see cref="FieldIdentifier"/> parser.</returns>
+        public static Expression<Func<TValue>> CreateValidationExpressionGetter<TItem, TValue>( TItem item, string fieldName )
+        {
+            var parameter = Expression.Parameter( typeof( TItem ), "item" );
+            var property = GetPropertyOrField( parameter, fieldName );
+
+            var convertExpression = Expression.MakeMemberAccess( Expression.Constant( item ), property.Member );
+
+            return Expression.Lambda<Func<TValue>>( convertExpression );
         }
 
         public static Func<TItem, object> CreateValueGetter<TItem>( string fieldName )

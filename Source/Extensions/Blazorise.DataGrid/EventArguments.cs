@@ -114,24 +114,36 @@ namespace Blazorise.DataGrid
     /// <summary>
     /// Provides all the information for loading the datagrid data manually.
     /// </summary>
-    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TItem">Type of the data model.</typeparam>
     public class DataGridReadDataEventArgs<TItem> : EventArgs
     {
         /// <summary>
         /// Initializes a new instance of read-data event argument.
         /// </summary>
         /// <param name="readDataMode">ReadData Mode.</param>
+        /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
-        /// <param name="columns">List of all the columns in the grid.</param>
         /// <param name="virtualizeStartIndex">Requested data start index by Virtualize.</param>
         /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public DataGridReadDataEventArgs( ReadDataMode readDataMode, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken, int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0 )
+        public DataGridReadDataEventArgs(
+            ReadDataMode readDataMode,
+            IEnumerable<DataGridColumn<TItem>> columns,
+            IList<DataGridColumn<TItem>> sortByColumns,
+            CancellationToken cancellationToken,
+            int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0
+            )
         {
             Page = page;
             PageSize = pageSize;
-            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection, x.ColumnType ) );
+            Columns = columns?.Select( x => new DataGridColumnInfo(
+                x.Field,
+                x.Filter?.SearchValue,
+                x.CurrentSortDirection,
+                sortByColumns?.IndexOf( x ) ?? -1,
+                x.ColumnType ) );
             CancellationToken = cancellationToken;
             this.VirtualizeStartIndex = virtualizeStartIndex;
             this.VirtualizeCount = virtualizeCount;
@@ -172,6 +184,41 @@ namespace Blazorise.DataGrid
         /// Gets the CancellationToken
         /// </summary>
         public CancellationToken CancellationToken { get; set; }
+    }
+
+    /// <summary>
+    /// Provides all the information for filtered data items.
+    /// </summary>
+    /// <typeparam name="TItem">Type of the data model.</typeparam>
+    public class DataGridFilteredDataEventArgs<TItem> : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of filtered-data event argument.
+        /// </summary>
+        /// <param name="filteredData">List of filtered data items.</param>
+        /// <param name="filteredItems">Number of filtered items.</param>
+        /// <param name="totalItems">Total available items in the data-source.</param>
+        public DataGridFilteredDataEventArgs( IEnumerable<TItem> filteredData, int filteredItems, int totalItems )
+        {
+            Data = filteredData;
+            FilteredItems = filteredItems;
+            TotalItems = totalItems;
+        }
+
+        /// <summary>
+        /// Gets the list of filtered data items.
+        /// </summary>
+        public IEnumerable<TItem> Data { get; }
+
+        /// <summary>
+        /// Gets the number of filtered items.
+        /// </summary>
+        public int FilteredItems { get; }
+
+        /// <summary>
+        /// Gets the total available items in the data-source.
+        /// </summary>
+        public int TotalItems { get; }
     }
 
     /// <summary>

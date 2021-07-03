@@ -439,6 +439,14 @@ namespace Blazorise
 
         public abstract string CarouselSlideActive( bool active );
 
+        public abstract string CarouselSlideSlidingLeft( bool left );
+
+        public abstract string CarouselSlideSlisingRight( bool right );
+
+        public abstract string CarouselSlideSlidingPrev( bool previous );
+
+        public abstract string CarouselSlideSlisingNext( bool next );
+
         public abstract string CarouselIndicators();
 
         public abstract string CarouselIndicator();
@@ -937,7 +945,7 @@ namespace Blazorise
 
         public abstract string Tooltip();
 
-        public abstract string TooltipPlacement( Placement placement );
+        public abstract string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
         public abstract string TooltipMultiline();
 
@@ -1412,6 +1420,25 @@ namespace Blazorise
                 Blazorise.Placement.Bottom => "bottom",
                 Blazorise.Placement.Left => "left",
                 Blazorise.Placement.Right => "right",
+                _ => "top",
+            };
+        }
+
+        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
+        {
+            return tooltipPlacement switch
+            {
+                Blazorise.TooltipPlacement.Bottom => "bottom",
+                Blazorise.TooltipPlacement.BottomStart => "bottom-start",
+                Blazorise.TooltipPlacement.BottomEnd => "bottom-end",
+                Blazorise.TooltipPlacement.Left => "left",
+                Blazorise.TooltipPlacement.LeftStart => "left-start",
+                Blazorise.TooltipPlacement.LeftEnd => "left-end",
+                Blazorise.TooltipPlacement.Right => "right",
+                Blazorise.TooltipPlacement.RightStart => "right-start",
+                Blazorise.TooltipPlacement.RightEnd => "right-end",
+                Blazorise.TooltipPlacement.TopStart => "top-start",
+                Blazorise.TooltipPlacement.TopEnd => "top-end",
                 _ => "top",
             };
         }

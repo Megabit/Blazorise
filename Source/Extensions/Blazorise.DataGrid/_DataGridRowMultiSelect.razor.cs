@@ -40,7 +40,10 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TItem Item { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public string Width { get; set; }
 

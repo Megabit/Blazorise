@@ -26,7 +26,16 @@ tags:
   - Use only `Progress` component because `ProgressBar` is now needed only for multiple stacked bars, eg. `<Progress Value="50" />`
   - Instead of `Background` parameter use the `Color` parameter
 - Remove usage of `Dialog` parameter for `ModalContent`
-  
+- Change `Tooltip` `Placement` parameter to `TooltipPlacement`, eg. `Placement="Placement.Left"` to `Placement="TooltipPlacement.Left"`
+- On DataGridColumn, rename `Direction` parameter to `SortDirection`
+- For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
+- DataGrid `FilteredDataChanged` now accepts the `DataGridFilteredDataEventArgs<TItem>` as the argument instead of `IEnumerable<TItem>`
+- Datagrid: Due to a realocation of the resizable feature to the Table component, you should note the following:
+  - The datagrid resources(js and css) we had previously introduced, no longer exist, and do not need to be added to your application.
+    - If you had any of the resources below, you can now safely remove them:
+      - `<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
+      - `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
+  - The `DataGridResizeMode` enum no longer exists, and you will need to use `TableResizeMode` enum instead.
 
 ## Highlights 🚀
 
@@ -35,6 +44,26 @@ tags:
 There are situations when you need to do validation by using the external method or a service. Since calling them can take some time it not advised to do it synchronously as that can lead to pretty horrible UI experience. So to handle those scenarios we have added support for awaitable validation handlers and basically enabling the asynchronous validation. Using them is similar to regular validator. Instead of using `Validator` we need to use `AsyncValidator` parameter.
 
 For more information and an example just look at the [Async Validation]({{ "/docs/components/validation/#async-validation" | relative_url }}) page section.
+
+### Services
+
+For the long time this was one of the most requested features and we finally introduce it.
+
+- Message Service is used to show simple messages and confirmation dialogs to which the user can respond. It contains some of the standard methods like `Info`, `Success` or `Warning`, and also `Confirm` method for use cases when you need to wait for the user action.
+
+- Notification Service is used to show simple alerts and notifications with a small timeout after which it will auto-close.
+
+- PageProgress Service is used to show simple progress bar at the top of the page.
+
+To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}), [Notification Service]({{ "/docs/services/notification" | relative_url }}) and [PageProgress Service]({{ "/docs/services/page-progress" | relative_url }}) pages.
+
+### DataGrid data-annotations
+
+We finally enabled data-annotations for validating the DataGrid edit fields. This feature is now the default option once `UseValidation` on `DataGrid` is enabled. If you want to have any other validation method, like `Validator` for example, you just need to define it on `DataGridColumn` and it will override default data-annotation. We hope this new feature will help you in building your applications even more.
+
+### Carousel animations
+
+A lot of refactoring went into Carousel component and we now fully support slide animations. Crossfade animations are also supported.
 
 ### Flex utilities
 

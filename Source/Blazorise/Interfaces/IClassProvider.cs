@@ -437,6 +437,14 @@ namespace Blazorise
 
         string CarouselSlideActive( bool active );
 
+        string CarouselSlideSlidingLeft( bool left );
+
+        string CarouselSlideSlisingRight( bool right );
+
+        string CarouselSlideSlidingPrev( bool previous );
+
+        string CarouselSlideSlisingNext( bool next );
+
         string CarouselIndicators();
 
         string CarouselIndicator();
@@ -929,7 +937,7 @@ namespace Blazorise
 
         string Tooltip();
 
-        string TooltipPlacement( Placement placement );
+        string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
         string TooltipMultiline();
 
@@ -1093,6 +1101,8 @@ namespace Blazorise
         string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
 
         string ToPlacement( Placement placement );
+
+        string ToTooltipPlacement( TooltipPlacement tooltipPlacement );
 
         string ToFigureSize( FigureSize figureSize );
 

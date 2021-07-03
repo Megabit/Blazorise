@@ -136,14 +136,16 @@ Table displays information in a way that’s easy to scan, so that users can loo
 
 ## Attributes
 
-| Name                      | Type    | Default | Description                                                                                           |
-|---------------------------|---------|---------|-------------------------------------------------------------------------------------------------------|
-| FullWidth                 | boolean | false   | Makes the table to fill entire horizontal space.                                                      |
-| Striped                   | boolean | false   | Adds stripes to the table.                                                                            |
-| Bordered                  | boolean | false   | Adds borders to all the cells.                                                                        |
-| Hoverable                 | boolean | false   | Adds a hover effect on each row.                                                                      |
-| Borderless                | boolean | false   | Table without any borders.                                                                            |
-| Narrow                    | boolean | false   | Makes the table more compact by cutting cell padding in half.                                         |
-| Responsive                | boolean | false   | Makes table responsive by adding the horizontal scroll bar.                                           |
-| FixedHeader               | boolean | false   | Makes table have a fixed header and enabling a scrollbar in the table body.                           |
-| FixedHeaderTableHeight    | string  | `300px` | Sets the table height when `FixedHeader` feature is enabled (defaults to 300px).                      |
+| Name                      | Type              | Default   | Description                                                                                           |
+|---------------------------|-------------------|-----------|-------------------------------------------------------------------------------------------------------|
+| FullWidth                 | boolean           | false     | Makes the table to fill entire horizontal space.                                                      |
+| Striped                   | boolean           | false     | Adds stripes to the table.                                                                            |
+| Bordered                  | boolean           | false     | Adds borders to all the cells.                                                                        |
+| Hoverable                 | boolean           | false     | Adds a hover effect on each row.                                                                      |
+| Borderless                | boolean           | false     | Table without any borders.                                                                            |
+| Narrow                    | boolean           | false     | Makes the table more compact by cutting cell padding in half.                                         |
+| Responsive                | boolean           | false     | Makes table responsive by adding the horizontal scroll bar.                                           |
+| FixedHeader               | boolean           | false     | Makes table have a fixed header and enabling a scrollbar in the table body.                           |
+| FixedHeaderTableHeight    | string            | `300px`   | Sets the table height when `FixedHeader` feature is enabled (defaults to 300px).                      |
+| Resizable                 | boolean           | false     | Defines whether users can resize Table's columns.                                                     |
+| ResizeMode                | `TableResizeMode` | `Header`  | Defines the resize mode of the Table's columns.                                                       |

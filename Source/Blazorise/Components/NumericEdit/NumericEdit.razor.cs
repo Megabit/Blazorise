@@ -213,7 +213,7 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         protected virtual Task OnSpinUpClicked()
         {
-            if ( ReadOnly || Disabled )
+            if ( !IsEnableStep || ReadOnly || Disabled )
                 return Task.CompletedTask;
 
             return ProcessNumber( AddStep( CurrentValue, 1 ) );
@@ -225,7 +225,7 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         protected virtual Task OnSpinDownClicked()
         {
-            if ( ReadOnly || Disabled )
+            if ( !IsEnableStep || ReadOnly || Disabled )
                 return Task.CompletedTask;
 
             return ProcessNumber( AddStep( CurrentValue, -1 ) );
@@ -287,8 +287,14 @@ namespace Blazorise
         /// <summary>
         /// True if spin buttons can be shown.
         /// </summary>
-        protected bool IsShowSpinButtons
-            => ShowSpinButtons.GetValueOrDefault( Options?.ShowSpinButtons ?? true ) && !( ReadOnly || Disabled );
+        protected bool IsShowStepButtons
+            => ShowStepButtons.GetValueOrDefault( Options?.ShowNumericStepButtons ?? true ) && !( ReadOnly || Disabled ) && IsEnableStep;
+
+        /// <summary>
+        /// True if value can be changed with stepper.
+        /// </summary>
+        protected bool IsEnableStep
+            => EnableStep.GetValueOrDefault( Options?.EnableNumericStep ?? true );
 
         /// <summary>
         /// Gets the culture info defined on the input field.
@@ -364,9 +370,14 @@ namespace Blazorise
         [Parameter] public int? VisibleCharacters { get; set; }
 
         /// <summary>
-        /// Sets the visibility of spin buttons.
+        /// If true, step buttons will be visible.
         /// </summary>
-        [Parameter] public bool? ShowSpinButtons { get; set; }
+        [Parameter] public bool? ShowStepButtons { get; set; }
+
+        /// <summary>
+        /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
+        /// </summary>
+        [Parameter] public bool? EnableStep { get; set; }
 
         #endregion
     }
