@@ -24,6 +24,7 @@ namespace Blazorise.Tests.Components
             // test
             var comp = RenderComponent<CloseButtonComponent>();
 
+            // validate
             return Verifier.Verify(comp)
                 .ScrubInlineGuids();
         }

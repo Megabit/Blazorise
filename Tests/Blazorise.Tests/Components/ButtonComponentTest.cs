@@ -22,6 +22,8 @@ namespace Blazorise.Tests.Components
         public Task RenderTest()
         {
             var comp = RenderComponent<ButtonComponent>();
+
+            // validate
             return Verifier.Verify(comp)
                 .ScrubInlineGuids();
         }
