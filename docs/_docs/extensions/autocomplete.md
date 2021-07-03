@@ -92,4 +92,4 @@ Install-Package Blazorise.Components
 | NotFoundContent               | `RenderFragment<string>`  |          | Render fragment when no value has been found on the data source.
 | NotFound                      | `EventCallback<string>`  |          | Raises an event when no value has been found on the data source.                                      |
 | FreeTyping                      | `bool`  | false         | Allows the value to not be on the data source.                                      |
-| CustomFilter                      | `Func<TItem, string, bool>`  |          | Handler for custom filtering on auto complete's data source.|
+| CustomFilter                      | `Func<TItem, string, bool>`  |          | Handler for custom filtering on Autocomplete's data source.|
