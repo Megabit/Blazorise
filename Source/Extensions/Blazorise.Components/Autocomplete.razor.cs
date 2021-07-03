@@ -207,7 +207,7 @@ namespace Blazorise.Components
         /// </summary>
         public async Task Clear()
         {
-            CurrentSearch = null;
+            CurrentSearch = string.Empty;
             SelectedText = string.Empty;
             SelectedValue = default;
 
