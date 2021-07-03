@@ -13,7 +13,7 @@ window.blazoriseCharts = {
             options = optionsObject;
         }
 
-        if (type === "pie") {
+        if (type === "pie" || type === "doughnut") {
             // workaround for: https://github.com/Megabit/Blazorise/issues/2287
             options = {
                 ...options,
