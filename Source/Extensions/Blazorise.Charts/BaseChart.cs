@@ -264,7 +264,13 @@ namespace Blazorise.Charts
         {
             DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
 
-            await JS.Initialize( JSRuntime, DotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+            var eventOptions = new
+            {
+                HasClickEvent = Clicked.HasDelegate,
+                HasHoverEvent = Hovered.HasDelegate,
+            };
+
+            await JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
@@ -290,12 +296,14 @@ namespace Blazorise.Charts
         {
             var model = Serialize( modelJson );
 
-            var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
+            var eventArgs = new ChartMouseEventArgs( datasetIndex, index, model );
 
             if ( eventName == "click" )
-                return Clicked.InvokeAsync( chartClickData );
+                return Clicked.InvokeAsync( eventArgs );
             else if ( eventName == "hover" )
-                return Hovered.InvokeAsync( chartClickData );
+                return Hovered.InvokeAsync( eventArgs );
+            else if ( eventName == "mouseout" )
+                return MouseOut.InvokeAsync( eventArgs );
 
             return Task.CompletedTask;
         }
