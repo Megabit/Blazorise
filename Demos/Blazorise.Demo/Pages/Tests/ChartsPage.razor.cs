@@ -50,7 +50,7 @@ namespace Blazorise.Demo.Pages.Tests
         {
             await chart.Clear();
 
-            await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSet(), getDataSet(), getDataSet() );
+            await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSet() );
         }
 
         async Task SetDataAndUpdate<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<List<TItem>> items )
