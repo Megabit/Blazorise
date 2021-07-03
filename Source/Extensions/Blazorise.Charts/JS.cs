@@ -31,12 +31,11 @@ namespace Blazorise.Charts
             }
         }
 
-        public static ValueTask Initialize<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, bool hasClickEvent, bool hasHoverEvent, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
+        public static ValueTask Initialize<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
         {
             return runtime.InvokeVoidAsync( "blazoriseCharts.initialize",
                 dotNetObjectReference,
-                hasClickEvent,
-                hasHoverEvent,
+                eventOptions,
                 canvasId,
                 ToChartTypeString( type ),
                 ToChartDataSet( data ),
