@@ -258,7 +258,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the current search value.
         /// </summary>
-        protected string CurrentSearch { get; set; }
+        protected string CurrentSearch { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the currently active item index.
