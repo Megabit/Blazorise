@@ -52,6 +52,8 @@ namespace Blazorise.Charts
 
         [Parameter] public EventCallback<ChartMouseEventArgs> Hovered { get; set; }
 
+        [Parameter] public EventCallback<ChartMouseEventArgs> MouseOut { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
