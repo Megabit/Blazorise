@@ -9,6 +9,7 @@ toc_label: "Guide"
 ## Basics
 
 The `Autocomplete` component provides suggestions while you type into the field. The component is in essence a text box which, at runtime, filters data in a drop-down by a `Filter` operator when a user captures a value.
+You may also enable `FreeTyping` and `AutoComplete` can be used to just provide suggestions based on user input.
 
 ## Installation
 
@@ -28,13 +29,20 @@ Install-Package Blazorise.Components
 ### Markup
 
 ```html
-<Autocomplete TItem="MySelectModel" TValue="string"
-    Data="@myDdlData"
-    TextField="@((item)=>item.MyTextField)"
-    ValueField="@((item)=>item.MyTextField)"
-    SelectedValue="@selectedSearchValue"
-    SelectedValueChanged="@MySearchHandler"
-    Placeholder="Search..." />
+<Autocomplete TItem="MySelectModel"
+                TValue="string"
+                Data="@myDdlData"
+                TextField="@(( item ) => item.MyTextField)"
+                ValueField="@(( item ) => item.MyTextField)"
+                SelectedValue="@selectedSearchValue"
+                SelectedValueChanged="@MySearchHandler"
+                @bind-SelectedText="selectedAutoCompleteText"
+                Placeholder="Search..."
+                Filter="AutocompleteFilter.StartsWith"
+                FreeTyping="true"
+                CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
 ```
 
 ### Data binding
@@ -51,6 +59,7 @@ Install-Package Blazorise.Components
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
     string selectedSearchValue { get; set; }
+    string selectedAutoCompleteText { get; set; }
 
     void MySearchHandler( string newValue )
     {
@@ -69,6 +78,8 @@ Install-Package Blazorise.Components
 | ValueField                    | Func                          |              | Selector for the value field.                                                                         |
 | SelectedValue                 | object                        |              | Currently selected value.                                                                             |
 | SelectedValueChanged          | event                         |              | Raises an event after the selected value has changed.                                                 |
+| SelectedText                 | string                        |              | Currently selected text.                                                                             |
+| SelectedTextChanged          | event                         |              | Raises an event after the selected text has changed.                                                 |
 | SearchChanged                 | event                         |              | Occurs on every search text change.                                                                   |
 | Placeholder                   | string                        |              | Placeholder for the empty search field.                                                               |
 | MinLength                     | int                           | 1            | Minimum number of character needed to start search.                                                   |
@@ -78,3 +89,7 @@ Install-Package Blazorise.Components
 | DelayTextOnKeyPress           | `bool?`                       |  null        | If true the entered text will be slightly delayed before submitting it to the internal value.         |
 | DelayTextOnKeyPressInterval   | `int?`                        |  null        | Interval in milliseconds that entered text will be delayed from submitting to the internal value.     |
 | Validator                     | `Action<ValidatorEventArgs>`  | null         | Validation handler used to validate selected value.                                                   |
+| NotFoundContent               | `RenderFragment<string>`  |          | Render fragment when no value has been found on the data source.
+| NotFound                      | `EventCallback<string>`  |          | Raises an event when no value has been found on the data source.                                      |
+| FreeTyping                      | `bool`  | false         | Allows the value to not be on the data source.                                      |
+| CustomFilter                      | `Func<TItem, string, bool>`  |          | Handler for custom filtering on auto complete's data source.|
