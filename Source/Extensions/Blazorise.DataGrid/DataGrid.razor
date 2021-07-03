@@ -136,6 +136,17 @@
                             else
                             {
                                 <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                                @if ( DetailRowTemplate != null )
+                                {
+                                    var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
+
+                                    @if ( canShow )
+                                    {
+                                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                            @DetailRowTemplate( item )
+                                        </_DataGridDetailRow>
+                                    }
+                                }
                             }
                         </ChildContent>
                         <Placeholder>
@@ -156,6 +167,17 @@
                             else
                             {
                                 <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                                @if ( DetailRowTemplate != null )
+                                {
+                                    var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
+
+                                    @if ( canShow )
+                                    {
+                                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                            @DetailRowTemplate( item )
+                                        </_DataGridDetailRow>
+                                    }
+                                }
                             }
                         </ChildContent>
                         <Placeholder>
