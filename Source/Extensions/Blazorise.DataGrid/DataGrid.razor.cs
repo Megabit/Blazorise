@@ -211,19 +211,24 @@ namespace Blazorise.DataGrid
             if ( selectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
             {
                 SelectedRows ??= new();
+
                 if ( !SelectedRows.Contains( SelectedRow ) )
                 {
                     SelectedRows.Add( SelectedRow );
+
                     return SelectedRowsChanged.InvokeAsync( SelectedRows );
                 }
-            } 
+            }
             else if ( selectionMode == DataGridSelectionMode.Single && SelectedRows != null )
             {
                 SelectedRows = null;
+
                 return SelectedRowsChanged.InvokeAsync( SelectedRows );
             }
+
             return Task.CompletedTask;
         }
+
         #endregion
 
         #region Events
