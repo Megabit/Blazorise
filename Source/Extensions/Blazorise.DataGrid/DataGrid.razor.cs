@@ -221,8 +221,8 @@ namespace Blazorise.DataGrid
             {
                 VirtualizeOptions ??= new();
                 //Not supported
-                if ( EditMode is DataGridEditMode.Form )
-                    EditMode = DataGridEditMode.Inline;
+                //if ( EditMode is DataGridEditMode.Form )
+                //    EditMode = DataGridEditMode.Inline;
             }
             else
             {
