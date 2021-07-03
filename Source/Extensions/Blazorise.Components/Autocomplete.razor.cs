@@ -471,7 +471,7 @@ namespace Blazorise.Components
         [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
 
         /// <summary>
-        /// Handler for custom filtering on auto complete's data source.
+        /// Handler for custom filtering on Autocomplete's data source.
         /// </summary>
         [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
 
