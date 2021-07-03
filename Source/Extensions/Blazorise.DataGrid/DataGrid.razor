@@ -76,7 +76,7 @@
                             @if ( MultiSelect )
                             {
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
-                                    @if ( column.FilterTemplate != null && !column.Filterable )
+                                    @if ( column.FilterTemplate != null && column.Filterable )
                                     {
                                         @(column.FilterTemplate( column.Filter ))
                                     }
