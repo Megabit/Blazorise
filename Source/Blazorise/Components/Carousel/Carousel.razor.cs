@@ -36,7 +36,7 @@ namespace Blazorise
         /// <summary>
         /// A list of slides placed inside of this carousel.
         /// </summary>
-        protected List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
+        protected readonly List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
 
         #endregion
 
@@ -138,6 +138,10 @@ namespace Blazorise
         internal void NotifyCarouselSlideInitialized( CarouselSlide slide )
         {
             carouselSlides.Add( slide );
+            if (carouselSlides.Count == 1)
+            {
+                SelectedSlide = carouselSlides.Single().Name;
+            }
         }
 
         /// <summary>
