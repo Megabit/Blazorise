@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using System;
+
 using Microsoft.AspNetCore.Components;
 #endregion
 

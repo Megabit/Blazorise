@@ -1,8 +1,8 @@
 ﻿#region Using directives
-using System;
+
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
+
 #endregion
 
 namespace Blazorise.Sidebar
