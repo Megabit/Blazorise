@@ -947,17 +947,26 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
-        protected bool IsEmptyTemplateVisible => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && ( Data == null || !Data.Any() );
+        protected bool IsEmptyTemplateVisible
+            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && ( Data == null || !Data.Any() );
+
+        /// <summary>
+        /// Returns true if EmptyFilterTemplate is set and FilteredData is null or empty.
+        /// </summary>
+        protected bool IsEmptyFilterTemplateVisible
+            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !( Data == null || !Data.Any() ) && ( FilteredData == null || !FilteredData.Any() ) );
 
         /// <summary>
         /// Returns true if ShowPager is true and grid is not empty or loading.
         /// </summary>
-        protected bool IsPagerVisible => ShowPager && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
+        protected bool IsPagerVisible
+            => ShowPager && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
 
         /// <summary>
         /// Returns true if current state is for new item and editing fields are shown on datagrid.
         /// </summary>
-        protected bool IsNewItemInGrid => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
+        protected bool IsNewItemInGrid
+            => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -1205,6 +1214,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets content of table body for empty DisplayData.
         /// </summary>
         [Parameter] public RenderFragment EmptyTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets content of table body for the empty filter DisplayData.
+        /// </summary>
+        [Parameter] public RenderFragment EmptyFilterTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of cell body for empty DisplayData.
