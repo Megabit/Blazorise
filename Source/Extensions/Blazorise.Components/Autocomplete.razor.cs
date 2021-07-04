@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -251,6 +252,25 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets the dropdown css styles.
+        /// </summary>
+        protected string CssStyle
+        {
+            get
+            {
+                var sb = new StringBuilder();
+
+                if ( MaxMenuHeight != null )
+                    sb.Append( $"--autocomplete-menu-max-height: {MaxMenuHeight};" );
+
+                if ( Style != null )
+                    sb.Append( Style );
+
+                return sb.ToString();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the dropdown element id.
         /// </summary>
         [Parameter] public string ElementId { get; set; }
@@ -309,6 +329,11 @@ namespace Blazorise.Components
         /// The minimum number of characters a user must type before a search is performed.
         /// </summary>
         [Parameter] public int MinLength { get; set; } = 1;
+
+        /// <summary>
+        /// Sets the maximum height of the dropdown menu.
+        /// </summary>
+        [Parameter] public string MaxMenuHeight { get; set; }
 
         /// <summary>
         /// Sets the placeholder for the empty search.

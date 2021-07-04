@@ -41,6 +41,6 @@
 }
 
 .b-is-autocomplete .ant-dropdown-menu {
-    max-height: 200px;
+    max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 }
