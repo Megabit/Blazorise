@@ -1,12 +1,16 @@
 ﻿#region Using directives
+
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
+using VerifyXunit;
 using Xunit;
 #endregion
 
 namespace Blazorise.Tests.Components
 {
+    [UsesVerify]
     public class ButtonComponentTest : TestContext
     {
         public ButtonComponentTest()
@@ -15,25 +19,13 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void RenderTest()
+        public Task RenderTest()
         {
-            // setup
-            var buttonOpen = "<button";
-            var buttonClose = "</button>";
-            var buttonContent = "Count";
-            var counterOutput = @"<span id=""basic-button-event-result"">0</span>";
-
             // test
             var comp = RenderComponent<ButtonComponent>();
 
             // validate
-            Assert.Contains( buttonOpen, comp.Markup );
-            Assert.Contains( buttonClose, comp.Markup );
-            Assert.Contains( buttonContent, comp.Markup );
-            Assert.Contains( counterOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#basic-button-event" ) );
-            Assert.NotNull( comp.Find( "#basic-button" ) );
-            Assert.NotNull( comp.Find( "#basic-button-event-result" ) );
+            return Verifier.Verify( comp );
         }
 
 
