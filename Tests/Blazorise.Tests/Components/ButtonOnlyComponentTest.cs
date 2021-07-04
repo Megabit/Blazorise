@@ -1,12 +1,16 @@
 ﻿#region Using directives
+
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
+using VerifyXunit;
 using Xunit;
 #endregion
 
 namespace Blazorise.Tests.Components
 {
+    [UsesVerify]
     public class ButtonOnlyComponentTest : TestContext
     {
         public ButtonOnlyComponentTest()
@@ -15,22 +19,13 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void RenderTest()
+        public Task RenderTest()
         {
-            // setup
-            var buttonOpen = "<button";
-            var buttonClose = "</button>";
-            var buttonType = @"type=""button""";
-            var buttonContent = "hello primary";
-
             // test
             var comp = RenderComponent<ButtonOnlyComponent>();
 
             // validate
-            Assert.Contains( buttonOpen, comp.Markup );
-            Assert.Contains( buttonClose, comp.Markup );
-            Assert.Contains( buttonType, comp.Markup );
-            Assert.Contains( buttonContent, comp.Markup );
+            return Verifier.Verify( comp );
         }
     }
 }

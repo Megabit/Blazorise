@@ -14,7 +14,7 @@ namespace Blazorise.Tests.Helpers
     {
         public static void AddBootstrapProviders( TestServiceProvider services )
         {
-            services.AddSingleton<IIdGenerator>( new IdGenerator() );
+            services.AddSingleton<IIdGenerator>( new TestIdGenerator() );
             services.AddSingleton<IEditContextValidator>( new EditContextValidator( new ValidationMessageLocalizerAttributeFinder() ) );
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
