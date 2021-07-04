@@ -39,3 +39,8 @@
     color: $text-muted;
     white-space: nowrap;
 }
+
+.b-is-autocomplete .ant-dropdown-menu {
+    max-height: var(--autocomplete-menu-max-height, 200px);
+    overflow-y: scroll;
+}

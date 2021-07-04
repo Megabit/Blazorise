@@ -126,3 +126,21 @@ Now it is possible to globally change input and button sizes. This will greatly 
 ### Dropping eFrolic support
 
 Since eFrolic author has stopped maintaining eFrolic, I have decided to stop supporting it and move my focus elsewhere. This will allow me to make more work on new providers that are actively worked on.
+
+### Autocomplete improvements
+
+-  `FreeTyping` binding support && `FreeTyping` validation support
+   - You are now able to use `Autocomplete` as a suggestions source to the user. Meaning you can enable this feature, and `Autocomplete` will accept any value introduced by the user and bind it on the `SelectedText` parameter.
+   - By enabling this feature, you will still have validation support, now on `SelectedText`.
+
+-  `NotFound` EventCallback && `NotFoundContent`
+   -  You will now be able to handle cases where the value introduced by the user is not found on the data source that has been provided to `Autocomplete`. Either by providing some feedback to the user, by using the `NotFoundContent` or just handling it as you wish by listening to the `NotFound` EventCallback.
+
+-  Show all items
+   -  This can be done by just setting the `Autocomplete`'s MinLength to 0. We've made sure to provide initial styling to accomodate all items with a scrollbar.
+
+-  Add support for a custom filter
+   -  `Autocomplete` already provides filtering capabilities out of the box. However, you may now provide a custom filter that's based on the currently text being searched and the datasource items.
+
+-  Improve the selection box to have same width as text field by default && Able to limit suggestions shown at a time with a scroll bar
+   -  These two improvements will provide a better user experience by having the selection box be compliant to the text field's width, as well as handling multiple items, by providing a scroll bar, which would otherwise go out of screen.
