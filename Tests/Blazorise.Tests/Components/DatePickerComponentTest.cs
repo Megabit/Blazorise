@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
+using VerifyXunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components
 {
+    [UsesVerify]
     public class DatePickerComponentTest : TestContext
     {
         public DatePickerComponentTest()
@@ -14,61 +17,13 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void RenderDateTimeTest()
+        public Task RenderDateTimeTest()
         {
-            // setup
-            var defDate = new DateTime();
-            var dateOpen = "<input";
-            var dateClose = "</input>";
-            var dateType = @"type=""text""";
-            var dateOutput = @"<span id=""date-event-initially-undefined-result"">" + defDate.ToString() + "</span>";
-            var nullableOutput = @"<span id=""nullable-date-event-initially-null-result""></span>";
-
             // test
             var comp = RenderComponent<DatePickerComponent>();
 
             // validate
-            Assert.Contains( dateOpen, comp.Markup );
-            Assert.Contains( dateClose, comp.Markup );
-            Assert.Contains( dateType, comp.Markup );
-            Assert.Contains( dateOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#date-event-initially-undefined" ) );
-            Assert.NotNull( comp.Find( "#date-control" ) );
-            Assert.NotNull( comp.Find( "#date-event-initially-undefined-result" ) );
-
-            Assert.Contains( nullableOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#nullable-date-event-initially-null" ) );
-            Assert.NotNull( comp.Find( "#nullable-date-control" ) );
-            Assert.NotNull( comp.Find( "#nullable-date-event-initially-null-result" ) );
-        }
-
-        [Fact]
-        public void RenderDateTimeOffsetTest()
-        {
-            // setup
-            var defDate = new DateTimeOffset();
-            var dateOpen = "<input";
-            var dateClose = "</input>";
-            var dateType = @"type=""text""";
-            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString().Replace( "+", "&#x2B;" ) + "</span>";
-            var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
-
-            // test
-            var comp = RenderComponent<DatePickerComponent>();
-
-            // validate
-            Assert.Contains( dateOpen, comp.Markup );
-            Assert.Contains( dateClose, comp.Markup );
-            Assert.Contains( dateType, comp.Markup );
-            Assert.Contains( dateOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#date-offset-event-initially-undefined" ) );
-            Assert.NotNull( comp.Find( "#date-offset-control" ) );
-            Assert.NotNull( comp.Find( "#date-offset-event-initially-undefined-result" ) );
-
-            Assert.Contains( nullableOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#nullable-date-offset-event-initially-null" ) );
-            Assert.NotNull( comp.Find( "#nullable-date-offset-control" ) );
-            Assert.NotNull( comp.Find( "#nullable-date-offset-event-initially-null-result" ) );
+            return Verifier.Verify( comp );
         }
 
         [Fact]

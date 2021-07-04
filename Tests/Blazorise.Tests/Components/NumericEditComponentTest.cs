@@ -102,7 +102,7 @@ namespace Blazorise.Tests.Components
             var result = comp.Find( "#step-change-default" );
 
             Assert.Equal( "1", result.InnerHtml );
-            
+
             numeric.KeyPress( "Keys.Up" );
             numeric.KeyPress( "Keys.Up" );
             Assert.Equal( "3", result.InnerHtml );

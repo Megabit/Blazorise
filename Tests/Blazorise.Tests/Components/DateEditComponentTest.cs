@@ -27,35 +27,6 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void RenderDateTimeOffsetTest()
-        {
-            // setup
-            var defDate = new DateTimeOffset();
-            var dateOpen = "<input";
-            var dateClose = "</input>";
-            var dateType = @"type=""date""";
-            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString().Replace("+", "&#x2B;" ) + "</span>";
-            var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
-
-            // test
-            var comp = RenderComponent<DateEditComponent>();
-
-            // validate
-            Assert.Contains( dateOpen, comp.Markup );
-            Assert.Contains( dateClose, comp.Markup );
-            Assert.Contains( dateType, comp.Markup );
-            Assert.Contains( dateOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#date-offset-event-initially-undefined" ) );
-            Assert.NotNull( comp.Find( "#date-offset-control" ) );
-            Assert.NotNull( comp.Find( "#date-offset-event-initially-undefined-result" ) );
-
-            Assert.Contains( nullableOutput, comp.Markup );
-            Assert.NotNull( comp.Find( "#nullable-date-offset-event-initially-null" ) );
-            Assert.NotNull( comp.Find( "#nullable-date-offset-control" ) );
-            Assert.NotNull( comp.Find( "#nullable-date-offset-event-initially-null-result" ) );
-        }
-
-        [Fact]
         public void SetDateTime()
         {
             // setup
