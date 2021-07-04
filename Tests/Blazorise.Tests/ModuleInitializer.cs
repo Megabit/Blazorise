@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Verify.AngleSharp;
 using VerifyTests;
 
 namespace Blazorise.Tests
@@ -9,6 +10,7 @@ namespace Blazorise.Tests
         public static void Init()
         {
             VerifyBunit.Initialize();
+            HtmlPrettyPrint.All();
             VerifierSettings.ScrubInlineGuids();
         }
     }
