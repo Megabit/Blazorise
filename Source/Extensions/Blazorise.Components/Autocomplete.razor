@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"
@@ -16,7 +16,7 @@
                   ChangeTextOnKeyPress="@ChangeTextOnKeyPress"
                   DelayTextOnKeyPress="@DelayTextOnKeyPress"
                   DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval"
-                  CustomValidationValue="@(()=>SelectedValue?.ToString())">
+                  CustomValidationValue="@(( ) => FreeTyping ? SelectedText?.ToString() : SelectedValue?.ToString())">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess />
@@ -25,6 +25,13 @@
         </TextEdit>
     </Validation>
     <DropdownMenu>
+        @if ( NotFoundVisible )
+        {
+            <DropdownItem Disabled="true">
+                @NotFoundContent( SelectedText )
+            </DropdownItem>
+        }
+
         @if ( DropdownVisible )
         {
             for ( int i = 0; i < FilteredData.Count; ++i )
