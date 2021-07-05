@@ -948,13 +948,13 @@ namespace Blazorise.DataGrid
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
         protected bool IsEmptyTemplateVisible
-            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && ( Data == null || !Data.Any() );
+            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty();
 
         /// <summary>
         /// Returns true if EmptyFilterTemplate is set and FilteredData is null or empty.
         /// </summary>
         protected bool IsEmptyFilterTemplateVisible
-            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !( Data == null || !Data.Any() ) && ( FilteredData == null || !FilteredData.Any() ) );
+            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() );
 
         /// <summary>
         /// Returns true if ShowPager is true and grid is not empty or loading.
