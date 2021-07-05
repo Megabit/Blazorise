@@ -30,5 +30,16 @@ namespace Blazorise.Extensions
 
             return false;
         }
+
+        /// <summary>
+        /// Determines if the supplied collection is null or empty, i.e. not containing any element.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to enumerate.</typeparam>
+        /// <param name="collection">The collection to check for emptiness.</param>
+        /// <returns>True if the source sequence is null ot not contains any elements; otherwise, false.</returns>
+        public static bool IsNullOrEmpty<T>( this IEnumerable<T> collection )
+        {
+            return collection == null || !collection.Any();
+        }
     }
 }

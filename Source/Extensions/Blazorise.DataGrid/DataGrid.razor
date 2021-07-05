@@ -4,7 +4,7 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value="@this" IsFixed="true">
-    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    @if ( IsPagerVisible && (PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom) )
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@Paginate" New="@New" Edit="@Edit" Delete="@Delete" SelectedRow="@SelectedRow" ClearFilter="@ClearFilter" />
     }
@@ -145,10 +145,16 @@
                     }
                 }
             }
-            @if ( IsEmptyTemplateVisible )
+            @if ( IsEmptyTemplateVisible && !IsEmptyFilterTemplateVisible )
             {
                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
                     @EmptyTemplate
+                </_DataGridFullColumnSpanRow>
+            }
+            @if ( IsEmptyFilterTemplateVisible && !IsEmptyTemplateVisible )
+            {
+                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                    @EmptyFilterTemplate
                 </_DataGridFullColumnSpanRow>
             }
             @if ( IsLoadingTemplateVisible )
@@ -165,7 +171,7 @@
             </TableFooter>
         }
     </Table>
-    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    @if ( IsPagerVisible && (PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom) )
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@Paginate" New="@New" Edit="@Edit" Delete="@Delete" SelectedRow="@SelectedRow" ClearFilter="@ClearFilter" />
     }
