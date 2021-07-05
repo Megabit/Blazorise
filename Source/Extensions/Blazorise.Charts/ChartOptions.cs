@@ -79,18 +79,6 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public float CategoryPercentage { get; set; } = 0.8f;
-
-        /// <summary>
-        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
-        /// </summary>
-        [DataMember]
-        public int BarThickness { get; set; }
-
-        /// <summary>
-        /// Set this to ensure that bars are not sized thicker than this.
-        /// </summary>
-        [DataMember]
-        public int MaxBarThickness { get; set; }
     }
 
     [DataContract]
@@ -239,6 +227,24 @@ namespace Blazorise.Charts
 
         [DataMember( EmitDefaultValue = false )]
         public bool Stacked { get; set; }
+
+        /// <summary>
+        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
+        /// </summary>
+        /// <remarks>
+        /// NOTE: used only on Bar chart!
+        /// </remarks>
+        [DataMember]
+        public string BarThickness { get; set; }
+
+        /// <summary>
+        /// Set this to ensure that bars are not sized thicker than this.
+        /// </summary>
+        /// <remarks>
+        /// NOTE: used only on Bar chart!
+        /// </remarks>
+        [DataMember]
+        public int? MaxBarThickness { get; set; }
     }
 
     /// <summary>
