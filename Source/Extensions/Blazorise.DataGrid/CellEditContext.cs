@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -22,9 +23,20 @@ namespace Blazorise.DataGrid
     /// <typeparam name="TItem"></typeparam>
     public class CellEditContext<TItem> : CellEditContext
     {
-        public CellEditContext( TItem item )
+        /// <summary>
+        /// Method that will be called when cell is manually updated.
+        /// </summary>
+        private readonly Action<string, object> CellUpdated;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CellEditContext{TItem}"/>.
+        /// </summary>
+        /// <param name="item">An item to which this cell belongs.</param>
+        /// <param name="cellUpdated">Method that will be called when cell is manually updated.</param>
+        public CellEditContext( TItem item, Action<string, object> cellUpdated )
         {
             Item = item;
+            CellUpdated = cellUpdated;
         }
 
         /// <summary>
@@ -36,5 +48,15 @@ namespace Blazorise.DataGrid
         /// </para>
         /// </summary>
         public TItem Item { get; }
+
+        /// <summary>
+        /// Updated the cell of the current editing item that matches the <paramref name="fieldName"/>.
+        /// </summary>
+        /// <param name="fieldName">Cell field name.</param>
+        /// <param name="value">New cell value.</param>
+        public void UpdateCell( string fieldName, object value )
+        {
+            CellUpdated?.Invoke( fieldName, value );
+        }
     }
 }

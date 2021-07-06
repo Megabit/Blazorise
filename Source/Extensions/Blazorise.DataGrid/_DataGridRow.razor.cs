@@ -15,7 +15,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the internal value for every cell in the row.
         /// </summary>
-        protected Dictionary<string, CellEditContext<TItem>> cellsValues = new Dictionary<string, CellEditContext<TItem>>();
+        protected Dictionary<string, CellEditContext<TItem>> cellValues = new Dictionary<string, CellEditContext<TItem>>();
 
         /// <summary>
         /// Holds the reference to the multiSelect cell.
@@ -42,7 +42,7 @@ namespace Blazorise.DataGrid
                     if ( column.ExcludeFromInit )
                         continue;
 
-                    cellsValues.Add( column.ElementId, new CellEditContext<TItem>( Item )
+                    cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, UpdateEditCell )
                     {
                         CellValue = column.GetValue( Item ),
                     } );
@@ -50,6 +50,16 @@ namespace Blazorise.DataGrid
             }
 
             return base.OnAfterRenderAsync( firstRender );
+        }
+
+        private void UpdateEditCell( string fieldName, object value )
+        {
+            var column = Columns.FirstOrDefault( x => x.Field == fieldName );
+
+            if ( column != null && cellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
+            {
+                cellEditContext.CellValue = value;
+            }
         }
 
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
