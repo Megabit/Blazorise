@@ -21,7 +21,7 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Object reference that can be accesed through the JSInterop.
+        /// Object reference that can be accessed through the JSInterop.
         /// </summary>
         private DotNetObjectReference<NumericEditAdapter> dotNetObjectRef;
 
@@ -53,7 +53,7 @@ namespace Blazorise
             }
 
             // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
-            // Without we cannot determmine if Min or Max has a default value when TValue is non-nulable type.
+            // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
             MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
             MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
 

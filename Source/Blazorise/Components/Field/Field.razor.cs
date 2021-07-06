@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Wrapper for form input conponents like label, text, button, etc.
+    /// Wrapper for form input components like label, text, button, etc.
     /// </summary>
     public partial class Field : BaseComponent
     {

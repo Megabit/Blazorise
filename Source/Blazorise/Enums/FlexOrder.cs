@@ -56,7 +56,7 @@
         Is8,
 
         /// <summary>
-        /// An element will be shown as nineth item.
+        /// An element will be shown as ninth item.
         /// </summary>
         Is9,
 

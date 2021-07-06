@@ -24,7 +24,7 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// If click came propagated from MultiSelect Check
-        /// Funels the selection logic into HandleClick.
+        /// Funnels the selection logic into HandleClick.
         /// </summary>
         protected bool clickFromCheck;
 

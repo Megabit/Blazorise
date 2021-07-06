@@ -113,7 +113,7 @@ namespace Blazorise
         protected bool Active => ParentTabsState?.SelectedTab == Name;
 
         /// <summary>
-        /// Defines the tab name. Must match the coresponding panel name.
+        /// Defines the tab name. Must match the corresponding panel name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 

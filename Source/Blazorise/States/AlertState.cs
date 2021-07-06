@@ -11,7 +11,7 @@
         public bool Dismisable { get; init; }
 
         /// <summary>
-        /// Gets or sets the alert visibilty state.
+        /// Gets or sets the alert visibility state.
         /// </summary>
         public bool Visible { get; init; }
 

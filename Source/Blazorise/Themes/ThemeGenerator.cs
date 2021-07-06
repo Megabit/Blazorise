@@ -684,7 +684,7 @@ namespace Blazorise
             if ( string.IsNullOrEmpty( value ) )
                 return;
 
-            // mobile is configured diferently from other breakpoints
+            // mobile is configured differently from other breakpoints
             if ( breakpoint != "mobile" )
             {
                 sb.Append( $"@media (min-width: {value})" ).Append( "{" )
@@ -1047,7 +1047,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="theme">Theme settings.</param>
         /// <param name="color">Background color.</param>
-        /// <param name="percentage">Percentage of blend if gradiend is used.</param>
+        /// <param name="percentage">Percentage of blend if gradient is used.</param>
         /// <param name="important">If true, !important flag will be set.</param>
         /// <returns>Gradient or background CSS style.</returns>
         protected virtual string GetGradientBg( Theme theme, string color, float? percentage, bool important = false )
@@ -1341,7 +1341,7 @@ namespace Blazorise
         /// Applies the correction factor on a color to make it brighter.
         /// </summary>
         /// <param name="color">Color to brighten.</param>
-        /// <param name="correctionFactor">How much to correct the colot.</param>
+        /// <param name="correctionFactor">How much to correct the color.</param>
         /// <returns>Brightened color.</returns>
         protected static System.Drawing.Color ChangeColorBrightness( System.Drawing.Color color, float correctionFactor )
         {
@@ -1384,11 +1384,11 @@ namespace Blazorise
         /// </summary>
         /// <param name="theme">Theme settings.</param>
         /// <param name="color">Color to change.</param>
-        /// <param name="luminanceThreshold">The treshold that controls the contrast level.</param>
+        /// <param name="luminanceThreshold">The threshold that controls the contrast level.</param>
         /// <returns>New color with the applied contrast.</returns>
         protected static System.Drawing.Color Contrast( Theme theme, System.Drawing.Color color, byte? luminanceThreshold = null )
         {
-            // Counting the perceptive luminance - human eye favors green color... 
+            // Counting the perceptive luminance - human eye favors green color...
             double luminance = ( 299 * color.R + 587 * color.G + 114 * color.B ) / 1000d;
 
             System.Drawing.Color contrast;

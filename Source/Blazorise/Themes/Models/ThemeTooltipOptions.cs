@@ -6,12 +6,12 @@
     public record ThemeTooltipOptions : ThemeBasicOptions
     {
         /// <summary>
-        /// Tooltip background color. Can contain alpha value in 8-hex formated color.
+        /// Tooltip background color. Can contain alpha value in 8-hex formatted color.
         /// </summary>
         public string BackgroundColor { get; set; } = "#808080e6";
 
         /// <summary>
-        /// Tooltip text color. Can contain alpha value in 8-hex formated color.
+        /// Tooltip text color. Can contain alpha value in 8-hex formatted color.
         /// </summary>
         public string Color { get; set; } = "#ffffff";
 

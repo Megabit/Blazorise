@@ -113,7 +113,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Notifies the alert that one of the child componens is a message.
+        /// Notifies the alert that one of the child components is a message.
         /// </summary>
         internal void NotifyHasMessage()
         {
@@ -124,7 +124,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Notifies the alert that one of the child componens is a description.
+        /// Notifies the alert that one of the child components is a description.
         /// </summary>
         internal void NotifyHasDescription()
         {
@@ -154,7 +154,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Sets the alert visibilty.
+        /// Sets the alert visibility.
         /// </summary>
         [Parameter]
         public bool Visible
