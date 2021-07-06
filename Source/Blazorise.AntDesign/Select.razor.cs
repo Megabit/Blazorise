@@ -65,12 +65,12 @@ namespace Blazorise.AntDesign
             base.Dispose( disposing );
         }
 
-        protected async Task OnSelectorClickHandler()
+        protected Task OnSelectorClickHandler()
         {
             if ( Expanded )
-                return;
+                return Task.CompletedTask;
 
-            await Expand();
+            return Expand();
         }
 
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )

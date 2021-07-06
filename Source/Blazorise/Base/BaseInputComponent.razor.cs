@@ -62,10 +62,7 @@ namespace Blazorise
                     }
                     else
                     {
-                        ExecuteAfterRender( async () =>
-                        {
-                            await FocusAsync();
-                        } );
+                        ExecuteAfterRender( () => FocusAsync() );
                     }
                 }
                 else

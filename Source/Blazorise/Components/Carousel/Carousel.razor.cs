@@ -202,29 +202,29 @@ namespace Blazorise
         /// <summary>
         /// Selects the next slide in a sequence, relative to the current slide.
         /// </summary>
-        public async Task SelectNext()
+        public Task SelectNext()
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             ResetTimer();
             SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
         /// Selects the previous slide in a sequence, relative to the current slide.
         /// </summary>
-        public async Task SelectPrevious()
+        public Task SelectPrevious()
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             ResetTimer();
             SelectedSlide = FindPreviousSlide( SelectedSlide )?.Name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
@@ -232,13 +232,13 @@ namespace Blazorise
         /// </summary>
         /// <param name="name">Name of the slide.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task Select( string name )
+        public Task Select( string name )
         {
             ResetTimer();
 
             SelectedSlide = name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>

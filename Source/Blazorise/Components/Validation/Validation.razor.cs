@@ -161,7 +161,7 @@ namespace Blazorise
             }
         }
 
-        internal async Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
+        internal Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
         {
             var newValidationValue = overrideNewValue
                 ? newExpressionValue
@@ -174,8 +174,10 @@ namespace Blazorise
 
             if ( Mode == ValidationMode.Auto )
             {
-                await ValidateAsync( newValidationValue );
+                return ValidateAsync( newValidationValue );
             }
+
+            return Task.CompletedTask;
         }
 
         private async void OnValidatingAll( ValidatingAllEventArgs e )

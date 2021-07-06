@@ -172,7 +172,7 @@ namespace Blazorise.Charts
 
         /// <summary>
         /// Removes the oldest label.
-        /// </summary>       
+        /// </summary>
         public async Task ShiftLabel()
         {
             dirty = true;
@@ -195,7 +195,7 @@ namespace Blazorise.Charts
         }
         /// <summary>
         /// Removes the newest label.
-        /// </summary>       
+        /// </summary>
         public async Task PopLabel()
         {
             dirty = true;
@@ -260,7 +260,7 @@ namespace Blazorise.Charts
                 await JS.Resize( JSRuntime, ElementId );
         }
 
-        private async Task Initialize()
+        private ValueTask Initialize()
         {
             DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
 
@@ -270,7 +270,7 @@ namespace Blazorise.Charts
                 HasHoverEvent = Hovered.HasDelegate,
             };
 
-            await JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
+            return JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
