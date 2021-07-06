@@ -17,7 +17,7 @@ namespace Blazorise.Charts
     }
 
     /* ======== IMPORTANT ========
-    * The reason why base ChartModel class is not used is becaoue the Blazor serializer does not support inheritance.
+    * The reason why base ChartModel class is not used is because the Blazor serializer does not support inheritance.
     * Until that is fixed we must write every model without inherit fields.
     * =========================== */
 

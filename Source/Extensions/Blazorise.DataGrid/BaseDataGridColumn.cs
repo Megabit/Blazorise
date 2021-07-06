@@ -19,10 +19,10 @@ namespace Blazorise.DataGrid
         #region Methods
 
         /// <summary>
-        /// Gets the formated display value.
+        /// Gets the formatted display value.
         /// </summary>
         /// <param name="value">Item the contains the value to format.</param>
-        /// <returns>Formated display value.</returns>
+        /// <returns>Formatted display value.</returns>
         public string FormatDisplayValue( object value )
         {
             if ( DisplayFormat != null )

@@ -71,7 +71,7 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
-        /// Deleys the timer.
+        /// Delays the timer.
         /// </summary>
         /// <param name="interval">Interval by which the timer will be delayed.</param>
         public void Delay( double interval )

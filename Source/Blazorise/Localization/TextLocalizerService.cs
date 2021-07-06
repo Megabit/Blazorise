@@ -41,7 +41,7 @@ namespace Blazorise.Localization
         #region Methods
 
         /// <summary>
-        /// Raads all resources in the current assembly.
+        /// Reads all resources in the current assembly.
         /// </summary>
         public void ReadResource()
         {

@@ -86,7 +86,7 @@ namespace Blazorise.Sidebar
         public List<SidebarItemInfo> SubItems { get; set; }
 
         /// <summary>
-        /// This is needed only so that reference accross rendering states is saved.
+        /// This is needed only so that reference across rendering states is saved.
         /// </summary>
         [IgnoreDataMember]
         internal SidebarSubItem SubItemReference { get; set; }

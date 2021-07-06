@@ -21,7 +21,7 @@
         public BarMode Mode { get; init; }
 
         /// <summary>
-        /// Gets or sets the visibilty of the bar component.
+        /// Gets or sets the visibility of the bar component.
         /// </summary>
         public bool BarVisible { get; init; }
     }

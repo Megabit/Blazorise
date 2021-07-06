@@ -41,7 +41,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Gets or sets the collapse visibilty state.
+        /// Gets or sets the collapse visibility state.
         /// </summary>
         [Parameter]
         public bool Visible

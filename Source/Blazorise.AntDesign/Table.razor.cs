@@ -19,7 +19,7 @@ namespace Blazorise.AntDesign
 
         protected override ValueTask InitializeTableFixedHeader()
         {
-            // antdesign has a diferent table structure so we don't need to do anything
+            // antdesign has a different table structure so we don't need to do anything
 
             return ValueTask.CompletedTask;
         }

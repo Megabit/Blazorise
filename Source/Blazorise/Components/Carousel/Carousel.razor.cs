@@ -42,7 +42,7 @@ namespace Blazorise
         /// <summary>
         /// A list of slides placed inside of this carousel.
         /// </summary>
-        protected internal List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
+        protected internal readonly List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
 
         #endregion
 
@@ -197,6 +197,14 @@ namespace Blazorise
         internal void AddSlide( CarouselSlide slide )
         {
             carouselSlides.Add( slide );
+
+            if ( carouselSlides.Count == 1 && string.IsNullOrEmpty( SelectedSlide ) )
+            {
+                state = state with
+                {
+                    SelectedSlide = carouselSlides.Single().Name
+                };
+            }
         }
 
         /// <summary>

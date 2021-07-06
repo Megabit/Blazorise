@@ -32,7 +32,7 @@
 
         /// <summary>
         /// Items are evenly distributed in the line with equal space around them.
-        /// Note that visually the spaces aren’t equal, since all the items have equal space on both sides.
+        /// Note that visually the spaces aren't equal, since all the items have equal space on both sides.
         /// </summary>
         /// <remarks>
         /// The first item will have one unit of space against the container edge, but two units of space

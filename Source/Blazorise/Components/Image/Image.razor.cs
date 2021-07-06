@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Cintainer for an image element.
+    /// Container for an image element.
     /// </summary>
     public partial class Image : BaseComponent
     {
