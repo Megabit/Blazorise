@@ -1192,6 +1192,10 @@
     color: #6c757d;
     white-space: nowrap; }
 
+.b-is-autocomplete .ant-dropdown-menu {
+    max-height: var(--autocomplete-menu-max-height, 200px);
+    overflow-y: scroll; }
+
 .ant-figure {
     display: inline-block;
     margin: 0 0 1rem; }

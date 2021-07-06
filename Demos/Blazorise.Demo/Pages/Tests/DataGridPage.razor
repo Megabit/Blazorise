@@ -203,7 +203,18 @@
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation="true">
-                    <EmptyTemplate>No records...</EmptyTemplate>
+                    <EmptyTemplate>
+                        <Span>
+                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
+                            No records...
+                        </Span>
+                    </EmptyTemplate>
+                    <EmptyFilterTemplate>
+                        <Span>
+                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
+                            Empty filter template
+                        </Span>
+                    </EmptyFilterTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
                             <DisplayTemplate>
@@ -291,7 +302,7 @@
                             </FilterTemplate>
                             <DisplayTemplate>
                                 @{
-                                    var gender = ( context as Employee )?.Gender;
+                                    var gender = (context as Employee)?.Gender;
 
                                     @if ( gender == "M" )
                                     {
@@ -329,7 +340,7 @@
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = ( context as Employee ).Salaries;
+                            var salaries = (context as Employee).Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"
