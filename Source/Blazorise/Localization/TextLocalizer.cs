@@ -30,7 +30,7 @@ namespace Blazorise.Localization
         /// <summary>
         /// A default constructor for <see cref="TextLocalizer{T}"/>.
         /// </summary>
-        /// <param name="localizerService">Service that is responsible for trigerring the localization change.</param>
+        /// <param name="localizerService">Service that is responsible for triggering the localization change.</param>
         public TextLocalizer( ITextLocalizerService localizerService )
         {
             this.localizerService = localizerService;
@@ -171,7 +171,7 @@ namespace Blazorise.Localization
         }
 
         /// <summary>
-        /// Gets the localized string by the name with the optional list object for formating.
+        /// Gets the localized string by the name with the optional list object for formatting.
         /// </summary>
         /// <param name="name">A name to localize.</param>
         /// <param name="arguments">An object array that contains zero or more objects to format.</param>

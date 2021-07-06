@@ -979,7 +979,7 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
-        /// Gets the sort solumn info for current SortMode.
+        /// Gets the sort column info for current SortMode.
         /// </summary>
         protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
 
@@ -1371,7 +1371,7 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
         /// <summary>
-        /// Specifes the grid editing modes.
+        /// Specifies the grid editing modes.
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
 

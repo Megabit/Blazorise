@@ -24,8 +24,8 @@ namespace Blazorise
         /// Checks if the given string length is in the given range.
         /// </summary>
         /// <param name="value">String to check for the range.</param>
-        /// <param name="min">Minimum lenght allowed.</param>
-        /// <param name="max">Maximum lenght allowed.</param>
+        /// <param name="min">Minimum length allowed.</param>
+        /// <param name="max">Maximum length allowed.</param>
         /// <returns>True if string length is in the range.</returns>
         public static bool IsLength( string value, int min, int max ) => value != null && value.Length >= min && value.Length <= max;
 
