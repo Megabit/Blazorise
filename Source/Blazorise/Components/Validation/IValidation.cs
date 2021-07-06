@@ -25,12 +25,12 @@ namespace Blazorise
         IEnumerable<string> Messages { get; }
 
         /// <summary>
-        /// Gets the validator handler attched to this validation.
+        /// Gets the validator handler attached to this validation.
         /// </summary>
         Action<ValidatorEventArgs> Validator { get; }
 
         /// <summary>
-        /// Gets the asynchronous validator handler attched to this validation.
+        /// Gets the asynchronous validator handler attached to this validation.
         /// </summary>
         Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; }
 

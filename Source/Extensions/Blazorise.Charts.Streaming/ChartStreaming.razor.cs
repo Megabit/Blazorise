@@ -15,7 +15,7 @@ namespace Blazorise.Charts.Streaming
     }
 
     /// <summary>
-    /// Provides the streaming capabilites to the supported chart types.
+    /// Provides the streaming capabilities to the supported chart types.
     /// </summary>
     /// <typeparam name="TItem">Data point type.</typeparam>
     public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming

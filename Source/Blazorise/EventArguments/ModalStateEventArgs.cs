@@ -5,7 +5,7 @@ using System;
 namespace Blazorise
 {
     /// <summary>
-    /// Supplies the information about the modal visiblity state.
+    /// Supplies the information about the modal visibility state.
     /// </summary>
     public class ModalStateEventArgs : EventArgs
     {

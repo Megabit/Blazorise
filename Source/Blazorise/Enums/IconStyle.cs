@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Represents a diferent look of the same icons.
+    /// Represents a different look of the same icons.
     /// </summary>
     public enum IconStyle
     {
@@ -16,7 +16,7 @@
         Regular = 1,
 
         /// <summary>
-        /// Icon will be slighly lighter.
+        /// Icon will be slightly lighter.
         /// </summary>
         Light = 2,
 

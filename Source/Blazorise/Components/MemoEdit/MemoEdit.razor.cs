@@ -212,12 +212,12 @@ namespace Blazorise
         [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
 
         /// <summary>
-        /// If true the entered text will be slightly delayed before submiting it to the internal value.
+        /// If true the entered text will be slightly delayed before submitting it to the internal value.
         /// </summary>
         [Parameter] public bool? DelayTextOnKeyPress { get; set; }
 
         /// <summary>
-        /// Interval in milliseconds that entered text will be delayed from submiting to the internal value.
+        /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
         /// </summary>
         [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
 

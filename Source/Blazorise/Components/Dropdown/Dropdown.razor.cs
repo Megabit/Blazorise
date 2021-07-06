@@ -164,7 +164,7 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
-        /// Gets the referemce to the <see cref="DropdownState"/>.
+        /// Gets the reference to the <see cref="DropdownState"/>.
         /// </summary>
         protected DropdownState State => state;
 

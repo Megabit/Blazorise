@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Card titles are used by adding subtitle to a heading tag. Subtitles are generaly placed under the <see cref="CardTitle"/>.
+    /// Card titles are used by adding subtitle to a heading tag. Subtitles are generally placed under the <see cref="CardTitle"/>.
     /// </summary>
     public partial class CardSubtitle : BaseTypographyComponent
     {
