@@ -319,7 +319,7 @@
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
-                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => context.CellValue = v)">
+                                <Select TValue="string" SelectedValue="@((string)context.CellValue)" SelectedValueChanged="@(( v ) => context.CellValue = v)">
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
@@ -329,7 +329,7 @@
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
                             <EditTemplate>
-                                <NumericEdit TValue="decimal" Value="@((decimal)( context.CellValue ))" ValueChanged="@(( v ) => context.CellValue = v)" />
+                                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
