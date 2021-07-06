@@ -494,7 +494,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="fieldName">Cell field name.</param>
         /// <param name="value">New cell value.</param>
-        private void UpdateEditingCell( string fieldName, object value )
+        private void UpdateCell( string fieldName, object value )
         {
             var column = Columns.FirstOrDefault( x => x.Field == fieldName );
 
@@ -528,7 +528,7 @@ namespace Blazorise.DataGrid
 
             foreach ( var column in EditableColumns )
             {
-                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateEditingCell )
+                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCell )
                 {
                     CellValue = column.GetValue( editItem ),
                 } );
