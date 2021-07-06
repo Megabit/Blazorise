@@ -32,7 +32,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Sets the prefered color contrast for the header.
+        /// Sets the preferred color contrast for the header.
         /// </summary>
         [Parameter]
         public ThemeContrast ThemeContrast

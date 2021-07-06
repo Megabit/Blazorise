@@ -57,7 +57,7 @@ namespace Blazorise
         /// <summary>
         /// Handles the dropdown visibility state change.
         /// </summary>
-        /// <param name="sender">Object that raied the event.</param>
+        /// <param name="sender">Object that raised the event.</param>
         /// <param name="visible">Visibility flag.</param>
         protected virtual void OnVisibleChanged( object sender, bool visible )
         {

@@ -202,7 +202,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="position">The current position of this stream.</param>
-        /// <param name="data">Curerntly read data.</param>
+        /// <param name="data">Currerntly read data.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         internal Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
@@ -255,7 +255,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Manaully resets the input file value.
+        /// Manually resets the input file value.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask Reset()

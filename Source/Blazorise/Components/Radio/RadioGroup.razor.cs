@@ -111,7 +111,7 @@ namespace Blazorise
         {
             base.OnValidationStatusChanged( sender, eventArgs );
 
-            // Since radios validation works little diferent when placed in radio group we need
+            // Since radios validation works little different when placed in radio group we need
             // to notify them to re-render when validation changes.
             RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( CheckedValue ) );
         }

@@ -59,7 +59,7 @@ namespace Blazorise
         /// Registers an empty providers.
         /// </summary>
         /// <remarks>
-        /// Generaly this should not be used, except when the user wants to use extensions without any providers like Bootstrap or Bulma.
+        /// Generally this should not be used, except when the user wants to use extensions without any providers like Bootstrap or Bulma.
         /// </remarks>
         /// <param name="serviceCollection"></param>
         /// <returns></returns>

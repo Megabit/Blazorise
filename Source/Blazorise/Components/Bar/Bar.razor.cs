@@ -63,7 +63,7 @@ namespace Blazorise
             if ( Mode != BarMode.Horizontal )
             {
                 // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
-                // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
+                // This needs to be run to set the initial state, RegisterBreakpointComponent and OnBreakpoint will handle
                 // additional changes to responsive breakpoints from there.
                 isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
 
@@ -195,7 +195,7 @@ namespace Blazorise
         [Inject] protected NavigationManager NavigationManager { get; set; }
 
         /// <summary>
-        /// Controlls the state of toggler and the menu.
+        /// Controls the state of toggler and the menu.
         /// </summary>
         [Parameter]
         public virtual bool Visible
@@ -252,7 +252,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Defines the prefered theme contrast for this <see cref="Bar"/> component.
+        /// Defines the preferred theme contrast for this <see cref="Bar"/> component.
         /// </summary>
         [Parameter]
         public ThemeContrast ThemeContrast

@@ -16,7 +16,7 @@ namespace Blazorise.DataGrid.Utils
         }
 
         /// <summary>
-        /// Bulds an access expression for nested properties while checking for null values.
+        /// Builds an access expression for nested properties while checking for null values.
         /// </summary>
         /// <param name="item">Item that has the requested field name.</param>
         /// <param name="propertyOrFieldName">Item field name.</param>
@@ -126,7 +126,7 @@ namespace Blazorise.DataGrid.Utils
         }
 
         /// <summary>
-        /// Bulds an access expression for nested properties or fields.
+        /// Builds an access expression for nested properties or fields.
         /// </summary>
         /// <param name="item">Item that has the requested field name.</param>
         /// <param name="propertyOrFieldName">Item field name.</param>
@@ -160,7 +160,7 @@ namespace Blazorise.DataGrid.Utils
         /// Creates the lambda expression that is suitable for usage with Blazor <see cref="FieldIdentifier"/>.
         /// </summary>
         /// <typeparam name="TItem">Type of model that contains the data-annotations.</typeparam>
-        /// <typeparam name="TValue">Teturn type of validation field.</typeparam>
+        /// <typeparam name="TValue">Return type of validation field.</typeparam>
         /// <param name="item">An actual instance of the validation model.</param>
         /// <param name="fieldName">Field name to validate.</param>
         /// <returns>Expression compatible with <see cref="FieldIdentifier"/> parser.</returns>

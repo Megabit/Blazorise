@@ -137,7 +137,7 @@ namespace Blazorise
 
         /// <summary>
         /// Items are evenly distributed in the line with equal space around them.
-        /// Note that visually the spaces aren’t equal, since all the items have equal space on both sides.
+        /// Note that visually the spaces aren't equal, since all the items have equal space on both sides.
         /// </summary>
         /// <remarks>
         /// The first item will have one unit of space against the container edge, but two units of space
@@ -426,7 +426,7 @@ namespace Blazorise
         IFluentFlexAll Is8 { get; }
 
         /// <summary>
-        /// An element will be shown as nineth item.
+        /// An element will be shown as ninth item.
         /// </summary>
         IFluentFlexAll Is9 { get; }
 
@@ -441,7 +441,7 @@ namespace Blazorise
         IFluentFlexAll Is11 { get; }
 
         /// <summary>
-        /// An element will be shown as twelveth item.
+        /// An element will be shown as twelvth item.
         /// </summary>
         IFluentFlexAll Is12 { get; }
     }
@@ -687,7 +687,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Creates the new flex definiton.
+        /// Creates the new flex definition.
         /// </summary>
         /// <returns>The newly created flex definition.</returns>
         private FlexDefinition CreateDefinition()

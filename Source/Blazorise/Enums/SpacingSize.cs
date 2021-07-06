@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Defines all supported spacing(marging anf padding) sizes.
+    /// Defines all supported spacing(margin and padding) sizes.
     /// </summary>
     public enum SpacingSize
     {

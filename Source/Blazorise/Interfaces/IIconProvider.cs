@@ -17,7 +17,7 @@ namespace Blazorise
         string Icon( object name, IconStyle iconStyle );
 
         /// <summary>
-        /// Gets the predfined icon size classname.
+        /// Gets the predefined icon size classname.
         /// </summary>
         /// <param name="iconSize">Icon size.</param>
         /// <returns>The size classname.</returns>
