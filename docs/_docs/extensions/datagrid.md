@@ -244,7 +244,7 @@ Field attribute also supports nested fields. You can define a column with field 
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -272,7 +272,7 @@ Just as in the previous example everything is the same except that now we must d
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -510,7 +510,7 @@ Edit template will give you a way to handle the editing of grid cell values. For
         @($"{( context as Employee )?.Salary} €")
     </DisplayTemplate>
     <EditTemplate>
-        <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+        <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
     </EditTemplate>
 </DataGridColumn>
 ```
