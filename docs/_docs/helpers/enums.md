@@ -164,6 +164,12 @@ Defines the placement of an element.
 - `Commands` Only defined commands will render.
 - `ButtonRow` Only button row will render.
 
+## DataGridPagerPosition
+
+- `Top` Positions the pagination above the table.
+- `Bottom` Positions the pagination below the table.
+- `TopAndBottom` Positions the pagination on above and below the table.
+
 ## TextAlignment
 
 Defines the alignment of an text within element.
