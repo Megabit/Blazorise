@@ -9,7 +9,7 @@ namespace Blazorise.AntDesign
     {
         #region Members
 
-        private BarMode initalMode = BarMode.Horizontal;
+        private BarMode initialMode = BarMode.Horizontal;
 
         #endregion
 
@@ -17,7 +17,7 @@ namespace Blazorise.AntDesign
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarCollapsed( initalMode ), !Visible );
+            builder.Append( ClassProvider.BarCollapsed( initialMode ), !Visible );
 
             base.BuildClasses( builder );
         }
@@ -27,9 +27,9 @@ namespace Blazorise.AntDesign
         #region Properties
 
         [Parameter]
-        public override bool Visible 
-        { 
-            get => base.Visible; 
+        public override bool Visible
+        {
+            get => base.Visible;
             set
             {
                 // prevent bar from calling the same code multiple times
@@ -37,22 +37,22 @@ namespace Blazorise.AntDesign
                     return;
 
                 base.Mode = !value && CollapseMode == BarCollapseMode.Small ?
-                        BarMode.VerticalSmall : initalMode;
+                        BarMode.VerticalSmall : initialMode;
 
                 base.Visible = value;
             }
         }
 
         [Parameter]
-        public override BarMode Mode 
-        { 
+        public override BarMode Mode
+        {
             get => base.Mode;
             set
             {
-                if ( value == initalMode )
+                if ( value == initialMode )
                     return;
 
-                initalMode = value;
+                initialMode = value;
 
                 base.Mode = value;
             }
