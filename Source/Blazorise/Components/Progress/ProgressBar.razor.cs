@@ -18,7 +18,7 @@ namespace Blazorise
 
         private bool animated;
 
-        private int? @value;
+        private int? value;
 
         #endregion
 
@@ -140,13 +140,13 @@ namespace Blazorise
         [Parameter]
         public int? Value
         {
-            get => @value;
+            get => value;
             set
             {
-                if ( this.@value == value )
+                if ( this.value == value )
                     return;
 
-                this.@value = value;
+                this.value = value;
 
                 DirtyClasses();
                 DirtyStyles();
