@@ -29,7 +29,7 @@ tags:
 - Change `Tooltip` `Placement` parameter to `TooltipPlacement`, eg. `Placement="Placement.Left"` to `Placement="TooltipPlacement.Left"`
 - For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
 - Datagrid: Due to a refactoring of the resizable feature to the Table component, you should note the following:
-  - The datagrid resources(JS and CSS) we had previously introduced, no longer exist, and do not need to be added to your application.
+  - The datagrid resources(JS and CSS) we had previously introduced, do not need to be added to your application in this version. However we kept the blazorise.datagrid.js, even if blank for increased flexibility in supporting the datagrid throughout the release.
     - If you had any of the resources below, you can now safely remove them:
       - `<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
       - `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
