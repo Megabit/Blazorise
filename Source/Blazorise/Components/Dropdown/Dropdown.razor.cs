@@ -111,8 +111,7 @@ namespace Blazorise
             if ( button == null )
                 return;
 
-            if ( buttonList == null )
-                buttonList = new List<Button>();
+            buttonList ??= new List<Button>();
 
             if ( !buttonList.Contains( button ) )
             {

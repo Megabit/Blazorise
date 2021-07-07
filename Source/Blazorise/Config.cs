@@ -28,8 +28,7 @@ namespace Blazorise
 
             // If options handler is not defined we will get an exception so
             // we need to initialize and empty action.
-            if ( configureOptions == null )
-                configureOptions = ( e ) => { };
+            configureOptions ??= _ => { };
 
             serviceCollection.AddSingleton( configureOptions );
             serviceCollection.AddSingleton<BlazoriseOptions>();
