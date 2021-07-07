@@ -62,7 +62,7 @@ namespace Blazorise.Utilities
                     else if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
                     {
                         var list = new List<object>();
-                        foreach ( var item in value as IEnumerable )
+                        foreach ( var item in (IEnumerable)value )
                         {
                             list.Add( ProcessValue( item, emitDefaultValue ) );
                         }
@@ -167,7 +167,7 @@ namespace Blazorise.Utilities
             }
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member     
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         // modified version of https://stackoverflow.com/a/11521834/833106
         public static bool EnumTryParse<TValue>( string input, Type conversionType, out TValue theEnum )
         {
