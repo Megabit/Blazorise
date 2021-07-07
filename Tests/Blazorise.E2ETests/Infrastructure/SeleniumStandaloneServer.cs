@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 //using Microsoft.AspNetCore.Testing;
-using Microsoft.Extensions.Internal;
 
 namespace Blazorise.E2ETests.Infrastructure
 {
@@ -64,7 +63,7 @@ namespace Blazorise.E2ETests.Infrastructure
             process.BeginErrorReadLine();
 
             // The Selenium sever has to be up for the entirety of the tests and is only shutdown when the application (i.e. the test) exits.
-            AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+            AppDomain.CurrentDomain.ProcessExit += (_, _) =>
             {
                 if (!process.HasExited)
                 {
