@@ -251,7 +251,7 @@ namespace Blazorise
             var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
 
             if ( !rules.ContainsKey( columnSize ) )
-                rules.Add( columnSize, new List<ColumnDefinition> { columnDefinition } );
+                rules.Add( columnSize, new() { columnDefinition } );
             else
                 rules[columnSize].Add( columnDefinition );
 
@@ -269,7 +269,7 @@ namespace Blazorise
         public IFluentColumnWithSize WithColumnSize( string value )
         {
             if ( customRules == null )
-                customRules = new List<string> { value };
+                customRules = new() { value };
             else
                 customRules.Add( value );
 

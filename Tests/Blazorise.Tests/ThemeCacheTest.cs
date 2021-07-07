@@ -9,7 +9,7 @@ namespace Blazorise.Tests
 
         public ThemeCacheTest()
         {
-            themeCache = new ThemeCache( new( null, options => { } ) );
+            themeCache = new( new( null, options => { } ) );
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Blazorise.Tests
             // test
             for ( var i = 0; i < maxCachedStyles - 1; i++ )
             {
-                themeCache.CacheStyles( new Theme() { Black = i.ToString() }, i.ToString() );
+                themeCache.CacheStyles( new() { Black = i.ToString() }, i.ToString() );
             }
             var success = themeCache.TryGetStylesFromCache( firstCachedTheme, out var styles );
 
@@ -75,7 +75,7 @@ namespace Blazorise.Tests
             // test
             for ( var i = 0; i < maxCachedStyles; i++ )
             {
-                themeCache.CacheStyles( new Theme() { Black = i.ToString() }, i.ToString() );
+                themeCache.CacheStyles( new() { Black = i.ToString() }, i.ToString() );
             }
             var success = themeCache.TryGetStylesFromCache( firstCachedTheme, out var styles );
 
@@ -95,11 +95,11 @@ namespace Blazorise.Tests
 
             for ( var i = 0; i < maxCachedStyles; i++ )
             {
-                themeCache.CacheStyles( new Theme() { Black = i.ToString() }, i.ToString() );
+                themeCache.CacheStyles( new() { Black = i.ToString() }, i.ToString() );
             }
 
             _ = themeCache.TryGetStylesFromCache( firstCachedTheme, out _ );
-            themeCache.CacheStyles( new Theme() { Black = "10" }, "10" );
+            themeCache.CacheStyles( new() { Black = "10" }, "10" );
 
             // test
             var firstThemeStillInCache = themeCache.TryGetStylesFromCache( firstCachedTheme, out _ );

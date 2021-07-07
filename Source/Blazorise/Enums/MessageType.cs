@@ -11,7 +11,7 @@
         Info,
 
         /// <summary>
-        /// Shows the sucess message.
+        /// Shows the success message.
         /// </summary>
         Success,
 

@@ -248,7 +248,7 @@ namespace Blazorise
             var spacingDefinition = new SpacingDefinition { Breakpoint = Breakpoint.None, Side = Side.All };
 
             if ( !rules.ContainsKey( spacingSize ) )
-                rules.Add( spacingSize, new List<SpacingDefinition>() { spacingDefinition } );
+                rules.Add( spacingSize, new() { spacingDefinition } );
             else
                 rules[spacingSize].Add( spacingDefinition );
 
@@ -286,7 +286,7 @@ namespace Blazorise
         private IFluentSpacingWithSize WithSize( string value )
         {
             if ( customRules == null )
-                customRules = new List<string> { value };
+                customRules = new() { value };
             else
                 customRules.Add( value );
 

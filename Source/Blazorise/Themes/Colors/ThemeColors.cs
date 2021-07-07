@@ -109,27 +109,27 @@ namespace Blazorise
 
         static ThemeColors()
         {
-            Items = new Dictionary<string, ThemeColor>
+            Items = new()
             {
-                {Red.Key, Red},
-                {Pink.Key, Pink},
-                {Purple.Key, Purple},
-                {DeepPurple.Key, DeepPurple},
-                {Indigo.Key, Indigo},
-                {Blue.Key, Blue},
-                {LightBlue.Key, LightBlue},
-                {Cyan.Key, Cyan},
-                {Teal.Key, Teal},
-                {Green.Key, Green},
-                {LightGreen.Key, LightGreen},
-                {Lime.Key, Lime},
-                {Yellow.Key, Yellow},
-                {Amber.Key, Amber},
-                {Orange.Key, Orange},
-                {DeepOrange.Key, DeepOrange},
-                {Brown.Key, Brown},
-                {Gray.Key, Gray},
-                {BlueGray.Key, BlueGray},
+                { Red.Key, Red },
+                { Pink.Key, Pink },
+                { Purple.Key, Purple },
+                { DeepPurple.Key, DeepPurple },
+                { Indigo.Key, Indigo },
+                { Blue.Key, Blue },
+                { LightBlue.Key, LightBlue },
+                { Cyan.Key, Cyan },
+                { Teal.Key, Teal },
+                { Green.Key, Green },
+                { LightGreen.Key, LightGreen },
+                { Lime.Key, Lime },
+                { Yellow.Key, Yellow },
+                { Amber.Key, Amber },
+                { Orange.Key, Orange },
+                { DeepOrange.Key, DeepOrange },
+                { Brown.Key, Brown },
+                { Gray.Key, Gray },
+                { BlueGray.Key, BlueGray },
             };
         }
 

@@ -34,7 +34,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Holds the filtered data based on the filter.
         /// </summary>
-        private List<TItem> filteredData = new List<TItem>();
+        private List<TItem> filteredData = new();
 
         /// <summary>
         /// Marks the autocomplete to reload entire data source based on the current filter settings.
@@ -53,7 +53,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Handles the search field onchange or oninput event.
         /// </summary>
-        /// <param name="text">Serach value.</param>
+        /// <param name="text">Search value.</param>
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextChangedHandler( string text )
         {
@@ -126,10 +126,10 @@ namespace Blazorise.Components
         /// Handles the search field onblur event.
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
-        /// <returns>Returns awaitable task</returns>
+        /// <returns>Returns awaitabdle task</returns>
         protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
         {
-            // Give enought time for other events to do their stuff before closing
+            // Give enough time for other events to do their stuff before closing
             // the dropdown.
             await Task.Delay( 250 );
             if ( !FreeTyping && SelectedValue == null )
@@ -460,12 +460,12 @@ namespace Blazorise.Components
         [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
 
         /// <summary>
-        /// If true the entered text will be slightly delayed before submiting it to the internal value.
+        /// If true the entered text will be slightly delayed before submitting it to the internal value.
         /// </summary>
         [Parameter] public bool? DelayTextOnKeyPress { get; set; }
 
         /// <summary>
-        /// Interval in milliseconds that entered text will be delayed from submiting to the internal value.
+        /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
         /// </summary>
         [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
 

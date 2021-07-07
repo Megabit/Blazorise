@@ -30,11 +30,11 @@ namespace Blazorise.Demo.Pages.Tests
             }
         }
 
-        List<TableUser> tableUsers = new List<TableUser>
+        List<TableUser> tableUsers = new()
         {
-            new TableUser("1", "Mark", "Otto", "@mdo"),
-            new TableUser("2", "Jacob", "Thornton", "@fat"),
-            new TableUser("3", "Larry", "the Bird", "@twitter"),
+            new("1", "Mark", "Otto", "@mdo"),
+            new("2", "Jacob", "Thornton", "@fat"),
+            new("3", "Larry", "the Bird", "@twitter"),
         };
     }
 }

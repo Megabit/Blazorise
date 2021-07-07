@@ -5,6 +5,6 @@
     /// </summary>
     /// <param name="name">Localization key.</param>
     /// <param name="arguments">Arguments used to format the localized text.</param>
-    /// <returns>Returns the loalized text.</returns>
+    /// <returns>Returns the localized text.</returns>
     public delegate string TextLocalizerHandler( string name, params object[] arguments );
 }

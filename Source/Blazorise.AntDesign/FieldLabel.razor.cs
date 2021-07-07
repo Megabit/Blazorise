@@ -16,7 +16,7 @@ namespace Blazorise.AntDesign
 
         public FieldLabel()
         {
-            containerClassBuilder = new ClassBuilder( BuildContainerClasses );
+            containerClassBuilder = new( BuildContainerClasses );
         }
 
         #endregion

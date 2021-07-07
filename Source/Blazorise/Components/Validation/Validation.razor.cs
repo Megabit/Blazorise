@@ -118,7 +118,7 @@ namespace Blazorise
                 if ( !hasPattern || this.patternString != patternString )
                 {
                     this.patternString = patternString;
-                    pattern = new Regex( patternString );
+                    pattern = new( patternString );
 
                     // Re-run validation based on the new value for the new pattern,
                     // but ONLY if validation has being previously initialized!
@@ -161,7 +161,7 @@ namespace Blazorise
             }
         }
 
-        internal async Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
+        internal Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
         {
             var newValidationValue = overrideNewValue
                 ? newExpressionValue
@@ -174,8 +174,10 @@ namespace Blazorise
 
             if ( Mode == ValidationMode.Auto )
             {
-                await ValidateAsync( newValidationValue );
+                return ValidateAsync( newValidationValue );
             }
+
+            return Task.CompletedTask;
         }
 
         private async void OnValidatingAll( ValidatingAllEventArgs e )
@@ -241,7 +243,7 @@ namespace Blazorise
                     cancellationTokenSource.Cancel();
 
                 // Create a CTS for this request.
-                cancellationTokenSource = new CancellationTokenSource();
+                cancellationTokenSource = new();
 
                 var cancellationToken = cancellationTokenSource.Token;
 
@@ -318,7 +320,7 @@ namespace Blazorise
                 Status = status;
                 Messages = messages;
 
-                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
+                ValidationStatusChanged?.Invoke( this, new( status, messages ) );
                 InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
 
                 ParentValidations?.NotifyValidationStatusChanged( this );

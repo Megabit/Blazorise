@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -231,7 +229,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="item">Model that belongs to the grid row.</param>
         /// <param name="selected">Indicates if the row is selected or not.</param>
-        /// <param name="shiftKey">True if the user is holding shifg key.</param>
+        /// <param name="shiftKey">True if the user is holding shift key.</param>
         public MultiSelectEventArgs( TItem item, bool selected, bool shiftKey )
         {
             Item = item;

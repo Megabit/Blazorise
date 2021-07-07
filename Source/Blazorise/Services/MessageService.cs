@@ -17,7 +17,7 @@ namespace Blazorise
             var messageOptions = MessageOptions.Default;
             options?.Invoke( messageOptions );
 
-            MessageReceived?.Invoke( this, new MessageEventArgs( messageType, message, title, messageOptions ) );
+            MessageReceived?.Invoke( this, new( messageType, message, title, messageOptions ) );
 
             return Task.CompletedTask;
         }
@@ -66,7 +66,7 @@ namespace Blazorise
 
             var callback = new TaskCompletionSource<bool>();
 
-            MessageReceived?.Invoke( this, new MessageEventArgs( MessageType.Confirmation, message, title, messageOptions, callback ) );
+            MessageReceived?.Invoke( this, new( MessageType.Confirmation, message, title, messageOptions, callback ) );
 
             return callback.Task;
         }

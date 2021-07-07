@@ -62,10 +62,7 @@ namespace Blazorise
                     }
                     else
                     {
-                        ExecuteAfterRender( async () =>
-                        {
-                            await FocusAsync();
-                        } );
+                        ExecuteAfterRender( () => FocusAsync() );
                     }
                 }
                 else
@@ -172,7 +169,7 @@ namespace Blazorise
         /// Formats the supplied value to it's valid string representation.
         /// </summary>
         /// <param name="value">Value to format.</param>
-        /// <returns>Reterns value formated as string.</returns>
+        /// <returns>Returns value formatted as string.</returns>
         protected virtual string FormatValueAsString( TValue value )
             => value?.ToString();
 
@@ -184,7 +181,7 @@ namespace Blazorise
         /// Like for example for <see cref="Select{TValue}"/> component where we can have value represented as
         /// a single or multiple value, depending on the context where it is used.
         /// </remarks>
-        /// <param name="value">Value to prepare for valudation.</param>
+        /// <param name="value">Value to prepare for validation.</param>
         /// <returns>Returns the value that is going to be validated.</returns>
         protected virtual object PrepareValueForValidation( TValue value )
             => value;
@@ -307,7 +304,7 @@ namespace Blazorise
         /// <summary>
         /// An event raised when theme settings changes.
         /// </summary>
-        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="sender">An object that raised the event.</param>
         /// <param name="eventArgs"></param>
         private void OnThemeChanged( object sender, EventArgs eventArgs )
         {

@@ -39,7 +39,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the filtered data based on the filter.
         /// </summary>
-        private List<TItem> filteredData = new List<TItem>();
+        private List<TItem> filteredData = new();
 
         /// <summary>
         /// Holds the filtered data to display based on the current page.
@@ -64,10 +64,10 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
-        protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>>
+        protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new()
         {
-            { DataGridSortMode.Single, new List<DataGridColumn<TItem>>() },
-            { DataGridSortMode.Multiple, new List<DataGridColumn<TItem>>() },
+            { DataGridSortMode.Single, new() },
+            { DataGridSortMode.Multiple, new() },
         };
 
         private readonly Lazy<Func<TItem>> newItemCreator;
@@ -118,10 +118,10 @@ namespace Blazorise.DataGrid
 
         public DataGrid()
         {
-            newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
+            newItemCreator = new( () => FunctionCompiler.CreateNewItem<TItem>() );
 
-            paginationTemplates = new PaginationTemplates<TItem>();
-            paginationContext = new PaginationContext<TItem>( this );
+            paginationTemplates = new();
+            paginationContext = new( this );
         }
 
         #endregion
@@ -203,7 +203,7 @@ namespace Blazorise.DataGrid
         private async void OnPageSizeChanged( int pageSize )
         {
             paginationContext.CancellationTokenSource?.Cancel();
-            paginationContext.CancellationTokenSource = new CancellationTokenSource();
+            paginationContext.CancellationTokenSource = new();
 
             await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
@@ -220,9 +220,9 @@ namespace Blazorise.DataGrid
         private async void OnPageChanged( int currentPage )
         {
             paginationContext.CancellationTokenSource?.Cancel();
-            paginationContext.CancellationTokenSource = new CancellationTokenSource();
+            paginationContext.CancellationTokenSource = new();
 
-            await InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+            await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
             if ( ManualReadMode )
             {
@@ -334,7 +334,7 @@ namespace Blazorise.DataGrid
 
                 if ( editState == DataGridEditState.New )
                 {
-                    await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+                    await RowInserted.InvokeAsync( new( editItem, editedCellValues ) );
                     dirtyFilter = dirtyView = true;
 
                     // If a new item is added, the data should be refreshed
@@ -343,7 +343,7 @@ namespace Blazorise.DataGrid
                         await HandleReadData( CancellationToken.None );
                 }
                 else
-                    await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+                    await RowUpdated.InvokeAsync( new( editItem, editedCellValues ) );
 
                 editState = DataGridEditState.None;
             }
@@ -522,7 +522,7 @@ namespace Blazorise.DataGrid
         private void InitEditItem( TItem item )
         {
             editItem = item;
-            editItemCellValues = new Dictionary<string, CellEditContext<TItem>>();
+            editItemCellValues = new();
 
             validationItem = (TItem)Activator.CreateInstance( typeof( TItem ) );
 
@@ -564,7 +564,7 @@ namespace Blazorise.DataGrid
             SelectedAllRows = false;
             UnSelectAllRows = false;
 
-            SelectedRows ??= new List<TItem>();
+            SelectedRows ??= new();
 
             await HandleShiftClick( eventArgs );
 
@@ -622,10 +622,7 @@ namespace Blazorise.DataGrid
 
         protected async Task OnMultiSelectAll( bool selectAll )
         {
-            if ( SelectedRows is null )
-            {
-                SelectedRows = new List<TItem>();
-            }
+            SelectedRows ??= new();
 
             if ( selectAll )
             {
@@ -732,7 +729,7 @@ namespace Blazorise.DataGrid
             {
                 IsLoading = true;
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, SortByColumns, cancellationToken ) );
+                    await ReadData.InvokeAsync( new( CurrentPage, PageSize, Columns, SortByColumns, cancellationToken ) );
             }
             finally
             {
@@ -758,7 +755,7 @@ namespace Blazorise.DataGrid
             if ( query == null )
             {
                 filteredData.Clear();
-                FilteredDataChanged?.Invoke( new DataGridFilteredDataEventArgs<TItem>( filteredData, 0, 0 ) );
+                FilteredDataChanged?.Invoke( new( filteredData, 0, 0 ) );
 
                 return;
             }
@@ -828,7 +825,7 @@ namespace Blazorise.DataGrid
 
             dirtyFilter = false;
 
-            FilteredDataChanged?.Invoke( new DataGridFilteredDataEventArgs<TItem>(
+            FilteredDataChanged?.Invoke( new(
                 filteredData,
                 filteredData.Count,
                 ( ManualReadMode ? TotalItems : Data?.Count() ) ?? 0 ) );
@@ -909,12 +906,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of all the columns associated with this datagrid.
         /// </summary>
-        protected List<DataGridColumn<TItem>> Columns { get; } = new List<DataGridColumn<TItem>>();
+        protected List<DataGridColumn<TItem>> Columns { get; } = new();
 
         /// <summary>
         /// List of all the aggregate columns associated with this datagrid.
         /// </summary>
-        protected List<DataGridAggregate<TItem>> Aggregates { get; } = new List<DataGridAggregate<TItem>>();
+        protected List<DataGridAggregate<TItem>> Aggregates { get; } = new();
 
         /// <summary>
         /// Gets only columns that are available for editing.
@@ -994,7 +991,7 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
-        /// Gets the sort solumn info for current SortMode.
+        /// Gets the sort column info for current SortMode.
         /// </summary>
         protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
 
@@ -1386,7 +1383,7 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
         /// <summary>
-        /// Specifes the grid editing modes.
+        /// Specifies the grid editing modes.
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
 

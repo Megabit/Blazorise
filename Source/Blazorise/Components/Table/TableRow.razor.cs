@@ -40,15 +40,16 @@ namespace Blazorise
         /// </summary>
         /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task OnClickHandler( MouseEventArgs eventArgs )
+        protected Task OnClickHandler( MouseEventArgs eventArgs )
         {
             // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
             // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
             // We'll be treating any Detail higher then 2 as the user constantly clicking, therefore triggering Single Click.
             if ( eventArgs.Detail == 1 || eventArgs.Detail > 2 )
-                await Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+                return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
             else if ( eventArgs.Detail == 2 )
-                await DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+                return DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+            return Task.CompletedTask;
         }
 
         #endregion

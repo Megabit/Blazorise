@@ -10,7 +10,7 @@ namespace Blazorise.Tests.Components
 {
     public class RepeaterComponentTest
     {
-        private readonly EventCallbackFactory callbackFactory = new EventCallbackFactory();
+        private readonly EventCallbackFactory callbackFactory = new();
 
         [Fact]
         public void ItemsNull_DoesNothing()

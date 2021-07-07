@@ -273,7 +273,7 @@
                             </CaptionTemplate>
                             <FilterTemplate>
                                 @{
-                                    var selectedValue = @context.SearchValue?.ToString() ?? "*";
+                                    var selectedValue = context.SearchValue?.ToString() ?? "*";
                                     <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                         <SelectItem Value="@("*")">All</SelectItem>
                                         @foreach ( var item in dataModels )
@@ -329,7 +329,7 @@
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
                             <EditTemplate>
-                                <NumericEdit TValue="decimal" Value="@((decimal)( context.CellValue ))" ValueChanged="@(( v ) => context.CellValue = v)" />
+                                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">

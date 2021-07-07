@@ -11,7 +11,7 @@
         public string Width { get; set; } = "230px";
 
         /// <summary>
-        /// Gets or sets the backround color of the sidebar.
+        /// Gets or sets the background color of the sidebar.
         /// </summary>
         public string BackgroundColor { get; set; } = "#343a40";
 

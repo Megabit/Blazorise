@@ -1,6 +1,5 @@
 #region Using directives
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ namespace Blazorise.Charts
 {
     static class JS
     {
-        private static readonly object CreateDotNetObjectRefSyncObj = new object();
+        private static readonly object CreateDotNetObjectRefSyncObj = new();
 
         public static DotNetObjectReference<ChartAdapter> CreateDotNetObjectRef( ChartAdapter adapter )
         {

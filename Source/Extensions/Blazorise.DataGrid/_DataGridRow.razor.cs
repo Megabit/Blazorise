@@ -24,7 +24,7 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// If click came propagated from MultiSelect Check
-        /// Funels the selection logic into HandleClick.
+        /// Funnels the selection logic into HandleClick.
         /// </summary>
         protected bool clickFromCheck;
 
@@ -65,7 +65,7 @@ namespace Blazorise.DataGrid
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
             if ( !clickFromCheck )
-                await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+                await Clicked.InvokeAsync( new( Item, eventArgs ) );
 
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
@@ -117,7 +117,7 @@ namespace Blazorise.DataGrid
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
         {
-            return DoubleClicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+            return DoubleClicked.InvokeAsync( new( Item, eventArgs ) );
         }
 
         protected internal Task OnEditCommand()
@@ -142,12 +142,12 @@ namespace Blazorise.DataGrid
 
         protected internal Task OnMultiSelectCommand( bool selected )
         {
-            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected, false ) );
+            return MultiSelect.InvokeAsync( new( Item, selected, false ) );
         }
 
         protected internal Task OnMultiSelectCommand( bool selected, bool shiftClick )
         {
-            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected, shiftClick ) );
+            return MultiSelect.InvokeAsync( new( Item, selected, shiftClick ) );
         }
 
         protected Task OnMultiSelectCheckClicked()

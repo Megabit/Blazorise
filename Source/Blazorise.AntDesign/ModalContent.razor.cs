@@ -14,7 +14,7 @@ namespace Blazorise.AntDesign
 
         public ModalContent()
         {
-            DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
+            DialogClassBuilder = new( BuildDialogClasses );
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace Blazorise.AntDesign
 
         private void BuildDialogClasses( ClassBuilder builder )
         {
-            builder.Append( $"ant-modal" );
+            builder.Append( "ant-modal" );
             builder.Append( $"ant-modal-{ClassProvider.ToModalSize( Size )}" );
         }
 

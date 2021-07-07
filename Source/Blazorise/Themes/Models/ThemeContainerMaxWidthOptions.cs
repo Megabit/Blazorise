@@ -11,7 +11,8 @@ namespace Blazorise
     /// </summary>
     public record ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
-        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+        private Dictionary<string, Func<string>> breakpointMap => new()
+        {
             { "mobile", () => Mobile },
             { "tablet", () => Tablet },
             { "desktop", () => Desktop },

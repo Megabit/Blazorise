@@ -73,10 +73,7 @@ namespace Blazorise
                 await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
             } );
 
-            if ( LoadingTemplate == null )
-            {
-                LoadingTemplate = ProvideDefaultLoadingTemplate();
-            }
+            LoadingTemplate ??= ProvideDefaultLoadingTemplate();
 
             if ( Theme != null )
             {
@@ -248,7 +245,7 @@ namespace Blazorise
         /// <summary>
         /// An event raised when theme settings changes.
         /// </summary>
-        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="sender">An object that raised the event.</param>
         /// <param name="eventArgs"></param>
         private void OnThemeChanged( object sender, EventArgs eventArgs )
         {

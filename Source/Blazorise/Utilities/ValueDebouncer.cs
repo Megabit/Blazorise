@@ -37,7 +37,7 @@ namespace Blazorise.Utilities
         /// <param name="interval">Interval by which the value will be debounced.</param>
         public ValueDebouncer( int interval )
         {
-            timer = new Timer( interval );
+            timer = new( interval );
             timer.Elapsed += OnElapsed;
             timer.AutoReset = false;
         }
