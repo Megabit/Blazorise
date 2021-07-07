@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazorise.Snackbar.Utils
+﻿namespace Blazorise.Snackbar.Utils
 {
     static class Extensions
     {

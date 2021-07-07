@@ -138,7 +138,7 @@ namespace Blazorise.Extensions
 
         public static RenderTreeBuilder TabIndex( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
         {
-            builder.AddAttribute( GetSequence( line ), $"tabindex", value );
+            builder.AddAttribute( GetSequence( line ), "tabindex", value );
 
             return builder;
         }

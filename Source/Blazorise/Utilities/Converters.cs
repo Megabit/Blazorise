@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using Blazorise.Extensions;
-
 #endregion
 
 namespace Blazorise.Utilities

@@ -73,10 +73,7 @@ namespace Blazorise
                 await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
             } );
 
-            if ( LoadingTemplate == null )
-            {
-                LoadingTemplate = ProvideDefaultLoadingTemplate();
-            }
+            LoadingTemplate ??= ProvideDefaultLoadingTemplate();
 
             if ( Theme != null )
             {

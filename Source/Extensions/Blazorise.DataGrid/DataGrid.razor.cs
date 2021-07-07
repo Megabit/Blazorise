@@ -607,10 +607,7 @@ namespace Blazorise.DataGrid
 
         protected async Task OnMultiSelectAll( bool selectAll )
         {
-            if ( SelectedRows is null )
-            {
-                SelectedRows = new List<TItem>();
-            }
+            SelectedRows ??= new List<TItem>();
 
             if ( selectAll )
             {
