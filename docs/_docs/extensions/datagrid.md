@@ -113,10 +113,10 @@ The grid can work in two different editing modes that can provide different user
 
 In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an `UpdateCell` method. You have two ways of updating a cell:
 
-- by using the `context` inside of `EditTemplate`
-- or by using the `DataGrid` instance
+- by calling `UpdateCell` on the `context` inside of `EditTemplate`, or
+- by calling `UpdateEditCell` on the `DataGrid` instance
 
-In the following example we're simply calling `context.UpdateCell` with a fieldname to change and a new value that we want it to assign: 
+In the following example we're simply calling `context.UpdateCell` with a field-name to change and a new value that we want it to assign: 
 
 ```html
 <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true">
