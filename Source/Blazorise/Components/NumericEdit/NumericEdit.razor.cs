@@ -250,7 +250,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="number">New number value.</param>
         /// <returns>Returns the awaitable task.</returns>
-        protected virtual async Task ProcessNumber( TValue number )
+        protected virtual Task ProcessNumber( TValue number )
         {
             if ( number is IComparable comparableNumber && comparableNumber != null )
             {
@@ -268,9 +268,11 @@ namespace Blazorise
                     && !CurrentValue.IsEqual( currentValue ) )
                 {
                     // number has changed so we need to re-set the CurrentValue and re-run any validation
-                    await CurrentValueHandler( FormatValueAsString( currentValue ) );
+                    return CurrentValueHandler( FormatValueAsString( currentValue ) );
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

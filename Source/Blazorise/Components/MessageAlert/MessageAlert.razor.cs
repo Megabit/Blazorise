@@ -49,9 +49,9 @@ namespace Blazorise
         /// Handles the OK button click event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task OnOkClicked()
+        protected Task OnOkClicked()
         {
-            await InvokeAsync( async () =>
+            return InvokeAsync( async () =>
             {
                 await Okayed.InvokeAsync( null );
 
@@ -63,9 +63,9 @@ namespace Blazorise
         /// Handles the Confirm button click event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task OnConfirmClicked()
+        protected Task OnConfirmClicked()
         {
-            await InvokeAsync( async () =>
+            return InvokeAsync( async () =>
             {
                 ModalRef.Hide();
 
@@ -82,9 +82,9 @@ namespace Blazorise
         /// Handles the Cancel button click event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task OnCancelClicked()
+        protected Task OnCancelClicked()
         {
-            await InvokeAsync( async () =>
+            return InvokeAsync( async () =>
             {
                 ModalRef.Hide();
 

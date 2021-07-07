@@ -86,12 +86,12 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task OnInternalValueChanged( TValue value )
+        protected override Task OnInternalValueChanged( TValue value )
         {
             // notify child radios they need to update their states
             RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
 
-            await CheckedValueChanged.InvokeAsync( value );
+            return CheckedValueChanged.InvokeAsync( value );
         }
 
         /// <summary>
