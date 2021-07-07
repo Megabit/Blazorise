@@ -273,7 +273,7 @@
                             </CaptionTemplate>
                             <FilterTemplate>
                                 @{
-                                    var selectedValue = @context.SearchValue?.ToString() ?? "*";
+                                    var selectedValue = context.SearchValue?.ToString() ?? "*";
                                     <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                         <SelectItem Value="@("*")">All</SelectItem>
                                         @foreach ( var item in dataModels )
