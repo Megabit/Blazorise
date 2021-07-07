@@ -126,17 +126,17 @@
         public static string VariantStepsItemIconYiq( string variant ) => $"--b-steps-item-{variant}-icon-yiq";
         public static string VariantStepsItemText( string variant ) => $"--b-steps-item-{variant}-text-color";
 
-        public static string StepsItemIcon => $"--b-steps-item-icon-color";
-        public static string StepsItemIconCompleted => $"--b-steps-item-icon-completed";
-        public static string StepsItemIconCompletedYiq => $"--b-steps-item-icon-completed-yiq";
-        public static string StepsItemIconActive => $"--b-steps-item-icon-active";
-        public static string StepsItemIconActiveYiq => $"--b-steps-item-icon-active-yiq";
-        public static string StepsItemText => $"--b-steps-item-text-color";
-        public static string StepsItemTextCompleted => $"--b-steps-item-text-completed";
-        public static string StepsItemTextActive => $"--b-steps-item-text-active";
+        public static string StepsItemIcon => "--b-steps-item-icon-color";
+        public static string StepsItemIconCompleted => "--b-steps-item-icon-completed";
+        public static string StepsItemIconCompletedYiq => "--b-steps-item-icon-completed-yiq";
+        public static string StepsItemIconActive => "--b-steps-item-icon-active";
+        public static string StepsItemIconActiveYiq => "--b-steps-item-icon-active-yiq";
+        public static string StepsItemText => "--b-steps-item-text-color";
+        public static string StepsItemTextCompleted => "--b-steps-item-text-completed";
+        public static string StepsItemTextActive => "--b-steps-item-text-active";
 
-        public static string SpinKitSize => $"--b-spinkit-size";
-        public static string SpinKitColor => $"--b-spinkit-color";
+        public static string SpinKitSize => "--b-spinkit-size";
+        public static string SpinKitColor => "--b-spinkit-color";
 
         public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
 

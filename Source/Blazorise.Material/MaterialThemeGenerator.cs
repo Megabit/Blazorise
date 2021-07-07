@@ -138,22 +138,22 @@ namespace Blazorise.Material
                 var focusColor = Var( ThemeVariables.Color( "primary" ) );
 
                 sb
-                    .Append( $".form-control:focus," )
-                    .Append( $".custom-select:focus" )
+                    .Append( ".form-control:focus," )
+                    .Append( ".custom-select:focus" )
                     .Append( "{" )
                     .Append( $"border-color: {focusColor};" )
                     .Append( $"box-shadow: inset 0 -2px 0 -1px {focusColor};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $"select.custom-select:focus[multiple], select.custom-select:focus[size]:not([size=\"1\"]), select.form-control:focus[multiple], select.form-control:focus[size]:not([size=\"1\"]), textarea.form-control:focus:not([rows=\"1\"])" )
+                    .Append( "select.custom-select:focus[multiple], select.custom-select:focus[size]:not([size=\"1\"]), select.form-control:focus[multiple], select.form-control:focus[size]:not([size=\"1\"]), textarea.form-control:focus:not([rows=\"1\"])" )
                     .Append( "{" )
                     .Append( $"border-color: {focusColor};" )
                     .Append( $"box-shadow: inset 2px 2px 0 -1px {focusColor}, inset -2px -2px 0 -1px {focusColor};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".form-group:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link), [class*=form-ripple]:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link)" )
+                    .Append( ".form-group:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link), [class*=form-ripple]:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link)" )
                     .Append( "{" )
                     .Append( $"color: {focusColor};" )
                     .AppendLine( "}" );
@@ -163,22 +163,22 @@ namespace Blazorise.Material
         protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb
-                .Append( $".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
+                .Append( ".custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
                 .Append( $"color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".custom-switch .custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
+                .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
@@ -187,7 +187,7 @@ namespace Blazorise.Material
             if ( !string.IsNullOrEmpty( trackColor ) )
             {
                 sb
-                    .Append( $".custom-switch .custom-control-input:checked~.custom-control-track" ).Append( "{" )
+                    .Append( ".custom-switch .custom-control-input:checked~.custom-control-track" ).Append( "{" )
                     .Append( $"background-color: {trackColor};" )
                     .AppendLine( "}" );
             }
@@ -231,7 +231,7 @@ namespace Blazorise.Material
         protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
         {
             sb
-                .Append( $".stepper.active .stepper-icon" ).Append( "{" )
+                .Append( ".stepper.active .stepper-icon" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
@@ -273,13 +273,13 @@ namespace Blazorise.Material
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
-            sb.Append( $".progress" ).Append( "{" )
+            sb.Append( ".progress" ).Append( "{" )
                  .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                  .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".progress-bar" ).Append( "{" )
+                sb.Append( ".progress-bar" ).Append( "{" )
                     .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }

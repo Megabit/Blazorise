@@ -14,8 +14,6 @@ namespace Blazorise
 
         private readonly IServiceProvider serviceProvider;
 
-        private readonly Action<BlazoriseOptions> configureOptions;
-
         #endregion
 
         #region Constructors
@@ -28,9 +26,7 @@ namespace Blazorise
         public BlazoriseOptions( IServiceProvider serviceProvider, Action<BlazoriseOptions> configureOptions )
         {
             this.serviceProvider = serviceProvider;
-            this.configureOptions = configureOptions;
-
-            this.configureOptions?.Invoke( this );
+            configureOptions?.Invoke( this );
         }
 
         #endregion

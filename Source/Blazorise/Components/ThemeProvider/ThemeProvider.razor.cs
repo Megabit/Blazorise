@@ -62,7 +62,7 @@ namespace Blazorise
 
             var sb = new StringBuilder();
 
-            sb.AppendLine( $"<style type=\"text/css\" scoped>" );
+            sb.AppendLine( "<style type=\"text/css\" scoped>" );
 
             sb.AppendLine( ThemeGenerator.GenerateStyles( Theme ) );
 
