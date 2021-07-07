@@ -70,7 +70,7 @@ namespace Blazorise.Utilities
         /// <param name="values">The list of strings to append.</param>
         public void Append( IEnumerable<string> values )
         {
-            builder.Append( string.Join( Delimiter.ToString(), values ) ).Append( Delimiter );
+            builder.Append( string.Join( Delimiter, values ) ).Append( Delimiter );
         }
 
         /// <summary>

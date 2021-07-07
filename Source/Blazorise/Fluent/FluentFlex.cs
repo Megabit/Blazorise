@@ -692,8 +692,7 @@ namespace Blazorise
         /// <returns>The newly created flex definition.</returns>
         private FlexDefinition CreateDefinition()
         {
-            if ( rules == null )
-                rules = new Dictionary<FlexType, List<FlexDefinition>>();
+            rules ??= new Dictionary<FlexType, List<FlexDefinition>>();
 
             var flexDefinition = new FlexDefinition();
 

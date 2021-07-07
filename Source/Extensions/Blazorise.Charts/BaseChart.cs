@@ -172,7 +172,7 @@ namespace Blazorise.Charts
 
         /// <summary>
         /// Removes the oldest label.
-        /// </summary>       
+        /// </summary>
         public async Task ShiftLabel()
         {
             dirty = true;
@@ -195,7 +195,7 @@ namespace Blazorise.Charts
         }
         /// <summary>
         /// Removes the newest label.
-        /// </summary>       
+        /// </summary>
         public async Task PopLabel()
         {
             dirty = true;
@@ -339,8 +339,7 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new ChartData<TItem>();
 
                 if ( Data.Labels == null )
                     Data.Labels = new List<object>();
@@ -353,8 +352,7 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new ChartData<TItem>();
 
                 if ( Data.Datasets == null )
                     Data.Datasets = new List<ChartDataset<TItem>>();
