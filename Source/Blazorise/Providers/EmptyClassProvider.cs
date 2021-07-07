@@ -441,11 +441,11 @@ namespace Blazorise.Providers
 
         public string CarouselSlideSlidingLeft( bool left ) => null;
 
-        public string CarouselSlideSlisingRight( bool right ) => null;
+        public string CarouselSlideSlidingRight( bool right ) => null;
 
         public string CarouselSlideSlidingPrev( bool previous ) => null;
 
-        public string CarouselSlideSlisingNext( bool next ) => null;
+        public string CarouselSlideSlidingNext( bool next ) => null;
 
         public string CarouselIndicators() => null;
 

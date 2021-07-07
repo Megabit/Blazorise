@@ -480,11 +480,11 @@ namespace Blazorise.Bootstrap
 
         public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-left" : null;
 
-        public override string CarouselSlideSlisingRight( bool right ) => right ? "carousel-item-right" : null;
+        public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-right" : null;
 
         public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "carousel-item-prev" : null;
 
-        public override string CarouselSlideSlisingNext( bool next ) => next ? "carousel-item-next" : null;
+        public override string CarouselSlideSlidingNext( bool next ) => next ? "carousel-item-next" : null;
 
         public override string CarouselIndicators() => "carousel-indicators";
 
