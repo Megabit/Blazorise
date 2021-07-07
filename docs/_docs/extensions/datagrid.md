@@ -131,7 +131,7 @@ By default, DataGrid will load everything in memory and it will perform the nece
 
 Bellow you can find a [basic example]({{ "/docs/extensions/datagrid/#large-data-example" | relative_url }}) of how to load large data and apply it to the DataGrid.
 
-### Virtualize
+### Virtualization
 
 By setting `Virtualize`, you will enable virtualize capabilities on the datagrid, meaning that instead of having pagination, you'll be able to scroll across the data with perceived improved performance.
 
