@@ -55,7 +55,7 @@ namespace Blazorise
             // potentially new EditContext, or if they are supplying a different Model
             if ( Model != null && Model != editContext?.Model )
             {
-                editContext = new EditContext( Model );
+                editContext = new( Model );
             }
         }
 
@@ -158,9 +158,9 @@ namespace Blazorise
 
         private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages )
         {
-            _StatusChanged?.Invoke( new ValidationsStatusChangedEventArgs( status, messages ) );
+            _StatusChanged?.Invoke( new( status, messages ) );
 
-            InvokeAsync( () => StatusChanged.InvokeAsync( new ValidationsStatusChangedEventArgs( status, messages ) ) );
+            InvokeAsync( () => StatusChanged.InvokeAsync( new( status, messages ) ) );
         }
 
         #endregion

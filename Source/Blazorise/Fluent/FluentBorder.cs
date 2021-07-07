@@ -298,12 +298,12 @@ namespace Blazorise
         /// <returns>Next rule reference.</returns>
         public IFluentBorderWithAll WithSize( BorderSize borderSize )
         {
-            rules ??= new Dictionary<BorderSize, List<BorderDefinition>>();
+            rules ??= new();
 
             var borderDefinition = new BorderDefinition { Side = BorderSide.All };
 
             if ( !rules.ContainsKey( borderSize ) )
-                rules.Add( borderSize, new List<BorderDefinition> { borderDefinition } );
+                rules.Add( borderSize, new() { borderDefinition } );
             else
                 rules[borderSize].Add( borderDefinition );
 

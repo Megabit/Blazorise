@@ -22,7 +22,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state for this <see cref="BarItem"/>.
         /// </summary>
-        private BarItemState state = new BarItemState
+        private BarItemState state = new()
         {
             Mode = BarMode.Horizontal,
         };

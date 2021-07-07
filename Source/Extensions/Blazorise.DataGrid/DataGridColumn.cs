@@ -17,7 +17,7 @@ namespace Blazorise.DataGrid
         private readonly Lazy<Func<TItem, object>> valueGetter;
         private readonly Lazy<Action<TItem, object>> valueSetter;
 
-        private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new Dictionary<DataGridSortMode, SortDirection>();
+        private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
         #endregion
 
@@ -26,10 +26,10 @@ namespace Blazorise.DataGrid
         public DataGridColumn()
         {
             // TODO: move this to cached FunctionCompiler so it doesn't get compiled every time
-            valueTypeGetter = new Lazy<Func<Type>>( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
-            defaultValueByType = new Lazy<Func<object>>( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
-            valueGetter = new Lazy<Func<TItem, object>>( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
-            valueSetter = new Lazy<Action<TItem, object>>( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
+            valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
+            defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
+            valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
+            valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
         }
 
         #endregion
@@ -227,7 +227,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Filter value for this column.
         /// </summary>
-        [Parameter] public FilterContext Filter { get; set; } = new FilterContext();
+        [Parameter] public FilterContext Filter { get; set; } = new();
 
         /// <summary>
         /// Custom filter function used to override internal filtering.

@@ -89,7 +89,7 @@ namespace Blazorise
                     collection.CollectionChanged += OnCollectionChanged;
                 }
 
-                return CollectionChangedAsync( new NotifyCollectionChangedEventArgs( NotifyCollectionChangedAction.Reset ) );
+                return CollectionChangedAsync( new( NotifyCollectionChangedAction.Reset ) );
             }
 
             return Task.CompletedTask;

@@ -33,7 +33,7 @@ namespace Blazorise
         /// </summary>
         public Tab()
         {
-            LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
+            LinkClassBuilder = new( BuildLinkClasses );
         }
 
         #endregion

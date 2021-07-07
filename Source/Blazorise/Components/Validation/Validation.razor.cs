@@ -118,7 +118,7 @@ namespace Blazorise
                 if ( !hasPattern || this.patternString != patternString )
                 {
                     this.patternString = patternString;
-                    pattern = new Regex( patternString );
+                    pattern = new( patternString );
 
                     // Re-run validation based on the new value for the new pattern,
                     // but ONLY if validation has being previously initialized!
@@ -243,7 +243,7 @@ namespace Blazorise
                     cancellationTokenSource.Cancel();
 
                 // Create a CTS for this request.
-                cancellationTokenSource = new CancellationTokenSource();
+                cancellationTokenSource = new();
 
                 var cancellationToken = cancellationTokenSource.Token;
 
@@ -320,7 +320,7 @@ namespace Blazorise
                 Status = status;
                 Messages = messages;
 
-                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
+                ValidationStatusChanged?.Invoke( this, new( status, messages ) );
                 InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
 
                 ParentValidations?.NotifyValidationStatusChanged( this );

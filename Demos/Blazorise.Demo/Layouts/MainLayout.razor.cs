@@ -64,23 +64,23 @@ namespace Blazorise.Demo.Layouts
             if ( Theme == null )
                 return;
 
-            Theme.ColorOptions ??= new ThemeColorOptions();
+            Theme.ColorOptions ??= new();
 
-            Theme.BackgroundOptions ??= new ThemeBackgroundOptions();
+            Theme.BackgroundOptions ??= new();
 
-            Theme.TextColorOptions ??= new ThemeTextColorOptions();
+            Theme.TextColorOptions ??= new();
 
             Theme.ColorOptions.Primary = value;
             Theme.BackgroundOptions.Primary = value;
             Theme.TextColorOptions.Primary = value;
 
-            Theme.InputOptions ??= new ThemeInputOptions();
+            Theme.InputOptions ??= new();
 
             //Theme.InputOptions.Color = value;
             Theme.InputOptions.CheckColor = value;
             Theme.InputOptions.SliderColor = value;
 
-            Theme.SpinKitOptions ??= new ThemeSpinKitOptions();
+            Theme.SpinKitOptions ??= new();
 
             Theme.SpinKitOptions.Color = value;
 

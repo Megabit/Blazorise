@@ -22,7 +22,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this carousel.
         /// </summary>
-        private CarouselState state = new CarouselState
+        private CarouselState state = new()
         {
             Autoplay = true,
             AutoRepeat = true,
@@ -42,7 +42,7 @@ namespace Blazorise
         /// <summary>
         /// A list of slides placed inside of this carousel.
         /// </summary>
-        protected internal readonly List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
+        protected internal readonly List<CarouselSlide> carouselSlides = new();
 
         #endregion
 
@@ -53,8 +53,8 @@ namespace Blazorise
         /// </summary>
         public Carousel()
         {
-            IndicatorsClassBuilder = new ClassBuilder( BuildIndicatorsClasses );
-            SlidesClassBuilder = new ClassBuilder( BuildSlidesClasses );
+            IndicatorsClassBuilder = new( BuildIndicatorsClasses );
+            SlidesClassBuilder = new( BuildSlidesClasses );
         }
 
         #endregion
@@ -261,14 +261,14 @@ namespace Blazorise
 
         private void InitializeTimer()
         {
-            Timer = new Timer( Interval );
+            Timer = new( Interval );
             Timer.Elapsed += OnTimerEvent;
             Timer.AutoReset = true;
         }
 
         private void InitializeTransitionTimer()
         {
-            TransitionTimer = new Timer( 2000 );
+            TransitionTimer = new( 2000 );
             TransitionTimer.Elapsed += OnTransitionTimerEvent;
             TransitionTimer.AutoReset = false;
         }

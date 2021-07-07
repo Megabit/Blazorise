@@ -10,7 +10,7 @@ namespace Blazorise.Icons.Material
     {
         #region Members
 
-        private static Dictionary<IconName, string> names = new Dictionary<IconName, string>
+        private static Dictionary<IconName, string> names = new()
         {
             { IconName.Add, "add" },
             { IconName.Adjust, "adjust" },
@@ -324,7 +324,7 @@ namespace Blazorise.Icons.Material
             { IconName.Wrench, "build" },
         };
 
-        private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>
+        private static Dictionary<IconStyle, string> styles = new()
         {
             { IconStyle.Solid, "material-icons" },
             { IconStyle.Regular, "material-icons-outlined" },
@@ -333,7 +333,7 @@ namespace Blazorise.Icons.Material
         };
 
         // Some material icons have a special outline names so we need to override them.
-        private static Dictionary<string, string> outlineNameOverrides = new Dictionary<string, string>
+        private static Dictionary<string, string> outlineNameOverrides = new()
         {
             { "star", "star_outline" }
         };

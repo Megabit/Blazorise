@@ -6,7 +6,7 @@
 
     @if ( ParentDataGrid.CommandColumn?.NewCommandTemplate != null )
     {
-        @ParentDataGrid.CommandColumn.NewCommandTemplate( new NewCommandContext
+        @ParentDataGrid.CommandColumn.NewCommandTemplate( new()
         {
             Clicked = New,
             LocalizationString = newButtonString,

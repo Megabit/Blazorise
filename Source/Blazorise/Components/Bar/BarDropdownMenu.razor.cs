@@ -26,7 +26,7 @@ namespace Blazorise
         /// </summary>
         public BarDropdownMenu()
         {
-            ContainerClassBuilder = new ClassBuilder( BuildContainerClasses );
+            ContainerClassBuilder = new( BuildContainerClasses );
         }
 
         #endregion

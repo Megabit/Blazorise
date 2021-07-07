@@ -17,7 +17,7 @@ namespace Blazorise.E2ETests.Infrastructure
     class SeleniumStandaloneServer
     {
         private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(30);
-        private static readonly object _instanceCreationLock = new object();
+        private static readonly object _instanceCreationLock = new();
         private static SeleniumStandaloneServer _instance;
 
         public Uri Uri { get; }
@@ -28,7 +28,7 @@ namespace Blazorise.E2ETests.Infrastructure
             {
                 lock (_instanceCreationLock)
                 {
-                    _instance ??= new SeleniumStandaloneServer();
+                    _instance ??= new();
                 }
 
                 return _instance;

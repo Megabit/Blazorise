@@ -251,7 +251,7 @@ namespace Blazorise
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
             if ( !rules.ContainsKey( displayType ) )
-                rules.Add( displayType, new List<DisplayDefinition> { columnDefinition } );
+                rules.Add( displayType, new() { columnDefinition } );
             else
                 rules[displayType].Add( columnDefinition );
 
@@ -271,7 +271,7 @@ namespace Blazorise
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
             if ( !rules.ContainsKey( displayType ) )
-                rules.Add( displayType, new List<DisplayDefinition> { columnDefinition } );
+                rules.Add( displayType, new() { columnDefinition } );
             else
                 rules[displayType].Add( columnDefinition );
 

@@ -10,7 +10,7 @@ namespace Blazorise.Icons.FontAwesome
     {
         #region Members
 
-        private static Dictionary<IconName, string> names = new Dictionary<IconName, string>
+        private static Dictionary<IconName, string> names = new()
         {
             { IconName.Add, "fa-plus" },
             { IconName.Adjust, "fa-adjust" },
@@ -324,7 +324,7 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.Wrench, "fa-wrench" },
         };
 
-        private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>
+        private static Dictionary<IconStyle, string> styles = new()
         {
             { IconStyle.Solid, "fas" },
             { IconStyle.Regular, "far" },

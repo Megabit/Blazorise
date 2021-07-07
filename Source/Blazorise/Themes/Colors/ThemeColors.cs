@@ -109,7 +109,7 @@ namespace Blazorise
 
         static ThemeColors()
         {
-            Items = new Dictionary<string, ThemeColor>
+            Items = new()
             {
                 {Red.Key, Red},
                 {Pink.Key, Pink},

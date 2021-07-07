@@ -12,7 +12,7 @@ namespace Blazorise.DataGrid
     {
         #region Members
 
-        protected EventCallbackFactory callbackFactory = new EventCallbackFactory();
+        protected EventCallbackFactory callbackFactory = new();
 
         protected Validations validations;
 

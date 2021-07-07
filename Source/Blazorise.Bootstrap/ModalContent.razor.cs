@@ -14,7 +14,7 @@ namespace Blazorise.Bootstrap
 
         public ModalContent()
         {
-            DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
+            DialogClassBuilder = new( BuildDialogClasses );
         }
 
         #endregion

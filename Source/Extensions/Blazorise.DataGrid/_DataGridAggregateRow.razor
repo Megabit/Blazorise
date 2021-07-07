@@ -30,7 +30,7 @@
 
                         @if ( aggregateColumn.DisplayTemplate != null )
                         {
-                            @aggregateColumn.DisplayTemplate( new AggregateContext( column.Field, aggregateValue ) )
+                            @aggregateColumn.DisplayTemplate( new( column.Field, aggregateValue ) )
                         }
                         else
                         {

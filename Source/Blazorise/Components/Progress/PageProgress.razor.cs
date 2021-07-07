@@ -28,7 +28,7 @@ namespace Blazorise
         /// </summary>
         public PageProgress()
         {
-            IndicatorClassBuilder = new ClassBuilder( BuildIndicatorClasses );
+            IndicatorClassBuilder = new( BuildIndicatorClasses );
         }
 
         #endregion
