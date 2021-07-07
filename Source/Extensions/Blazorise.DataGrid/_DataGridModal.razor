@@ -6,7 +6,7 @@
             <ModalTitle>
                 @if ( TitleTemplate != null && EditItem != null )
                 {
-                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState, EditState == DataGridEditState.Edit
+                    @TitleTemplate( new( EditItem, EditState, EditState == DataGridEditState.Edit
                         ? Localizer.Localize( ParentDataGrid.Localizers?.EditLocalizer, "Edit" )
                         : Localizer.Localize( ParentDataGrid.Localizers?.CreateLocalizer, "Create" ) ) )
                 }
@@ -47,7 +47,7 @@
 
                 @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                     {
                         Clicked = callbackFactory.Create( this, SaveWithValidation ),
                         LocalizationString = saveButtonString,
@@ -67,7 +67,7 @@
 
                 @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                     {
                         Clicked = Cancel,
                         LocalizationString = cancelButtonString,

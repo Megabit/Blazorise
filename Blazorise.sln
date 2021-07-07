@@ -82,6 +82,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Animate", "Source
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.SpinKit", "Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj", "{DF5A3CCD-ECEA-49BC-871E-350CEAA7790A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Markdown", "Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj", "{1D30D96F-71FC-49A7-AF88-5749CBAA8153}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,6 +218,10 @@ Global
 		{DF5A3CCD-ECEA-49BC-871E-350CEAA7790A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF5A3CCD-ECEA-49BC-871E-350CEAA7790A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF5A3CCD-ECEA-49BC-871E-350CEAA7790A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D30D96F-71FC-49A7-AF88-5749CBAA8153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D30D96F-71FC-49A7-AF88-5749CBAA8153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D30D96F-71FC-49A7-AF88-5749CBAA8153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D30D96F-71FC-49A7-AF88-5749CBAA8153}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +261,7 @@ Global
 		{83B3D727-2C23-4A95-8478-85A854BA8325} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{4D0B561C-B957-4D02-861F-2E1968D6BC1F} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{DF5A3CCD-ECEA-49BC-871E-350CEAA7790A} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{1D30D96F-71FC-49A7-AF88-5749CBAA8153} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

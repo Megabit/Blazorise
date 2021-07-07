@@ -3,14 +3,19 @@
 		<Version>0.9.4-preview4.2</Version>
 		<PackageVersion>0.9.4-preview4.2</PackageVersion>
 
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageIcon>Blazorise.png</PackageIcon>
+		<PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
+
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Mladen Macanovic</Authors>
-		<Company></Company>
+		<Company>Megabit Ltd</Company>
 		<Copyright>Copyright 2018-2021 Megabit Ltd</Copyright>
 		<RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFrameworks>net5.0;net6.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<LangVersion>9.0</LangVersion>
@@ -19,8 +24,27 @@
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<DefineConstants>$(DefineConstants);NET5_0</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
 	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.0-preview.5.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0-preview.5.*" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" />
+	</ItemGroup>
+
 </Project>

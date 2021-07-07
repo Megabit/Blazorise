@@ -41,7 +41,7 @@ namespace Blazorise.Localization
         #region Methods
 
         /// <summary>
-        /// Raads all resources in the current assembly.
+        /// Reads all resources in the current assembly.
         /// </summary>
         public void ReadResource()
         {
@@ -64,7 +64,7 @@ namespace Blazorise.Localization
         {
             if ( !availableCultures.ContainsKey( cultureName ) )
             {
-                availableCultures.TryAdd( cultureName, new CultureInfo( cultureName ) );
+                availableCultures.TryAdd( cultureName, new( cultureName ) );
             }
         }
 
@@ -76,7 +76,7 @@ namespace Blazorise.Localization
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
         {
             return assembly.GetManifestResourceNames()
-                .Where( r => r.Contains( $"Resources.Localization" ) && r.EndsWith( ".json" ) )
+                .Where( r => r.Contains( "Resources.Localization" ) && r.EndsWith( ".json" ) )
                 .ToArray();
         }
 
@@ -89,7 +89,7 @@ namespace Blazorise.Localization
             if ( cultureName == SelectedCulture?.Name )
                 return;
 
-            SelectedCulture = new CultureInfo( cultureName );
+            SelectedCulture = new( cultureName );
 
             if ( changeThreadCulture )
             {

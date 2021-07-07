@@ -16,7 +16,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this list group.
         /// </summary>
-        private ListGroupState state = new ListGroupState
+        private ListGroupState state = new()
         {
             Mode = ListGroupMode.Static,
         };

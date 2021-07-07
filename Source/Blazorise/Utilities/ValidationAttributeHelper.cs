@@ -57,10 +57,10 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
-        /// Replaces the placeholder characters for string formating, ie. {0} to [0]
+        /// Replaces the placeholder characters for string formatting, ie. {0} to [0]
         /// </summary>
-        /// <param name="errorMessage">String to be formated.</param>
-        /// <returns>Returns the formated string.</returns>
+        /// <param name="errorMessage">String to be formatted.</param>
+        /// <returns>Returns the formatted string.</returns>
         public static string SetErrorMessagePlaceholders( string errorMessage )
         {
             if ( errorMessage != null )
@@ -73,10 +73,10 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
-        /// Revert the formated string into the original with the placeholder characters for string formating, ie. [0] to {0}
+        /// Revert the formatted string into the original with the placeholder characters for string formatting, ie. [0] to {0}
         /// </summary>
-        /// <param name="errorMessage">String to be formated.</param>
-        /// <returns>Returns the formated string.</returns>
+        /// <param name="errorMessage">String to be formatted.</param>
+        /// <returns>Returns the formatted string.</returns>
         public static string RevertErrorMessagePlaceholders( string errorMessage )
         {
             if ( errorMessage != null )

@@ -29,7 +29,7 @@ namespace Blazorise
         /// </summary>
         public Steps()
         {
-            ContentClassBuilder = new ClassBuilder( BuildContentClasses );
+            ContentClassBuilder = new( BuildContentClasses );
         }
 
         #endregion

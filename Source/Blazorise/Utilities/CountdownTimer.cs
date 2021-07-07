@@ -39,7 +39,7 @@ namespace Blazorise.Utilities
         {
             this.interval = interval;
 
-            timer = new Timer( interval );
+            timer = new( interval );
             timer.Elapsed += OnElapsed;
             timer.AutoReset = false;
         }
@@ -71,7 +71,7 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
-        /// Deleys the timer.
+        /// Delays the timer.
         /// </summary>
         /// <param name="interval">Interval by which the timer will be delayed.</param>
         public void Delay( double interval )

@@ -29,8 +29,7 @@ namespace Blazorise
         /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
-            if ( executeAfterRenderQueue == null )
-                executeAfterRenderQueue = new Queue<Func<Task>>();
+            executeAfterRenderQueue ??= new();
 
             executeAfterRenderQueue.Enqueue( action );
         }
@@ -103,7 +102,7 @@ namespace Blazorise
             }
             catch ( Exception exc )
             {
-                return new ValueTask( Task.FromException( exc ) );
+                return new( Task.FromException( exc ) );
             }
         }
 

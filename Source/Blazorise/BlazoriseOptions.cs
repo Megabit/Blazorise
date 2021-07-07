@@ -14,8 +14,6 @@ namespace Blazorise
 
         private readonly IServiceProvider serviceProvider;
 
-        private readonly Action<BlazoriseOptions> configureOptions;
-
         #endregion
 
         #region Constructors
@@ -28,9 +26,7 @@ namespace Blazorise
         public BlazoriseOptions( IServiceProvider serviceProvider, Action<BlazoriseOptions> configureOptions )
         {
             this.serviceProvider = serviceProvider;
-            this.configureOptions = configureOptions;
-
-            this.configureOptions?.Invoke( this );
+            configureOptions?.Invoke( this );
         }
 
         #endregion
@@ -43,12 +39,12 @@ namespace Blazorise
         public bool ChangeTextOnKeyPress { get; set; } = true;
 
         /// <summary>
-        /// If true the entered into <see cref="TextEdit"/> will be slightly delayed before submiting it to the internal value.
+        /// If true the entered into <see cref="TextEdit"/> will be slightly delayed before submitting it to the internal value.
         /// </summary>
         public bool? DelayTextOnKeyPress { get; set; } = false;
 
         /// <summary>
-        /// Interval in milliseconds that entered text will be delayed from submiting to the <see cref="TextEdit"/> internal value.
+        /// Interval in milliseconds that entered text will be delayed from submitting to the <see cref="TextEdit"/> internal value.
         /// </summary>
         public int? DelayTextOnKeyPressInterval { get; set; } = 300;
 

@@ -55,7 +55,7 @@ namespace Blazorise
             // potentially new EditContext, or if they are supplying a different Model
             if ( Model != null && Model != editContext?.Model )
             {
-                editContext = new EditContext( Model );
+                editContext = new( Model );
             }
         }
 
@@ -132,7 +132,7 @@ namespace Blazorise
 
         internal void NotifyValidationStatusChanged( IValidation validation )
         {
-            // Here we need to call ValidatedAll only when in Auto mode. Manuall call is already called through ValidateAll()
+            // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
             if ( Mode == ValidationMode.Manual )
                 return;
 
@@ -158,9 +158,9 @@ namespace Blazorise
 
         private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages )
         {
-            _StatusChanged?.Invoke( new ValidationsStatusChangedEventArgs( status, messages ) );
+            _StatusChanged?.Invoke( new( status, messages ) );
 
-            InvokeAsync( () => StatusChanged.InvokeAsync( new ValidationsStatusChangedEventArgs( status, messages ) ) );
+            InvokeAsync( () => StatusChanged.InvokeAsync( new( status, messages ) ) );
         }
 
         #endregion

@@ -79,18 +79,6 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public float CategoryPercentage { get; set; } = 0.8f;
-
-        /// <summary>
-        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
-        /// </summary>
-        [DataMember]
-        public int BarThickness { get; set; }
-
-        /// <summary>
-        /// Set this to ensure that bars are not sized thicker than this.
-        /// </summary>
-        [DataMember]
-        public int MaxBarThickness { get; set; }
     }
 
     [DataContract]
@@ -173,6 +161,40 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool Reverse { get; set; } = false;
+
+        /// <summary>
+        /// Options to change legend labels.
+        /// </summary>
+        [DataMember]
+        public LegendLabels Labels { get; set; }
+    }
+
+    [DataContract]
+    public class LegendLabels
+    {
+        /// <summary>
+        /// Default font color for all text.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string FontColor { get; set; } = "#666";
+
+        /// <summary>
+        /// Default font family for all text.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string FontFamily { get; set; } = "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+
+        /// <summary>
+        /// Default font size (in px) for text. Does not apply to radialLinear scale point labels.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public double? FontSize { get; set; } = 12;
+
+        /// <summary>
+        /// Default font style. Does not apply to tooltip title or footer. Does not apply to chart title.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string FontStyle { get; set; } = "normal";
     }
 
     [DataContract]
@@ -205,6 +227,24 @@ namespace Blazorise.Charts
 
         [DataMember( EmitDefaultValue = false )]
         public bool Stacked { get; set; }
+
+        /// <summary>
+        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
+        /// </summary>
+        /// <remarks>
+        /// NOTE: used only on Bar chart!
+        /// </remarks>
+        [DataMember]
+        public string BarThickness { get; set; }
+
+        /// <summary>
+        /// Set this to ensure that bars are not sized thicker than this.
+        /// </summary>
+        /// <remarks>
+        /// NOTE: used only on Bar chart!
+        /// </remarks>
+        [DataMember]
+        public int? MaxBarThickness { get; set; }
     }
 
     /// <summary>

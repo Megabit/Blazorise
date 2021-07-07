@@ -27,15 +27,17 @@ tags:
   - Instead of `Background` parameter use the `Color` parameter
 - Remove usage of `Dialog` parameter for `ModalContent`
 - Change `Tooltip` `Placement` parameter to `TooltipPlacement`, eg. `Placement="Placement.Left"` to `Placement="TooltipPlacement.Left"`
-- On DataGridColumn, rename `Direction` parameter to `SortDirection`
 - For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
-- DataGrid `FilteredDataChanged` now accepts the `DataGridFilteredDataEventArgs<TItem>` as the argument instead of `IEnumerable<TItem>`
-- Datagrid: Due to a realocation of the resizable feature to the Table component, you should note the following:
-  - The datagrid resources(js and css) we had previously introduced, no longer exist, and do not need to be added to your application.
+- Datagrid: Due to a refactoring of the resizable feature to the Table component, you should note the following:
+  - The datagrid resources(JS and CSS) we had previously introduced, no longer exist, and do not need to be added to your application.
     - If you had any of the resources below, you can now safely remove them:
       - `<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
       - `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
   - The `DataGridResizeMode` enum no longer exists, and you will need to use `TableResizeMode` enum instead.
+  - DataGrid `FilteredDataChanged` now accepts the `DataGridFilteredDataEventArgs<TItem>` as the argument instead of `IEnumerable<TItem>`
+  - On `DataGridColumn`, rename `Direction` parameter to `SortDirection`
+- Charts
+  - Move `BarThickness` and `MaxBarThickness` from `BarChartOptions` to the `Axis` option.
 
 ## Highlights 🚀
 
@@ -56,6 +58,12 @@ For the long time this was one of the most requested features and we finally int
 - PageProgress Service is used to show simple progress bar at the top of the page.
 
 To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}), [Notification Service]({{ "/docs/services/notification" | relative_url }}) and [PageProgress Service]({{ "/docs/services/page-progress" | relative_url }}) pages.
+
+### Markdown component
+
+New Markdown component is also part of the release. It is based on the excellent and well maintained [Easy MarkDown Editor](https://easy-markdown-editor.tk/) JavaScript library. It has all the basic editing features like bold, italic, code snippets, headings, etc. With time we hope to introduce and support even more once the people start using it.
+
+To learn more about the components please visit [Markdown]({{ "/docs/extensions/markdown" | relative_url }}) page.
 
 ### DataGrid data-annotations
 
@@ -120,3 +128,21 @@ Now it is possible to globally change input and button sizes. This will greatly 
 ### Dropping eFrolic support
 
 Since eFrolic author has stopped maintaining eFrolic, I have decided to stop supporting it and move my focus elsewhere. This will allow me to make more work on new providers that are actively worked on.
+
+### Autocomplete improvements
+
+-  `FreeTyping` binding support && `FreeTyping` validation support
+   - You are now able to use `Autocomplete` as a suggestions source to the user. Meaning you can enable this feature, and `Autocomplete` will accept any value introduced by the user and bind it on the `SelectedText` parameter.
+   - By enabling this feature, you will still have validation support, now on `SelectedText`.
+
+-  `NotFound` EventCallback && `NotFoundContent`
+   -  You will now be able to handle cases where the value introduced by the user is not found on the data source that has been provided to `Autocomplete`. Either by providing some feedback to the user, by using the `NotFoundContent` or just handling it as you wish by listening to the `NotFound` EventCallback.
+
+-  Show all items
+   -  This can be done by just setting the `Autocomplete`'s MinLength to 0. We've made sure to provide initial styling to accomodate all items with a scrollbar.
+
+-  Add support for a custom filter
+   -  `Autocomplete` already provides filtering capabilities out of the box. However, you may now provide a custom filter that's based on the currently text being searched and the datasource items.
+
+-  Improve the selection box to have same width as text field by default && Able to limit suggestions shown at a time with a scroll bar
+   -  These two improvements will provide a better user experience by having the selection box be compliant to the text field's width, as well as handling multiple items, by providing a scroll bar, which would otherwise go out of screen.

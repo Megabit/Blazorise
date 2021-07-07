@@ -46,7 +46,7 @@ namespace Blazorise
         private readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache = new();
 
         /// <summary>
-        /// Helper object to hold all infomation about validated field.
+        /// Helper object to hold all information about validated field.
         /// </summary>
         protected class ValidationPropertyInfo
         {
@@ -61,7 +61,7 @@ namespace Blazorise
             public ValidationAttribute[] ValidationAttributes { get; set; }
 
             /// <summary>
-            /// Gets or sets the array of formated validation attributes for the localization.
+            /// Gets or sets the array of formatted validation attributes for the localization.
             /// </summary>
             public ValidationAttribute[] FormatedValidationAttributes { get; set; }
         }
@@ -179,7 +179,7 @@ namespace Blazorise
                     }
                 }
 
-                validationPropertyInfo = new ValidationPropertyInfo
+                validationPropertyInfo = new()
                 {
                     PropertyInfo = propertyInfo,
                     ValidationAttributes = validationAttributes,

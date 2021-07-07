@@ -29,7 +29,7 @@ namespace Blazorise
         /// <summary>
         /// Created the component for the specified type.
         /// </summary>
-        /// <param name="componentType">Type of compoment to create.</param>
+        /// <param name="componentType">Type of component to create.</param>
         /// <returns>Return the newly created component or raises an exception if the specified typo is invalid.</returns>
         public IComponent CreateInstance( Type componentType )
         {

@@ -3361,6 +3361,11 @@
     color: #b5b5b5;
     white-space: nowrap; }
 
+.b-is-autocomplete .dropdown-menu {
+    width: 100%;
+    max-height: var(--autocomplete-menu-max-height, 200px);
+    overflow-y: scroll; }
+
 label.radio.button {
     display: flex; }
 

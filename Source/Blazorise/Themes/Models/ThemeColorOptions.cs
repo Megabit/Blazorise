@@ -11,7 +11,8 @@ namespace Blazorise
     /// </summary>
     public record ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
-        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
+        private Dictionary<string, Func<string>> colorMap => new()
+        {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
             { "success", () => Success },

@@ -55,7 +55,7 @@ Just add another `Button` to have a split dropdown.
 
 ## Usage
 
-By default a dropdown toggle will open and close a dropdown menu without the need to do it manually. In case you need to control the menu programmatically you have to use the Dropdown reference.
+By default a dropdown toggle will show and hide a dropdown menu without the need to do it manually. In case you need to control the menu programmatically you have to use the Dropdown reference.
 
 ```html
 <Dropdown @ref="dropdown">
@@ -74,7 +74,7 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 
     void ShowMenu()
     {
-        dropdown.Open();
+        dropdown.Show();
     }
 }
 ```
@@ -83,8 +83,8 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 
 | Name         | Description                                                                                 |
 |--------------|---------------------------------------------------------------------------------------------|
-| Open()       | Open the dropdown menu.                                                                     |
-| Close()      | Close the dropdown menu.                                                                    |
+| Show()       | Show the dropdown menu.                                                                     |
+| Hide()       | Hides the dropdown menu.                                                                    |
 | Toggle()     | Switches the visibility of dropdown menu.                                                   |
 
 ## Attributes

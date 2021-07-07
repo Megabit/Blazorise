@@ -172,7 +172,7 @@ namespace Blazorise.Charts
 
         /// <summary>
         /// Removes the oldest label.
-        /// </summary>       
+        /// </summary>
         public async Task ShiftLabel()
         {
             dirty = true;
@@ -195,7 +195,7 @@ namespace Blazorise.Charts
         }
         /// <summary>
         /// Removes the newest label.
-        /// </summary>       
+        /// </summary>
         public async Task PopLabel()
         {
             dirty = true;
@@ -260,11 +260,17 @@ namespace Blazorise.Charts
                 await JS.Resize( JSRuntime, ElementId );
         }
 
-        private async Task Initialize()
+        private ValueTask Initialize()
         {
-            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new( this ) );
 
-            await JS.Initialize( JSRuntime, DotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+            var eventOptions = new
+            {
+                HasClickEvent = Clicked.HasDelegate,
+                HasHoverEvent = Hovered.HasDelegate,
+            };
+
+            return JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
@@ -290,12 +296,14 @@ namespace Blazorise.Charts
         {
             var model = Serialize( modelJson );
 
-            var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
+            var eventArgs = new ChartMouseEventArgs( datasetIndex, index, model );
 
             if ( eventName == "click" )
-                return Clicked.InvokeAsync( chartClickData );
+                return Clicked.InvokeAsync( eventArgs );
             else if ( eventName == "hover" )
-                return Hovered.InvokeAsync( chartClickData );
+                return Hovered.InvokeAsync( eventArgs );
+            else if ( eventName == "mouseout" )
+                return MouseOut.InvokeAsync( eventArgs );
 
             return Task.CompletedTask;
         }
@@ -331,11 +339,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Labels == null )
-                    Data.Labels = new List<object>();
+                    Data.Labels = new();
 
                 return Data.Labels;
             }
@@ -345,11 +352,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Datasets == null )
-                    Data.Datasets = new List<ChartDataset<TItem>>();
+                    Data.Datasets = new();
 
                 return Data.Datasets;
             }

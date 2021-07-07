@@ -214,7 +214,18 @@
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation="true">
-                    <EmptyTemplate>No records...</EmptyTemplate>
+                    <EmptyTemplate>
+                        <Span>
+                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
+                            No records...
+                        </Span>
+                    </EmptyTemplate>
+                    <EmptyFilterTemplate>
+                        <Span>
+                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
+                            Empty filter template
+                        </Span>
+                    </EmptyFilterTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
                             <DisplayTemplate>
@@ -301,7 +312,7 @@
                             </FilterTemplate>
                             <DisplayTemplate>
                                 @{
-                                    var gender = ( context as Employee )?.Gender;
+                                    var gender = (context as Employee)?.Gender;
 
                                     @if ( gender == "M" )
                                     {
@@ -318,7 +329,7 @@
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
-                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => context.CellValue = v)">
+                                <Select TValue="string" SelectedValue="@((string)context.CellValue)" SelectedValueChanged="@(( v ) => context.CellValue = v)">
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
@@ -328,7 +339,7 @@
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
                             <EditTemplate>
-                                <NumericEdit TValue="decimal" Value="@((decimal)( context.CellValue ))" ValueChanged="@(( v ) => context.CellValue = v)" />
+                                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
@@ -339,7 +350,7 @@
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = ( context as Employee ).Salaries;
+                            var salaries = (context as Employee).Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"

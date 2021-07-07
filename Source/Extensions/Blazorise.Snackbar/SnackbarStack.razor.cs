@@ -72,7 +72,7 @@ namespace Blazorise.Snackbar
 
         private SnackbarStackLocation location = SnackbarStackLocation.Center;
 
-        private List<SnackbarInfo> snackbarInfos = new List<SnackbarInfo>();
+        private List<SnackbarInfo> snackbarInfos = new();
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace Blazorise.Snackbar
             var snackbarOptions = CreateDefaultOptions();
             options?.Invoke( snackbarOptions );
 
-            snackbarInfos.Add( new SnackbarInfo( message, title, color,
+            snackbarInfos.Add( new( message, title, color,
                 snackbarOptions.Key,
                 snackbarOptions.MessageTemplate,
                 snackbarOptions.ShowCloseButton,
@@ -159,12 +159,12 @@ namespace Blazorise.Snackbar
 
             await InvokeAsync( StateHasChanged );
 
-            await Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
+            await Closed.InvokeAsync( new( key, closeReason ) );
         }
 
         protected virtual SnackbarOptions CreateDefaultOptions()
         {
-            return new SnackbarOptions
+            return new()
             {
                 Key = IdGenerator.Generate,
                 ShowCloseButton = true,

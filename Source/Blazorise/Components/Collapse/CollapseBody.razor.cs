@@ -23,7 +23,7 @@ namespace Blazorise
         /// </summary>
         public CollapseBody()
         {
-            ContentClassBuilder = new ClassBuilder( BuildBodyClasses );
+            ContentClassBuilder = new( BuildBodyClasses );
         }
 
         #endregion

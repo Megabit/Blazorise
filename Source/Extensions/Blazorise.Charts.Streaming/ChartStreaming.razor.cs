@@ -15,7 +15,7 @@ namespace Blazorise.Charts.Streaming
     }
 
     /// <summary>
-    /// Provides the streaming capabilites to the supported chart types.
+    /// Provides the streaming capabilities to the supported chart types.
     /// </summary>
     /// <typeparam name="TItem">Data point type.</typeparam>
     public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming
@@ -86,7 +86,7 @@ namespace Blazorise.Charts.Streaming
         /// <summary>
         /// Stream options.
         /// </summary>
-        [Parameter] public ChartStreamingOptions Options { get; set; } = new ChartStreamingOptions();
+        [Parameter] public ChartStreamingOptions Options { get; set; } = new();
 
         /// <summary>
         /// Callback function that will be called at a regular interval. The callback takes one argument, a reference to the dataset object. You can update your datasets here. The chart will be automatically updated after returning.

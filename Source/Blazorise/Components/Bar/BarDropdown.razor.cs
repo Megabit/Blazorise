@@ -103,28 +103,28 @@ namespace Blazorise
         /// Handles the onmouseenter event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task OnMouseEnter()
+        public Task OnMouseEnter()
         {
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
-                return;
+                return Task.CompletedTask;
 
             Show();
 
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Handles the onmouseleave event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task OnMouseLeave()
+        public Task OnMouseLeave()
         {
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
-                return;
+                return Task.CompletedTask;
 
             Hide();
 
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
         #endregion

@@ -22,7 +22,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this carousel.
         /// </summary>
-        private CarouselState state = new CarouselState
+        private CarouselState state = new()
         {
             Autoplay = true,
             AutoRepeat = true,
@@ -42,7 +42,7 @@ namespace Blazorise
         /// <summary>
         /// A list of slides placed inside of this carousel.
         /// </summary>
-        protected internal List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
+        protected internal readonly List<CarouselSlide> carouselSlides = new();
 
         #endregion
 
@@ -53,8 +53,8 @@ namespace Blazorise
         /// </summary>
         public Carousel()
         {
-            IndicatorsClassBuilder = new ClassBuilder( BuildIndicatorsClasses );
-            SlidesClassBuilder = new ClassBuilder( BuildSlidesClasses );
+            IndicatorsClassBuilder = new( BuildIndicatorsClasses );
+            SlidesClassBuilder = new( BuildSlidesClasses );
         }
 
         #endregion
@@ -197,34 +197,42 @@ namespace Blazorise
         internal void AddSlide( CarouselSlide slide )
         {
             carouselSlides.Add( slide );
+
+            if ( carouselSlides.Count == 1 && string.IsNullOrEmpty( SelectedSlide ) )
+            {
+                state = state with
+                {
+                    SelectedSlide = carouselSlides.Single().Name
+                };
+            }
         }
 
         /// <summary>
         /// Selects the next slide in a sequence, relative to the current slide.
         /// </summary>
-        public async Task SelectNext()
+        public Task SelectNext()
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             ResetTimer();
             SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
         /// Selects the previous slide in a sequence, relative to the current slide.
         /// </summary>
-        public async Task SelectPrevious()
+        public Task SelectPrevious()
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             ResetTimer();
             SelectedSlide = FindPreviousSlide( SelectedSlide )?.Name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
@@ -232,13 +240,13 @@ namespace Blazorise
         /// </summary>
         /// <param name="name">Name of the slide.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task Select( string name )
+        public Task Select( string name )
         {
             ResetTimer();
 
             SelectedSlide = name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
@@ -253,14 +261,14 @@ namespace Blazorise
 
         private void InitializeTimer()
         {
-            Timer = new Timer( Interval );
+            Timer = new( Interval );
             Timer.Elapsed += OnTimerEvent;
             Timer.AutoReset = true;
         }
 
         private void InitializeTransitionTimer()
         {
-            TransitionTimer = new Timer( 2000 );
+            TransitionTimer = new( 2000 );
             TransitionTimer.Elapsed += OnTransitionTimerEvent;
             TransitionTimer.AutoReset = false;
         }
@@ -268,12 +276,14 @@ namespace Blazorise
         private void ResetTimer()
         {
             if ( Timer != null )
+            {
                 Timer.Stop();
 
-            if ( TimerEnabled )
-            {
-                Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
-                Timer.Start();
+                if ( TimerEnabled )
+                {
+                    Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
+                    Timer.Start();
+                }
             }
         }
 

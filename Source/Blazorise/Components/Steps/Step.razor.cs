@@ -30,8 +30,8 @@ namespace Blazorise
         /// </summary>
         public Step()
         {
-            MarkerClassBuilder = new ClassBuilder( BuildMarkerClasses );
-            DescriptionClassBuilder = new ClassBuilder( BuildDescriptionClasses );
+            MarkerClassBuilder = new( BuildMarkerClasses );
+            DescriptionClassBuilder = new( BuildDescriptionClasses );
         }
 
         #endregion

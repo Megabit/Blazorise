@@ -192,27 +192,27 @@ namespace Blazorise
         /// Opens the calendar dropdown.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task OpenAsync()
+        public ValueTask OpenAsync()
         {
-            await JSRunner.OpenDatePicker( ElementRef, ElementId );
+            return JSRunner.OpenDatePicker( ElementRef, ElementId );
         }
 
         /// <summary>
         /// Closes the calendar dropdown.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task CloseAsync()
+        public ValueTask CloseAsync()
         {
-            await JSRunner.CloseDatePicker( ElementRef, ElementId );
+            return JSRunner.CloseDatePicker( ElementRef, ElementId );
         }
 
         /// <summary>
         /// Shows/opens the calendar if its closed, hides/closes it otherwise.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task ToggleAsync()
+        public ValueTask ToggleAsync()
         {
-            await JSRunner.ToggleDatePicker( ElementRef, ElementId );
+            return JSRunner.ToggleDatePicker( ElementRef, ElementId );
         }
 
         #endregion

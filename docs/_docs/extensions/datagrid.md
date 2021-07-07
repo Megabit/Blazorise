@@ -244,7 +244,7 @@ Field attribute also supports nested fields. You can define a column with field 
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -272,7 +272,7 @@ Just as in the previous example everything is the same except that now we must d
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -510,7 +510,7 @@ Edit template will give you a way to handle the editing of grid cell values. For
         @($"{( context as Employee )?.Salary} €")
     </DisplayTemplate>
     <EditTemplate>
-        <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+        <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
     </EditTemplate>
 </DataGridColumn>
 ```
@@ -705,6 +705,7 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | Borderless                | boolean                                                                                      | `false`                | Makes the table without any borders.                                                                                 |
 | Hoverable                 | boolean                                                                                      | `false`                | Adds a hover effect when moussing over rows.                                                                         |
 | Narrow                    | boolean                                                                                      | `false`                | Makes the table more compact by cutting cell padding in half.                                                        |
+| Responsive                | boolean                                                                                      | `false`                | Makes table responsive by adding the horizontal scroll bar.                                                          |
 | ReadData                  | EventCallback                                                                                |                        | Handles the manual loading of large data sets.                                                                       |
 | SelectedRow               | TItem                                                                                        |                        | Currently selected row.                                                                                              |
 | SelectedRowChanged        | EventCallback                                                                                |                        | Occurs after the selected row has changed.                                                                           |
@@ -718,9 +719,10 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | RowRemoving               | Action                                                                                       |                        | Cancelable event called before the row is removed.                                                                   |
 | RowRemoved                | EventCallback                                                                                |                        | Event called after the row is removed.                                                                               |
 | PageChanged               | EventCallback                                                                                |                        | Occurs after the selected page has changed.                                                                          |
-| EmptyCellTemplate         | RenderingFragment                                                                            |                        | Define the format for empty data cell                                                                                |
-| EmptyTemplate             | RenderingFragment                                                                            |                        | Define the format for empty data collection                                                                          |
-| LoadingTemplate           | RenderingFragment                                                                            |                        | Define the format for signal of loading data                                                                         |
+| EmptyCellTemplate         | RenderingFragment                                                                            |                        | Define the display template for empty data cell.                                                                     |
+| EmptyTemplate             | RenderingFragment                                                                            |                        | Define the display template for empty data collection.                                                               |
+| EmptyFilterTemplate       | RenderingFragment                                                                            |                        | Define the display template for empty filter data collection.                                                        |
+| LoadingTemplate           | RenderingFragment                                                                            |                        | Define the display template for signal of loading data                                                               |
 | PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                                                   |                        | Template for custom title of edit popup dialog                                                                       |
 | NewItemDefaultSetter      | `Action<TItem>`                                                                              |                        | Action will be called for setting default values of property, when create new entry                                  |
 | PageButtonTemplate        | `RenderTemplate<PageButtonContext>`                                                          |                        | Define the format a pagination button                                                                                |
@@ -733,6 +735,8 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | SelectionMode             | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})   | `Single`               | Defines whether the datagrid is set to single or multiple selection mode.                                            |
 | Localizers                | `DataGridLocalizers`                                                                         |                        | Custom localizer handlers to override default  localization.                                                         |
 | CommandMode               | [DataGridCommandMode]({{ "/docs/helpers/enums/#datagridcommandmode" | relative_url }})       | `Default`              | Defines whether the datagrid renders both commands and button row or just either one of them.                        |
+| PagerPosition             | [DataGridPagerPosition]({{ "/docs/helpers/enums/#datagridpagerposition" | relative_url }})   | `Bottom`               | Defines the position of the pager.                                                                                   |
+| ShowPageSizes             | boolean                                                                                      | false                  | Defines whether users can adjust the page size of the datagrid.                                                      |
 
 ### EditMode
 

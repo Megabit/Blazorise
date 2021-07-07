@@ -38,8 +38,8 @@ namespace Blazorise
         /// </summary>
         public Progress()
         {
-            ProgressBarClassBuilder = new ClassBuilder( BuildProgressBarClasses );
-            ProgressBarStyleBuilder = new StyleBuilder( BuildProgressBarStyles );
+            ProgressBarClassBuilder = new( BuildProgressBarClasses );
+            ProgressBarStyleBuilder = new( BuildProgressBarStyles );
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Builds the classnames for a pregress bar.
+        /// Builds the classnames for a progress bar.
         /// </summary>
         /// <param name="builder">Class builder used to append the classnames.</param>
         private void BuildProgressBarClasses( ClassBuilder builder )
@@ -100,7 +100,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Builds the styles for a pregress bar.
+        /// Builds the styles for a progress bar.
         /// </summary>
         /// <param name="builder">Styles builder used to append the styles.</param>
         private void BuildProgressBarStyles( StyleBuilder builder )
@@ -128,7 +128,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Notifies the progress that one of the child componens is a progressbar.
+        /// Notifies the progress that one of the child components is a progressbar.
         /// </summary>
         internal void NotifyHasMessage()
         {
@@ -143,7 +143,7 @@ namespace Blazorise
         /// <summary>
         /// An event raised when theme settings changes.
         /// </summary>
-        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="sender">An object that raised the event.</param>
         /// <param name="eventArgs"></param>
         private void OnThemeChanged( object sender, EventArgs eventArgs )
         {
