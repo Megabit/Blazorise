@@ -276,12 +276,14 @@ namespace Blazorise
         private void ResetTimer()
         {
             if ( Timer != null )
+            {
                 Timer.Stop();
 
-            if ( TimerEnabled )
-            {
-                Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
-                Timer.Start();
+                if ( TimerEnabled )
+                {
+                    Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
+                    Timer.Start();
+                }
             }
         }
 
