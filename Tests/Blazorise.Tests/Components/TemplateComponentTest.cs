@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Blazorise.Tests.Helpers;
+﻿using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
