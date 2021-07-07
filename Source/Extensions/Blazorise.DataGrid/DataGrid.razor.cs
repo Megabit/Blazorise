@@ -496,6 +496,9 @@ namespace Blazorise.DataGrid
         /// <param name="value">New cell value.</param>
         public void UpdateEditCell( string fieldName, object value )
         {
+            if ( editState == DataGridEditState.None )
+                return;
+
             var column = Columns.FirstOrDefault( x => x.Field == fieldName );
 
             if ( column != null && editItemCellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
@@ -511,6 +514,9 @@ namespace Blazorise.DataGrid
         /// <returns>Cell value.</returns>
         public object ReadEditCell( string fieldName )
         {
+            if ( editState == DataGridEditState.None )
+                return null;
+
             var column = Columns.FirstOrDefault( x => x.Field == fieldName );
 
             if ( column != null && editItemCellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
