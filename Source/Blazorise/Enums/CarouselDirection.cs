@@ -11,7 +11,7 @@
         Previous,
 
         /// <summary>
-        /// Slides will go forvard, usually left-to-right.
+        /// Slides will go forward, usually left-to-right.
         /// </summary>
         Next
     }

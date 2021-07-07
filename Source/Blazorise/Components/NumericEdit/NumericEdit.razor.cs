@@ -21,7 +21,7 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Object reference that can be accesed through the JSInterop.
+        /// Object reference that can be accessed through the JSInterop.
         /// </summary>
         private DotNetObjectReference<NumericEditAdapter> dotNetObjectRef;
 
@@ -53,7 +53,7 @@ namespace Blazorise
             }
 
             // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
-            // Without we cannot determmine if Min or Max has a default value when TValue is non-nulable type.
+            // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
             MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
             MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
 
@@ -240,8 +240,7 @@ namespace Blazorise
         protected virtual TValue AddStep( TValue value, int sign )
         {
             // make sure that null values also starts from zero
-            if ( value == null )
-                value = Converters.ChangeType<TValue>( 0 );
+            value ??= Converters.ChangeType<TValue>(0);
 
             return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
         }
@@ -251,7 +250,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="number">New number value.</param>
         /// <returns>Returns the awaitable task.</returns>
-        protected virtual async Task ProcessNumber( TValue number )
+        protected virtual Task ProcessNumber( TValue number )
         {
             if ( number is IComparable comparableNumber && comparableNumber != null )
             {
@@ -269,9 +268,11 @@ namespace Blazorise
                     && !CurrentValue.IsEqual( currentValue ) )
                 {
                     // number has changed so we need to re-set the CurrentValue and re-run any validation
-                    await CurrentValueHandler( FormatValueAsString( currentValue ) );
+                    return CurrentValueHandler( FormatValueAsString( currentValue ) );
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

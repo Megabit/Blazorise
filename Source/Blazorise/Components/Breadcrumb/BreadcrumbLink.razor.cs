@@ -52,7 +52,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// True if link shoule be in active state.
+        /// True if link should be in active state.
         /// </summary>
         protected bool IsActive => ParentBreadcrumbItem?.Active == true;
 

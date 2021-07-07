@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Wrapper for form input conponents like label, text, button, etc.
+    /// Wrapper for form input components like label, text, button, etc.
     /// </summary>
     public partial class Field : BaseComponent
     {
@@ -122,8 +122,7 @@ namespace Blazorise
         /// <param name="component">Reference to the child component.</param>
         internal void Hook( BaseComponent component )
         {
-            if ( hookables == null )
-                hookables = new List<BaseComponent>();
+            hookables ??= new List<BaseComponent>();
 
             hookables.Add( component );
         }

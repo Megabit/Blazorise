@@ -607,10 +607,7 @@ namespace Blazorise.DataGrid
 
         protected async Task OnMultiSelectAll( bool selectAll )
         {
-            if ( SelectedRows is null )
-            {
-                SelectedRows = new List<TItem>();
-            }
+            SelectedRows ??= new List<TItem>();
 
             if ( selectAll )
             {
@@ -947,17 +944,26 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
-        protected bool IsEmptyTemplateVisible => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && ( Data == null || !Data.Any() );
+        protected bool IsEmptyTemplateVisible
+            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty();
+
+        /// <summary>
+        /// Returns true if EmptyFilterTemplate is set and FilteredData is null or empty.
+        /// </summary>
+        protected bool IsEmptyFilterTemplateVisible
+            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() );
 
         /// <summary>
         /// Returns true if ShowPager is true and grid is not empty or loading.
         /// </summary>
-        protected bool IsPagerVisible => ShowPager && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
+        protected bool IsPagerVisible
+            => ShowPager && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
 
         /// <summary>
         /// Returns true if current state is for new item and editing fields are shown on datagrid.
         /// </summary>
-        protected bool IsNewItemInGrid => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
+        protected bool IsNewItemInGrid
+            => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -970,7 +976,7 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
-        /// Gets the sort solumn info for current SortMode.
+        /// Gets the sort column info for current SortMode.
         /// </summary>
         protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
 
@@ -1207,6 +1213,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment EmptyTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of table body for the empty filter DisplayData.
+        /// </summary>
+        [Parameter] public RenderFragment EmptyFilterTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of cell body for empty DisplayData.
         /// </summary>
         [Parameter] public RenderFragment<TItem> EmptyCellTemplate { get; set; }
@@ -1357,7 +1368,7 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
         /// <summary>
-        /// Specifes the grid editing modes.
+        /// Specifies the grid editing modes.
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
 

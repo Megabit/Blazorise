@@ -42,7 +42,7 @@ namespace Blazorise
         /// <summary>
         /// A list of slides placed inside of this carousel.
         /// </summary>
-        protected internal List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
+        protected internal readonly List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
 
         #endregion
 
@@ -197,34 +197,42 @@ namespace Blazorise
         internal void AddSlide( CarouselSlide slide )
         {
             carouselSlides.Add( slide );
+
+            if ( carouselSlides.Count == 1 && string.IsNullOrEmpty( SelectedSlide ) )
+            {
+                state = state with
+                {
+                    SelectedSlide = carouselSlides.Single().Name
+                };
+            }
         }
 
         /// <summary>
         /// Selects the next slide in a sequence, relative to the current slide.
         /// </summary>
-        public async Task SelectNext()
+        public Task SelectNext()
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             ResetTimer();
             SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
         /// Selects the previous slide in a sequence, relative to the current slide.
         /// </summary>
-        public async Task SelectPrevious()
+        public Task SelectPrevious()
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             ResetTimer();
             SelectedSlide = FindPreviousSlide( SelectedSlide )?.Name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>
@@ -232,13 +240,13 @@ namespace Blazorise
         /// </summary>
         /// <param name="name">Name of the slide.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task Select( string name )
+        public Task Select( string name )
         {
             ResetTimer();
 
             SelectedSlide = name;
 
-            await RunAnimations();
+            return RunAnimations();
         }
 
         /// <summary>

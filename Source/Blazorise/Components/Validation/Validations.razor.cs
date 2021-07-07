@@ -132,7 +132,7 @@ namespace Blazorise
 
         internal void NotifyValidationStatusChanged( IValidation validation )
         {
-            // Here we need to call ValidatedAll only when in Auto mode. Manuall call is already called through ValidateAll()
+            // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
             if ( Mode == ValidationMode.Manual )
                 return;
 

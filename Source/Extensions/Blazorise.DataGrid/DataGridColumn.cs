@@ -196,7 +196,7 @@ namespace Blazorise.DataGrid
         /// Gets or sets the current sort direction.
         /// </summary>
         /// <remarks>
-        /// The reason for this field is that <see cref="SortDirection"/> is reseted every
+        /// The reason for this field is that <see cref="SortDirection"/> is reset every
         /// time when the grid is refreshed by the user.
         /// </remarks>
         internal SortDirection CurrentSortDirection
@@ -366,7 +366,7 @@ namespace Blazorise.DataGrid
         [Parameter] public string GroupCellStyle { get; set; }
 
         /// <summary>
-        /// Template for custom cell display formating.
+        /// Template for custom cell display formatting.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
 

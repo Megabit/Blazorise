@@ -47,7 +47,7 @@ namespace Blazorise.AntDesign
 
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            // since we do some custom rendering we need to refresh component statet to trigger first valid render.
+            // since we do some custom rendering we need to refresh component state to trigger first valid render.
             await InvokeAsync( StateHasChanged );
         }
 
@@ -65,12 +65,12 @@ namespace Blazorise.AntDesign
             base.Dispose( disposing );
         }
 
-        protected async Task OnSelectorClickHandler()
+        protected Task OnSelectorClickHandler()
         {
             if ( Expanded )
-                return;
+                return Task.CompletedTask;
 
-            await Expand();
+            return Expand();
         }
 
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
@@ -90,8 +90,8 @@ namespace Blazorise.AntDesign
         private async Task Expand()
         {
             // An element location must be known every time we need to show the dropdown. The reason is mainly
-            // because sometimes input can have diferent offset based on the changes on the page. For example 
-            // when validation is trigered the input can be pushed down by the error messages.
+            // because sometimes input can have different offset based on the changes on the page. For example
+            // when validation is triggered the input can be pushed down by the error messages.
             elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
 
             await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
@@ -127,7 +127,7 @@ namespace Blazorise.AntDesign
 
         internal async Task NotifySelectValueChanged( TValue selectValue )
         {
-            // We cuold just set SelectedValue(s) directly but that would skip validation process 
+            // We cuold just set SelectedValue(s) directly but that would skip validation process
             // and we would also need to handle event handlers.
             // Thats why we need to call CurrentValueHandler that will trigger all that is required.
             if ( Multiple )
@@ -206,7 +206,7 @@ namespace Blazorise.AntDesign
         {
             if ( Expanded )
             {
-                // Give enought time for other events to do their stuff before closing
+                // Give enough time for other events to do their stuff before closing
                 // the select menu.
                 await Task.Delay( 250 );
 

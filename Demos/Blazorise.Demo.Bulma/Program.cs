@@ -1,12 +1,9 @@
 ﻿#region Using directives
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Bulma;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise.Demo.Bulma
@@ -29,11 +26,6 @@ namespace Blazorise.Demo.Bulma
                 } )
                 .AddBulmaProviders()
                 .AddFontAwesomeIcons();
-
-            builder.Services.AddSingleton( new HttpClient
-            {
-                BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-            } );
 
             builder.RootComponents.Add<App>( "#app" );
 

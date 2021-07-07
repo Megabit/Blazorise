@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,13 +7,12 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using Blazorise.Extensions;
-
 #endregion
 
 namespace Blazorise.Utilities
 {
     /// <summary>
-    /// Helper methods for easier conversion between diferent data types.
+    /// Helper methods for easier conversion between different data types.
     /// </summary>
     public static class Converters
     {
@@ -132,7 +130,7 @@ namespace Blazorise.Utilities
                 // (One example is converting [Guid] to [object] type).
                 //
                 // So, as a fall-back mechanism we can just try casting it. It already failed so we can try this
-                // additonal step anyways.
+                // additional step anyways.
                 return (TValue)value;
             }
         }
@@ -142,7 +140,7 @@ namespace Blazorise.Utilities
         /// </summary>
         /// <typeparam name="TValue">The type of object to return.</typeparam>
         /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
-        /// <param name="result">New instance of objact whose value is equivalent to the specified object.</param>
+        /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
         /// <param name="cultureInfo">Culture info to use for conversion.</param>
         /// <returns>True if conversion was successful.</returns>
         public static bool TryChangeType<TValue>( object value, out TValue result, CultureInfo cultureInfo = null )

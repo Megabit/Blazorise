@@ -439,11 +439,11 @@ namespace Blazorise
 
         string CarouselSlideSlidingLeft( bool left );
 
-        string CarouselSlideSlisingRight( bool right );
+        string CarouselSlideSlidingRight( bool right );
 
         string CarouselSlideSlidingPrev( bool previous );
 
-        string CarouselSlideSlisingNext( bool next );
+        string CarouselSlideSlidingNext( bool next );
 
         string CarouselIndicators();
 

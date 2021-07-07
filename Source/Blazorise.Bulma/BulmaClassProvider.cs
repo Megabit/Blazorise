@@ -1,9 +1,7 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Bulma
@@ -330,7 +328,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonSize( Size size ) => $"is-{ToSize( size )}";
 
-        public override string ButtonBlock() => $"is-fullwidth";
+        public override string ButtonBlock() => "is-fullwidth";
 
         public override string ButtonActive() => "is-active";
 
@@ -492,11 +490,11 @@ namespace Blazorise.Bulma
 
         public override string CarouselSlideSlidingLeft( bool left ) => null;
 
-        public override string CarouselSlideSlisingRight( bool right ) => null;
+        public override string CarouselSlideSlidingRight( bool right ) => null;
 
         public override string CarouselSlideSlidingPrev( bool previous ) => null;
 
-        public override string CarouselSlideSlisingNext( bool next ) => null;
+        public override string CarouselSlideSlidingNext( bool next ) => null;
 
         public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
 

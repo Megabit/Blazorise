@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Moq;
 #endregion

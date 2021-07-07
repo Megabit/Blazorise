@@ -41,7 +41,7 @@ namespace Blazorise.Localization
         #region Methods
 
         /// <summary>
-        /// Raads all resources in the current assembly.
+        /// Reads all resources in the current assembly.
         /// </summary>
         public void ReadResource()
         {
@@ -76,7 +76,7 @@ namespace Blazorise.Localization
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
         {
             return assembly.GetManifestResourceNames()
-                .Where( r => r.Contains( $"Resources.Localization" ) && r.EndsWith( ".json" ) )
+                .Where( r => r.Contains( "Resources.Localization" ) && r.EndsWith( ".json" ) )
                 .ToArray();
         }
 

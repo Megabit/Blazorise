@@ -75,7 +75,7 @@ namespace Blazorise
         protected bool Active => ParentStepsState?.SelectedStep == Name || ParentStepsContentStore?.SelectedPanel == Name;
 
         /// <summary>
-        /// Defines the panel name. Must match the coresponding step name.
+        /// Defines the panel name. Must match the corresponding step name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 

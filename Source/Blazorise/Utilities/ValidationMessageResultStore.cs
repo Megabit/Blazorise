@@ -80,7 +80,7 @@ namespace Blazorise.Utilities
         public string Message { get; }
 
         /// <summary>
-        /// Gets the list of arguments that needs to be placed inside of <see cref="Message"/> when formated.
+        /// Gets the list of arguments that needs to be placed inside of <see cref="Message"/> when formatted.
         /// </summary>
         public string[] MessageArguments { get; }
 
