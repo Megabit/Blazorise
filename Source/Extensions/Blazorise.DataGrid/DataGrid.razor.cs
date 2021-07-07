@@ -283,6 +283,11 @@ namespace Blazorise.DataGrid
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task New()
         {
+            if ( Virtualize && EditMode != DataGridEditMode.Popup )
+            {
+                VirtualizeScrollToTop();
+            }
+
             TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
 
             NewItemDefaultSetter?.Invoke( newItem );
@@ -373,7 +378,7 @@ namespace Blazorise.DataGrid
 
                 if ( editState == DataGridEditState.New )
                 {
-                    await RowInserted.InvokeAsync( new ( editItem, editedCellValues ) );
+                    await RowInserted.InvokeAsync( new( editItem, editedCellValues ) );
                     SetDirty();
 
                     // If a new item is added, the data should be refreshed
@@ -490,12 +495,7 @@ namespace Blazorise.DataGrid
                 column.Filter.SearchValue = null;
             }
 
-            dirtyFilter = dirtyView = true;
-
-            if ( ManualReadMode )
-                return HandleReadData( CancellationToken.None );
-
-            return Task.CompletedTask;
+            return Reload();
         }
 
 
@@ -943,52 +943,52 @@ namespace Blazorise.DataGrid
 
 
         private bool CompareFilterValues( string searchValue, string compareTo )
+        {
+            switch ( FilterMethod )
             {
-                switch ( FilterMethod )
+                case DataGridFilterMethod.StartsWith:
+                    return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.EndsWith:
+                    return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.Equals:
+                    return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.NotEquals:
+                    return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.Contains:
+                default:
+                    return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+            }
+        }
+
+        private IEnumerable<TItem> FilterViewData()
+        {
+            if ( dirtyFilter )
+                FilterData();
+
+            // only use pagination if the custom data loading is not used
+            if ( !ManualReadMode && !Virtualize )
+            {
+                var skipElements = ( CurrentPage - 1 ) * PageSize;
+                if ( skipElements > filteredData.Count )
                 {
-                    case DataGridFilterMethod.StartsWith:
-                        return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-                    case DataGridFilterMethod.EndsWith:
-                        return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-                    case DataGridFilterMethod.Equals:
-                        return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-                    case DataGridFilterMethod.NotEquals:
-                        return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-                    case DataGridFilterMethod.Contains:
-                    default:
-                        return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+                    CurrentPage = paginationContext.LastPage;
+                    skipElements = ( CurrentPage - 1 ) * PageSize;
                 }
+                return filteredData.Skip( skipElements ).Take( PageSize );
             }
 
-            private IEnumerable<TItem> FilterViewData()
-            {
-                if ( dirtyFilter )
-                    FilterData();
+            return filteredData;
+        }
 
-                // only use pagination if the custom data loading is not used
-                if ( !ManualReadMode && !Virtualize )
-                {
-                    var skipElements = ( CurrentPage - 1 ) * PageSize;
-                    if ( skipElements > filteredData.Count )
-                    {
-                        CurrentPage = paginationContext.LastPage;
-                        skipElements = ( CurrentPage - 1 ) * PageSize;
-                    }
-                    return filteredData.Skip( skipElements ).Take( PageSize );
-                }
+        private Task SelectRow( TItem item )
+        {
+            if ( editState != DataGridEditState.None )
+                return Task.CompletedTask;
 
-                return filteredData;
-            }
+            SelectedRow = item;
 
-            private Task SelectRow( TItem item )
-            {
-                if ( editState != DataGridEditState.None )
-                    return Task.CompletedTask;
-
-                SelectedRow = item;
-
-                return SelectedRowChanged.InvokeAsync( SelectedRow );
-            }
+            return SelectedRowChanged.InvokeAsync( SelectedRow );
+        }
 
         #endregion
 
