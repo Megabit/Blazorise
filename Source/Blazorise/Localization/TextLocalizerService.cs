@@ -76,7 +76,7 @@ namespace Blazorise.Localization
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
         {
             return assembly.GetManifestResourceNames()
-                .Where( r => r.Contains( $"Resources.Localization" ) && r.EndsWith( ".json" ) )
+                .Where( r => r.Contains( "Resources.Localization" ) && r.EndsWith( ".json" ) )
                 .ToArray();
         }
 

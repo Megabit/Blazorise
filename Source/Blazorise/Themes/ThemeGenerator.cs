@@ -686,7 +686,7 @@ namespace Blazorise
             if ( breakpoint != "mobile" )
             {
                 sb.Append( $"@media (min-width: {value})" ).Append( "{" )
-                    .Append( $"body:before" ).Append( "{" )
+                    .Append( "body:before" ).Append( "{" )
                         .Append( $"content: \"{breakpoint}\";" ).Append( "}" )
                     .AppendLine( "}" );
             }
@@ -922,7 +922,7 @@ namespace Blazorise
             if ( !string.IsNullOrEmpty( options?.PageProgressDefaultColor ) )
             {
                 sb
-                    .Append( $".b-page-progress .b-page-progress-indicator" ).Append( "{" )
+                    .Append( ".b-page-progress .b-page-progress-indicator" ).Append( "{" )
                     .Append( $"background-color: {options.PageProgressDefaultColor};" )
                     .AppendLine( "}" );
             }

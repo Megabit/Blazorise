@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Threading.Tasks;
 #endregion
 

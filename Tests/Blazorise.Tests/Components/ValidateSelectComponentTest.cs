@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using BasicTestApp.Client;
+﻿using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;

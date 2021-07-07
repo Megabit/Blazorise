@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Moq;
 
 namespace Blazorise.Tests.Mocks

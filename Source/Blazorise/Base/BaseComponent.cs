@@ -91,8 +91,7 @@ namespace Blazorise
             {
                 var paremetersDictionary = parameters.ToDictionary() as Dictionary<string, object>;
 
-                if ( Attributes == null )
-                    Attributes = new();
+                Attributes ??= new();
 
                 if ( widthAttribute != null && paremetersDictionary.ContainsKey( "width" ) )
                 {

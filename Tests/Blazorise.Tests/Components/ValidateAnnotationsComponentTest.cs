@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using Xunit;
 
 
