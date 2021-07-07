@@ -494,7 +494,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="fieldName">Cell field name.</param>
         /// <param name="value">New cell value.</param>
-        private void UpdateCell( string fieldName, object value )
+        public void UpdateCell( string fieldName, object value )
         {
             var column = Columns.FirstOrDefault( x => x.Field == fieldName );
 
