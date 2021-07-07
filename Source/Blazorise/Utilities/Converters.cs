@@ -62,7 +62,7 @@ namespace Blazorise.Utilities
                     else if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
                     {
                         var list = new List<object>();
-                        foreach ( var item in (IEnumerable) value )
+                        foreach ( var item in (IEnumerable)value )
                         {
                             list.Add( ProcessValue( item, emitDefaultValue ) );
                         }

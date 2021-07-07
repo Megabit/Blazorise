@@ -174,16 +174,16 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( nestedArray );
             Assert.Equal( 3, nestedArray.Length );
 
-            var arrayItem1 = (Dictionary<string, object>) nestedArray[0];
+            var arrayItem1 = (Dictionary<string, object>)nestedArray[0];
             Assert.Equal( 2, arrayItem1.Count );
             Assert.Equal( true, arrayItem1["boolean"] );
             Assert.Equal( "test1", arrayItem1["stringValue"] );
 
-            var arrayItem2 = (Dictionary<string, object>) nestedArray[1];
+            var arrayItem2 = (Dictionary<string, object>)nestedArray[1];
             Assert.Single( arrayItem2 );
             Assert.Equal( true, arrayItem2["boolean"] );
 
-            var arrayItem3 = (Dictionary<string, object>) nestedArray[2];
+            var arrayItem3 = (Dictionary<string, object>)nestedArray[2];
             Assert.Single( arrayItem3 );
             Assert.Equal( "test3", arrayItem3["stringValue"] );
         }
@@ -216,16 +216,16 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( complexList );
             Assert.Equal( 3, complexList.Count );
 
-            var item1 = (Dictionary<string, object>) complexList[0];
+            var item1 = (Dictionary<string, object>)complexList[0];
             Assert.Equal( 2, item1.Count );
             Assert.Equal( true, item1["boolean"] );
             Assert.Equal( "test1", item1["stringValue"] );
 
-            var item2 = (Dictionary<string, object>) complexList[1];
+            var item2 = (Dictionary<string, object>)complexList[1];
             Assert.Single( item2 );
             Assert.Equal( true, item2["boolean"] );
 
-            var item3 = (Dictionary<string, object>) complexList[2];
+            var item3 = (Dictionary<string, object>)complexList[2];
             Assert.Single( item3 );
             Assert.Equal( "test3", item3["stringValue"] );
         }

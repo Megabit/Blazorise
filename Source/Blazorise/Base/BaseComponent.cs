@@ -89,7 +89,7 @@ namespace Blazorise
             if ( parameters.TryGetValue( "width", out object widthAttribute )
                 || parameters.TryGetValue( "height", out heightAttribute ) )
             {
-                var parametersDictionary = (Dictionary<string, object>) parameters.ToDictionary();
+                var parametersDictionary = (Dictionary<string, object>)parameters.ToDictionary();
 
                 Attributes ??= new();
 
