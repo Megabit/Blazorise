@@ -4,7 +4,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
