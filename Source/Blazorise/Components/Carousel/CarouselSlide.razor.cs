@@ -34,7 +34,7 @@ namespace Blazorise
         /// </summary>
         public CarouselSlide()
         {
-            IndicatorClassBuilder = new ClassBuilder( BuildIndicatorClasses );
+            IndicatorClassBuilder = new( BuildIndicatorClasses );
         }
 
         #endregion

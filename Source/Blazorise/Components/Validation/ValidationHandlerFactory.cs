@@ -20,7 +20,7 @@ namespace Blazorise
         /// Holds the list of all requested validation handlers.
         /// </summary>
         private readonly ConcurrentDictionary<Type, IValidationHandler> handlers
-           = new ConcurrentDictionary<Type, IValidationHandler>();
+           = new();
 
         /// <summary>
         /// Default constructor for handler factory.

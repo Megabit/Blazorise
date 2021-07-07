@@ -39,7 +39,7 @@ namespace Blazorise.Utilities
         {
             this.interval = interval;
 
-            timer = new Timer( interval );
+            timer = new( interval );
             timer.Elapsed += OnElapsed;
             timer.AutoReset = false;
         }

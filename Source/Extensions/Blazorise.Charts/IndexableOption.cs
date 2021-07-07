@@ -86,7 +86,7 @@ namespace Blazorise.Charts
         {
             CheckIsNotIndexableOption( singleValue.GetType() );
 
-            return new IndexableOption<T>( singleValue );
+            return new( singleValue );
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Blazorise.Charts
         {
             CheckIsNotIndexableOption( indexedValues.GetType().GetElementType() );
 
-            return new IndexableOption<T>( indexedValues );
+            return new( indexedValues );
         }
 
         private static void CheckIsNotIndexableOption( Type type )

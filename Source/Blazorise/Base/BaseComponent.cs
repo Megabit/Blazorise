@@ -66,8 +66,8 @@ namespace Blazorise
         /// </summary>
         public BaseComponent()
         {
-            ClassBuilder = new ClassBuilder( BuildClasses );
-            StyleBuilder = new StyleBuilder( BuildStyles );
+            ClassBuilder = new( BuildClasses );
+            StyleBuilder = new( BuildStyles );
         }
 
         #endregion

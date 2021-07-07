@@ -96,11 +96,11 @@
     <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAll())">Validate</Button>
 </div>
 @code {
-    User autoModelForName = new User();
-    User autoModelForName2 = new User() { Name = "a", Password = "12345" };
+    User autoModelForName = new();
+    User autoModelForName2 = new() { Name = "a", Password = "12345" };
 
-    User manualModelForName = new User();
-    User manualModelForName2 = new User() { Name = "a", Password = "12345" };
+    User manualModelForName = new();
+    User manualModelForName2 = new() { Name = "a", Password = "12345" };
 
     Validations manualValidationsNameRef;
     Validations manualValidationsName2Ref;

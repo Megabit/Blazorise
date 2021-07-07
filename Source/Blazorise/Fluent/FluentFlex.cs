@@ -502,7 +502,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the empty flex definition.
         /// </summary>
-        public static readonly FlexDefinition Empty = new FlexDefinition();
+        public static readonly FlexDefinition Empty = new();
 
         /// <summary>
         /// Defines the flex breakpoint rule.
@@ -692,12 +692,12 @@ namespace Blazorise
         /// <returns>The newly created flex definition.</returns>
         private FlexDefinition CreateDefinition()
         {
-            rules ??= new Dictionary<FlexType, List<FlexDefinition>>();
+            rules ??= new();
 
             var flexDefinition = new FlexDefinition();
 
             if ( !rules.ContainsKey( currentFlexType ) )
-                rules.Add( currentFlexType, new List<FlexDefinition> { flexDefinition } );
+                rules.Add( currentFlexType, new() { flexDefinition } );
             else
                 rules[currentFlexType].Add( flexDefinition );
 

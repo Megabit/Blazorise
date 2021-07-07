@@ -86,7 +86,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                return new PaginationTemplates<TItem>
+                return new()
                 {
                     PageButtonTemplate = PageButtonTemplate,
                     FirstPageButtonTemplate = FirstPageButtonTemplate,

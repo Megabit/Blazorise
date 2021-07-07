@@ -64,7 +64,7 @@ namespace Blazorise.Localization
         {
             if ( !availableCultures.ContainsKey( cultureName ) )
             {
-                availableCultures.TryAdd( cultureName, new CultureInfo( cultureName ) );
+                availableCultures.TryAdd( cultureName, new( cultureName ) );
             }
         }
 
@@ -89,7 +89,7 @@ namespace Blazorise.Localization
             if ( cultureName == SelectedCulture?.Name )
                 return;
 
-            SelectedCulture = new CultureInfo( cultureName );
+            SelectedCulture = new( cultureName );
 
             if ( changeThreadCulture )
             {

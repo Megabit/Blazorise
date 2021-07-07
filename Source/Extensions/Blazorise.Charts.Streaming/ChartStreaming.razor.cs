@@ -86,7 +86,7 @@ namespace Blazorise.Charts.Streaming
         /// <summary>
         /// Stream options.
         /// </summary>
-        [Parameter] public ChartStreamingOptions Options { get; set; } = new ChartStreamingOptions();
+        [Parameter] public ChartStreamingOptions Options { get; set; } = new();
 
         /// <summary>
         /// Callback function that will be called at a regular interval. The callback takes one argument, a reference to the dataset object. You can update your datasets here. The chart will be automatically updated after returning.

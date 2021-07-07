@@ -38,8 +38,8 @@ namespace Blazorise
         /// </summary>
         public Progress()
         {
-            ProgressBarClassBuilder = new ClassBuilder( BuildProgressBarClasses );
-            ProgressBarStyleBuilder = new StyleBuilder( BuildProgressBarStyles );
+            ProgressBarClassBuilder = new( BuildProgressBarClasses );
+            ProgressBarStyleBuilder = new( BuildProgressBarStyles );
         }
 
         #endregion

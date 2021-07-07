@@ -10,7 +10,7 @@ namespace Blazorise.Tests
 {
     public class ButtonTest
     {
-        private readonly EventCallbackFactory callbackFactory = new EventCallbackFactory();
+        private readonly EventCallbackFactory callbackFactory = new();
 
         [Fact]
         public void SetFocus()

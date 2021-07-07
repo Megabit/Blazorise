@@ -13,15 +13,15 @@ namespace Blazorise.Demo.Pages.Tests
             if ( Theme == null )
                 return;
 
-            Theme.ButtonOptions ??= new ThemeButtonOptions();
+            Theme.ButtonOptions ??= new();
 
-            Theme.DropdownOptions ??= new ThemeDropdownOptions();
+            Theme.DropdownOptions ??= new();
 
-            Theme.InputOptions ??= new ThemeInputOptions();
+            Theme.InputOptions ??= new();
 
-            Theme.PaginationOptions ??= new ThemePaginationOptions();
+            Theme.PaginationOptions ??= new();
 
-            Theme.ProgressOptions ??= new ThemeProgressOptions();
+            Theme.ProgressOptions ??= new();
 
             Theme.ButtonOptions.Size = size;
             Theme.DropdownOptions.Size = size;

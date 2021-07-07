@@ -13,11 +13,11 @@ namespace TodoApp
 
         protected Filter filter = Filter.All;
 
-        protected List<Todo> todos = new List<Todo>()
+        protected List<Todo> todos = new()
         {
-            new Todo { Description = "Buy milk" },
-            new Todo { Description = "Call John regarding the meeting" },
-            new Todo { Description = "Walk a dog" },
+            new() { Description = "Buy milk" },
+            new() { Description = "Call John regarding the meeting" },
+            new() { Description = "Walk a dog" },
         };
 
         protected IEnumerable<Todo> Todos
@@ -50,7 +50,7 @@ namespace TodoApp
         {
             if ( validations.ValidateAll() )
             {
-                todos.Add( new Todo { Description = description } );
+                todos.Add( new() { Description = description } );
                 description = null;
 
                 validations.ClearAll();

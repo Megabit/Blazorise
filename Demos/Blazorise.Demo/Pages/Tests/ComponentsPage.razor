@@ -152,8 +152,8 @@
     int selectedDropValue { get; set; } = 2;
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
-    ObservableCollection<int> items { get; } = new ObservableCollection<int>( Enumerable.Range( 1, 4 ) );
-    Random random = new Random();
+    ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
+    Random random = new();
 
     void MyListValueChangedHandler( int newValue )
     {

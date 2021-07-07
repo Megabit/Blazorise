@@ -34,7 +34,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Holds the filtered data based on the filter.
         /// </summary>
-        private List<TItem> filteredData = new List<TItem>();
+        private List<TItem> filteredData = new();
 
         /// <summary>
         /// Marks the autocomplete to reload entire data source based on the current filter settings.
