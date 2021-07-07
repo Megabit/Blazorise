@@ -319,7 +319,7 @@
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
-                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleFromGender( v ) + context.ReadCell( nameof( Employee.FirstName ) ) ); })">
+                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>

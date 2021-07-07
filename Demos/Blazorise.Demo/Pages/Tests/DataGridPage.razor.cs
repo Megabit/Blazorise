@@ -263,6 +263,14 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
+        private string TitleToName( string title, object name )
+        {
+            if ( string.IsNullOrEmpty( title ) )
+                return $"{name}";
+
+            return $"{title} {name}";
+        }
+
         #endregion
     }
 }
