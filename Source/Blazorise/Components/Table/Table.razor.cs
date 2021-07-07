@@ -139,6 +139,21 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// If table has FixedHeader. 
+        /// Invokes javascript function moving the table scroll position to the provided pixels.
+        /// </summary>
+        /// <param name="pixels"></param>
+        /// <returns></returns>
+        public ValueTask FixedHeaderScrollTableTo(int pixels )
+        { 
+            if ( FixedHeader )
+            { 
+                return JSRunner.FixedHeaderScrollTableTo( ElementRef, ElementId, pixels );
+            }
+            return ValueTask.CompletedTask;
+        }
+
         private ValueTask InitResizable()
             => JSRunner.InitializeTableResizable( ElementRef, ElementId, ResizeMode );
 

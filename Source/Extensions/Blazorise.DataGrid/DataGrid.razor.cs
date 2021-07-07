@@ -232,7 +232,7 @@ namespace Blazorise.DataGrid
 
 
         private ValueTask VirtualizeScrollToTop()
-            => JSRuntime.InvokeVoidAsync( JSInteropFunction.Virtualize.SCROLL_TOP, tableRef.ElementRef );
+            => tableRef.FixedHeaderScrollTableTo( 0 );
 
 
         #endregion
@@ -992,8 +992,6 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
-
-        [Inject] private IJSRuntime JSRuntime { get; set; }
 
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class

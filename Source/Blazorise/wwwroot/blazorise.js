@@ -838,6 +838,11 @@ window.blazorise = {
                 }
             }
         },
+        fixedHeaderScrollTableTo: function (element, elementId, pixels) {
+            if (element !== null && element.parentElement !== null) {
+                element.parentElement.scrollTop = pixels;
+            }
+        },
         initializeResizable: function (element, elementId, mode) {
             const resizerClass = "b-table-resizer";
             const resizingClass = "b-table-resizing";
