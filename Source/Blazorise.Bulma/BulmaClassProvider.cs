@@ -330,7 +330,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonSize( Size size ) => $"is-{ToSize( size )}";
 
-        public override string ButtonBlock() => $"is-fullwidth";
+        public override string ButtonBlock() => "is-fullwidth";
 
         public override string ButtonActive() => "is-active";
 
