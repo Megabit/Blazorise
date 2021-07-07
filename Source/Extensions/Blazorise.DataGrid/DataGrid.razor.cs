@@ -504,6 +504,23 @@ namespace Blazorise.DataGrid
             }
         }
 
+        /// <summary>
+        /// Reads the cell value of the current editing item that matches the <paramref name="fieldName"/>.
+        /// </summary>
+        /// <param name="fieldName">Cell field name.</param>
+        /// <returns>Cell value.</returns>
+        public object ReadCell( string fieldName )
+        {
+            var column = Columns.FirstOrDefault( x => x.Field == fieldName );
+
+            if ( column != null && editItemCellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
+            {
+                return cellEditContext.CellValue;
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Editing
@@ -528,7 +545,7 @@ namespace Blazorise.DataGrid
 
             foreach ( var column in EditableColumns )
             {
-                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCell )
+                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCell, ReadCell )
                 {
                     CellValue = column.GetValue( editItem ),
                 } );

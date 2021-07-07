@@ -42,7 +42,7 @@ namespace Blazorise.DataGrid
                     if ( column.ExcludeFromInit )
                         continue;
 
-                    cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, UpdateEditCell )
+                    cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, ParentDataGrid.UpdateCell, ParentDataGrid.ReadCell )
                     {
                         CellValue = column.GetValue( Item ),
                     } );
@@ -50,16 +50,6 @@ namespace Blazorise.DataGrid
             }
 
             return base.OnAfterRenderAsync( firstRender );
-        }
-
-        private void UpdateEditCell( string fieldName, object value )
-        {
-            var column = Columns.FirstOrDefault( x => x.Field == fieldName );
-
-            if ( column != null && cellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
-            {
-                cellEditContext.CellValue = value;
-            }
         }
 
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )

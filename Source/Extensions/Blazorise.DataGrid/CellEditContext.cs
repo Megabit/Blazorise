@@ -1,7 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -26,17 +24,24 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Method that will be called when cell is manually updated.
         /// </summary>
-        private readonly Action<string, object> CellUpdated;
+        private readonly Action<string, object> SetCellValue;
+
+        /// <summary>
+        /// Method that will be called when cell is read.
+        /// </summary>
+        private readonly Func<string, object> GetCellValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CellEditContext{TItem}"/>.
         /// </summary>
         /// <param name="item">An item to which this cell belongs.</param>
-        /// <param name="cellUpdated">Method that will be called when cell is manually updated.</param>
-        public CellEditContext( TItem item, Action<string, object> cellUpdated )
+        /// <param name="setCellValue">Method that will be called when cell is manually updated.</param>
+        /// <param name="getCellValue">Method that will be called when cell value is manually read.</param>
+        public CellEditContext( TItem item, Action<string, object> setCellValue, Func<string, object> getCellValue )
         {
             Item = item;
-            CellUpdated = cellUpdated;
+            SetCellValue = setCellValue;
+            GetCellValue = getCellValue;
         }
 
         /// <summary>
@@ -56,7 +61,17 @@ namespace Blazorise.DataGrid
         /// <param name="value">New cell value.</param>
         public void UpdateCell( string fieldName, object value )
         {
-            CellUpdated?.Invoke( fieldName, value );
+            SetCellValue?.Invoke( fieldName, value );
+        }
+
+        /// <summary>
+        /// Reads the cell value of the current editing item that matches the <paramref name="fieldName"/>.
+        /// </summary>
+        /// <param name="fieldName">Cell field name.</param>
+        /// <returns>Cell value.</returns>
+        public object ReadCell( string fieldName )
+        {
+            return GetCellValue?.Invoke( fieldName );
         }
     }
 }
