@@ -1,22 +1,12 @@
-﻿using Microsoft.AspNetCore;
+﻿using Blazorise.Demo.AntDesign.Server;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace Blazorise.Demo.AntDesign.Server
-{
-    public class Program
-    {
-        public static void Main( string[] args )
-        {
-            BuildWebHost( args ).Run();
-        }
-
-        public static IWebHost BuildWebHost( string[] args ) =>
-            WebHost.CreateDefaultBuilder( args )
-                .UseConfiguration( new ConfigurationBuilder()
-                    .AddCommandLine( args )
-                    .Build() )
-                .UseStartup<Startup>()
-                .Build();
-    }
-}
+WebHost.CreateDefaultBuilder( args )
+    .UseConfiguration( new ConfigurationBuilder()
+        .AddCommandLine( args )
+        .Build() )
+    .UseStartup<Startup>()
+    .Build()
+    .Run();
