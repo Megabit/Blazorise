@@ -3,17 +3,8 @@
   <Import Project="..\..\Build\Blazorise.props" />
 
   <PropertyGroup>
-    <PackageId>Blazorise</PackageId>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageIcon>Blazorise.png</PackageIcon>
-    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components</PackageTags>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,9 +15,6 @@
   <ItemGroup>
     <None Remove="Resources\Localization\**\*.json" />
     <EmbeddedResource Include="Resources\Localization\**\*.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resources\Localization\*.json" />
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
