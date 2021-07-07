@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 #endregion
 
 namespace Blazorise.Bootstrap

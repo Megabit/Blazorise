@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 #endregion

@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using Xunit;
 #endregion
 

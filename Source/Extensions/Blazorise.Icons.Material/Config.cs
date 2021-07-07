@@ -1,5 +1,4 @@
 #region Using directives
-
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 

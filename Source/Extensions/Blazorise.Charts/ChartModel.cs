@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 #endregion
