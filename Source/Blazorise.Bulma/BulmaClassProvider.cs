@@ -492,11 +492,11 @@ namespace Blazorise.Bulma
 
         public override string CarouselSlideSlidingLeft( bool left ) => null;
 
-        public override string CarouselSlideSlisingRight( bool right ) => null;
+        public override string CarouselSlideSlidingRight( bool right ) => null;
 
         public override string CarouselSlideSlidingPrev( bool previous ) => null;
 
-        public override string CarouselSlideSlisingNext( bool next ) => null;
+        public override string CarouselSlideSlidingNext( bool next ) => null;
 
         public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
 

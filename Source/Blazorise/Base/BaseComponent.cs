@@ -81,7 +81,7 @@ namespace Blazorise
 
             // WORKAROUND for: https://github.com/dotnet/aspnetcore/issues/32252
             // HTML native width/height attributes are recognized as Width/Height parameters
-            // and Blazor tries to convert them resulting in error. This workworund tries to fix it by removing
+            // and Blazor tries to convert them resulting in error. This workaorund tries to fix it by removing
             // width/height from parameter list and moving them to Attributes(as unmatched values).
             //
             // This behavior is really an edge-case and shouldn't affect performance too much.
@@ -89,26 +89,26 @@ namespace Blazorise
             if ( parameters.TryGetValue( "width", out object widthAttribute )
                 || parameters.TryGetValue( "height", out heightAttribute ) )
             {
-                var paremetersDictionary = parameters.ToDictionary() as Dictionary<string, object>;
+                var parametersDictionary = parameters.ToDictionary() as Dictionary<string, object>;
 
                 if ( Attributes == null )
                     Attributes = new();
 
-                if ( widthAttribute != null && paremetersDictionary.ContainsKey( "width" ) )
+                if ( widthAttribute != null && parametersDictionary.ContainsKey( "width" ) )
                 {
-                    paremetersDictionary.Remove( "width" );
+                    parametersDictionary.Remove( "width" );
 
                     Attributes.Add( "width", widthAttribute );
                 }
 
-                if ( heightAttribute != null && paremetersDictionary.ContainsKey( "height" ) )
+                if ( heightAttribute != null && parametersDictionary.ContainsKey( "height" ) )
                 {
-                    paremetersDictionary.Remove( "height" );
+                    parametersDictionary.Remove( "height" );
 
                     Attributes.Add( "height", heightAttribute );
                 }
 
-                return base.SetParametersAsync( ParameterView.FromDictionary( paremetersDictionary ) );
+                return base.SetParametersAsync( ParameterView.FromDictionary( parametersDictionary ) );
             }
 
             return base.SetParametersAsync( parameters );
