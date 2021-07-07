@@ -220,10 +220,6 @@ namespace Blazorise.DataGrid
             if ( Virtualize )
             {
                 VirtualizeOptions ??= new();
-                if ( editState == DataGridEditState.Edit && EditMode == DataGridEditMode.Form )
-                    await JSRuntime.InvokeVoidAsync( "window.blazoriseDataGrid.virtualize.isolateElement", tableRef.ElementRef );
-                else
-                    await JSRuntime.InvokeVoidAsync( "window.blazoriseDataGrid.virtualize.reset", tableRef.ElementRef );
             }
             else
             {
@@ -308,6 +304,7 @@ namespace Blazorise.DataGrid
             InitEditItem( item );
 
             editState = DataGridEditState.Edit;
+
             return Task.CompletedTask;
         }
 
