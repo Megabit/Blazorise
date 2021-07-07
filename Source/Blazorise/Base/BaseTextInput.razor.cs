@@ -29,7 +29,7 @@ namespace Blazorise
         {
             if ( IsDelayTextOnKeyPress )
             {
-                inputValueDebouncer = new ValueDebouncer( DelayTextOnKeyPressIntervalValue );
+                inputValueDebouncer = new( DelayTextOnKeyPressIntervalValue );
                 inputValueDebouncer.Debounced += OnInputValueDebounced;
             }
 
@@ -68,19 +68,22 @@ namespace Blazorise
         /// </summary>
         /// <param name="eventArgs">Information about the changed event.</param>
         /// <returns>Returns awaitable task</returns>
-        protected virtual async Task OnInputHandler( ChangeEventArgs eventArgs )
+        protected virtual Task OnInputHandler( ChangeEventArgs eventArgs )
         {
             if ( IsChangeTextOnKeyPress )
             {
+                var value = eventArgs?.Value?.ToString();
                 if ( IsDelayTextOnKeyPress )
                 {
-                    inputValueDebouncer?.Update( eventArgs?.Value?.ToString() );
+                    inputValueDebouncer?.Update( value );
                 }
                 else
                 {
-                    await CurrentValueHandler( eventArgs?.Value?.ToString() );
+                    return CurrentValueHandler( value );
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>

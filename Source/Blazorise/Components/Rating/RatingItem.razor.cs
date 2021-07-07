@@ -36,20 +36,20 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected virtual async Task HandleClick()
+        protected virtual Task HandleClick()
         {
             if ( Rating.Disabled )
-                return;
+                return Task.CompletedTask;
 
             IsActive = false;
 
             if ( IsSelected )
             {
-                await ItemClicked.InvokeAsync( 0 );
+                return ItemClicked.InvokeAsync( 0 );
             }
             else
             {
-                await ItemClicked.InvokeAsync( Value );
+                return ItemClicked.InvokeAsync( Value );
             }
         }
 
@@ -58,14 +58,14 @@ namespace Blazorise
         /// </summary>
         /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected virtual async Task HandleMouseOver( MouseEventArgs eventArgs )
+        protected virtual Task HandleMouseOver( MouseEventArgs eventArgs )
         {
             if ( Rating.Disabled )
-                return;
+                return Task.CompletedTask;
 
             IsActive = true;
 
-            await ItemHovered.InvokeAsync( Value );
+            return ItemHovered.InvokeAsync( Value );
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace Blazorise
         /// </summary>
         /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected virtual async Task HandleMouseOut( MouseEventArgs eventArgs )
+        protected virtual Task HandleMouseOut( MouseEventArgs eventArgs )
         {
             if ( Rating.Disabled )
-                return;
+                return Task.CompletedTask;
 
             IsActive = false;
 
-            await ItemHovered.InvokeAsync( null );
+            return ItemHovered.InvokeAsync( null );
         }
 
         #endregion

@@ -18,7 +18,7 @@ namespace Blazorise
         /// <summary>
         /// State object used to holds the dropdown state.
         /// </summary>
-        private DropdownState state = new DropdownState
+        private DropdownState state = new()
         {
             Direction = Direction.Down,
         };
@@ -111,8 +111,7 @@ namespace Blazorise
             if ( button == null )
                 return;
 
-            if ( buttonList == null )
-                buttonList = new List<Button>();
+            buttonList ??= new();
 
             if ( !buttonList.Contains( button ) )
             {

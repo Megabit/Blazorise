@@ -26,11 +26,11 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
+        protected override Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            return base.OnFirstAfterRenderAsync();
         }
 
         /// <inheritdoc/>

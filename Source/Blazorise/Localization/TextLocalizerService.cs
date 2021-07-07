@@ -64,7 +64,7 @@ namespace Blazorise.Localization
         {
             if ( !availableCultures.ContainsKey( cultureName ) )
             {
-                availableCultures.TryAdd( cultureName, new CultureInfo( cultureName ) );
+                availableCultures.TryAdd( cultureName, new( cultureName ) );
             }
         }
 
@@ -76,7 +76,7 @@ namespace Blazorise.Localization
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
         {
             return assembly.GetManifestResourceNames()
-                .Where( r => r.Contains( $"Resources.Localization" ) && r.EndsWith( ".json" ) )
+                .Where( r => r.Contains( "Resources.Localization" ) && r.EndsWith( ".json" ) )
                 .ToArray();
         }
 
@@ -89,7 +89,7 @@ namespace Blazorise.Localization
             if ( cultureName == SelectedCulture?.Name )
                 return;
 
-            SelectedCulture = new CultureInfo( cultureName );
+            SelectedCulture = new( cultureName );
 
             if ( changeThreadCulture )
             {

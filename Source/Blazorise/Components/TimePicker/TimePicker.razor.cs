@@ -187,27 +187,27 @@ namespace Blazorise
         /// Opens the time dropdown.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task OpenAsync()
+        public ValueTask OpenAsync()
         {
-            await JSRunner.OpenTimePicker( ElementRef, ElementId );
+            return JSRunner.OpenTimePicker( ElementRef, ElementId );
         }
 
         /// <summary>
         /// Closes the time dropdown.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task CloseAsync()
+        public ValueTask CloseAsync()
         {
-            await JSRunner.CloseTimePicker( ElementRef, ElementId );
+            return JSRunner.CloseTimePicker( ElementRef, ElementId );
         }
 
         /// <summary>
         /// Shows/opens the time dropdown if its closed, hides/closes it otherwise.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task ToggleAsync()
+        public ValueTask ToggleAsync()
         {
-            await JSRunner.ToggleTimePicker( ElementRef, ElementId );
+            return JSRunner.ToggleTimePicker( ElementRef, ElementId );
         }
 
         #endregion

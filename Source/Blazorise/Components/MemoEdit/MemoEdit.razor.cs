@@ -41,7 +41,7 @@ namespace Blazorise
         {
             if ( IsDelayTextOnKeyPress )
             {
-                inputValueDebouncer = new ValueDebouncer( DelayTextOnKeyPressIntervalValue );
+                inputValueDebouncer = new( DelayTextOnKeyPressIntervalValue );
                 inputValueDebouncer.Debounced += OnInputValueDebounced;
             }
 
@@ -133,10 +133,7 @@ namespace Blazorise
         /// <param name="value">Latest received value.</param>
         private void OnInputValueDebounced( object sender, string value )
         {
-            InvokeAsync( async () =>
-            {
-                await CurrentValueHandler( value );
-            } );
+            InvokeAsync( () => CurrentValueHandler( value ) );
         }
 
         #endregion

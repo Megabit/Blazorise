@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 
@@ -65,28 +64,23 @@ namespace Blazorise.Demo.Layouts
             if ( Theme == null )
                 return;
 
-            if ( Theme.ColorOptions == null )
-                Theme.ColorOptions = new ThemeColorOptions();
+            Theme.ColorOptions ??= new();
 
-            if ( Theme.BackgroundOptions == null )
-                Theme.BackgroundOptions = new ThemeBackgroundOptions();
+            Theme.BackgroundOptions ??= new();
 
-            if ( Theme.TextColorOptions == null )
-                Theme.TextColorOptions = new ThemeTextColorOptions();
+            Theme.TextColorOptions ??= new();
 
             Theme.ColorOptions.Primary = value;
             Theme.BackgroundOptions.Primary = value;
             Theme.TextColorOptions.Primary = value;
 
-            if ( Theme.InputOptions == null )
-                Theme.InputOptions = new ThemeInputOptions();
+            Theme.InputOptions ??= new();
 
             //Theme.InputOptions.Color = value;
             Theme.InputOptions.CheckColor = value;
             Theme.InputOptions.SliderColor = value;
 
-            if ( Theme.SpinKitOptions == null )
-                Theme.SpinKitOptions = new ThemeSpinKitOptions();
+            Theme.SpinKitOptions ??= new();
 
             Theme.SpinKitOptions.Color = value;
 

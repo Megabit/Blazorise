@@ -62,11 +62,11 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
+        protected override Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            return base.OnFirstAfterRenderAsync();
         }
 
         /// <inheritdoc/>
@@ -113,9 +113,9 @@ namespace Blazorise
 
                 // TODO: implement IAsyncDisposable once it is supported by Blazor!
                 //
-                // Sometimes user can navigates to another page based on the action runned on modal. The problem is 
+                // Sometimes user can navigates to another page based on the action runned on modal. The problem is
                 // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
-                // we need to close modal and dispose of any claassnames in case there is any left. 
+                // we need to close modal and dispose of any claassnames in case there is any left.
                 var closeModalTask = JSRunner.CloseModal( ElementRef );
 
                 try
@@ -234,7 +234,7 @@ namespace Blazorise
                 // only one component can be focused
                 if ( FocusableComponents.Count > 0 )
                 {
-                    ExecuteAfterRender( async () =>
+                    ExecuteAfterRender( () =>
                     {
                         //TODO: This warrants further investigation
                         //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
@@ -243,8 +243,10 @@ namespace Blazorise
 
                         if ( firstFocusableComponent != null )
                         {
-                            await firstFocusableComponent.FocusAsync();
+                            return firstFocusableComponent.FocusAsync();
                         }
+
+                        return Task.CompletedTask;
                     } );
                 }
             }
@@ -350,7 +352,7 @@ namespace Blazorise
         /// Gets the list of focusable components.
         /// </summary>
         protected IList<IFocusableComponent> FocusableComponents
-            => focusableComponents ??= new List<IFocusableComponent>();
+            => focusableComponents ??= new();
 
         /// <summary>
         /// Gets the list of all element ids that could trigger modal close event.

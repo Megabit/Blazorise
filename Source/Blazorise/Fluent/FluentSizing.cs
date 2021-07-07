@@ -224,7 +224,7 @@ namespace Blazorise
         public IFluentSizingAll WithSize( SizingSize sizingSize )
         {
             currentSizingSize = sizingSize;
-            currentSizingDefinition = new SizingDefinition();
+            currentSizingDefinition = new();
             Dirty();
 
             return this;

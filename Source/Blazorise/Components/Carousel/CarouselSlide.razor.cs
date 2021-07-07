@@ -34,7 +34,7 @@ namespace Blazorise
         /// </summary>
         public CarouselSlide()
         {
-            IndicatorClassBuilder = new ClassBuilder( BuildIndicatorClasses );
+            IndicatorClassBuilder = new( BuildIndicatorClasses );
         }
 
         #endregion
@@ -60,9 +60,9 @@ namespace Blazorise
             builder.Append( ClassProvider.CarouselSlide() );
             builder.Append( ClassProvider.CarouselSlideActive( Active ) );
             builder.Append( ClassProvider.CarouselSlideSlidingLeft( Left ) );
-            builder.Append( ClassProvider.CarouselSlideSlisingRight( Right ) );
+            builder.Append( ClassProvider.CarouselSlideSlidingRight( Right ) );
             builder.Append( ClassProvider.CarouselSlideSlidingPrev( Prev ) );
-            builder.Append( ClassProvider.CarouselSlideSlisingNext( Next ) );
+            builder.Append( ClassProvider.CarouselSlideSlidingNext( Next ) );
 
             base.BuildClasses( builder );
         }

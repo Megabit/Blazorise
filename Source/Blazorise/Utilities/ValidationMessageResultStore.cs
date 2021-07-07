@@ -40,7 +40,7 @@ namespace Blazorise.Utilities
         {
             if ( !messages.TryGetValue( fieldIdentifier, out var messagesForField ) )
             {
-                messagesForField = new List<ValidationMessageResult>();
+                messagesForField = new();
                 messages.Add( fieldIdentifier, messagesForField );
             }
 

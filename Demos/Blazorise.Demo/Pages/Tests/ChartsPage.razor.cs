@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Charts;
 
@@ -19,12 +18,12 @@ namespace Blazorise.Demo.Pages.Tests
         LineChart<double> lineChartWithData;
 
         string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-        List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-        List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+        List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+        List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
         bool isAlreadyInitialised;
 
-        Random random = new Random( DateTime.Now.Millisecond );
+        Random random = new( DateTime.Now.Millisecond );
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
@@ -64,7 +63,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         ChartDataset<double> GetChartDataset()
         {
-            return new ChartDataset<double>
+            return new()
             {
                 Label = "# of randoms",
                 Data = RandomizeData(),
@@ -75,7 +74,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         LineChartDataset<double> GetLineChartDataset()
         {
-            return new LineChartDataset<double>
+            return new()
             {
                 Label = "# of randoms",
                 Data = RandomizeData(),
@@ -90,7 +89,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         BarChartDataset<double> GetBarChartDataset()
         {
-            return new BarChartDataset<double>
+            return new()
             {
                 Label = "# of randoms",
                 Data = RandomizeData(),
@@ -104,8 +103,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         PieChartDataset<double> GetPieChartDataset()
         {
-            return new PieChartDataset<double>
-
+            return new()
             {
                 Label = $"#{++pieLabel} of randoms",
                 Data = RandomizeData(),
@@ -117,7 +115,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         DoughnutChartDataset<double> GetDoughnutChartDataset()
         {
-            return new DoughnutChartDataset<double>
+            return new()
             {
                 Label = "# of randoms",
                 Data = RandomizeData(),
@@ -129,7 +127,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         PolarAreaChartDataset<double> GetPolarAreaChartDataset()
         {
-            return new PolarAreaChartDataset<double>
+            return new()
             {
                 Label = "# of randoms",
                 Data = RandomizeData(),
@@ -141,7 +139,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         RadarChartDataset<double> GetRadarChartDataset()
         {
-            return new RadarChartDataset<double>
+            return new()
             {
                 Label = "custom radar",
                 Data = RandomizeData(),
@@ -168,7 +166,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         List<double> RandomizeData()
         {
-            return new List<double> { random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble() };
+            return new() { random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble() };
         }
     }
 }

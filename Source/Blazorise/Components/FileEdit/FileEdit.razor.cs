@@ -145,7 +145,7 @@ namespace Blazorise
             if ( ParentValidation != null )
                 await ParentValidation.NotifyInputChanged<IFileEntry[]>( files );
 
-            await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+            await Changed.InvokeAsync( new( files ) );
 
             await InvokeAsync( StateHasChanged );
         }
@@ -174,7 +174,7 @@ namespace Blazorise
             ProgressTotal = fileEntry.Size;
             Progress = 0;
 
-            return Started.InvokeAsync( new FileStartedEventArgs( fileEntry ) );
+            return Started.InvokeAsync( new( fileEntry ) );
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Blazorise
                 await Reset();
             }
 
-            await Ended.InvokeAsync( new FileEndedEventArgs( fileEntry, success ) );
+            await Ended.InvokeAsync( new( fileEntry, success ) );
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         internal Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
-            return Written.InvokeAsync( new FileWrittenEventArgs( fileEntry, position, data ) );
+            return Written.InvokeAsync( new( fileEntry, position, data ) );
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="progressProgress">Progress value.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal async Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
+        internal Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
             ProgressProgress += progressProgress;
 
@@ -221,8 +221,10 @@ namespace Blazorise
             {
                 Progress = progress;
 
-                await Progressed.InvokeAsync( new FileProgressedEventArgs( fileEntry, Progress ) );
+                return Progressed.InvokeAsync( new( fileEntry, Progress ) );
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -231,9 +233,9 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="stream">Target stream.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal async Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        internal Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            await new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
+            return new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
@@ -252,9 +254,9 @@ namespace Blazorise
         /// Manually resets the input file value.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task Reset()
+        public ValueTask Reset()
         {
-            await JSRunner.ResetFileEdit( ElementRef, ElementId );
+            return JSRunner.ResetFileEdit( ElementRef, ElementId );
         }
 
         #endregion

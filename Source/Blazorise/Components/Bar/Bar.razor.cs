@@ -45,12 +45,12 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnInitializedAsync()
+        protected override Task OnInitializedAsync()
         {
             if ( NavigationBreakpoint != Breakpoint.None )
                 NavigationManager.LocationChanged += OnLocationChanged;
 
-            await base.OnInitializedAsync();
+            return base.OnInitializedAsync();
         }
 
         /// <inheritdoc/>

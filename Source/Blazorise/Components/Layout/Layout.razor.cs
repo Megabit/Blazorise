@@ -27,7 +27,7 @@ namespace Blazorise
         /// </summary>
         public Layout()
         {
-            LoadingClassBuilder = new ClassBuilder( BuildLoadingClasses );
+            LoadingClassBuilder = new( BuildLoadingClasses );
         }
 
         #endregion

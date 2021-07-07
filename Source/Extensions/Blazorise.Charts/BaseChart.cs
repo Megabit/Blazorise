@@ -172,7 +172,7 @@ namespace Blazorise.Charts
 
         /// <summary>
         /// Removes the oldest label.
-        /// </summary>       
+        /// </summary>
         public async Task ShiftLabel()
         {
             dirty = true;
@@ -195,7 +195,7 @@ namespace Blazorise.Charts
         }
         /// <summary>
         /// Removes the newest label.
-        /// </summary>       
+        /// </summary>
         public async Task PopLabel()
         {
             dirty = true;
@@ -260,9 +260,9 @@ namespace Blazorise.Charts
                 await JS.Resize( JSRuntime, ElementId );
         }
 
-        private async Task Initialize()
+        private ValueTask Initialize()
         {
-            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new( this ) );
 
             var eventOptions = new
             {
@@ -270,7 +270,7 @@ namespace Blazorise.Charts
                 HasHoverEvent = Hovered.HasDelegate,
             };
 
-            await JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
+            return JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
@@ -339,11 +339,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Labels == null )
-                    Data.Labels = new List<object>();
+                    Data.Labels = new();
 
                 return Data.Labels;
             }
@@ -353,11 +352,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Datasets == null )
-                    Data.Datasets = new List<ChartDataset<TItem>>();
+                    Data.Datasets = new();
 
                 return Data.Datasets;
             }

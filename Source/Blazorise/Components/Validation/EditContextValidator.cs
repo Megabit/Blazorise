@@ -179,7 +179,7 @@ namespace Blazorise
                     }
                 }
 
-                validationPropertyInfo = new ValidationPropertyInfo
+                validationPropertyInfo = new()
                 {
                     PropertyInfo = propertyInfo,
                     ValidationAttributes = validationAttributes,

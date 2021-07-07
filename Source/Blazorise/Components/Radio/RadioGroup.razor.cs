@@ -86,12 +86,12 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task OnInternalValueChanged( TValue value )
+        protected override Task OnInternalValueChanged( TValue value )
         {
             // notify child radios they need to update their states
-            RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
+            RadioCheckedChanged?.Invoke( this, new( value ) );
 
-            await CheckedValueChanged.InvokeAsync( value );
+            return CheckedValueChanged.InvokeAsync( value );
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Blazorise
 
             // Since radios validation works little different when placed in radio group we need
             // to notify them to re-render when validation changes.
-            RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( CheckedValue ) );
+            RadioCheckedChanged?.Invoke( this, new( CheckedValue ) );
         }
 
         #endregion

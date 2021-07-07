@@ -39,7 +39,7 @@ namespace Blazorise
             this.maxMessageSize = maxMessageSize;
             this.segmentFetchTimeout = segmentFetchTimeout;
             fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-            var pipe = new Pipe( new PipeOptions( pauseWriterThreshold: this.maxMessageSize, resumeWriterThreshold: this.maxMessageSize ) );
+            var pipe = new Pipe( new( pauseWriterThreshold: this.maxMessageSize, resumeWriterThreshold: this.maxMessageSize ) );
             pipeReader = pipe.Reader;
 
             _ = FillBuffer( pipe.Writer, fillBufferCts.Token );
@@ -157,7 +157,7 @@ namespace Blazorise
             => throw new NotSupportedException();
 
         public override Task<int> ReadAsync( byte[] buffer, int offset, int count, CancellationToken cancellationToken )
-            => ReadAsync( new Memory<byte>( buffer, offset, count ), cancellationToken ).AsTask();
+            => ReadAsync( new( buffer, offset, count ), cancellationToken ).AsTask();
 
         public override async ValueTask<int> ReadAsync( Memory<byte> buffer, CancellationToken cancellationToken = default )
         {

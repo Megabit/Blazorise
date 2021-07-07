@@ -122,8 +122,7 @@ namespace Blazorise
         /// <param name="component">Reference to the child component.</param>
         internal void Hook( BaseComponent component )
         {
-            if ( hookables == null )
-                hookables = new List<BaseComponent>();
+            hookables ??= new();
 
             hookables.Add( component );
         }

@@ -14,13 +14,13 @@ namespace Blazorise.TreeView
 
         public _TreeViewNodeContent()
         {
-            selectedNodeStyling = new NodeStyling()
+            selectedNodeStyling = new()
             {
                 Background = Background.Primary,
                 TextColor = TextColor.White
             };
 
-            nodeStyling = new NodeStyling()
+            nodeStyling = new()
             {
                 Background = Background.None,
                 TextColor = TextColor.None
