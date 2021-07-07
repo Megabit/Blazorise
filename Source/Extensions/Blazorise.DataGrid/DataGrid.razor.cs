@@ -427,10 +427,7 @@ namespace Blazorise.DataGrid
             {
                 HandleSortColumn( column, true );
 
-                dirtyFilter = dirtyView = true;
-
-                if ( ManualReadMode )
-                    return HandleReadData( CancellationToken.None );
+                return Reload();
             }
 
             return Task.CompletedTask;
