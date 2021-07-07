@@ -123,7 +123,7 @@ In the following example we're simply calling `context.UpdateCell` with a field-
     <EditTemplate>
         <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => {
                 context.CellValue = v;
-                context.UpdateCell( "Tax", v * .25m );
+                context.UpdateCell( nameof( Employee.Tax ), v * .25m );
             })" />
     </EditTemplate>
 </DataGridColumn>
