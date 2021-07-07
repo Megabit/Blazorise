@@ -240,8 +240,7 @@ namespace Blazorise
         protected virtual TValue AddStep( TValue value, int sign )
         {
             // make sure that null values also starts from zero
-            if ( value == null )
-                value = Converters.ChangeType<TValue>( 0 );
+            value ??= Converters.ChangeType<TValue>(0);
 
             return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
         }

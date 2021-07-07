@@ -1,9 +1,7 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.AntDesign
@@ -634,7 +632,7 @@ namespace Blazorise.AntDesign
 
         public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
-        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? $"ant-menu ant-menu-sub ant-menu-vertical" : $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";
+        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu ant-menu-sub ant-menu-vertical" : $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";
 
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? null : "ant-menu-hidden";
 
@@ -693,7 +691,7 @@ namespace Blazorise.AntDesign
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
             // AntDesign requires for base ant-col class to be always defined.
-            var sb = new StringBuilder( $"ant-col" );
+            var sb = new StringBuilder( "ant-col" );
 
             if ( breakpoint != Blazorise.Breakpoint.None )
                 sb.Append( $"-{ToBreakpoint( breakpoint )}" );
