@@ -5,32 +5,32 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value="@this" IsFixed="true">
-    @if ( IsPagerVisible && (PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom) )
+    @if (IsPagerVisible && (PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom))
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@Paginate" New="@New" Edit="@Edit" Delete="@Delete" SelectedRow="@SelectedRow" ClearFilter="@ClearFilter" />
     }
     <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@Virtualize" FixedHeaderTableHeight="@(VirtualizeOptions?.TableHeight ?? "500px")">
         <TableHeader>
-            @if ( ShowCaptions )
+            @if (ShowCaptions)
             {
                 <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.None)" Color="@(HeaderRowStyling?.Color ?? Color.None)">
-                    @foreach ( var column in DisplayableColumns )
+                    @foreach (var column in DisplayableColumns)
                     {
-                        @if ( column.ColumnType == DataGridColumnType.Command )
+                        @if (column.ColumnType == DataGridColumnType.Command)
                         {
-                            @if ( IsCommandVisible )
+                            @if (IsCommandVisible)
                             {
                                 <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment">
-                                    @if ( CanInsertNewItem && editState != DataGridEditState.New )
+                                    @if (CanInsertNewItem && editState != DataGridEditState.New)
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@New" />
                                     }
                                 </TableHeaderCell>
                             }
                         }
-                        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                        else if (column.ColumnType == DataGridColumnType.MultiSelect)
                         {
-                            @if ( MultiSelect )
+                            @if (MultiSelect)
                             {
                                 <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment">
                                     <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="@OnMultiSelectAll" IsIndeterminate="@IsMultiSelectAllIndeterminate"></_DataGridMultiSelectAll>
@@ -40,9 +40,9 @@
                         else
                         {
                             <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment">
-                                @if ( column.ShowCaption )
+                                @if (column.ShowCaption)
                                 {
-                                    @if ( column.CaptionTemplate != null )
+                                    @if (column.CaptionTemplate != null)
                                     {
                                         @column.CaptionTemplate( column )
                                     }
@@ -51,9 +51,9 @@
                                         @column.Caption
                                     }
                                 }
-                                @if ( Sortable && column.Sortable && column.CurrentSortDirection != SortDirection.None )
+                                @if (Sortable && column.Sortable && column.CurrentSortDirection != SortDirection.None)
                                 {
-                                    @if ( column.SortDirectionTemplate != null )
+                                    @if (column.SortDirectionTemplate != null)
                                     {
                                         @column.SortDirectionTemplate( column.CurrentSortDirection )
                                     }
@@ -67,31 +67,31 @@
                     }
                 </TableRow>
             }
-            @if ( Filterable )
+            @if (Filterable)
             {
                 <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
-                    @foreach ( var column in DisplayableColumns )
+                    @foreach (var column in DisplayableColumns)
                     {
-                        if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                        if (column.ColumnType == DataGridColumnType.MultiSelect)
                         {
-                            @if ( MultiSelect )
+                            @if (MultiSelect)
                             {
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
-                                    @if ( column.FilterTemplate != null && column.Filterable )
+                                    @if (column.FilterTemplate != null && column.Filterable)
                                     {
                                         @(column.FilterTemplate( column.Filter ))
                                     }
                                 </TableHeaderCell>
                             }
                         }
-                        else if ( !column.Filterable )
+                        else if (!column.Filterable)
                         {
                             <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()"></TableHeaderCell>
                             continue;
                         }
-                        else if ( column.ColumnType == DataGridColumnType.Command )
+                        else if (column.ColumnType == DataGridColumnType.Command)
                         {
-                            @if ( IsCommandVisible )
+                            @if (IsCommandVisible)
                             {
                                 // since Clear Filter is located in the command column it can be visible only when Edit is enabled
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
@@ -102,7 +102,7 @@
                         else
                         {
                             <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
-                                @if ( column.FilterTemplate != null )
+                                @if (column.FilterTemplate != null)
                                 {
                                     @(column.FilterTemplate( column.Filter ))
                                 }
@@ -117,92 +117,90 @@
             }
         </TableHeader>
         <TableBody>
-            @if ( IsNewItemInGrid )
+            @if (IsNewItemInGrid)
             {
                 <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
             }
-            @if ( IsDisplayDataVisible )
+            @if (IsDisplayDataVisible)
             {
-                @if ( VirtualizeManualReadMode )
+                @if (VirtualizeManualReadMode)
                 {
-
                     <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                         <ChildContent>
-                            @if ( IsEditItemInGrid( item ) )
-                            {
-                                <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
-                            }
-                            else
-                            {
-                                <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                                @if ( DetailRowTemplate != null )
-                                {
-                                    var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                                    @if ( canShow )
-                                    {
-                                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                            @DetailRowTemplate( item )
-                                        </_DataGridDetailRow>
-                                    }
-                                }
-                            }
-                        </ChildContent>
-                        <Placeholder>
-                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                @LoadingTemplate
-                            </_DataGridFullColumnSpanRow>
-                        </Placeholder>
-                    </Virtualize>
-                }
-                else if ( Virtualize )
-                {
-                    <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
-                        <ChildContent>
-                            @if ( IsEditItemInGrid( item ) )
-                            {
-                                <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
-                            }
-                            else
-                            {
-                                <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                                @if ( DetailRowTemplate != null )
-                                {
-                                    var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                                    @if ( canShow )
-                                    {
-                                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                            @DetailRowTemplate( item )
-                                        </_DataGridDetailRow>
-                                    }
-                                }
-                            }
-                        </ChildContent>
-                        <Placeholder>
-                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                @LoadingTemplate
-                            </_DataGridFullColumnSpanRow>
-                        </Placeholder>
-                    </Virtualize>
-
-                }
-                else
-                {
-                    @foreach ( var item in DisplayData )
-                    {
-                        @if ( IsEditItemInGrid( item ) )
+                            @if (IsEditItemInGrid(item))
                         {
                             <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
                         }
                         else
                         {
                             <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                            @if ( DetailRowTemplate != null )
+                            @if (DetailRowTemplate != null)
                             {
-                                var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
+                                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
 
-                                @if ( canShow )
+                                @if (canShow)
+                                {
+                                    <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                        @DetailRowTemplate( item )
+                                    </_DataGridDetailRow>
+                                }
+                            }
+                        }
+                    </ChildContent>
+                    <Placeholder>
+                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                            @LoadingTemplate
+                        </_DataGridFullColumnSpanRow>
+                    </Placeholder>
+                </Virtualize>
+                }
+                else if (Virtualize)
+                {
+                    <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
+                        <ChildContent>
+                            @if (IsEditItemInGrid(item))
+                            {
+                                <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
+                            }
+                            else
+                            {
+                                <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                                @if (DetailRowTemplate != null)
+                                {
+                                    var canShow = DetailRowTrigger?.Invoke(item) ?? true;
+
+                                    @if (canShow)
+                                    {
+                                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                            @DetailRowTemplate( item )
+                                        </_DataGridDetailRow>
+                                    }
+                                }
+                            }
+                        </ChildContent>
+                        <Placeholder>
+                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                @LoadingTemplate
+                            </_DataGridFullColumnSpanRow>
+                        </Placeholder>
+                    </Virtualize>
+                }
+                else
+                {
+                    @foreach (var item in DisplayData)
+                    {
+                        @if (IsEditItemInGrid(item))
+                        {
+                            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
+                        }
+                        else
+                        {
+                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                            @if (DetailRowTemplate != null)
+                            {
+                                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
+
+                                @if (canShow)
                                 {
                                     <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
                                         @DetailRowTemplate( item )
@@ -213,49 +211,49 @@
                     }
                 }
             }
-            @if ( IsEmptyTemplateVisible && !IsEmptyFilterTemplateVisible )
+            @if (IsEmptyTemplateVisible && !IsEmptyFilterTemplateVisible)
             {
                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
                     @EmptyTemplate
                 </_DataGridFullColumnSpanRow>
             }
-            @if ( IsEmptyFilterTemplateVisible && !IsEmptyTemplateVisible )
+            @if (IsEmptyFilterTemplateVisible && !IsEmptyTemplateVisible)
             {
                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
                     @EmptyFilterTemplate
                 </_DataGridFullColumnSpanRow>
             }
-            @if ( IsLoadingTemplateVisible )
+            @if (IsLoadingTemplateVisible)
             {
                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
                     @LoadingTemplate
                 </_DataGridFullColumnSpanRow>
             }
         </TableBody>
-        @if ( HasAggregates && !Virtualize )
+        @if (HasAggregates && !Virtualize)
         {
             <TableFooter>
                 <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
             </TableFooter>
         }
     </Table>
-    @if ( IsPagerVisible && (PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom) )
+    @if (IsPagerVisible && (PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom))
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@Paginate" New="@New" Edit="@Edit" Delete="@Delete" SelectedRow="@SelectedRow" ClearFilter="@ClearFilter" />
     }
-    @if ( editItem != null && EditMode == DataGridEditMode.Popup )
+    @if (editItem != null && EditMode == DataGridEditMode.Popup)
     {
         <_DataGridModal TItem="TItem"
-                        TitleTemplate="@PopupTitleTemplate"
-                        EditItem="@editItem"
-                        ValidationItem="@validationItem"
-                        EditItemCellValues="@editItemCellValues"
-                        Columns="@Columns"
-                        PopupVisible="@PopupVisible"
-                        PopupSize="@PopupSize"
-                        EditState="@editState"
-                        Save="@Save"
-                        Cancel="@Cancel" />
+                    TitleTemplate="@PopupTitleTemplate"
+                    EditItem="@editItem"
+                    ValidationItem="@validationItem"
+                    EditItemCellValues="@editItemCellValues"
+                    Columns="@Columns"
+                    PopupVisible="@PopupVisible"
+                    PopupSize="@PopupSize"
+                    EditState="@editState"
+                    Save="@Save"
+                    Cancel="@Cancel" />
     }
 </CascadingValue>
 @* This one is to hold information about columns *@

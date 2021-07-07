@@ -1287,8 +1287,6 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
 
-
-
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
         /// </summary>
