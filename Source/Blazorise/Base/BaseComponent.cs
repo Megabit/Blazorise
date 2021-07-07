@@ -81,7 +81,7 @@ namespace Blazorise
 
             // WORKAROUND for: https://github.com/dotnet/aspnetcore/issues/32252
             // HTML native width/height attributes are recognized as Width/Height parameters
-            // and Blazor tries to convert them resulting in error. This workaorund tries to fix it by removing
+            // and Blazor tries to convert them resulting in error. This workaround tries to fix it by removing
             // width/height from parameter list and moving them to Attributes(as unmatched values).
             //
             // This behavior is really an edge-case and shouldn't affect performance too much.
@@ -89,7 +89,7 @@ namespace Blazorise
             if ( parameters.TryGetValue( "width", out object widthAttribute )
                 || parameters.TryGetValue( "height", out heightAttribute ) )
             {
-                var parametersDictionary = parameters.ToDictionary() as Dictionary<string, object>;
+                var parametersDictionary = (Dictionary<string, object>)parameters.ToDictionary();
 
                 Attributes ??= new();
 
