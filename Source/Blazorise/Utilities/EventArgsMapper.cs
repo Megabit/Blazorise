@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Drawing;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 

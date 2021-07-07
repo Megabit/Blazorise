@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Collections.Generic;
 #endregion
 
 namespace Blazorise
@@ -29,16 +28,16 @@ namespace Blazorise
         {
             Shades = new()
             {
-                {_50.Key, _50},
-                {_100.Key, _100},
-                {_200.Key, _200},
-                {_300.Key, _300},
-                {_400.Key, _400},
-                {_500.Key, _500},
-                {_600.Key, _600},
-                {_700.Key, _700},
-                {_800.Key, _800},
-                {_900.Key, _900},
+                { _50.Key, _50 },
+                { _100.Key, _100 },
+                { _200.Key, _200 },
+                { _300.Key, _300 },
+                { _400.Key, _400 },
+                { _500.Key, _500 },
+                { _600.Key, _600 },
+                { _700.Key, _700 },
+                { _800.Key, _800 },
+                { _900.Key, _900 },
             };
         }
     }
