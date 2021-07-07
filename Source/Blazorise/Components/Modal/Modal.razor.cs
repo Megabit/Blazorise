@@ -356,7 +356,7 @@ namespace Blazorise
         /// Gets the list of focusable components.
         /// </summary>
         protected IList<IFocusableComponent> FocusableComponents
-            => focusableComponents ??= new List<IFocusableComponent>();
+            => focusableComponents ??= new();
 
         /// <summary>
         /// Gets the list of all element ids that could trigger modal close event.

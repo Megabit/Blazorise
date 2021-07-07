@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Icons.Material;
@@ -32,7 +31,7 @@ namespace Blazorise.Demo.Material
 
             builder.Services.AddSingleton( new HttpClient
             {
-                BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+                BaseAddress = new( builder.HostEnvironment.BaseAddress )
             } );
 
             builder.RootComponents.Add<App>( "#app" );

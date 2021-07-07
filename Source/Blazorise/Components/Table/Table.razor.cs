@@ -42,8 +42,8 @@ namespace Blazorise
         /// </summary>
         public Table()
         {
-            ContainerClassBuilder = new ClassBuilder( BuildContainerClasses );
-            ContainerStyleBuilder = new StyleBuilder( BuildContainerStyles );
+            ContainerClassBuilder = new( BuildContainerClasses );
+            ContainerStyleBuilder = new( BuildContainerStyles );
         }
 
         #endregion

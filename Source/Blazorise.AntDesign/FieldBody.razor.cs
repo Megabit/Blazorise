@@ -16,7 +16,7 @@ namespace Blazorise.AntDesign
 
         public FieldBody()
         {
-            containerClassBuilder = new ClassBuilder( BuildContainerClasses );
+            containerClassBuilder = new( BuildContainerClasses );
         }
 
         #endregion

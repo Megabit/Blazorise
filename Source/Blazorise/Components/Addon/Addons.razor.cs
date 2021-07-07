@@ -82,7 +82,7 @@ namespace Blazorise
             if ( button == null )
                 return;
 
-            registeredButtons ??= new List<Button>();
+            registeredButtons ??= new();
 
             if ( !registeredButtons.Contains( button ) )
             {

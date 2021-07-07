@@ -41,7 +41,7 @@ namespace Blazorise
         /// </summary>
         public Tabs()
         {
-            ContentClassBuilder = new ClassBuilder( BuildContentClasses );
+            ContentClassBuilder = new( BuildContentClasses );
         }
 
         #endregion

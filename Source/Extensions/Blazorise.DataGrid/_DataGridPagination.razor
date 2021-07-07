@@ -11,26 +11,26 @@
                     var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
                     var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
 
-                    @ButtonRowTemplate( new ButtonRowContext<TItem>()
+                    @ButtonRowTemplate( new()
                     {
-                        NewCommand = new NewCommandContext()
+                        NewCommand = new()
                         {
                             Clicked = EventCallback.Factory.Create( this, NewClick ),
                             LocalizationString = newButtonString,
                         },
-                        EditCommand = new EditCommandContext<TItem>()
+                        EditCommand = new()
                         {
                             Clicked = EventCallback.Factory.Create( this, EditClick ),
                             LocalizationString = editButtonString,
                             Item = SelectedRow
                         },
-                        DeleteCommand = new DeleteCommandContext<TItem>()
+                        DeleteCommand = new()
                         {
                             Clicked = EventCallback.Factory.Create( this, DeleteClick ),
                             LocalizationString = deleteButtonString,
                             Item = SelectedRow
                         },
-                        ClearFilterCommand = new CommandContext()
+                        ClearFilterCommand = new()
                         {
                             Clicked = EventCallback.Factory.Create( this, ClearFilter ),
                             LocalizationString = clearFilterButtonString,
@@ -76,7 +76,7 @@
                     <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                         @if ( PageButtonTemplate != null )
                         {
-                            @PageButtonTemplate( new PageButtonContext( pageNumber, pageActive ) )
+                            @PageButtonTemplate( new( pageNumber, pageActive ) )
                         }
                         else
                         {

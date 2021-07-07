@@ -29,7 +29,7 @@ namespace Blazorise
         /// </summary>
         public ValidationSummary()
         {
-            ErrorClassBuilder = new ClassBuilder( BuildErrorClasses );
+            ErrorClassBuilder = new( BuildErrorClasses );
 
             validationsStatusChangedEventHandler += async ( eventArgs ) =>
             {

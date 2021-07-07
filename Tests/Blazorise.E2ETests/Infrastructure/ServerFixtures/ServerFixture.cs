@@ -11,7 +11,7 @@ namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
 {
     public abstract class ServerFixture : IDisposable
     {
-        private static readonly Lazy<Dictionary<string, string>> _projects = new Lazy<Dictionary<string, string>>( FindProjects );
+        private static readonly Lazy<Dictionary<string, string>> _projects = new( FindProjects );
 
         public Uri RootUri => _rootUriInitializer.Value;
 
@@ -19,8 +19,8 @@ namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
 
         public ServerFixture()
         {
-            _rootUriInitializer = new Lazy<Uri>( () =>
-                 new Uri( StartAndGetRootUri() ) );
+            _rootUriInitializer = new( () =>
+                 new( StartAndGetRootUri() ) );
         }
 
         public abstract void Dispose();

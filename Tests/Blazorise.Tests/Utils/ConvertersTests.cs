@@ -75,7 +75,7 @@ namespace Blazorise.Tests.Utils
             var test = new Test
             {
                 Integer = 42,
-                NestedTest = new NestedTest
+                NestedTest = new()
                 {
                     Boolean = true,
                     StringValue = "test"
@@ -128,7 +128,7 @@ namespace Blazorise.Tests.Utils
             var test = new Test
             {
                 Integer = 42,
-                SimpleList = new List<int> { 1, 2, 3 }
+                SimpleList = new() { 1, 2, 3 }
             };
 
             // Act
@@ -143,7 +143,7 @@ namespace Blazorise.Tests.Utils
             var simpleList = result["simpleList"] as List<object>;
             Assert.NotNull( simpleList );
             Assert.Equal( 3, simpleList.Count );
-            Assert.Equal( new List<int> { 1, 2, 3 }, simpleList.Cast<int>().ToList() );
+            Assert.Equal( new() { 1, 2, 3 }, simpleList.Cast<int>().ToList() );
         }
 
         [Fact]
@@ -195,11 +195,11 @@ namespace Blazorise.Tests.Utils
             var test = new Test
             {
                 Integer = 42,
-                ComplexList = new List<NestedTest>
+                ComplexList = new()
                 {
-                    new NestedTest { Boolean = true, StringValue = "test1" },
-                    new NestedTest { Boolean = true, StringValue = null },
-                    new NestedTest { Boolean = false, StringValue = "test3" }
+                    new() { Boolean = true, StringValue = "test1" },
+                    new() { Boolean = true, StringValue = null },
+                    new() { Boolean = false, StringValue = "test3" }
                 }
             };
 

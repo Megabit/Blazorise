@@ -16,11 +16,11 @@ namespace Blazorise.Demo.Pages.Tests
         BarChart<LiveDataPoint> horizontalBarChart;
         HorizontalBarChart<LiveDataPoint> verticalBarChart;
 
-        Random random = new Random( DateTime.Now.Millisecond );
+        Random random = new( DateTime.Now.Millisecond );
 
         string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-        List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.5f ), ChartColor.FromRgba( 54, 162, 235, 0.5f ), ChartColor.FromRgba( 255, 206, 86, 0.5f ), ChartColor.FromRgba( 75, 192, 192, 0.5f ), ChartColor.FromRgba( 153, 102, 255, 0.5f ), ChartColor.FromRgba( 255, 159, 64, 0.5f ) };
-        List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+        List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.5f ), ChartColor.FromRgba( 54, 162, 235, 0.5f ), ChartColor.FromRgba( 255, 206, 86, 0.5f ), ChartColor.FromRgba( 75, 192, 192, 0.5f ), ChartColor.FromRgba( 153, 102, 255, 0.5f ), ChartColor.FromRgba( 255, 159, 64, 0.5f ) };
+        List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
         public struct LiveDataPoint
         {
@@ -181,7 +181,7 @@ namespace Blazorise.Demo.Pages.Tests
 
             await horizontalLineChart.AddDatasetsAndUpdate( new LineChartDataset<LiveDataPoint>
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = $"Dataset {horizontalLineChart.Data.Datasets.Count + 1}",
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
@@ -210,7 +210,7 @@ namespace Blazorise.Demo.Pages.Tests
 
             await verticalLineChart.AddDatasetsAndUpdate( new LineChartDataset<LiveDataPoint>
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = $"Dataset {verticalLineChart.Data.Datasets.Count + 1}",
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
@@ -239,7 +239,7 @@ namespace Blazorise.Demo.Pages.Tests
 
             await horizontalBarChart.AddDatasetsAndUpdate( new BarChartDataset<LiveDataPoint>
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = $"Dataset {horizontalBarChart.Data.Datasets.Count + 1}",
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
@@ -266,7 +266,7 @@ namespace Blazorise.Demo.Pages.Tests
 
             await verticalBarChart.AddDatasetsAndUpdate( new BarChartDataset<LiveDataPoint>
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = $"Dataset {verticalBarChart.Data.Datasets.Count + 1}",
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
@@ -289,23 +289,23 @@ namespace Blazorise.Demo.Pages.Tests
 
         LineChartDataset<LiveDataPoint> GetLineChartDataset1()
         {
-            return new LineChartDataset<LiveDataPoint>
+            return new()
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = "Dataset 1 (linear interpolation)",
                 BackgroundColor = backgroundColors[0],
                 BorderColor = borderColors[0],
                 Fill = false,
                 LineTension = 0,
-                BorderDash = new List<int> { 8, 4 },
+                BorderDash = new() { 8, 4 },
             };
         }
 
         LineChartDataset<LiveDataPoint> GetLineChartDataset2()
         {
-            return new LineChartDataset<LiveDataPoint>
+            return new()
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = "Dataset 2 (cubic interpolation)",
                 BackgroundColor = backgroundColors[1],
                 BorderColor = borderColors[1],
@@ -316,9 +316,9 @@ namespace Blazorise.Demo.Pages.Tests
 
         BarChartDataset<LiveDataPoint> GetBarChartDataset1()
         {
-            return new BarChartDataset<LiveDataPoint>
+            return new()
             {
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = "Dataset 1",
                 BackgroundColor = backgroundColors[0],
                 BorderColor = borderColors[0],
@@ -327,10 +327,10 @@ namespace Blazorise.Demo.Pages.Tests
 
         BarChartDataset<LiveDataPoint> GetBarChartDataset2()
         {
-            return new BarChartDataset<LiveDataPoint>
+            return new()
             {
                 Type = "horizontalBar",
-                Data = new List<LiveDataPoint>(),
+                Data = new(),
                 Label = "Dataset 1",
                 BackgroundColor = backgroundColors[0],
                 BorderColor = borderColors[0],
@@ -339,7 +339,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         Task OnHorizontalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
-            data.Value = new LiveDataPoint
+            data.Value = new()
             {
                 X = DateTime.Now,
                 Y = RandomScalingFactor(),
@@ -350,7 +350,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         Task OnVerticalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
-            data.Value = new LiveDataPoint
+            data.Value = new()
             {
                 X = RandomScalingFactor(),
                 Y = DateTime.Now,
@@ -361,7 +361,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         Task OnHorizontalBarRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
-            data.Value = new LiveDataPoint
+            data.Value = new()
             {
                 X = DateTime.Now,
                 Y = RandomScalingFactor(),
@@ -372,7 +372,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         Task OnVerticalBarRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
-            data.Value = new LiveDataPoint
+            data.Value = new()
             {
                 X = RandomScalingFactor(),
                 Y = DateTime.Now,

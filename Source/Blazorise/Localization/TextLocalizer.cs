@@ -94,10 +94,11 @@ namespace Blazorise.Localization
         /// <returns>A deserialized resource object.</returns>
         protected virtual TextLocalizationResource DeserializeResourceAsJson( Assembly assembly, string resourceName )
         {
-            return JsonSerializer.Deserialize<TextLocalizationResource>( ReadResourceAsString( assembly, resourceName ), new JsonSerializerOptions
+            var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
-            } );
+            };
+            return JsonSerializer.Deserialize<TextLocalizationResource>( ReadResourceAsString( assembly, resourceName ), options );
         }
 
         /// <summary>

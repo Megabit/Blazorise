@@ -28,7 +28,7 @@ namespace Blazorise
         /// </summary>
         public Badge()
         {
-            CloseClassBuilder = new ClassBuilder( BuildCloseClasses );
+            CloseClassBuilder = new( BuildCloseClasses );
         }
 
         #endregion

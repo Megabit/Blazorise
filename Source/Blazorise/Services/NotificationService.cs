@@ -17,7 +17,7 @@ namespace Blazorise
             var notificationOptions = NotificationOptions.Default;
             options?.Invoke( notificationOptions );
 
-            NotificationReceived?.Invoke( this, new NotificationEventArgs( notificationType, message, title, notificationOptions ) );
+            NotificationReceived?.Invoke( this, new( notificationType, message, title, notificationOptions ) );
 
             return Task.CompletedTask;
         }

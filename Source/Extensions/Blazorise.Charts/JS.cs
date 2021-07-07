@@ -9,7 +9,7 @@ namespace Blazorise.Charts
 {
     static class JS
     {
-        private static readonly object CreateDotNetObjectRefSyncObj = new object();
+        private static readonly object CreateDotNetObjectRefSyncObj = new();
 
         public static DotNetObjectReference<ChartAdapter> CreateDotNetObjectRef( ChartAdapter adapter )
         {

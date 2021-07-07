@@ -82,7 +82,7 @@ namespace Blazorise.Utilities
             {
                 if ( dirty )
                 {
-                    builder = new StringBuilder();
+                    builder = new();
 
                     buildStyles( this );
 

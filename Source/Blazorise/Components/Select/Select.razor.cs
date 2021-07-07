@@ -108,13 +108,13 @@ namespace Blazorise
                 // when multiple selection is enabled we need to use javascript to get the list of selected items
                 var multipleValues = await JSRunner.GetSelectedOptions<TValue>( ElementId );
 
-                return new ParseValue<IReadOnlyList<TValue>>( true, multipleValues, null );
+                return new( true, multipleValues, null );
             }
             else
             {
                 if ( Converters.TryChangeType<TValue>( value, out var result ) )
                 {
-                    return new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null );
+                    return new( true, new TValue[] { result }, null );
                 }
                 else
                 {

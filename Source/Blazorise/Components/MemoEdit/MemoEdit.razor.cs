@@ -41,7 +41,7 @@ namespace Blazorise
         {
             if ( IsDelayTextOnKeyPress )
             {
-                inputValueDebouncer = new ValueDebouncer( DelayTextOnKeyPressIntervalValue );
+                inputValueDebouncer = new( DelayTextOnKeyPressIntervalValue );
                 inputValueDebouncer.Debounced += OnInputValueDebounced;
             }
 

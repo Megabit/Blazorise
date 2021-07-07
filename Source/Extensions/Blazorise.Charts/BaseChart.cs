@@ -262,7 +262,7 @@ namespace Blazorise.Charts
 
         private ValueTask Initialize()
         {
-            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new( this ) );
 
             var eventOptions = new
             {
@@ -339,10 +339,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                Data ??= new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Labels == null )
-                    Data.Labels = new List<object>();
+                    Data.Labels = new();
 
                 return Data.Labels;
             }
@@ -352,10 +352,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                Data ??= new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Datasets == null )
-                    Data.Datasets = new List<ChartDataset<TItem>>();
+                    Data.Datasets = new();
 
                 return Data.Datasets;
             }

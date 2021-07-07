@@ -14,7 +14,7 @@ namespace Blazorise.AntDesign
 
         public ModalContent()
         {
-            DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
+            DialogClassBuilder = new( BuildDialogClasses );
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace Blazorise
             var pageProgressOptions = PageProgressOptions.Default;
             options?.Invoke( pageProgressOptions );
 
-            ProgressChanged?.Invoke( this, new PageProgressEventArgs( percentage, pageProgressOptions ) );
+            ProgressChanged?.Invoke( this, new( percentage, pageProgressOptions ) );
 
             return Task.CompletedTask;
         }
