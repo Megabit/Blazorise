@@ -15,8 +15,7 @@ namespace Blazorise.DataGrid
         {
             base.OnInitialized();
 
-            if ( ElementId == null )
-                ElementId = IdGenerator.Generate;
+            ElementId ??= IdGenerator.Generate;
         }
 
         #endregion

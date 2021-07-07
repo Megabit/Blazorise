@@ -29,8 +29,7 @@ namespace Blazorise
         /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
-            if ( executeAfterRenderQueue == null )
-                executeAfterRenderQueue = new Queue<Func<Task>>();
+            executeAfterRenderQueue ??= new Queue<Func<Task>>();
 
             executeAfterRenderQueue.Enqueue( action );
         }

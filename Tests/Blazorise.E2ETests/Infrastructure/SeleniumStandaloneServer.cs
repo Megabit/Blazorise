@@ -28,10 +28,7 @@ namespace Blazorise.E2ETests.Infrastructure
             {
                 lock (_instanceCreationLock)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new SeleniumStandaloneServer();
-                    }
+                    _instance ??= new SeleniumStandaloneServer();
                 }
 
                 return _instance;
