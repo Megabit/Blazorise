@@ -29,8 +29,6 @@ namespace Blazorise
 
         #region Methods
 
-        #region Variables
-
         /// <inheritdoc/>
         public virtual string GenerateVariables( Theme theme )
         {
@@ -1458,8 +1456,6 @@ namespace Blazorise
                 return $"{content}";
             }
         }
-
-        #endregion
 
         #endregion
 
