@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,8 +15,7 @@ namespace Blazorise.DataGrid
         {
             base.OnInitialized();
 
-            if ( ElementId == null )
-                ElementId = IdGenerator.Generate;
+            ElementId ??= IdGenerator.Generate;
         }
 
         #endregion

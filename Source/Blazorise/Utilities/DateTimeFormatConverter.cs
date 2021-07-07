@@ -94,8 +94,7 @@ namespace Blazorise.Utilities
 
                 if ( last == null || ( last != null && last == c ) )
                 {
-                    if ( tempToken == null )
-                        tempToken = string.Empty;
+                    tempToken ??= string.Empty;
 
                     tempToken += c;
                 }
