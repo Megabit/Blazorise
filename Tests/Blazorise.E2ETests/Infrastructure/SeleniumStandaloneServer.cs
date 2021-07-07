@@ -83,7 +83,7 @@ namespace Blazorise.E2ETests.Infrastructure
 
             var waitForStart = Task.Run(async () =>
             {
-                var httpClient = new HttpClient
+                using var httpClient = new HttpClient
                 {
                     Timeout = TimeSpan.FromSeconds(1),
                 };

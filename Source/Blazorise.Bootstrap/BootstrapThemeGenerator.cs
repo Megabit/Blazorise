@@ -167,7 +167,7 @@ namespace Blazorise.Bootstrap
                 .Append( $"a.btn-outline-{variant}:disabled" )
                 .Append( "{" )
                 .Append( $"color: {color};" )
-                .Append( $"background-color: transparent;" )
+                .Append( "background-color: transparent;" )
                 .AppendLine( "}" );
 
             sb
@@ -197,37 +197,37 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
-            sb.Append( $".btn" ).Append( "{" )
+            sb.Append( ".btn" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-sm" ).Append( "{" )
+            sb.Append( ".btn-sm" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-lg" ).Append( "{" )
+            sb.Append( ".btn-lg" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.Padding ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( ".btn" ).Append( "{" )
                     .Append( $"padding: {options.Padding};" )
                     .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.Margin ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( ".btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
 
             if ( options?.DisabledOpacity != null )
-                sb.Append( $".btn.disabled, .btn:disabled" ).Append( "{" )
+                sb.Append( ".btn.disabled, .btn:disabled" ).Append( "{" )
                     .Append( $"opacity: {options.DisabledOpacity};" )
                     .AppendLine( "}" );
         }
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
-            sb.Append( $".dropdown-menu" ).Append( "{" )
+            sb.Append( ".dropdown-menu" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
@@ -240,8 +240,8 @@ namespace Blazorise.Bootstrap
                     var background = ToHex( backgroundColor );
                     var color = ToHex( Contrast( theme, background ) );
 
-                    sb.Append( $".dropdown-item.active," )
-                        .Append( $".dropdown-item:active" ).Append( "{" )
+                    sb.Append( ".dropdown-item.active," )
+                        .Append( ".dropdown-item:active" ).Append( "{" )
                         .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                         .Append( $"color: {color} !important;" )
                         .AppendLine( "}" );
@@ -251,37 +251,37 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
-            sb.Append( $".form-control" ).Append( "{" )
+            sb.Append( ".form-control" ).Append( "{" )
                     .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                     .AppendLine( "}" );
 
-            sb.Append( $".input-group-text" ).Append( "{" )
+            sb.Append( ".input-group-text" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".custom-select" ).Append( "{" )
+            sb.Append( ".custom-select" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".custom-checkbox .custom-control-label::before" ).Append( "{" )
+            sb.Append( ".custom-checkbox .custom-control-label::before" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".custom-file-label" ).Append( "{" )
+            sb.Append( ".custom-file-label" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.Color ) )
             {
-                sb.Append( $".form-control" ).Append( "{" )
+                sb.Append( ".form-control" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".input-group-text" ).Append( "{" )
+                sb.Append( ".input-group-text" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".custom-select" ).Append( "{" )
+                sb.Append( ".custom-select" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
             }
@@ -296,8 +296,8 @@ namespace Blazorise.Bootstrap
                 var focusColor = ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) );
 
                 sb
-                    .Append( $".form-control:focus," )
-                    .Append( $".custom-select:focus" )
+                    .Append( ".form-control:focus," )
+                    .Append( ".custom-select:focus" )
                     .Append( "{" )
                     .Append( $"border-color: {focusColor};" )
                     .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusColor};" )
@@ -307,47 +307,47 @@ namespace Blazorise.Bootstrap
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb
-                    .Append( $".flatpickr-months .flatpickr-month:hover svg," )
-                    .Append( $".flatpickr-months .flatpickr-next-month:hover svg," )
-                    .Append( $".flatpickr-months .flatpickr-prev-month:hover svg" )
+                    .Append( ".flatpickr-months .flatpickr-month:hover svg," )
+                    .Append( ".flatpickr-months .flatpickr-next-month:hover svg," )
+                    .Append( ".flatpickr-months .flatpickr-prev-month:hover svg" )
                     .Append( "{" )
                     .Append( $"fill: { Var( ThemeVariables.Color( "primary" ) )} !important;" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
+                    .Append( ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
                     .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-day:hover" ).Append( "{" )
+                    .Append( ".flatpickr-day:hover" ).Append( "{" )
                     .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
+                    .Append( ".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
                     .Append( $"box-shadow: -10px 0 0 { Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-day.today" ).Append( "{" )
+                    .Append( ".flatpickr-day.today" ).Append( "{" )
                     .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-day.today:hover" ).Append( "{" )
+                    .Append( ".flatpickr-day.today:hover" ).Append( "{" )
                     .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
+                    .Append( ".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
                     .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".flatpickr-monthSelect-month.selected" ).Append( "{" )
+                    .Append( ".flatpickr-monthSelect-month.selected" ).Append( "{" )
                     .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
@@ -367,19 +367,19 @@ namespace Blazorise.Bootstrap
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb
-                .Append( $".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"color: {options.Color};" )
                 .Append( $"border-color: {options.CheckColor};" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
         }
@@ -437,36 +437,36 @@ namespace Blazorise.Bootstrap
         protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
         {
             sb
-                .Append( $".step-completed .step-circle" ).Append( "{" )
+                .Append( ".step-completed .step-circle" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.White )};" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
                 .Append( $"border-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".step-completed .step-circle::before" ).Append( "{" )
+                .Append( ".step-completed .step-circle::before" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".step-completed .step-text" ).Append( "{" )
+                .Append( ".step-completed .step-text" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemTextCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".step-active .step-circle" ).Append( "{" )
+                .Append( ".step-active .step-circle" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.White )};" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".step-active .step-circle::before" ).Append( "{" )
+                .Append( ".step-active .step-circle::before" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".step-active .step-text" ).Append( "{" )
+                .Append( ".step-active .step-text" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemTextActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
         }
@@ -519,7 +519,7 @@ namespace Blazorise.Bootstrap
             if ( ratingOptions?.HoverOpacity != null )
             {
                 sb
-                    .Append( $".rating .rating-item.rating-item-hover" ).Append( "{" )
+                    .Append( ".rating .rating-item.rating-item-hover" ).Append( "{" )
                     .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
                     .AppendLine( "}" );
             }
@@ -596,12 +596,12 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
-            sb.Append( $".card" ).Append( "{" )
+            sb.Append( ".card" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.ImageTopRadius ) )
-                sb.Append( $".card-image-top" ).Append( "{" )
+                sb.Append( ".card-image-top" ).Append( "{" )
                     .Append( $"border-top-left-radius: {options.ImageTopRadius};" )
                     .Append( $"border-top-right-radius: {options.ImageTopRadius};" )
                     .AppendLine( "}" );
@@ -609,33 +609,33 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
         {
-            sb.Append( $".modal-content" ).Append( "{" )
+            sb.Append( ".modal-content" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
         {
-            sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
+            sb.Append( ".nav-tabs .nav-link" ).Append( "{" )
                 .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".nav-pills .nav-link" ).Append( "{" )
+            sb.Append( ".nav-pills .nav-link" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb
-                    .Append( $".nav-pills .nav-link.active," )
-                    .Append( $".nav-pills .show>.nav-link" )
+                    .Append( ".nav-pills .nav-link.active," )
+                    .Append( ".nav-pills .show>.nav-link" )
                     .Append( "{" )
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
                 sb
-                    .Append( $".nav.nav-tabs .nav-item a.nav-link:not(.active)" )
+                    .Append( ".nav.nav-tabs .nav-item a.nav-link:not(.active)" )
                     .Append( "{" )
                     .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
@@ -644,13 +644,13 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
-            sb.Append( $".progress" ).Append( "{" )
+            sb.Append( ".progress" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".progress-bar" ).Append( "{" )
+                sb.Append( ".progress-bar" ).Append( "{" )
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
@@ -660,21 +660,21 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
-            sb.Append( $".alert" ).Append( "{" )
+            sb.Append( ".alert" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
-            sb.Append( $".breadcrumb" ).Append( "{" )
+            sb.Append( ".breadcrumb" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
 
             if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
             {
-                sb.Append( $".breadcrumb-item>a" ).Append( "{" )
+                sb.Append( ".breadcrumb-item>a" ).Append( "{" )
                     .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                     .AppendLine( "}" );
             }
@@ -682,44 +682,44 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".badge:not(.badge-pill)" ).Append( "{" )
+            sb.Append( ".badge:not(.badge-pill)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
-            sb.Append( $".page-item:first-child .page-link" ).Append( "{" )
+            sb.Append( ".page-item:first-child .page-link" ).Append( "{" )
                 .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".page-item:last-child .page-link" ).Append( "{" )
+            sb.Append( ".page-item:last-child .page-link" ).Append( "{" )
                 .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
+            sb.Append( ".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
                 .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
+            sb.Append( ".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
                 .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".page-link" ).Append( "{" )
+                sb.Append( ".page-link" ).Append( "{" )
                     .Append( $"color: {theme.ColorOptions.Primary};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".page-link:hover" ).Append( "{" )
+                sb.Append( ".page-link:hover" ).Append( "{" )
                     .Append( $"color: {ToHex( Darken( theme.ColorOptions.Primary, 15f ) )};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".page-item.active .page-link" ).Append( "{" )
+                sb.Append( ".page-item.active .page-link" ).Append( "{" )
                     .Append( $"color: {ToHex( Contrast( theme, theme.ColorOptions.Primary ) )};" )
                     .Append( $"background-color: {theme.ColorOptions.Primary};" )
                     .Append( $"border-color: {theme.ColorOptions.Primary};" )
@@ -774,7 +774,7 @@ namespace Blazorise.Bootstrap
                 var primary = Var( ThemeVariables.Color( "primary" ) );
 
                 sb
-                    .Append( $".list-group-item.active" )
+                    .Append( ".list-group-item.active" )
                     .Append( "{" )
                     .Append( $"color: {white};" )
                     .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )
