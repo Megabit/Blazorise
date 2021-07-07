@@ -3,6 +3,11 @@
 		<Version>0.9.4-preview4.2</Version>
 		<PackageVersion>0.9.4-preview4.2</PackageVersion>
 
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageIcon>Blazorise.png</PackageIcon>
+		<PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
+
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Mladen Macanovic</Authors>
 		<Company>Megabit Ltd</Company>
