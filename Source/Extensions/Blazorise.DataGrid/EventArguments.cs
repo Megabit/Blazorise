@@ -126,7 +126,7 @@ namespace Blazorise.DataGrid
         public DataGridReadDataEventArgs( int page, int pageSize,
             IEnumerable<DataGridColumn<TItem>> columns,
             IList<DataGridColumn<TItem>> sortByColumns,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default )
         {
             Page = page;
             PageSize = pageSize;
