@@ -372,7 +372,7 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// Sorts the Data for the specified column.
-        /// 
+        ///
         /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> must be enabled to be able to sort!
         /// </summary>
         /// <param name="column">Column to sort.</param>
@@ -708,7 +708,7 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected async Task HandleReadData( CancellationToken cancellationToken )
+        protected async Task HandleReadData( CancellationToken cancellationToken = default )
         {
             try
             {

@@ -13,7 +13,7 @@ namespace Blazorise
 {
     /// <summary>
     /// Validator for <see cref="EditContext"/> that can be used by the third-party applications
-    /// to override default data-annotation validation logic. It can be used for example to provide 
+    /// to override default data-annotation validation logic. It can be used for example to provide
     /// custom localization for each field.
     /// </summary>
     public interface IEditContextValidator
@@ -33,7 +33,7 @@ namespace Blazorise
     /// </summary>
     public class EditContextValidator : IEditContextValidator
     {
-        #region Members       
+        #region Members
 
         /// <summary>
         /// Comparer for message localizer.
@@ -63,7 +63,7 @@ namespace Blazorise
             /// <summary>
             /// Gets or sets the array of formatted validation attributes for the localization.
             /// </summary>
-            public ValidationAttribute[] FormatedValidationAttributes { get; set; }
+            public ValidationAttribute[] FormattedValidationAttributes { get; set; }
         }
 
         #endregion
@@ -100,22 +100,22 @@ namespace Blazorise
 
                 if ( messageLocalizer != null )
                 {
-                    // In this case we need to validate by using TryValidateValue because we need 
+                    // In this case we need to validate by using TryValidateValue because we need
                     // to have custom messages on validation attributes
                     Validator.TryValidateValue( propertyValue, validationContext, results, validationPropertyInfo.ValidationAttributes );
 
-                    // OPTIMIZE THIS: we run two validations because we need to have the formatted 
+                    // OPTIMIZE THIS: we run two validations because we need to have the formatted
                     // and non-formatted error messages in the same order so we can extract message attribute names.
-                    var formatedResults = new List<ValidationResult>();
+                    var formattedResults = new List<ValidationResult>();
 
-                    Validator.TryValidateValue( propertyValue, validationContext, formatedResults, validationPropertyInfo.FormatedValidationAttributes );
+                    Validator.TryValidateValue( propertyValue, validationContext, formattedResults, validationPropertyInfo.FormattedValidationAttributes );
 
-                    // We will assume that both validation will return the same number of errors 
+                    // We will assume that both validation will return the same number of errors
                     // and that they will be in the same order.
                     for ( int i = 0; i < results.Count; ++i )
                     {
                         var errorMessage = results[i].ErrorMessage;
-                        var errorMessageString = ValidationAttributeHelper.RevertErrorMessagePlaceholders( formatedResults[i].ErrorMessage );
+                        var errorMessageString = ValidationAttributeHelper.RevertErrorMessagePlaceholders( formattedResults[i].ErrorMessage );
 
                         // Compare both error messages and find the differences. This should later be used
                         // for manual formatting by the library users.
@@ -162,11 +162,11 @@ namespace Blazorise
                 // used as an localization key, so we need to replace it in case it is undefined with
                 // the internal ErrorMessageString that has unformatted message. eg. "The field {0} is invalid."
                 var validationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
-                var formatedValidationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
+                var formattedValidationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
 
                 if ( forLocalization )
                 {
-                    foreach ( var validationAttribute in formatedValidationAttributes )
+                    foreach ( var validationAttribute in formattedValidationAttributes )
                     {
                         // In case the ErrorMessageResourceName is set, validation will fail if the ErrorMessage
                         // is also set.
@@ -183,7 +183,7 @@ namespace Blazorise
                 {
                     PropertyInfo = propertyInfo,
                     ValidationAttributes = validationAttributes,
-                    FormatedValidationAttributes = formatedValidationAttributes,
+                    FormattedValidationAttributes = formattedValidationAttributes,
                 };
 
                 // No need to lock, because it doesn't matter if we write the same value twice
