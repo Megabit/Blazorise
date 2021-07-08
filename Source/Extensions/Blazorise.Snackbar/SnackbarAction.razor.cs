@@ -17,10 +17,7 @@ namespace Blazorise.Snackbar
 
         protected override void OnInitialized()
         {
-            if ( ParentSnackbar != null )
-            {
-                ParentSnackbar.NotifySnackbarActionInitialized( this );
-            }
+            ParentSnackbar?.NotifySnackbarActionInitialized( this );
 
             base.OnInitialized();
         }
@@ -29,10 +26,7 @@ namespace Blazorise.Snackbar
         {
             if ( disposing )
             {
-                if ( ParentSnackbar != null )
-                {
-                    ParentSnackbar.NotifySnackbarActionRemoved( this );
-                }
+                ParentSnackbar?.NotifySnackbarActionRemoved( this );
             }
 
             base.Dispose( disposing );

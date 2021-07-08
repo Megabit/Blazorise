@@ -239,8 +239,7 @@ namespace Blazorise
         {
             if ( !inputComponent.Disabled )
             {
-                if ( cancellationTokenSource != null )
-                    cancellationTokenSource.Cancel();
+                cancellationTokenSource?.Cancel();
 
                 // Create a CTS for this request.
                 cancellationTokenSource = new();
