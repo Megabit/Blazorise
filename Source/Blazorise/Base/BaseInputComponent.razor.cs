@@ -67,10 +67,7 @@ namespace Blazorise
                 }
                 else
                 {
-                    if ( ParentModal != null )
-                    {
-                        ParentModal.NotifyFocusableComponentRemoved( this );
-                    }
+                    ParentModal?.NotifyFocusableComponentRemoved( this );
                 }
             }
         }
@@ -97,10 +94,7 @@ namespace Blazorise
                     ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
                 }
 
-                if ( ParentModal != null )
-                {
-                    ParentModal.NotifyFocusableComponentRemoved( this );
-                }
+                ParentModal?.NotifyFocusableComponentRemoved( this );
 
                 if ( Theme != null )
                 {

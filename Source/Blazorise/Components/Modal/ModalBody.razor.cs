@@ -23,10 +23,7 @@ namespace Blazorise
         {
             base.OnInitialized();
 
-            if ( ParentModalContent != null )
-            {
-                ParentModalContent.NotifyHasModalBody();
-            }
+            ParentModalContent?.NotifyHasModalBody();
         }
 
         /// <inheritdoc/>

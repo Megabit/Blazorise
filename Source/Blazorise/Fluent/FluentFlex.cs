@@ -696,10 +696,10 @@ namespace Blazorise
 
             var flexDefinition = new FlexDefinition();
 
-            if ( !rules.ContainsKey( currentFlexType ) )
-                rules.Add( currentFlexType, new() { flexDefinition } );
+            if ( rules.TryGetValue( currentFlexType, out var rule ) )
+                rule.Add( flexDefinition );
             else
-                rules[currentFlexType].Add( flexDefinition );
+                rules.Add( currentFlexType, new() { flexDefinition } );
 
             return flexDefinition;
         }

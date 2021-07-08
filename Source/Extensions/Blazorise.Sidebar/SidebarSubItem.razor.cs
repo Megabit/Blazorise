@@ -25,10 +25,7 @@ namespace Blazorise.Sidebar
 
         protected override void OnInitialized()
         {
-            if ( ParentSidebarItem != null )
-            {
-                ParentSidebarItem.NotifyHasSidebarSubItem();
-            }
+            ParentSidebarItem?.NotifyHasSidebarSubItem();
 
             base.OnInitialized();
         }

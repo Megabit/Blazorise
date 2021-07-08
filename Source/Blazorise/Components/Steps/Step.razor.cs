@@ -41,10 +41,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentSteps != null )
-            {
-                ParentSteps.NotifyStepInitialized( Name );
-            }
+            ParentSteps?.NotifyStepInitialized( Name );
 
             base.OnInitialized();
         }

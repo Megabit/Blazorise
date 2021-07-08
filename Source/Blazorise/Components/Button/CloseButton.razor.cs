@@ -40,9 +40,9 @@ namespace Blazorise
                 {
                     ParentAlert.Hide();
                 }
-                else if ( ParentModal != null )
+                else
                 {
-                    ParentModal.Hide();
+                    ParentModal?.Hide();
                 }
             }
 

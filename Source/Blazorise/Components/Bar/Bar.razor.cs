@@ -127,12 +127,8 @@ namespace Blazorise
                     {
                         await task;
                     }
-                    catch
+                    catch when ( task.IsCanceled )
                     {
-                        if ( !task.IsCanceled )
-                        {
-                            throw;
-                        }
                     }
 
                     DisposeDotNetObjectRef( dotNetObjectRef );

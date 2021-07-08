@@ -17,10 +17,7 @@ namespace Blazorise
         {
             base.OnInitialized();
 
-            if ( ParentModalContent != null )
-            {
-                ParentModalContent.NotifyHasModalFooter();
-            }
+            ParentModalContent?.NotifyHasModalFooter();
         }
 
         /// <inheritdoc/>

@@ -239,8 +239,7 @@ namespace Blazorise
         {
             if ( !inputComponent.Disabled )
             {
-                if ( cancellationTokenSource != null )
-                    cancellationTokenSource.Cancel();
+                cancellationTokenSource?.Cancel();
 
                 // Create a CTS for this request.
                 cancellationTokenSource = new();
@@ -259,7 +258,7 @@ namespace Blazorise
 
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        await validationHandler.ValidateAsync( this, cancellationToken, newValidationValue );
+                        await validationHandler.ValidateAsync( this, newValidationValue, cancellationToken );
                     }
                 }
                 catch ( OperationCanceledException )

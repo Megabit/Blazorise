@@ -43,10 +43,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentTabs != null )
-            {
-                ParentTabs.NotifyTabInitialized( Name );
-            }
+            ParentTabs?.NotifyTabInitialized( Name );
 
             base.OnInitialized();
         }
