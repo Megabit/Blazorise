@@ -24,15 +24,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentSteps != null )
-            {
-                ParentSteps.NotifyStepInitialized( Name );
-            }
+            ParentSteps?.NotifyStepInitialized( Name );
 
-            if ( ParentStepsContent != null )
-            {
-                ParentStepsContent.NotifyStepPanelInitialized( Name );
-            }
+            ParentStepsContent?.NotifyStepPanelInitialized( Name );
 
             base.OnInitialized();
         }
@@ -42,15 +36,9 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentSteps != null )
-                {
-                    ParentSteps.NotifyStepRemoved( Name );
-                }
+                ParentSteps?.NotifyStepRemoved( Name );
 
-                if ( ParentStepsContent != null )
-                {
-                    ParentStepsContent.NotifyStepPanelRemoved( Name );
-                }
+                ParentStepsContent?.NotifyStepPanelRemoved( Name );
             }
 
             base.Dispose( disposing );
