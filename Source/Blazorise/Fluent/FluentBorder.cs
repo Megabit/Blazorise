@@ -302,10 +302,10 @@ namespace Blazorise
 
             var borderDefinition = new BorderDefinition { Side = BorderSide.All };
 
-            if ( !rules.ContainsKey( borderSize ) )
-                rules.Add( borderSize, new() { borderDefinition } );
+            if ( rules.TryGetValue( borderSize, out var rule) )
+                rule.Add( borderDefinition );
             else
-                rules[borderSize].Add( borderDefinition );
+                rules.Add( borderSize, new() { borderDefinition } );
 
             currentBorderDefinition = borderDefinition;
             Dirty();

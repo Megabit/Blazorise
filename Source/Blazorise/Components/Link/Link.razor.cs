@@ -41,8 +41,8 @@ namespace Blazorise
             PreventDefault = false;
 
             // in case the user has specified href instead of To we need to use that instead
-            if ( Attributes?.ContainsKey( "href" ) == true )
-                To = $"{Attributes["href"]}";
+            if ( Attributes != null && Attributes.TryGetValue( "href", out var attribute ) )
+                To = $"{attribute}";
 
             if ( To != null && To.StartsWith( "#" ) )
             {
@@ -206,7 +206,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Properties        
+        #region Properties
 
         /// <summary>
         /// Indicates if the default behavior will be prevented.

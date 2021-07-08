@@ -250,10 +250,10 @@ namespace Blazorise
         {
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
-            if ( !rules.ContainsKey( displayType ) )
-                rules.Add( displayType, new() { columnDefinition } );
+            if ( rules.TryGetValue( displayType, out var rule ) )
+                rule.Add( columnDefinition );
             else
-                rules[displayType].Add( columnDefinition );
+                rules.Add( displayType, new() { columnDefinition } );
 
             currentDisplay = columnDefinition;
             Dirty();
@@ -270,10 +270,10 @@ namespace Blazorise
         {
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
-            if ( !rules.ContainsKey( displayType ) )
-                rules.Add( displayType, new() { columnDefinition } );
+            if ( rules.TryGetValue( displayType, out var rule ) )
+                rule.Add( columnDefinition );
             else
-                rules[displayType].Add( columnDefinition );
+                rules.Add( displayType, new() { columnDefinition } );
 
             currentDisplay = columnDefinition;
             Dirty();
