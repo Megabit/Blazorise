@@ -177,10 +177,7 @@ namespace Blazorise
 
             var rowColumnsDefinition = new RowColumnsDefinition { Breakpoint = Breakpoint.None };
 
-            if ( !rules.ContainsKey( rowColumnsSize ) )
-                rules.Add( rowColumnsSize, rowColumnsDefinition );
-            else
-                rules[rowColumnsSize] = rowColumnsDefinition;
+            rules[rowColumnsSize] = rowColumnsDefinition;
 
             currentRowColumnsDefinition = rowColumnsDefinition;
             Dirty();

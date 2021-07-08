@@ -247,10 +247,10 @@ namespace Blazorise
         {
             var spacingDefinition = new SpacingDefinition { Breakpoint = Breakpoint.None, Side = Side.All };
 
-            if ( !rules.ContainsKey( spacingSize ) )
-                rules.Add( spacingSize, new() { spacingDefinition } );
+            if ( rules.TryGetValue( spacingSize, out var rule ) )
+                rule.Add( spacingDefinition );
             else
-                rules[spacingSize].Add( spacingDefinition );
+                rules.Add( spacingSize, new() { spacingDefinition } );
 
             currentSpacing = spacingDefinition;
             Dirty();

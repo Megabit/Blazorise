@@ -93,17 +93,13 @@ namespace Blazorise
 
                 Attributes ??= new();
 
-                if ( widthAttribute != null && parametersDictionary.ContainsKey( "width" ) )
+                if ( widthAttribute != null && parametersDictionary.Remove( "width" ) )
                 {
-                    parametersDictionary.Remove( "width" );
-
                     Attributes.Add( "width", widthAttribute );
                 }
 
-                if ( heightAttribute != null && parametersDictionary.ContainsKey( "height" ) )
+                if ( heightAttribute != null && parametersDictionary.Remove( "height" ) )
                 {
-                    parametersDictionary.Remove( "height" );
-
                     Attributes.Add( "height", heightAttribute );
                 }
 
