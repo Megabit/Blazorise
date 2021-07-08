@@ -95,6 +95,7 @@ namespace Blazorise.Utilities
             {
                 timer.Stop();
                 timer.Elapsed -= OnElapsed;
+                timer.Dispose();
                 timer = null;
             }
         }
