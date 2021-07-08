@@ -259,7 +259,7 @@ namespace Blazorise
 
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        await validationHandler.ValidateAsync( this, cancellationToken, newValidationValue );
+                        await validationHandler.ValidateAsync( this, newValidationValue, cancellationToken );
                     }
                 }
                 catch ( OperationCanceledException )
