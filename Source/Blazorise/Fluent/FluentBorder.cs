@@ -302,7 +302,7 @@ namespace Blazorise
 
             var borderDefinition = new BorderDefinition { Side = BorderSide.All };
 
-            if ( rules.TryGetValue( borderSize, out var rule) )
+            if ( rules.TryGetValue( borderSize, out var rule ) )
                 rule.Add( borderDefinition );
             else
                 rules.Add( borderSize, new() { borderDefinition } );
