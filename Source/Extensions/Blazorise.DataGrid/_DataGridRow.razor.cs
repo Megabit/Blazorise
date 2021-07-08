@@ -42,7 +42,7 @@ namespace Blazorise.DataGrid
                     if ( column.ExcludeFromInit )
                         continue;
 
-                    cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, ParentDataGrid.UpdateEditCell, ParentDataGrid.ReadEditCell )
+                    cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue )
                     {
                         CellValue = column.GetValue( Item ),
                     } );
