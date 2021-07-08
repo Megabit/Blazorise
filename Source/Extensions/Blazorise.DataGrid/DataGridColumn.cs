@@ -49,10 +49,7 @@ namespace Blazorise.DataGrid
                 // connect column to the parent datagrid
                 ParentDataGrid.AddColumn( this );
 
-                if ( Filter != null )
-                {
-                    Filter.Subscribe( OnSearchValueChanged );
-                }
+                Filter?.Subscribe( OnSearchValueChanged );
             }
         }
 

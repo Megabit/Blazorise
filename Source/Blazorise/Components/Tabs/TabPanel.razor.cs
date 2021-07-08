@@ -39,15 +39,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentTabs != null )
-            {
-                ParentTabs.NotifyTabPanelInitialized( Name );
-            }
+            ParentTabs?.NotifyTabPanelInitialized( Name );
 
-            if ( ParentTabsContent != null )
-            {
-                ParentTabsContent.NotifyTabPanelInitialized( Name );
-            }
+            ParentTabsContent?.NotifyTabPanelInitialized( Name );
 
             base.OnInitialized();
         }
@@ -57,15 +51,9 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentTabs != null )
-                {
-                    ParentTabs.NotifyTabPanelRemoved( Name );
-                }
+                ParentTabs?.NotifyTabPanelRemoved( Name );
 
-                if ( ParentTabsContent != null )
-                {
-                    ParentTabsContent.NotifyTabPanelRemoved( Name );
-                }
+                ParentTabsContent?.NotifyTabPanelRemoved( Name );
             }
 
             base.Dispose( disposing );

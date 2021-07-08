@@ -30,10 +30,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentBreadcrumbItem != null )
-            {
-                ParentBreadcrumbItem.NotifyRelativeUriChanged( To );
-            }
+            ParentBreadcrumbItem?.NotifyRelativeUriChanged( To );
 
             base.OnInitialized();
         }

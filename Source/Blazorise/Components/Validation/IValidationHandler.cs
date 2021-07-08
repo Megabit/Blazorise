@@ -21,9 +21,9 @@ namespace Blazorise
         /// Asynchronously validates the <see cref="IValidation"/> component.
         /// </summary>
         /// <param name="validation">Reference to the validation component.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="newValidationValue">Value to validate.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue );
+        Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default );
     }
 }

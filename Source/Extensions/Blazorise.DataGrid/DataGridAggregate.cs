@@ -135,11 +135,8 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
-            if ( ParentDataGrid != null )
-            {
-                // connect column to the parent datagrid
-                ParentDataGrid.AddAggregate( this );
-            }
+            // connect column to the parent datagrid
+            ParentDataGrid?.AddAggregate( this );
 
             base.OnInitialized();
         }

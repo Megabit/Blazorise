@@ -245,7 +245,7 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
         /// <returns>Returns the stream for the uploaded file entry.</returns>
-        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken )
+        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
             return new RemoteFileEntryStream( JSRunner, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
         }
