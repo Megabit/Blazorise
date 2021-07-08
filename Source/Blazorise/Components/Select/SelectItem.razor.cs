@@ -34,10 +34,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
-            if ( ParentSelect != null )
-            {
-                ParentSelect.NotifySelectItemInitialized( this );
-            }
+            ParentSelect?.NotifySelectItemInitialized( this );
 
             return base.OnInitializedAsync();
         }
@@ -47,10 +44,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentSelect != null )
-                {
-                    ParentSelect.NotifySelectItemRemoved( this );
-                }
+                ParentSelect?.NotifySelectItemRemoved( this );
             }
 
             base.Dispose( disposing );

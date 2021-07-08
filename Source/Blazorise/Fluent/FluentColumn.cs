@@ -250,10 +250,10 @@ namespace Blazorise
 
             var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
 
-            if ( !rules.ContainsKey( columnSize ) )
-                rules.Add( columnSize, new() { columnDefinition } );
+            if ( rules.TryGetValue( columnSize, out var rule ) )
+                rule.Add( columnDefinition );
             else
-                rules[columnSize].Add( columnDefinition );
+                rules.Add( columnSize, new() { columnDefinition } );
 
             currentColumn = columnDefinition;
             Dirty();

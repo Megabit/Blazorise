@@ -56,7 +56,6 @@ namespace Blazorise
         public void Dispose()
         {
             Dispose( true );
-            GC.SuppressFinalize( this );
         }
 
         /// <summary>
@@ -82,7 +81,6 @@ namespace Blazorise
             await DisposeAsync( true );
 
             Dispose( false );
-            GC.SuppressFinalize( this );
         }
 
         /// <summary>

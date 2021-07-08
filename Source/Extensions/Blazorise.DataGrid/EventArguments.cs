@@ -130,7 +130,7 @@ namespace Blazorise.DataGrid
             ReadDataMode readDataMode,
             IEnumerable<DataGridColumn<TItem>> columns,
             IList<DataGridColumn<TItem>> sortByColumns,
-            CancellationToken cancellationToken,
+            CancellationToken cancellationToken = default,
             int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0
             )
         {
