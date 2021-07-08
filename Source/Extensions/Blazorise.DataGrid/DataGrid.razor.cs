@@ -489,6 +489,44 @@ namespace Blazorise.DataGrid
             FilterData( Data?.AsQueryable() );
         }
 
+        /// <summary>
+        /// Updated the cell of the current editing item that matches the <paramref name="fieldName"/>.
+        /// </summary>
+        /// <param name="fieldName">Cell field name.</param>
+        /// <param name="value">New cell value.</param>
+        public void UpdateCellEditValue( string fieldName, object value )
+        {
+            if ( editState == DataGridEditState.None )
+                return;
+
+            var column = Columns.FirstOrDefault( x => x.Field == fieldName );
+
+            if ( column != null && editItemCellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
+            {
+                cellEditContext.CellValue = value;
+            }
+        }
+
+        /// <summary>
+        /// Reads the cell value of the current editing item that matches the <paramref name="fieldName"/>.
+        /// </summary>
+        /// <param name="fieldName">Cell field name.</param>
+        /// <returns>Cell value.</returns>
+        public object ReadCellEditValue( string fieldName )
+        {
+            if ( editState == DataGridEditState.None )
+                return null;
+
+            var column = Columns.FirstOrDefault( x => x.Field == fieldName );
+
+            if ( column != null && editItemCellValues.TryGetValue( column.ElementId, out var cellEditContext ) )
+            {
+                return cellEditContext.CellValue;
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Editing
@@ -513,7 +551,7 @@ namespace Blazorise.DataGrid
 
             foreach ( var column in EditableColumns )
             {
-                editItemCellValues.Add( column.ElementId, new( item )
+                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCellEditValue, ReadCellEditValue )
                 {
                     CellValue = column.GetValue( editItem ),
                 } );

@@ -109,6 +109,26 @@ The grid can work in two different editing modes that can provide different user
 - `Inline` editing is done in the current row
 - `Popup` editing is done in the the modal dialog
 
+### Cascading values
+
+In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an `UpdateCell` method. You have two ways of updating a cell:
+
+- by calling `UpdateCell` on the `context` inside of `EditTemplate`, or
+- by calling `UpdateCellEditValue` on the `DataGrid` instance
+
+In the following example we're simply calling `context.UpdateCell` with a field-name to change and a new value that we want it to assign: 
+
+```html
+<DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true">
+    <EditTemplate>
+        <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => {
+                context.CellValue = v;
+                context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+            })" />
+    </EditTemplate>
+</DataGridColumn>
+```
+
 ### Selecting
 
 If you need to control how and when the grid row will be selected you can use a `RowSelectable` event handler. A simple example is:
