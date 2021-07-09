@@ -24,10 +24,9 @@ namespace Blazorise.DataGrid
         #region Members
 
         /// <summary>
-        /// Keeps track of Virtualize last State.
-        /// When Virtualize is de-activated the grid should refresh.
+        /// Keeps track of Virtualize State.
         /// </summary>
-        private bool virtualizeWasActive;
+        private VirtualizeState virtualizeState;
 
         /// <summary>
         /// Element reference to the DataGrid's inner virtualize.
@@ -220,20 +219,29 @@ namespace Blazorise.DataGrid
             if ( Virtualize )
             {
                 VirtualizeOptions ??= new();
+                if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup )
+                    virtualizeState.EditLastKnownScroll = await JSRuntime.InvokeAsync<int>( JSInteropFunction.Virtualize.ON_EDIT_SET_SCROLL, tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
             }
             else
             {
-                if ( virtualizeWasActive )
+                if ( virtualizeState.WasActive )
                     await Reload();
             }
-            virtualizeWasActive = Virtualize;
-            await ValueTask.CompletedTask;
+            virtualizeState.WasActive = Virtualize;
         }
 
 
         private ValueTask VirtualizeScrollToTop()
             => tableRef.FixedHeaderScrollTableTo( 0 );
 
+        private async ValueTask VirtualizeOnEditCompleteScroll()
+        {
+            if ( virtualizeState.EditLastKnownScroll.HasValue )
+            { 
+                await tableRef.FixedHeaderScrollTableTo( virtualizeState.EditLastKnownScroll.Value );
+                virtualizeState.EditLastKnownScroll = null;
+            }
+        }
 
         #endregion
 
@@ -390,6 +398,7 @@ namespace Blazorise.DataGrid
                     await RowUpdated.InvokeAsync( new( editItem, editedCellValues ) );
 
                 editState = DataGridEditState.None;
+                await VirtualizeOnEditCompleteScroll().AsTask();
             }
         }
 
@@ -401,7 +410,7 @@ namespace Blazorise.DataGrid
         {
             editState = DataGridEditState.None;
 
-            return Task.CompletedTask;
+            return VirtualizeOnEditCompleteScroll().AsTask();
         }
 
         /// <summary>
@@ -1031,6 +1040,8 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
@@ -1044,7 +1055,7 @@ namespace Blazorise.DataGrid
 
                 if ( Class != null )
                     sb.Append( $" {Class}" );
-
+                
                 return sb.ToString();
             }
         }
