@@ -816,19 +816,36 @@ window.blazorise = {
         }
     },
     table: {
-        initializeTableFixedHeader: (element, elementId) => {
-            const tableRows = element.querySelectorAll("thead tr");
-
-            if (tableRows !== null && tableRows.length > 1) {
-                let previousRowCellHeight = 0;
-                for (let i = 0; i < tableRows.length; i++) {
-                    let currentTh = tableRows[i].querySelectorAll("th");
-                    currentTh.forEach(x => x.style.top = `${previousRowCellHeight}px`);
-                    previousRowCellHeight += currentTh[0].offsetHeight;
+        initializeTableFixedHeader: function (element, elementId)
+        {
+            let resizeTimeout = null
+            this.resizeThottler = function () {
+                if (!resizeTimeout) {
+                    resizeTimeout = setTimeout(function () {
+                        resizeTimeout = null;
+                        resizeHandler(element);
+                    }.bind(this), 66);
                 }
             }
+            function resizeHandler (element) {
+                const tableRows = element.querySelectorAll("thead tr");
+                if (tableRows !== null && tableRows.length > 1) {
+                    let previousRowCellHeight = 0;
+                    for (let i = 0; i < tableRows.length; i++) {
+                        let currentTh = tableRows[i].querySelectorAll("th");
+                        currentTh.forEach(x => x.style.top = `${previousRowCellHeight}px`);
+                        previousRowCellHeight += currentTh[0].offsetHeight;
+                    }
+                }
+            }
+
+            window.addEventListener("resize", this.resizeThottler, false);
         },
-        destroyTableFixedHeader: (element, elementId) => {
+        destroyTableFixedHeader: function (element, elementId) {
+            if (typeof this.resizeThottler === "function")
+            {
+                window.removeEventListener("resize", this.resizeThottler);
+            }
             const tableRows = element.querySelectorAll("thead tr");
 
             if (tableRows !== null && tableRows.length > 1) {
