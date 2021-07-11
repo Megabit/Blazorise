@@ -196,10 +196,10 @@ namespace Blazorise.DataGrid
         /// The reason for this field is that <see cref="SortDirection"/> is reset every
         /// time when the grid is refreshed by the user.
         /// </remarks>
-        internal SortDirection CurrentSortDirection
+        public SortDirection CurrentSortDirection
         {
             get => currentSortDirection[ParentDataGrid.SortMode];
-            set => currentSortDirection[ParentDataGrid.SortMode] = value;
+            internal set => currentSortDirection[ParentDataGrid.SortMode] = value;
         }
 
         /// <summary>

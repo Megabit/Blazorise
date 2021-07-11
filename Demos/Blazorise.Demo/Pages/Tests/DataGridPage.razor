@@ -213,7 +213,8 @@
                           CurrentPage="currentPage"
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
-                          UseValidation="true">
+                          UseValidation="true"
+                          SortChanged="@OnSortChanged">
                     <EmptyTemplate>
                         <Span>
                             <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
