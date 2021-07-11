@@ -250,7 +250,12 @@ namespace Blazorise.Demo.Pages.Tests
 
         private void OnFilteredDataChanged( DataGridFilteredDataEventArgs<Employee> eventArgs )
         {
-            Console.WriteLine( $"Filtered: {eventArgs.FilteredItems}; Total: {eventArgs.TotalItems};" );
+            Console.WriteLine( $"Filter changed > Items: {eventArgs.FilteredItems}; Total: {eventArgs.TotalItems};" );
+        }
+
+        private void OnSortChanged( DataGridSortChangedEventArgs eventArgs )
+        {
+            Console.WriteLine( $"Sort changed > Field: {eventArgs.FieldName}; Direction: {eventArgs.SortDirection};" );
         }
 
         private string TitleFromGender( string gender )
