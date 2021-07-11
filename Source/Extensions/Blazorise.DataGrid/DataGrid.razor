@@ -133,7 +133,7 @@
                         }
                         else
                         {
-                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
                             @if (DetailRowTemplate != null)
                             {
                                 var canShow = DetailRowTrigger?.Invoke(item) ?? true;
@@ -159,31 +159,31 @@
                     <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                         <ChildContent>
                             @if (IsEditItemInGrid(item))
+                        {
+                            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
+                        }
+                        else
+                        {
+                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
+                            @if (DetailRowTemplate != null)
                             {
-                                <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
-                            }
-                            else
-                            {
-                                <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                                @if (DetailRowTemplate != null)
-                                {
-                                    var canShow = DetailRowTrigger?.Invoke(item) ?? true;
+                                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
 
-                                    @if (canShow)
-                                    {
-                                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                            @DetailRowTemplate( item )
-                                        </_DataGridDetailRow>
-                                    }
+                                @if (canShow)
+                                {
+                                    <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                        @DetailRowTemplate( item )
+                                    </_DataGridDetailRow>
                                 }
                             }
-                        </ChildContent>
-                        <Placeholder>
-                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                @LoadingTemplate
-                            </_DataGridFullColumnSpanRow>
-                        </Placeholder>
-                    </Virtualize>
+                        }
+                    </ChildContent>
+                    <Placeholder>
+                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                            @LoadingTemplate
+                        </_DataGridFullColumnSpanRow>
+                    </Placeholder>
+                </Virtualize>
                 }
                 else
                 {
@@ -195,7 +195,7 @@
                         }
                         else
                         {
-                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
                             @if (DetailRowTemplate != null)
                             {
                                 var canShow = DetailRowTrigger?.Invoke(item) ?? true;

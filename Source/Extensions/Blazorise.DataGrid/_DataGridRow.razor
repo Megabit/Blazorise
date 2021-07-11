@@ -19,7 +19,7 @@
               Color="@GetColor(styling, selectedStyling)"
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
-              HoverCursor="@HoverCursor">
+              HoverCursor="@GetHoverCursor()">
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )

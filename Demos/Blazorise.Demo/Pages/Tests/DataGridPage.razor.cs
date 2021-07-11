@@ -229,7 +229,7 @@ namespace Blazorise.Demo.Pages.Tests
         public Task<List<Employee>> FilterData( IEnumerable<DataGridColumnInfo> dataGridColumns )
         {
             var filteredData = dataModels.ToList();
-            var sortByColumns = dataGridColumns.Where( x => x.Direction != SortDirection.None );
+            var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.None );
             var firstSort = true;
             if ( sortByColumns?.Any() ?? false )
             {
@@ -240,7 +240,7 @@ namespace Blazorise.Demo.Pages.Tests
 
                     if ( firstSort )
                     {
-                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                        if ( sortByColumn.SortDirection == SortDirection.Ascending )
                             sortedCols = dataModels.OrderBy( x => valueGetter( x ) );
                         else
                             sortedCols = dataModels.OrderByDescending( x => valueGetter( x ) );
@@ -249,7 +249,7 @@ namespace Blazorise.Demo.Pages.Tests
                     }
                     else
                     {
-                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                        if ( sortByColumn.SortDirection == SortDirection.Ascending )
                             sortedCols = sortedCols.ThenBy( x => valueGetter( x ) );
                         else
                             sortedCols = sortedCols.ThenByDescending( x => valueGetter( x ) );

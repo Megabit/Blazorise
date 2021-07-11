@@ -637,12 +637,12 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
         {
             return RowClicked.InvokeAsync( eventArgs );
         }
 
-        protected Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        internal Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
         {
             return RowDoubleClicked.InvokeAsync( eventArgs );
         }
@@ -659,7 +659,7 @@ namespace Blazorise.DataGrid
             return index;
         }
 
-        protected async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
+        internal async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
@@ -1131,7 +1131,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for display in the grid.
         /// </summary>
-        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns
+        internal IEnumerable<DataGridColumn<TItem>> DisplayableColumns
         {
             get
             {
