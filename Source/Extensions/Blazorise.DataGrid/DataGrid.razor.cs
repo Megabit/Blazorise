@@ -196,7 +196,6 @@ namespace Blazorise.DataGrid
 
 
             await HandleSelectionModeChanged();
-            await RecalculateResize();
             await HandleVirtualize();
 
             await base.OnAfterRenderAsync( firstRender );
@@ -215,6 +214,28 @@ namespace Blazorise.DataGrid
             }
         }
 
+        private Task HandleSelectionModeChanged()
+        {
+            if ( selectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
+            {
+                SelectedRows ??= new();
+
+                if ( !SelectedRows.Contains( SelectedRow ) )
+                {
+                    SelectedRows.Add( SelectedRow );
+
+                    return SelectedRowsChanged.InvokeAsync( SelectedRows );
+                }
+            }
+            else if ( selectionMode == DataGridSelectionMode.Single && SelectedRows != null )
+            {
+                SelectedRows = null;
+
+                return SelectedRowsChanged.InvokeAsync( SelectedRows );
+            }
+
+            return Task.CompletedTask;
+        }
 
 
         /// <summary>
@@ -240,29 +261,6 @@ namespace Blazorise.DataGrid
 
         private ValueTask VirtualizeScrollToTop()
             => tableRef.FixedHeaderScrollTableTo( 0 );
-
-        private Task HandleSelectionModeChanged()
-        {
-            if ( selectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
-            {
-                SelectedRows ??= new();
-
-                if ( !SelectedRows.Contains( SelectedRow ) )
-                {
-                    SelectedRows.Add( SelectedRow );
-
-                    return SelectedRowsChanged.InvokeAsync( SelectedRows );
-                }
-            }
-            else if ( selectionMode == DataGridSelectionMode.Single && SelectedRows != null )
-            {
-                SelectedRows = null;
-
-                return SelectedRowsChanged.InvokeAsync( SelectedRows );
-            }
-
-            return Task.CompletedTask;
-        }
 
         private async ValueTask VirtualizeOnEditCompleteScroll()
         {
