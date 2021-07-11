@@ -4,6 +4,7 @@ using System;
 
 namespace Blazorise.DataGrid
 {
+
     /// <summary>
     /// Holds the basic information about the datagrid column.
     /// </summary>

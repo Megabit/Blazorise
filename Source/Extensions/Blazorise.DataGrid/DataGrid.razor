@@ -122,25 +122,20 @@
             }
             @if ( IsDisplayDataVisible )
             {
-                @foreach ( var item in DisplayData )
+                @foreach ( var row in DisplayRowData )
                 {
-                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )
+                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && row.Item.IsEqual( editItem ) )
                     {
                         <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@Save" Cancel="@Cancel" EditMode="@EditMode" />
                     }
                     else
                     {
-                        <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                        @if ( DetailRowTemplate != null )
+                        <_DataGridRow @key="@row.Item" TItem="TItem" Item="@row.Item" DetailRowTrigger="@DetailRowTrigger" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(row.Item) ?? Cursor.Pointer)" Edit="@Edit" Delete="@Delete" Save="@Save" Cancel="@Cancel" Selected="@Select" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
+                        @if ( DetailRowTemplate != null && row.ShowDetail )
                         {
-                            var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                            @if ( canShow )
-                            {
-                                <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                    @DetailRowTemplate( item )
-                                </_DataGridDetailRow>
-                            }
+                            <_DataGridDetailRow TItem="TItem" Item="@row.Item" Columns="@Columns">
+                                @DetailRowTemplate( row.Item )
+                            </_DataGridDetailRow>
                         }
                     }
                 }

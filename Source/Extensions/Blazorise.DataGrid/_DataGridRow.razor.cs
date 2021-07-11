@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,6 +68,8 @@ namespace Blazorise.DataGrid
 
             await HandleMultiSelectClick( eventArgs );
             clickFromCheck = false;
+
+            await ParentDataGrid.ToggleDetailRow( Item );
         }
 
         private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
@@ -248,6 +251,16 @@ namespace Blazorise.DataGrid
         [Parameter] public Cursor HoverCursor { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Holds the basic information about the datagrid row.
+        /// </summary>
+        [Parameter] public DataGridRowInfo<TItem> RowInfo { get; set; }
+
+        /// <summary>
+        /// A trigger function used to handle the visibility of detail row.
+        /// </summary>
+        [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
 
         #endregion
     }

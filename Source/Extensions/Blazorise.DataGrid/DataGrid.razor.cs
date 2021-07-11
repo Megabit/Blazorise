@@ -54,7 +54,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Marks the grid to refresh currently visible page.
         /// </summary>
-        private bool dirtyView = true;
+        private bool dirtyView = false;
 
         /// <summary>
         /// Keeps track of whether the object has already been disposed.
@@ -215,6 +215,7 @@ namespace Blazorise.DataGrid
             {
                 await InvokeAsync( StateHasChanged );
             }
+            dirtyView = true;
         }
 
         private async void OnPageChanged( int currentPage )
@@ -232,6 +233,7 @@ namespace Blazorise.DataGrid
             {
                 await InvokeAsync( StateHasChanged );
             }
+            dirtyView = true;
         }
 
         #endregion
@@ -525,6 +527,21 @@ namespace Blazorise.DataGrid
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Toggles DetailRow while evaluating the <see cref="DetailRowTrigger"/>   
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ToggleDetailRow( TItem item )
+        {
+            if ( DetailRowTrigger != null )
+            {
+                var rowInfo = displayRowData.FirstOrDefault( x => x.Item.IsEqual( item ) );
+                if ( rowInfo != null )
+                    rowInfo.SetShowDetail( DetailRowTrigger.Invoke( item ) );
+            }
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -1112,10 +1129,13 @@ namespace Blazorise.DataGrid
             get { return data; }
             set
             {
-                data = value;
+                //This was just straight up recalculating every grid interaction...
+                //Need to figure out a better way to track reloading filter/view
+                if ( value == null || ( !data?.SequenceEqual( value ) ?? true ) )
+                    // make sure everything is recalculated
+                    dirtyFilter = dirtyView = true;
 
-                // make sure everything is recalculated
-                dirtyFilter = dirtyView = true;
+                data = value;
             }
         }
 
@@ -1166,10 +1186,36 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                if ( dirtyView )
-                    viewData = FilterViewData();
-
+                RefreshViewData();
                 return viewData;
+            }
+        }
+
+        private void RefreshViewData()
+        {
+            if ( dirtyView )
+            {
+                viewData = FilterViewData();
+                displayRowData = viewData.Select( x => new DataGridRowInfo<TItem>( x ) ).ToList();
+                dirtyView = false;
+            }
+        }
+
+        public List<DataGridRowInfo<TItem>> displayRowData;
+
+        /// <summary>
+        /// Gets the data to show on grid based on the filter and current page.
+        /// </summary>
+        internal List<DataGridRowInfo<TItem>> DisplayRowData
+        {
+            get
+            {
+                RefreshViewData();
+                return displayRowData;
+            }
+            set
+            {
+                displayRowData = value;
             }
         }
 
