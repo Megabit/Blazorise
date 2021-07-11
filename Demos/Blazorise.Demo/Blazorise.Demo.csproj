@@ -3,6 +3,7 @@
   <Import Project="..\..\Build\Blazorise.Demo.props" />
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="33.0.2" />
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
 
