@@ -21,14 +21,10 @@ namespace Blazorise.Extensions
             if ( array1 == null && array2 == null )
                 return true;
 
-            if ( array1 != null && array2 != null && array1.Count() == array2.Count() )
-            {
-                return array1
-                    .Zip( array2, ( value1, value2 ) => value1.IsEqual( value2 ) )
-                    .All( result => result );
-            }
+            if ( ( array1 != null && array2 == null ) || ( array2 != null && array1 == null ) )
+                return false;
 
-            return false;
+            return array1.SequenceEqual( array2 );
         }
 
         /// <summary>
