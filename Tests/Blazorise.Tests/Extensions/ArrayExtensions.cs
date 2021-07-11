@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿#region Using directives
 using Blazorise.Extensions;
-using Blazorise.Utilities;
 using Xunit;
+#endregion
 
 namespace Blazorise.Tests.Extensions
 {
@@ -27,6 +24,5 @@ namespace Blazorise.Tests.Extensions
         {
             Assert.False( list1.AreEqual( list2 ) );
         }
-
     }
 }

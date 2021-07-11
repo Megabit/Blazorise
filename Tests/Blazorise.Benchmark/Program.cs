@@ -1,10 +1,11 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Blazorise.Extensions;
+#endregion
 
 namespace Blazorise.Benchmark
 {
@@ -13,7 +14,8 @@ namespace Blazorise.Benchmark
         static void Main( string[] args )
         {
             Console.WriteLine( "Hello World!" );
-            var summary = BenchmarkRunner.Run<SequenceEquals>();
+
+            _ = BenchmarkRunner.Run<SequenceEquals>();
         }
 
         public class SequenceEquals
@@ -26,6 +28,5 @@ namespace Blazorise.Benchmark
             [Benchmark]
             public bool ArraySequenceEqual() => simpleList1.AreEqual( simpleList2 );
         }
-
     }
 }
