@@ -377,13 +377,34 @@ namespace Blazorise.DataGrid
         ///
         /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> must be enabled to be able to sort!
         /// </summary>
-        /// <param name="column">Column to sort.</param>
+        /// <param name="fieldName">Field name of the column to sort.</param>
+        /// <param name="sortDirection">Sort direction of the specified column, or if null it will be handled automatically.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Sort( DataGridColumn<TItem> column )
+        public Task Sort( string fieldName, SortDirection? sortDirection = null )
+        {
+            var column = Columns.FirstOrDefault( x => x.Field == fieldName );
+
+            if ( column != null )
+            {
+                return Sort( column, sortDirection );
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Sorts the Data for the specified column.
+        ///
+        /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> must be enabled to be able to sort!
+        /// </summary>
+        /// <param name="column">Column to sort.</param>
+        /// <param name="sortDirection">Sort direction of the specified column, or if null it will be handled automatically.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Sort( DataGridColumn<TItem> column, SortDirection? sortDirection = null )
         {
             if ( Sortable && column.Sortable )
             {
-                HandleSortColumn( column, true );
+                HandleSortColumn( column, true, sortDirection );
 
                 dirtyFilter = dirtyView = true;
 
@@ -735,7 +756,7 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
-        protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection )
+        protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
         {
             if ( Sortable && column.Sortable && !string.IsNullOrEmpty( column.Field ) )
             {
@@ -752,7 +773,7 @@ namespace Blazorise.DataGrid
                 }
 
                 if ( changeSortDirection )
-                    column.CurrentSortDirection = column.CurrentSortDirection.NextDirection();
+                    column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection();
 
                 if ( !SortByColumns.Any( c => c.Field == column.Field ) )
                 {
@@ -760,6 +781,9 @@ namespace Blazorise.DataGrid
                 }
                 else if ( column.CurrentSortDirection == SortDirection.None )
                     SortByColumns.Remove( column );
+
+                if ( changeSortDirection )
+                    InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.Field, column.CurrentSortDirection ) ) );
             }
         }
 
@@ -1450,6 +1474,11 @@ namespace Blazorise.DataGrid
         /// Event handler used to load data manually based on the current page and filter data settings.
         /// </summary>
         [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
+
+        /// <summary>
+        /// Occurs after the column sort direction has changed.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
 
         /// <summary>
         /// Specifies the grid editing modes.
