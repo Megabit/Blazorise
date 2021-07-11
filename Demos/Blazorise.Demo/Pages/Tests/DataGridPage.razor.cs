@@ -2,13 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Blazorise.Demo.Utils;
 using Bogus;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
+using static System.Net.WebRequestMethods;
 #endregion
 
 namespace Blazorise.Demo.Pages.Tests
@@ -63,7 +70,7 @@ namespace Blazorise.Demo.Pages.Tests
         public int currentPage { get; set; } = 1;
 
         bool editable = true;
-        bool virtualize = true;
+        bool virtualize = false;
         bool resizable = true;
         bool sortable = true;
         bool filterable = true;
@@ -83,39 +90,30 @@ namespace Blazorise.Demo.Pages.Tests
 
         Random random = new();
 
-        List<Employee> dataModels;
+        List<Employee> dataModels = new();
+        List<Employee> inMemoryDataModels;
 
         #endregion
 
         #region Methods
-
-        protected override Task OnInitializedAsync()
+        [Inject] NavigationManager NavigationManager { get; set; }
+        protected override async Task OnInitializedAsync()
         {
-            var employeeId = 1;
-
-            var salaryFaker = new Faker<Salary>()
-                .RuleFor( x => x.Date, x => x.Date.Soon() )
-                .RuleFor( x => x.Total, x => x.Finance.Amount(1000,5000) );
-
-            var dataFaker = new Faker<Employee>()
-                .RuleFor(x=> x.Childrens, x=> x.Random.Number(1,5))
-                .RuleFor( x => x.City, x => x.Address.City())
-                .RuleFor( x => x.DateOfBirth, x => x.Person.DateOfBirth )
-                .RuleFor( x => x.EMail, x => x.Person.Email )
-                .RuleFor( x => x.FirstName, x => x.Person.FirstName )
-                .RuleFor( x => x.Gender, x => x.PickRandom("M", "F", "D") )
-                .RuleFor( x => x.Id, x => employeeId++ )
-                .RuleFor( x => x.IsActive, x => x.Random.Bool() )
-                .RuleFor( x => x.LastName, x => x.Person.LastName )
-                .RuleFor( x => x.Salary, x => x.Finance.Amount(50000,100000) )
-                .RuleFor( x => x.Zip, x => x.Address.ZipCode() )
-                .RuleFor( x => x.Salaries, salaryFaker.Generate(3) )
-                ;
-
-            dataModels = dataFaker.Generate( 1000 );
-
+            HttpClient client = new();
+            client.BaseAddress = new Uri( NavigationManager.BaseUri );
+            inMemoryDataModels = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoDATA.json" );
+            dataModels = inMemoryDataModels.Take( 50 ).ToList();
             totalEmployees = dataModels.Count;
-            return base.OnInitializedAsync();
+            await base.OnInitializedAsync();
+        }
+
+        public void virtualizeChanged( bool toVirtualize )
+        {
+            virtualize = toVirtualize;
+            if ( virtualize )
+                dataModels = inMemoryDataModels.ToList();
+            else
+                dataModels = inMemoryDataModels.Take( 50 ).ToList();
         }
 
         public void CheckEmail( ValidatorEventArgs validationArgs )

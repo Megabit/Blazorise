@@ -29,7 +29,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@virtualize">Virtualize</Check>
+                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@virtualizeChanged">Virtualize</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -286,10 +286,10 @@
                                 @{
                                     <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
                                         <SelectItem Value="@("")">All</SelectItem>
-                                        @foreach ( var item in dataModels )
-                                        {
-                                            <SelectItem Value="@item.City">@item.City</SelectItem>
-                                        }
+                                            @foreach ( var item in dataModels )
+                                            {
+                                                <SelectItem Value="@item.City">@item.City</SelectItem>
+                                            }
                                     </Select>
                                 }
                             </FilterTemplate>

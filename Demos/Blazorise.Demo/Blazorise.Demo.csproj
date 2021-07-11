@@ -3,7 +3,6 @@
   <Import Project="..\..\Build\Blazorise.Demo.props" />
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="33.0.2" />
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
 
@@ -21,6 +20,12 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
     <ProjectReference Include="..\Apps\TodoApp\TodoApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\demoData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <PropertyGroup>
