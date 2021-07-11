@@ -874,6 +874,7 @@ namespace Blazorise.DataGrid
                 return new( Data, TotalItems.Value );
         }
 
+
         protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
         {
             if ( Sortable && column.Sortable && !string.IsNullOrEmpty( column.Field ) )

@@ -106,7 +106,7 @@ namespace Blazorise.Demo.Pages.Tests
             await base.OnInitializedAsync();
         }
 
-        public void virtualizeChanged( bool toVirtualize )
+        public void OnVirtualizeChanged( bool toVirtualize )
         {
             virtualize = toVirtualize;
             if ( virtualize )
@@ -175,7 +175,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         string customFilterValue;
 
-        private Task customFilterValueChanged( string e )
+        private Task OnCustomFilterValueChanged( string e )
         {
             customFilterValue = e;
             return dataGrid.Reload();
