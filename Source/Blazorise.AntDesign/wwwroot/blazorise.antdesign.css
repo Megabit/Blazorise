@@ -2222,6 +2222,22 @@ li.ant-list-item-actionable {
 .ant-table-responsive > .ant-table-bordered {
     border: 0; }
 
+.ant-table-fixed-header .ant-table-container {
+    overflow-y: auto; }
+
+.ant-table-fixed-header .table {
+    border-collapse: separate;
+    border-spacing: 0; }
+
+.ant-table-fixed-header thead tr th {
+    border-top: none;
+    position: sticky;
+    background: white;
+    z-index: 1; }
+
+.ant-table-fixed-header thead tr:nth-child(1) th {
+    top: 0; }
+
 .ant-tabs.ant-tabs-fill .ant-tabs-tab {
     flex-grow: 1;
     margin-right: 0px;
