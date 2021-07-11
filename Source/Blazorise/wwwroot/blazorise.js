@@ -838,7 +838,7 @@ window.blazorise = {
                     }
                 }
             }
-
+            resizeHandler(element);
             window.addEventListener("resize", this.resizeThottler, false);
         },
         destroyTableFixedHeader: function (element, elementId) {
