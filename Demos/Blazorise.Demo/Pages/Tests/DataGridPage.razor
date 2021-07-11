@@ -29,7 +29,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@virtualizeChanged">Virtualize</Check>
+                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@OnVirtualizeChanged">Virtualize</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -170,7 +170,7 @@
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit Text="@customFilterValue" TextChanged="@customFilterValueChanged" />
+                                    <TextEdit Text="@customFilterValue" TextChanged="@OnCustomFilterValueChanged" />
                                 </FieldBody>
                             </Field>
                         </Fields>
