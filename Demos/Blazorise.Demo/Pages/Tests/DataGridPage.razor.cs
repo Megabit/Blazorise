@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Blazorise.Demo.Utils;
-using Bogus;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using static System.Net.WebRequestMethods;
