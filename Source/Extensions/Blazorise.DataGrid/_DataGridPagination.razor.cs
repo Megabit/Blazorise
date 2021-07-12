@@ -40,25 +40,17 @@ namespace Blazorise.DataGrid
             base.BuildClasses( builder );
         }
 
-        private Task NewClick()
-        {
-            return New.InvokeAsync( SelectedRow );
+        protected EventCallback NewClick
+            => EventCallback.Factory.Create( this, ParentDataGrid.New );
 
-        }
-        private Task EditClick()
-        {
-            return Edit.InvokeAsync( SelectedRow );
-        }
+        protected EventCallback EditClick
+            => EventCallback.Factory.Create( this, () => ParentDataGrid.Edit( SelectedRow ) );
 
-        private Task DeleteClick()
-        {
-            return Delete.InvokeAsync( SelectedRow );
-        }
+        protected EventCallback DeleteClick
+            => EventCallback.Factory.Create( this, () => ParentDataGrid.Delete( SelectedRow ) );
 
-        private Task ClearFilterClick()
-        {
-            return ClearFilter.InvokeAsync();
-        }
+        protected EventCallback ClearFilterClick
+            => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
 
         #endregion
 
@@ -115,26 +107,6 @@ namespace Blazorise.DataGrid
         /// Gets or sets currently selected row.
         /// </summary>
         [Parameter] public TItem SelectedRow { get; set; }
-
-        /// <summary>
-        /// Activates the new command.
-        /// </summary>
-        [Parameter] public EventCallback New { get; set; }
-
-        /// <summary>
-        /// Activates the edit command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Edit { get; set; }
-
-        /// <summary>
-        /// Activates the delete command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Delete { get; set; }
-
-        /// <summary>
-        /// Activates the clear filter command.
-        /// </summary>
-        [Parameter] public EventCallback ClearFilter { get; set; }
 
         /// <summary>
         /// Gets or sets content of page buttons of pager.

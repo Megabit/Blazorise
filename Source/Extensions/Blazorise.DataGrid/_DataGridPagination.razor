@@ -15,24 +15,24 @@
                     {
                         NewCommand = new()
                         {
-                            Clicked = EventCallback.Factory.Create( this, NewClick ),
+                            Clicked = NewClick,
                             LocalizationString = newButtonString,
                         },
                         EditCommand = new()
                         {
-                            Clicked = EventCallback.Factory.Create( this, EditClick ),
+                            Clicked = EditClick,
                             LocalizationString = editButtonString,
                             Item = SelectedRow
                         },
                         DeleteCommand = new()
                         {
-                            Clicked = EventCallback.Factory.Create( this, DeleteClick ),
+                            Clicked = DeleteClick,
                             LocalizationString = deleteButtonString,
                             Item = SelectedRow
                         },
                         ClearFilterCommand = new()
                         {
-                            Clicked = EventCallback.Factory.Create( this, ClearFilter ),
+                            Clicked = ClearFilterClick,
                             LocalizationString = clearFilterButtonString,
                         }
                     } );

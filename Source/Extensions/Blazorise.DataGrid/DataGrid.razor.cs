@@ -112,7 +112,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the values for the editing fields.
         /// </summary>
-        protected Dictionary<string, CellEditContext<TItem>> editItemCellValues;
+        protected internal Dictionary<string, CellEditContext<TItem>> editItemCellValues;
 
         /// <summary>
         /// Holds the values for the filter fields.
