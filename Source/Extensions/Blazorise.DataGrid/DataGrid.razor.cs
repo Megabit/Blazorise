@@ -265,7 +265,7 @@ namespace Blazorise.DataGrid
         private async ValueTask VirtualizeOnEditCompleteScroll()
         {
             if ( virtualizeState.EditLastKnownScroll.HasValue )
-            { 
+            {
                 await tableRef.FixedHeaderScrollTableTo( virtualizeState.EditLastKnownScroll.Value );
                 virtualizeState.EditLastKnownScroll = null;
             }
@@ -346,7 +346,7 @@ namespace Blazorise.DataGrid
 
             editState = DataGridEditState.Edit;
 
-            return Task.CompletedTask;
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -1108,7 +1108,7 @@ namespace Blazorise.DataGrid
 
                 if ( Class != null )
                     sb.Append( $" {Class}" );
-                
+
                 return sb.ToString();
             }
         }
