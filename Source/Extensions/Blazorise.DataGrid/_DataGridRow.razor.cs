@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +39,28 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Methods
+
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            foreach ( var parameter in parameters )
+            {
+                switch ( parameter.Name )
+                {
+                    case nameof( Item ):
+                        Item = (TItem)parameter.Value;
+                        break;
+                    case nameof( ChildContent ):
+                        ChildContent = (RenderFragment)parameter.Value;
+                        break;
+                    case nameof( ParentDataGrid ):
+                        ParentDataGrid = (DataGrid<TItem>)parameter.Value;
+                        break;
+                    default:
+                        throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
+                }
+            }
+            return base.SetParametersAsync( ParameterView.Empty );
+        }
 
         protected override Task OnAfterRenderAsync( bool firstRender )
         {

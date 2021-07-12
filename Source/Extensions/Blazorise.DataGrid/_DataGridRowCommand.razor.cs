@@ -2,6 +2,7 @@
 
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 
@@ -11,6 +12,33 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridRowCommand<TItem> : ComponentBase, IDisposable
     {
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            foreach ( var parameter in parameters )
+            {
+                switch ( parameter.Name )
+                {
+                    case nameof( Item ):
+                        Item = (TItem)parameter.Value;
+                        break;
+                    case nameof( Column ):
+                        Column = (DataGridColumn<TItem>)parameter.Value;
+                        break;
+                    case nameof( Save ):
+                        Save = (EventCallback)parameter.Value;
+                        break;
+                    case nameof( EditState ):
+                        EditState = (DataGridEditState)parameter.Value;
+                        break;
+                    case nameof( ParentDataGrid ):
+                        ParentDataGrid = (DataGrid<TItem>)parameter.Value;
+                        break;
+                    default:
+                        throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
+                }
+            }
+            return base.SetParametersAsync( ParameterView.Empty );
+        }
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;

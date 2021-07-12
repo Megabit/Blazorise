@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -11,6 +12,37 @@ namespace Blazorise.DataGrid
     public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
     {
         #region Methods
+
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            foreach ( var parameter in parameters )
+            {
+                switch ( parameter.Name )
+                {
+                    case nameof( Item ):
+                        Item = (TItem)parameter.Value;
+                        break;
+                    case nameof( Column ):
+                        Column = (DataGridColumn<TItem>)parameter.Value;
+                        break;
+                    case nameof( Checked ):
+                        Checked = (bool)parameter.Value;
+                        break;
+                    case nameof( CheckedChanged ):
+                        CheckedChanged = (EventCallback<bool>)parameter.Value;
+                        break;
+                    case nameof( CheckedClicked ):
+                        CheckedClicked = (EventCallback)parameter.Value;
+                        break;
+                    case nameof( ParentDataGrid ):
+                        ParentDataGrid = (DataGrid<TItem>)parameter.Value;
+                        break;
+                    default:
+                        throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
+                }
+            }
+            return base.SetParametersAsync( ParameterView.Empty );
+        }
 
         internal Task OnCheckedChanged( bool @checked )
         {
