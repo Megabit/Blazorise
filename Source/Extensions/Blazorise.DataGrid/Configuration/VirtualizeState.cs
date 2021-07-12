@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blazorise.DataGrid.Configuration
+﻿namespace Blazorise.DataGrid.Configuration
 {
     internal struct VirtualizeState
     {
@@ -17,6 +11,5 @@ namespace Blazorise.DataGrid.Configuration
         /// Records last know edit scroll position, to scroll back to.
         /// </summary>
         public int? EditLastKnownScroll { get; set; }
-
     }
 }
