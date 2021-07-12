@@ -453,7 +453,6 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// Sorts the Data for the specified column.
-        ///
         /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> must be enabled to be able to sort!
         /// </summary>
         /// <param name="fieldName">Field name of the column to sort.</param>
@@ -473,7 +472,6 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// Sorts the Data for the specified column.
-        ///
         /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> must be enabled to be able to sort!
         /// </summary>
         /// <param name="column">Column to sort.</param>
@@ -720,7 +718,7 @@ namespace Blazorise.DataGrid
                 lastSelectedRowIndex = ResolveItemIndex( eventArgs.Item );
         }
 
-        protected async Task OnMultiSelectAll( bool selectAll )
+        protected internal async Task OnMultiSelectAll( bool selectAll )
         {
             SelectedRows ??= new();
 

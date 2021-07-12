@@ -14,7 +14,7 @@ namespace Blazorise.DataGrid
         {
             IsChecked = e;
 
-            return MultiSelectAll.InvokeAsync( IsChecked );
+            return ParentDataGrid.OnMultiSelectAll( IsChecked );
         }
 
         protected override Task OnParametersSetAsync()
@@ -38,8 +38,6 @@ namespace Blazorise.DataGrid
         [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public bool IsIndeterminate { get; set; }
-
-        [Parameter] public EventCallback<bool> MultiSelectAll { get; set; }
 
         #endregion
     }

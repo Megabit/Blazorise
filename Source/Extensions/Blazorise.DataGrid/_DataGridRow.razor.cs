@@ -115,26 +115,6 @@ namespace Blazorise.DataGrid
             return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
         }
 
-        protected internal Task OnEditCommand()
-        {
-            return ParentDataGrid.Edit( Item );
-        }
-
-        protected internal Task OnDeleteCommand()
-        {
-            return ParentDataGrid.Delete( Item );
-        }
-
-        protected internal Task OnSaveCommand()
-        {
-            return ParentDataGrid.Save();
-        }
-
-        protected internal Task OnCancelCommand()
-        {
-            return ParentDataGrid.Cancel();
-        }
-
         protected internal Task OnMultiSelectCommand( bool selected )
         {
             return ParentDataGrid.OnMultiSelectCommand( new( Item, selected, false ) );
