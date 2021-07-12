@@ -148,8 +148,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
 
-        [Parameter]
-        public Func<string, Task> OnPaginationItemClick { get; set; }
+        [Parameter] public EventCallback<string> OnPaginationItemClick { get; set; }
 
         /// <summary>
         /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.

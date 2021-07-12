@@ -7,7 +7,7 @@
 <CascadingValue Value="@this" IsFixed="true">
     @if (IsPagerVisible && (PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom))
     {
-        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@Paginate" SelectedRow="@SelectedRow" />
+        @_Pagination
     }
     <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@Virtualize" FixedHeaderTableHeight="@(VirtualizeOptions?.TableHeight ?? "500px")">
         <TableHeader>
@@ -127,87 +127,33 @@
                 {
                     <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                         <ChildContent>
-                        @if (IsEditItemInGrid(item))
-                        {
-                            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
-                        }
-                        else
-                        {
-                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
-                            @if (DetailRowTemplate != null)
-                            {
-                                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
-
-                                @if (canShow)
-                                {
-                                    <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                        @DetailRowTemplate( item )
-                                    </_DataGridDetailRow>
-                                }
-                            }
-                        }
-                    </ChildContent>
-                    <Placeholder>
-                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                            @LoadingTemplate
-                        </_DataGridFullColumnSpanRow>
-                    </Placeholder>
-                </Virtualize>
+                            @_Row(item)
+                        </ChildContent>
+                        <Placeholder>
+                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                @LoadingTemplate
+                            </_DataGridFullColumnSpanRow>
+                        </Placeholder>
+                        </Virtualize>
                 }
                 else if (Virtualize)
                 {
                     <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                         <ChildContent>
-                            @if (IsEditItemInGrid(item))
-                        {
-                            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
-                        }
-                        else
-                        {
-                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
-                            @if (DetailRowTemplate != null)
-                            {
-                                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
-
-                                @if (canShow)
-                                {
-                                    <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                        @DetailRowTemplate( item )
-                                    </_DataGridDetailRow>
-                                }
-                            }
-                        }
-                    </ChildContent>
-                    <Placeholder>
-                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                            @LoadingTemplate
-                        </_DataGridFullColumnSpanRow>
-                    </Placeholder>
-                </Virtualize>
+                             @_Row(item)
+                        </ChildContent>
+                        <Placeholder>
+                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                @LoadingTemplate
+                            </_DataGridFullColumnSpanRow>
+                        </Placeholder>
+                        </Virtualize>
                 }
                 else
                 {
                     @foreach (var item in DisplayData)
                     {
-                        @if (IsEditItemInGrid(item))
-                        {
-                            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
-                        }
-                        else
-                        {
-                            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
-                            @if (DetailRowTemplate != null)
-                            {
-                                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
-
-                                @if (canShow)
-                                {
-                                    <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                        @DetailRowTemplate( item )
-                                    </_DataGridDetailRow>
-                                }
-                            }
-                        }
+                        @_Row(item)
                     }
                 }
             }
@@ -239,7 +185,7 @@
     </Table>
     @if (IsPagerVisible && (PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom))
     {
-        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@Paginate" SelectedRow="@SelectedRow" />
+        @_Pagination
     }
     @if (editItem != null && EditMode == DataGridEditMode.Popup)
     {
@@ -261,3 +207,33 @@
     @ChildContent
 </CascadingValue>
 
+@code {
+
+    private RenderFragment _Pagination => __builder =>
+    {
+    <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
+    };
+
+    protected RenderFragment<TItem> _Row => item => __builder =>
+    {
+        if (IsEditItemInGrid(item))
+        {
+            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
+        }
+        else
+        {
+            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
+            @if (DetailRowTemplate != null)
+            {
+                var canShow = DetailRowTrigger?.Invoke(item) ?? true;
+
+                @if (canShow)
+                {
+                    <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                        @DetailRowTemplate( item )
+                    </_DataGridDetailRow>
+                }
+            }
+        }
+    };
+}
