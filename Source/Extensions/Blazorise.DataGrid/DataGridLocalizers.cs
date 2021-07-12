@@ -1,5 +1,7 @@
 ﻿#region Using directives
+
 using Blazorise.Localization;
+
 #endregion
 
 namespace Blazorise.DataGrid

@@ -1,5 +1,7 @@
 ﻿#region Using directives
+
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -27,17 +29,14 @@ namespace Blazorise.DataGrid
 
     public class NewCommandContext : CommandContext
     {
-
     }
 
     public class EditCommandContext<TItem> : CommandContext<TItem>
     {
-
     }
 
     public class DeleteCommandContext<TItem> : CommandContext<TItem>
     {
-
     }
 
     public class ButtonRowContext<TItem>

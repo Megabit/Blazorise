@@ -1,23 +1,26 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     {
-        #region Members    
+        #region Members
 
         protected EventCallbackFactory callbackFactory = new();
 
         protected Validations validations;
 
         protected bool isInvalid;
+
         protected EventCallback Cancel
             => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
 

@@ -1,10 +1,12 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -53,7 +55,7 @@ namespace Blazorise.DataGrid
             var isValid = validations.ValidateAll();
 
             if ( isValid )
-                return ParentDataGrid.Save( );
+                return ParentDataGrid.Save();
 
             return Task.CompletedTask;
         }

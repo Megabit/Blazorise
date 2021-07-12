@@ -1,5 +1,7 @@
 ﻿#region Using directives
+
 using System;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -47,7 +49,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the reference to the model that is currently in edit mode.
         /// <para>
-        /// Note that this model is used only for reading 
+        /// Note that this model is used only for reading
         /// and you should never update it directly or any of it's field members.
         /// For writing the edited value you must use <see cref="CellEditContext.CellValue"/>.
         /// </para>

@@ -1,21 +1,15 @@
 ﻿#region Using directives
+
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
 {
     public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
         #region Methods
 
         /// <summary>

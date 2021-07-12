@@ -69,6 +69,5 @@ namespace Blazorise.DataGrid
         [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public DataGridColumn<TItem> Column { get; set; }
-        
     }
 }

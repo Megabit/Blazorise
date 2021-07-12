@@ -1,16 +1,18 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Configuration;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using Blazorise.DataGrid.Configuration;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.JSInterop;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -194,7 +196,6 @@ namespace Blazorise.DataGrid
                 await Reload();
             }
 
-
             await HandleSelectionModeChanged();
             await HandleVirtualize();
 
@@ -237,9 +238,8 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-
         /// <summary>
-        /// Handles Datagrid's <see cref="Virtualize"/>. 
+        /// Handles Datagrid's <see cref="Virtualize"/>.
         /// </summary>
         /// <returns></returns>
         private async ValueTask HandleVirtualize()
@@ -257,7 +257,6 @@ namespace Blazorise.DataGrid
             }
             virtualizeState.WasActive = Virtualize;
         }
-
 
         private ValueTask VirtualizeScrollToTop()
             => tableRef.FixedHeaderScrollTableTo( 0 );
@@ -550,7 +549,6 @@ namespace Blazorise.DataGrid
 
             return Reload();
         }
-
 
         /// <summary>
         /// Forces the internal DataGrid data to be filtered.
@@ -872,7 +870,6 @@ namespace Blazorise.DataGrid
                 return new( Data, TotalItems.Value );
         }
 
-
         protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
         {
             if ( Sortable && column.Sortable && !string.IsNullOrEmpty( column.Field ) )
@@ -903,6 +900,7 @@ namespace Blazorise.DataGrid
                     InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.Field, column.CurrentSortDirection ) ) );
             }
         }
+
         protected Task OnClearFilterCommand()
         {
             foreach ( var column in Columns )
@@ -946,7 +944,6 @@ namespace Blazorise.DataGrid
 
             return Task.CompletedTask;
         }
-
 
         private void FilterData( IQueryable<TItem> query )
         {
@@ -1036,19 +1033,22 @@ namespace Blazorise.DataGrid
             return Reload();
         }
 
-
         private bool CompareFilterValues( string searchValue, string compareTo )
         {
             switch ( FilterMethod )
             {
                 case DataGridFilterMethod.StartsWith:
                     return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.EndsWith:
                     return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.Equals:
                     return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.NotEquals:
                     return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.Contains:
                 default:
                     return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
@@ -1189,7 +1189,7 @@ namespace Blazorise.DataGrid
             => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
 
         /// <summary>
-        /// Returns true if the datagrid is in edit mode and the item is the currently selected edititem 
+        /// Returns true if the datagrid is in edit mode and the item is the currently selected edititem
         /// </summary>
         protected bool IsEditItemInGrid( TItem item ) => Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem );
 

@@ -1,8 +1,10 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -152,7 +154,6 @@ namespace Blazorise.DataGrid
         {
             get
             {
-
                 var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)currentPageSize ), 1 );
 
                 if ( CurrentPage > lastPage )

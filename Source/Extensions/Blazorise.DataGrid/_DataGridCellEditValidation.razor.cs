@@ -1,9 +1,11 @@
 ﻿#region Using directives
+
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -12,34 +14,34 @@ namespace Blazorise.DataGrid
     {
         #region Members
 
-        Expression<Func<string>> stringExpression;
+        private Expression<Func<string>> stringExpression;
 
-        Expression<Func<decimal>> decimalExpression;
-        Expression<Func<decimal?>> nullableDecimalExpression;
+        private Expression<Func<decimal>> decimalExpression;
+        private Expression<Func<decimal?>> nullableDecimalExpression;
 
-        Expression<Func<double>> doubleExpression;
-        Expression<Func<double?>> nullableDoubleExpression;
+        private Expression<Func<double>> doubleExpression;
+        private Expression<Func<double?>> nullableDoubleExpression;
 
-        Expression<Func<float>> floatExpression;
-        Expression<Func<float?>> nullableFloatExpression;
+        private Expression<Func<float>> floatExpression;
+        private Expression<Func<float?>> nullableFloatExpression;
 
-        Expression<Func<int>> intExpression;
-        Expression<Func<int?>> nullableIntExpression;
+        private Expression<Func<int>> intExpression;
+        private Expression<Func<int?>> nullableIntExpression;
 
-        Expression<Func<long>> longExpression;
-        Expression<Func<long?>> nullableLongExpression;
+        private Expression<Func<long>> longExpression;
+        private Expression<Func<long?>> nullableLongExpression;
 
-        Expression<Func<bool>> boolExpression;
-        Expression<Func<bool?>> nullableBoolExpression;
+        private Expression<Func<bool>> boolExpression;
+        private Expression<Func<bool?>> nullableBoolExpression;
 
-        Expression<Func<DateTime>> dateTimeExpression;
-        Expression<Func<DateTime?>> nullableDateTimeExpression;
+        private Expression<Func<DateTime>> dateTimeExpression;
+        private Expression<Func<DateTime?>> nullableDateTimeExpression;
 
-        Expression<Func<DateTimeOffset>> dateTimeOffsetExpression;
-        Expression<Func<DateTimeOffset?>> nullableDateTimeOffsetExpression;
+        private Expression<Func<DateTimeOffset>> dateTimeOffsetExpression;
+        private Expression<Func<DateTimeOffset?>> nullableDateTimeOffsetExpression;
 
-        Expression<Func<TimeSpan>> timeSpanExpression;
-        Expression<Func<TimeSpan?>> nullableTimeSpanExpression;
+        private Expression<Func<TimeSpan>> timeSpanExpression;
+        private Expression<Func<TimeSpan?>> nullableTimeSpanExpression;
 
         #endregion
 

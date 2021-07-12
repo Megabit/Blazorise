@@ -1,21 +1,15 @@
 ﻿#region Using directives
+
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         #region Properties
 
         protected bool HasCommandColumn

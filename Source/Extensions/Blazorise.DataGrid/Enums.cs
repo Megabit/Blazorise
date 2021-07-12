@@ -1,6 +1,5 @@
 ﻿namespace Blazorise.DataGrid
 {
-
     /// <summary>
     /// Specifies the ReadDataMode
     /// </summary>
@@ -10,6 +9,7 @@
         /// Paging ReadDataMode
         /// </summary>
         Paging,
+
         /// <summary>
         /// Virtualize ReadDataMode
         /// </summary>

@@ -1,16 +1,16 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridClearFilterCommand<TItem>
-@if ( ParentDataGrid.CommandColumn?.ClearFilterCommandAllowed == true )
+@if (ParentDataGrid.CommandColumn?.ClearFilterCommandAllowed == true)
 {
-    var clearFilterString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
+    var clearFilterString = Localizer.Localize(ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter");
 
-    @if ( ParentDataGrid.CommandColumn?.ClearFilterCommandTemplate != null )
+    @if (ParentDataGrid.CommandColumn?.ClearFilterCommandTemplate != null)
     {
         @ParentDataGrid.CommandColumn.ClearFilterCommandTemplate( new CommandContext<TItem>
-        {
-            Clicked = ClearFilter,
-            LocalizationString = clearFilterString,
-        } )
+{
+    Clicked = ClearFilter,
+    LocalizationString = clearFilterString,
+} )
     }
     else
     {
