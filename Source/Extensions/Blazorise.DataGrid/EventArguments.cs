@@ -1,11 +1,9 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-
 #endregion
 
 namespace Blazorise.DataGrid
@@ -145,9 +143,9 @@ namespace Blazorise.DataGrid
                 sortByColumns?.IndexOf( x ) ?? -1,
                 x.ColumnType ) );
             CancellationToken = cancellationToken;
-            this.VirtualizeStartIndex = virtualizeStartIndex;
-            this.VirtualizeCount = virtualizeCount;
-            this.ReadDataMode = readDataMode;
+            VirtualizeStartIndex = virtualizeStartIndex;
+            VirtualizeCount = virtualizeCount;
+            ReadDataMode = readDataMode;
         }
 
         /// <summary>
