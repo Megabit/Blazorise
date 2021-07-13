@@ -66,12 +66,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Marks the grid to reload entire data source based on the current filter settings.
         /// </summary>
-        private bool dirtyFilter = true;
+        private bool dirtyFilter;
 
         /// <summary>
         /// Marks the grid to refresh currently visible page.
         /// </summary>
-        private bool dirtyView = true;
+        private bool dirtyView;
 
         /// <summary>
         /// Keeps track whether the user has changed the filter for Virtualize purposes.
@@ -279,14 +279,7 @@ namespace Blazorise.DataGrid
 
             await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
-            if ( ManualReadMode )
-            {
-                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
-            }
-            else
-            {
-                await InvokeAsync( StateHasChanged );
-            }
+            await Reload( paginationContext.CancellationTokenSource.Token );
         }
 
         private async void OnPageChanged( int currentPage )
@@ -296,14 +289,7 @@ namespace Blazorise.DataGrid
 
             await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
-            if ( ManualReadMode )
-            {
-                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
-            }
-            else
-            {
-                await InvokeAsync( StateHasChanged );
-            }
+            await Reload( paginationContext.CancellationTokenSource.Token );
         }
 
         #endregion
@@ -798,13 +784,13 @@ namespace Blazorise.DataGrid
         /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
         /// </summary>
         /// <returns>Returns the awaitable task.</returns>
-        public async Task Reload()
+        public async Task Reload( CancellationToken cancellationToken = default )
         {
             SetDirty();
 
             if ( ManualReadMode )
             {
-                await InvokeAsync( () => HandleReadData( CancellationToken.None ) );
+                await InvokeAsync( () => HandleReadData( cancellationToken ) );
             }
             else if ( VirtualizeManualReadMode )
             {
@@ -815,7 +801,7 @@ namespace Blazorise.DataGrid
                 }
 
                 if ( virtualizeRef is null )
-                    await InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, CancellationToken.None ) );
+                    await InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, cancellationToken ) );
                 else
                     await virtualizeRef.RefreshDataAsync();
                 await InvokeAsync( StateHasChanged );
@@ -1302,9 +1288,14 @@ namespace Blazorise.DataGrid
             get { return data; }
             set
             {
+                if ( !value.AreEqual( data ) )
+                {
+                    SetDirty();
+                }
+
                 data = value;
 
-                SetDirty();
+
             }
         }
 
@@ -1357,7 +1348,7 @@ namespace Blazorise.DataGrid
             {
                 if ( dirtyView )
                     viewData = FilterViewData();
-
+                dirtyView = false;
                 return viewData;
             }
         }
