@@ -24,7 +24,17 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    <Tooltip Text="Defines DataGrid Virtualize">
+                                    <Tooltip Text="Defines if DataGrid has a Fixed Header">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check TValue="bool" @bind-Checked="@fixedHeader">Fixed Header</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid is in Virtualize mode">
                                         <Icon Name="IconName.QuestionCircle" />
                                     </Tooltip>
                                 </FieldLabel>
@@ -185,6 +195,8 @@
                           TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
+                          FixedHeader="@fixedHeader"
+                          FixedHeaderDataGridHeight="400px"
                           Virtualize="@virtualize"
                           Resizable="@resizable"
                           ResizeMode="@resizableMode"
@@ -287,10 +299,10 @@
                                 @{
                                     <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
                                         <SelectItem Value="@("")">All</SelectItem>
-                                            @foreach ( var item in dataModels )
-                                            {
-                                                <SelectItem Value="@item.City">@item.City</SelectItem>
-                                            }
+                                        @foreach (var item in dataModels)
+                                        {
+                                        <SelectItem Value="@item.City">@item.City</SelectItem>
+                                        }
                                     </Select>
                                 }
                             </FilterTemplate>
@@ -315,17 +327,17 @@
                                 @{
                                     var gender = (context as Employee)?.Gender;
 
-                                    @if ( gender == "M" )
+                                    @if (gender == "M")
                                     {
-                                        @("Male")
+                                    @("Male")
                                     }
-                                    else if ( gender == "F" )
+                                    else if (gender == "F")
                                     {
-                                        @("Female")
+                                    @("Female")
                                     }
-                                    else if ( gender == "D" )
+                                    else if (gender == "D")
                                     {
-                                        @("Diverse")
+                                    @("Diverse")
                                     }
                                 }
                             </DisplayTemplate>
@@ -354,9 +366,9 @@
                             var salaries = (context as Employee).Salaries;
 
                             <DataGrid TItem="Salary"
-                                      Data="salaries"
-                                      Sortable="false"
-                                      ShowCaptions="false">
+                                  Data="salaries"
+                                  Sortable="false"
+                                  ShowCaptions="false">
                                 <DataGridCommandColumn TItem="Salary" />
                                 <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
                                 <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
@@ -364,13 +376,13 @@
                         }
                     </DetailRowTemplate>
                     <PopupTitleTemplate>
-                        @if ( context.EditState == DataGridEditState.Edit )
-                        {
-                            @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
+                        @if (context.EditState == DataGridEditState.Edit)
+                                {
+                        @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
                         }
-                        else
-                        {
-                            @($"{context.LocalizationString} Employee")
+                                else
+                                {
+                        @($"{context.LocalizationString} Employee")
                         }
                     </PopupTitleTemplate>
                     <EmptyCellTemplate>
@@ -380,12 +392,12 @@
                         Loading...
                     </LoadingTemplate>
                     <ButtonRowTemplate>
-                        @if ( showButtonRow )
-                        {
-                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
-                            <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
-                            <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
-                            <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
+                        @if (showButtonRow)
+                                {
+                        <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+                        <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+                        <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+                        <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
                         }
                     </ButtonRowTemplate>
                 </DataGrid>
@@ -429,12 +441,12 @@
     </Column>
 </Row>
 
-@if ( selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0 )
+@if (selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0)
 {
     <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
-    @if ( selectedEmployees?.Count <= 10 )
+    @if (selectedEmployees?.Count <= 10)
     {
-        @foreach ( var employee in selectedEmployees )
+        @foreach (var employee in selectedEmployees)
         {
             <Row @key="employee" Margin="Margin.Is1.FromTop">
                 <Column>

@@ -153,6 +153,18 @@ namespace Blazorise.DataGrid
         #region Setup
 
         /// <summary>
+        /// Sets the height for the FixedHeader table feature.
+        /// </summary>
+        /// <returns></returns>
+        private string GetFixedTableHeaderHeight()
+        {
+            if ( Virtualize )
+                return VirtualizeOptions?.DataGridHeight ?? "500px";
+            else
+                return FixedHeaderDataGridHeight;
+        }
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
@@ -1771,6 +1783,18 @@ namespace Blazorise.DataGrid
         /// Specifies the content to be rendered inside this <see cref="DataGrid{TItem}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        ///  Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
+        /// </summary>
+        [Parameter]
+        public bool FixedHeader { get; set; }
+
+        /// <summary>
+        /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
+        /// </summary>
+        [Parameter]
+        public string FixedHeaderDataGridHeight { get; set; } = "500px";
 
         #endregion
     }

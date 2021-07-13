@@ -69,6 +69,7 @@ namespace Blazorise.Demo.Pages.Tests
         public int currentPage { get; set; } = 1;
 
         bool editable = true;
+        bool fixedHeader = false;
         bool virtualize = false;
         bool resizable = true;
         bool sortable = true;
