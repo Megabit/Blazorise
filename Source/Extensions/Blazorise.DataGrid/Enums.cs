@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the ReadDataMode
     /// </summary>
-    public enum ReadDataMode
+    public enum DataGridReadDataMode
     {
         /// <summary>
         /// Paging ReadDataMode

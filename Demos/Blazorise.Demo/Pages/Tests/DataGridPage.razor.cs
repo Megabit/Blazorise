@@ -201,9 +201,9 @@ namespace Blazorise.Demo.Pages.Tests
                 var filteredData = await FilterData( e.Columns );
 
                 // this can be call to anything, in this case we're calling a fictional api
-                if ( e.ReadDataMode is ReadDataMode.Virtualize )
+                if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                     response = filteredData.Skip( e.VirtualizeStartIndex ).Take( e.VirtualizeCount ).ToList();
-                else if ( e.ReadDataMode is ReadDataMode.Paging )
+                else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
                     response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
                 else
                     throw new Exception( "Unhandled ReadDataMode" );

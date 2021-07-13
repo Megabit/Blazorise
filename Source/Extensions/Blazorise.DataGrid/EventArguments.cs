@@ -129,7 +129,7 @@ namespace Blazorise.DataGrid
         /// <param name="virtualizeStartIndex">Requested data start index by Virtualize.</param>
         /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
         public DataGridReadDataEventArgs(
-            ReadDataMode readDataMode,
+            DataGridReadDataMode readDataMode,
             IEnumerable<DataGridColumn<TItem>> columns,
             IList<DataGridColumn<TItem>> sortByColumns,
             CancellationToken cancellationToken = default,
@@ -153,7 +153,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the ReadData Mode.
         /// </summary>
-        public ReadDataMode ReadDataMode { get; }
+        public DataGridReadDataMode ReadDataMode { get; }
 
         /// <summary>
         /// Gets the requested data start index by Virtualize.
