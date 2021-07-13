@@ -252,6 +252,8 @@ window.blazorise = {
         }
     },
     tooltip: {
+        _instances: [],
+
         initialize: (element, elementId, options) => {
             const defaultOptions = {
                 theme: 'blazorise',
@@ -271,10 +273,30 @@ window.blazorise = {
                     trigger: "manual"
                 } : {};
 
-            tippy(element, {
+            const instance = tippy(element, {
                 ...defaultOptions,
                 ...alwaysActiveOptions
             });
+
+            window.blazorise.tooltip._instances[elementId] = instance;
+        },
+        destroy: (element, elementId) => {
+            var instances = window.blazorise.tooltip._instances || {};
+
+            const instance = instances[elementId];
+
+            if (instance) {
+                instance.hide();
+
+                delete instances[elementId];
+            }
+        },
+        updateContent: (element, elementId, content) => {
+            const instance = window.blazorise.tooltip._instances[elementId];
+
+            if (instance) {
+                instance.setContent(content);
+            }
         }
     },
     textEdit: {
@@ -816,8 +838,7 @@ window.blazorise = {
         }
     },
     table: {
-        initializeTableFixedHeader: function (element, elementId)
-        {
+        initializeTableFixedHeader: function (element, elementId) {
             let resizeTimeout = null
             this.resizeThottler = function () {
                 if (!resizeTimeout) {
@@ -827,7 +848,7 @@ window.blazorise = {
                     }.bind(this), 66);
                 }
             }
-            function resizeHandler (element) {
+            function resizeHandler(element) {
                 const tableRows = element.querySelectorAll("thead tr");
                 if (tableRows !== null && tableRows.length > 1) {
                     let previousRowCellHeight = 0;
@@ -842,8 +863,7 @@ window.blazorise = {
             window.addEventListener("resize", this.resizeThottler, false);
         },
         destroyTableFixedHeader: function (element, elementId) {
-            if (typeof this.resizeThottler === "function")
-            {
+            if (typeof this.resizeThottler === "function") {
                 window.removeEventListener("resize", this.resizeThottler);
             }
             const tableRows = element.querySelectorAll("thead tr");

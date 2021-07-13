@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -46,6 +47,17 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateTooltipContent( ElementRef, ElementId, text ) );
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( !Inline )
@@ -68,6 +80,28 @@ namespace Blazorise
             }
 
             base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyTooltip( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
         }
 
         private static string ToTippyTrigger( TooltipTrigger trigger )
