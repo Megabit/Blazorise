@@ -811,7 +811,7 @@ namespace Blazorise.DataGrid
                     virtualizeFilterChanged = false;
                     await VirtualizeScrollToTop();
                 }
-
+               
                 if ( virtualizeRef is null )
                     await InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, cancellationToken ) );
                 else
@@ -856,7 +856,9 @@ namespace Blazorise.DataGrid
 
         protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
         {
-            var requestCount = Math.Min( request.Count, TotalItems.Value - request.StartIndex );
+            var requestCount = request.StartIndex > 0
+                ? Math.Min( request.Count, TotalItems.Value - request.StartIndex )
+                : request.Count;
 
             await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
 
