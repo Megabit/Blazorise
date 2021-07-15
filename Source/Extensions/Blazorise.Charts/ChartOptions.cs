@@ -189,6 +189,9 @@ namespace Blazorise.Charts
     public class Axis
     {
         [DataMember( EmitDefaultValue = false )]
+        public string Id { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
         public string Type { get; set; }
 
         [DataMember]
@@ -205,6 +208,9 @@ namespace Blazorise.Charts
 
         [DataMember( EmitDefaultValue = false )]
         public bool Stacked { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public string Position { get; set; }
     }
 
     /// <summary>
