@@ -211,6 +211,9 @@ namespace Blazorise.Charts
     public class Axis
     {
         [DataMember( EmitDefaultValue = false )]
+        public string Id { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
         public string Type { get; set; }
 
         [DataMember]
@@ -245,6 +248,9 @@ namespace Blazorise.Charts
         /// </remarks>
         [DataMember]
         public int? MaxBarThickness { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public string Position { get; set; }
     }
 
     /// <summary>
