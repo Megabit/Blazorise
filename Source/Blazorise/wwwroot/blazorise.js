@@ -252,6 +252,8 @@ window.blazorise = {
         }
     },
     tooltip: {
+        _instances: [],
+
         initialize: (element, elementId, options) => {
             const defaultOptions = {
                 theme: 'blazorise',
@@ -271,10 +273,30 @@ window.blazorise = {
                     trigger: "manual"
                 } : {};
 
-            tippy(element, {
+            const instance = tippy(element, {
                 ...defaultOptions,
                 ...alwaysActiveOptions
             });
+
+            window.blazorise.tooltip._instances[elementId] = instance;
+        },
+        destroy: (element, elementId) => {
+            var instances = window.blazorise.tooltip._instances || {};
+
+            const instance = instances[elementId];
+
+            if (instance) {
+                instance.hide();
+
+                delete instances[elementId];
+            }
+        },
+        updateContent: (element, elementId, content) => {
+            const instance = window.blazorise.tooltip._instances[elementId];
+
+            if (instance) {
+                instance.setContent(content);
+            }
         }
     },
     textEdit: {
