@@ -200,6 +200,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public string CubicInterpolationMode { get; set; } = "default";
+
+        [DataMember( EmitDefaultValue = false )]
+        public string XAxisID { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public string YAxisID { get; set; }
     }
 
     /// <remarks>

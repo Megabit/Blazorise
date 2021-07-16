@@ -299,7 +299,7 @@ select[readonly] {
     }
 }
 
-.form-control + .b-numeric-handler-wrap.btn {
+.form-control + .b-numeric-handler-wrap {
     height: $input-height;
     font-size: $input-font-size;
     border-top-right-radius: $input-border-radius;

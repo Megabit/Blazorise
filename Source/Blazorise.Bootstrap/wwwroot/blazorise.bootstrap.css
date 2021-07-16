@@ -429,7 +429,7 @@ select[readonly] {
     .b-numeric-handler.btn {
         padding: 0; }
 
-.form-control + .b-numeric-handler-wrap.btn {
+.form-control + .b-numeric-handler-wrap {
     height: calc(1.5em + 0.75rem + 2px);
     font-size: 1rem;
     border-top-right-radius: 0.25rem;

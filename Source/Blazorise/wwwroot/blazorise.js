@@ -385,6 +385,33 @@ window.blazorise = {
         _pickers: [],
 
         initialize: (element, elementId, options) => {
+            function mutationObserverCallback(mutationsList, observer) {
+                mutationsList.forEach(mutation => {
+                    if (mutation.attributeName === 'class') {
+                        const picker = window.blazorise.datePicker._pickers[mutation.target.id];
+
+                        if (picker && picker.altInput) {
+                            const altInputClassListToRemove = [...picker.altInput.classList].filter(cn => !["input", "active"].includes(cn));
+                            const inputClassListToAdd = [...picker.input.classList].filter(cn => !["flatpickr-input"].includes(cn));
+
+                            altInputClassListToRemove.forEach(name => {
+                                picker.altInput.classList.remove(name);
+                            });
+
+                            inputClassListToAdd.forEach(name => {
+                                picker.altInput.classList.add(name);
+                            });
+                        }
+                    }
+                });
+            }
+
+            // When flatpickr is defined with altInput=true, it will create a second input
+            // element while the original input element will be hidden. With MutationObserver
+            // we can copy classnames from hidden to the visible element.
+            const mutationObserver = new MutationObserver(mutationObserverCallback);
+            mutationObserver.observe(document.getElementById(elementId), { attributes: true });
+
             const defaultOptions = {
                 enableTime: options.inputMode === 1,
                 dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
@@ -484,6 +511,33 @@ window.blazorise = {
         _pickers: [],
 
         initialize: (element, elementId, options) => {
+            function mutationObserverCallback(mutationsList, observer) {
+                mutationsList.forEach(mutation => {
+                    if (mutation.attributeName === 'class') {
+                        const picker = window.blazorise.timePicker._pickers[mutation.target.id];
+
+                        if (picker && picker.altInput) {
+                            const altInputClassListToRemove = [...picker.altInput.classList].filter(cn => !["input", "active"].includes(cn));
+                            const inputClassListToAdd = [...picker.input.classList].filter(cn => !["flatpickr-input"].includes(cn));
+
+                            altInputClassListToRemove.forEach(name => {
+                                picker.altInput.classList.remove(name);
+                            });
+
+                            inputClassListToAdd.forEach(name => {
+                                picker.altInput.classList.add(name);
+                            });
+                        }
+                    }
+                });
+            }
+
+            // When flatpickr is defined with altInput=true, it will create a second input
+            // element while the original input element will be hidden. With MutationObserver
+            // we can copy classnames from hidden to the visible element.
+            const mutationObserver = new MutationObserver(mutationObserverCallback);
+            mutationObserver.observe(document.getElementById(elementId), { attributes: true });
+
             const picker = flatpickr(element, {
                 enableTime: true,
                 noCalendar: true,

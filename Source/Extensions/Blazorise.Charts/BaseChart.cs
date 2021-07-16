@@ -159,7 +159,7 @@ namespace Blazorise.Charts
         /// <param name="labels">List of labels.</param>
         /// <param name="datasets">List of datasets.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<string> labels, params TDataSet[] datasets )
+        public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<object> labels, params TDataSet[] datasets )
         {
             dirty = true;
 
