@@ -9,41 +9,41 @@ namespace Blazorise.Charts
     [DataContract]
     public class ChartOptions
     {
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public Scales Scales { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public Legend Legend { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public Tooltips Tooltips { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public Animation Animation { get; set; }
 
         /// <summary>
         /// Resizes the chart canvas when its container does.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public bool? Responsive { get; set; } = true;
 
         /// <summary>
         /// Maintain the original canvas aspect ratio (width / height) when resizing.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public bool? MaintainAspectRatio { get; set; } = true;
 
         /// <summary>
         /// Duration in milliseconds it takes to animate to new size after a resize event.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public double? ResponsiveAnimationDuration { get; set; } = 0;
 
         /// <summary>
         /// Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
         /// Note that this option is ignored if the height is explicitly defined either as attribute or via the style.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public double? AspectRatio { get; set; } = 2;
     }
 
@@ -134,10 +134,10 @@ namespace Blazorise.Charts
     [DataContract]
     public class Scales
     {
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public List<Axis> XAxes { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public List<Axis> YAxes { get; set; }
     }
 
@@ -175,25 +175,25 @@ namespace Blazorise.Charts
         /// <summary>
         /// Default font color for all text.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public string FontColor { get; set; } = "#666";
 
         /// <summary>
         /// Default font family for all text.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public string FontFamily { get; set; } = "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
 
         /// <summary>
         /// Default font size (in px) for text. Does not apply to radialLinear scale point labels.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public double? FontSize { get; set; } = 12;
 
         /// <summary>
         /// Default font style. Does not apply to tooltip title or footer. Does not apply to chart title.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public string FontStyle { get; set; } = "normal";
     }
 
@@ -210,25 +210,25 @@ namespace Blazorise.Charts
     [DataContract]
     public class Axis
     {
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public string Id { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public string Type { get; set; }
 
         [DataMember]
         public bool Display { get; set; } = true;
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public AxisTicks Ticks { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public AxisGridLines GridLines { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public AxisScaleLabel ScaleLabel { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public bool Stacked { get; set; }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Blazorise.Charts
         [DataMember]
         public int? MaxBarThickness { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public string Position { get; set; }
     }
 
@@ -304,13 +304,13 @@ namespace Blazorise.Charts
         /// <summary>
         /// Minor ticks configuration. Omitted options are inherited from options above.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public AxisMinorTick Minor { get; set; }
 
         /// <summary>
         /// Major ticks configuration. Omitted options are inherited from options above.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public AxisMajorTick Major { get; set; }
 
         /// <summary>
@@ -324,6 +324,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool BeginAtZero { get; set; }
+
+        /// <summary>
+        /// Evaluates this JavaScript as a string representation of the tick value as it should be displayed on the chart.
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public string CallbackJavaScript { get; set; }
     }
 
     /// <summary>
@@ -433,13 +439,13 @@ namespace Blazorise.Charts
         /// <summary>
         /// Length and spacing of dashes on grid lines
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public List<int> BorderDash { get; set; }
 
         /// <summary>
         /// Offset for line dashes.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public decimal BorderDashOffset { get; set; } = 0m;
 
         /// <summary>
@@ -487,7 +493,7 @@ namespace Blazorise.Charts
         /// <summary>
         /// Length and spacing of dashes of the grid line for the first index (index 0).
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [DataMember(EmitDefaultValue = false)]
         public List<int> ZeroLineBorderDash { get; set; }
 
         /// <summary>
