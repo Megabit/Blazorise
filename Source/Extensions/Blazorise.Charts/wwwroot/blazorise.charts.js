@@ -47,8 +47,10 @@ window.blazoriseCharts = {
             }
         }
 
-        processTicksCallback(options.scales, 'xAxes');
-        processTicksCallback(options.scales, 'yAxes');
+        if (options && options.scales) {
+            processTicksCallback(options.scales, 'xAxes');
+            processTicksCallback(options.scales, 'yAxes');
+        }
 
         // search for canvas element
         const canvas = document.getElementById(canvasId);
