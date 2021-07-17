@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise.DataGrid.Utils
 {
-    internal static class FunctionCompiler
+    public static class FunctionCompiler
     {
         public static Func<TItem> CreateNewItem<TItem>()
         {

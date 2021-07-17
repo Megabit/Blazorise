@@ -2,19 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
-using Blazorise.Demo.Utils;
+using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Routing;
-using static System.Net.WebRequestMethods;
 #endregion
 
 namespace Blazorise.Demo.Pages.Tests
