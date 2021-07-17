@@ -151,6 +151,15 @@ By default, DataGrid will load everything in memory and it will perform the nece
 
 Bellow you can find a [basic example]({{ "/docs/extensions/datagrid/#large-data-example" | relative_url }}) of how to load large data and apply it to the DataGrid.
 
+### Virtualization
+
+By setting `Virtualize`, you will enable virtualize capabilities on the datagrid, meaning that instead of having pagination, you'll be able to scroll across the data with perceived improved performance.
+
+Virtualization is a technique for limiting UI rendering to just the parts that are currently visible. For example, virtualization is helpful when the app must render a long list of items and only a subset of items is required to be visible at any given time.
+
+You will still have access to every available datagrid feature.
+`VirtualizeOptions` allows to further customize the `Virtualize` feature.
+
 ### Aggregates
 
 The DataGrid provider several built-in aggregates for column values. Supported aggregate functions are:
@@ -757,6 +766,9 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 | CommandMode               | [DataGridCommandMode]({{ "/docs/helpers/enums/#datagridcommandmode" | relative_url }})       | `Default`              | Defines whether the datagrid renders both commands and button row or just either one of them.                        |
 | PagerPosition             | [DataGridPagerPosition]({{ "/docs/helpers/enums/#datagridpagerposition" | relative_url }})   | `Bottom`               | Defines the position of the pager.                                                                                   |
 | ShowPageSizes             | boolean                                                                                      | false                  | Defines whether users can adjust the page size of the datagrid.                                                      |
+| Virtualize                | boolean                                                                                      | false                  | Gets or sets whether the datagrid will use the Virtualize functionality.                                                    |
+| VirtualizeOptions         | VirtualizeOptions                                                                            | null                  | Gets or sets Virtualize options when using the Virtualize functionality.
+
 
 ### EditMode
 

@@ -27,17 +27,14 @@ namespace Blazorise.DataGrid
 
     public class NewCommandContext : CommandContext
     {
-
     }
 
     public class EditCommandContext<TItem> : CommandContext<TItem>
     {
-
     }
 
     public class DeleteCommandContext<TItem> : CommandContext<TItem>
     {
-
     }
 
     public class ButtonRowContext<TItem>

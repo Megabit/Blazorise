@@ -7,10 +7,10 @@
     @if ( ParentDataGrid.CommandColumn?.ClearFilterCommandTemplate != null )
     {
         @ParentDataGrid.CommandColumn.ClearFilterCommandTemplate( new CommandContext<TItem>
-        {
-            Clicked = ClearFilter,
-            LocalizationString = clearFilterString,
-        } )
+{
+    Clicked = ClearFilter,
+    LocalizationString = clearFilterString,
+} )
     }
     else
     {

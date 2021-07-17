@@ -8,14 +8,6 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         #region Properties
 
         protected bool HasCommandColumn

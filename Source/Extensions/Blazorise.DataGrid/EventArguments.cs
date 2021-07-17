@@ -118,14 +118,38 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Initializes a new instance of read-data event argument.
         /// </summary>
-        /// <param name="page">Page number at the moment of initialization.</param>
-        /// <param name="pageSize">Maximum number of items per page.</param>
+        /// <param name="readDataMode">ReadData Mode.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
         /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public DataGridReadDataEventArgs( int page, int pageSize,
+        public DataGridReadDataEventArgs(
+            DataGridReadDataMode readDataMode,
             IEnumerable<DataGridColumn<TItem>> columns,
             IList<DataGridColumn<TItem>> sortByColumns,
+            CancellationToken cancellationToken = default )
+            : this( readDataMode, columns, sortByColumns, 0, 0, 0, 0, cancellationToken )
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of read-data event argument.
+        /// </summary>
+        /// <param name="readDataMode">ReadData Mode.</param>
+        /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>        
+        /// <param name="page">Page number at the moment of initialization.</param>
+        /// <param name="pageSize">Maximum number of items per page.</param>
+        /// <param name="virtualizeOffset">Requested data start index by Virtualize.</param>
+        /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public DataGridReadDataEventArgs(
+            DataGridReadDataMode readDataMode,
+            IEnumerable<DataGridColumn<TItem>> columns,
+            IList<DataGridColumn<TItem>> sortByColumns,
+            int page,
+            int pageSize,
+            int virtualizeOffset,
+            int virtualizeCount,
             CancellationToken cancellationToken = default )
         {
             Page = page;
@@ -137,7 +161,25 @@ namespace Blazorise.DataGrid
                 sortByColumns?.IndexOf( x ) ?? -1,
                 x.ColumnType ) );
             CancellationToken = cancellationToken;
+            VirtualizeOffset = virtualizeOffset;
+            VirtualizeCount = virtualizeCount;
+            ReadDataMode = readDataMode;
         }
+
+        /// <summary>
+        /// Gets the ReadData Mode.
+        /// </summary>
+        public DataGridReadDataMode ReadDataMode { get; }
+
+        /// <summary>
+        /// Gets the requested data start index by Virtualize.
+        /// </summary>
+        public int VirtualizeOffset { get; }
+
+        /// <summary>
+        /// Gets the max number of items requested by Virtualize.
+        /// </summary>
+        public int VirtualizeCount { get; }
 
         /// <summary>
         /// Gets the requested page number.

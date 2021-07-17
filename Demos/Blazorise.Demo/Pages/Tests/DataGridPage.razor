@@ -24,6 +24,26 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid has a Fixed Header">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check TValue="bool" @bind-Checked="@fixedHeader">Fixed Header</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid is in Virtualize mode">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@OnVirtualizeChanged">Virtualize</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     <Tooltip Text="Defines if DataGrid can be resizable.">
                                         <Icon Name="IconName.QuestionCircle" />
                                     </Tooltip>
@@ -160,7 +180,7 @@
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@customFilterValue" />
+                                    <TextEdit Text="@customFilterValue" TextChanged="@OnCustomFilterValueChanged" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -175,6 +195,9 @@
                           TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
+                          FixedHeader="@fixedHeader"
+                          FixedHeaderDataGridHeight="400px"
+                          Virtualize="@virtualize"
                           Resizable="@resizable"
                           ResizeMode="@resizableMode"
                           Sortable="@sortable"
@@ -232,7 +255,7 @@
                     <DataGridColumns>
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px">
                             <FilterTemplate>
-                                <Button Clicked="@Reload" title="Reload">
+                                <Button Clicked="@Reset" title="Reload">
                                     <Icon Name="IconName.Sync" />
                                 </Button>
                             </FilterTemplate>
@@ -267,16 +290,16 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
                             <FilterTemplate>
                                 @{
-                                    var selectedValue = context.SearchValue?.ToString() ?? "*";
-                                    <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
-                                        <SelectItem Value="@("*")">All</SelectItem>
+                                    selectedCityFilter = @context.SearchValue?.ToString() ?? "";
+                                    <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
+                                        <SelectItem Value="@("")">All</SelectItem>
                                         @foreach ( var item in dataModels )
                                         {
                                             <SelectItem Value="@item.City">@item.City</SelectItem>
@@ -294,16 +317,19 @@
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
                         <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <FilterTemplate>
-                                <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
-                                    <SelectItem TValue="string" Value="@("*")">All</SelectItem>
-                                    <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
-                                    <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
-                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
-                                </Select>
+                                @{
+                                    selectedGenderFilter = @context.SearchValue?.ToString() ?? "";
+                                    <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                                        <SelectItem TValue="string" Value="@("")">All</SelectItem>
+                                        <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                                        <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                        <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                    </Select>
+                                }
                             </FilterTemplate>
                             <DisplayTemplate>
                                 @{
-                                    var gender = (context as Employee)?.Gender;
+                                    var gender = ( context as Employee )?.Gender;
 
                                     @if ( gender == "M" )
                                     {
@@ -341,7 +367,7 @@
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = (context as Employee).Salaries;
+                            var salaries = ( context as Employee ).Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"
@@ -366,6 +392,9 @@
                     <EmptyCellTemplate>
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
+                    <LoadingTemplate>
+                        Loading...
+                    </LoadingTemplate>
                     <ButtonRowTemplate>
                         @if ( showButtonRow )
                         {
@@ -419,37 +448,62 @@
 @if ( selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0 )
 {
     <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
-    @foreach ( var employee in selectedEmployees )
+    @if ( selectedEmployees?.Count <= 10 )
     {
-        <Row @key="employee" Margin="Margin.Is1.FromTop">
+        @foreach ( var employee in selectedEmployees )
+        {
+            <Row @key="employee" Margin="Margin.Is1.FromTop">
+                <Column>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Selected Employee</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>First Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>Last Name</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
+                                </Field>
+                            </Fields>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>Email</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.EMail"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>City</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
+                                </Field>
+                            </Fields>
+                        </CardBody>
+                    </Card>
+                </Column>
+            </Row>
+        }
+    }
+    else
+    {
+        <Row Margin="Margin.Is1.FromTop">
             <Column>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Selected Employee</CardTitle>
+                        <CardTitle>Selected Employees</CardTitle>
                     </CardHeader>
                     <CardBody>
                         <Fields>
                             <Field>
-                                <FieldLabel>First Name</FieldLabel>
+                                <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                    <TextEdit ReadOnly="true" Text="@selectedEmployees.Count.ToString()"></TextEdit>
                                 </FieldBody>
-                            </Field>
-                            <Field>
-                                <FieldLabel>Last Name</FieldLabel>
-                                <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
-                            </Field>
-                        </Fields>
-                        <Fields>
-                            <Field>
-                                <FieldLabel>Email</FieldLabel>
-                                <FieldBody>
-                                    <TextEdit ReadOnly="true" Text="@employee?.EMail"></TextEdit>
-                                </FieldBody>
-                            </Field>
-                            <Field>
-                                <FieldLabel>City</FieldLabel>
-                                <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
                             </Field>
                         </Fields>
                     </CardBody>

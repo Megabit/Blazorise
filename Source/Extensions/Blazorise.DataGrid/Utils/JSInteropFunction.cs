@@ -2,7 +2,12 @@
 {
     public static class JSInteropFunction
     {
-        public const string INIT_RESIZABLE = "blazoriseDataGrid.initResizable";
-        public const string DESTROY_RESIZABLE = "blazoriseDataGrid.destroyResizable";
+        public const string NAMESPACE = "blazoriseDataGrid.";
+
+        public static class Virtualize
+        {
+            public const string BASE = NAMESPACE + "virtualize.";
+            public const string ON_EDIT_SET_SCROLL = BASE + "onEditSetScroll";
+        }
     }
 }
