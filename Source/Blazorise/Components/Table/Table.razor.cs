@@ -129,7 +129,7 @@ namespace Blazorise
         /// If Table is resizable. 
         /// Resizable columns should be constantly recalculated to keep up with the current Table's height dimensions.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         private async ValueTask RecalculateResize()
         {
             if ( resizable )
@@ -140,17 +140,17 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// If table has FixedHeader. 
-        /// Invokes javascript function moving the table scroll position to the provided pixels.
+        /// If table has <see cref="FixedHeader"/> enabled, it will scroll position to the provided pixels.
         /// </summary>
-        /// <param name="pixels"></param>
-        /// <returns></returns>
+        /// <param name="pixels">Offset in pixels from the top of the table.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask FixedHeaderScrollTableTo( int pixels )
         {
             if ( FixedHeader )
             {
                 return JSRunner.FixedHeaderScrollTableTo( ElementRef, ElementId, pixels );
             }
+
             return ValueTask.CompletedTask;
         }
 
