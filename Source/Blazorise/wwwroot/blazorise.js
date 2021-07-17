@@ -929,9 +929,23 @@ window.blazorise = {
                 }
             }
         },
-        fixedHeaderScrollTableTo: function (element, elementId, pixels) {
-            if (element !== null && element.parentElement !== null) {
-                element.parentElement.scrollTop = pixels;
+        fixedHeaderScrollTableTo: function (element, elementId, scrollType, value) {
+            const scrollToPixel = 0;
+            const scrollToRow = 1;
+
+            if (element !== null && element.parentElement !== null && scrollType === scrollToPixel) {
+                element.parentElement.scrollTop = value;
+            }
+
+            if (element !== null && scrollType === scrollToRow) {
+                let rows = element.querySelectorAll("tr");
+                let rowsLength = rows.length;
+                if (rowsLength > 0 && value >= 0 && value < rowsLength) {
+                    rows[value].scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
             }
         },
         initializeResizable: function (element, elementId, mode) {

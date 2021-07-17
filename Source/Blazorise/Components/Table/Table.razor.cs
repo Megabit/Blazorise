@@ -140,15 +140,16 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// If table has <see cref="FixedHeader"/> enabled, it will scroll position to the provided pixels.
+        /// If table has <see cref="FixedHeader"/> enabled, it will scroll to the provided value.
         /// </summary>
-        /// <param name="pixels">Offset in pixels from the top of the table.</param>
+        /// <param name="scrollTo"><see cref="TableScrollToType"/></param>
+        /// <param name="value">Value to Scroll to according to <see cref="TableScrollToType"/></param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public ValueTask FixedHeaderScrollTableTo( int pixels )
+        public ValueTask FixedHeaderScrollTableTo( TableScrollToType scrollTo, int value )
         {
             if ( FixedHeader )
             {
-                return JSRunner.FixedHeaderScrollTableTo( ElementRef, ElementId, pixels );
+                return JSRunner.FixedHeaderScrollTableTo( ElementRef, ElementId, scrollTo, value );
             }
 
             return ValueTask.CompletedTask;
