@@ -204,6 +204,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
                 await Reload();
+                return;
             }
 
             await HandleSelectionModeChanged();
@@ -853,7 +854,6 @@ namespace Blazorise.DataGrid
             finally
             {
                 IsLoading = false;
-                await InvokeAsync( StateHasChanged );
             }
         }
 

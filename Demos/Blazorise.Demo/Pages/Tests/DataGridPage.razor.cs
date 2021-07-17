@@ -215,9 +215,6 @@ namespace Blazorise.Demo.Pages.Tests
                 {
                     totalEmployees = filteredData.Count;
                     employeeList = new List<Employee>( response ); // an actual data for the current page
-
-                    // always call StateHasChanged!
-                    await InvokeAsync( StateHasChanged );
                 }
             }
         }
