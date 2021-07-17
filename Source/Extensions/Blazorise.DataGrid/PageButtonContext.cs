@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// Context for pagination button.

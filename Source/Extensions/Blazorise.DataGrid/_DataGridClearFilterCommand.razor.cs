@@ -25,11 +25,12 @@ namespace Blazorise.DataGrid
             await InvokeAsync( StateHasChanged );
         }
 
+        protected EventCallback ClearFilter
+            => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
+
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
         [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
-
-        [Parameter] public EventCallback ClearFilter { get; set; }
 
         /// <summary>
         /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.

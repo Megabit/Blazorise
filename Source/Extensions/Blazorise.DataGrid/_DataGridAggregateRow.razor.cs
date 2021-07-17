@@ -7,10 +7,6 @@ namespace Blazorise.DataGrid
 {
     public partial class _DataGridAggregateRow<TItem> : BaseDataGridComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         protected object Calculate( DataGridAggregate<TItem> aggregate, DataGridColumn<TItem> column )

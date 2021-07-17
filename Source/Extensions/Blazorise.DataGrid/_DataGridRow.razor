@@ -19,21 +19,21 @@
               Color="@GetColor(styling, selectedStyling)"
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
-              HoverCursor="@HoverCursor">
+              HoverCursor="@GetHoverCursor()">
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
                 @if ( ParentDataGrid.IsCommandVisible )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" />
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Column="column" />
                 }
             }
             else if ( column.ColumnType == DataGridColumnType.MultiSelect )
             {
                 @if ( ParentDataGrid.MultiSelect )
                 {
-                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" />
+                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
                 }
             }
             else

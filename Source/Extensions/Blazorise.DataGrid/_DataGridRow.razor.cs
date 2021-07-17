@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,11 @@ namespace Blazorise.DataGrid
     public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     {
         #region Members
+
+        /// <summary>
+        /// List of columns used to build this row.
+        /// </summary>
+        protected IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
         /// <summary>
         /// Holds the internal value for every cell in the row.
@@ -31,6 +37,28 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Methods
+
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            foreach ( var parameter in parameters )
+            {
+                switch ( parameter.Name )
+                {
+                    case nameof( Item ):
+                        Item = (TItem)parameter.Value;
+                        break;
+                    case nameof( ChildContent ):
+                        ChildContent = (RenderFragment)parameter.Value;
+                        break;
+                    case nameof( ParentDataGrid ):
+                        ParentDataGrid = (DataGrid<TItem>)parameter.Value;
+                        break;
+                    default:
+                        throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
+                }
+            }
+            return base.SetParametersAsync( ParameterView.Empty );
+        }
 
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
@@ -55,7 +83,7 @@ namespace Blazorise.DataGrid
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
             if ( !clickFromCheck )
-                await Clicked.InvokeAsync( new( Item, eventArgs ) );
+                await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
@@ -87,7 +115,7 @@ namespace Blazorise.DataGrid
                 && ParentDataGrid.SelectedRow != null
                 && Item.IsEqual( ParentDataGrid.SelectedRow ) )
             {
-                await Selected.InvokeAsync( default );
+                await ParentDataGrid.Select( default );
             }
             else if ( !eventArgs.ShiftKey
                 && ParentDataGrid.MultiSelect
@@ -97,54 +125,37 @@ namespace Blazorise.DataGrid
                 // If the user selects an already selected multiselect row, seems like it should be more transparent,
                 // to just de-select both normal and multi selection
                 // Remove this, if that is not the case!!
-                await Selected.InvokeAsync( default );
+                await ParentDataGrid.Select( default );
             }
             else
             {
-                await Selected.InvokeAsync( Item );
+                await ParentDataGrid.Select( Item );
             }
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
         {
-            return DoubleClicked.InvokeAsync( new( Item, eventArgs ) );
-        }
-
-        protected internal Task OnEditCommand()
-        {
-            return Edit.InvokeAsync( Item );
-        }
-
-        protected internal Task OnDeleteCommand()
-        {
-            return Delete.InvokeAsync( Item );
-        }
-
-        protected internal Task OnSaveCommand()
-        {
-            return Save.InvokeAsync( Item );
-        }
-
-        protected internal Task OnCancelCommand()
-        {
-            return Cancel.InvokeAsync( Item );
-        }
-
-        protected internal Task OnMultiSelectCommand( bool selected )
-        {
-            return MultiSelect.InvokeAsync( new( Item, selected, false ) );
+            return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
         }
 
         protected internal Task OnMultiSelectCommand( bool selected, bool shiftClick )
         {
-            return MultiSelect.InvokeAsync( new( Item, selected, shiftClick ) );
+            return ParentDataGrid.OnMultiSelectCommand( new( Item, selected, shiftClick ) );
         }
 
         protected Task OnMultiSelectCheckClicked()
         {
             clickFromCheck = true;
-
             return Task.CompletedTask;
+        }
+
+        protected Cursor GetHoverCursor()
+            => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
+
+        protected override Task OnInitializedAsync()
+        {
+            this.Columns = ParentDataGrid.DisplayableColumns;
+            return base.OnInitializedAsync();
         }
 
         #endregion
@@ -188,64 +199,14 @@ namespace Blazorise.DataGrid
            : styling?.Style;
 
         /// <summary>
-        /// Item associated with the data set.
-        /// </summary>
-        [Parameter] public TItem Item { get; set; }
-
-        /// <summary>
-        /// List of columns used to build this row.
-        /// </summary>
-        [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
-
-        /// <summary>
         /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
         /// </summary>
         [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         /// <summary>
-        /// Occurs after the row is selected.
+        /// Item associated with the data set.
         /// </summary>
-        [Parameter] public EventCallback<TItem> Selected { get; set; }
-
-        /// <summary>
-        /// Occurs after the row is clicked.
-        /// </summary>
-        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> Clicked { get; set; }
-
-        /// <summary>
-        /// Occurs after the row is double clicked.
-        /// </summary>
-        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> DoubleClicked { get; set; }
-
-        /// <summary>
-        /// Activates the edit command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Edit { get; set; }
-
-        /// <summary>
-        /// Activates the delete command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Delete { get; set; }
-
-        /// <summary>
-        /// Activates the save command.
-        /// </summary>
-        [Parameter] public EventCallback Save { get; set; }
-
-        /// <summary>
-        /// Activates the cancel command.
-        /// </summary>
-        [Parameter] public EventCallback Cancel { get; set; }
-
-        /// <summary>
-        /// Activates the multi select command.
-        /// </summary>
-        [Parameter] public EventCallback<MultiSelectEventArgs<TItem>> MultiSelect { get; set; }
-
-        /// <summary>
-        /// Gets or sets the applied cursor when the row is hovered over.
-        /// </summary>
-        [Parameter] public Cursor HoverCursor { get; set; }
+        [Parameter] public TItem Item { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

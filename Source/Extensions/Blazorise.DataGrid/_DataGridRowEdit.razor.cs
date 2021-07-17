@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,13 +11,16 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     {
-        #region Members    
+        #region Members
 
         protected EventCallbackFactory callbackFactory = new();
 
         protected Validations validations;
 
         protected bool isInvalid;
+
+        protected EventCallback Cancel
+            => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
 
         #endregion
 
@@ -46,12 +50,14 @@ namespace Blazorise.DataGrid
             InvokeAsync( StateHasChanged );
         }
 
-        protected void SaveWithValidation()
+        protected Task SaveWithValidation()
         {
             validations.ValidateAll();
 
             if ( !isInvalid )
-                Save.InvokeAsync( this );
+                return ParentDataGrid.Save();
+
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -92,16 +98,10 @@ namespace Blazorise.DataGrid
 
         [Parameter] public DataGridEditMode EditMode { get; set; }
 
-        [Parameter] public EventCallback Save { get; set; }
-
-        [Parameter] public EventCallback Cancel { get; set; }
-
         /// <summary>
         /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
         /// </summary>
         [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
-
-        [Parameter] public string Width { get; set; }
 
         #endregion
     }

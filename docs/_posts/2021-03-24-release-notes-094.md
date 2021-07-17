@@ -29,7 +29,7 @@ tags:
 - Change `Tooltip` `Placement` parameter to `TooltipPlacement`, eg. `Placement="Placement.Left"` to `Placement="TooltipPlacement.Left"`
 - For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
 - Datagrid: Due to a refactoring of the resizable feature to the Table component, you should note the following:
-  - The datagrid resources(JS and CSS) we had previously introduced, no longer exist, and do not need to be added to your application.
+  - The datagrid resources(JS and CSS) we had previously introduced, do not need to be added to your application in this version. However we kept the blazorise.datagrid.js, even if blank for increased flexibility in supporting the datagrid throughout the release.
     - If you had any of the resources below, you can now safely remove them:
       - `<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
       - `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
@@ -146,3 +146,14 @@ Since eFrolic author has stopped maintaining eFrolic, I have decided to stop sup
 
 -  Improve the selection box to have same width as text field by default && Able to limit suggestions shown at a time with a scroll bar
    -  These two improvements will provide a better user experience by having the selection box be compliant to the text field's width, as well as handling multiple items, by providing a scroll bar, which would otherwise go out of screen.
+
+### Datagrid Virtualization Support
+
+With .NET5.0 Blazor brought us built-in virtualization support with the Virtualize component. Now Datagrid brings that same Virtualization support to you!
+
+By setting `Virtualize`, you will enable virtualize capabilities on the datagrid, meaning that instead of having pagination, you'll be able to scroll across the data with perceived improved performance.
+
+Virtualization is a technique for limiting UI rendering to just the parts that are currently visible. For example, virtualization is helpful when the app must render a long list of items and only a subset of items is required to be visible at any given time.
+
+You will still have access to every available datagrid feature.
+`VirtualizeOptions` allows to further customize the `Virtualize` feature.

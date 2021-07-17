@@ -1029,12 +1029,13 @@ tr.table-row-selectable:hover {
     .table-fixed-header .table {
         border-collapse: separate;
         border-spacing: 0; }
-    .table-fixed-header thead tr th {
-        border-top: none;
-        position: sticky;
-        background: white; }
-    .table-fixed-header thead tr:nth-child(1) th {
-        top: 0; }
+        .table-fixed-header .table thead tr th {
+            border-top: none;
+            position: sticky;
+            background: white;
+            z-index: 10; }
+        .table-fixed-header .table thead tr:nth-child(1) th {
+            top: 0; }
 
 .nav.nav-tabs .nav-item a.nav-link {
     cursor: pointer; }

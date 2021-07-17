@@ -23,7 +23,13 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
-        /// Gets or set the javascript runner.
+        /// Gets or sets the classname provider.
+        /// </summary>
+        [Inject]
+        protected IClassProvider ClassProvider { get; set; }
+
+        /// <summary>
+        /// Gets or set the IIdGenerator.
         /// </summary>
         [Inject] protected IIdGenerator IdGenerator { get; set; }
 

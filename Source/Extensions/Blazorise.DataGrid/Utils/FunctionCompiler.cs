@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise.DataGrid.Utils
 {
-    static class FunctionCompiler
+    public static class FunctionCompiler
     {
         public static Func<TItem> CreateNewItem<TItem>()
         {
@@ -111,7 +111,6 @@ namespace Blazorise.DataGrid.Utils
             return memberInfo;
         }
 
-
         /// <summary>
         /// Checks if requested type can bu nullable.
         /// </summary>
@@ -201,7 +200,7 @@ namespace Blazorise.DataGrid.Utils
             var value = Expression.Parameter( typeof( object ), "value" );
 
             // There's ne safe field setter because that should be a developer responsibility
-            // to don't allow for null nested fields. 
+            // to don't allow for null nested fields.
             var field = GetField( item, fieldName );
             return Expression.Lambda<Action<TItem, object>>( Expression.Assign( field, Expression.Convert( value, field.Type ) ), item, value ).Compile();
         }

@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -164,7 +163,6 @@ namespace Blazorise.DataGrid
         /// To bind a column to a data source field, set this property to the required data field name.
         /// </summary>
         [Parameter] public string Field { get; set; }
-
 
         /// <summary>
         /// Type of aggregate calculation.

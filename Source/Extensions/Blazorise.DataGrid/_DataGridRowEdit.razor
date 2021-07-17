@@ -93,13 +93,9 @@ else if ( EditMode == DataGridEditMode.Inline )
                     {
                         <_DataGridRowCommand TItem="TItem"
                                              Item="@Item"
-                                             Class="@column.CellClass?.Invoke(Item)"
-                                             Style="@column.BuildCellStyle(Item)"
-                                             TextAlignment="@column.TextAlignment"
                                              EditState="DataGridEditState.Edit"
                                              Save="@SaveWithValidation"
-                                             Cancel="@Cancel"
-                                             Width="@column.Width" />
+                                             Column="column" />
                     }
                 }
                 else if ( column.IsMultiSelectColumn )

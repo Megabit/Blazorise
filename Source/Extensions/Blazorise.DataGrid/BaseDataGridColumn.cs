@@ -8,14 +8,6 @@ namespace Blazorise.DataGrid
 {
     public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
         #region Methods
 
         /// <summary>
