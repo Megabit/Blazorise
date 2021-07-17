@@ -854,7 +854,7 @@ namespace Blazorise.DataGrid
                 IsLoading = true;
 
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Virtualize, Columns, SortByColumns, 0, 0, virtualizeStartIndex: startIdx, virtualizeCount: count, cancellationToken ) );
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Virtualize, Columns, SortByColumns, 0, 0, virtualizeOffset: startIdx, virtualizeCount: count, cancellationToken ) );
             }
             finally
             {

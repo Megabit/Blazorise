@@ -198,7 +198,7 @@ namespace Blazorise.Demo.Pages.Tests
 
                 // this can be call to anything, in this case we're calling a fictional api
                 if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                    response = filteredData.Skip( e.VirtualizeStartIndex ).Take( e.VirtualizeCount ).ToList();
+                    response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
                 else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
                     response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
                 else
