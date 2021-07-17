@@ -18,7 +18,7 @@ namespace Blazorise.Demo.Pages.Tests
         private TableResizeMode resizeMode;
 
         private Task ScrollToRow()
-            => tableRef.FixedHeaderScrollTableTo( TableScrollToType.Row, scrollToValue ).AsTask();
+            => tableRef.ScrollTo( TableScrollToType.Row, scrollToValue ).AsTask();
 
         private class TableUser
         {

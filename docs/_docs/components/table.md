@@ -157,8 +157,8 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ```
 
 ```csharp
-    private Task ScrollToRow()
-        => tableRef.FixedHeaderScrollTableTo( TableScrollToType.Row, 1 ).AsTask();
+private Task ScrollToRow()
+    => tableRef.ScrollTo( TableScrollToType.Row, 1 ).AsTask();
 ```
 
 ## Attributes

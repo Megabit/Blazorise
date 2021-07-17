@@ -275,13 +275,13 @@ namespace Blazorise.DataGrid
         }
 
         private ValueTask VirtualizeScrollToTop()
-            => tableRef.FixedHeaderScrollTableTo( TableScrollToType.Pixels, 0 );
+            => tableRef.ScrollTo( TableScrollToType.Pixels, 0 );
 
         private async ValueTask VirtualizeOnEditCompleteScroll()
         {
             if ( virtualizeState.EditLastKnownScroll.HasValue )
             {
-                await tableRef.FixedHeaderScrollTableTo( TableScrollToType.Pixels, virtualizeState.EditLastKnownScroll.Value );
+                await tableRef.ScrollTo( TableScrollToType.Pixels, virtualizeState.EditLastKnownScroll.Value );
                 virtualizeState.EditLastKnownScroll = null;
             }
         }

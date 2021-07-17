@@ -163,6 +163,6 @@ You are now able to use the table's internal api to either scroll to a row or pi
 
 Here's an example, of how to scroll to the first row on the table.
 ```csharp
-    private Task ScrollToRow()
-         => tableRef.FixedHeaderScrollTableTo( TableScrollToType.Row, 0 ).AsTask(); 
+private Task ScrollToRow()
+      => tableRef.ScrollTo( TableScrollToType.Row, 0 ).AsTask(); 
 ```
