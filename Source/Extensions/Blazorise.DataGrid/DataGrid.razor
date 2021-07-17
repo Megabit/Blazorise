@@ -223,11 +223,11 @@
         else
         {
         <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
-        @if ( DetailRowTemplate != null )
+            if ( DetailRowTemplate != null )
             {
                 var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
 
-            @if ( canShow )
+                if ( canShow )
                 {
                 <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
                     @DetailRowTemplate( item )

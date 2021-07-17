@@ -258,6 +258,7 @@ namespace Blazorise.DataGrid
             if ( Virtualize )
             {
                 VirtualizeOptions ??= new();
+
                 if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup )
                     virtualizeState.EditLastKnownScroll = await JSRuntime.InvokeAsync<int>( JSInteropFunction.Virtualize.ON_EDIT_SET_SCROLL, tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
             }
@@ -269,6 +270,7 @@ namespace Blazorise.DataGrid
                     await Reload();
                 }
             }
+
             virtualizeState.WasActive = Virtualize;
         }
 
@@ -1040,16 +1042,12 @@ namespace Blazorise.DataGrid
             {
                 case DataGridFilterMethod.StartsWith:
                     return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.EndsWith:
                     return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.Equals:
                     return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.NotEquals:
                     return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.Contains:
                 default:
                     return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
@@ -1371,7 +1369,9 @@ namespace Blazorise.DataGrid
             {
                 if ( dirtyView )
                     viewData = FilterViewData();
+
                 dirtyView = false;
+
                 return viewData;
             }
         }
@@ -1798,14 +1798,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         ///  Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
         /// </summary>
-        [Parameter]
-        public bool FixedHeader { get; set; }
+        [Parameter] public bool FixedHeader { get; set; }
 
         /// <summary>
         /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
         /// </summary>
-        [Parameter]
-        public string FixedHeaderDataGridHeight { get; set; } = "500px";
+        [Parameter] public string FixedHeaderDataGridHeight { get; set; } = "500px";
 
         #endregion
     }

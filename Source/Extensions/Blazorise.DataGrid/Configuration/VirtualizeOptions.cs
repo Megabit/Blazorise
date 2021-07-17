@@ -1,5 +1,8 @@
 ﻿namespace Blazorise.DataGrid.Configuration
 {
+    /// <summary>
+    /// Defines the options for <see cref="DataGrid{TItem}"/> virtualize mode.
+    /// </summary>
     public class VirtualizeOptions
     {
         /// <summary>
@@ -7,11 +10,12 @@
         /// </summary>
         public string DataGridHeight { get; set; } = "500px";
 
-        // Summary:
-        //     Gets or sets a value that determines how many additional items will be rendered
-        //     before and after the visible region. This help to reduce the frequency of rendering
-        //     during scrolling. However, higher values mean that more elements will be present
-        //     in the page.
+        /// <summary>
+        /// Gets or sets a value that determines how many additional items will be rendered
+        /// before and after the visible region. This help to reduce the frequency of rendering
+        /// during scrolling. However, higher values mean that more elements will be present
+        /// in the page.
+        /// </summary>
         public int OverscanCount { get; set; } = 10;
     }
 }
