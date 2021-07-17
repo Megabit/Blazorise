@@ -17,20 +17,9 @@ namespace Blazorise.DataGrid
             return ParentDataGrid.OnMultiSelectAll( IsChecked );
         }
 
-        protected override Task OnParametersSetAsync()
-        {
-            IsChecked = ( ParentDataGrid.SelectedRows?.Any() ?? false )
-                && ParentDataGrid.DisplayData.Any()
-                && !ParentDataGrid.DisplayData.Except( ParentDataGrid.SelectedRows ).Any();
-
-            return base.OnParametersSetAsync();
-        }
-
         #endregion
 
         #region Properties
-
-        internal bool IsChecked { get; set; }
 
         /// <summary>
         /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
@@ -38,6 +27,8 @@ namespace Blazorise.DataGrid
         [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public bool IsIndeterminate { get; set; }
+
+        [Parameter] public bool IsChecked { get; set; }
 
         #endregion
     }

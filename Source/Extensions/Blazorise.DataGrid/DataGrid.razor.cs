@@ -815,7 +815,7 @@ namespace Blazorise.DataGrid
                     virtualizeFilterChanged = false;
                     await VirtualizeScrollToTop();
                 }
-               
+
                 if ( virtualizeRef is null )
                     await InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, cancellationToken ) );
                 else
@@ -1275,6 +1275,14 @@ namespace Blazorise.DataGrid
         /// Gets the reference to the associated multiselect column.
         /// </summary>
         public DataGridMultiSelectColumn<TItem> MultiSelectColumn { get; private set; }
+
+        /// <summary>
+        /// Checks if the MultiSelectAll is checked, meaning that all of the current view rows are selected.
+        /// </summary>
+        private bool IsMultiSelectAllChecked
+            => ( !SelectedRows.IsNullOrEmpty() )
+                && DisplayData.Any()
+                && !DisplayData.Except(SelectedRows ).Any();
 
         /// <summary>
         /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
