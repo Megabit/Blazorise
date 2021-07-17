@@ -10,6 +10,9 @@ namespace Blazorise.Demo.Layouts
         private bool uiElementsVisible = true;
         private bool utilitiesVisible = false;
 
+        private Bar sideBar;
+        private Bar topBar;
+
         protected override async Task OnInitializedAsync()
         {
             await SelectCulture( "en-US" );
