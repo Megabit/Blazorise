@@ -47,15 +47,12 @@ namespace Blazorise.DataGrid
                     case nameof( Item ):
                         Item = (TItem)parameter.Value;
                         break;
-
                     case nameof( ChildContent ):
                         ChildContent = (RenderFragment)parameter.Value;
                         break;
-
                     case nameof( ParentDataGrid ):
                         ParentDataGrid = (DataGrid<TItem>)parameter.Value;
                         break;
-
                     default:
                         throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
                 }

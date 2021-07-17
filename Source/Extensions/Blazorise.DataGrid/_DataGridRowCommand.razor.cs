@@ -19,30 +19,24 @@ namespace Blazorise.DataGrid
                     case nameof( Item ):
                         Item = (TItem)parameter.Value;
                         break;
-
                     case nameof( Column ):
                         Column = (DataGridColumn<TItem>)parameter.Value;
                         break;
-
                     case nameof( Save ):
                         Save = (EventCallback)parameter.Value;
                         break;
-
                     case nameof( EditState ):
                         EditState = (DataGridEditState)parameter.Value;
                         break;
-
                     case nameof( ParentDataGrid ):
                         ParentDataGrid = (DataGrid<TItem>)parameter.Value;
                         break;
-
                     default:
                         throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
                 }
             }
             return base.SetParametersAsync( ParameterView.Empty );
         }
-
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
