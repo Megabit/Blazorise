@@ -99,9 +99,10 @@ namespace Blazorise.Demo.Pages.Tests
         [Inject] NavigationManager NavigationManager { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            ///Demo purposes. You should handle your HttpClient injection/parametrization in your startup settings.
             HttpClient client = new();
             client.BaseAddress = new Uri( NavigationManager.BaseUri );
-            inMemoryDataModels = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoDATA.json" );
+            inMemoryDataModels = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );
             dataModels = inMemoryDataModels.Take( 50 ).ToList();
             totalEmployees = dataModels.Count;
             await base.OnInitializedAsync();
@@ -223,7 +224,7 @@ namespace Blazorise.Demo.Pages.Tests
 
 
         /// <summary>
-        /// Simple demo purposes example filter
+        /// Simple demo purpose example filter
         /// </summary>
         /// <param name="dataGridColumns"></param>
         /// <returns></returns>

@@ -263,7 +263,10 @@ namespace Blazorise.DataGrid
             else
             {
                 if ( virtualizeState.WasActive )
+                {
+                    virtualizeState.WasActive = false;
                     await Reload();
+                }
             }
             virtualizeState.WasActive = Virtualize;
         }
