@@ -54,7 +54,8 @@ namespace Blazorise
             {
                 await Clicked.InvokeAsync( null );
             }
-            else if ( Bar != null )
+
+            if ( Bar != null )
             {
                 await Bar.Toggle();
 
