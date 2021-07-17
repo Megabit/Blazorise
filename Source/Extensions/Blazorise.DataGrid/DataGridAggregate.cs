@@ -199,27 +199,35 @@ namespace Blazorise.DataGrid
                     case DataGridAggregateType.None:
                         AggregationFunction = null;
                         break;
+
                     case DataGridAggregateType.Sum:
                         AggregationFunction = Sum;
                         break;
+
                     case DataGridAggregateType.Average:
                         AggregationFunction = Average;
                         break;
+
                     case DataGridAggregateType.Min:
                         AggregationFunction = Min;
                         break;
+
                     case DataGridAggregateType.Max:
                         AggregationFunction = Max;
                         break;
+
                     case DataGridAggregateType.Count:
                         AggregationFunction = Count;
                         break;
+
                     case DataGridAggregateType.FalseCount:
                         AggregationFunction = FalseCount;
                         break;
+
                     case DataGridAggregateType.TrueCount:
                         AggregationFunction = TrueCount;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException( nameof( Aggregate ), value, "Invalid aggregation type!" );
                 }

@@ -1282,7 +1282,7 @@ namespace Blazorise.DataGrid
         private bool IsMultiSelectAllChecked
             => ( !SelectedRows.IsNullOrEmpty() )
                 && DisplayData.Any()
-                && !DisplayData.Except(SelectedRows ).Any();
+                && !DisplayData.Except( SelectedRows ).Any();
 
         /// <summary>
         /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
@@ -1319,8 +1319,6 @@ namespace Blazorise.DataGrid
                 }
 
                 data = value;
-
-
             }
         }
 

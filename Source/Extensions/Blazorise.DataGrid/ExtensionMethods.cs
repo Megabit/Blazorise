@@ -20,8 +20,10 @@ namespace Blazorise.DataGrid
             {
                 case SortDirection.None:
                     return SortDirection.Ascending;
+
                 case SortDirection.Ascending:
                     return SortDirection.Descending;
+
                 default:
                     return SortDirection.None;
             }
