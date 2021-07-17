@@ -157,3 +157,12 @@ Virtualization is a technique for limiting UI rendering to just the parts that a
 
 You will still have access to every available datagrid feature.
 `VirtualizeOptions` allows to further customize the `Virtualize` feature.
+
+### Table FixedHeader ScrollTo support
+You are now able to use the table's internal api to either scroll to a row or pixel offset from the start of tbody.
+
+Here's an example, of how to scroll to the first row on the table.
+```csharp
+    private Task ScrollToRow()
+         => tableRef.FixedHeaderScrollTableTo( TableScrollToType.Row, 0 ).AsTask(); 
+```

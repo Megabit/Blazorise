@@ -304,7 +304,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        ///  Makes table have a fixed header and enabling a scrollbar in the table body.
+        ///  Makes table have a fixed header and enables a scrollbar in the table body.
         /// </summary>
         [Parameter]
         public bool FixedHeader
