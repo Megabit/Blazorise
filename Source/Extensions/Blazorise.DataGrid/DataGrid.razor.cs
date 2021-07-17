@@ -835,12 +835,14 @@ namespace Blazorise.DataGrid
             try
             {
                 IsLoading = true;
+
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, cancellationToken, CurrentPage, PageSize ) );
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
             }
             finally
             {
                 IsLoading = false;
+
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -850,8 +852,9 @@ namespace Blazorise.DataGrid
             try
             {
                 IsLoading = true;
+
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Virtualize, Columns, SortByColumns, cancellationToken, virtualizeStartIndex: startIdx, virtualizeCount: count ) );
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Virtualize, Columns, SortByColumns, 0, 0, virtualizeStartIndex: startIdx, virtualizeCount: count, cancellationToken ) );
             }
             finally
             {

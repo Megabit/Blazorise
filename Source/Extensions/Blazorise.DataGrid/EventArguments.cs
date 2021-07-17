@@ -122,17 +122,35 @@ namespace Blazorise.DataGrid
         /// <param name="columns">List of all the columns in the grid.</param>
         /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <param name="page">Page number at the moment of initialization.</param>
-        /// <param name="pageSize">Maximum number of items per page.</param>
-        /// <param name="virtualizeStartIndex">Requested data start index by Virtualize.</param>
-        /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
         public DataGridReadDataEventArgs(
             DataGridReadDataMode readDataMode,
             IEnumerable<DataGridColumn<TItem>> columns,
             IList<DataGridColumn<TItem>> sortByColumns,
-            CancellationToken cancellationToken = default,
-            int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0
-            )
+            CancellationToken cancellationToken = default )
+            : this( readDataMode, columns, sortByColumns, 0, 0, 0, 0, cancellationToken )
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of read-data event argument.
+        /// </summary>
+        /// <param name="readDataMode">ReadData Mode.</param>
+        /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>        
+        /// <param name="page">Page number at the moment of initialization.</param>
+        /// <param name="pageSize">Maximum number of items per page.</param>
+        /// <param name="virtualizeStartIndex">Requested data start index by Virtualize.</param>
+        /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public DataGridReadDataEventArgs(
+            DataGridReadDataMode readDataMode,
+            IEnumerable<DataGridColumn<TItem>> columns,
+            IList<DataGridColumn<TItem>> sortByColumns,
+            int page,
+            int pageSize,
+            int virtualizeStartIndex,
+            int virtualizeCount,
+            CancellationToken cancellationToken = default )
         {
             Page = page;
             PageSize = pageSize;
