@@ -145,10 +145,10 @@ namespace Blazorise
         /// </summary>
         /// <param name="pixels"></param>
         /// <returns></returns>
-        public ValueTask FixedHeaderScrollTableTo(int pixels )
-        { 
+        public ValueTask FixedHeaderScrollTableTo( int pixels )
+        {
             if ( FixedHeader )
-            { 
+            {
                 return JSRunner.FixedHeaderScrollTableTo( ElementRef, ElementId, pixels );
             }
             return ValueTask.CompletedTask;
