@@ -37,6 +37,7 @@ namespace Blazorise.DataGrid
             }
             return base.SetParametersAsync( ParameterView.Empty );
         }
+
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
