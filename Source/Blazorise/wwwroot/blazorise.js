@@ -929,9 +929,22 @@ window.blazorise = {
                 }
             }
         },
-        fixedHeaderScrollTableTo: function (element, elementId, pixels) {
+        fixedHeaderScrollTableToPixels: function (element, elementId, pixels) {
             if (element !== null && element.parentElement !== null) {
                 element.parentElement.scrollTop = pixels;
+            }
+        },
+        fixedHeaderScrollTableToRow: function (element, elementId, row) {
+            if (element !== null) {
+                let rows = element.querySelectorAll("tr");
+                let rowsLength = rows.length;
+
+                if (rowsLength > 0 && row >= 0 && row < rowsLength) {
+                    rows[row].scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
             }
         },
         initializeResizable: function (element, elementId, mode) {

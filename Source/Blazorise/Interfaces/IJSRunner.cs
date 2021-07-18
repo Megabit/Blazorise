@@ -155,7 +155,9 @@ namespace Blazorise
 
         ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId );
 
-        ValueTask FixedHeaderScrollTableTo( ElementReference elementRef, string elementId, int pixels );
+        ValueTask FixedHeaderScrollTableToPixels( ElementReference elementRef, string elementId, int pixels );
+
+        ValueTask FixedHeaderScrollTableToRow( ElementReference elementRef, string elementId, int row );
 
         ValueTask InitializeTableResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode );
 

@@ -502,7 +502,20 @@
             </CardBody>
             <CardBody>
                 <Row>
-                    <Column><Switch @bind-Checked="@fixedHeader">Fixed header</Switch></Column>
+                    <Column>
+                        <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
+                        @if ( fixedHeader )
+                        {
+                            <Addons>
+                                <Addon AddonType="AddonType.Body">
+                                    <NumericEdit Size="Size.Small" TValue="int" @bind-Value="scrollToValue" />
+                                </Addon>
+                                <Addon AddonType="AddonType.End">
+                                    <Button Size="Size.Small" Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
+                                </Addon>
+                            </Addons>
+                        }
+                    </Column>
                     <Column><Switch @bind-Checked="@stripped">Stripped</Switch></Column>
                     <Column><Switch @bind-Checked="@bordered">Bordered</Switch></Column>
                     <Column><Switch @bind-Checked="@borderless">Borderless</Switch></Column>
@@ -519,10 +532,9 @@
                         }
                     </Column>
                 </Row>
-
             </CardBody>
             <CardBody>
-                <Table FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" FixedHeaderTableHeight="300px">
+                <Table @ref="@tableRef" FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" FixedHeaderTableHeight="300px">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
