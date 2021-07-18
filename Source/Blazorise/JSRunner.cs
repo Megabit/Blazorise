@@ -338,8 +338,11 @@ namespace Blazorise
         public ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId )
             => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyTableFixedHeader", elementRef, elementId );
 
-        public ValueTask FixedHeaderScrollTableTo( ElementReference elementRef, string elementId, TableScrollToType tableScrollToType, int value )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.fixedHeaderScrollTableTo", elementRef, elementId, tableScrollToType, value );
+        public ValueTask FixedHeaderScrollTableToPixels( ElementReference elementRef, string elementId, int pixels )
+            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.fixedHeaderScrollTableToPixels", elementRef, elementId, pixels );
+
+        public ValueTask FixedHeaderScrollTableToRow( ElementReference elementRef, string elementId, int row )
+            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.fixedHeaderScrollTableToRow", elementRef, elementId, row );
 
         public ValueTask InitializeTableResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode )
             => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeResizable", elementRef, elementId, resizeMode );

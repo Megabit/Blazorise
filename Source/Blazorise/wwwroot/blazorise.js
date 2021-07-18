@@ -929,19 +929,17 @@ window.blazorise = {
                 }
             }
         },
-        fixedHeaderScrollTableTo: function (element, elementId, scrollType, value) {
-            const scrollToPixel = 0;
-            const scrollToRow = 1;
-
-            if (element !== null && element.parentElement !== null && scrollType === scrollToPixel) {
-                element.parentElement.scrollTop = value;
+        fixedHeaderScrollTableToPixels: function (element, elementId, pixels) {
+            if (element !== null && element.parentElement !== null ) {
+                element.parentElement.scrollTop = pixels;
             }
-
-            if (element !== null && scrollType === scrollToRow) {
+        },
+        fixedHeaderScrollTableToRow: function (element, elementId, row) {
+            if (element !== null) {
                 let rows = element.querySelectorAll("tr");
                 let rowsLength = rows.length;
-                if (rowsLength > 0 && value >= 0 && value < rowsLength) {
-                    rows[value].scrollIntoView({
+                if (rowsLength > 0 && row >= 0 && row < rowsLength) {
+                    rows[row].scrollIntoView({
                         behavior: "smooth",
                         block: "start"
                     });

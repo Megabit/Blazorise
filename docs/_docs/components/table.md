@@ -145,7 +145,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 </Table>
 ```
 
-### Scroll To a Row
+### Scroll To a Row Or Pixel Offset
 
 ```html
 <Table>
@@ -158,7 +158,10 @@ Table displays information in a way that’s easy to scan, so that users can loo
 
 ```csharp
 private Task ScrollToRow()
-    => tableRef.ScrollTo( TableScrollToType.Row, 1 ).AsTask();
+    => tableRef.ScrollToRow( 1 ).AsTask();
+
+private Task ScrollToRow()
+    => tableRef.ScrollToPixels( 250 ).AsTask();
 ```
 
 ## Attributes
