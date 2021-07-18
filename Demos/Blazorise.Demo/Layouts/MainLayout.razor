@@ -3,8 +3,9 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark"
+            <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark"
                  Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
+                <BarToggler />
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -198,8 +199,7 @@
     </LayoutSider>
     <Layout>
         <LayoutHeader Fixed="true">
-            <Bar @ref="@topBar" @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
-                <BarToggler Bar="@sideBar" Border="Border.Is0" />
+            <Bar @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -208,6 +208,7 @@
                         </BarLink>
                     </BarItem>
                 </BarBrand>
+                <BarToggler />
                 <BarMenu>
                     <BarStart>
                         <BarItem>
