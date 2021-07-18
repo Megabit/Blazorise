@@ -144,11 +144,26 @@ namespace Blazorise
         /// </summary>
         /// <param name="pixels">Offset in pixels from the top of the table.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public ValueTask FixedHeaderScrollTableTo( int pixels )
+        public ValueTask ScrollToPixels( int pixels )
         {
             if ( FixedHeader )
             {
-                return JSRunner.FixedHeaderScrollTableTo( ElementRef, ElementId, pixels );
+                return JSRunner.FixedHeaderScrollTableToPixels( ElementRef, ElementId, pixels );
+            }
+
+            return ValueTask.CompletedTask;
+        }
+
+        /// <summary>
+        /// If table has <see cref="FixedHeader"/> enabled, it will scroll position to the provided row.
+        /// </summary>
+        /// <param name="row">Zero-based index of table row to scroll to.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public ValueTask ScrollToRow( int row )
+        {
+            if ( FixedHeader )
+            {
+                return JSRunner.FixedHeaderScrollTableToRow( ElementRef, ElementId, row );
             }
 
             return ValueTask.CompletedTask;
@@ -303,7 +318,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        ///  Makes table have a fixed header and enabling a scrollbar in the table body.
+        ///  Makes table have a fixed header and enables a scrollbar in the table body.
         /// </summary>
         [Parameter]
         public bool FixedHeader

@@ -139,10 +139,10 @@ Since eFrolic author has stopped maintaining eFrolic, I have decided to stop sup
    -  You will now be able to handle cases where the value introduced by the user is not found on the data source that has been provided to `Autocomplete`. Either by providing some feedback to the user, by using the `NotFoundContent` or just handling it as you wish by listening to the `NotFound` EventCallback.
 
 -  Show all items
-   -  This can be done by just setting the `Autocomplete`'s MinLength to 0. We've made sure to provide initial styling to accomodate all items with a scrollbar.
+   -  This can be done by just setting the `Autocomplete`'s MinLength to 0. We've made sure to provide initial styling to accommodate all items with a scrollbar.
 
 -  Add support for a custom filter
-   -  `Autocomplete` already provides filtering capabilities out of the box. However, you may now provide a custom filter that's based on the currently text being searched and the datasource items.
+   -  `Autocomplete` already provides filtering capabilities out of the box. However, you may now provide a custom filter that's based on the currently text being searched and the data-source items.
 
 -  Improve the selection box to have same width as text field by default && Able to limit suggestions shown at a time with a scroll bar
    -  These two improvements will provide a better user experience by having the selection box be compliant to the text field's width, as well as handling multiple items, by providing a scroll bar, which would otherwise go out of screen.
@@ -157,3 +157,21 @@ Virtualization is a technique for limiting UI rendering to just the parts that a
 
 You will still have access to every available datagrid feature.
 `VirtualizeOptions` allows to further customize the `Virtualize` feature.
+
+### Table FixedHeader ScrollTo support
+
+You are now able to use the table's internal API to either scroll to a row or pixel offset from the start of `tbody`.
+
+Here's an example, of how to scroll to the first row on the table.
+
+```csharp
+private Task ScrollToRow()
+    => tableRef.ScrollToRow( 1 ).AsTask();
+```
+
+And an example, of how to scroll to the position of 250px.
+
+```csharp
+private Task ScrollToPixels()
+    => tableRef.ScrollToPixels( 250 ).AsTask();
+```
