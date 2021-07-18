@@ -930,7 +930,7 @@ window.blazorise = {
             }
         },
         fixedHeaderScrollTableToPixels: function (element, elementId, pixels) {
-            if (element !== null && element.parentElement !== null ) {
+            if (element !== null && element.parentElement !== null) {
                 element.parentElement.scrollTop = pixels;
             }
         },
@@ -938,6 +938,7 @@ window.blazorise = {
             if (element !== null) {
                 let rows = element.querySelectorAll("tr");
                 let rowsLength = rows.length;
+
                 if (rowsLength > 0 && row >= 0 && row < rowsLength) {
                     rows[row].scrollIntoView({
                         behavior: "smooth",

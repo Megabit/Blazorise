@@ -157,11 +157,11 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ```
 
 ```csharp
-private Task ScrollToRow()
-    => tableRef.ScrollToRow( 1 ).AsTask();
+private async Task ScrollToRow()
+    => await tableRef.ScrollToRow( 1 );
 
-private Task ScrollToRow()
-    => tableRef.ScrollToPixels( 250 ).AsTask();
+private async Task ScrollToPixels()
+    => await tableRef.ScrollToPixels( 250 );
 ```
 
 ## Attributes

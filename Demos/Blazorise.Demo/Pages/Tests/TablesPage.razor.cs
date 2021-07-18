@@ -17,8 +17,8 @@ namespace Blazorise.Demo.Pages.Tests
 
         private TableResizeMode resizeMode;
 
-        private Task ScrollToRow()
-            => tableRef.ScrollToRow( scrollToValue ).AsTask();
+        private async Task ScrollToRow()
+            => await tableRef.ScrollToRow( scrollToValue );
 
         private class TableUser
         {
