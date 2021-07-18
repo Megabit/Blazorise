@@ -1,20 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Blazorise.Demo.Pages.Tests
 {
     public partial class TablesPage
     {
-        bool fixedHeader = true;
-        bool stripped;
-        bool bordered = true;
-        bool borderless;
-        bool hoverable;
-        bool small;
-        bool resizable = true;
+        private Table tableRef;
+        private int scrollToValue;
+        private bool fixedHeader = true;
+        private bool stripped;
+        private bool bordered = true;
+        private bool borderless;
+        private bool hoverable;
+        private bool small;
+        private bool resizable = true;
 
-        TableResizeMode resizeMode;
+        private TableResizeMode resizeMode;
 
-        class TableUser
+        private async Task ScrollToRow()
+            => await tableRef.ScrollToRow( scrollToValue );
+
+        private class TableUser
         {
             public string Id { get; set; }
             public string FirstName { get; set; }
@@ -30,11 +36,11 @@ namespace Blazorise.Demo.Pages.Tests
             }
         }
 
-        List<TableUser> tableUsers = new()
+        private List<TableUser> tableUsers = new()
         {
-            new("1", "Mark", "Otto", "@mdo"),
-            new("2", "Jacob", "Thornton", "@fat"),
-            new("3", "Larry", "the Bird", "@twitter"),
+            new( "1", "Mark", "Otto", "@mdo" ),
+            new( "2", "Jacob", "Thornton", "@fat" ),
+            new( "3", "Larry", "the Bird", "@twitter" ),
         };
     }
 }
