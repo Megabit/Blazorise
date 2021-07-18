@@ -1,5 +1,5 @@
 ---
-title: "v0.9.4 release notes"
+title: "Blazorise 0.9.4 is out and ready for big leagues"
 permalink: /news/release-notes/094/
 classes: wide
 categories:
@@ -10,9 +10,24 @@ tags:
   - 0.9.4
 ---
 
+No matter how fast I think each Blazorise version will be done it always comes to be a quarter of the year. This time it's no different and based on the experience so far, I guess we'll have to follow the same release cycle in the future. Only the time will tell.
+
+In any case the new major Blazorise `v0.9.4` is here.
+
+Don't let yourself fooled into thinking `v0.9.4` is just a small update from `v0.9.3`. The road to `v1.0` is long and steady, and the main reason for small numbers for major releases is for poor planning at the beginning and letting myself to lost version numbers. But hey, it can happen to anyone 🤷‍♂️.
+
+---
+
+A lot of good things has happened before the last major release. The biggest change is that recently Blazorise has [went commercial]({{ "/news/changes-to-blazorise-license" | relative_url }}) and we are now offering Blazorise support and licensing for commercial organizations. I would say the start was good, and while there were some negative feedback, the change was mainly positive. One of the good things is that we were able to hire [@David-Moreira](https://github.com/David-Moreira) to become the first official Blazorise team member. David was already quite active with submitting to Blazorise codebase and it was only natural to offer him a new role. As a result he has done some very good things with the new DataGrid features 💪.
+
 ## Breaking changes
 
-- `Dialog` parameter is removed from `ModalContent`. It was used only by the Bulma provider and so we made it to be used implicitly by the framework if some conditions are met.
+Unfortunately, with every new major release we introduce some breaking changes. This time is no exception so we'll try to at least offer some background and explain the reasons.
+
+1. Textual utilities also went through the changes, so instead of having `Color` or `Alignment` parameter we now have `TextColor` and `TextAlignment`. While it is _still_ not a breaking change the original parameters will be removed in the `v0.9.5`. The good news is that now text utilities can be used on **every** component and not just on typography components like it was until now.
+2. We made some small optimizations on the Modal dialog and as a result, `Dialog` parameter is removed from `ModalContent`. It was used only by the Bulma provider and so we made it to be used implicitly by the framework if some conditions are met.
+3. We changed the `SearchValue` on DataGrid filter from `string` to `object`. This was needed so that you could implement better filtering without DataGrid formating your numeric or date values into the unsupported format values.
+4. `Progress` component went through some optimizations and as a result we removed the `Background` parameter and replaced it with the `Color` parameter.
 
 ## Migration
 
@@ -22,20 +37,20 @@ tags:
   - `Alignment` to `TextAlignment`
   - `Transform` to `TextTransform`
   - `Weight` to `TextWeight`
-- For `Progress` component
+- `Progress` component:
   - Use only `Progress` component because `ProgressBar` is now needed only for multiple stacked bars, eg. `<Progress Value="50" />`
-  - Instead of `Background` parameter use the `Color` parameter
-- Remove usage of `Dialog` parameter for `ModalContent`
+  - Replace `Background` parameter with the `Color` parameter
+- Remove usage of `Dialog` parameter for `ModalContent`.
 - Change `Tooltip` `Placement` parameter to `TooltipPlacement`, eg. `Placement="Placement.Left"` to `Placement="TooltipPlacement.Left"`
 - For DataGrid `ReadData` event callback, rename `Direction` attribute to `SortDirection`
 - Datagrid: Due to a refactoring of the resizable feature to the Table component, you should note the following:
   - The datagrid resources(JS and CSS) we had previously introduced, do not need to be added to your application in this version. However we kept the blazorise.datagrid.js, even if blank for increased flexibility in supporting the datagrid throughout the release.
     - If you had any of the resources below, you can now safely remove them:
-      - `<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
       - `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
   - The `DataGridResizeMode` enum no longer exists, and you will need to use `TableResizeMode` enum instead.
   - DataGrid `FilteredDataChanged` now accepts the `DataGridFilteredDataEventArgs<TItem>` as the argument instead of `IEnumerable<TItem>`
   - On `DataGridColumn`, rename `Direction` parameter to `SortDirection`
+  - Whenever you use filter `SearchValue` change its type from `string` to `object` type
 - Charts
   - Move `BarThickness` and `MaxBarThickness` from `BarChartOptions` to the `Axis` option.
 
@@ -59,19 +74,38 @@ For the long time this was one of the most requested features and we finally int
 
 To learn more about both components please visit [Message Service]({{ "/docs/services/message" | relative_url }}), [Notification Service]({{ "/docs/services/notification" | relative_url }}) and [PageProgress Service]({{ "/docs/services/page-progress" | relative_url }}) pages.
 
+### Rating component
+
+A lot of times you need an ability to allow users to rate your product or a service. With our new `Rating` component you will be able to do so. The usage is very simple and can be done with just one line of code, eg.
+
+```html
+<Rating Color="Color.Primary" @bind-SelectedValue="@SelectedValue" MaxValue="10" />
+```
+
+<img src="/assets/images/news/094/rating.jpg" alt="Rating example" />
+
+To learn more about the component please visit [Rating]({{ "/docs/components/rating" | relative_url }}) page.
+
 ### Markdown component
 
 New Markdown component is also part of the release. It is based on the excellent and well maintained [Easy MarkDown Editor](https://easy-markdown-editor.tk/) JavaScript library. It has all the basic editing features like bold, italic, code snippets, headings, etc. With time we hope to introduce and support even more once the people start using it.
 
-To learn more about the components please visit [Markdown]({{ "/docs/extensions/markdown" | relative_url }}) page.
+<img src="/assets/images/news/094/markdown.jpg" alt="Markdown example" />
+
+To learn more about the component please visit [Markdown]({{ "/docs/extensions/markdown" | relative_url }}) page.
 
 ### DataGrid data-annotations
 
-We finally enabled data-annotations for validating the DataGrid edit fields. This feature is now the default option once `UseValidation` on `DataGrid` is enabled. If you want to have any other validation method, like `Validator` for example, you just need to define it on `DataGridColumn` and it will override default data-annotation. We hope this new feature will help you in building your applications even more.
+This feature was requested for far too many times and we can finally say it is now ready. Data-annotations can now be used for validating the DataGrid edit fields. This feature is now the default option once `UseValidation` on `DataGrid` is enabled. If you want to have any other validation method, like `Validator` for example, you just need to define it on `DataGridColumn` and it will override default data-annotation. We hope this new feature will help you even more in building your applications.
 
 ### Carousel animations
 
 A lot of refactoring went into Carousel component and we now fully support slide animations. Crossfade animations are also supported.
+
+<video width="480" height="270" controls>
+  <source src="/assets/images/news/094/carousel.webm" type="video/webm">
+  Your browser does not support the video tag.
+</video>
 
 ### Flex utilities
 
@@ -111,7 +145,7 @@ and now you only need to write the following(for a single value progress).
 <Progress Value="50">
 ```
 
-The old way of using the `Progress` is now reserved for stacked bars when you need to show multiple values.
+The old way of using the `Progress` will still work but is now better suited for stacked bars when you need to show multiple values.
 
 ### Typography utilities
 
