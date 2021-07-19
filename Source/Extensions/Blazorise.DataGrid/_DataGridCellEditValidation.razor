@@ -145,7 +145,7 @@ else if ( ValueType == typeof( bool? ) )
 }
 else if ( ValueType == typeof( DateTime ) )
 {
-    <DateEdit TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern">
+    <DateEdit TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -156,7 +156,7 @@ else if ( ValueType == typeof( DateTime ) )
 }
 else if ( ValueType == typeof( DateTime? ) )
 {
-    <DateEdit TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern">
+    <DateEdit TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -167,7 +167,7 @@ else if ( ValueType == typeof( DateTime? ) )
 }
 else if ( ValueType == typeof( DateTimeOffset ) )
 {
-    <DateEdit TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern">
+    <DateEdit TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -178,7 +178,7 @@ else if ( ValueType == typeof( DateTimeOffset ) )
 }
 else if ( ValueType == typeof( DateTimeOffset? ) )
 {
-    <DateEdit TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern">
+    <DateEdit TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
