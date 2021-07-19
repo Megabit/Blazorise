@@ -99,5 +99,10 @@ namespace Blazorise.DataGrid
         /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
         /// </summary>
         [Parameter] public bool? EnableStep { get; set; }
+
+        /// <summary>
+        /// Hints at the type of data that might be entered by the user while editing the element or its contents.
+        /// </summary>
+        [Parameter] public DateInputMode DateInputMode { get; set; }
     }
 }
