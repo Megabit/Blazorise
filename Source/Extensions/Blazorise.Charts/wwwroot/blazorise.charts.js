@@ -21,11 +21,10 @@ window.blazoriseCharts = {
                     tooltips: {
                         callbacks: {
                             title: function (item, data) {
-                                const label = data.labels[item[0].index];
-                                return label;
+                                return data.datasets[item[0].datasetIndex].label;
                             },
                             label: function (item, data) {
-                                const label = data.datasets[item.datasetIndex].label;
+                                const label = data.labels[item.index];
                                 const value = data.datasets[item.datasetIndex].data[item.index];
                                 return label + ': ' + value;
                             }
