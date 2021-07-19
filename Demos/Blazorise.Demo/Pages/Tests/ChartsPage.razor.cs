@@ -15,6 +15,23 @@ namespace Blazorise.Demo.Pages.Tests
         Chart<double> polarAreaChart;
         Chart<double> radarChart;
 
+        //LineChartOptions lineChartOptions = new()
+        //{
+        //    Scales = new()
+        //    {
+        //        YAxes = new()
+        //        {
+        //            new()
+        //            {
+        //                Ticks = new AxisTicks
+        //                {
+        //                    CallbackJavaScript = "`${value / 1000} ${index} K`"
+        //                }
+        //            }
+        //        }
+        //    }
+        //};
+
         LineChart<double> lineChartWithData;
 
         string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };

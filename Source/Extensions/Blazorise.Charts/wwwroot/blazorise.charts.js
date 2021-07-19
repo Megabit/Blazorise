@@ -21,11 +21,10 @@ window.blazoriseCharts = {
                     tooltips: {
                         callbacks: {
                             title: function (item, data) {
-                                const label = data.labels[item[0].index];
-                                return label;
+                                return data.datasets[item[0].datasetIndex].label;
                             },
                             label: function (item, data) {
-                                const label = data.datasets[item.datasetIndex].label;
+                                const label = data.labels[item.index];
                                 const value = data.datasets[item.datasetIndex].data[item.index];
                                 return label + ': ' + value;
                             }
@@ -33,6 +32,23 @@ window.blazoriseCharts = {
                     }
                 }
             }
+        }
+
+        function processTicksCallback(scales, axis) {
+            if (scales && Array.isArray(scales[axis])) {
+                scales[axis].forEach(a => {
+                    if (a.ticks && a.ticks.callbackJavaScript) {
+                        a.ticks.callback = function (value, index, ticks) {
+                            return eval(a.ticks.callbackJavaScript)
+                        }
+                    }
+                });
+            }
+        }
+
+        if (options && options.scales) {
+            processTicksCallback(options.scales, 'xAxes');
+            processTicksCallback(options.scales, 'yAxes');
         }
 
         // search for canvas element
