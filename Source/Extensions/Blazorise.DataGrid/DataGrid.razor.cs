@@ -1375,7 +1375,7 @@ namespace Blazorise.DataGrid
 
                 dirtyView = false;
 
-                return viewData;
+                return viewData ?? Enumerable.Empty<TItem>();
             }
         }
 
