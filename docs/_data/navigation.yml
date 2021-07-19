@@ -59,6 +59,8 @@ docs:
         url: /docs/components/text/
       - title: "Time"
         url: /docs/components/time/
+      - title: "Time Picker"
+        url: /docs/components/time-picker/
       - title: "Validation"
         url: /docs/components/validation/
   - title: Components
