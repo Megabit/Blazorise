@@ -10,6 +10,10 @@ tags:
   - 0.9.4
 ---
 
+<img src="/assets/images/news/094/v094.png" alt="Blazorise 0.9.4" />
+
+---
+
 No matter how fast I think each Blazorise version will be done, it always takes at least a quarter of the year. This time it's no different and based on past experience, I guess we'll have to follow the same release cycle in the future. Only time will tell.
 
 In any case the new major Blazorise `v0.9.4` is finally here!
