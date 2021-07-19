@@ -260,3 +260,10 @@ We also added new extension for spin animations, based on the nice [SpinKit](htt
 <img src="/assets/images/news/094/spinkit.jpg" alt="Rating example" />
 
 For more info just look at the [SpinKit]({{ "/docs/extensions/spinkit" | relative_url }}) page.
+
+## Community
+
+We got over 50 PRs coming from new and old contributors in this version. The biggest contributor by far was [David-Moreira](https://github.com/David-Moreira) but since he's now part of the team I'm not counting him as outside contributor any more. Sorry David 😛
+
+By the number of PRs, the most of them is coming from [SimonCropp](https://github.com/SimonCropp). He helped us to clean the code, optimize async state-machine, remove unused code, fix comments and many many more.
+
