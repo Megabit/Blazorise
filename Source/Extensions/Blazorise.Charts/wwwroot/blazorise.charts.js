@@ -34,6 +34,23 @@ window.blazoriseCharts = {
             }
         }
 
+        function processTicksCallback(scales, axis) {
+            if (scales && Array.isArray(scales[axis])) {
+                scales[axis].forEach(a => {
+                    if (a.ticks && a.ticks.callbackJavaScript) {
+                        a.ticks.callback = function (value, index, ticks) {
+                            return eval(a.ticks.callbackJavaScript)
+                        }
+                    }
+                });
+            }
+        }
+
+        if (options && options.scales) {
+            processTicksCallback(options.scales, 'xAxes');
+            processTicksCallback(options.scales, 'yAxes');
+        }
+
         // search for canvas element
         const canvas = document.getElementById(canvasId);
 

@@ -324,6 +324,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool BeginAtZero { get; set; }
+
+        /// <summary>
+        /// Evaluates this JavaScript as a string representation of the tick value as it should be displayed on the chart.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string CallbackJavaScript { get; set; }
     }
 
     /// <summary>
