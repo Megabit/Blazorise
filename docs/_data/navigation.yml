@@ -1,5 +1,9 @@
 # main links
 main:
+  - title: "Commercial"
+    url: https://commercial.blazorise.com
+  - title: "Support"
+    url: https://support.blazorise.com
   - title: "Documentation"
     url: /docs/
   - title: "News"
