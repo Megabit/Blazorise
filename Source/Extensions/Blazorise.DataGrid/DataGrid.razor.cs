@@ -71,7 +71,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Marks the grid to refresh currently visible page.
         /// </summary>
-        private bool dirtyView;
+        private bool dirtyView = true;
 
         /// <summary>
         /// Keeps track whether the user has changed the filter for Virtualize purposes.
@@ -1375,7 +1375,7 @@ namespace Blazorise.DataGrid
 
                 dirtyView = false;
 
-                return viewData;
+                return viewData ?? Enumerable.Empty<TItem>();
             }
         }
 
