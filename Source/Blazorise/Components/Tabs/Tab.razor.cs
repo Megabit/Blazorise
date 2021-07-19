@@ -33,7 +33,7 @@ namespace Blazorise
         /// </summary>
         public Tab()
         {
-            LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
+            LinkClassBuilder = new( BuildLinkClasses );
         }
 
         #endregion
@@ -43,10 +43,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentTabs != null )
-            {
-                ParentTabs.NotifyTabInitialized( Name );
-            }
+            ParentTabs?.NotifyTabInitialized( Name );
 
             base.OnInitialized();
         }
@@ -113,7 +110,7 @@ namespace Blazorise
         protected bool Active => ParentTabsState?.SelectedTab == Name;
 
         /// <summary>
-        /// Defines the tab name. Must match the coresponding panel name.
+        /// Defines the tab name. Must match the corresponding panel name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 

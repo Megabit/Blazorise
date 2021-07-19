@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Main container for a <see cref="Dropdown"/> menu that can contain or or more <see cref="DropdownItem"/>'s.
+    /// </summary>
     public partial class DropdownMenu : BaseComponent
     {
         #region Members
@@ -16,6 +19,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ParentDropdown != null )
@@ -26,6 +30,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -39,10 +44,7 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        protected virtual void OnVisibleChanged( object sender, bool e )
-        {
-        }
-
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
@@ -52,10 +54,27 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the dropdown visibility state change.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="visible">Visibility flag.</param>
+        protected virtual void OnVisibleChanged( object sender, bool visible )
+        {
+        }
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Container"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Dropdown"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected DropdownState ParentDropdownState
         {
@@ -71,9 +90,10 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Dropdown"/> component.
+        /// </summary>
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

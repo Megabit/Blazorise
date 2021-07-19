@@ -56,7 +56,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// List of all action buttons placed inside of a snackbar.
         /// </summary>
-        private List<SnackbarAction> snackbarActions = new List<SnackbarAction>();
+        private List<SnackbarAction> snackbarActions = new();
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace Blazorise.Snackbar
         {
             if ( countdownTimer == null )
             {
-                countdownTimer = new CountdownTimer( Interval );
+                countdownTimer = new( Interval );
 
                 countdownTimer.Elapsed += OnCountdownTimerElapsed;
             }
@@ -180,7 +180,7 @@ namespace Blazorise.Snackbar
         {
             if ( !visible )
             {
-                _ = Closed.InvokeAsync( new SnackbarClosedEventArgs( Key, closeReason ) );
+                _ = Closed.InvokeAsync( new( Key, closeReason ) );
             }
         }
 

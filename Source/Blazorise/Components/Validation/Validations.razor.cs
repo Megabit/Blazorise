@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
@@ -35,7 +33,7 @@ namespace Blazorise
         /// <summary>
         /// List of validations placed inside of this container.
         /// </summary>
-        private List<IValidation> validations = new List<IValidation>();
+        private readonly List<IValidation> validations = new();
 
         private EditContext editContext;
 
@@ -45,6 +43,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnParametersSet()
         {
             if ( hasSetEditContextExplicitly && Model != null )
@@ -56,7 +55,7 @@ namespace Blazorise
             // potentially new EditContext, or if they are supplying a different Model
             if ( Model != null && Model != editContext?.Model )
             {
-                editContext = new EditContext( Model );
+                editContext = new( Model );
             }
         }
 
@@ -133,7 +132,7 @@ namespace Blazorise
 
         internal void NotifyValidationStatusChanged( IValidation validation )
         {
-            // Here we need to call ValidatedAll only when in Auto mode. Manuall call is already called through ValidateAll()
+            // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
             if ( Mode == ValidationMode.Manual )
                 return;
 
@@ -159,9 +158,9 @@ namespace Blazorise
 
         private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages )
         {
-            _StatusChanged?.Invoke( new ValidationsStatusChangedEventArgs( status, messages ) );
+            _StatusChanged?.Invoke( new( status, messages ) );
 
-            StatusChanged.InvokeAsync( new ValidationsStatusChangedEventArgs( status, messages ) );
+            InvokeAsync( () => StatusChanged.InvokeAsync( new( status, messages ) ) );
         }
 
         #endregion
@@ -255,7 +254,7 @@ namespace Blazorise
                             && ( v.Messages == null || v.Messages.Count() == 0 )
                             && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
-                        : new string[] { } )
+                        : Array.Empty<string>() )
                     .ToList();
             }
         }

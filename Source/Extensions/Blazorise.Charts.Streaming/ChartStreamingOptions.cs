@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazorise.Charts.Streaming
+﻿namespace Blazorise.Charts.Streaming
 {
     public class ChartStreamingOptions
     {
@@ -22,7 +18,7 @@ namespace Blazorise.Charts.Streaming
         public int Delay { get; set; } = 0;
 
         /// <summary>
-        /// Frequency at which the chart is drawn on a display (frames per second). This option can be set at chart level but not at axis level. Decrease this value to save CPU power. <seealso cref="https://github.com/nagix/chartjs-plugin-streaming#lowering-cpu-usage"/>
+        /// Frequency at which the chart is drawn on a display (frames per second). This option can be set at chart level but not at axis level. Decrease this value to save CPU power (https://github.com/nagix/chartjs-plugin-streaming#lowering-cpu-usage).
         /// </summary>
         public int FrameRate { get; set; } = 30;
     }

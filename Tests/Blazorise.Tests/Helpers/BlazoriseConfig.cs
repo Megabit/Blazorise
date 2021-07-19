@@ -19,12 +19,13 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
             services.AddSingleton<IJSRunner>( new BootstrapJSRunner( new Mock<IJSRuntime>().Object ) );
-            services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator() );
+            services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator( new Mock<IThemeCache>().Object ) );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
             services.AddSingleton<IValidationHandlerFactory, ValidationHandlerFactory>();
             services.AddSingleton<ValidatorValidationHandler>();
             services.AddSingleton<PatternValidationHandler>();
             services.AddSingleton<DataAnnotationValidationHandler>();
+            services.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 
             Action<BlazoriseOptions> configureOptions = ( options ) =>
             {

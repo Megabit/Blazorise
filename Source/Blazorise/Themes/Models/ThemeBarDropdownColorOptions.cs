@@ -1,10 +1,13 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeBarDropdownColorOptions
+    /// <summary>
+    /// Defines the color options for the <see cref="BarDropdown"/> component.
+    /// </summary>
+    public record ThemeBarDropdownColorOptions
     {
+        /// <summary>
+        /// Gets or sets the background color.
+        /// </summary>
         public string BackgroundColor { get; set; }
     }
 }

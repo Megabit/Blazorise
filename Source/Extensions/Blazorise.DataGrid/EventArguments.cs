@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -114,22 +112,74 @@ namespace Blazorise.DataGrid
     /// <summary>
     /// Provides all the information for loading the datagrid data manually.
     /// </summary>
-    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TItem">Type of the data model.</typeparam>
     public class DataGridReadDataEventArgs<TItem> : EventArgs
     {
         /// <summary>
         /// Initializes a new instance of read-data event argument.
         /// </summary>
+        /// <param name="readDataMode">ReadData Mode.</param>
+        /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public DataGridReadDataEventArgs(
+            DataGridReadDataMode readDataMode,
+            IEnumerable<DataGridColumn<TItem>> columns,
+            IList<DataGridColumn<TItem>> sortByColumns,
+            CancellationToken cancellationToken = default )
+            : this( readDataMode, columns, sortByColumns, 0, 0, 0, 0, cancellationToken )
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of read-data event argument.
+        /// </summary>
+        /// <param name="readDataMode">ReadData Mode.</param>
+        /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="sortByColumns">List of all the columns by which we're sorting the grid.</param>        
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
-        /// <param name="columns">List of all the columns in the grid.</param>
-        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken )
+        /// <param name="virtualizeOffset">Requested data start index by Virtualize.</param>
+        /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public DataGridReadDataEventArgs(
+            DataGridReadDataMode readDataMode,
+            IEnumerable<DataGridColumn<TItem>> columns,
+            IList<DataGridColumn<TItem>> sortByColumns,
+            int page,
+            int pageSize,
+            int virtualizeOffset,
+            int virtualizeCount,
+            CancellationToken cancellationToken = default )
         {
             Page = page;
             PageSize = pageSize;
-            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection, x.ColumnType ) );
+            Columns = columns?.Select( x => new DataGridColumnInfo(
+                x.Field,
+                x.Filter?.SearchValue,
+                x.CurrentSortDirection,
+                sortByColumns?.IndexOf( x ) ?? -1,
+                x.ColumnType ) );
             CancellationToken = cancellationToken;
+            VirtualizeOffset = virtualizeOffset;
+            VirtualizeCount = virtualizeCount;
+            ReadDataMode = readDataMode;
         }
+
+        /// <summary>
+        /// Gets the ReadData Mode.
+        /// </summary>
+        public DataGridReadDataMode ReadDataMode { get; }
+
+        /// <summary>
+        /// Gets the requested data start index by Virtualize.
+        /// </summary>
+        public int VirtualizeOffset { get; }
+
+        /// <summary>
+        /// Gets the max number of items requested by Virtualize.
+        /// </summary>
+        public int VirtualizeCount { get; }
 
         /// <summary>
         /// Gets the requested page number.
@@ -150,6 +200,41 @@ namespace Blazorise.DataGrid
         /// Gets the CancellationToken
         /// </summary>
         public CancellationToken CancellationToken { get; set; }
+    }
+
+    /// <summary>
+    /// Provides all the information for filtered data items.
+    /// </summary>
+    /// <typeparam name="TItem">Type of the data model.</typeparam>
+    public class DataGridFilteredDataEventArgs<TItem> : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of filtered-data event argument.
+        /// </summary>
+        /// <param name="filteredData">List of filtered data items.</param>
+        /// <param name="filteredItems">Number of filtered items.</param>
+        /// <param name="totalItems">Total available items in the data-source.</param>
+        public DataGridFilteredDataEventArgs( IEnumerable<TItem> filteredData, int filteredItems, int totalItems )
+        {
+            Data = filteredData;
+            FilteredItems = filteredItems;
+            TotalItems = totalItems;
+        }
+
+        /// <summary>
+        /// Gets the list of filtered data items.
+        /// </summary>
+        public IEnumerable<TItem> Data { get; }
+
+        /// <summary>
+        /// Gets the number of filtered items.
+        /// </summary>
+        public int FilteredItems { get; }
+
+        /// <summary>
+        /// Gets the total available items in the data-source.
+        /// </summary>
+        public int TotalItems { get; }
     }
 
     /// <summary>
@@ -186,10 +271,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="item">Model that belongs to the grid row.</param>
         /// <param name="selected">Indicates if the row is selected or not.</param>
-        public MultiSelectEventArgs( TItem item, bool selected )
+        /// <param name="shiftKey">True if the user is holding shift key.</param>
+        public MultiSelectEventArgs( TItem item, bool selected, bool shiftKey )
         {
             Item = item;
             Selected = selected;
+            ShiftKey = shiftKey;
         }
 
         /// <summary>
@@ -201,5 +288,37 @@ namespace Blazorise.DataGrid
         /// Returns true if the row is selected.
         /// </summary>
         public bool Selected { get; }
+
+        /// <summary>
+        /// Returns true if user has ShiftClicked.
+        /// </summary>
+        public bool ShiftKey { get; }
+    }
+
+    /// <summary>
+    /// Provides all the information about the current column sorting.
+    /// </summary>
+    public class DataGridSortChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Default constructors.
+        /// </summary>
+        /// <param name="fieldName">Column field name.</param>
+        /// <param name="sortDirection">Column sort direction.</param>
+        public DataGridSortChangedEventArgs( string fieldName, SortDirection sortDirection )
+        {
+            FieldName = fieldName;
+            SortDirection = sortDirection;
+        }
+
+        /// <summary>
+        /// Gets the field name of the column that is being sorted.
+        /// </summary>
+        public string FieldName { get; }
+
+        /// <summary>
+        /// Gets the new sort direction of the specified field name.
+        /// </summary>
+        public SortDirection SortDirection { get; }
     }
 }

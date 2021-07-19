@@ -9,7 +9,7 @@ namespace Blazorise.Charts
 {
     static class JS
     {
-        private static readonly object CreateDotNetObjectRefSyncObj = new object();
+        private static readonly object CreateDotNetObjectRefSyncObj = new();
 
         public static DotNetObjectReference<ChartAdapter> CreateDotNetObjectRef( ChartAdapter adapter )
         {
@@ -30,12 +30,11 @@ namespace Blazorise.Charts
             }
         }
 
-        public static ValueTask Initialize<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, bool hasClickEvent, bool hasHoverEvent, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
+        public static ValueTask Initialize<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
         {
             return runtime.InvokeVoidAsync( "blazoriseCharts.initialize",
                 dotNetObjectReference,
-                hasClickEvent,
-                hasHoverEvent,
+                eventOptions,
                 canvasId,
                 ToChartTypeString( type ),
                 ToChartDataSet( data ),
@@ -73,6 +72,11 @@ namespace Blazorise.Charts
         public static ValueTask AddDataSet( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newDataSet )
         {
             return runtime.InvokeVoidAsync( "blazoriseCharts.addDataset", canvasId, newDataSet );
+        }
+
+        public static ValueTask RemoveDataSet( IJSRuntime runtime, string canvasId, int dataSetIndex )
+        {
+            return runtime.InvokeVoidAsync( "blazoriseCharts.removeDataset", canvasId, dataSetIndex );
         }
 
         public static ValueTask AddDatasetsAndUpdate( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newDataSet )
@@ -127,6 +131,18 @@ namespace Blazorise.Charts
                 ChartType.PolarArea => "polarArea",
                 _ => "line",
             };
+        }
+
+        /// <summary>
+        ///  Manually resize the canvas element. This is run each time the canvas container is resized,
+        ///  but you can call this method manually if you change the size of the canvas nodes container element.
+        /// </summary>
+        /// <param name="runtime">JS runtime.</param>
+        /// <param name="canvasId">Id of the canvas.</param>
+        /// <returns></returns>
+        public static ValueTask Resize( IJSRuntime runtime, string canvasId )
+        {
+            return runtime.InvokeVoidAsync( "blazoriseCharts.resize", canvasId );
         }
 
         private static object ToChartDataSet<T>( ChartData<T> data )

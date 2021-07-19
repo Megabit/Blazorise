@@ -1,16 +1,16 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowMultiSelect<TItem>
-<TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment">
+<TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment">
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
-        <Label @onclick:stopPropagation>
-            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( EventCallback.Factory.Create( this, new Func<bool, Task>( OnCheckedChanged ) ), Checked, false, Item ) )
+        <Label @onclick="@OnCheckedClicked">
+            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new( EventCallback.Factory.Create( this, new Func<bool, Task>( OnCheckedChanged ) ), Checked, false, Item ) )
         </Label>
     }
     else
     {
-        <Label @onclick:stopPropagation>
-            <Check TValue="bool" Checked="@Checked" CheckedChanged="@OnCheckedChanged" CheckedExpression="@(()=> Checked)" @onclick:stopPropagation></Check>
+        <Label @onclick="@OnCheckedClicked">
+            <Check TValue="bool" Checked="@Checked" CheckedChanged="@OnCheckedChanged" CheckedExpression="@(()=> Checked)"></Check>
         </Label>
     }
 </TableRowCell>

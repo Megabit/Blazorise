@@ -32,7 +32,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Sets the prefered color contrast for the header.
+        /// Sets the preferred color contrast for the header.
         /// </summary>
         [Parameter]
         public ThemeContrast ThemeContrast
@@ -45,6 +45,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the cascaded parent table component.
+        /// </summary>
+        [CascadingParameter] protected Table ParentTable { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="TableHeader"/>.

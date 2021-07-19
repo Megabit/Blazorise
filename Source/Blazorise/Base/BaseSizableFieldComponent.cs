@@ -18,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             if ( ColumnSize != null && ColumnSizeSupported )
@@ -26,6 +27,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             // link to the parent component
@@ -68,6 +70,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Cascaded parent <see cref="Field"/> component.
+        /// </summary>
         [CascadingParameter] protected Field ParentField { get; set; }
 
         #endregion

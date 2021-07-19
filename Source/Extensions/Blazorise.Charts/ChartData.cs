@@ -65,6 +65,7 @@ namespace Blazorise.Charts
         /// List of data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
+        [JsonNumberHandling( JsonNumberHandling.AllowNamedFloatingPointLiterals )]
         public List<T> Data { get; set; }
 
         /// <summary>
@@ -100,6 +101,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public int Order { get; set; }
+
+        /// <summary>
+        /// If true, makes the dataset hidden.
+        /// </summary>
+        [DataMember]
+        public bool Hidden { get; set; }
     }
 
     /// <remarks>
@@ -110,8 +117,8 @@ namespace Blazorise.Charts
     {
         public LineChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
         {
@@ -122,7 +129,7 @@ namespace Blazorise.Charts
         /// Length and spacing of dashes.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<int> BorderDash { get; set; } = new List<int>();
+        public List<int> BorderDash { get; set; } = new();
 
         /// <summary>
         /// Offset for line dashes.
@@ -193,6 +200,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public string CubicInterpolationMode { get; set; } = "default";
+
+        [DataMember( EmitDefaultValue = false )]
+        public string XAxisID { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public string YAxisID { get; set; }
     }
 
     /// <remarks>
@@ -203,8 +216,8 @@ namespace Blazorise.Charts
     {
         public BarChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 0
         )
         {
@@ -244,8 +257,8 @@ namespace Blazorise.Charts
     {
         public PieChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
         {
@@ -296,8 +309,8 @@ namespace Blazorise.Charts
     {
         public PolarAreaChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
         {
@@ -338,8 +351,8 @@ namespace Blazorise.Charts
     {
         public RadarChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
         {
@@ -408,7 +421,7 @@ namespace Blazorise.Charts
         /// <param name="blue"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
+        public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new( red, green, blue, alpha );
 
         /// <summary>
         /// Creates a new color based on the supplied HTML color code.
@@ -424,7 +437,7 @@ namespace Blazorise.Charts
 
             if ( HtmlColorCodeParser.TryParse( code, out var red, out var green, out var blue ) )
             {
-                return new ChartColor( red, green, blue );
+                return new( red, green, blue );
             }
 
             throw new ArgumentException( $"The \"{code}\" doesn't represent a valid HTML color code.", nameof( code ) );

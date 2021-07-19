@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Extensions
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static class RenderTreeBuilderExtensions
     {
         public static RenderTreeBuilder OpenElement( this RenderTreeBuilder builder, string name, [CallerLineNumber] int line = 0 )
@@ -137,24 +138,29 @@ namespace Blazorise.Extensions
 
         public static RenderTreeBuilder TabIndex( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
         {
-            builder.AddAttribute( GetSequence( line ), $"tabindex", value );
+            builder.AddAttribute( GetSequence( line ), "tabindex", value );
 
             return builder;
         }
 
         public static RenderTreeBuilder AriaPressed( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
-            return Aria( builder, "pressed", value );
+            return Aria( builder, "pressed", value, line );
         }
 
         public static RenderTreeBuilder AriaHidden( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
-            return Aria( builder, "hidden", value );
+            return Aria( builder, "hidden", value, line );
         }
 
         public static RenderTreeBuilder AriaLabel( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
-            return Aria( builder, "label", value );
+            return Aria( builder, "label", value, line );
+        }
+
+        public static RenderTreeBuilder AriaDisabled( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
+        {
+            return Aria( builder, "disabled", value, line );
         }
 
         public static RenderTreeBuilder Data( this RenderTreeBuilder builder, string name, object value, [CallerLineNumber] int line = 0 )
@@ -174,6 +180,13 @@ namespace Blazorise.Extensions
         public static RenderTreeBuilder OnClick( this RenderTreeBuilder builder, object receiver, EventCallback callback, [CallerLineNumber] int line = 0 )
         {
             builder.AddAttribute( GetSequence( line ), "onclick", EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>( receiver, callback ) );
+
+            return builder;
+        }
+
+        public static RenderTreeBuilder OnClickPreventDefault( this RenderTreeBuilder builder, bool preventDefault, [CallerLineNumber] int line = 0 )
+        {
+            builder.AddEventPreventDefaultAttribute( GetSequence( line ), "onclick", preventDefault );
 
             return builder;
         }
@@ -212,4 +225,5 @@ namespace Blazorise.Extensions
             return line;
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

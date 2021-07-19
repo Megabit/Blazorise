@@ -1,7 +1,5 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
-@using System.Globalization
-@using Blazorise.Localization
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
@@ -18,7 +16,6 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
-                        <BarLabel>Main</BarLabel>
                         <BarItem>
                             <BarLink To="">
                                 <BarIcon IconName="IconName.Dashboard" />
@@ -68,8 +65,14 @@
                                     <BarDropdownItem To="tests/carousel">
                                         Carousel
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="tests/layout">
-                                        Layout
+                                    <BarDropdownItem To="tests/ratings">
+                                        Rating
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/icons">
+                                        Icons
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/listgroup">
+                                        List group
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -125,17 +128,57 @@
                                     <BarDropdownItem To="tests/livecharts">
                                         Live Charts
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/markdown">
+                                        Markdown
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="tests/treeview">
                                         TreeView
                                     </BarDropdownItem>
                                     <BarDropdownItem To="tests/richtextedit">
                                         RichTextEdit
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/spinkit">
+                                        Spin Kit
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
                     </BarStart>
                     <BarEnd>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Flask" />
+                                    Utilities
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="tests/utilities/borders">
+                                        Borders
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/flex">
+                                        Flex
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/overflow">
+                                        Overflow
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/layout">
+                                        Layout
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/shadows">
+                                        Shadows
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/sizing">
+                                        Sizing
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/vertical-align">
+                                        Vertical align
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/utilities/services">
+                                        Services
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
                         <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
@@ -181,6 +224,7 @@
                                     <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
                                         Quick-Start Guide
                                     </BarDropdownItem>
+                                    <BarDropdownDivider />
                                     <BarDropdownItem To="https://blazorise.com/docs/usage/">
                                         Usage
                                     </BarDropdownItem>
@@ -241,7 +285,7 @@
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
-                            <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
+                            <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
                         </BarItem>
                     </BarEnd>
                 </BarMenu>
@@ -252,91 +296,6 @@
         </LayoutContent>
     </Layout>
 </Layout>
-
 @code{
-    [Inject] protected ITextLocalizerService LocalizationService { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await SelectCulture( "en-US" );
-
-        await base.OnInitializedAsync();
-    }
-
-    Task SelectCulture( string name )
-    {
-        LocalizationService.ChangeLanguage( name );
-
-        return Task.CompletedTask;
-    }
-
-    void OnThemeEnabledChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.Enabled = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnGradientChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsGradient = value;
-
-        //if ( Theme.GradientOptions == null )
-        //    Theme.GradientOptions = new GradientOptions();
-
-        //Theme.GradientOptions.BlendPercentage = 80;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnRoundedChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsRounded = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnThemeColorChanged( string value )
-    {
-        if ( Theme == null )
-            return;
-
-        if ( Theme.ColorOptions == null )
-            Theme.ColorOptions = new ThemeColorOptions();
-
-        if ( Theme.BackgroundOptions == null )
-            Theme.BackgroundOptions = new ThemeBackgroundOptions();
-
-        if ( Theme.TextColorOptions == null )
-            Theme.TextColorOptions = new ThemeTextColorOptions();
-
-        Theme.ColorOptions.Primary = value;
-        Theme.BackgroundOptions.Primary = value;
-        Theme.TextColorOptions.Primary = value;
-
-        if ( Theme.InputOptions == null )
-            Theme.InputOptions = new ThemeInputOptions();
-
-        //Theme.InputOptions.Color = value;
-        Theme.InputOptions.CheckColor = value;
-        Theme.InputOptions.SliderColor = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    private bool topbarVisible = false;
-    private bool uiElementsVisible = true;
-
-    [CascadingParameter] protected Theme Theme { get; set; }
-
     RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
 }

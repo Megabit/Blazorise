@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,6 +6,8 @@ namespace Blazorise.DataGrid
 {
     public class PaginationTemplates<TItem>
     {
+        public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
+
         public RenderFragment FirstPageButtonTemplate { get; set; }
 
         public RenderFragment LastPageButtonTemplate { get; set; }

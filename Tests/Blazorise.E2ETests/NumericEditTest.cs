@@ -3,7 +3,6 @@ using BasicTestApp.Client;
 using Blazorise.E2ETests.Infrastructure;
 using Blazorise.E2ETests.Infrastructure.ServerFixtures;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using Xunit;
 using Xunit.Abstractions;
 using DevHostServerProgram = BasicTestApp.Server.Program;
@@ -191,7 +190,7 @@ namespace Blazorise.E2ETests
             numeric.SendKeys( "0" );
             WaitAssert.Equal( "0", () => result.Text );
             result.Click();
-            WaitAssert.Equal( "0", () => result.Text );
+            WaitAssert.Equal( "10", () => result.Text );
         }
     }
 }

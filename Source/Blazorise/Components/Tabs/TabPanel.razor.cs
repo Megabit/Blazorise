@@ -39,15 +39,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentTabs != null )
-            {
-                ParentTabs.NotifyTabPanelInitialized( Name );
-            }
+            ParentTabs?.NotifyTabPanelInitialized( Name );
 
-            if ( ParentTabsContent != null )
-            {
-                ParentTabsContent.NotifyTabPanelInitialized( Name );
-            }
+            ParentTabsContent?.NotifyTabPanelInitialized( Name );
 
             base.OnInitialized();
         }
@@ -57,15 +51,9 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentTabs != null )
-                {
-                    ParentTabs.NotifyTabPanelRemoved( Name );
-                }
+                ParentTabs?.NotifyTabPanelRemoved( Name );
 
-                if ( ParentTabsContent != null )
-                {
-                    ParentTabsContent.NotifyTabPanelRemoved( Name );
-                }
+                ParentTabsContent?.NotifyTabPanelRemoved( Name );
             }
 
             base.Dispose( disposing );
@@ -81,7 +69,7 @@ namespace Blazorise
         protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
 
         /// <summary>
-        /// Defines the panel name. Must match the coresponding tab name.
+        /// Defines the panel name. Must match the corresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 

@@ -4,74 +4,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Charts
 {
-    /// <summary>
-    /// Interface is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
-    /// </summary>
-    public interface IBaseChart
-    {
-        Task Event( string eventName, int datasetIndex, int index, string model );
-    }
-
-    public class BaseChart<TItem> : BaseComponent
-    {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.Chart() );
-
-            base.BuildClasses( builder );
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                _ = JS.Destroy( JSRuntime, ElementId );
-                JS.DisposeDotNetObjectRef( DotNetObjectRef );
-            }
-
-            base.Dispose( disposing );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        protected override bool ShouldAutoGenerateId => true;
-
-        protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
-
-        [Inject] protected IJSRuntime JSRuntime { get; set; }
-
-        /// <summary>
-        /// Defines the chart data.
-        /// </summary>
-        [Parameter] public ChartData<TItem> Data { get; set; }
-
-        [Parameter] public EventCallback<ChartMouseEventArgs> Clicked { get; set; }
-
-        [Parameter] public EventCallback<ChartMouseEventArgs> Hovered { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
-    }
-
     public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IBaseChart
-    where TDataSet : ChartDataset<TItem>
-    where TOptions : ChartOptions
-    where TModel : ChartModel
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
     {
         #region Members
 
@@ -100,6 +40,7 @@ namespace Blazorise.Charts
         /// <summary>
         /// Clears all the labels and data from the chart.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Clear()
         {
             dirty = true;
@@ -115,6 +56,7 @@ namespace Blazorise.Charts
         /// Adds a new label to the chart.
         /// </summary>
         /// <param name="labels">Label name(s).</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Obsolete( "This method will likely be removed in the future. Please use " + nameof( AddLabels ) + " instead." )]
         public Task AddLabel( params object[] labels )
         {
@@ -150,11 +92,26 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
+        /// Removed the dataset at the specified index.
+        /// </summary>
+        /// <param name="dataSetIndex">Index of the dataset in the data list.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task RemoveDataSet( int dataSetIndex )
+        {
+            dirty = true;
+
+            Datasets.RemoveAt( dataSetIndex );
+
+            if ( initialized )
+                await JS.RemoveDataSet( JSRuntime, ElementId, dataSetIndex );
+        }
+
+        /// <summary>
         /// Sets the new data point(s) to the specified dataset.
         /// </summary>
         /// <param name="dataSetIndex">Dataset index to which we set the data point(s).</param>
         /// <param name="data">Data point(s) to set.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetData( int dataSetIndex, List<TItem> data )
         {
             dirty = true;
@@ -170,7 +127,7 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="dataSetIndex">Dataset index to which we add the data point(s).</param>
         /// <param name="data">Data point(s) to add.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddData( int dataSetIndex, params TItem[] data )
         {
             dirty = true;
@@ -185,7 +142,7 @@ namespace Blazorise.Charts
         /// Adds new datasets and then update the chart.
         /// </summary>
         /// <param name="datasets">List of datasets.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddDatasetsAndUpdate( params TDataSet[] datasets )
         {
             dirty = true;
@@ -201,8 +158,8 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="labels">List of labels.</param>
         /// <param name="datasets">List of datasets.</param>
-        /// <returns></returns>
-        public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<string> labels, params TDataSet[] datasets )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<object> labels, params TDataSet[] datasets )
         {
             dirty = true;
 
@@ -215,7 +172,7 @@ namespace Blazorise.Charts
 
         /// <summary>
         /// Removes the oldest label.
-        /// </summary>       
+        /// </summary>
         public async Task ShiftLabel()
         {
             dirty = true;
@@ -238,7 +195,7 @@ namespace Blazorise.Charts
         }
         /// <summary>
         /// Removes the newest label.
-        /// </summary>       
+        /// </summary>
         public async Task PopLabel()
         {
             dirty = true;
@@ -251,7 +208,7 @@ namespace Blazorise.Charts
         /// Removes the newest data point from the specified dataset.
         /// </summary>
         /// <param name="dataSetIndex">Dataset index from which the newest data point is to be removed from.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task PopData( int dataSetIndex )
         {
             dirty = true;
@@ -261,10 +218,10 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Sets the charts options manually. Must call 
+        /// Sets the chart's options manually. Must call Update after making this call.  If the options changes AspectRatio must also call Resize after Update.
         /// </summary>
-        /// <param name="options">New chart options.</param>
-        /// <returns></returns>
+        /// <param name="options">New chart options used though OptionsJsonString or OptionsObject will supersede.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetOptions( TOptions options )
         {
             dirty = true;
@@ -275,11 +232,45 @@ namespace Blazorise.Charts
                 await JS.SetOptions( JSRuntime, ElementId, Converters.ToDictionary( Options ), OptionsJsonString, OptionsObject );
         }
 
-        private async Task Initialize()
+        /// <summary>
+        /// Sets the chart's <see cref="OptionsObject"/> manually. Must call <see cref="Update"/> after manging this call.
+        /// If the options changes AspectRatio must also call <see cref="Resize"/> after <see cref="Update"/>.
+        /// </summary>
+        /// <param name="optionsObject">New chart options object used.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task SetOptionsObject( object optionsObject )
         {
-            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            dirty = true;
 
-            await JS.Initialize( JSRuntime, DotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+            OptionsObject = optionsObject;
+
+            if ( initialized )
+                await JS.SetOptions( JSRuntime, ElementId, default( TOptions ), OptionsJsonString, optionsObject );
+        }
+
+        /// <summary>
+        ///  Manually resize the canvas element. This is run each time the canvas container is resized,
+        ///  but you can call this method manually if you change the size of the canvas nodes container element.
+        ///  Should also be called when updating the aspect ratio.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Resize()
+        {
+            if ( initialized )
+                await JS.Resize( JSRuntime, ElementId );
+        }
+
+        private ValueTask Initialize()
+        {
+            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new( this ) );
+
+            var eventOptions = new
+            {
+                HasClickEvent = Clicked.HasDelegate,
+                HasHoverEvent = Hovered.HasDelegate,
+            };
+
+            return JS.Initialize( JSRuntime, DotNetObjectRef, eventOptions, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
@@ -305,12 +296,14 @@ namespace Blazorise.Charts
         {
             var model = Serialize( modelJson );
 
-            var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
+            var eventArgs = new ChartMouseEventArgs( datasetIndex, index, model );
 
             if ( eventName == "click" )
-                return Clicked.InvokeAsync( chartClickData );
+                return Clicked.InvokeAsync( eventArgs );
             else if ( eventName == "hover" )
-                return Hovered.InvokeAsync( chartClickData );
+                return Hovered.InvokeAsync( eventArgs );
+            else if ( eventName == "mouseout" )
+                return MouseOut.InvokeAsync( eventArgs );
 
             return Task.CompletedTask;
         }
@@ -346,11 +339,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Labels == null )
-                    Data.Labels = new List<object>();
+                    Data.Labels = new();
 
                 return Data.Labels;
             }
@@ -360,11 +352,10 @@ namespace Blazorise.Charts
         {
             get
             {
-                if ( Data == null )
-                    Data = new ChartData<TItem>();
+                Data ??= new();
 
                 if ( Data.Datasets == null )
-                    Data.Datasets = new List<ChartDataset<TItem>>();
+                    Data.Datasets = new();
 
                 return Data.Datasets;
             }

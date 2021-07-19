@@ -22,6 +22,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -29,26 +30,29 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( IsDelayTextOnKeyPress )
             {
-                inputValueDebouncer = new ValueDebouncer( DelayTextOnKeyPressIntervalValue );
+                inputValueDebouncer = new( DelayTextOnKeyPressIntervalValue );
                 inputValueDebouncer.Debounced += OnInputValueDebounced;
             }
 
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.MemoEdit() );
+            builder.Append( ClassProvider.MemoEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
@@ -129,10 +133,7 @@ namespace Blazorise
         /// <param name="value">Latest received value.</param>
         private void OnInputValueDebounced( object sender, string value )
         {
-            InvokeAsync( async () =>
-            {
-                await CurrentValueHandler( value );
-            } );
+            InvokeAsync( () => CurrentValueHandler( value ) );
         }
 
         #endregion
@@ -162,6 +163,12 @@ namespace Blazorise
         /// </summary>
         protected int DelayTextOnKeyPressIntervalValue
             => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
+
+        /// <summary>
+        /// The name of the event for the textarea element.
+        /// </summary>
+        protected string BindValueEventName
+            => IsChangeTextOnKeyPress ? "oninput" : "onchange";
 
         /// <summary>
         /// Sets the placeholder for the empty text.
@@ -202,12 +209,12 @@ namespace Blazorise
         [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
 
         /// <summary>
-        /// If true the entered text will be slightly delayed before submiting it to the internal value.
+        /// If true the entered text will be slightly delayed before submitting it to the internal value.
         /// </summary>
         [Parameter] public bool? DelayTextOnKeyPress { get; set; }
 
         /// <summary>
-        /// Interval in milliseconds that entered text will be delayed from submiting to the internal value.
+        /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
         /// </summary>
         [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
 

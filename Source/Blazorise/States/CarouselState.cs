@@ -6,18 +6,28 @@
     public record CarouselState
     {
         /// <summary>
-        /// Autoplays the carousel slides from left to right.
+        /// Auto-plays the carousel slides from left to right.
         /// </summary>
         public bool Autoplay { get; init; }
 
         /// <summary>
-        /// Animate slides with a fade transition instead of a slide.
+        /// Auto-repeats the carousel slides from the beginning once it reaches the end slide.
+        /// </summary>
+        public bool AutoRepeat { get; init; }
+
+        /// <summary>
+        /// Animate slides with a fade transition instead of a slide animation.
         /// </summary>
         public bool Crossfade { get; init; }
 
         /// <summary>
         /// Gets or sets currently selected slide name.
         /// </summary>
-        public string CurrentSlide { get; init; }
+        public string SelectedSlide { get; init; }
+
+        /// <summary>
+        /// Gets or sets previously selected slide name.
+        /// </summary>
+        public string PreviouslySelectedSlide { get; init; }
     }
 }

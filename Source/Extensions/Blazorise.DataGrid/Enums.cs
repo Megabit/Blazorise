@@ -1,6 +1,22 @@
 ﻿namespace Blazorise.DataGrid
 {
     /// <summary>
+    /// Specifies the ReadDataMode
+    /// </summary>
+    public enum DataGridReadDataMode
+    {
+        /// <summary>
+        /// Paging ReadDataMode
+        /// </summary>
+        Paging,
+
+        /// <summary>
+        /// Virtualize ReadDataMode
+        /// </summary>
+        Virtualize
+    }
+
+    /// <summary>
     /// States of the row items.
     /// </summary>
     public enum DataGridEditState
@@ -210,21 +226,5 @@
         /// Only button row will render.
         /// </summary>
         ButtonRow
-    }
-
-    /// <summary>
-    /// Defines the resize mode of the data grid columns.
-    /// </summary>
-    public enum DataGridResizeMode
-    {
-        /// <summary>
-        /// The data grid can only be resized from the columns header.
-        /// </summary>
-        Header,
-
-        /// <summary>
-        /// The data grid can be resized from the entire column area.
-        /// </summary>
-        Columns
     }
 }

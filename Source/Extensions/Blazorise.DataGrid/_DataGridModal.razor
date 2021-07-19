@@ -6,7 +6,7 @@
             <ModalTitle>
                 @if ( TitleTemplate != null && EditItem != null )
                 {
-                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState, EditState == DataGridEditState.Edit
+                    @TitleTemplate( new( EditItem, EditState, EditState == DataGridEditState.Edit
                         ? Localizer.Localize( ParentDataGrid.Localizers?.EditLocalizer, "Edit" )
                         : Localizer.Localize( ParentDataGrid.Localizers?.CreateLocalizer, "Create" ) ) )
                 }
@@ -20,10 +20,10 @@
             <CloseButton Clicked="@Cancel" AutoClose="false" />
         </ModalHeader>
         <ModalBody>
-            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
                 @if ( ParentDataGrid.ShowValidationsSummary )
                 {
-                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
+                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                 }
                 <Fields>
                     @foreach ( var column in OrderedEditableColumns )
@@ -33,7 +33,7 @@
                                 @column.Caption
                             </FieldLabel>
                             <FieldBody>
-                                <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                                <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" ValidationItem="@ValidationItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                             </FieldBody>
                         </Field>
                     }
@@ -47,7 +47,7 @@
 
                 @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                     {
                         Clicked = callbackFactory.Create( this, SaveWithValidation ),
                         LocalizationString = saveButtonString,
@@ -67,7 +67,7 @@
 
                 @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                     {
                         Clicked = Cancel,
                         LocalizationString = cancelButtonString,

@@ -27,7 +27,7 @@ namespace Blazorise
         {
             if ( Theme != null )
             {
-                Theme.Changed += OnChanged;
+                Theme.Changed += OnThemeChanged;
             }
 
             base.OnInitialized();
@@ -40,7 +40,7 @@ namespace Blazorise
             {
                 if ( Theme != null )
                 {
-                    Theme.Changed -= OnChanged;
+                    Theme.Changed -= OnThemeChanged;
                 }
             }
 
@@ -59,9 +59,9 @@ namespace Blazorise
         /// <summary>
         /// An event raised when theme settings changes.
         /// </summary>
-        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="sender">An object that raised the event.</param>
         /// <param name="eventArgs"></param>
-        private void OnChanged( object sender, EventArgs eventArgs )
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
         {
             DirtyClasses();
             DirtyStyles();

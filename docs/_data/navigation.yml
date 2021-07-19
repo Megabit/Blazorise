@@ -35,6 +35,8 @@ docs:
         url: /docs/components/color/
       - title: "Date"
         url: /docs/components/date/
+      - title: "Date Picker"
+        url: /docs/components/date-picker/
       - title: "Divider"
         url: /docs/components/divider/
       - title: "Field"
@@ -61,6 +63,8 @@ docs:
         url: /docs/components/text/
       - title: "Time"
         url: /docs/components/time/
+      - title: "Time Picker"
+        url: /docs/components/time-picker/
       - title: "Validation"
         url: /docs/components/validation/
   - title: Components
@@ -98,6 +102,8 @@ docs:
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Rating"
+        url: /docs/components/rating/
       - title: "Repeater"
         url: /docs/components/repeater/
       - title: "Step"
@@ -123,6 +129,8 @@ docs:
         url: /docs/extensions/dropdownlist/
       - title: "Icons"
         url: /docs/extensions/icons/
+      - title: "Markdown"
+        url: /docs/extensions/markdown/
       - title: "RichTextEdit"
         url: /docs/extensions/richtextedit/
       - title: "SelectList"
@@ -133,6 +141,15 @@ docs:
         url: /docs/extensions/snackbar/
       - title: "TreeView"
         url: /docs/extensions/treeview/
+  - title: Services
+    url: /docs/services/
+    children:
+      - title: "Messages"
+        url: /docs/services/message/
+      - title: "Notifications"
+        url: /docs/services/notification/
+      - title: "Page Progress"
+        url: /docs/services/page-progress/
   - title: Helpers
     url: /docs/helpers/
     children:

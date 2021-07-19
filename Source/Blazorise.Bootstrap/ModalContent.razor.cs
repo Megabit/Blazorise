@@ -14,7 +14,7 @@ namespace Blazorise.Bootstrap
 
         public ModalContent()
         {
-            DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
+            DialogClassBuilder = new( BuildDialogClasses );
         }
 
         #endregion
@@ -30,10 +30,15 @@ namespace Blazorise.Bootstrap
 
         private void BuildDialogClasses( ClassBuilder builder )
         {
-            builder.Append( $"modal-dialog" );
+            builder.Append( "modal-dialog" );
             builder.Append( $"modal-{ClassProvider.ToModalSize( Size )}", Size != ModalSize.Default );
+            builder.Append( ClassProvider.ModalContentCentered( Centered ) );
 
-            builder.Append( ClassProvider.ModalContentCentered(), Centered );
+            if ( Centered )
+                builder.Append( "modal-dialog-centered" );
+
+            if ( Scrollable )
+                builder.Append( "modal-dialog-scrollable" );
         }
 
         #endregion

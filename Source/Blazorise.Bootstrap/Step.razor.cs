@@ -11,7 +11,7 @@ namespace Blazorise.Bootstrap
         public Step()
             : base()
         {
-            ContainerClassBuilder = new ClassBuilder( BuildContainerClasses );
+            ContainerClassBuilder = new( BuildContainerClasses );
         }
 
         #endregion

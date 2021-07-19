@@ -4,14 +4,14 @@
 {
     @if ( EditState == DataGridEditState.Edit )
     {
-        <TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment">
+        <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment">
             @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
             {
                 var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
                 @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                     {
                         Clicked = Save,
                         LocalizationString = saveButtonString,
@@ -31,7 +31,7 @@
 
                 @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                     {
                         Clicked = Cancel,
                         LocalizationString = cancelButtonString,
@@ -49,14 +49,14 @@
     }
     else if ( EditState == DataGridEditState.None )
     {
-        <TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment">
+        <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment">
             @if ( ParentDataGrid.CommandColumn?.EditCommandAllowed == true )
             {
                 var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
 
                 @if ( ParentDataGrid.CommandColumn?.EditCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.EditCommandTemplate( new EditCommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.EditCommandTemplate( new()
                     {
                         Clicked = Edit,
                         LocalizationString = editButtonString,
@@ -76,7 +76,7 @@
 
                 @if ( ParentDataGrid.CommandColumn?.DeleteCommandTemplate != null )
                 {
-                    @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new DeleteCommandContext<TItem>
+                    @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new()
                     {
                         Clicked = Delete,
                         LocalizationString = deleteButtonString,

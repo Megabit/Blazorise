@@ -6,20 +6,45 @@ using Blazorise.Utilities;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base interface for all fluent spacing builders.
+    /// </summary>
     public interface IFluentSpacing
     {
+        /// <summary>
+        /// Builds the classnames based on spacing rules.
+        /// </summary>
+        /// <param name="classProvider">Currently used class provider.</param>
+        /// <returns>List of classnames for the given rules and the class provider.</returns>
         string Class( IClassProvider classProvider );
     }
 
-    public interface IFluentSpacingOnBreakpointWithSide : IFluentSpacing, IFluentSpacingFromSide, IFluentSpacingOnBreakpoint
+    /// <summary>
+    /// Contains all the allowed spacing rules, except sizes.
+    /// </summary>
+    public interface IFluentSpacingOnBreakpointWithSide :
+        IFluentSpacing,
+        IFluentSpacingFromSide,
+        IFluentSpacingOnBreakpoint
     {
     }
 
-    public interface IFluentSpacingOnBreakpointWithSideAndSize : IFluentSpacing, IFluentSpacingFromSide, IFluentSpacingOnBreakpoint, IFluentSpacingWithSize
+    /// <summary>
+    /// Contains all the allowed spacing rules.
+    /// </summary>
+    public interface IFluentSpacingOnBreakpointWithSideAndSize :
+        IFluentSpacing,
+        IFluentSpacingFromSide,
+        IFluentSpacingOnBreakpoint,
+        IFluentSpacingWithSize
     {
     }
 
-    public interface IFluentSpacingFromSide : IFluentSpacing
+    /// <summary>
+    /// Allowed sides for spacing rules.
+    /// </summary>
+    public interface IFluentSpacingFromSide :
+        IFluentSpacing
     {
         /// <summary>
         /// For classes that set margin-top or padding-top.
@@ -57,7 +82,12 @@ namespace Blazorise
         IFluentSpacingOnBreakpointWithSideAndSize OnAll { get; }
     }
 
-    public interface IFluentSpacingOnBreakpoint : IFluentSpacing, IFluentSpacingFromSide
+    /// <summary>
+    /// Allowed breakpoints for spacing rules.
+    /// </summary>
+    public interface IFluentSpacingOnBreakpoint :
+        IFluentSpacing,
+        IFluentSpacingFromSide
     {
         /// <summary>
         /// Valid on all devices. (extra small)
@@ -85,7 +115,11 @@ namespace Blazorise
         IFluentSpacingOnBreakpointWithSideAndSize OnFullHD { get; }
     }
 
-    public interface IFluentSpacingWithSize : IFluentSpacing
+    /// <summary>
+    /// Allowed sizes for spacing rules.
+    /// </summary>
+    public interface IFluentSpacingWithSize :
+        IFluentSpacing
     {
         /// <summary>
         /// For classes that eliminate the margin or padding by setting it to 0.
@@ -129,6 +163,9 @@ namespace Blazorise
         IFluentSpacingWithSize Is( string value );
     }
 
+    /// <summary>
+    /// Default implementation of <see cref="IFluentSpacing"/>.
+    /// </summary>
     public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IFluentSpacingOnBreakpoint, IFluentSpacingFromSide, IFluentSpacingOnBreakpointWithSide, IFluentSpacingOnBreakpointWithSideAndSize
     {
         #region Members
@@ -143,11 +180,11 @@ namespace Blazorise
         /// <summary>
         /// Spacing type.
         /// </summary>
-        protected readonly Spacing spacing;
+        private readonly Spacing spacing;
 
         private SpacingDefinition currentSpacing;
 
-        private Dictionary<SpacingSize, List<SpacingDefinition>> rules = new Dictionary<SpacingSize, List<SpacingDefinition>>();
+        private readonly Dictionary<SpacingSize, List<SpacingDefinition>> rules = new();
 
         private List<string> customRules;
 
@@ -159,6 +196,10 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="FluentSpacing"/> constructor.
+        /// </summary>
+        /// <param name="spacing">Spacing builder type.</param>
         public FluentSpacing( Spacing spacing )
         {
             this.spacing = spacing;
@@ -168,6 +209,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public string Class( IClassProvider classProvider )
         {
             if ( dirty )
@@ -196,20 +238,30 @@ namespace Blazorise
             dirty = true;
         }
 
+        /// <summary>
+        /// Appends the new spacing size rule.
+        /// </summary>
+        /// <param name="spacingSize">Spacing size to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentSpacingOnBreakpointWithSideAndSize WithSize( SpacingSize spacingSize )
         {
             var spacingDefinition = new SpacingDefinition { Breakpoint = Breakpoint.None, Side = Side.All };
 
-            if ( !rules.ContainsKey( spacingSize ) )
-                rules.Add( spacingSize, new List<SpacingDefinition>() { spacingDefinition } );
+            if ( rules.TryGetValue( spacingSize, out var rule ) )
+                rule.Add( spacingDefinition );
             else
-                rules[spacingSize].Add( spacingDefinition );
+                rules.Add( spacingSize, new() { spacingDefinition } );
 
             currentSpacing = spacingDefinition;
             Dirty();
             return this;
         }
 
+        /// <summary>
+        /// Appends the new side rule.
+        /// </summary>
+        /// <param name="side">Side to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentSpacingOnBreakpointWithSideAndSize WithSide( Side side )
         {
             currentSpacing.Side = side;
@@ -218,6 +270,11 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// Appends the new breakpoint rule.
+        /// </summary>
+        /// <param name="breakpoint">Breakpoint to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentSpacingOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
         {
             currentSpacing.Breakpoint = breakpoint;
@@ -229,7 +286,7 @@ namespace Blazorise
         private IFluentSpacingWithSize WithSize( string value )
         {
             if ( customRules == null )
-                customRules = new List<string> { value };
+                customRules = new() { value };
             else
                 customRules.Add( value );
 
@@ -247,6 +304,11 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the spacing type.
+        /// </summary>
+        protected Spacing Spacing => spacing;
 
         /// <summary>
         /// For classes that eliminate the margin or padding by setting it to 0.
@@ -346,13 +408,25 @@ namespace Blazorise
         #endregion
     }
 
+    /// <summary>
+    /// Implementation of margin spacing builder.
+    /// </summary>
     public sealed class FluentMargin : FluentSpacing
     {
+        /// <summary>
+        /// A default <see cref="FluentMargin"/> constructor.
+        /// </summary>
         public FluentMargin() : base( Spacing.Margin ) { }
     }
 
+    /// <summary>
+    /// Implementation of padding spacing builder.
+    /// </summary>
     public sealed class FluentPadding : FluentSpacing
     {
+        /// <summary>
+        /// A default <see cref="FluentPadding"/> constructor.
+        /// </summary>
         public FluentPadding() : base( Spacing.Padding ) { }
     }
 

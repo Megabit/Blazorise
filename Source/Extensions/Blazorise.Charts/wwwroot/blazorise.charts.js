@@ -1,7 +1,7 @@
 window.blazoriseCharts = {
     _instances: [],
 
-    initialize: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) => {
+    initialize: (dotnetAdapter, eventOptions, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) => {
         if (dataJsonString) {
             data = JSON.parse(dataJsonString);
         }
@@ -11,6 +11,44 @@ window.blazoriseCharts = {
         }
         else if (optionsObject) {
             options = optionsObject;
+        }
+
+        if (type === "pie" || type === "doughnut") {
+            // workaround for: https://github.com/Megabit/Blazorise/issues/2287
+            options = {
+                ...options,
+                ...{
+                    tooltips: {
+                        callbacks: {
+                            title: function (item, data) {
+                                return data.datasets[item[0].datasetIndex].label;
+                            },
+                            label: function (item, data) {
+                                const label = data.labels[item.index];
+                                const value = data.datasets[item.datasetIndex].data[item.index];
+                                return label + ': ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function processTicksCallback(scales, axis) {
+            if (scales && Array.isArray(scales[axis])) {
+                scales[axis].forEach(a => {
+                    if (a.ticks && a.ticks.callbackJavaScript) {
+                        a.ticks.callback = function (value, index, ticks) {
+                            return eval(a.ticks.callbackJavaScript)
+                        }
+                    }
+                });
+            }
+        }
+
+        if (options && options.scales) {
+            processTicksCallback(options.scales, 'xAxes');
+            processTicksCallback(options.scales, 'yAxes');
         }
 
         // search for canvas element
@@ -30,7 +68,7 @@ window.blazoriseCharts = {
                 chart: chart
             };
 
-            window.blazoriseCharts.wireEvents(dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart);
+            window.blazoriseCharts.wireEvents(dotnetAdapter, eventOptions, canvas, chart);
         }
     },
 
@@ -58,9 +96,21 @@ window.blazoriseCharts = {
 
         if (chart) {
             chart.options = options;
+
+            // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
+            // instead of through the options.
+            if (options.aspectRatio) {
+                chart.aspectRatio = options.aspectRatio;
+            }
         }
     },
+    resize: (canvasId) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
 
+        if (chart) {
+            chart.resize();
+        }
+    },
     update: (canvasId) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
@@ -95,6 +145,14 @@ window.blazoriseCharts = {
             newDatasets.forEach((dataset, index) => {
                 chart.data.datasets.push(dataset);
             });
+        }
+    },
+
+    removeDataset: (canvasId, datasetIndex) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart && datasetIndex >= 0) {
+            chart.data.datasets.splice(datasetIndex, 1);
         }
     },
 
@@ -176,8 +234,8 @@ window.blazoriseCharts = {
         }
     },
 
-    wireEvents: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart) => {
-        if (hasClickEvent) {
+    wireEvents: (dotnetAdapter, eventOptions, canvas, chart) => {
+        if (eventOptions.hasClickEvent) {
             canvas.onclick = function (evt) {
                 var element = chart.getElementsAtEvent(evt);
 
@@ -191,16 +249,21 @@ window.blazoriseCharts = {
             };
         }
 
-        if (hasHoverEvent) {
+        if (eventOptions.hasHoverEvent) {
             chart.config.options.onHover = function (evt) {
                 var element = chart.getElementsAtEvent(evt);
 
-                for (var i = 0; i < element.length; i++) {
-                    const datasetIndex = element[i]["_datasetIndex"];
-                    const index = element[i]["_index"];
-                    const model = element[i]["_model"];
+                if (evt.type === "mousemove") {
+                    for (var i = 0; i < element.length; i++) {
+                        const datasetIndex = element[i]["_datasetIndex"];
+                        const index = element[i]["_index"];
+                        const model = element[i]["_model"];
 
-                    dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
+                        dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
+                    }
+                }
+                else if (evt.type === "mouseout") {
+                    dotnetAdapter.invokeMethodAsync("Event", "mouseout", -1, -1, "{}");
                 }
             };
         }

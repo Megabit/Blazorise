@@ -1,13 +1,11 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class ClassProvider : IClassProvider
     {
         #region TextEdit
@@ -25,6 +23,8 @@ namespace Blazorise
         #region MemoEdit
 
         public abstract string MemoEdit();
+
+        public abstract string MemoEditSize( Size size );
 
         public abstract string MemoEditValidation( ValidationStatus validationStatus );
 
@@ -82,6 +82,8 @@ namespace Blazorise
 
         public abstract string ColorEdit();
 
+        public abstract string ColorEditSize( Size size );
+
         #endregion
 
         #region Check
@@ -101,6 +103,8 @@ namespace Blazorise
         #region RadioGroup
 
         public abstract string RadioGroup( bool buttons, Orientation orientation );
+
+        public abstract string RadioGroupSize( bool buttons, Orientation orientation, Size size );
 
         public abstract string RadioGroupValidation( ValidationStatus validationStatus );
 
@@ -140,6 +144,8 @@ namespace Blazorise
 
         public abstract string FileEdit();
 
+        public abstract string FileEditSize( Size size );
+
         public abstract string FileEditValidation( ValidationStatus validationStatus );
 
         #endregion
@@ -149,6 +155,26 @@ namespace Blazorise
         public abstract string Slider();
 
         public abstract string SliderColor( Color color );
+
+        public abstract string SliderValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        public abstract string Rating();
+
+        public abstract string RatingDisabled( bool disabled );
+
+        public abstract string RatingReadonly( bool @readonly );
+
+        public abstract string RatingItem();
+
+        public abstract string RatingItemColor( Color color );
+
+        public abstract string RatingItemSelected( bool selected );
+
+        public abstract string RatingItemHovered( bool hover );
 
         #endregion
 
@@ -248,6 +274,8 @@ namespace Blazorise
 
         public abstract string Addons();
 
+        public abstract string AddonsSize( Size size );
+
         public abstract string AddonsHasButton( bool hasButton );
 
         public abstract string Addon( AddonType addonType );
@@ -278,21 +306,17 @@ namespace Blazorise
 
         public abstract string ButtonActive();
 
+        public abstract string ButtonDisabled();
+
         public abstract string ButtonLoading();
 
         #endregion
 
         #region Buttons
 
-        //public abstract string Buttons();
-
-        public abstract string ButtonsAddons();
-
-        public abstract string ButtonsToolbar();
+        public abstract string Buttons( ButtonsRole role, Orientation orientation );
 
         public abstract string ButtonsSize( Size size );
-
-        public abstract string ButtonsOrientation( Orientation orientation );
 
         #endregion
 
@@ -319,6 +343,8 @@ namespace Blazorise
         public abstract string DropdownItemDisabled( bool disabled );
 
         public abstract string DropdownDivider();
+
+        public abstract string DropdownHeader();
 
         public abstract string DropdownMenu();
 
@@ -412,6 +438,14 @@ namespace Blazorise
 
         public abstract string CarouselSlideActive( bool active );
 
+        public abstract string CarouselSlideSlidingLeft( bool left );
+
+        public abstract string CarouselSlideSlidingRight( bool right );
+
+        public abstract string CarouselSlideSlidingPrev( bool previous );
+
+        public abstract string CarouselSlideSlidingNext( bool next );
+
         public abstract string CarouselIndicators();
 
         public abstract string CarouselIndicator();
@@ -446,8 +480,6 @@ namespace Blazorise
 
         public abstract string CardWhiteText();
 
-        public abstract string CardBackground( Background background );
-
         public abstract string CardActions();
 
         public abstract string CardBody();
@@ -480,9 +512,13 @@ namespace Blazorise
 
         public abstract string ListGroupItem();
 
+        public abstract string ListGroupItemSelectable();
+
         public abstract string ListGroupItemActive();
 
         public abstract string ListGroupItemDisabled();
+
+        public abstract string ListGroupItemColor( Color color );
 
         #endregion
 
@@ -523,8 +559,6 @@ namespace Blazorise
         #region Bar
 
         public abstract string Bar();
-
-        public abstract string BarBackground( Background background );
 
         public abstract string BarAlignment( Alignment alignment );
 
@@ -574,6 +608,8 @@ namespace Blazorise
 
         public abstract string BarDropdownItem( BarMode mode );
 
+        public abstract string BarDropdownDivider( BarMode mode );
+
         public abstract string BarTogglerIcon( BarMode mode );
 
         public abstract string BarDropdownMenu( BarMode mode );
@@ -616,6 +652,10 @@ namespace Blazorise
 
         public abstract string Row();
 
+        public abstract string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
+
+        public abstract string RowNoGutters();
+
         #endregion
 
         #region Column
@@ -631,10 +671,10 @@ namespace Blazorise
 
         #region Display
 
-        public abstract string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+        public abstract string Display( DisplayType displayType, DisplayDefinition displayDefinition );
 
-        public virtual string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules )
-            => string.Join( " ", rules.Select( r => Display( displayType, r.breakpoint, r.direction ) ) );
+        public virtual string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions )
+            => string.Join( " ", displayDefinitions.Select( displayDefinition => Display( displayType, displayDefinition ) ) );
 
         #endregion
 
@@ -678,7 +718,9 @@ namespace Blazorise
 
         public abstract string ModalContentSize( ModalSize modalSize );
 
-        public abstract string ModalContentCentered();
+        public abstract string ModalContentCentered( bool centered );
+
+        public abstract string ModalContentScrollable( bool scrollable );
 
         public abstract string ModalBody();
 
@@ -716,11 +758,19 @@ namespace Blazorise
 
         public abstract string ProgressSize( Size size );
 
+        public abstract string ProgressColor( Color color );
+
+        public abstract string ProgressStriped();
+
+        public abstract string ProgressAnimated();
+
+        public abstract string ProgressWidth( int width );
+
         public abstract string ProgressBar();
 
         public abstract string ProgressBarSize( Size size );
 
-        public abstract string ProgressBarColor( Background background );
+        public abstract string ProgressBarColor( Color color );
 
         public abstract string ProgressBarStriped();
 
@@ -738,7 +788,7 @@ namespace Blazorise
 
         #region Colors
 
-        public abstract string BackgroundColor( Background color );
+        public abstract string BackgroundColor( Background background );
 
         #endregion
 
@@ -772,8 +822,6 @@ namespace Blazorise
 
         public abstract string TableHeaderCell();
 
-        public abstract string TableHeaderCellTextAlignment( TextAlignment textAlignment );
-
         public abstract string TableFooter();
 
         public abstract string TableBody();
@@ -781,10 +829,6 @@ namespace Blazorise
         public abstract string TableRow();
 
         public abstract string TableRowColor( Color color );
-
-        public abstract string TableRowBackground( Background background );
-
-        public abstract string TableRowTextColor( TextColor textColor );
 
         public abstract string TableRowHoverCursor();
 
@@ -796,13 +840,9 @@ namespace Blazorise
 
         public abstract string TableRowCellColor( Color color );
 
-        public abstract string TableRowCellBackground( Background background );
-
-        public abstract string TableRowCellTextColor( TextColor textColor );
-
-        public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
-
         public abstract string TableResponsive();
+
+        public abstract string TableFixedHeader();
 
         #endregion
 
@@ -839,6 +879,8 @@ namespace Blazorise
         public abstract string TextTransform( TextTransform textTransform );
 
         public abstract string TextWeight( TextWeight textWeight );
+
+        public abstract string TextOverflow( TextOverflow textOverflow );
 
         public abstract string TextItalic();
 
@@ -878,6 +920,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Image
+
+        public abstract string Image();
+
+        public abstract string ImageFluid( bool fluid );
+
+        #endregion
+
         #region Breadcrumb
 
         public abstract string Breadcrumb();
@@ -894,7 +944,7 @@ namespace Blazorise
 
         public abstract string Tooltip();
 
-        public abstract string TooltipPlacement( Placement placement );
+        public abstract string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
         public abstract string TooltipMultiline();
 
@@ -936,9 +986,62 @@ namespace Blazorise
 
         #endregion
 
+        #region Borders
+
+        public abstract string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+
+        public abstract string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+
+        public virtual string BorderRadius( BorderRadius borderRadius )
+            => ToBorderRadius( borderRadius );
+
+        #endregion
+
         #region Flex
 
+        public abstract string Flex( FlexType flexType );
+
+        public abstract string Flex( FlexDefinition flexDefinition );
+
+        public abstract string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+
         public abstract string FlexAlignment( Alignment alignment );
+
+        #endregion
+
+        #region Sizing
+
+        public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+        #endregion
+
+        #region Float
+
+        public virtual string Float( Float @float ) => $"float-{ToFloat( @float )}";
+
+        #endregion
+
+        #region Visibility
+
+        public abstract string Visibility( Visibility visibility );
+
+        #endregion
+
+        #region VerticalAlignment
+
+        public abstract string VerticalAlignment( VerticalAlignment verticalAlignment );
+
+        #endregion
+
+        #region Shadow
+
+        public abstract string Shadow( Shadow shadow );
+
+        #endregion
+
+        #region Overflow
+
+        public abstract string Overflow( Overflow overflow );
 
         #endregion
 
@@ -952,592 +1055,677 @@ namespace Blazorise
 
         public virtual string ToSize( Size size )
         {
-            switch ( size )
+            return size switch
             {
-                case Blazorise.Size.ExtraSmall:
-                    return "xs";
-                case Blazorise.Size.Small:
-                    return "sm";
-                case Blazorise.Size.Medium:
-                    return "md";
-                case Blazorise.Size.Large:
-                    return "lg";
-                case Blazorise.Size.ExtraLarge:
-                    return "xl";
-                default:
-                    return null;
-            }
+                Blazorise.Size.ExtraSmall => "xs",
+                Blazorise.Size.Small => "sm",
+                Blazorise.Size.Medium => "md",
+                Blazorise.Size.Large => "lg",
+                Blazorise.Size.ExtraLarge => "xl",
+                _ => null,
+            };
         }
 
         public virtual string ToBreakpoint( Breakpoint breakpoint )
         {
-            switch ( breakpoint )
+            return breakpoint switch
             {
-                case Blazorise.Breakpoint.Mobile:
-                    return "xs";
-                case Blazorise.Breakpoint.Tablet:
-                    return "sm";
-                case Blazorise.Breakpoint.Desktop:
-                    return "md";
-                case Blazorise.Breakpoint.Widescreen:
-                    return "lg";
-                case Blazorise.Breakpoint.FullHD:
-                    return "xl";
-                default:
-                    return null;
-            }
+                Blazorise.Breakpoint.Mobile => "xs",
+                Blazorise.Breakpoint.Tablet => "sm",
+                Blazorise.Breakpoint.Desktop => "md",
+                Blazorise.Breakpoint.Widescreen => "lg",
+                Blazorise.Breakpoint.FullHD => "xl",
+                _ => null,
+            };
         }
 
         public virtual string ToColor( Color color )
         {
-            switch ( color )
+            return color switch
             {
-                case Blazorise.Color.Primary:
-                    return "primary";
-                case Blazorise.Color.Secondary:
-                    return "secondary";
-                case Blazorise.Color.Success:
-                    return "success";
-                case Blazorise.Color.Danger:
-                    return "danger";
-                case Blazorise.Color.Warning:
-                    return "warning";
-                case Blazorise.Color.Info:
-                    return "info";
-                case Blazorise.Color.Light:
-                    return "light";
-                case Blazorise.Color.Dark:
-                    return "dark";
-                case Blazorise.Color.Link:
-                    return "link";
-                default:
-                    return null;
-            }
+                Blazorise.Color.Primary => "primary",
+                Blazorise.Color.Secondary => "secondary",
+                Blazorise.Color.Success => "success",
+                Blazorise.Color.Danger => "danger",
+                Blazorise.Color.Warning => "warning",
+                Blazorise.Color.Info => "info",
+                Blazorise.Color.Light => "light",
+                Blazorise.Color.Dark => "dark",
+                Blazorise.Color.Link => "link",
+                _ => null,
+            };
         }
 
-        public virtual string ToBackground( Background color )
+        public virtual string ToBackground( Background background )
         {
-            switch ( color )
+            return background switch
             {
-                case Blazorise.Background.Primary:
-                    return "primary";
-                case Blazorise.Background.Secondary:
-                    return "secondary";
-                case Blazorise.Background.Success:
-                    return "success";
-                case Blazorise.Background.Danger:
-                    return "danger";
-                case Blazorise.Background.Warning:
-                    return "warning";
-                case Blazorise.Background.Info:
-                    return "info";
-                case Blazorise.Background.Light:
-                    return "light";
-                case Blazorise.Background.Dark:
-                    return "dark";
-                case Blazorise.Background.White:
-                    return "white";
-                case Blazorise.Background.Transparent:
-                    return "transparent";
-                default:
-                    return null;
-            }
+                Blazorise.Background.Primary => "primary",
+                Blazorise.Background.Secondary => "secondary",
+                Blazorise.Background.Success => "success",
+                Blazorise.Background.Danger => "danger",
+                Blazorise.Background.Warning => "warning",
+                Blazorise.Background.Info => "info",
+                Blazorise.Background.Light => "light",
+                Blazorise.Background.Dark => "dark",
+                Blazorise.Background.White => "white",
+                Blazorise.Background.Transparent => "transparent",
+                _ => null,
+            };
         }
 
         public virtual string ToTextColor( TextColor textColor )
         {
-            switch ( textColor )
+            return textColor switch
             {
-                case Blazorise.TextColor.Primary:
-                    return "primary";
-                case Blazorise.TextColor.Secondary:
-                    return "secondary";
-                case Blazorise.TextColor.Success:
-                    return "success";
-                case Blazorise.TextColor.Danger:
-                    return "danger";
-                case Blazorise.TextColor.Warning:
-                    return "warning";
-                case Blazorise.TextColor.Info:
-                    return "info";
-                case Blazorise.TextColor.Light:
-                    return "light";
-                case Blazorise.TextColor.Dark:
-                    return "dark";
-                case Blazorise.TextColor.Body:
-                    return "body";
-                case Blazorise.TextColor.Muted:
-                    return "muted";
-                case Blazorise.TextColor.White:
-                    return "white";
-                case Blazorise.TextColor.Black50:
-                    return "black-50";
-                case Blazorise.TextColor.White50:
-                    return "white-50";
-                default:
-                    return null;
-            }
+                Blazorise.TextColor.Primary => "primary",
+                Blazorise.TextColor.Secondary => "secondary",
+                Blazorise.TextColor.Success => "success",
+                Blazorise.TextColor.Danger => "danger",
+                Blazorise.TextColor.Warning => "warning",
+                Blazorise.TextColor.Info => "info",
+                Blazorise.TextColor.Light => "light",
+                Blazorise.TextColor.Dark => "dark",
+                Blazorise.TextColor.Body => "body",
+                Blazorise.TextColor.Muted => "muted",
+                Blazorise.TextColor.White => "white",
+                Blazorise.TextColor.Black50 => "black-50",
+                Blazorise.TextColor.White50 => "white-50",
+                _ => null,
+            };
         }
 
         public virtual string ToThemeContrast( ThemeContrast themeContrast )
         {
-            switch ( themeContrast )
+            return themeContrast switch
             {
-                case Blazorise.ThemeContrast.Light:
-                    return "light";
-                case Blazorise.ThemeContrast.Dark:
-                    return "dark";
-                default:
-                    return null;
-            }
+                Blazorise.ThemeContrast.Light => "light",
+                Blazorise.ThemeContrast.Dark => "dark",
+                _ => null,
+            };
         }
 
         public virtual string ToFloat( Float @float )
         {
-            switch ( @float )
+            return @float switch
             {
-                case Blazorise.Float.Left:
-                    return "float-left";
-                case Blazorise.Float.Right:
-                    return "float-right";
-                default:
-                    return null;
-            }
+                Blazorise.Float.Left => "left",
+                Blazorise.Float.Right => "right",
+                _ => null,
+            };
+        }
+
+        public virtual string ToBorderRadius( BorderRadius borderRadius )
+        {
+            return borderRadius switch
+            {
+                Blazorise.BorderRadius.Rounded => "rounded",
+                Blazorise.BorderRadius.RoundedTop => "rounded-top",
+                Blazorise.BorderRadius.RoundedRight => "rounded-right",
+                Blazorise.BorderRadius.RoundedBottom => "rounded-bottom",
+                Blazorise.BorderRadius.RoundedLeft => "rounded-left",
+                Blazorise.BorderRadius.RoundedCircle => "rounded-circle",
+                Blazorise.BorderRadius.RoundedPill => "rounded-pill",
+                Blazorise.BorderRadius.RoundedZero => "rounded-0",
+                _ => null,
+            };
         }
 
         public virtual string ToSpacing( Spacing spacing )
         {
-            switch ( spacing )
+            return spacing switch
             {
-                case Blazorise.Spacing.Margin:
-                    return "m";
-                case Blazorise.Spacing.Padding:
-                    return "p";
-                default:
-                    return null;
-            }
+                Blazorise.Spacing.Margin => "m",
+                Blazorise.Spacing.Padding => "p",
+                _ => null,
+            };
         }
 
         public virtual string ToSide( Side side )
         {
-            switch ( side )
+            return side switch
             {
-                case Blazorise.Side.Top:
-                    return "t";
-                case Blazorise.Side.Bottom:
-                    return "b";
-                case Blazorise.Side.Left:
-                    return "l";
-                case Blazorise.Side.Right:
-                    return "r";
-                case Blazorise.Side.X:
-                    return "x";
-                case Blazorise.Side.Y:
-                    return "y";
-                default:
-                    return null;
-            }
+                Blazorise.Side.Top => "t",
+                Blazorise.Side.Bottom => "b",
+                Blazorise.Side.Left => "l",
+                Blazorise.Side.Right => "r",
+                Blazorise.Side.X => "x",
+                Blazorise.Side.Y => "y",
+                _ => null,
+            };
         }
 
         public virtual string ToAlignment( Alignment alignment )
         {
-            switch ( alignment )
+            return alignment switch
             {
-                case Blazorise.Alignment.Start:
-                    return "start";
-                case Blazorise.Alignment.Center:
-                    return "center";
-                case Blazorise.Alignment.End:
-                    return "end";
-                default:
-                    return null;
-            }
+                Blazorise.Alignment.Start => "start",
+                Blazorise.Alignment.Center => "center",
+                Blazorise.Alignment.End => "end",
+                _ => null,
+            };
         }
 
         public virtual string ToTextAlignment( TextAlignment textAlignment )
         {
-            switch ( textAlignment )
+            return textAlignment switch
             {
-                case Blazorise.TextAlignment.Left:
-                    return "left";
-                case Blazorise.TextAlignment.Center:
-                    return "center";
-                case Blazorise.TextAlignment.Right:
-                    return "right";
-                case Blazorise.TextAlignment.Justified:
-                    return "justify";
-                default:
-                    return null;
-            }
+                Blazorise.TextAlignment.Left => "left",
+                Blazorise.TextAlignment.Center => "center",
+                Blazorise.TextAlignment.Right => "right",
+                Blazorise.TextAlignment.Justified => "justify",
+                _ => null,
+            };
         }
 
         public virtual string ToTextTransform( TextTransform textTransform )
         {
-            switch ( textTransform )
+            return textTransform switch
             {
-                case Blazorise.TextTransform.Lowercase:
-                    return "lowercase";
-                case Blazorise.TextTransform.Uppercase:
-                    return "uppercase";
-                case Blazorise.TextTransform.Capitalize:
-                    return "capitalize";
-                default:
-                    return null;
-            }
+                Blazorise.TextTransform.Lowercase => "lowercase",
+                Blazorise.TextTransform.Uppercase => "uppercase",
+                Blazorise.TextTransform.Capitalize => "capitalize",
+                _ => null,
+            };
         }
 
         public virtual string ToTextWeight( TextWeight textWeight )
         {
-            switch ( textWeight )
+            return textWeight switch
             {
-                case Blazorise.TextWeight.Normal:
-                    return "normal";
-                case Blazorise.TextWeight.Bold:
-                    return "bold";
-                case Blazorise.TextWeight.Light:
-                    return "light";
-                default:
-                    return null;
-            }
+                Blazorise.TextWeight.Normal => "normal",
+                Blazorise.TextWeight.Bold => "bold",
+                Blazorise.TextWeight.Light => "light",
+                _ => null,
+            };
+        }
+
+        public virtual string ToTextOverflow( TextOverflow textOverflow )
+        {
+            return textOverflow switch
+            {
+                Blazorise.TextOverflow.Wrap => "wrap",
+                Blazorise.TextOverflow.NoWrap => "nowrap",
+                Blazorise.TextOverflow.Truncate => "truncate",
+                _ => null,
+            };
         }
 
         public virtual string ToColumnWidth( ColumnWidth columnWidth )
         {
-            switch ( columnWidth )
+            return columnWidth switch
             {
-                case Blazorise.ColumnWidth.Is1:
-                    return "1";
-                case Blazorise.ColumnWidth.Is2:
-                    return "2";
-                case Blazorise.ColumnWidth.Is3:
-                case Blazorise.ColumnWidth.Quarter:
-                    return "3";
-                case Blazorise.ColumnWidth.Is4:
-                case Blazorise.ColumnWidth.Third:
-                    return "4";
-                case Blazorise.ColumnWidth.Is5:
-                    return "5";
-                case Blazorise.ColumnWidth.Is6:
-                case Blazorise.ColumnWidth.Half:
-                    return "6";
-                case Blazorise.ColumnWidth.Is7:
-                    return "7";
-                case Blazorise.ColumnWidth.Is8:
-                    return "8";
-                case Blazorise.ColumnWidth.Is9:
-                    return "9";
-                case Blazorise.ColumnWidth.Is10:
-                    return "10";
-                case Blazorise.ColumnWidth.Is11:
-                    return "11";
-                case Blazorise.ColumnWidth.Is12:
-                case Blazorise.ColumnWidth.Full:
-                    return "12";
-                case Blazorise.ColumnWidth.Auto:
-                    return "auto";
-                default:
-                    return null;
-            }
+                Blazorise.ColumnWidth.Is1 => "1",
+                Blazorise.ColumnWidth.Is2 => "2",
+                Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => "3",
+                Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => "4",
+                Blazorise.ColumnWidth.Is5 => "5",
+                Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => "6",
+                Blazorise.ColumnWidth.Is7 => "7",
+                Blazorise.ColumnWidth.Is8 => "8",
+                Blazorise.ColumnWidth.Is9 => "9",
+                Blazorise.ColumnWidth.Is10 => "10",
+                Blazorise.ColumnWidth.Is11 => "11",
+                Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
+                Blazorise.ColumnWidth.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToRowColumnsSize( RowColumnsSize rowColumnsSize )
+        {
+            return rowColumnsSize switch
+            {
+                Blazorise.RowColumnsSize.Are1 => "1",
+                Blazorise.RowColumnsSize.Are2 => "2",
+                Blazorise.RowColumnsSize.Are3 => "3",
+                Blazorise.RowColumnsSize.Are4 => "4",
+                Blazorise.RowColumnsSize.Are5 => "5",
+                Blazorise.RowColumnsSize.Are6 => "6",
+                _ => null,
+            };
+        }
+
+        public virtual string ToFlexType( FlexType flexType )
+        {
+            return flexType switch
+            {
+                Blazorise.FlexType.Flex => "flex",
+                Blazorise.FlexType.InlineFlex => "inline-flex",
+                _ => null,
+            };
         }
 
         public virtual string ToDisplayType( DisplayType displayType )
         {
-            switch ( displayType )
+            return displayType switch
             {
-                case Blazorise.DisplayType.None:
-                    return "none";
-                case Blazorise.DisplayType.Block:
-                    return "block";
-                case Blazorise.DisplayType.Inline:
-                    return "inline";
-                case Blazorise.DisplayType.InlineBlock:
-                    return "inline-block";
-                case Blazorise.DisplayType.Flex:
-                    return "flex";
-                case Blazorise.DisplayType.InlineFlex:
-                    return "inline-flex";
-                case Blazorise.DisplayType.Table:
-                    return "table";
-                case Blazorise.DisplayType.TableRow:
-                    return "table-row";
-                case Blazorise.DisplayType.TableCell:
-                    return "table-cell";
-                case DisplayType.Always:
-                default:
-                    return null;
-            }
+                Blazorise.DisplayType.None => "none",
+                Blazorise.DisplayType.Block => "block",
+                Blazorise.DisplayType.Inline => "inline",
+                Blazorise.DisplayType.InlineBlock => "inline-block",
+                Blazorise.DisplayType.Flex => "flex",
+                Blazorise.DisplayType.InlineFlex => "inline-flex",
+                Blazorise.DisplayType.Table => "table",
+                Blazorise.DisplayType.TableRow => "table-row",
+                Blazorise.DisplayType.TableCell => "table-cell",
+                _ => null,
+            };
         }
 
         public virtual string ToDisplayDirection( DisplayDirection displayDirection )
         {
-            switch ( displayDirection )
+            return displayDirection switch
             {
-                case DisplayDirection.Row:
-                    return "row";
-                case DisplayDirection.Column:
-                    return "column";
-                case DisplayDirection.ReverseRow:
-                    return "row-reverse";
-                case DisplayDirection.ReverseColumn:
-                    return "column-reverse";
-                default:
-                    return null;
-            }
+                DisplayDirection.Row => "row",
+                DisplayDirection.Column => "column",
+                DisplayDirection.ReverseRow => "row-reverse",
+                DisplayDirection.ReverseColumn => "column-reverse",
+                _ => null,
+            };
         }
 
         public virtual string ToModalSize( ModalSize modalSize )
         {
-            switch ( modalSize )
+            return modalSize switch
             {
-                case Blazorise.ModalSize.Small:
-                    return "sm";
-                case Blazorise.ModalSize.Large:
-                    return "lg";
-                case Blazorise.ModalSize.ExtraLarge:
-                    return "xl";
-                case Blazorise.ModalSize.Default:
-                default:
-                    return null;
-            }
+                Blazorise.ModalSize.Small => "sm",
+                Blazorise.ModalSize.Large => "lg",
+                Blazorise.ModalSize.ExtraLarge => "xl",
+                _ => null,
+            };
         }
 
         public virtual string ToSpacingSize( SpacingSize spacingSize )
         {
-            switch ( spacingSize )
+            return spacingSize switch
             {
-                case Blazorise.SpacingSize.Is0:
-                    return "0";
-                case Blazorise.SpacingSize.Is1:
-                    return "1";
-                case Blazorise.SpacingSize.Is2:
-                    return "2";
-                case Blazorise.SpacingSize.Is3:
-                    return "3";
-                case Blazorise.SpacingSize.Is4:
-                    return "4";
-                case Blazorise.SpacingSize.Is5:
-                    return "5";
-                case Blazorise.SpacingSize.IsAuto:
-                    return "auto";
-                default:
-                    return null;
-            }
+                Blazorise.SpacingSize.Is0 => "0",
+                Blazorise.SpacingSize.Is1 => "1",
+                Blazorise.SpacingSize.Is2 => "2",
+                Blazorise.SpacingSize.Is3 => "3",
+                Blazorise.SpacingSize.Is4 => "4",
+                Blazorise.SpacingSize.Is5 => "5",
+                Blazorise.SpacingSize.IsAuto => "auto",
+                _ => null,
+            };
         }
 
         public virtual string ToJustifyContent( JustifyContent justifyContent )
         {
-            switch ( justifyContent )
+            return justifyContent switch
             {
-                case Blazorise.JustifyContent.Start:
-                    return "justify-content-start";
-                case Blazorise.JustifyContent.End:
-                    return "justify-content-end";
-                case Blazorise.JustifyContent.Center:
-                    return "justify-content-center";
-                case Blazorise.JustifyContent.Between:
-                    return "justify-content-between";
-                case Blazorise.JustifyContent.Around:
-                    return "justify-content-around";
-                default:
-                    return null;
-            }
+                Blazorise.JustifyContent.Start => "justify-content-start",
+                Blazorise.JustifyContent.End => "justify-content-end",
+                Blazorise.JustifyContent.Center => "justify-content-center",
+                Blazorise.JustifyContent.Between => "justify-content-between",
+                Blazorise.JustifyContent.Around => "justify-content-around",
+                _ => null,
+            };
         }
 
         public virtual string ToScreenreader( Screenreader screenreader )
         {
-            switch ( screenreader )
+            return screenreader switch
             {
-                case Blazorise.Screenreader.Only:
-                    return "sr-only";
-                case Blazorise.Screenreader.OnlyFocusable:
-                    return "sr-only-focusable";
-                default:
-                    return null;
-            }
+                Blazorise.Screenreader.Only => "sr-only",
+                Blazorise.Screenreader.OnlyFocusable => "sr-only-focusable",
+                _ => null,
+            };
         }
 
         public virtual string ToHeadingSize( HeadingSize headingSize )
         {
-            switch ( headingSize )
+            return headingSize switch
             {
-                case Blazorise.HeadingSize.Is1:
-                    return "1";
-                case Blazorise.HeadingSize.Is2:
-                    return "2";
-                case Blazorise.HeadingSize.Is3:
-                    return "3";
-                case Blazorise.HeadingSize.Is4:
-                    return "4";
-                case Blazorise.HeadingSize.Is5:
-                    return "5";
-                case Blazorise.HeadingSize.Is6:
-                    return "6";
-                default:
-                    return null;
-            }
+                Blazorise.HeadingSize.Is1 => "1",
+                Blazorise.HeadingSize.Is2 => "2",
+                Blazorise.HeadingSize.Is3 => "3",
+                Blazorise.HeadingSize.Is4 => "4",
+                Blazorise.HeadingSize.Is5 => "5",
+                Blazorise.HeadingSize.Is6 => "6",
+                _ => null,
+            };
         }
 
         public virtual string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize )
         {
-            switch ( displayHeadingSize )
+            return displayHeadingSize switch
             {
-                case Blazorise.DisplayHeadingSize.Is1:
-                    return "1";
-                case Blazorise.DisplayHeadingSize.Is2:
-                    return "2";
-                case Blazorise.DisplayHeadingSize.Is3:
-                    return "3";
-                case Blazorise.DisplayHeadingSize.Is4:
-                    return "4";
-                default:
-                    return null;
-            }
+                Blazorise.DisplayHeadingSize.Is1 => "1",
+                Blazorise.DisplayHeadingSize.Is2 => "2",
+                Blazorise.DisplayHeadingSize.Is3 => "3",
+                Blazorise.DisplayHeadingSize.Is4 => "4",
+                _ => null,
+            };
         }
 
         public virtual string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize )
         {
-            switch ( jumbotronTitleSize )
+            return jumbotronTitleSize switch
             {
-                case Blazorise.JumbotronTitleSize.Is1:
-                    return "1";
-                case Blazorise.JumbotronTitleSize.Is2:
-                    return "2";
-                case Blazorise.JumbotronTitleSize.Is3:
-                    return "3";
-                case Blazorise.JumbotronTitleSize.Is4:
-                    return "4";
-                default:
-                    return null;
-            }
+                Blazorise.JumbotronTitleSize.Is1 => "1",
+                Blazorise.JumbotronTitleSize.Is2 => "2",
+                Blazorise.JumbotronTitleSize.Is3 => "3",
+                Blazorise.JumbotronTitleSize.Is4 => "4",
+                _ => null,
+            };
         }
 
         public string ToPlacement( Placement placement )
         {
-            switch ( placement )
+            return placement switch
             {
-                case Blazorise.Placement.Bottom:
-                    return "bottom";
-                case Blazorise.Placement.Left:
-                    return "left";
-                case Blazorise.Placement.Right:
-                    return "right";
-                case Blazorise.Placement.Top:
-                default:
-                    return "top";
-            }
+                Blazorise.Placement.Bottom => "bottom",
+                Blazorise.Placement.Left => "left",
+                Blazorise.Placement.Right => "right",
+                _ => "top",
+            };
+        }
+
+        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
+        {
+            return tooltipPlacement switch
+            {
+                Blazorise.TooltipPlacement.Bottom => "bottom",
+                Blazorise.TooltipPlacement.BottomStart => "bottom-start",
+                Blazorise.TooltipPlacement.BottomEnd => "bottom-end",
+                Blazorise.TooltipPlacement.Left => "left",
+                Blazorise.TooltipPlacement.LeftStart => "left-start",
+                Blazorise.TooltipPlacement.LeftEnd => "left-end",
+                Blazorise.TooltipPlacement.Right => "right",
+                Blazorise.TooltipPlacement.RightStart => "right-start",
+                Blazorise.TooltipPlacement.RightEnd => "right-end",
+                Blazorise.TooltipPlacement.TopStart => "top-start",
+                Blazorise.TooltipPlacement.TopEnd => "top-end",
+                _ => "top",
+            };
         }
 
         public virtual string ToValidationStatus( ValidationStatus validationStatus )
         {
-            switch ( validationStatus )
+            return validationStatus switch
             {
-                case Blazorise.ValidationStatus.Success:
-                    return "is-valid";
-                case Blazorise.ValidationStatus.Error:
-                    return "is-invalid";
-                default:
-                    return null;
-            }
+                Blazorise.ValidationStatus.Success => "is-valid",
+                Blazorise.ValidationStatus.Error => "is-invalid",
+                _ => null,
+            };
         }
 
         public virtual string ToCursor( Cursor cursor )
         {
-            switch ( cursor )
+            return cursor switch
             {
-                case Blazorise.Cursor.Pointer:
-                    return "pointer";
-                default:
-                    return null;
-            }
+                Blazorise.Cursor.Pointer => "pointer",
+                _ => null,
+            };
         }
 
         public virtual string ToFigureSize( FigureSize figureSize )
         {
-            switch ( figureSize )
+            return figureSize switch
             {
-                case Blazorise.FigureSize.Is16x16:
-                    return "16x16";
-                case Blazorise.FigureSize.Is24x24:
-                    return "24x24";
-                case Blazorise.FigureSize.Is32x32:
-                    return "32x32";
-                case Blazorise.FigureSize.Is48x48:
-                    return "48x48";
-                case Blazorise.FigureSize.Is64x64:
-                    return "64x64";
-                case Blazorise.FigureSize.Is96x96:
-                    return "96x96";
-                case Blazorise.FigureSize.Is128x128:
-                    return "128x128";
-                case Blazorise.FigureSize.Is256x256:
-                    return "256x256";
-                case Blazorise.FigureSize.Is512x512:
-                    return "512x512";
-                default:
-                    return null;
-            }
+                Blazorise.FigureSize.Is16x16 => "16x16",
+                Blazorise.FigureSize.Is24x24 => "24x24",
+                Blazorise.FigureSize.Is32x32 => "32x32",
+                Blazorise.FigureSize.Is48x48 => "48x48",
+                Blazorise.FigureSize.Is64x64 => "64x64",
+                Blazorise.FigureSize.Is96x96 => "96x96",
+                Blazorise.FigureSize.Is128x128 => "128x128",
+                Blazorise.FigureSize.Is256x256 => "256x256",
+                Blazorise.FigureSize.Is512x512 => "512x512",
+                _ => null,
+            };
         }
 
         public virtual string ToCharacterCasing( CharacterCasing characterCasing )
         {
-            switch ( characterCasing )
+            return characterCasing switch
             {
-                case CharacterCasing.Upper:
-                    return "upper";
-                case CharacterCasing.Lower:
-                    return "lower";
-                case CharacterCasing.Title:
-                    return "title";
-                case CharacterCasing.Normal:
-                default:
-                    return null;
-            }
+                CharacterCasing.Upper => "upper",
+                CharacterCasing.Lower => "lower",
+                CharacterCasing.Title => "title",
+                _ => null,
+            };
         }
 
         public virtual string ToDividerType( DividerType dividerType )
         {
-            switch ( dividerType )
+            return dividerType switch
             {
-                case Blazorise.DividerType.Dashed:
-                    return "dashed";
-                case Blazorise.DividerType.Dotted:
-                    return "dotted";
-                case Blazorise.DividerType.TextContent:
-                    return "text";
-                case Blazorise.DividerType.Solid:
-                default:
-                    return "solid";
-            }
+                Blazorise.DividerType.Dashed => "dashed",
+                Blazorise.DividerType.Dotted => "dotted",
+                Blazorise.DividerType.TextContent => "text",
+                _ => "solid",
+            };
         }
 
         public virtual string ToBarMode( BarMode mode )
         {
-            switch ( mode )
+            return mode switch
             {
-                case Blazorise.BarMode.Horizontal:
-                    return "horizontal";
-                case Blazorise.BarMode.VerticalPopout:
-                    return "vertical-popout";
-                case Blazorise.BarMode.VerticalInline:
-                    return "vertical-inline";
-                case Blazorise.BarMode.VerticalSmall:
-                    return "vertical-small";
-                default:
-                    return null;
-            }
+                Blazorise.BarMode.Horizontal => "horizontal",
+                Blazorise.BarMode.VerticalPopout => "vertical-popout",
+                Blazorise.BarMode.VerticalInline => "vertical-inline",
+                Blazorise.BarMode.VerticalSmall => "vertical-small",
+                _ => null,
+            };
         }
 
         public virtual string ToBarCollapsedMode( BarCollapseMode collapseMode )
         {
-            switch ( collapseMode )
+            return collapseMode switch
             {
-                case BarCollapseMode.Hide:
-                    return "hide";
-                case BarCollapseMode.Small:
-                    return "small";
-                default:
-                    return null;
-            }
+                BarCollapseMode.Hide => "hide",
+                BarCollapseMode.Small => "small",
+                _ => null,
+            };
+        }
+
+        public virtual string ToBorderSide( BorderSide borderSide )
+        {
+            return borderSide switch
+            {
+                Blazorise.BorderSide.Bottom => "bottom",
+                Blazorise.BorderSide.Left => "left",
+                Blazorise.BorderSide.Right => "right",
+                _ => "top",
+            };
+        }
+
+        public virtual string ToBorderColor( BorderColor borderColor )
+        {
+            return borderColor switch
+            {
+                Blazorise.BorderColor.Primary => "primary",
+                Blazorise.BorderColor.Secondary => "secondary",
+                Blazorise.BorderColor.Success => "success",
+                Blazorise.BorderColor.Danger => "danger",
+                Blazorise.BorderColor.Warning => "warning",
+                Blazorise.BorderColor.Info => "info",
+                Blazorise.BorderColor.Light => "light",
+                Blazorise.BorderColor.Dark => "dark",
+                Blazorise.BorderColor.White => "white",
+                _ => null,
+            };
+        }
+
+        public virtual string ToDirection( FlexDirection direction )
+        {
+            return direction switch
+            {
+                Blazorise.FlexDirection.Row => "row",
+                Blazorise.FlexDirection.ReverseRow => "row-reverse",
+                Blazorise.FlexDirection.Column => "column",
+                Blazorise.FlexDirection.ReverseColumn => "column-reverse",
+                _ => null,
+            };
+        }
+
+        public virtual string ToJustifyContent( FlexJustifyContent justifyContent )
+        {
+            return justifyContent switch
+            {
+                Blazorise.FlexJustifyContent.Start => "start",
+                Blazorise.FlexJustifyContent.End => "end",
+                Blazorise.FlexJustifyContent.Center => "center",
+                Blazorise.FlexJustifyContent.Between => "between",
+                Blazorise.FlexJustifyContent.Around => "around",
+                _ => null,
+            };
+        }
+
+        public virtual string ToAlignItems( FlexAlignItems alignItems )
+        {
+            return alignItems switch
+            {
+                Blazorise.FlexAlignItems.Start => "start",
+                Blazorise.FlexAlignItems.End => "end",
+                Blazorise.FlexAlignItems.Center => "center",
+                Blazorise.FlexAlignItems.Baseline => "baseline",
+                Blazorise.FlexAlignItems.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public virtual string ToAlignSelf( FlexAlignSelf alignSelf )
+        {
+            return alignSelf switch
+            {
+                Blazorise.FlexAlignSelf.Auto => "auto",
+                Blazorise.FlexAlignSelf.Start => "start",
+                Blazorise.FlexAlignSelf.End => "end",
+                Blazorise.FlexAlignSelf.Center => "center",
+                Blazorise.FlexAlignSelf.Baseline => "baseline",
+                Blazorise.FlexAlignSelf.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public virtual string ToAlignContent( FlexAlignContent alignContent )
+        {
+            return alignContent switch
+            {
+                Blazorise.FlexAlignContent.Start => "start",
+                Blazorise.FlexAlignContent.End => "end",
+                Blazorise.FlexAlignContent.Center => "center",
+                Blazorise.FlexAlignContent.Between => "between",
+                Blazorise.FlexAlignContent.Around => "around",
+                Blazorise.FlexAlignContent.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public virtual string ToGrowShrink( FlexGrowShrink growShrink )
+        {
+            return growShrink switch
+            {
+                Blazorise.FlexGrowShrink.Grow => "grow",
+                Blazorise.FlexGrowShrink.Shrink => "shrink",
+                _ => null,
+            };
+        }
+
+        public virtual string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize )
+        {
+            return growShrinkSize switch
+            {
+                Blazorise.FlexGrowShrinkSize.Is0 => "0",
+                Blazorise.FlexGrowShrinkSize.Is1 => "1",
+                _ => null,
+            };
+        }
+
+        public virtual string ToWrap( FlexWrap wrap )
+        {
+            return wrap switch
+            {
+                Blazorise.FlexWrap.Wrap => "wrap",
+                Blazorise.FlexWrap.ReverseWrap => "wrap-reverse",
+                Blazorise.FlexWrap.NoWrap => "nowrap",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOrder( FlexOrder order )
+        {
+            return order switch
+            {
+                Blazorise.FlexOrder.Is0 => "0",
+                Blazorise.FlexOrder.Is1 => "1",
+                Blazorise.FlexOrder.Is2 => "2",
+                Blazorise.FlexOrder.Is3 => "3",
+                Blazorise.FlexOrder.Is4 => "4",
+                Blazorise.FlexOrder.Is5 => "5",
+                Blazorise.FlexOrder.Is6 => "6",
+                Blazorise.FlexOrder.Is7 => "7",
+                Blazorise.FlexOrder.Is8 => "8",
+                Blazorise.FlexOrder.Is9 => "9",
+                Blazorise.FlexOrder.Is10 => "10",
+                Blazorise.FlexOrder.Is11 => "11",
+                Blazorise.FlexOrder.Is12 => "12",
+                _ => null,
+            };
+        }
+
+        public virtual string ToSizingType( SizingType sizingType )
+        {
+            return sizingType switch
+            {
+                Blazorise.SizingType.Width => "w",
+                Blazorise.SizingType.Height => "h",
+                _ => null,
+            };
+        }
+
+        public virtual string ToSizingSize( SizingSize sizingSize )
+        {
+            return sizingSize switch
+            {
+                Blazorise.SizingSize.Is25 => "25",
+                Blazorise.SizingSize.Is50 => "50",
+                Blazorise.SizingSize.Is75 => "75",
+                Blazorise.SizingSize.Is100 => "100",
+                Blazorise.SizingSize.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToVerticalAlignment( VerticalAlignment verticalAlignment )
+        {
+            return verticalAlignment switch
+            {
+                Blazorise.VerticalAlignment.Baseline => "baseline",
+                Blazorise.VerticalAlignment.Top => "top",
+                Blazorise.VerticalAlignment.Middle => "middle",
+                Blazorise.VerticalAlignment.Bottom => "bottom",
+                Blazorise.VerticalAlignment.TextTop => "text-top",
+                Blazorise.VerticalAlignment.TextBottom => "text-bottom",
+                _ => null,
+            };
+        }
+
+        public virtual string ToShadow( Shadow shadow )
+        {
+            return shadow switch
+            {
+                Blazorise.Shadow.Remove => "none",
+                Blazorise.Shadow.Small => "sm",
+                Blazorise.Shadow.Large => "lg",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOverflow( Overflow overflow )
+        {
+            return overflow switch
+            {
+                Blazorise.Overflow.Visible => "visible",
+                Blazorise.Overflow.Hidden => "hidden",
+                Blazorise.Overflow.Scroll => "scroll",
+                Blazorise.Overflow.Auto => "auto",
+                _ => null,
+            };
         }
 
         #endregion
@@ -1546,4 +1734,5 @@ namespace Blazorise
 
         public abstract string Provider { get; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,11 +7,13 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using Blazorise.Extensions;
-
 #endregion
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Helper methods for easier conversion between different data types.
+    /// </summary>
     public static class Converters
     {
         #region Constants
@@ -61,7 +62,7 @@ namespace Blazorise.Utilities
                     else if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
                     {
                         var list = new List<object>();
-                        foreach ( var item in value as IEnumerable )
+                        foreach ( var item in (IEnumerable)value )
                         {
                             list.Add( ProcessValue( item, emitDefaultValue ) );
                         }
@@ -103,7 +104,15 @@ namespace Blazorise.Utilities
             return dictionary;
         }
 
-        // https://stackoverflow.com/a/1107090/833106
+        /// <summary>
+        /// Returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
+        /// <returns>An object whose type is conversionType and whose value is equivalent to value.</returns>
+        /// <remarks>
+        /// https://stackoverflow.com/a/1107090/833106
+        /// </remarks>
         public static TValue ChangeType<TValue>( object value )
         {
             Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
@@ -121,11 +130,19 @@ namespace Blazorise.Utilities
                 // (One example is converting [Guid] to [object] type).
                 //
                 // So, as a fall-back mechanism we can just try casting it. It already failed so we can try this
-                // additonal step anyways.
+                // additional step anyways.
                 return (TValue)value;
             }
         }
 
+        /// <summary>
+        /// Returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
+        /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
+        /// <param name="cultureInfo">Culture info to use for conversion.</param>
+        /// <returns>True if conversion was successful.</returns>
         public static bool TryChangeType<TValue>( object value, out TValue result, CultureInfo cultureInfo = null )
         {
             try
@@ -150,6 +167,7 @@ namespace Blazorise.Utilities
             }
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         // modified version of https://stackoverflow.com/a/11521834/833106
         public static bool EnumTryParse<TValue>( string input, Type conversionType, out TValue theEnum )
         {
@@ -220,6 +238,7 @@ namespace Blazorise.Utilities
         public static string FormatValue( DateTimeOffset value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
 
         public static string FormatValue( DateTimeOffset? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Gets the min and max possible value based on the supplied value type
@@ -231,33 +250,21 @@ namespace Blazorise.Utilities
         {
             var type = typeof( TValue );
 
-            switch ( type )
+            return type switch
             {
-                case Type byteType when byteType == typeof( byte ) || byteType == typeof( byte? ):
-                    return (byte.MinValue, byte.MaxValue);
-                case Type shortType when shortType == typeof( short ) || shortType == typeof( short? ):
-                    return (short.MinValue, short.MaxValue);
-                case Type intType when intType == typeof( int ) || intType == typeof( int? ):
-                    return (int.MinValue, int.MaxValue);
-                case Type longType when longType == typeof( long ) || longType == typeof( long? ):
-                    return (long.MinValue, long.MaxValue);
-                case Type floatType when floatType == typeof( float ) || floatType == typeof( float? ):
-                    return (float.MinValue, float.MaxValue);
-                case Type doubleType when doubleType == typeof( double ) || doubleType == typeof( double? ):
-                    return (double.MinValue, double.MaxValue);
-                case Type decimalType when decimalType == typeof( decimal ) || decimalType == typeof( decimal? ):
-                    return (decimal.MinValue, decimal.MaxValue);
-                case Type sbyteType when sbyteType == typeof( sbyte ) || sbyteType == typeof( sbyte? ):
-                    return (sbyte.MinValue, sbyte.MaxValue);
-                case Type ushortType when ushortType == typeof( ushort ) || ushortType == typeof( ushort? ):
-                    return (ushort.MinValue, ushort.MaxValue);
-                case Type uintType when uintType == typeof( uint ) || uintType == typeof( uint? ):
-                    return (uint.MinValue, uint.MaxValue);
-                case Type ulongType when ulongType == typeof( ulong ) || ulongType == typeof( ulong? ):
-                    return (ulong.MinValue, ulong.MaxValue);
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {type}" );
-            }
+                Type byteType when byteType == typeof( byte ) || byteType == typeof( byte? ) => (byte.MinValue, byte.MaxValue),
+                Type shortType when shortType == typeof( short ) || shortType == typeof( short? ) => (short.MinValue, short.MaxValue),
+                Type intType when intType == typeof( int ) || intType == typeof( int? ) => (int.MinValue, int.MaxValue),
+                Type longType when longType == typeof( long ) || longType == typeof( long? ) => (long.MinValue, long.MaxValue),
+                Type floatType when floatType == typeof( float ) || floatType == typeof( float? ) => (float.MinValue, float.MaxValue),
+                Type doubleType when doubleType == typeof( double ) || doubleType == typeof( double? ) => (double.MinValue, double.MaxValue),
+                Type decimalType when decimalType == typeof( decimal ) || decimalType == typeof( decimal? ) => (decimal.MinValue, decimal.MaxValue),
+                Type sbyteType when sbyteType == typeof( sbyte ) || sbyteType == typeof( sbyte? ) => (sbyte.MinValue, sbyte.MaxValue),
+                Type ushortType when ushortType == typeof( ushort ) || ushortType == typeof( ushort? ) => (ushort.MinValue, ushort.MaxValue),
+                Type uintType when uintType == typeof( uint ) || uintType == typeof( uint? ) => (uint.MinValue, uint.MaxValue),
+                Type ulongType when ulongType == typeof( ulong ) || ulongType == typeof( ulong? ) => (ulong.MinValue, ulong.MaxValue),
+                _ => throw new InvalidOperationException( $"Unsupported type {type}" ),
+            };
         }
 
         private static bool IsSimpleType( Type type )

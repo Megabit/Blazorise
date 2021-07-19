@@ -1,7 +1,4 @@
 ﻿@page "/tests/forms"
-@using System.Diagnostics
-@using System.IO
-@using System.Runtime.Serialization
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -108,7 +105,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Default file input</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <FileEdit />
+                        <FileEdit Placeholder="Please select the file..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">

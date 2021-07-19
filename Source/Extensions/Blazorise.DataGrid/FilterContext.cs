@@ -9,7 +9,7 @@
 
         private event FilterChangedEventHandler SearchValueChanged;
 
-        public delegate void FilterChangedEventHandler( string value );
+        public delegate void FilterChangedEventHandler( object value );
 
         #endregion
 
@@ -25,7 +25,7 @@
             SearchValueChanged -= listener;
         }
 
-        public void TriggerFilterChange( string value )
+        public void TriggerFilterChange( object value )
         {
             SearchValue = value;
             SearchValueChanged?.Invoke( value );
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets or sets the filter value.
         /// </summary>
-        public string SearchValue { get; set; }
+        public object SearchValue { get; set; }
 
         #endregion
     }

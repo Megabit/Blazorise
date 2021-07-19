@@ -1,9 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -64,10 +64,16 @@ namespace Blazorise
         /// </summary>
         public event EventHandler<ValidationStatusChangedEventArgs> ValidationStatusChanged;
 
+        /// <summary>
+        /// Define the cancellation token.
+        /// </summary>
+        private CancellationTokenSource cancellationTokenSource;
+
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             if ( ParentValidations != null )
@@ -81,6 +87,7 @@ namespace Blazorise
             return base.OnInitializedAsync();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if ( ParentValidations != null )
@@ -92,17 +99,17 @@ namespace Blazorise
             }
         }
 
-        internal void InitializeInput( IValidationInput inputComponent )
+        internal async Task InitializeInput( IValidationInput inputComponent )
         {
             this.inputComponent = inputComponent;
 
             if ( Mode == ValidationMode.Auto && ValidateOnLoad )
-                Validate( inputComponent.ValidationValue );
+                await ValidateAsync( inputComponent.ValidationValue );
 
             initialized = true;
         }
 
-        internal void InitializeInputPattern<T>( string patternString, T value )
+        internal async Task InitializeInputPattern<T>( string patternString, T value )
         {
             if ( !string.IsNullOrEmpty( patternString ) )
             {
@@ -111,13 +118,13 @@ namespace Blazorise
                 if ( !hasPattern || this.patternString != patternString )
                 {
                     this.patternString = patternString;
-                    pattern = new Regex( patternString );
+                    pattern = new( patternString );
 
                     // Re-run validation based on the new value for the new pattern,
                     // but ONLY if validation has being previously initialized!
                     if ( hasPattern && Mode == ValidationMode.Auto && ValidateOnLoad && initialized )
                     {
-                        NotifyInputChanged( value, true );
+                        await NotifyInputChanged( value, true );
                     }
                 }
 
@@ -125,7 +132,7 @@ namespace Blazorise
             }
         }
 
-        internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
+        internal async Task InitializeInputExpression<T>( Expression<Func<T>> expression )
         {
             // Data-Annotation validation can only work if parent validationa and expression are defined.
             if ( ( ParentValidations != null || EditContext != null ) && expression != null )
@@ -142,7 +149,7 @@ namespace Blazorise
                     // but ONLY if validation has being previously initialized!
                     if ( hasFieldIdentifier && Mode == ValidationMode.Auto && ValidateOnLoad && initialized )
                     {
-                        NotifyInputChanged( expression.Compile().Invoke(), true );
+                        await NotifyInputChanged( expression.Compile().Invoke(), true );
                     }
 
                     hasFieldIdentifier = true;
@@ -154,7 +161,7 @@ namespace Blazorise
             }
         }
 
-        internal void NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
+        internal Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
         {
             var newValidationValue = overrideNewValue
                 ? newExpressionValue
@@ -167,13 +174,17 @@ namespace Blazorise
 
             if ( Mode == ValidationMode.Auto )
             {
-                Validate( newValidationValue );
+                return ValidateAsync( newValidationValue );
             }
+
+            return Task.CompletedTask;
         }
 
-        private void OnValidatingAll( ValidatingAllEventArgs e )
+        private async void OnValidatingAll( ValidatingAllEventArgs e )
         {
-            e.Cancel = Validate( inputComponent.ValidationValue ) == ValidationStatus.Error;
+            var status = await ValidateAsync( inputComponent.ValidationValue );
+
+            e.Cancel = status == ValidationStatus.Error;
         }
 
         private void OnClearingAll()
@@ -212,6 +223,53 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Runs the asynchronous validation process based on the last available value.
+        /// </summary>
+        public Task<ValidationStatus> ValidateAsync()
+        {
+            return ValidateAsync( inputComponent.ValidationValue );
+        }
+
+        /// <summary>
+        /// Runs the asynchronous validation process.
+        /// </summary>
+        /// <param name="newValidationValue">New validation value to validate.</param>
+        /// <returns>Returns the validation result.</returns>
+        public async Task<ValidationStatus> ValidateAsync( object newValidationValue )
+        {
+            if ( !inputComponent.Disabled )
+            {
+                cancellationTokenSource?.Cancel();
+
+                // Create a CTS for this request.
+                cancellationTokenSource = new();
+
+                var cancellationToken = cancellationTokenSource.Token;
+
+                try
+                {
+                    var validationHandlerType = DetermineHandlerType();
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if ( validationHandlerType != null )
+                    {
+                        var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        await validationHandler.ValidateAsync( this, newValidationValue, cancellationToken );
+                    }
+                }
+                catch ( OperationCanceledException )
+                {
+                }
+            }
+
+            return await Task.FromResult( Status );
+        }
+
+        /// <summary>
         /// Determines the validation handler based on the priority.
         /// </summary>
         /// <returns></returns>
@@ -219,7 +277,7 @@ namespace Blazorise
         {
             if ( HandlerType == null )
             {
-                if ( Validator != null )
+                if ( Validator != null || AsyncValidator != null )
                 {
                     return typeof( ValidatorValidationHandler );
                 }
@@ -232,7 +290,7 @@ namespace Blazorise
                     return typeof( DataAnnotationValidationHandler );
                 }
                 else
-                    throw new ArgumentNullException();
+                    throw new NotImplementedException( "Unable to determine the validator " );
             }
 
             return HandlerType;
@@ -246,11 +304,13 @@ namespace Blazorise
             NotifyValidationStatusChanged( ValidationStatus.None );
         }
 
+        /// <inheritdoc/>
         public void NotifyValidationStarted()
         {
             ValidationStarted?.Invoke();
         }
 
+        /// <inheritdoc/>
         public void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
         {
             // raise events only if status or message is changed to prevent unnecessary re-renders
@@ -259,8 +319,8 @@ namespace Blazorise
                 Status = status;
                 Messages = messages;
 
-                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
-                StatusChanged.InvokeAsync( status );
+                ValidationStatusChanged?.Invoke( this, new( status, messages ) );
+                InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
 
                 ParentValidations?.NotifyValidationStatusChanged( this );
             }
@@ -289,6 +349,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public Regex Pattern => pattern;
 
+        /// <summary>
+        /// Gets or sets the DI reference for the <see cref="IValidationHandlerFactory"/>.
+        /// </summary>
         [Inject] protected IValidationHandlerFactory ValidationHandlerFactory { get; set; }
 
         /// <inheritdoc/>
@@ -301,6 +364,9 @@ namespace Blazorise
 
         /// <inheritdoc/>
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <inheritdoc/>
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <inheritdoc/>
         [Parameter] public Func<string, IEnumerable<string>, string> MessageLocalizer { get; set; }

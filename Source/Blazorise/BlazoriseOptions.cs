@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise
@@ -16,18 +14,19 @@ namespace Blazorise
 
         private readonly IServiceProvider serviceProvider;
 
-        private readonly Action<BlazoriseOptions> configureOptions;
-
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// A default constructors for <see cref="BlazoriseOptions"/>.
+        /// </summary>
+        /// <param name="serviceProvider">Service provider.</param>
+        /// <param name="configureOptions">A handler for setting the blazorise options.</param>
         public BlazoriseOptions( IServiceProvider serviceProvider, Action<BlazoriseOptions> configureOptions )
         {
             this.serviceProvider = serviceProvider;
-            this.configureOptions = configureOptions;
-
-            this.configureOptions?.Invoke( this );
+            configureOptions?.Invoke( this );
         }
 
         #endregion
@@ -40,12 +39,12 @@ namespace Blazorise
         public bool ChangeTextOnKeyPress { get; set; } = true;
 
         /// <summary>
-        /// If true the entered into <see cref="TextEdit"/> will be slightly delayed before submiting it to the internal value.
+        /// If true the entered into <see cref="TextEdit"/> will be slightly delayed before submitting it to the internal value.
         /// </summary>
         public bool? DelayTextOnKeyPress { get; set; } = false;
 
         /// <summary>
-        /// Interval in milliseconds that entered text will be delayed from submiting to the <see cref="TextEdit"/> internal value.
+        /// Interval in milliseconds that entered text will be delayed from submitting to the <see cref="TextEdit"/> internal value.
         /// </summary>
         public int? DelayTextOnKeyPressInterval { get; set; } = 300;
 
@@ -68,6 +67,22 @@ namespace Blazorise
         /// are shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
         /// </summary>
         public Func<string, IEnumerable<string>, string> ValidationMessageLocalizer { get; set; }
+
+        /// <summary>
+        /// Maximum amount of <see cref="Theme">Themes</see> that are cached at the same time.
+        /// When set to a value &lt; 1, the <see cref="Themes.ThemeCache">ThemeCache</see> is deactivated.
+        /// </summary>
+        public int ThemeCacheSize { get; set; } = 10;
+
+        /// <summary>
+        /// If true, the spin buttons on <see cref="NumericEdit{TValue}"/> will be visible.
+        /// </summary>
+        public bool ShowNumericStepButtons { get; set; } = true;
+
+        /// <summary>
+        /// If true, enables change of <see cref="NumericEdit{TValue}"/> by pressing on step buttons or by keyboard up/down keys.
+        /// </summary>
+        public bool? EnableNumericStep { get; set; }
 
         /// <summary>
         /// Gets the service provider.

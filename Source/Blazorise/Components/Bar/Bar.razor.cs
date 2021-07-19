@@ -19,7 +19,7 @@ namespace Blazorise
         /// <summary>
         /// Used to keep track of the breakpoint state for this component.
         /// </summary>
-        private bool isBroken;
+        private bool isBroken = true;
 
         /// <summary>
         /// Reference to the object that should be accessed through JSInterop.
@@ -29,7 +29,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state for this bar component.
         /// </summary>
-        private BarState state = new BarState
+        private BarState state = new()
         {
             Visible = true,
             Mode = BarMode.Horizontal,
@@ -38,7 +38,6 @@ namespace Blazorise
             NavigationBreakpoint = Breakpoint.None,
             ThemeContrast = ThemeContrast.Light,
             Alignment = Alignment.None,
-            Background = Background.None,
         };
 
         #endregion
@@ -46,12 +45,12 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnInitializedAsync()
+        protected override Task OnInitializedAsync()
         {
             if ( NavigationBreakpoint != Breakpoint.None )
                 NavigationManager.LocationChanged += OnLocationChanged;
 
-            await base.OnInitializedAsync();
+            return base.OnInitializedAsync();
         }
 
         /// <inheritdoc/>
@@ -59,12 +58,12 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+            await JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
 
             if ( Mode != BarMode.Horizontal )
             {
                 // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
-                // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
+                // This needs to be run to set the initial state, RegisterBreakpointComponent and OnBreakpoint will handle
                 // additional changes to responsive breakpoints from there.
                 isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
 
@@ -81,7 +80,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
-            builder.Append( ClassProvider.BarBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
@@ -100,6 +98,7 @@ namespace Blazorise
             return InvokeAsync( StateHasChanged );
         }
 
+        /// <inheritdoc/>
         public Task OnBreakpoint( bool broken )
         {
             // If the breakpoint state has changed, we need to toggle the visibility of this component.
@@ -115,23 +114,32 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
                 // make sure to unregister listener
                 if ( Rendered )
                 {
-                    _ = JSRunner.UnregisterBreakpointComponent( this );
+                    var task = JSRunner.UnregisterBreakpointComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
 
                     DisposeDotNetObjectRef( dotNetObjectRef );
+                    dotNetObjectRef = null;
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )
                     NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>
@@ -183,7 +191,7 @@ namespace Blazorise
         [Inject] protected NavigationManager NavigationManager { get; set; }
 
         /// <summary>
-        /// Controlls the state of toggler and the menu.
+        /// Controls the state of toggler and the menu.
         /// </summary>
         [Parameter]
         public virtual bool Visible
@@ -240,7 +248,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Defines the prefered theme contrast for this <see cref="Bar"/> component.
+        /// Defines the preferred theme contrast for this <see cref="Bar"/> component.
         /// </summary>
         [Parameter]
         public ThemeContrast ThemeContrast
@@ -264,21 +272,6 @@ namespace Blazorise
             set
             {
                 state = state with { Alignment = value };
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the bar background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => state.Background;
-            set
-            {
-                state = state with { Background = value };
 
                 DirtyClasses();
             }

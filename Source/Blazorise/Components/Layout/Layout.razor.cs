@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Main component for handling the overall layout of a page.
+    /// </summary>
     public partial class Layout : BaseComponent
     {
         #region Members
@@ -19,15 +22,19 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default constructor for <see cref="Layout"/> component.
+        /// </summary>
         public Layout()
         {
-            LoadingClassBuilder = new ClassBuilder( BuildLoadingClasses );
+            LoadingClassBuilder = new( BuildLoadingClasses );
         }
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Layout() );
@@ -37,12 +44,17 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Builds the classnames for a loading container.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         protected void BuildLoadingClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.LayoutLoading(), string.IsNullOrEmpty( LoadingClass ) );
             builder.Append( LoadingClass );
         }
 
+        /// <inheritdoc/>
         internal protected override void DirtyClasses()
         {
             LoadingClassBuilder.Dirty();
@@ -54,8 +66,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the class-names for a loading container.
+        /// </summary>
         protected string LoadingClassNames => LoadingClassBuilder.Class;
 
+        /// <summary>
+        /// Loading container class builder.
+        /// </summary>
         protected ClassBuilder LoadingClassBuilder { get; private set; }
 
         /// <summary>
@@ -103,13 +121,25 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Occurs when loading state had changed.
+        /// </summary>
         [Parameter] public EventCallback<bool> LoadingChanged { get; set; }
 
-        [CascadingParameter] protected Layout ParentLayout { get; set; }
-
+        /// <summary>
+        /// Specifies the content to be rendered the loading container.
+        /// </summary>
         [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Layout"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Layout"/> component in which this <see cref="Layout"/> is placed.
+        /// </summary>
+        [CascadingParameter] protected Layout ParentLayout { get; set; }
 
         #endregion
     }

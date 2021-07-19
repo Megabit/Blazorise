@@ -15,10 +15,19 @@ namespace Blazorise
     {
         #region Members
 
-        private Size size = Size.None;
+        /// <summary>
+        /// Size of an input element.
+        /// </summary>
+        private Size? size;
 
+        /// <summary>
+        /// Specifies that an input field is read-only.
+        /// </summary>
         private bool readOnly;
 
+        /// <summary>
+        /// Specifies that the input element should be disabled.
+        /// </summary>
         private bool disabled;
 
         /// <summary>
@@ -26,6 +35,9 @@ namespace Blazorise
         /// </summary>
         private bool autofocus;
 
+        /// <summary>
+        /// Flag that tells us validation is already being initialized so we don't do it more than once.
+        /// </summary>
         private bool validationInitialized;
 
         #endregion
@@ -50,20 +62,25 @@ namespace Blazorise
                     }
                     else
                     {
-                        ExecuteAfterRender( async () =>
-                        {
-                            await FocusAsync();
-                        } );
+                        ExecuteAfterRender( () => FocusAsync() );
                     }
                 }
                 else
                 {
-                    if ( ParentModal != null )
-                    {
-                        ParentModal.NotifyFocusableComponentRemoved( this );
-                    }
+                    ParentModal?.NotifyFocusableComponentRemoved( this );
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+
+            base.OnInitialized();
         }
 
         /// <inheritdoc/>
@@ -77,9 +94,11 @@ namespace Blazorise
                     ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
                 }
 
-                if ( ParentModal != null )
+                ParentModal?.NotifyFocusableComponentRemoved( this );
+
+                if ( Theme != null )
                 {
-                    ParentModal.NotifyFocusableComponentRemoved( this );
+                    Theme.Changed -= OnThemeChanged;
                 }
             }
 
@@ -89,13 +108,13 @@ namespace Blazorise
         /// <summary>
         /// Initializes input component for validation.
         /// </summary>
-        protected void InitializeValidation()
+        protected async Task InitializeValidation()
         {
             if ( validationInitialized )
                 return;
 
             // link to the parent component
-            ParentValidation.InitializeInput( this );
+            await ParentValidation.InitializeInput( this );
 
             ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
 
@@ -126,13 +145,15 @@ namespace Blazorise
                     CurrentValue = result.ParsedValue;
                 }
             }
-
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged<TValue>( default );
+            if ( ParentValidation != null )
+            {
+                await ParentValidation.NotifyInputChanged<TValue>( default );
+            }
         }
 
         /// <summary>
-        /// Parses a string value and convert it to a <see cref="TValue"/>.
+        /// Parses a string value and convert it to a <see cref="BaseInputComponent{TValue}"/>.
         /// </summary>
         /// <param name="value">A string value to convert.</param>
         /// <returns>Returns the result of parse operation.</returns>
@@ -142,7 +163,7 @@ namespace Blazorise
         /// Formats the supplied value to it's valid string representation.
         /// </summary>
         /// <param name="value">Value to format.</param>
-        /// <returns>Reterns value formated as string.</returns>
+        /// <returns>Returns value formatted as string.</returns>
         protected virtual string FormatValueAsString( TValue value )
             => value?.ToString();
 
@@ -154,7 +175,7 @@ namespace Blazorise
         /// Like for example for <see cref="Select{TValue}"/> component where we can have value represented as
         /// a single or multiple value, depending on the context where it is used.
         /// </remarks>
-        /// <param name="value">Value to prepare for valudation.</param>
+        /// <param name="value">Value to prepare for validation.</param>
         /// <returns>Returns the value that is going to be validated.</returns>
         protected virtual object PrepareValueForValidation( TValue value )
             => value;
@@ -174,6 +195,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public async Task FocusAsync( bool scrollToElement = true )
         {
+            // workaround from: https://github.com/dotnet/aspnetcore/issues/30070#issuecomment-823938686
+            await Task.Yield();
+
             await JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
@@ -250,9 +274,12 @@ namespace Blazorise
         /// <summary>
         /// Forces the <see cref="Validation"/>(if any is used) to re-validate with the new custom or internal value.
         /// </summary>
-        public void Revalidate()
+        public Task Revalidate()
         {
-            ParentValidation?.NotifyInputChanged<TValue>( default );
+            if ( ParentValidation != null )
+                return ParentValidation.NotifyInputChanged<TValue>( default );
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -260,10 +287,25 @@ namespace Blazorise
         /// </summary>
         /// <param name="sender">Object that raised the event.</param>
         /// <param name="eventArgs">Information about the validation status.</param>
-        protected async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        {
+            DirtyStyles();
+            DirtyClasses();
+
+            await InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object that raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
         {
             DirtyClasses();
-            await InvokeAsync( StateHasChanged );
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -326,6 +368,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
+
+        /// <summary>
         /// Holds the information about the Blazorise global options.
         /// </summary>
         [Inject] protected BlazoriseOptions Options { get; set; }
@@ -334,7 +381,7 @@ namespace Blazorise
         /// Sets the size of the input control.
         /// </summary>
         [Parameter]
-        public Size Size
+        public Size? Size
         {
             get => size;
             set
@@ -454,6 +501,11 @@ namespace Blazorise
         /// Parent modal dialog.
         /// </summary>
         [CascadingParameter] protected Modal ParentModal { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

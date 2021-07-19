@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using Microsoft.JSInterop;
-using System.Linq;
 using System.Threading.Tasks;
 #endregion
 
@@ -15,10 +14,7 @@ namespace Blazorise.Charts.Streaming
 
         public static void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
         {
-            if ( value != null )
-            {
-                value.Dispose();
-            }
+            value?.Dispose();
         }
 
         public static ValueTask<bool> Initialize( IJSRuntime runtime, DotNetObjectReference<ChartStreamingAdapter> dotNetObjectReference, string canvasId, bool vertical, ChartStreamingOptions options )

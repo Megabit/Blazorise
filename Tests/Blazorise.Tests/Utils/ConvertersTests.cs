@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text.Json;
 using Blazorise.Utilities;
 using Xunit;
 
@@ -77,7 +75,7 @@ namespace Blazorise.Tests.Utils
             var test = new Test
             {
                 Integer = 42,
-                NestedTest = new NestedTest
+                NestedTest = new()
                 {
                     Boolean = true,
                     StringValue = "test"
@@ -130,7 +128,7 @@ namespace Blazorise.Tests.Utils
             var test = new Test
             {
                 Integer = 42,
-                SimpleList = new List<int> { 1, 2, 3 }
+                SimpleList = new() { 1, 2, 3 }
             };
 
             // Act
@@ -145,7 +143,7 @@ namespace Blazorise.Tests.Utils
             var simpleList = result["simpleList"] as List<object>;
             Assert.NotNull( simpleList );
             Assert.Equal( 3, simpleList.Count );
-            Assert.Equal( new List<int> { 1, 2, 3 }, simpleList.Cast<int>().ToList() );
+            Assert.Equal( new() { 1, 2, 3 }, simpleList.Cast<int>().ToList() );
         }
 
         [Fact]
@@ -176,16 +174,16 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( nestedArray );
             Assert.Equal( 3, nestedArray.Length );
 
-            var arrayItem1 = nestedArray[0] as Dictionary<string, object>;
+            var arrayItem1 = (Dictionary<string, object>)nestedArray[0];
             Assert.Equal( 2, arrayItem1.Count );
             Assert.Equal( true, arrayItem1["boolean"] );
             Assert.Equal( "test1", arrayItem1["stringValue"] );
 
-            var arrayItem2 = nestedArray[1] as Dictionary<string, object>;
+            var arrayItem2 = (Dictionary<string, object>)nestedArray[1];
             Assert.Single( arrayItem2 );
             Assert.Equal( true, arrayItem2["boolean"] );
 
-            var arrayItem3 = nestedArray[2] as Dictionary<string, object>;
+            var arrayItem3 = (Dictionary<string, object>)nestedArray[2];
             Assert.Single( arrayItem3 );
             Assert.Equal( "test3", arrayItem3["stringValue"] );
         }
@@ -197,11 +195,11 @@ namespace Blazorise.Tests.Utils
             var test = new Test
             {
                 Integer = 42,
-                ComplexList = new List<NestedTest>
+                ComplexList = new()
                 {
-                    new NestedTest { Boolean = true, StringValue = "test1" },
-                    new NestedTest { Boolean = true, StringValue = null },
-                    new NestedTest { Boolean = false, StringValue = "test3" }
+                    new() { Boolean = true, StringValue = "test1" },
+                    new() { Boolean = true, StringValue = null },
+                    new() { Boolean = false, StringValue = "test3" }
                 }
             };
 
@@ -218,16 +216,16 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( complexList );
             Assert.Equal( 3, complexList.Count );
 
-            var item1 = complexList[0] as Dictionary<string, object>;
+            var item1 = (Dictionary<string, object>)complexList[0];
             Assert.Equal( 2, item1.Count );
             Assert.Equal( true, item1["boolean"] );
             Assert.Equal( "test1", item1["stringValue"] );
 
-            var item2 = complexList[1] as Dictionary<string, object>;
+            var item2 = (Dictionary<string, object>)complexList[1];
             Assert.Single( item2 );
             Assert.Equal( true, item2["boolean"] );
 
-            var item3 = complexList[2] as Dictionary<string, object>;
+            var item3 = (Dictionary<string, object>)complexList[2];
             Assert.Single( item3 );
             Assert.Equal( "test3", item3["stringValue"] );
         }

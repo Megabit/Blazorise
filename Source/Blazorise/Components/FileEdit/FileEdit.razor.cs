@@ -18,6 +18,11 @@ namespace Blazorise
     /// </summary>
     public interface IFileEdit
     {
+        /// <summary>
+        /// Notify us that one or more files has changed.
+        /// </summary>
+        /// <param name="files">List of changed files.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         Task NotifyChange( FileEntry[] files );
     }
 
@@ -39,16 +44,18 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
             {
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -56,7 +63,12 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        private async void OnLocalizationChanged( object sender, EventArgs e )
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
         {
             // no need to refresh if we're using custom localization
             if ( BrowseButtonLocalizer != null )
@@ -85,17 +97,27 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
-                JSRunner.DestroyFileEdit( ElementRef, ElementId );
+                var task = JSRunner.DestroyFileEdit( ElementRef, ElementId );
+
+                try
+                {
+                    await task;
+                }
+                catch when ( task.IsCanceled )
+                {
+                }
+
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>
@@ -120,9 +142,10 @@ namespace Blazorise
             InternalValue = files;
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged<IFileEntry[]>( default );
+            if ( ParentValidation != null )
+                await ParentValidation.NotifyInputChanged<IFileEntry[]>( files );
 
-            await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+            await Changed.InvokeAsync( new( files ) );
 
             await InvokeAsync( StateHasChanged );
         }
@@ -151,7 +174,7 @@ namespace Blazorise
             ProgressTotal = fileEntry.Size;
             Progress = 0;
 
-            return Started.InvokeAsync( new FileStartedEventArgs( fileEntry ) );
+            return Started.InvokeAsync( new( fileEntry ) );
         }
 
         /// <summary>
@@ -167,7 +190,7 @@ namespace Blazorise
                 await Reset();
             }
 
-            await Ended.InvokeAsync( new FileEndedEventArgs( fileEntry, success ) );
+            await Ended.InvokeAsync( new( fileEntry, success ) );
         }
 
         /// <summary>
@@ -175,11 +198,11 @@ namespace Blazorise
         /// </summary>
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="position">The current position of this stream.</param>
-        /// <param name="data">Curerntly read data.</param>
+        /// <param name="data">Currerntly read data.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         internal Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
-            return Written.InvokeAsync( new FileWrittenEventArgs( fileEntry, position, data ) );
+            return Written.InvokeAsync( new( fileEntry, position, data ) );
         }
 
         /// <summary>
@@ -188,7 +211,7 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="progressProgress">Progress value.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal async Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
+        internal Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
             ProgressProgress += progressProgress;
 
@@ -198,8 +221,10 @@ namespace Blazorise
             {
                 Progress = progress;
 
-                await Progressed.InvokeAsync( new FileProgressedEventArgs( fileEntry, Progress ) );
+                return Progressed.InvokeAsync( new( fileEntry, Progress ) );
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -208,9 +233,9 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="stream">Target stream.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal async Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        internal Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            await new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
+            return new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
@@ -220,18 +245,18 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
         /// <returns>Returns the stream for the uploaded file entry.</returns>
-        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken )
+        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
             return new RemoteFileEntryStream( JSRunner, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
         }
 
         /// <summary>
-        /// Manaully resets the input file value.
+        /// Manually resets the input file value.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task Reset()
+        public ValueTask Reset()
         {
-            await JSRunner.ResetFileEdit( ElementRef, ElementId );
+            return JSRunner.ResetFileEdit( ElementRef, ElementId );
         }
 
         #endregion
@@ -244,14 +269,29 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override IFileEntry[] InternalValue { get => files; set => files = value; }
 
+        /// <summary>
+        /// Number of processed bytes in current file.
+        /// </summary>
         protected long ProgressProgress;
 
+        /// <summary>
+        /// Total number of bytes in currently processed file.
+        /// </summary>
         protected long ProgressTotal;
 
+        /// <summary>
+        /// Percentage of the current file-read status.
+        /// </summary>
         protected double Progress;
 
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{FileEdit}"/>.
+        /// </summary>
         [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
 
         /// <summary>
@@ -293,9 +333,13 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Specifies the types of files that the input accepts.
+        /// Sets the placeholder for the empty file input.
         /// </summary>
-        /// <see cref="https://www.w3schools.com/tags/att_input_accept.asp"/>
+        [Parameter] public string Placeholder { get; set; }
+
+        /// <summary>
+        /// Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
+        /// </summary>
         [Parameter] public string Filter { get; set; }
 
         /// <summary>

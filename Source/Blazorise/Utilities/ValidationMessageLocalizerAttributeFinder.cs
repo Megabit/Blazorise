@@ -5,12 +5,12 @@ using System.Collections.Generic;
 namespace Blazorise.Utilities
 {
     /// <summary>
-    /// Compares two strings and find the diferences.
+    /// Compares two strings and find the differences.
     /// </summary>
     public interface IValidationMessageLocalizerAttributeFinder
     {
         /// <summary>
-        /// Find all the diferences from two string.
+        /// Find all the differences from two string.
         /// </summary>
         /// <param name="first">First string.</param>
         /// <param name="second">Second string.</param>
@@ -18,6 +18,9 @@ namespace Blazorise.Utilities
         IEnumerable<(string Index, string Argument)> FindAll( string first, string second );
     }
 
+    /// <summary>
+    /// Default implementation of <see cref="IValidationMessageLocalizerAttributeFinder"/>.
+    /// </summary>
     public class ValidationMessageLocalizerAttributeFinder : IValidationMessageLocalizerAttributeFinder
     {
         #region Methods

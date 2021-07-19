@@ -8,6 +8,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Toggles the visibility or collapse of <see cref="Bar"/> component.
+    /// </summary>
     public partial class BarDropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
@@ -22,13 +25,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override async Task OnFirstAfterRenderAsync()
+        /// <inheritdoc/>
+        protected override Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            return base.OnFirstAfterRenderAsync();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownToggle( ParentDropdownState.Mode ) );
@@ -36,6 +41,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
             base.BuildStyles( builder );
@@ -43,7 +49,8 @@ namespace Blazorise
             builder.Append( $"padding-left: { Indentation * ParentDropdownState.NestedIndex }rem", ParentDropdownState.IsInlineDisplay );
         }
 
-        protected override void Dispose( bool disposing )
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -52,27 +59,42 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSRunner.UnregisterClosableComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
+        /// <summary>
+        /// Handles the button click event.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
         protected Task ClickHandler()
         {
             ParentBarDropdown?.Toggle();
 
-            return Task.CompletedTask;
+            return Clicked.InvokeAsync( null );
         }
 
+        /// <inheritdoc/>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
             return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( elementId != ElementId && !isChildClicked ) );
         }
 
+        /// <inheritdoc/>
         public Task Close( CloseReason closeReason )
         {
             ParentBarDropdown?.Hide();
@@ -80,6 +102,10 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Handles the visibility styles and JS interop states.
+        /// </summary>
+        /// <param name="visible">True if component is visible.</param>
         protected virtual void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
@@ -117,6 +143,14 @@ namespace Blazorise
         /// </summary>
         [Parameter] public double Indentation { get; set; } = 1.5d;
 
+        /// <summary>
+        /// Occurs when the toggle button is clicked.
+        /// </summary>
+        [Parameter] public EventCallback Clicked { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent dropdown state object.
+        /// </summary>
         [CascadingParameter]
         public BarDropdownState ParentDropdownState
         {
@@ -139,8 +173,14 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent dropdown.
+        /// </summary>
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownToggle"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

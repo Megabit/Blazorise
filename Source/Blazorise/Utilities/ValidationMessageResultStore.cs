@@ -11,7 +11,7 @@ namespace Blazorise.Utilities
     /// </summary>
     public class ValidationMessageResultStore
     {
-        private readonly Dictionary<FieldIdentifier, List<ValidationMessageResult>> messages = new Dictionary<FieldIdentifier, List<ValidationMessageResult>>();
+        private readonly Dictionary<FieldIdentifier, List<ValidationMessageResult>> messages = new();
 
         /// <summary>
         /// Clears the messages for the supplied <see cref="FieldIdentifier"/>.
@@ -40,7 +40,7 @@ namespace Blazorise.Utilities
         {
             if ( !messages.TryGetValue( fieldIdentifier, out var messagesForField ) )
             {
-                messagesForField = new List<ValidationMessageResult>();
+                messagesForField = new();
                 messages.Add( fieldIdentifier, messagesForField );
             }
 
@@ -80,7 +80,7 @@ namespace Blazorise.Utilities
         public string Message { get; }
 
         /// <summary>
-        /// Gets the list of arguments that needs to be placed inside of <see cref="Message"/> when formated.
+        /// Gets the list of arguments that needs to be placed inside of <see cref="Message"/> when formatted.
         /// </summary>
         public string[] MessageArguments { get; }
 

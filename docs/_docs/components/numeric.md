@@ -40,3 +40,5 @@ NumericEdit is just a specialized version of `TextEdit` component so all of the 
 | Min               | TValue                                                       | default | The minimum value to accept for this input.                                                          |
 | Max               | TValue                                                       | default | The maximum value to accept for this input.                                                          |
 | Autofocus         | `bool`                                                       |  false  | Set's the focus to the component after the rendering is done.                                        |
+| ShowStepButtons   | `bool?`                                                      |  true   | If true, step buttons will be visible.                                                               |
+| EnableStep        | `bool?`                                                      |  true   | If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.    |

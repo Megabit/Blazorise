@@ -9,6 +9,10 @@ namespace Blazorise
     /// </summary>
     public class BarDropdownStateEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="BarDropdownStateEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="visible">Visibility flag.</param>
         public BarDropdownStateEventArgs( bool visible )
         {
             Visible = visible;

@@ -1,11 +1,10 @@
 ﻿@typeparam TValue
 @inherits Blazorise.DateEdit<TValue>
-@using Blazorise.Utilities
 @if ( ParentIsFieldBody )
 {
     <div class="field">
         <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(Parsers.InternalDateFormat)" max="@Max?.ToString(Parsers.InternalDateFormat)" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback
@@ -14,7 +13,7 @@
 else
 {
     <div class="control">
-        <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(Parsers.InternalDateFormat)" max="@Max?.ToString(Parsers.InternalDateFormat)" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
         @ChildContent
     </div>
     @Feedback

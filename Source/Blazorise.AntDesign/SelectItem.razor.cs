@@ -54,6 +54,11 @@ namespace Blazorise.AntDesign
                     sb.Append( " ant-select-item-option-active" );
                 }
 
+                if ( Disabled )
+                {
+                    sb.Append( " ant-select-item-option-disabled" );
+                }
+
                 return sb.ToString();
             }
         }

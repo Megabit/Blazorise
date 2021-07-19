@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Small and adaptive tag for adding context to just about any content.
+    /// </summary>
     public partial class Badge : BaseComponent
     {
         #region Members
@@ -20,15 +23,19 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="Badge"/> constructor.
+        /// </summary>
         public Badge()
         {
-            CloseClassBuilder = new ClassBuilder( BuildCloseClasses );
+            CloseClassBuilder = new( BuildCloseClasses );
         }
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Badge() );
@@ -38,11 +45,19 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Builds the classnames for a close button.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         private void BuildCloseClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BadgeClose() );
         }
 
+        /// <summary>
+        /// Handles the close button onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnCloseClickedHandler()
         {
             return CloseClicked.InvokeAsync( null );
@@ -57,6 +72,9 @@ namespace Blazorise
         /// </summary>
         protected bool Closable => CloseClicked.HasDelegate;
 
+        /// <summary>
+        /// Close button class builder.
+        /// </summary>
         protected ClassBuilder CloseClassBuilder { get; private set; }
 
         /// <summary>
@@ -109,6 +127,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback CloseClicked { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Badge"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

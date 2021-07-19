@@ -5,10 +5,14 @@ using System;
 namespace Blazorise
 {
     /// <summary>
-    /// Supplies the information about the modal visiblity state.
+    /// Supplies the information about the modal visibility state.
     /// </summary>
     public class ModalStateEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="ModalStateEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="visible">Visibility flag.</param>
         public ModalStateEventArgs( bool visible )
         {
             Visible = visible;

@@ -2,20 +2,20 @@
   "culture": "it",
   "translations": {
     "New": "Nuovo",
-    "Edit": "Modificare",
+    "Edit": "Modifica",
     "Delete": "Elimina",
     "Save": "Salva",
     "Cancel": "Annulla",
-    "Clear Filter": "Filtro pulito",
+    "Clear Filter": "Pulisci filtro",
     "First": "Primo",
-    "Last": "Scorso",
+    "Last": "Ultimo",
     "Prev": "Precedente",
-    "Next": "Il prossimo",
+    "Next": "Successivo",
     "items": "elementi",
-    "items per page": "oggetti per pagina",
+    "items per page": "elementi per pagina",
     "{0} - {1} of {2} items": "{0} - {1} di {2} articoli",
     "Row Edit": "Modifica riga",
     "Row Create": "Crea riga",
-    "Create": "Creare"
+    "Create": "Crea"
   }
 }

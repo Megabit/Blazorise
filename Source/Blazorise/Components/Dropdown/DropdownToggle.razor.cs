@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -30,11 +31,22 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
+        protected override void OnInitialized()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            return base.OnFirstAfterRenderAsync();
         }
 
         /// <inheritdoc/>
@@ -43,7 +55,7 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownToggle() );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
             builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
@@ -54,7 +66,7 @@ namespace Blazorise
         /// Disposes all the used resources.
         /// </summary>
         /// <param name="disposing">True if object is disposing.</param>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -63,13 +75,27 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSRunner.UnregisterClosableComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
+
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>
@@ -83,7 +109,7 @@ namespace Blazorise
                 ParentDropdown?.Toggle();
             }
 
-            return Task.CompletedTask;
+            return Clicked.InvokeAsync( null );
         }
 
         /// <summary>
@@ -91,6 +117,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Id of an element.</param>
         /// <param name="closeReason">Close reason.</param>
+        /// <param name="isChildClicked">Indicates if the child element was clicked.</param>
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
@@ -100,8 +127,8 @@ namespace Blazorise
         /// <summary>
         /// Forces the parent dropdown to close the dropdown-menu.
         /// </summary>
-        /// <param name="closeReason"></param>
-        /// <returns></returns>
+        /// <param name="closeReason">Reason for closing the parent.</param>
+        /// <returns>Returns the awaitable task.</returns>
         public Task Close( CloseReason closeReason )
         {
             ParentDropdown?.Hide();
@@ -118,6 +145,10 @@ namespace Blazorise
             _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
+        /// <summary>
+        /// Handles the visibility styles and JS interop states.
+        /// </summary>
+        /// <param name="visible">True if component is visible.</param>
         protected virtual void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
@@ -143,6 +174,19 @@ namespace Blazorise
             DirtyStyles();
         }
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object that raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -166,6 +210,11 @@ namespace Blazorise
         protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
         /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size ?? Theme?.DropdownOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
         /// Gets the data-boundary value.
         /// </summary>
         protected string DataBoundary
@@ -179,7 +228,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the dropdown size.
         /// </summary>
-        [Parameter] public Size Size { get; set; } = Size.None;
+        [Parameter] public Size? Size { get; set; }
 
         /// <summary>
         /// Button outline.
@@ -249,6 +298,11 @@ namespace Blazorise
         [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
+        /// Occurs when the toggle button is clicked.
+        /// </summary>
+        [Parameter] public EventCallback Clicked { get; set; }
+
+        /// <summary>
         /// The applied theme.
         /// </summary>
         [CascadingParameter] protected Theme Theme { get; set; }
@@ -259,7 +313,7 @@ namespace Blazorise
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="DropdownToggle"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 

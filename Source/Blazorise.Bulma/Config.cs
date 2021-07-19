@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -21,45 +19,56 @@ namespace Blazorise.Bulma
             serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
-            serviceCollection.AddTransient<Blazorise.Addons, Bulma.Addons>();
-            serviceCollection.AddTransient<Blazorise.Badge, Bulma.Badge>();
-            serviceCollection.AddTransient<Blazorise.BarToggler, Bulma.BarToggler>();
-            serviceCollection.AddTransient<Blazorise.BarDropdown, Bulma.BarDropdown>();
-            serviceCollection.AddTransient<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
-            serviceCollection.AddTransient<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
-            serviceCollection.AddTransient<Blazorise.CardImage, Bulma.CardImage>();
-            serviceCollection.AddTransient<Blazorise.CardTitle, Bulma.CardTitle>();
-            serviceCollection.AddTransient<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
-            serviceCollection.AddTransient<Blazorise.Carousel, Bulma.Carousel>();
-            serviceCollection.AddTransient( typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) );
-            serviceCollection.AddTransient<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
-            serviceCollection.AddTransient<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
-            serviceCollection.AddTransient<Blazorise.DropdownToggle, Bulma.DropdownToggle>();
-            serviceCollection.AddTransient<Blazorise.Field, Bulma.Field>();
-            serviceCollection.AddTransient<Blazorise.FieldLabel, Bulma.FieldLabel>();
-            serviceCollection.AddTransient<Blazorise.FieldHelp, Bulma.FieldHelp>();
-            serviceCollection.AddTransient<Blazorise.FieldBody, Bulma.FieldBody>();
-            serviceCollection.AddTransient<Blazorise.Fields, Bulma.Fields>();
-            serviceCollection.AddTransient<Blazorise.FileEdit, Bulma.FileEdit>();
-            serviceCollection.AddTransient<Blazorise.Heading, Bulma.Heading>();
-            serviceCollection.AddTransient<Blazorise.Jumbotron, Bulma.Jumbotron>();
-            serviceCollection.AddTransient<Blazorise.JumbotronSubtitle, Bulma.JumbotronSubtitle>();
-            serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) );
-            serviceCollection.AddTransient<Blazorise.Button, Bulma.Button>();
-            serviceCollection.AddTransient<Blazorise.Table, Bulma.Table>();
-            serviceCollection.AddTransient<Blazorise.Tabs, Bulma.Tabs>();
-            serviceCollection.AddTransient<Blazorise.TextEdit, Bulma.TextEdit>();
-            serviceCollection.AddTransient( typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
-            serviceCollection.AddTransient<Blazorise.Pagination, Bulma.Pagination>();
-            serviceCollection.AddTransient<Blazorise.PaginationLink, Bulma.PaginationLink>();
-            serviceCollection.AddTransient<Blazorise.Steps, Bulma.Steps>();
-            serviceCollection.AddTransient<Blazorise.Step, Bulma.Step>();
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
 
             return serviceCollection;
         }
+
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
+        {
+            { typeof( Blazorise.Addons ), typeof( Bulma.Addons ) },
+            { typeof( Blazorise.Badge ), typeof( Bulma.Badge ) },
+            { typeof( Blazorise.BarToggler ), typeof( Bulma.BarToggler ) },
+            { typeof( Blazorise.BarDropdown ), typeof( Bulma.BarDropdown ) },
+            { typeof( Blazorise.Breadcrumb ), typeof( Bulma.Breadcrumb ) },
+            { typeof( Blazorise.BreadcrumbLink ), typeof( Bulma.BreadcrumbLink ) },
+            { typeof( Blazorise.CardImage ), typeof( Bulma.CardImage ) },
+            { typeof( Blazorise.CardTitle ), typeof( Bulma.CardTitle ) },
+            { typeof( Blazorise.CardSubtitle ), typeof( Bulma.CardSubtitle ) },
+            { typeof( Blazorise.Carousel ), typeof( Bulma.Carousel ) },
+            { typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) },
+            { typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) },
+            { typeof( Blazorise.DropdownDivider ), typeof( Bulma.DropdownDivider ) },
+            { typeof( Blazorise.DropdownMenu ), typeof( Bulma.DropdownMenu ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( Bulma.DropdownToggle ) },
+            { typeof( Blazorise.Field ), typeof( Bulma.Field ) },
+            { typeof( Blazorise.FieldLabel ), typeof( Bulma.FieldLabel ) },
+            { typeof( Blazorise.FieldHelp ), typeof( Bulma.FieldHelp ) },
+            { typeof( Blazorise.FieldBody ), typeof( Bulma.FieldBody ) },
+            { typeof( Blazorise.Fields ), typeof( Bulma.Fields ) },
+            { typeof( Blazorise.FileEdit ), typeof( Bulma.FileEdit ) },
+            { typeof( Blazorise.Heading ), typeof( Bulma.Heading ) },
+            { typeof( Blazorise.Jumbotron ), typeof( Bulma.Jumbotron ) },
+            { typeof( Blazorise.JumbotronSubtitle ), typeof( Bulma.JumbotronSubtitle ) },
+            { typeof( Blazorise.ModalContent ), typeof( Bulma.ModalContent ) },
+            { typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) },
+            { typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) },
+            { typeof( Blazorise.Button ), typeof( Bulma.Button ) },
+            { typeof( Blazorise.Table ), typeof( Bulma.Table ) },
+            { typeof( Blazorise.Tabs ), typeof( Bulma.Tabs ) },
+            { typeof( Blazorise.TextEdit ), typeof( Bulma.TextEdit ) },
+            { typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) },
+            { typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) },
+            { typeof( Blazorise.Pagination ), typeof( Bulma.Pagination ) },
+            { typeof( Blazorise.PaginationLink ), typeof( Bulma.PaginationLink ) },
+            { typeof( Blazorise.Progress ), typeof( Bulma.Progress ) },
+            { typeof( Blazorise.ProgressBar ), typeof( Bulma.ProgressBar ) },
+            { typeof( Blazorise.Steps ), typeof( Bulma.Steps ) },
+            { typeof( Blazorise.Step ), typeof( Bulma.Step ) },
+        };
     }
 }

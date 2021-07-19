@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 #endregion
 
@@ -117,6 +113,21 @@ namespace Blazorise.Tests
 
             if ( breakpoint != Breakpoint.None )
                 display.WithBreakpoint( breakpoint );
+
+            var classname = display.Class( classProvider );
+
+            Assert.Equal( expected, classname );
+        }
+
+        [Theory]
+        [InlineData( "d-none", DisplayType.None, true )]
+        [InlineData( null, DisplayType.None, false )]
+        public void AreConditions( string expected, DisplayType displayType, bool condition )
+        {
+            var display = new FluentDisplay();
+
+            display.WithFlex( displayType );
+            display.If( condition );
 
             var classname = display.Class( classProvider );
 

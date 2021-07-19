@@ -109,6 +109,26 @@ The grid can work in two different editing modes that can provide different user
 - `Inline` editing is done in the current row
 - `Popup` editing is done in the the modal dialog
 
+### Cascading values
+
+In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an `UpdateCell` method. You have two ways of updating a cell:
+
+- by calling `UpdateCell` on the `context` inside of `EditTemplate`, or
+- by calling `UpdateCellEditValue` on the `DataGrid` instance
+
+In the following example we're simply calling `context.UpdateCell` with a field-name to change and a new value that we want it to assign: 
+
+```html
+<DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true">
+    <EditTemplate>
+        <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => {
+                context.CellValue = v;
+                context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+            })" />
+    </EditTemplate>
+</DataGridColumn>
+```
+
 ### Selecting
 
 If you need to control how and when the grid row will be selected you can use a `RowSelectable` event handler. A simple example is:
@@ -131,6 +151,15 @@ By default, DataGrid will load everything in memory and it will perform the nece
 
 Bellow you can find a [basic example]({{ "/docs/extensions/datagrid/#large-data-example" | relative_url }}) of how to load large data and apply it to the DataGrid.
 
+### Virtualization
+
+By setting `Virtualize`, you will enable virtualize capabilities on the datagrid, meaning that instead of having pagination, you'll be able to scroll across the data with perceived improved performance.
+
+Virtualization is a technique for limiting UI rendering to just the parts that are currently visible. For example, virtualization is helpful when the app must render a long list of items and only a subset of items is required to be visible at any given time.
+
+You will still have access to every available datagrid feature.
+`VirtualizeOptions` allows to further customize the `Virtualize` feature.
+
 ### Aggregates
 
 The DataGrid provider several built-in aggregates for column values. Supported aggregate functions are:
@@ -147,13 +176,32 @@ The DataGrid provider several built-in aggregates for column values. Supported a
 
 The DataGrid provides validations of column values at editing or creating items. For using validation of DataGrid you have to use these properties:
 
+- `UseValidation` must be set to `true` to enable validation.
 - `ShowValidationFeedback` of DataGrid to hide or show feedback for validation.
 - `ShowValidationsSummary` of DataGrid to hide or show validations summary.
 - `ValidationsSummaryLabel` of DataGrid to set label of validations summary.
 - `Validator` of DataGridColumn validates the input value after trying to save.
 - `ValidationPattern` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
 
-To enable basic validation you only need to define a `Validator` attribute and assign it to your validation method.
+By default, DataGrid will use data-annotation to validate editing fields. You only need to define them on your model and they will automatically be picked up by the grid.
+
+```cs
+public class Employee
+{
+    [Required]
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+}
+```
+
+**Note:** Don't forget to enable validation by setting `UseValidation="true"`.
+{: .notice--warning}
+
+---
+
+To override data-annotation you only need to define a `Validator` attribute and assign it to your validation method.
 
 ```html
 <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="@CheckEMail" Editable="true" />
@@ -225,7 +273,7 @@ Field attribute also supports nested fields. You can define a column with field 
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -253,7 +301,7 @@ Just as in the previous example everything is the same except that now we must d
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -370,6 +418,45 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
 }
 ```
 
+### Custom Column Filtering
+
+Similar to the DataGrid custom filtering it is also possible to use custom filtering on per-column basis.
+
+```html
+<TextEdit @bind-Text="@customFilterValue" />
+
+<DataGrid TItem="Employee"
+        Data="@employeeList">
+    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+        <FilterTemplate>
+            <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                <SelectItem TValue="string" Value="@("*")">All</SelectItem>
+                <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+            </Select>
+        </FilterTemplate>
+    </DataGridSelectColumn>
+</DataGrid>
+```
+
+```cs
+@code
+{
+    string selectedGenderFilter;
+
+    private bool OnGenderCustomFilter( object itemValue, object searchValue )
+    {
+        if ( searchValue is string genderFilter )
+        {
+            return genderFilter == "*" || genderFilter == itemValue?.ToString();
+        }
+
+        return true;
+    }
+}
+```
+
 ### Custom Row Colors
 
 You have full control over appearance of each row, including the selected rows.
@@ -452,7 +539,7 @@ Edit template will give you a way to handle the editing of grid cell values. For
         @($"{( context as Employee )?.Salary} €")
     </DisplayTemplate>
     <EditTemplate>
-        <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+        <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
     </EditTemplate>
 </DataGridColumn>
 ```
@@ -628,51 +715,60 @@ Set `Resizable` to `true` and you'll be able to resize the datagrid columns.
 
 ### DataGrid
 
-| Name                   | Type                                                                                         | Default                | Description                                                                                                          |
-|------------------------|----------------------------------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Data                   | IEnumerable<TItem>                                                                           |                        | Grid data-source.                                                                                                    |
-| EditMode               | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})                       | `Form`                 | Specifies the grid editing modes.                                                                                    |
-| UseInternalEditing     | boolean                                                                                      | `true`                 | Specifies the behavior of DataGrid editing.                                                                          |
-| Editable               | boolean                                                                                      | `false`                | Whether users can edit DataGrid rows.                                                                                |
-| Resizable              | boolean                                                                                      | `false`                | Whether users can resize DataGrid columns.                                                                           |
-| ResizeMode             | [DataGridResizeMode]({{ "/docs/helpers/enums/#datagridresizemode" | relative_url }})         | `Header`               | Defines the resize mode of the data grid columns.                                                                    |
-| Sortable               | boolean                                                                                      | `true`                 | Whether end-users can sort data by the column's values.                                                              |
-| ShowCaptions           | boolean                                                                                      | `true`                 | Gets or sets whether user can see a column captions.                                                                 |
-| Filterable             | boolean                                                                                      | `false`                | Whether users can filter rows by its cell values.                                                                    |
-| ShowPager              | boolean                                                                                      | `false`                | Whether users can navigate DataGrid by using pagination controls.                                                    |
-| CurrentPage            | boolean                                                                                      | `1`                    | Current page number.                                                                                                 |
-| PageSize               | int                                                                                          | `5`                    | Maximum number of items for each page.                                                                               |
-| Striped                | boolean                                                                                      | `false`                | Adds stripes to the table.                                                                                           |
-| Bordered               | boolean                                                                                      | `false`                | Adds borders to all the cells.                                                                                       |
-| Borderless             | boolean                                                                                      | `false`                | Makes the table without any borders.                                                                                 |
-| Hoverable              | boolean                                                                                      | `false`                | Adds a hover effect when moussing over rows.                                                                         |
-| Narrow                 | boolean                                                                                      | `false`                | Makes the table more compact by cutting cell padding in half.                                                        |
-| ReadData               | EventCallback                                                                                |                        | Handles the manual loading of large data sets.                                                                       |
-| SelectedRow            | TItem                                                                                        |                        | Currently selected row.                                                                                              |
-| SelectedRowChanged     | EventCallback                                                                                |                        | Occurs after the selected row has changed.                                                                           |
-| RowSelectable          | `Func<TItem,bool>`                                                                           |                        | Handles the selection of the clicked row. If not set it will default to always true.                                 |
-| RowHoverCursor         |` Func<TItem,Blazorise.Cursor>`                                                               |                        | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used.          |
-| DetailRowTrigger       | `Func<TItem,bool>`                                                                           |                        | A trigger function used to handle the visibility of detail row.                                                      |
-| RowInserting           | Action                                                                                       |                        | Cancelable event called before the row is inserted.                                                                  |
-| RowUpdating            | Action                                                                                       |                        | Cancelable event called before the row is updated.                                                                   |
-| RowInserted            | EventCallback                                                                                |                        | Event called after the row is inserted.                                                                              |
-| RowUpdated             | EventCallback                                                                                |                        | Event called after the row is updated.                                                                               |
-| RowRemoving            | Action                                                                                       |                        | Cancelable event called before the row is removed.                                                                   |
-| RowRemoved             | EventCallback                                                                                |                        | Event called after the row is removed.                                                                               |
-| PageChanged            | EventCallback                                                                                |                        | Occurs after the selected page has changed.                                                                          |
-| EmptyCellTemplate      | RenderingFragment                                                                            |                        | Define the format for empty data cell                                                                                |
-| EmptyTemplate          | RenderingFragment                                                                            |                        | Define the format for empty data collection                                                                          |
-| LoadingTemplate        | RenderingFragment                                                                            |                        | Define the format for signal of loading data                                                                         |
-| PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                                                   |                        | Template for custom title of edit popup dialog                                                                       |
-| NewItemDefaultSetter   | `Action<TItem>`                                                                              |                        | Action will be called for setting default values of property, when create new entry                                  |
-| PageButtonTemplate     | `RenderTemplate<PageButtonContext>`                                                          |                        | Define the format a pagination button                                                                                |
-| ShowValidationFeedback | boolean                                                                                      | false                  | Hide or show feedback for validation                                                                                 |
-| ShowValidationsSummary | boolean                                                                                      | true                   | Hide or show validations summary                                                                                     |
-| ValidationsSummaryLabel| string                                                                                       | null                   | Set label of validations summary                                                                                     |
-| SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})             | `Multiple`             | Defines whether the user can sort only by one column or by multiple.                                                 |
-| SelectionMode          | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})   | `Single`               | Defines whether the datagrid is set to single or multiple selection mode.                                            |
-| Localizers             | `DataGridLocalizers`                                                                         |                        | Custom localizer handlers to override default  localization.                                                         |
-| CommandMode            | [DataGridCommandMode]({{ "/docs/helpers/enums/#datagridcommandmode" | relative_url }})       | `Default`              | Defines whether the datagrid renders both commands and button row or just either one of them.                        |
+| Name                      | Type                                                                                         | Default                | Description                                                                                                          |
+|---------------------------|----------------------------------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------------------------------------------------|
+| Data                      | IEnumerable<TItem>                                                                           |                        | Grid data-source.                                                                                                    |
+| EditMode                  | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})                       | `Form`                 | Specifies the grid editing modes.                                                                                    |
+| UseInternalEditing        | boolean                                                                                      | `true`                 | Specifies the behavior of DataGrid editing.                                                                          |
+| Editable                  | boolean                                                                                      | `false`                | Whether users can edit DataGrid rows.                                                                                |
+| Resizable                 | boolean                                                                                      | `false`                | Whether users can resize DataGrid columns.                                                                           |
+| ResizeMode                | [TableResizeMode]({{ "/docs/helpers/enums/#tableresizemode" | relative_url }})               | `Header`               | Defines the resize mode of the data grid columns.                                                                    |
+| Sortable                  | boolean                                                                                      | `true`                 | Whether end-users can sort data by the column's values.                                                              |
+| ShowCaptions              | boolean                                                                                      | `true`                 | Gets or sets whether user can see a column captions.                                                                 |
+| Filterable                | boolean                                                                                      | `false`                | Whether users can filter rows by its cell values.                                                                    |
+| ShowPager                 | boolean                                                                                      | `false`                | Whether users can navigate DataGrid by using pagination controls.                                                    |
+| CurrentPage               | boolean                                                                                      | `1`                    | Current page number.                                                                                                 |
+| PageSize                  | int                                                                                          | `5`                    | Maximum number of items for each page.                                                                               |
+| Striped                   | boolean                                                                                      | `false`                | Adds stripes to the table.                                                                                           |
+| Bordered                  | boolean                                                                                      | `false`                | Adds borders to all the cells.                                                                                       |
+| Borderless                | boolean                                                                                      | `false`                | Makes the table without any borders.                                                                                 |
+| Hoverable                 | boolean                                                                                      | `false`                | Adds a hover effect when moussing over rows.                                                                         |
+| Narrow                    | boolean                                                                                      | `false`                | Makes the table more compact by cutting cell padding in half.                                                        |
+| Responsive                | boolean                                                                                      | `false`                | Makes table responsive by adding the horizontal scroll bar.                                                          |
+| ReadData                  | EventCallback                                                                                |                        | Handles the manual loading of large data sets.                                                                       |
+| SelectedRow               | TItem                                                                                        |                        | Currently selected row.                                                                                              |
+| SelectedRowChanged        | EventCallback                                                                                |                        | Occurs after the selected row has changed.                                                                           |
+| RowSelectable             | `Func<TItem,bool>`                                                                           |                        | Handles the selection of the clicked row. If not set it will default to always true.                                 |
+| RowHoverCursor            | ` Func<TItem,Blazorise.Cursor>`                                                              |                        | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used.          |
+| DetailRowTrigger          | `Func<TItem,bool>`                                                                           |                        | A trigger function used to handle the visibility of detail row.                                                      |
+| RowInserting              | Action                                                                                       |                        | Cancelable event called before the row is inserted.                                                                  |
+| RowUpdating               | Action                                                                                       |                        | Cancelable event called before the row is updated.                                                                   |
+| RowInserted               | EventCallback                                                                                |                        | Event called after the row is inserted.                                                                              |
+| RowUpdated                | EventCallback                                                                                |                        | Event called after the row is updated.                                                                               |
+| RowRemoving               | Action                                                                                       |                        | Cancelable event called before the row is removed.                                                                   |
+| RowRemoved                | EventCallback                                                                                |                        | Event called after the row is removed.                                                                               |
+| PageChanged               | EventCallback                                                                                |                        | Occurs after the selected page has changed.                                                                          |
+| EmptyCellTemplate         | RenderingFragment                                                                            |                        | Define the display template for empty data cell.                                                                     |
+| EmptyTemplate             | RenderingFragment                                                                            |                        | Define the display template for empty data collection.                                                               |
+| EmptyFilterTemplate       | RenderingFragment                                                                            |                        | Define the display template for empty filter data collection.                                                        |
+| LoadingTemplate           | RenderingFragment                                                                            |                        | Define the display template for signal of loading data                                                               |
+| PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                                                   |                        | Template for custom title of edit popup dialog                                                                       |
+| NewItemDefaultSetter      | `Action<TItem>`                                                                              |                        | Action will be called for setting default values of property, when create new entry                                  |
+| PageButtonTemplate        | `RenderTemplate<PageButtonContext>`                                                          |                        | Define the format a pagination button                                                                                |
+| UseValidation             | boolean                                                                                      | false                  | If true, validation will be used when editing the fields                                                             |
+| ShowValidationFeedback    | boolean                                                                                      | false                  | Hide or show feedback for validation                                                                                 |
+| ShowValidationsSummary    | boolean                                                                                      | true                   | Hide or show validations summary                                                                                     |
+| ValidationsSummaryLabel   | string                                                                                       | null                   | Label for validations summary.                                                                                       |
+| ValidationsSummaryErrors  | `string[]`                                                                                   | null                   | List of custom error messages for the validations summary.                                                           |
+| SortMode                  | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})             | `Multiple`             | Defines whether the user can sort only by one column or by multiple.                                                 |
+| SelectionMode             | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})   | `Single`               | Defines whether the datagrid is set to single or multiple selection mode.                                            |
+| Localizers                | `DataGridLocalizers`                                                                         |                        | Custom localizer handlers to override default  localization.                                                         |
+| CommandMode               | [DataGridCommandMode]({{ "/docs/helpers/enums/#datagridcommandmode" | relative_url }})       | `Default`              | Defines whether the datagrid renders both commands and button row or just either one of them.                        |
+| PagerPosition             | [DataGridPagerPosition]({{ "/docs/helpers/enums/#datagridpagerposition" | relative_url }})   | `Bottom`               | Defines the position of the pager.                                                                                   |
+| ShowPageSizes             | boolean                                                                                      | false                  | Defines whether users can adjust the page size of the datagrid.                                                      |
+| Virtualize                | boolean                                                                                      | false                  | Gets or sets whether the datagrid will use the Virtualize functionality.                                                    |
+| VirtualizeOptions         | VirtualizeOptions                                                                            | null                  | Gets or sets Virtualize options when using the Virtualize functionality.
+
 
 ### EditMode
 
@@ -689,7 +785,7 @@ Specifies the grid editing modes.
 | Field                     | string                                                              |                     | TItem data field name.                                                                                        |
 | Caption                   | string                                                              |                     | Column's display caption. It will be displayed, if ColumnTemplate is not set.                                 |
 | Filter                    | FilterContext                                                       |                     | Filter value for this column.                                                                                 |
-| Direction                 | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
+| SortDirection             | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
 | TextAlignment             | TextAlignment                                                       | `None`              | Defines the alignment for display cell.                                                                       |
 | HeaderTextAlignment       | TextAlignment                                                       | `None`              | Defines the alignment for column header cell.                                                                 |
 | Editable                  | bool                                                                | false               | Whether users can edit cell values under this column.                                                         |
@@ -719,3 +815,4 @@ Specifies the grid editing modes.
 | SortDirectionTemplate     | `RenderingFragment<SortDirection>`                                  |                     | Template for custom sort direction icon.                                                                      |
 | Validator                 | `Action<ValidatorEventArgs>`                                        |                     | Validates the input value after trying to save.                                                               |
 | ValidationPattern         | string                                                              |                     | Forces validation to use regex pattern matching instead of default validator handler.                         |
+| CustomFilter              | DataGridColumnCustomFilter                                          |                     | Custom filter function used to override internal filtering.                                                   |

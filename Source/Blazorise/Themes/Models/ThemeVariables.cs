@@ -1,40 +1,59 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
+    /// <summary>
+    /// Defines all the built-in CSS variable names.
+    /// </summary>
     public static class ThemeVariables
     {
+        /// <summary>
+        /// Gets the theme white color variable name.
+        /// </summary>
         public const string White = "--b-theme-white";
-        public const string Black = "--b-theme-black";
 
-        public const string BorderRadius = "--b-border-radius";
-        public const string BorderRadiusLarge = "--b-border-radius-lg";
-        public const string BorderRadiusSmall = "--b-border-radius-sm";
+        /// <summary>
+        /// Gets the theme black color variable name.
+        /// </summary>
+        public const string Black = "--b-theme-black";
 
         /// <summary>
         /// Gets the theme color variable name.
         /// </summary>
         /// <param name="variant">Color variant name.</param>
-        /// <returns></returns>
+        /// <returns>Color variant name.</returns>
         public static string Color( string variant ) => $"--b-theme-{variant}";
-
-        /// <summary>
-        /// Gets the breakpoint variable name.
-        /// </summary>
-        /// <param name="name">Breakpoint name.</param>
-        /// <returns></returns>
-        public static string Breakpoint( string name ) => $"--b-theme-breakpoint-{name}";
 
         /// <summary>
         /// Gets the theme background color variable name.
         /// </summary>
         /// <param name="variant">Color variant name.</param>
-        /// <returns></returns>
+        /// <returns>Background variant name.</returns>
         public static string BackgroundColor( string variant ) => $"--b-theme-background-{variant}";
+
+        /// <summary>
+        /// Gets the theme background contrast variable name.
+        /// </summary>
+        /// <param name="variant">Color variant name.</param>
+        /// <returns>Contrast variant name.</returns>
         public static string BackgroundYiqColor( string variant ) => $"--b-theme-background-{variant}-yiq";
 
+        /// <summary>
+        /// Gets the theme text color variable name.
+        /// </summary>
+        /// <param name="variant">Text color variant name.</param>
+        /// <returns>Text color variant name.</returns>
         public static string TextColor( string variant ) => $"--b-theme-text-{variant}";
+
+        /// <summary>
+        /// Gets the breakpoint variable name.
+        /// </summary>
+        /// <param name="name">Breakpoint name.</param>
+        /// <returns>Breakpoint name.</returns>
+        public static string Breakpoint( string name ) => $"--b-theme-breakpoint-{name}";
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        public const string BorderRadius = "--b-border-radius";
+        public const string BorderRadiusLarge = "--b-border-radius-lg";
+        public const string BorderRadiusSmall = "--b-border-radius-sm";
 
         public static string ButtonBackground( string variant ) => $"--b-button-{variant}-background";
         public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
@@ -107,17 +126,23 @@ namespace Blazorise
         public static string VariantStepsItemIconYiq( string variant ) => $"--b-steps-item-{variant}-icon-yiq";
         public static string VariantStepsItemText( string variant ) => $"--b-steps-item-{variant}-text-color";
 
-        public static string StepsItemIcon => $"--b-steps-item-icon-color";
-        public static string StepsItemIconCompleted => $"--b-steps-item-icon-completed";
-        public static string StepsItemIconCompletedYiq => $"--b-steps-item-icon-completed-yiq";
-        public static string StepsItemIconActive => $"--b-steps-item-icon-active";
-        public static string StepsItemIconActiveYiq => $"--b-steps-item-icon-active-yiq";
-        public static string StepsItemText => $"--b-steps-item-text-color";
-        public static string StepsItemTextCompleted => $"--b-steps-item-text-completed";
-        public static string StepsItemTextActive => $"--b-steps-item-text-active";
+        public static string StepsItemIcon => "--b-steps-item-icon-color";
+        public static string StepsItemIconCompleted => "--b-steps-item-icon-completed";
+        public static string StepsItemIconCompletedYiq => "--b-steps-item-icon-completed-yiq";
+        public static string StepsItemIconActive => "--b-steps-item-icon-active";
+        public static string StepsItemIconActiveYiq => "--b-steps-item-icon-active-yiq";
+        public static string StepsItemText => "--b-steps-item-text-color";
+        public static string StepsItemTextCompleted => "--b-steps-item-text-completed";
+        public static string StepsItemTextActive => "--b-steps-item-text-active";
+
+        public static string SpinKitSize => "--b-spinkit-size";
+        public static string SpinKitColor => "--b-spinkit-color";
 
         public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
 
+        public static string VariantRatingColor( string variant ) => $"--b-rating-{variant}-color";
+
         public const string BreadcrumbColor = "--b-breadcrumb-color";
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

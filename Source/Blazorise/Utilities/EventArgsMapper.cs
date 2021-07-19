@@ -1,9 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -16,24 +11,21 @@ namespace Blazorise.Utilities
             if ( e == null )
                 return null;
 
-            return new BLMouseEventArgs( ToMouseButton( e.Button ),
+            return new( ToMouseButton( e.Button ),
                 e.Detail,
-                new Point( (int)e.ScreenX, (int)e.ScreenY ),
-                new Point( (int)e.ClientX, (int)e.ClientY ),
+                new( (int)e.ScreenX, (int)e.ScreenY ),
+                new( (int)e.ClientX, (int)e.ClientY ),
                 e.CtrlKey, e.ShiftKey, e.AltKey );
         }
 
         private static MouseButton ToMouseButton( long button )
         {
-            switch ( button )
+            return button switch
             {
-                case 1:
-                    return MouseButton.Middle;
-                case 2:
-                    return MouseButton.Right;
-                default:
-                    return MouseButton.Left;
-            }
+                1 => MouseButton.Middle,
+                2 => MouseButton.Right,
+                _ => MouseButton.Left,
+            };
         }
     }
 }

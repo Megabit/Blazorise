@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Base
+namespace Blazorise
 {
-    public abstract class BaseAfterRenderComponent : ComponentBase, IDisposable
+    /// <summary>
+    /// Base render component that implements render-queue logic.
+    /// </summary>
+    public abstract class BaseAfterRenderComponent : ComponentBase, IDisposable, IAsyncDisposable
     {
         #region Members
 
@@ -26,8 +29,7 @@ namespace Blazorise.Base
         /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
-            if ( executeAfterRenderQueue == null )
-                executeAfterRenderQueue = new Queue<Func<Task>>();
+            executeAfterRenderQueue ??= new();
 
             executeAfterRenderQueue.Enqueue( action );
         }
@@ -54,7 +56,6 @@ namespace Blazorise.Base
         public void Dispose()
         {
             Dispose( true );
-            GC.SuppressFinalize( this );
         }
 
         /// <summary>
@@ -74,6 +75,35 @@ namespace Blazorise.Base
             }
         }
 
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsync( true );
+
+            Dispose( false );
+        }
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">True if the component is in the disposing process.</param>
+        protected virtual ValueTask DisposeAsync( bool disposing )
+        {
+            try
+            {
+                if ( !AsyncDisposed )
+                {
+                    AsyncDisposed = true;
+                }
+
+                return default;
+            }
+            catch ( Exception exc )
+            {
+                return new( Task.FromException( exc ) );
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -82,6 +112,11 @@ namespace Blazorise.Base
         /// Indicates if the component is already fully disposed.
         /// </summary>
         protected bool Disposed { get; private set; }
+
+        /// <summary>
+        /// Indicates if the component is already fully disposed (asynchronously).
+        /// </summary>
+        protected bool AsyncDisposed { get; private set; }
 
         /// <summary>
         /// Indicates if component has been rendered in the browser.

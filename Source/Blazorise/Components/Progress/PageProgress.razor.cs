@@ -15,7 +15,7 @@ namespace Blazorise
 
         private bool visible;
 
-        private int? @value;
+        private int? value;
 
         private Color color = Color.None;
 
@@ -23,9 +23,12 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="PageProgress"/> constructor.
+        /// </summary>
         public PageProgress()
         {
-            IndicatorClassBuilder = new ClassBuilder( BuildIndicatorClasses );
+            IndicatorClassBuilder = new( BuildIndicatorClasses );
         }
 
         #endregion
@@ -117,13 +120,13 @@ namespace Blazorise
         [Parameter]
         public int? Value
         {
-            get => @value;
+            get => value;
             set
             {
-                if ( this.@value == value )
+                if ( this.value == value )
                     return;
 
-                this.@value = value;
+                this.value = value;
 
                 DirtyClasses();
             }

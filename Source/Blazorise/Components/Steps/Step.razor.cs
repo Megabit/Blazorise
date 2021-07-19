@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -9,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Clickable item in a <see cref="Steps"/> component.
+    /// </summary>
     public partial class Step : BaseComponent
     {
         #region Members
@@ -23,26 +25,28 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="Step"/> constructor.
+        /// </summary>
         public Step()
         {
-            MarkerClassBuilder = new ClassBuilder( BuildMarkerClasses );
-            DescriptionClassBuilder = new ClassBuilder( BuildDescriptionClasses );
+            MarkerClassBuilder = new( BuildMarkerClasses );
+            DescriptionClassBuilder = new( BuildDescriptionClasses );
         }
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentSteps != null )
-            {
-                ParentSteps.NotifyStepInitialized( Name );
-            }
+            ParentSteps?.NotifyStepInitialized( Name );
 
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -56,6 +60,7 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.StepItem() );
@@ -66,16 +71,25 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Builds the classnames for a marker element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         protected virtual void BuildMarkerClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.StepItemMarker() );
         }
 
+        /// <summary>
+        /// Builds the classnames for a description element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         protected virtual void BuildDescriptionClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.StepItemDescription() );
         }
 
+        /// <inheritdoc/>
         protected internal override void DirtyClasses()
         {
             MarkerClassBuilder.Dirty();
@@ -84,6 +98,10 @@ namespace Blazorise
             base.DirtyClasses();
         }
 
+        /// <summary>
+        /// Handles the step onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler()
         {
             Clicked?.Invoke();
@@ -96,12 +114,24 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Marker element class builder.
+        /// </summary>
         protected ClassBuilder MarkerClassBuilder { get; private set; }
 
+        /// <summary>
+        /// Description element class builder.
+        /// </summary>
         protected ClassBuilder DescriptionClassBuilder { get; private set; }
 
+        /// <summary>
+        /// True if the step item is currently selected.
+        /// </summary>
         protected bool Active => parentStepsState?.SelectedStep == Name;
 
+        /// <summary>
+        /// Gets the index of a step item within the <see cref="Steps"/> component.
+        /// </summary>
         protected int? CalculatedIndex => Index ?? ParentSteps?.IndexOfStep( Name );
 
         /// <summary>
@@ -171,8 +201,14 @@ namespace Blazorise
         /// </summary>
         [Parameter] public RenderFragment Caption { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Step"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Cascaded <see cref="Steps"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected StepsState ParentStepsState
         {
@@ -188,6 +224,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Steps"/> component.
+        /// </summary>
         [CascadingParameter] protected Steps ParentSteps { get; set; }
 
         #endregion

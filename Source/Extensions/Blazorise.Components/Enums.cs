@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazorise.Components
+﻿namespace Blazorise.Components
 {
     public enum AutocompleteFilter
     {

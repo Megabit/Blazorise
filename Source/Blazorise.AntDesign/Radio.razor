@@ -11,7 +11,7 @@
     </span>
 </label>
 @code{
-    // Ant design doesn't have appereance for custom radio button colors.
+    // Ant design doesn't have appearance for custom radio button colors.
     // So for now I will skip support for it until I find a good way.
     string WrapperClassNames => AsButton == true
         ? $"ant-radio-button-wrapper{( Checked ? " ant-radio-button-wrapper-checked" : "" )}"
@@ -22,6 +22,6 @@
         : $"ant-radio{( Checked ? " ant-radio-checked" : "" )}";
 
     string InnerClassNames => AsButton == true
-        ? $"ant-radio-button-inner"
-        : $"ant-radio-inner";
+        ? "ant-radio-button-inner"
+        : "ant-radio-inner";
 }

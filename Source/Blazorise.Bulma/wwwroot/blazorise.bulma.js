@@ -4,7 +4,9 @@ if (!window.blazoriseBulma) {
 
 window.blazoriseBulma = {
     tooltip: {
-        initialize: (element, elementId) => {
+        initialize: (element, elementId, options) => {
+            window.blazorise.tooltip.initialize(element, elementId, options);
+
             if (element.querySelector(".checkbox,.button")) {
                 element.classList.add("b-tooltip-inline");
             }
@@ -12,8 +14,6 @@ window.blazoriseBulma = {
             if (element.parentElement && element.parentElement.classList.contains("field-body")) {
                 element.parentElement.style.cssText = "display: block;";
             }
-
-            return true;
         }
     },
     activateDatePicker: (elementId) => {
@@ -24,11 +24,8 @@ window.blazoriseBulma = {
             if (scrollToTop) {
                 element.querySelector('.modal-card-body').scrollTop = 0;
             }
-
-            return true;
         },
         close: (element) => {
-            return true;
         }
     }
 };

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Card titles are used by adding title to a heading tag.
+    /// </summary>
     public partial class CardTitle : BaseTypographyComponent
     {
         #region Members
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CardTitle( InsideHeader ) );
@@ -50,6 +54,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="CardHeader"/> component.
+        /// </summary>
         [CascadingParameter] public CardHeader ParentCardHeader { get; set; }
 
         #endregion

@@ -22,6 +22,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -29,17 +30,18 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Switch() );
             builder.Append( ClassProvider.SwitchColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.SwitchSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.SwitchSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.SwitchChecked( IsChecked ) );
             builder.Append( ClassProvider.SwitchCursor( Cursor ), Cursor != Cursor.Default );
             builder.Append( ClassProvider.SwitchValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );

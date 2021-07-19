@@ -1,8 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -16,11 +13,10 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        #region Methods
-
-        #endregion
-
         #region Properties
+
+        protected bool UseValidation
+            => ParentDataGrid.UseValidation;
 
         protected bool HasValidator
             => Column.Validator != null;
@@ -34,9 +30,30 @@ namespace Blazorise.DataGrid
         protected string ValidationPattern
             => string.IsNullOrWhiteSpace( Column.ValidationPattern ) ? null : Column.ValidationPattern;
 
+        protected Type ValidationHandlerType
+        {
+            get
+            {
+                if ( HasValidationPattern )
+                    return typeof( PatternValidationHandler );
+                else if ( HasValidator )
+                    return typeof( ValidatorValidationHandler );
+
+                // default is always data-annotations
+                return typeof( DataAnnotationValidationHandler );
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
         [Parameter] public DataGridColumn<TItem> Column { get; set; }
 
         [Parameter] public TItem Item { get; set; }
+
+        [Parameter] public TItem ValidationItem { get; set; }
 
         [Parameter] public CellEditContext<TItem> CellEditContext { get; set; }
 

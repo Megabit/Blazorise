@@ -22,17 +22,23 @@ namespace Blazorise.Bootstrap
                 .AriaPressed( Active )
                 .TabIndex( TabIndex );
 
-            if ( Type == ButtonType.Link && To != null )
+            if ( Type == ButtonType.Link )
             {
                 builder
                     .Role( "button" )
                     .Href( To )
                     .Target( Target );
+
+                if ( Disabled )
+                {
+                    builder
+                        .TabIndex( -1 )
+                        .AriaDisabled( "true" );
+                }
             }
-            else
-            {
-                builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
-            }
+
+            builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
+            builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
 
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );

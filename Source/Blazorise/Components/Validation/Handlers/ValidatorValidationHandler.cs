@@ -1,6 +1,6 @@
 ﻿#region Using directives
-using System.Linq;
-using Blazorise.Extensions;
+using System.Threading;
+using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
@@ -22,6 +22,31 @@ namespace Blazorise
             var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
                 ? new string[] { validatorEventArgs.ErrorText }
                 : null;
+
+            validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
+        }
+
+        /// <inheritdoc/>
+        public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            validation.NotifyValidationStarted();
+
+            var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( validation.AsyncValidator != null )
+                await validation.AsyncValidator( validatorEventArgs, cancellationToken );
+            else
+                validation.Validator?.Invoke( validatorEventArgs );
+
+            var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
+                ? new string[] { validatorEventArgs.ErrorText }
+                : null;
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
         }

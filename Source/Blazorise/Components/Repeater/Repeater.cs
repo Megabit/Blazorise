@@ -48,7 +48,6 @@ namespace Blazorise
         public void Dispose()
         {
             Dispose( true );
-            GC.SuppressFinalize( this );
         }
 
         /// <summary>
@@ -65,7 +64,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc cref="IComponent.SetParametersAsync"/>
-        public virtual async Task SetParametersAsync( ParameterView parameters )
+        public virtual Task SetParametersAsync( ParameterView parameters )
         {
             var current = Items;
 
@@ -89,8 +88,10 @@ namespace Blazorise
                     collection.CollectionChanged += OnCollectionChanged;
                 }
 
-                await CollectionChangedAsync( new NotifyCollectionChangedEventArgs( NotifyCollectionChangedAction.Reset ) );
+                return CollectionChangedAsync( new( NotifyCollectionChangedAction.Reset ) );
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Holds the options for the theme.
     /// </summary>
-    public class Theme
+    public record Theme
     {
         /// <summary>
         /// Globaly enable or disable the theme.
@@ -29,8 +29,14 @@ namespace Blazorise
             Changed?.Invoke( this, EventArgs.Empty );
         }
 
+        /// <summary>
+        /// Defines the base theme light color.
+        /// </summary>
         public string White { get; set; } = "#ffffff";
 
+        /// <summary>
+        /// Defines the base theme dark color.
+        /// </summary>
         public string Black { get; set; } = "#343a40";
 
         /// <summary>
@@ -109,44 +115,113 @@ namespace Blazorise
         public float ThemeColorInterval { get; set; } = 8f;
 
         /// <summary>
-        /// Overrides the button styles.
+        /// Theme options to override the <see cref="Button"/> component styles.
         /// </summary>
         public ThemeButtonOptions ButtonOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Dropdown"/> styles.
+        /// </summary>
         public ThemeDropdownOptions DropdownOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="BaseInputComponent{TValue}">Input</see> component(s) styles.
+        /// </summary>
         public ThemeInputOptions InputOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Card"/> styles.
+        /// </summary>
         public ThemeCardOptions CardOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Modal">Modal dialog</see> styles.
+        /// </summary>
         public ThemeModalOptions ModalOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Tabs"/> component styles.
+        /// </summary>
         public ThemeTabsOptions TabsOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Progress{T}">Progress</see> component styles.
+        /// </summary>
         public ThemeProgressOptions ProgressOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Rating"/> component styles.
+        /// </summary>
+        public ThemeRatingOptions RatingOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the <see cref="Alert"/> component styles.
+        /// </summary>
         public ThemeAlertOptions AlertOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Table"/> component styles.
+        /// </summary>
         public ThemeTableOptions TableOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Breadcrumb"/> component styles.
+        /// </summary>
         public ThemeBreadcrumbOptions BreadcrumbOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Badge"/> component styles.
+        /// </summary>
         public ThemeBadgeOptions BadgeOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Switch{TValue}">Switch</see> component styles.
+        /// </summary>
         public ThemeSwitchOptions SwitchOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Pagination"/> component styles.
+        /// </summary>
         public ThemePaginationOptions PaginationOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the Sidebar component styles.
+        /// </summary>
         public ThemeSidebarOptions SidebarOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the Snackbar component styles.
+        /// </summary>
         public ThemeSnackbarOptions SnackbarOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Steps"/> component styles.
+        /// </summary>
         public ThemeStepsOptions StepsOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Bar"/> component styles.
+        /// </summary>
         public ThemeBarOptions BarOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Divider"/> component styles.
+        /// </summary>
         public ThemeDividerOptions DividerOptions { get; set; }
 
+        /// <summary>
+        /// Theme options to override the <see cref="Tooltip"/> component styles.
+        /// </summary>
         public ThemeTooltipOptions TooltipOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the SpinKit component styles.
+        /// </summary>
+        public ThemeSpinKitOptions SpinKitOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the <see cref="ListGroupItem"/> component styles.
+        /// </summary>
+        public ThemeListGroupItemOptions ListGroupItemOptions { get; set; }
     }
 }

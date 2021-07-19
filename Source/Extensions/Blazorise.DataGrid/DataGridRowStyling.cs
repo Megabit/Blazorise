@@ -1,10 +1,4 @@
-﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Text;
-#endregion
-
-namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// Helpers class to override default row styling.

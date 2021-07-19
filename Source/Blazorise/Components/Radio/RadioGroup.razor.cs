@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -31,14 +32,6 @@ namespace Blazorise
         private Color color = Color.Secondary;
 
         /// <summary>
-        /// Flag needed for radiogroup to work property. Since the group is notified of it's state
-        /// from child radio component we need to skip calling event callback when we get the new
-        /// state through the param from outside. And it happens as a consequence of calling the
-        /// infamous StateHasChanged().
-        /// </summary>
-        private bool skipCheckedValueChangedCallback = false;
-
-        /// <summary>
         /// An event raised after the internal radio group value has changed.
         /// </summary>
         public event EventHandler<RadioCheckedChangedEventArgs<TValue>> RadioCheckedChanged;
@@ -50,28 +43,19 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            try
+            if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) && !CheckedValue.IsEqual( result ) )
             {
-                skipCheckedValueChangedCallback = true;
-
-                if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
-                {
-                    await CurrentValueHandler( result?.ToString() );
-                }
-
-                await base.SetParametersAsync( parameters );
-
-                if ( ParentValidation != null )
-                {
-                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
-                        ParentValidation.InitializeInputExpression( expression );
-
-                    InitializeValidation();
-                }
+                await CurrentValueHandler( result?.ToString() );
             }
-            finally
+
+            await base.SetParametersAsync( parameters );
+
+            if ( ParentValidation != null )
             {
-                skipCheckedValueChangedCallback = false;
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
+                    await ParentValidation.InitializeInputExpression( expression );
+
+                await InitializeValidation();
             }
         }
 
@@ -79,6 +63,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.RadioGroup( Buttons, Orientation ) );
+            builder.Append( ClassProvider.RadioGroupSize( Buttons, Orientation, ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
@@ -101,15 +86,12 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task OnInternalValueChanged( TValue value )
+        protected override Task OnInternalValueChanged( TValue value )
         {
             // notify child radios they need to update their states
-            RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
+            RadioCheckedChanged?.Invoke( this, new( value ) );
 
-            if ( !skipCheckedValueChangedCallback )
-            {
-                await CheckedValueChanged.InvokeAsync( value );
-            }
+            return CheckedValueChanged.InvokeAsync( value );
         }
 
         /// <summary>
@@ -122,6 +104,16 @@ namespace Blazorise
             await CurrentValueHandler( radio.Value?.ToString() );
 
             await InvokeAsync( StateHasChanged );
+        }
+
+        /// <inheritdoc/>
+        protected override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        {
+            base.OnValidationStatusChanged( sender, eventArgs );
+
+            // Since radios validation works little different when placed in radio group we need
+            // to notify them to re-render when validation changes.
+            RadioCheckedChanged?.Invoke( this, new( CheckedValue ) );
         }
 
         #endregion

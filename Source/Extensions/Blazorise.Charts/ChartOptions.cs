@@ -79,18 +79,6 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public float CategoryPercentage { get; set; } = 0.8f;
-
-        /// <summary>
-        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
-        /// </summary>
-        [DataMember]
-        public int BarThickness { get; set; }
-
-        /// <summary>
-        /// Set this to ensure that bars are not sized thicker than this.
-        /// </summary>
-        [DataMember]
-        public int MaxBarThickness { get; set; }
     }
 
     [DataContract]
@@ -173,6 +161,40 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool Reverse { get; set; } = false;
+
+        /// <summary>
+        /// Options to change legend labels.
+        /// </summary>
+        [DataMember]
+        public LegendLabels Labels { get; set; }
+    }
+
+    [DataContract]
+    public class LegendLabels
+    {
+        /// <summary>
+        /// Default font color for all text.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string FontColor { get; set; } = "#666";
+
+        /// <summary>
+        /// Default font family for all text.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string FontFamily { get; set; } = "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+
+        /// <summary>
+        /// Default font size (in px) for text. Does not apply to radialLinear scale point labels.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public double? FontSize { get; set; } = 12;
+
+        /// <summary>
+        /// Default font style. Does not apply to tooltip title or footer. Does not apply to chart title.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string FontStyle { get; set; } = "normal";
     }
 
     [DataContract]
@@ -188,6 +210,9 @@ namespace Blazorise.Charts
     [DataContract]
     public class Axis
     {
+        [DataMember( EmitDefaultValue = false )]
+        public string Id { get; set; }
+
         [DataMember( EmitDefaultValue = false )]
         public string Type { get; set; }
 
@@ -205,6 +230,27 @@ namespace Blazorise.Charts
 
         [DataMember( EmitDefaultValue = false )]
         public bool Stacked { get; set; }
+
+        /// <summary>
+        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
+        /// </summary>
+        /// <remarks>
+        /// NOTE: used only on Bar chart!
+        /// </remarks>
+        [DataMember]
+        public string BarThickness { get; set; }
+
+        /// <summary>
+        /// Set this to ensure that bars are not sized thicker than this.
+        /// </summary>
+        /// <remarks>
+        /// NOTE: used only on Bar chart!
+        /// </remarks>
+        [DataMember]
+        public int? MaxBarThickness { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public string Position { get; set; }
     }
 
     /// <summary>
@@ -278,6 +324,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool BeginAtZero { get; set; }
+
+        /// <summary>
+        /// Evaluates this JavaScript as a string representation of the tick value as it should be displayed on the chart.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public string CallbackJavaScript { get; set; }
     }
 
     /// <summary>
@@ -475,7 +527,7 @@ namespace Blazorise.Charts
         public string LabelString { get; set; } = "";
 
         /// <summary>
-        /// Height of an individual line of text (<see cref="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height"/>).
+        /// Height of an individual line of text (https://developer.mozilla.org/en-US/docs/Web/CSS/line-height).
         /// </summary>
         [DataMember]
         public double LineHeight { get; set; } = 1.2d;
@@ -524,7 +576,7 @@ namespace Blazorise.Charts
         public int Duration { get; set; } = 1000;
 
         /// <summary>
-        /// Easing function to use. <seealso cref="https://www.chartjs.org/docs/latest/configuration/animations.html#easing"/>
+        /// Easing function to use (https://www.chartjs.org/docs/latest/configuration/animations.html#easing).
         /// </summary>
         [DataMember]
         public string Easing { get; set; } = "easeOutQuart";

@@ -35,7 +35,8 @@ Install-Package Blazorise.Components
     TextField="@((item)=>item.MyTextField)"
     ValueField="@((item)=>item.MyValueField)"
     SelectedValue="@selectedListValue"
-    SelectedValueChanged="@MyListValueChangedHandler" />
+    SelectedValueChanged="@MyListValueChangedHandler"
+    DefaultItemText="Choose your country" />
 ```
 
 ### Data binding
@@ -73,3 +74,7 @@ Install-Package Blazorise.Components
 | SelectedValue        | TValue                     |            | Currently selected value.                             |
 | SelectedValueChanged | `EventCallback<TValue>`    |            | Raises an event after the selected value has changed. |
 | MaxVisibleItems      | `int?`                     | `null`     | Specifies how many options should be shown at once.   |
+| DefaultItemText      | string                     | `null`     | Display text of the default select item.              |
+| DefaultItemValue     | TValue                     | `default`  | Value of the default select item.                     |
+| DefaultItemDisabled  | bool                       | false      | If true, disables the default item.                   |
+| DefaultItemHidden    | bool                       | false      | If true, hides the default item.                      |

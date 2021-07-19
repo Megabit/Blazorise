@@ -55,18 +55,18 @@ namespace Blazorise
         /// <summary>
         /// A list of all elements id that could potentially trigger the modal close event.
         /// </summary>
-        private List<string> closeActivatorElementIds = new List<string>();
+        private readonly List<string> closeActivatorElementIds = new();
 
         #endregion
 
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
+        protected override Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            return base.OnFirstAfterRenderAsync();
         }
 
         /// <inheritdoc/>
@@ -88,7 +88,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -97,17 +97,38 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSRunner.UnregisterClosableComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 // TODO: implement IAsyncDisposable once it is supported by Blazor!
                 //
-                // Sometimes user can navigates to another page based on the action runned on modal. The problem is 
+                // Sometimes user can navigates to another page based on the action runned on modal. The problem is
                 // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
-                // we need to close modal and dispose of any claassnames in case there is any left. 
-                _ = JSRunner.CloseModal( ElementRef );
+                // we need to close modal and dispose of any claassnames in case there is any left.
+                var closeModalTask = JSRunner.CloseModal( ElementRef );
+
+                try
+                {
+                    await closeModalTask;
+                }
+                catch
+                {
+                    if ( !closeModalTask.IsCanceled )
+                    {
+                        throw;
+                    }
+                }
 
                 if ( focusableComponents != null )
                 {
@@ -116,7 +137,7 @@ namespace Blazorise
                 }
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>
@@ -193,6 +214,10 @@ namespace Blazorise
             return safeToClose;
         }
 
+        /// <summary>
+        /// Handles the styles based on the visibility flag.
+        /// </summary>
+        /// <param name="visible">Modal visibility flag.</param>
         protected virtual void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
@@ -209,9 +234,19 @@ namespace Blazorise
                 // only one component can be focused
                 if ( FocusableComponents.Count > 0 )
                 {
-                    ExecuteAfterRender( async () =>
+                    ExecuteAfterRender( () =>
                     {
-                        await FocusableComponents.First().FocusAsync();
+                        //TODO: This warrants further investigation
+                        //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
+                        //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
+                        var firstFocusableComponent = FocusableComponents.FirstOrDefault();
+
+                        if ( firstFocusableComponent != null )
+                        {
+                            return firstFocusableComponent.FocusAsync();
+                        }
+
+                        return Task.CompletedTask;
                     } );
                 }
             }
@@ -231,12 +266,18 @@ namespace Blazorise
             DirtyStyles();
         }
 
+        /// <summary>
+        /// Fires all the events for this modal
+        /// </summary>
+        /// <param name="visible"></param>
         protected virtual void RaiseEvents( bool visible )
         {
             if ( !visible )
             {
                 Closed.InvokeAsync( null );
             }
+
+            VisibleChanged.InvokeAsync( visible );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
@@ -311,7 +352,7 @@ namespace Blazorise
         /// Gets the list of focusable components.
         /// </summary>
         protected IList<IFocusableComponent> FocusableComponents
-            => focusableComponents ??= new List<IFocusableComponent>();
+            => focusableComponents ??= new();
 
         /// <summary>
         /// Gets the list of all element ids that could trigger modal close event.
@@ -348,6 +389,11 @@ namespace Blazorise
                 }
             }
         }
+
+        /// <summary>
+        /// Occurs when the modal visibility state changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// If true modal will scroll to top when opened.

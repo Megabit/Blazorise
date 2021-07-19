@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -7,9 +8,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for text, buttons, or button groups on either side of textual inputs.
+    /// </summary>
     public partial class Addons : BaseComponent
     {
         #region Members
+
+        private Size? size;
 
         private IFluentColumn columnSize;
 
@@ -18,6 +24,17 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+        }
 
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -33,21 +50,39 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addons() );
+            builder.Append( ClassProvider.AddonsSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
             base.BuildClasses( builder );
         }
 
-        internal void Register( Button button )
+        /// <summary>
+        /// Notify addons that a button is placed inside of it.
+        /// </summary>
+        /// <param name="button">A button reference that is placed inside of the addons.</param>
+        internal void NotifyButtonInitialized( Button button )
         {
             if ( button == null )
                 return;
 
-            if ( registeredButtons == null )
-                registeredButtons = new List<Button>();
+            registeredButtons ??= new();
 
             if ( !registeredButtons.Contains( button ) )
             {
@@ -55,7 +90,11 @@ namespace Blazorise
             }
         }
 
-        internal void UnRegister( Button button )
+        /// <summary>
+        /// Notify addons that a button is removed from it.
+        /// </summary>
+        /// <param name="button">A button reference that is placed inside of the addons.</param>
+        internal void NotifyButtonRemoved( Button button )
         {
             if ( button == null )
                 return;
@@ -66,10 +105,36 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object that raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// True if <see cref="Addons"/> is placed inside of <see cref="Field"/> component.
+        /// </summary>
+        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
+
+        /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
+
+        /// <summary>
+        /// Determines how much space will be used by the addons inside of the grid row.
+        /// </summary>
         [Parameter]
         public IFluentColumn ColumnSize
         {
@@ -82,15 +147,35 @@ namespace Blazorise
             }
         }
 
-        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
+        /// <summary>
+        /// Changes the size of the elements placed inside of this <see cref="Accordion"/>.
+        /// </summary>
+        [Parameter]
+        public Size? Size
+        {
+            get => size;
+            set
+            {
+                size = value;
 
-        [CascadingParameter] protected Field ParentField { get; set; }
+                DirtyClasses();
+            }
+        }
 
-        //protected bool IsInFieldBody => ParentFieldBody != null;
-
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Field"/> component.
+        /// </summary>
+        [CascadingParameter] protected Field ParentField { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

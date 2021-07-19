@@ -10,7 +10,7 @@
             </CardBody>
             <CardBody>
                 <Validations Mode="ValidationMode.Auto" ValidateOnLoad="false">
-                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                    <Validation AsyncValidator="@ValidateNameAsync">
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
@@ -136,7 +136,7 @@
             </CardBody>
             <CardBody>
                 <Validations @ref="validations" Mode="ValidationMode.Manual">
-                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                    <Validation AsyncValidator="@ValidateNameAsync">
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
@@ -514,12 +514,25 @@
 
     Modal modalRef;
     Validations modalValidations;
-    User modalUser = new User();
+    User modalUser = new();
 
-    User user = new User();
-    User manualUser = new User();
+    User user = new();
+    User manualUser = new();
 
     string password;
+
+    Random random = new();
+
+    async Task ValidateNameAsync( ValidatorEventArgs e, System.Threading.CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.Delay( random.Next( 600 ) );
+
+        e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+    }
 
     void ValidatePassword( ValidatorEventArgs e )
     {
@@ -593,8 +606,8 @@
 
     Task OpenUserModal()
     {
-        // re-initialite model will be act as a "first load" for validations inside of modal dialog
-        modalUser = new User();
+        // re-initiate model will be act as a "first load" for validations inside of modal dialog
+        modalUser = new();
 
         modalValidations.ClearAll();
 

@@ -6,7 +6,7 @@
     public record BarState
     {
         /// <summary>
-        /// Controlls the state of toggler and the menu.
+        /// Controls the state of toggler and the menu.
         /// </summary>
         public bool Visible { get; init; }
 
@@ -31,7 +31,7 @@
         public Breakpoint NavigationBreakpoint { get; init; }
 
         /// <summary>
-        /// Defines the prefered theme contrast for the <see cref="Bar"/> component.
+        /// Defines the preferred theme contrast for the <see cref="Bar"/> component.
         /// </summary>
         public ThemeContrast ThemeContrast { get; init; }
 
@@ -39,10 +39,5 @@
         /// Defines the alignment within bar.
         /// </summary>
         public Alignment Alignment { get; init; }
-
-        /// <summary>
-        /// Gets or sets the bar background color.
-        /// </summary>
-        public Background Background { get; init; }
     }
 }

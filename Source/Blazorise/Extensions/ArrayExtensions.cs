@@ -21,14 +21,21 @@ namespace Blazorise.Extensions
             if ( array1 == null && array2 == null )
                 return true;
 
-            if ( array1 != null && array2 != null && array1.Count() == array2.Count() )
-            {
-                return array1
-                    .Zip( array2, ( value1, value2 ) => value1.IsEqual( value2 ) )
-                    .All( result => result );
-            }
+            if ( ( array1 != null && array2 == null ) || ( array2 != null && array1 == null ) )
+                return false;
 
-            return false;
+            return array1.SequenceEqual( array2 );
+        }
+
+        /// <summary>
+        /// Determines if the supplied collection is null or empty, i.e. not containing any element.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to enumerate.</typeparam>
+        /// <param name="collection">The collection to check for emptiness.</param>
+        /// <returns>True if the source sequence is null ot not contains any elements; otherwise, false.</returns>
+        public static bool IsNullOrEmpty<T>( this IEnumerable<T> collection )
+        {
+            return collection == null || !collection.Any();
         }
     }
 }

@@ -26,6 +26,7 @@ The bar component has the following structure:
           - `BarDropdownToggle` dropdown trigger
           - `BarDropdownMenu` the dropdown menu, which can include bar items and dividers
             - `BarDropdownItem` each single item of the dropdown menu
+            - `BarDropdownDivider` Divider that can be placed between `BarDropdownItem`'s.
             - `BarDropdown` by adding this again inside the menu, you will create nested dropdowns
 
 ### Top Bar (with dropdown)
@@ -53,6 +54,7 @@ The bar component has the following structure:
           <BarDropdownToggle>Dropdown</BarDropdownToggle>
           <BarDropdownMenu>
             <BarDropdownItem>Action</BarDropdownItem>
+            <BarDropdownDivider />
             <BarDropdownItem>Another action</BarDropdownItem>
           </BarDropdownMenu>
         </BarDropdown>
@@ -306,7 +308,6 @@ For an example where the horizontal `Bar` is "on top" of the vertical `Bar`, ple
 | NavigationBreakpoint | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint"           | relative_url }}) | `None`                                     | Defines the media breakpoint on navigation. |
 | ThemeContrast        | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast"     | relative_url }}) | `Light`                                    | Adjusts the contrast for light or dark themes. |
 | Background           | [Background]({{ "/docs/helpers/colors/#background"          | relative_url }}) | `None`                                     | Sets the bar background color. |
-| Color                | [Colors]({{ "/docs/helpers/colors/#color"                   | relative_url }}) | `None`                                     | Component visual or contextual style variants. |
 
 ### BarLink
 

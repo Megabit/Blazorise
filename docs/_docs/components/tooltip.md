@@ -10,6 +10,9 @@ toc_label: "Guide"
 
 Display a tooltip attached to any kind of element with different positioning.
 
+Starting with **v0.9.4**, Tooltip component is powered by [Tippy.js](https://atomiks.github.io/tippyjs/).
+{: .notice--info}
+
 ### Basic
 
 ```html
@@ -30,16 +33,16 @@ You can use one of the following modifiers to change positions of the tooltip:
 - `Right`
 
 ```html
-<Tooltip Text="Hello tooltip" Placement="Placement.Top">
+<Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Top">
     <Button Color="Color.Primary">Top tooltip</Button>
 </Tooltip>
-<Tooltip Text="Hello tooltip" Placement="Placement.Right">
+<Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Right">
     <Button Color="Color.Primary">Right tooltip</Button>
 </Tooltip>
-<Tooltip Text="Hello tooltip" Placement="Placement.Left">
+<Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Left">
     <Button Color="Color.Primary">Left tooltip</Button>
 </Tooltip>
-<Tooltip Text="Hello tooltip" Placement="Placement.Bottom">
+<Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Bottom">
     <Button Color="Color.Primary">Bottom tooltip</Button>
 </Tooltip>
 ```
@@ -48,11 +51,13 @@ You can use one of the following modifiers to change positions of the tooltip:
 
 ## Attributes
 
-| Name              | Type                                                               | Default          | Description                                                               |
-|-------------------|--------------------------------------------------------------------|------------------|---------------------------------------------------------------------------|
-| Text              | string                                                             | null             | Content displayed in the tooltip.                                         |
-| Placement         | [Placement]({{ "/docs/helpers/enums/#placement" | relative_url }}) | `Top`            | Position of the tooltip relative to it's component.                       |
-| Multiline         | bool                                                               | false            | Force the multiline display.                                              |
-| AlwaysActive      | bool                                                               | false            | Always show tooltip, instead of just when hovering over the element.      |
-| Inline            | bool                                                               | false            | Force inline block instead of trying to detect the element block.         |
-| Fade              | bool                                                               | false            | Controls the fade effect.                                                 |
+| Name              | Type                                                                              | Default           | Description                                                               |
+|-------------------|-----------------------------------------------------------------------------------|-------------------|---------------------------------------------------------------------------|
+| Text              | string                                                                            | null              | Content displayed in the tooltip.                                         |
+| Placement         | [TooltipPlacement]({{ "/docs/helpers/enums/#tooltipplacement" | relative_url }})  | `Top`             | Position of the tooltip relative to it's component.                       |
+| Multiline         | bool                                                                              | false             | Force the multiline display.                                              |
+| AlwaysActive      | bool                                                                              | false             | Always show tooltip, instead of just when hovering over the element.      |
+| Inline            | bool                                                                              | false             | Force inline block instead of trying to detect the element block.         |
+| Fade              | bool                                                                              | false             | Controls the fade effect.                                                 |
+| FadeDuration      | int                                                                               | 300               | Duration in ms of the fade transition animation.                          |
+| Trigger           | [TooltipTrigger]({{ "/docs/helpers/enums/#tooltiptrigger" | relative_url }})      | `MouseEnterFocus` | Determines the events that cause the tooltip to show.                     |

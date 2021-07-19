@@ -4,11 +4,22 @@ using System;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base interface for all fluent bar collapse builders.
+    /// </summary>
     public interface IFluentBarCollapseMode
     {
+        /// <summary>
+        /// Builds the classnames based on bar collapse rules.
+        /// </summary>
+        /// <param name="classProvider">Currently used class provider.</param>
+        /// <returns>List of classnames for the given rules and the class provider.</returns>
         string Class( IClassProvider classProvider );
     }
 
+    /// <summary>
+    /// Breakpoints allowed for bar collapse.
+    /// </summary>
     public interface IFluentBarCollapseModeOnBreakpoint :
         IFluentDisplay
     {
@@ -38,12 +49,25 @@ namespace Blazorise
         IFluentBarCollapseModeWithMode OnFullHD { get; }
     }
 
+    /// <summary>
+    /// Modes allowed for bar collapse.
+    /// </summary>
     public interface IFluentBarCollapseModeWithMode
     {
+        /// <summary>
+        /// Collapse will hide on breakpoint.
+        /// </summary>
         IFluentBarCollapseModeOnBreakpoint Hide { get; }
+
+        /// <summary>
+        /// Collapse will go become smaller on breakpoint.
+        /// </summary>
         IFluentBarCollapseModeOnBreakpoint Small { get; }
     }
 
+    /// <summary>
+    /// Default implementation of fluent bar collapse builder.
+    /// </summary>
     public class FluentBarCollapseMode :
         IFluentBarCollapseMode,
         IFluentBarCollapseModeOnBreakpoint,
@@ -64,6 +88,17 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
+        public string Class( IClassProvider classProvider )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Starts the new mode.
+        /// </summary>
+        /// <param name="mode">Mode to start.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentBarCollapseModeOnBreakpoint WithMode( BarCollapseMode mode )
         {
             var barCollapseModeDefinition = new BarCollapseModeDefinition { Breakpoint = Breakpoint.None };
@@ -73,17 +108,17 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="breakpoint"></param>
+        /// <returns>Next rule reference.</returns>
         public IFluentBarCollapseModeWithMode WithBreakpoint( Breakpoint breakpoint )
         {
             currentBarCollapseMode.Breakpoint = breakpoint;
             //Dirty();
 
             return this;
-        }
-
-        public string Class( IClassProvider classProvider )
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -128,9 +163,19 @@ namespace Blazorise
         #endregion
     }
 
+    /// <summary>
+    /// Starts the new bar collapse mode.
+    /// </summary>
     public static class BarCollapseModee
     {
-        public static IFluentBarCollapseModeOnBreakpoint Hide { get { return new FluentBarCollapseMode().Hide; } }
-        public static IFluentBarCollapseModeOnBreakpoint Small { get { return new FluentBarCollapseMode().Small; } }
+        /// <summary>
+        /// Collapse will hide on breakpoint.
+        /// </summary>
+        public static IFluentBarCollapseModeOnBreakpoint Hide => new FluentBarCollapseMode().Hide;
+
+        /// <summary>
+        /// Collapse will go become smaller on breakpoint.
+        /// </summary>
+        public static IFluentBarCollapseModeOnBreakpoint Small => new FluentBarCollapseMode().Small;
     }
 }

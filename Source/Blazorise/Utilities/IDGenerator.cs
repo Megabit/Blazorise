@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Buffers;
 using System.Threading;
 #endregion
 
@@ -14,20 +15,21 @@ namespace Blazorise.Utilities
     {
         #region Members
 
-        private const string Encode32Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
+        private const int IdLength = 13;
 
         private static long LastId = DateTime.UtcNow.Ticks;
 
-        private static readonly ThreadLocal<char[]> CharBufferThreadLocal = new( () => new char[13] );
+        private static readonly SpanAction<char, long> GenerateImplDelegate = GenerateImpl;
 
         #endregion
 
         #region Methods
 
-        private static string GenerateImpl( long id )
+        private static void GenerateImpl( Span<char> buffer, long id )
         {
-            var buffer = CharBufferThreadLocal.Value;
-
+            var Encode32Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
+            // Accessing the last item in the beginning elides range checks for all the subsequent items.
+            buffer[12] = Encode32Chars[(int)id & 31];
             buffer[0] = Encode32Chars[(int)( id >> 60 ) & 31];
             buffer[1] = Encode32Chars[(int)( id >> 55 ) & 31];
             buffer[2] = Encode32Chars[(int)( id >> 50 ) & 31];
@@ -40,9 +42,6 @@ namespace Blazorise.Utilities
             buffer[9] = Encode32Chars[(int)( id >> 15 ) & 31];
             buffer[10] = Encode32Chars[(int)( id >> 10 ) & 31];
             buffer[11] = Encode32Chars[(int)( id >> 5 ) & 31];
-            buffer[12] = Encode32Chars[(int)id & 31];
-
-            return new string( buffer, 0, buffer.Length );
         }
 
         #endregion
@@ -52,7 +51,14 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Returns a random ID. e.g: <c>0HLH7Q6V92BQE</c>
         /// </summary>
-        public string Generate => GenerateImpl( Interlocked.Increment( ref LastId ) );
+        public string Generate
+        {
+            get
+            {
+                var id = Interlocked.Increment( ref LastId );
+                return string.Create( IdLength, id, GenerateImplDelegate );
+            }
+        }
 
         #endregion
     }

@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
     /// <summary>
     /// Defines how the bar will be collapsed.
@@ -9,7 +6,7 @@ namespace Blazorise
     public enum BarCollapseMode
     {
         /// <summary>
-        /// Bar will be hiddden completely when collapsed.
+        /// Bar will be hidden completely when collapsed.
         /// </summary>
         Hide,
 

@@ -1,12 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -43,25 +39,17 @@ namespace Blazorise.DataGrid
             base.BuildClasses( builder );
         }
 
-        private Task NewClick()
-        {
-            return New.InvokeAsync( SelectedRow );
+        protected EventCallback NewClick
+            => EventCallback.Factory.Create( this, ParentDataGrid.New );
 
-        }
-        private Task EditClick()
-        {
-            return Edit.InvokeAsync( SelectedRow );
-        }
+        protected EventCallback EditClick
+            => EventCallback.Factory.Create( this, () => ParentDataGrid.Edit( SelectedRow ) );
 
-        private Task DeleteClick()
-        {
-            return Delete.InvokeAsync( SelectedRow );
-        }
+        protected EventCallback DeleteClick
+            => EventCallback.Factory.Create( this, () => ParentDataGrid.Delete( SelectedRow ) );
 
-        private Task ClearFilterClick()
-        {
-            return ClearFilter.InvokeAsync();
-        }
+        protected EventCallback ClearFilterClick
+            => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
 
         #endregion
 
@@ -89,8 +77,9 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                return new PaginationTemplates<TItem>
+                return new()
                 {
+                    PageButtonTemplate = PageButtonTemplate,
                     FirstPageButtonTemplate = FirstPageButtonTemplate,
                     LastPageButtonTemplate = LastPageButtonTemplate,
                     PreviousPageButtonTemplate = PreviousPageButtonTemplate,
@@ -102,6 +91,7 @@ namespace Blazorise.DataGrid
             }
             set
             {
+                PageButtonTemplate = value.PageButtonTemplate;
                 FirstPageButtonTemplate = value.FirstPageButtonTemplate;
                 LastPageButtonTemplate = value.LastPageButtonTemplate;
                 PreviousPageButtonTemplate = value.PreviousPageButtonTemplate;
@@ -118,24 +108,9 @@ namespace Blazorise.DataGrid
         [Parameter] public TItem SelectedRow { get; set; }
 
         /// <summary>
-        /// Activates the new command.
+        /// Gets or sets content of page buttons of pager.
         /// </summary>
-        [Parameter] public EventCallback New { get; set; }
-
-        /// <summary>
-        /// Activates the edit command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Edit { get; set; }
-
-        /// <summary>
-        /// Activates the delete command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Delete { get; set; }
-
-        /// <summary>
-        /// Activates the clear filter command.
-        /// </summary>
-        [Parameter] public EventCallback ClearFilter { get; set; }
+        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of first button of pager.
@@ -172,10 +147,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
 
-        [Parameter]
-        public Func<string, Task> OnPaginationItemClick { get; set; }
+        [Parameter] public EventCallback<string> OnPaginationItemClick { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

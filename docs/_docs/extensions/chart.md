@@ -270,6 +270,7 @@ The next step is to add necessary files to the _index.html_ or __Host.cshtml_ fi
 | OptionsJsonString  | string                                                                     | null         | Defines the chart options that is serialized as JSON string. **[WILL BE REMOVED]**    |
 | Clicked            | event                                                                      |              | Raised when clicked on data point.                                                    |
 | Hovered            | event                                                                      |              | Raised when hovered over data point.                                                  |
+| MouseOut           | event                                                                      |              | Raised when mouse leaves the chart area.                                              |
 
 ## ChartOptions Attributes
 

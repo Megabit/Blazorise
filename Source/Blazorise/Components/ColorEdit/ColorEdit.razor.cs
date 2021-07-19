@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The editor that allows you to select a color from a dropdown menu.
+    /// </summary>
     public partial class ColorEdit : BaseInputComponent<string>
     {
         #region Members
@@ -16,6 +19,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -23,34 +27,43 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ColorEdit() );
+            builder.Append( ClassProvider.ColorEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
 
             base.BuildClasses( builder );
         }
 
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        /// <summary>
+        /// Handles the input onchange event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            return CurrentValueHandler( eventArgs?.Value?.ToString() );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( string value )
         {
             return ColorChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( string value )
         {
             return value;
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
         {
             return Task.FromResult( new ParseValue<string>( true, value, null ) );
@@ -60,13 +73,13 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override string InternalValue { get => Color; set => Color = value; }
 
         /// <summary>
         /// Gets or sets the input color value.
         /// </summary>
-        [Parameter]
-        public string Color { get; set; }
+        [Parameter] public string Color { get; set; }
 
         /// <summary>
         /// Occurs when the color has changed.

@@ -1,9 +1,14 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
+using Blazorise.DataGrid.Utils;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Demo.Pages.Tests
@@ -15,8 +20,15 @@ namespace Blazorise.Demo.Pages.Tests
         public class Employee
         {
             public int Id { get; set; }
+
+            [Required]
             public string FirstName { get; set; }
+
+            [Required]
             public string LastName { get; set; }
+
+            [Required]
+            [EmailAddress]
             public string EMail { get; set; }
             public string City { get; set; }
             public string Zip { get; set; }
@@ -26,7 +38,7 @@ namespace Blazorise.Demo.Pages.Tests
             public decimal Salary { get; set; }
             public bool IsActive { get; set; }
 
-            public List<Salary> Salaries { get; set; } = new List<Salary>();
+            public List<Salary> Salaries { get; set; } = new();
         }
 
         public class Salary
@@ -39,16 +51,20 @@ namespace Blazorise.Demo.Pages.Tests
 
         #region Members
 
+        Employee editModel = new();
+
         DataGridEditMode editMode = DataGridEditMode.Form;
         DataGridSortMode sortMode = DataGridSortMode.Multiple;
         DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
-        DataGridResizeMode resizableMode = DataGridResizeMode.Header;
+        TableResizeMode resizableMode = TableResizeMode.Header;
 
         DataGrid<Employee> dataGrid;
         public int currentPage { get; set; } = 1;
 
         bool editable = true;
+        bool fixedHeader = false;
+        bool virtualize = false;
         bool resizable = true;
         bool sortable = true;
         bool filterable = true;
@@ -63,61 +79,45 @@ namespace Blazorise.Demo.Pages.Tests
         List<Employee> employeeList;
         int totalEmployees;
 
-        Random random = new Random();
+        string selectedGenderFilter;
+        string selectedCityFilter;
 
-        // generated with https://mockaroo.com/
-        List<Employee> dataModels = new List<Employee>{
-            new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m, DateOfBirth = new DateTime(1983,5,8),
-                Salaries = new List<Salary> {
-                    new Salary { Date = new DateTime(2019,1,6), Total = 6000 },
-                    new Salary { Date = new DateTime(2019,2,7), Total = 5005 },
-                    new Salary { Date = new DateTime(2019,3,5), Total = 3000 }
-                }
-            },
-            new Employee {Id = 2,FirstName = "Matthew",LastName = "Labb",EMail = "mlabb1@ca.gov",City = "Xinxi",Zip = null,Salary = 65176.6m, Childrens=2},
-            new Employee {Id = 3,FirstName = "Enos",LastName = "Clendennen",EMail = "eclendennen2@shareasale.com",City = "Listvyanskiy",Zip = "633224",Salary = 75602.48m, Childrens=1,
-                Salaries = new List<Salary> {
-                    new Salary { Date = new DateTime(2019,2,7), Total = 4005 },
-                    new Salary { Date = new DateTime(2019,3,5), Total = 8000 }
-                }
-            },
-            new Employee {Id = 4,FirstName = "Cirilo",LastName = "Douch",EMail = "cdouch3@thetimes.co.uk",City = "Wiset Chaichan",Zip = "84280",Salary = 88511.38m, IsActive = true },
-            new Employee {Id = 5,FirstName = "Bibbie",LastName = "Prahm",EMail = "bprahm4@dropbox.com",City = "Nkandla",Zip = "3859",Salary = 41665.0m },
-            new Employee {Id = 6,FirstName = "Ferd",LastName = "Bizzey",EMail = "fbizzey5@vimeo.com",City = "Arroyo Seco",Zip = "5196",Salary = 58632.74m, IsActive = true },
-            new Employee {Id = 7,FirstName = "Annalee",LastName = "Mathie",EMail = "amathie6@qq.com",City = "Qi’an",Zip = null,Salary = 38622.71m },
-            new Employee {Id = 8,FirstName = "Sarajane",LastName = "Sarney",EMail = "ssarney7@phoca.cz",City = "Wagini",Zip = null,Salary = 67163.94m },
-            new Employee {Id = 9,FirstName = "Lissa",LastName = "Clemenzi",EMail = "lclemenzi8@si.edu",City = "Lijiang",Zip = null,Salary = 67078.77m },
-            new Employee {Id = 10,FirstName = "Taber",LastName = "Kowal",EMail = "tkowal9@ustream.tv",City = "Muhos",Zip = "91501",Salary = 70385.0m },
-            new Employee {Id = 11,FirstName = "Christyna",LastName = "Blaylock",EMail = "cblaylocka@gov.uk",City = "Kruševo",Zip = "34320",Salary = 20626.15m, Childrens=4 },
-            new Employee {Id = 12,FirstName = "Honoria",LastName = "Stirtle",EMail = "hstirtleb@ox.ac.uk",City = "Muang Phôn-Hông",Zip = null,Salary = 48999.42m, Childrens=1 },
-            new Employee {Id = 13,FirstName = "Gregory",LastName = "Sinden",EMail = "gsindenc@go.com",City = "Kampunglistrik",Zip = null,Salary = 38097.16m, Childrens=2 },
-            new Employee {Id = 14,FirstName = "Obediah",LastName = "Stroban",EMail = "ostroband@nbcnews.com",City = "Almoínhas Velhas",Zip = "2755-163",Salary = 83997.47m },
-            new Employee {Id = 15,FirstName = "Kellen",LastName = "Zanotti",EMail = "kzanottie@123-reg.co.uk",City = "Türkmenabat",Zip = null,Salary = 37339.0m },
-            new Employee {Id = 16,FirstName = "Luelle",LastName = "Mowles",EMail = "lmowlesf@wikimedia.org",City = "Durham",Zip = "27717",Salary = 89879.64m },
-            new Employee {Id = 17,FirstName = "Venita",LastName = "Petkovic",EMail = "vpetkovicg@twitpic.com",City = "Radoboj",Zip = "49232",Salary = 22979.32m },
-            new Employee {Id = 18,FirstName = "Gates",LastName = "Neat",EMail = "gneath@youtu.be",City = "Solna",Zip = "170 77",Salary = 75811.63m },
-            new Employee {Id = 19,FirstName = "Roland",LastName = "Frangleton",EMail = "rfrangletoni@umich.edu",City = "Tío Pujio",Zip = "5936",Salary = 58971.76m, Childrens=3 },
-            new Employee {Id = 20,FirstName = "Ferdinande",LastName = "Pidcock",EMail = "fpidcockj@independent.co.uk",City = "Paris 11",Zip = "75547 CEDEX 11",Salary = 82223.65m },
-            new Employee {Id = 21,FirstName = "Clarie",LastName = "Crippin",EMail = "ccrippink@lycos.com",City = "Gostyń",Zip = "63-816",Salary = 79390.13m },
-            new Employee {Id = 22,FirstName = "Israel",LastName = "Carlin",EMail = "icarlinl@washingtonpost.com",City = "Poitiers",Zip = "86042 CEDEX 9",Salary = 36875.18m },
-            new Employee {Id = 23,FirstName = "Christoper",LastName = "Moorton",EMail = "cmoortonm@gizmodo.com",City = "Jambangan",Zip = null,Salary = 76787.57m },
-            new Employee {Id = 24,FirstName = "Trina",LastName = "Seamen",EMail = "tseamenn@foxnews.com",City = "Song",Zip = "54120",Salary = 43598.06m },
-            new Employee {Id = 25,FirstName = "Douglass",LastName = "Amor",EMail = "damoro@house.gov",City = "Castillos",Zip = null,Salary = 49865.8m, Childrens=2, IsActive = true },
-            new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
-            new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
-        };
+        Random random = new();
+
+        List<Employee> dataModels = new();
+        List<Employee> inMemoryDataModels;
 
         #endregion
 
         #region Methods
+        [Inject] NavigationManager NavigationManager { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            ///Demo purposes. You should handle your HttpClient injection/parametrization in your startup settings.
+            HttpClient client = new();
+            client.BaseAddress = new Uri( NavigationManager.BaseUri );
+            inMemoryDataModels = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );
+            dataModels = inMemoryDataModels.Take( 50 ).ToList();
+            totalEmployees = dataModels.Count;
+            await base.OnInitializedAsync();
+        }
 
-        public void CheckEMail( ValidatorEventArgs validationArgs )
+        public void OnVirtualizeChanged( bool toVirtualize )
+        {
+            virtualize = toVirtualize;
+            if ( virtualize )
+                dataModels = inMemoryDataModels.ToList();
+            else
+                dataModels = inMemoryDataModels.Take( 50 ).ToList();
+        }
+
+        public void CheckEmail( ValidatorEventArgs validationArgs )
         {
             ValidationRule.IsEmail( validationArgs );
 
             if ( validationArgs.Status == ValidationStatus.Error )
             {
-                validationArgs.ErrorText = "EMail has to be valid email";
+                validationArgs.ErrorText = "Email has to be a valid email";
             }
         }
 
@@ -171,6 +171,12 @@ namespace Blazorise.Demo.Pages.Tests
 
         string customFilterValue;
 
+        private Task OnCustomFilterValueChanged( string e )
+        {
+            customFilterValue = e;
+            return dataGrid.Reload();
+        }
+
         bool OnCustomFilter( Employee model )
         {
             if ( string.IsNullOrEmpty( customFilterValue ) )
@@ -184,25 +190,133 @@ namespace Blazorise.Demo.Pages.Tests
 
         async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            await Task.Delay( random.Next( 800 ) );
-
             if ( !e.CancellationToken.IsCancellationRequested )
             {
+                List<Employee> response = null;
+
+                var filteredData = await FilterData( e.Columns );
+
                 // this can be call to anything, in this case we're calling a fictional api
-                var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+                    response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+                else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+                    response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                else
+                    throw new Exception( "Unhandled ReadDataMode" );
 
-                employeeList = new List<Employee>( response ); // an actual data for the current page
-                totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
-
-                // always call StateHasChanged!
-                await InvokeAsync( StateHasChanged );
+                await Task.Delay( random.Next( 100 ) );
+                if ( !e.CancellationToken.IsCancellationRequested )
+                {
+                    totalEmployees = filteredData.Count;
+                    employeeList = new List<Employee>( response ); // an actual data for the current page
+                }
             }
         }
 
-        Task Reload()
+
+        /// <summary>
+        /// Simple demo purpose example filter
+        /// </summary>
+        /// <param name="dataGridColumns"></param>
+        /// <returns></returns>
+        public Task<List<Employee>> FilterData( IEnumerable<DataGridColumnInfo> dataGridColumns )
+        {
+            var filteredData = dataModels.ToList();
+            var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.None );
+            var firstSort = true;
+            if ( sortByColumns?.Any() ?? false )
+            {
+                IOrderedEnumerable<Employee> sortedCols = null;
+                foreach ( var sortByColumn in sortByColumns )
+                {
+                    var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.Field );
+
+                    if ( firstSort )
+                    {
+                        if ( sortByColumn.SortDirection == SortDirection.Ascending )
+                            sortedCols = dataModels.OrderBy( x => valueGetter( x ) );
+                        else
+                            sortedCols = dataModels.OrderByDescending( x => valueGetter( x ) );
+
+                        firstSort = false;
+                    }
+                    else
+                    {
+                        if ( sortByColumn.SortDirection == SortDirection.Ascending )
+                            sortedCols = sortedCols.ThenBy( x => valueGetter( x ) );
+                        else
+                            sortedCols = sortedCols.ThenByDescending( x => valueGetter( x ) );
+                    }
+                }
+                filteredData = sortedCols.ToList();
+            }
+
+            if ( dataGrid.CustomFilter != null )
+                filteredData = filteredData.Where( item => item != null && dataGrid.CustomFilter( item ) ).ToList();
+
+            foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
+            {
+
+                var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( column.Field );
+                //if ( column.CustomFilter != null )
+                //{
+                //    filteredData = from item in filteredData.Where(x=> column. valueGetter( x))
+                //            let cellRealValue = column.GetValue( item )
+                //            where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
+                //            select item;
+                //}
+                //else
+                //{
+
+                filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
+                //}
+
+            }
+            return Task.FromResult( filteredData );
+        }
+
+        Task Reset()
         {
             currentPage = 1;
             return dataGrid.Reload();
+        }
+
+        private bool OnGenderCustomFilter( object itemValue, object searchValue )
+        {
+            if ( searchValue is string genderFilter )
+            {
+                return genderFilter == "*" || genderFilter == itemValue?.ToString();
+            }
+
+            return true;
+        }
+
+        private void OnFilteredDataChanged( DataGridFilteredDataEventArgs<Employee> eventArgs )
+        {
+            Console.WriteLine( $"Filter changed > Items: {eventArgs.FilteredItems}; Total: {eventArgs.TotalItems};" );
+        }
+
+        private void OnSortChanged( DataGridSortChangedEventArgs eventArgs )
+        {
+            Console.WriteLine( $"Sort changed > Field: {eventArgs.FieldName}; Direction: {eventArgs.SortDirection};" );
+        }
+
+        private string TitleFromGender( string gender )
+        {
+            return gender switch
+            {
+                "M" => "Mr.",
+                "F" => "Mrs.",
+                _ => string.Empty,
+            };
+        }
+
+        private string TitleToName( string title, object name )
+        {
+            if ( string.IsNullOrEmpty( title ) )
+                return $"{name}";
+
+            return $"{title} {name}";
         }
 
         #endregion

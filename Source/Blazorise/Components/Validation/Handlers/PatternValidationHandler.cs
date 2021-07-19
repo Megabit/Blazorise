@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System.Threading;
+using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
@@ -18,6 +20,18 @@ namespace Blazorise
                 : ValidationStatus.Error;
 
             validation.NotifyValidationStatusChanged( matchStatus );
+        }
+
+        /// <inheritdoc/>
+        public Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            Validate( validation, newValidationValue );
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.CompletedTask;
         }
     }
 }

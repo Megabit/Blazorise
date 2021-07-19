@@ -1,32 +1,73 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A responsive and flexible pagination component.
+    /// </summary>
     public partial class Pagination : BaseComponent
     {
         #region Members
 
-        private Size size = Size.None;
+        private Size? size;
 
         private Alignment alignment = Alignment.None;
-
-        private Background background = Background.None;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed += OnThemeChanged;
+            }
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Pagination() );
-            builder.Append( ClassProvider.PaginationSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.PaginationSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
             builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.None );
 
             base.BuildClasses( builder );
+        }
+
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object thet raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -34,10 +75,15 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the size based on the theme settings.
+        /// </summary>
+        protected Size ThemeSize => Size ?? Theme?.PaginationOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
         /// Gets or sets the pagination size.
         /// </summary>
         [Parameter]
-        public Size Size
+        public Size? Size
         {
             get => size;
             set
@@ -64,21 +110,14 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the pagination background color.
+        /// Specifies the content to be rendered inside this <see cref="Pagination"/>.
         /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
-
-                DirtyClasses();
-            }
-        }
-
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

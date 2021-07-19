@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -154,7 +152,6 @@ namespace Blazorise.DataGrid
         {
             get
             {
-
                 var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)currentPageSize ), 1 );
 
                 if ( CurrentPage > lastPage )
@@ -213,15 +210,15 @@ namespace Blazorise.DataGrid
         public int MaxPaginationLinks { get; set; } = 5;
 
         /// <summary>
-        /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> is used to load the data.
+        /// Gets or sets the total number of items. Used only when <see cref="DataGrid{TItem}.ReadData"/> is used to load the data.
         /// </summary>
         /// <remarks>
-        /// This field must be set only when <see cref="ReadData"/> is used to load the data.
+        /// This field must be set only when <see cref="DataGrid{TItem}.ReadData"/> is used to load the data.
         /// </remarks>
         public int? TotalItems
         {
             // If we're using ReadData than TotalItems must be set so we can know how many items are available
-            get => ( parentDataGrid.ManualReadMode ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;
+            get => ( ( parentDataGrid.ManualReadMode || parentDataGrid.VirtualizeManualReadMode ) ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;
             set
             {
                 if ( totalItems != value )

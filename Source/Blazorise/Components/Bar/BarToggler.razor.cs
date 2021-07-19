@@ -27,8 +27,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarToggler( ParentBarState.Mode, Mode ) );
-            builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState.Mode, Mode, ParentBarState.Visible ) );
+            builder.Append( ClassProvider.BarToggler( ParentBarState?.Mode ?? BarMode.Horizontal, Mode ) );
+            builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState?.Mode ?? BarMode.Horizontal, Mode, Bar != null ? Bar.Visible : ParentBarState.Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -48,22 +48,23 @@ namespace Blazorise
         /// Handles the toggler onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
             if ( Clicked.HasDelegate )
             {
-                Clicked.InvokeAsync( null );
+                await Clicked.InvokeAsync( null );
             }
-            else if ( Bar != null )
+
+            if ( Bar != null )
             {
-                return Bar.Toggle();
+                await Bar.Toggle();
+
+                DirtyClasses();
             }
             else if ( ParentBar != null )
             {
-                return ParentBar.Toggle();
+                await ParentBar.Toggle();
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion
@@ -112,6 +113,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarToggler"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
         /// Cascaded <see cref="Bar"/> component state object.
         /// </summary>
         [CascadingParameter]
@@ -133,11 +139,6 @@ namespace Blazorise
         /// Cascaded <see cref="Bar"/> component.
         /// </summary>
         [CascadingParameter] protected Bar ParentBar { get; set; }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="BarToggler"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
