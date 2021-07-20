@@ -831,11 +831,10 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Tells the <see cref="DataGrid{TItem}"/> to refresh.
-        /// <para>Internally calls StateHasChanged.</para>
+        /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
         /// </summary>
         /// <returns></returns>
-        public async Task Refresh()
+        protected internal async virtual Task Refresh()
             => await InvokeAsync( StateHasChanged );
 
         protected async Task HandleReadData( CancellationToken cancellationToken )
