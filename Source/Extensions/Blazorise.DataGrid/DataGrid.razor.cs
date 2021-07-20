@@ -830,6 +830,13 @@ namespace Blazorise.DataGrid
             }
         }
 
+        /// <summary>
+        /// Notifies the <see cref="DataGrid{TItem}"/> that state has changed.
+        /// </summary>
+        /// <returns></returns>
+        protected internal new void  StateHasChanged()
+            =>  base.StateHasChanged();
+
         protected async Task HandleReadData( CancellationToken cancellationToken )
         {
             try

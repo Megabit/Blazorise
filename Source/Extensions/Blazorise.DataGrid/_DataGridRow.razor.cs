@@ -95,6 +95,7 @@ namespace Blazorise.DataGrid
 
             await HandleMultiSelectClick( eventArgs );
             clickFromCheck = false;
+            await InvokeAsync( ParentDataGrid.StateHasChanged );
         }
 
         private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
