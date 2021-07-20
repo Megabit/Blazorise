@@ -1314,11 +1314,7 @@ namespace Blazorise.DataGrid
             get { return data; }
             set
             {
-                if ( !value.AreEqual( data ) )
-                {
-                    SetDirty();
-                }
-
+                SetDirty();
                 data = value;
             }
         }
