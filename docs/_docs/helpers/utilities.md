@@ -63,6 +63,9 @@ Use border utilities to quickly style the border and border-radius of an element
 <Span Border="Border.Primary">Borders with primary color</Span>
 ```
 
+**Note:** Please note that if your element doesn't have any styles you will not be able to see any changes once you apply the `Borders`. You still need to add your own CSS rules like `background-color` so that visually you can see the applied borders on an element.
+{: .notice--info}
+
 ## Overflow
 
 Use overflow shorthand utilities for quickly configuring how content overflows an element.
