@@ -1,6 +1,6 @@
 ﻿@page "/tests/icons"
 
-@inject IIconProvider _iconProvider
+@inject IIconProvider IconProvider
 
 <Row>
     <Column>
@@ -12,7 +12,7 @@
                 <Div Flex="Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start">
                     @foreach ( var icon in Enum.GetValues<IconName>() )
                     {
-                        <Tooltip Text="@_iconProvider.GetIconName(icon, IconStyle.Regular)">
+                        <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
                             <Div Flex="Flex.Column.JustifyContent.Center">
                                 <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
                                     <Icon Name="@icon"/>
