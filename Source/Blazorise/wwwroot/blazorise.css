@@ -183,7 +183,6 @@ hr.divider.divider-text {
 .b-layout.b-layout-root.b-layout-has-sider > .b-layout-header-fixed,
 .b-layout.b-layout-root.b-layout-has-sider > .b-layout > .b-layout-header-fixed {
     position: sticky;
-    z-index: 1;
     top: 0;
     width: 100%;
     flex: 0; }
@@ -191,7 +190,6 @@ hr.divider.divider-text {
 .b-layout.b-layout-root:not(.b-layout-has-sider) .b-layout-header-fixed,
 .b-layout.b-layout-root:not(.b-layout-has-sider) > .b-layout .b-layout-header-fixed {
     position: fixed;
-    z-index: 1;
     top: 0;
     left: 0;
     right: 0;

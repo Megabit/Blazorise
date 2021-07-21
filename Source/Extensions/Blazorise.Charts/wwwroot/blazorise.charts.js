@@ -1,3 +1,19 @@
+// workaround for: https://github.com/Megabit/Blazorise/issues/2287
+const _ChartTitleCallbacks = function (item, data) {
+    return data.datasets[item[0].datasetIndex].label;
+};
+
+const _ChartLabelCallback = function (item, data) {
+    const label = data.labels[item.index];
+    const value = data.datasets[item.datasetIndex].data[item.index];
+    return label + ': ' + value;
+};
+
+Chart.defaults.pie.tooltips.callbacks.title = _ChartTitleCallbacks;
+Chart.defaults.pie.tooltips.callbacks.label = _ChartLabelCallback;
+Chart.defaults.doughnut.tooltips.callbacks.title = _ChartTitleCallbacks;
+Chart.defaults.doughnut.tooltips.callbacks.label = _ChartLabelCallback;
+
 window.blazoriseCharts = {
     _instances: [],
 
@@ -11,27 +27,6 @@ window.blazoriseCharts = {
         }
         else if (optionsObject) {
             options = optionsObject;
-        }
-
-        if (type === "pie" || type === "doughnut") {
-            // workaround for: https://github.com/Megabit/Blazorise/issues/2287
-            options = {
-                ...options,
-                ...{
-                    tooltips: {
-                        callbacks: {
-                            title: function (item, data) {
-                                return data.datasets[item[0].datasetIndex].label;
-                            },
-                            label: function (item, data) {
-                                const label = data.labels[item.index];
-                                const value = data.datasets[item.datasetIndex].data[item.index];
-                                return label + ': ' + value;
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         function processTicksCallback(scales, axis) {
