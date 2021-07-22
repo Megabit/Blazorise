@@ -15,22 +15,22 @@ namespace Blazorise.Demo.Pages.Tests
         Chart<double> polarAreaChart;
         Chart<double> radarChart;
 
-        //LineChartOptions lineChartOptions = new()
-        //{
-        //    Scales = new()
-        //    {
-        //        YAxes = new()
-        //        {
-        //            new()
-        //            {
-        //                Ticks = new AxisTicks
-        //                {
-        //                    CallbackJavaScript = "`${value / 1000} ${index} K`"
-        //                }
-        //            }
-        //        }
-        //    }
-        //};
+        LineChartOptions lineChartOptions = new()
+        {
+            Scales = new()
+            {
+                YAxes = new()
+                {
+                    new()
+                    {
+                        Ticks = new AxisTicks
+                        {
+                            Callback = ( value, index, values ) => $"{value / 1000} K"
+                        }
+                    }
+                }
+            }
+        };
 
         LineChart<double> lineChartWithData;
 

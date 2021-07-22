@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts
@@ -330,6 +332,22 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
         public string CallbackJavaScript { get; set; }
+
+        /// <summary>
+        /// Defines the Expression which will be converted to JavaScript as a string representation of the tick value as it should be displayed on the chart.
+        /// </summary>
+        [IgnoreDataMember]
+        public Expression<Func<double, int, double[], FormattableString>> Callback
+        {
+            set
+            {
+                if ( value != null )
+                {
+                    CallbackJavaScript = ExpressionConverter.ToTemplatedStringLiteral( value );
+                    Console.WriteLine( CallbackJavaScript );
+                }
+            }
+        }
     }
 
     /// <summary>
