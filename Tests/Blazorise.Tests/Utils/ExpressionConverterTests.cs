@@ -47,6 +47,19 @@ namespace Blazorise.Tests.Utils
         }
 
         [Fact]
+        public void ToTemplatedStringLiteral_With_ConstantValue()
+        {
+            // Arrange
+            Expression<Func<int, FormattableString>> expression = ( value ) => $"abc";
+
+            // Act
+            var result = ExpressionConverter.ToTemplatedStringLiteral( expression );
+
+            // Assert
+            Assert.Equal( "`abc`", result );
+        }
+
+        [Fact]
         public void ToTemplatedStringLiteral_With_OperatorAddNumbers()
         {
             // Arrange

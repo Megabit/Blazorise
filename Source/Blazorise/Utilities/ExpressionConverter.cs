@@ -13,7 +13,7 @@ namespace Blazorise.Utilities
         /// Converts a <see cref="LambdaExpression"/> to valid Templated String Literal.
         /// </summary>
         /// <param name="expression">The expression</param>
-        /// <returns>The JavaScript</returns>
+        /// <returns>The Templated String Literal</returns>
         public static string ToTemplatedStringLiteral( LambdaExpression expression )
         {
             if ( expression == null )
