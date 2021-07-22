@@ -27,7 +27,7 @@ namespace Blazorise.Utilities
             }
 
             var argumentProvider = (IArgumentProvider)expression.Body;
-            var format = $"`{(argumentProvider.GetArgument( 0 ) as ConstantExpression ).Value}`";
+            var format = $"`{( argumentProvider.GetArgument( 0 ) as ConstantExpression ).Value}`";
             var arrayExpression = (NewArrayExpression)argumentProvider.GetArgument( 1 );
 
             var arguments = new List<object>();
