@@ -57,7 +57,7 @@ namespace Blazorise.Utilities
                     break;
 
                 case ConstantExpression ce:
-                    arguments.Add( Build( ce, interpolateVariable ) );
+                    arguments.Add( Build( ce.Value, interpolateVariable ) );
                     break;
 
                 case UnaryExpression ue:
@@ -97,16 +97,6 @@ namespace Blazorise.Utilities
             }
         }
 
-        static string Build( Expression expression, bool interpolateVariable )
-        {
-            return expression switch
-            {
-                ConstantExpression ce => Build( ce.Value, interpolateVariable ),
-                ParameterExpression pe => Build( pe, interpolateVariable ),
-                _ => Build( expression.ToString(), interpolateVariable ),
-            };
-        }
-
         static string Build( object value, bool interpolateVariable )
         {
             string result = value switch
@@ -114,21 +104,6 @@ namespace Blazorise.Utilities
                 string stringValue => $"'{stringValue}'",
                 _ => value.ToString(),
             };
-            return Build( result, interpolateVariable );
-        }
-
-        static string Build( ParameterExpression pe, bool interpolateVariable )
-        {
-            string result;
-            if ( pe.Type == typeof( string ) )
-            {
-                result = $"'{pe}'";
-            }
-            else
-            {
-                result = pe.Name;
-            }
-
             return Build( result, interpolateVariable );
         }
 
