@@ -1307,32 +1307,32 @@
 .has-border-white {
     border-color: white !important; }
 
-.is-rounded {
+.has-rounded-border {
     border-radius: 4px !important; }
 
-.is-rounded-top {
+.has-rounded-border-top {
     border-top-left-radius: 4px !important;
     border-top-right-radius: 4px !important; }
 
-.is-rounded-right {
+.has-rounded-border-right {
     border-top-right-radius: 4px !important;
     border-bottom-right-radius: 4px !important; }
 
-.is-rounded-bottom {
+.has-rounded-border-bottom {
     border-bottom-right-radius: 4px !important;
     border-bottom-left-radius: 4px !important; }
 
-.is-rounded-left {
+.has-rounded-border-left {
     border-top-left-radius: 4px !important;
     border-bottom-left-radius: 4px !important; }
 
-.is-rounded-circle {
+.has-rounded-border-circle {
     border-radius: 50% !important; }
 
-.is-rounded-pill {
+.has-rounded-border-pill {
     border-radius: 50rem !important; }
 
-.is-rounded-0 {
+.has-rounded-border-0 {
     border-radius: 0 !important; }
 
 .is-flex-direction-row {
