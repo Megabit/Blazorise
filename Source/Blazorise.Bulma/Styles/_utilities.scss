@@ -149,39 +149,39 @@
     border-color: white !important;
 }
 
-.is-rounded {
+.has-rounded-border {
     border-radius: $radius !important;
 }
 
-.is-rounded-top {
+.has-rounded-border-top {
     border-top-left-radius: $radius !important;
     border-top-right-radius: $radius !important;
 }
 
-.is-rounded-right {
+.has-rounded-border-right {
     border-top-right-radius: $radius !important;
     border-bottom-right-radius: $radius !important;
 }
 
-.is-rounded-bottom {
+.has-rounded-border-bottom {
     border-bottom-right-radius: $radius !important;
     border-bottom-left-radius: $radius !important;
 }
 
-.is-rounded-left {
+.has-rounded-border-left {
     border-top-left-radius: $radius !important;
     border-bottom-left-radius: $radius !important;
 }
 
-.is-rounded-circle {
+.has-rounded-border-circle {
     border-radius: 50% !important;
 }
 
-.is-rounded-pill {
+.has-rounded-border-pill {
     border-radius: $radius-pill !important;
 }
 
-.is-rounded-0 {
+.has-rounded-border-0 {
     border-radius: 0 !important;
 }
 
