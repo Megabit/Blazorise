@@ -52,7 +52,6 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
-- [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 - [AntDesign Demo](https://antdesigndemo.blazorise.com/)
 
 ### Blazor Server
@@ -84,7 +83,6 @@ There are currently 5 different NuGet packages for each of the supported CSS fra
 - Blazorise.Bulma
 - Blazorise.Material
 - Blazorise.AntDesign
-- Blazorise.Frolic
 ```
 
 This guide will show you how to setup Blazorise with **Bootstrap** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
