@@ -60,24 +60,21 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( !Inline )
+            // try to detect if inline is needed
+            ExecuteAfterRender( async () =>
             {
-                // try to detect if inline is needed
-                ExecuteAfterRender( async () =>
+                await JSRunner.InitializeTooltip( ElementRef, ElementId, new
                 {
-                    await JSRunner.InitializeTooltip( ElementRef, ElementId, new
-                    {
-                        Text,
-                        Placement = ClassProvider.ToTooltipPlacement( Placement ),
-                        Multiline,
-                        AlwaysActive,
-                        ShowArrow,
-                        Fade,
-                        FadeDuration,
-                        Trigger = ToTippyTrigger( Trigger ),
-                    } );
+                    Text,
+                    Placement = ClassProvider.ToTooltipPlacement( Placement ),
+                    Multiline,
+                    AlwaysActive,
+                    ShowArrow,
+                    Fade,
+                    FadeDuration,
+                    Trigger = ToTippyTrigger( Trigger ),
                 } );
-            }
+            } );
 
             base.OnInitialized();
         }
