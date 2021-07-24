@@ -73,6 +73,7 @@ namespace Blazorise
                     Fade,
                     FadeDuration,
                     Trigger = ToTippyTrigger( Trigger ),
+                    MaxWidth = Theme?.TooltipOptions?.MaxWidth,
                 } );
             } );
 
@@ -248,6 +249,11 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }
