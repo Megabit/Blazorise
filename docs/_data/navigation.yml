@@ -139,6 +139,8 @@ docs:
         url: /docs/extensions/sidebar/
       - title: "Snackbar"
         url: /docs/extensions/snackbar/
+      - title: "SpinKit"
+        url: /docs/extensions/spinkit/
       - title: "TreeView"
         url: /docs/extensions/treeview/
   - title: Services

@@ -1070,7 +1070,7 @@ namespace Blazorise.Bulma
             => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
 
         public override string BorderRadius( BorderRadius borderRadius )
-            => $"is-{ToBorderRadius( borderRadius )}";
+            => $"has-{ToBorderRadius( borderRadius )}";
 
         #endregion
 
@@ -1451,6 +1451,22 @@ namespace Blazorise.Bulma
                 Blazorise.Shadow.Remove => "none",
                 Blazorise.Shadow.Small => "small",
                 Blazorise.Shadow.Large => "large",
+                _ => null,
+            };
+        }
+
+        public override string ToBorderRadius( BorderRadius borderRadius )
+        {
+            return borderRadius switch
+            {
+                Blazorise.BorderRadius.Rounded => "rounded-border",
+                Blazorise.BorderRadius.RoundedTop => "rounded-border-top",
+                Blazorise.BorderRadius.RoundedRight => "rounded-border-right",
+                Blazorise.BorderRadius.RoundedBottom => "rounded-border-bottom",
+                Blazorise.BorderRadius.RoundedLeft => "rounded-border-left",
+                Blazorise.BorderRadius.RoundedCircle => "rounded-border-circle",
+                Blazorise.BorderRadius.RoundedPill => "rounded-border-pill",
+                Blazorise.BorderRadius.RoundedZero => "rounded-border-0",
                 _ => null,
             };
         }
