@@ -255,6 +255,10 @@ window.blazorise = {
         _instances: [],
 
         initialize: (element, elementId, options) => {
+            if (!element) {
+                return;
+            }
+
             const defaultOptions = {
                 theme: 'blazorise',
                 content: options.text,

@@ -12,7 +12,7 @@ window.blazoriseMaterial = {
         initialize: (element, elementId, options) => {
             window.blazorise.tooltip.initialize(element, elementId, options);
 
-            if (element.querySelector(".custom-control-input,.btn")) {
+            if (element && element.querySelector(".custom-control-input,.btn")) {
                 element.classList.add("b-tooltip-inline");
             }
         }
