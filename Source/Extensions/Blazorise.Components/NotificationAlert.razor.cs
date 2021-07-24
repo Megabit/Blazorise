@@ -49,6 +49,11 @@ namespace Blazorise.Components
             {
                 options.CloseButtonIcon = IconName.Times;
                 options.ActionButtonText = okButtonText;
+
+                if ( e.Options.IntervalBeforeClose > 0 )
+                {
+                    options.IntervalBeforeClose = e.Options.IntervalBeforeClose;
+                }
             } );
         }
 
@@ -107,6 +112,11 @@ namespace Blazorise.Components
         /// Gets or sets the message title.
         /// </summary>
         [Parameter] public string Title { get; set; }
+
+        /// <summary>
+        /// Defines the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
+        /// </summary>
+        [Parameter] public double? DefaultInterval { get; set; }
 
         /// <summary>
         /// Gets or sets the custom message options.

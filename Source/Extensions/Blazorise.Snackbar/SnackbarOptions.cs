@@ -52,6 +52,6 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Time in millisecond until snackbar is automatically closed.
         /// </summary>
-        public double IntervalBeforeClose { get; set; }
+        public double? IntervalBeforeClose { get; set; }
     }
 }

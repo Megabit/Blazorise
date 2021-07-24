@@ -8,7 +8,7 @@
                   Visible="@snackbarInfo.Visible"
                   Color="@snackbarInfo.Color"
                   Multiline="@Multiline"
-                  Interval="@snackbarInfo.IntervalBeforeClose"
+                  Interval="@(snackbarInfo.IntervalBeforeClose ?? Constants.DefaultIntervalBeforeClose)"
                   DelayCloseOnClick="@DelayCloseOnClick"
                   DelayCloseOnClickInterval="@DelayCloseOnClickInterval"
                   Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">

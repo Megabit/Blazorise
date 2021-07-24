@@ -78,7 +78,7 @@
 
     Task ShowWarningNotification()
     {
-        return NotificationService.Warning( "This is a simple notification message!", "Hello" );
+        return NotificationService.Warning( "This is a simple notification message!", "Hello", options => options.IntervalBeforeClose = 10000 );
     }
 
     Task SetPageProgress25()

@@ -27,7 +27,7 @@ namespace Blazorise.Snackbar
                 bool showActionButton,
                 string actionButtonText,
                 object actionButtonIcon,
-                double intervalBeforeClose )
+                double? intervalBeforeClose )
             {
                 Message = message;
                 Title = title;
@@ -65,7 +65,7 @@ namespace Blazorise.Snackbar
 
             public object ActionButtonIcon { get; }
 
-            public double IntervalBeforeClose { get; }
+            public double? IntervalBeforeClose { get; }
 
             public bool Visible { get; } = true;
         }
@@ -199,7 +199,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Defines the default interval (in milliseconds) after which the snackbars will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
         /// </summary>
-        [Parameter] public double DefaultInterval { get; set; } = 5000;
+        [Parameter] public double? DefaultInterval { get; set; } = Constants.DefaultIntervalBeforeClose;
 
         /// <summary>
         /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="DefaultInterval"/> time.

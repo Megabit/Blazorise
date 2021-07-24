@@ -285,7 +285,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Defines the interval(in milliseconds) after which the snackbar will be automatically closed.
         /// </summary>
-        [Parameter] public double Interval { get; set; } = 5000;
+        [Parameter] public double Interval { get; set; } = Constants.DefaultIntervalBeforeClose;
 
         /// <summary>
         /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
