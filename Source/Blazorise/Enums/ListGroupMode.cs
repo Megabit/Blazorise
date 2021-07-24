@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Defines the <see cref="ListGroup"/> behaviour.
+    /// Defines the <see cref="ListGroup"/> behavior.
     /// </summary>
     public enum ListGroupMode
     {
