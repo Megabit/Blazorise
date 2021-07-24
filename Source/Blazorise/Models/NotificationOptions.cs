@@ -23,5 +23,10 @@
         {
             OkButtonIcon = "OK",
         };
+
+        /// <summary>
+        /// Delay in milliseconds to wait before closing.
+        /// </summary>
+        public double IntervalBeforeClose { get; set; }
     }
 }
