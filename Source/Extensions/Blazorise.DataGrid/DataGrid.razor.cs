@@ -333,7 +333,7 @@ namespace Blazorise.DataGrid
 
             editState = DataGridEditState.New;
 
-            return Task.CompletedTask;
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -379,6 +379,8 @@ namespace Blazorise.DataGrid
             {
                 await Paginate( ( CurrentPage - 1 ).ToString() );
             }
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -429,17 +431,21 @@ namespace Blazorise.DataGrid
                 editState = DataGridEditState.None;
                 await VirtualizeOnEditCompleteScroll().AsTask();
             }
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Cancels the editing of DataGrid item.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Cancel()
+        public async Task Cancel()
         {
             editState = DataGridEditState.None;
 
-            return VirtualizeOnEditCompleteScroll().AsTask();
+            await VirtualizeOnEditCompleteScroll().AsTask();
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -447,9 +453,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="item">Item to select.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Select( TItem item )
+        public async Task Select( TItem item )
         {
-            return SelectRow( item );
+            await SelectRow( item );
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -535,7 +543,7 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            return Task.CompletedTask;
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -562,6 +570,7 @@ namespace Blazorise.DataGrid
         public void FilterData()
         {
             FilterData( Data?.AsQueryable() );
+            StateHasChanged();
         }
 
         /// <summary>
@@ -580,6 +589,7 @@ namespace Blazorise.DataGrid
             {
                 cellEditContext.CellValue = value;
             }
+            StateHasChanged();
         }
 
         /// <summary>
@@ -684,6 +694,7 @@ namespace Blazorise.DataGrid
             }
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+            await InvokeAsync( StateHasChanged );
         }
 
         private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
@@ -752,6 +763,7 @@ namespace Blazorise.DataGrid
             UnSelectAllRows = !selectAll;
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+            await InvokeAsync( StateHasChanged );
         }
 
         // this is to give user a way to stop save if necessary
