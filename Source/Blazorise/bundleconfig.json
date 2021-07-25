@@ -5,6 +5,7 @@
       "Scripts/blazorise.dependencies.js",
       "Scripts/blazorise.main.js",
       "Scripts/blazorise.tooltip.js",
+      "Scripts/blazorise.table.js",
       "Scripts/blazorise.functions.js"
     ],
     "minify": {
