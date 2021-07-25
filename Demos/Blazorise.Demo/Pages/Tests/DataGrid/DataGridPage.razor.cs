@@ -63,7 +63,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
 
         protected override async Task OnInitializedAsync()
         {
-            inMemoryDataModels = EmployeeData.Data;
+            inMemoryDataModels = await EmployeeData.GetDataAsync();
             dataModels = inMemoryDataModels.Take( 50 ).ToList();
             totalEmployees = dataModels.Count;
             await base.OnInitializedAsync();
@@ -84,7 +84,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
 
             if ( validationArgs.Status == ValidationStatus.Error )
             {
-                validationArgs.ErrorText = "Email has to be a valid email";
+                validationArgs.ErrorText = "Email has to be a valid Email";
             }
         }
 
@@ -119,7 +119,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
 
             //employee.FirstName = (string)e.Values["FirstName"];
             //employee.LastName = (string)e.Values["LastName"];
-            //employee.EMail = (string)e.Values["EMail"];
+            //employee.Email = (string)e.Values["Email"];
             //employee.City = (string)e.Values["City"];
             //employee.Zip = (string)e.Values["Zip"];
             //employee.DateOfBirth = (DateTime?)e.Values["DateOfBirth"];
@@ -152,7 +152,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             return
                 model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
                 || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
-                || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+                || model.Email?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
         }
 
         async Task OnReadData( DataGridReadDataEventArgs<Employee> e )

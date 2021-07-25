@@ -240,9 +240,9 @@
                         </Span>
                     </EmptyFilterTemplate>
                     <DataGridAggregates>
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
                             <DisplayTemplate>
-                                @($"Total emails: {context.Value}")
+                                @($"Total Emails: {context.Value}")
                             </DisplayTemplate>
                         </DataGridAggregate>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )"
@@ -290,7 +290,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -432,7 +432,7 @@
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.EMail"></TextEdit>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -475,7 +475,7 @@
                                 <Field>
                                     <FieldLabel>Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly="true" Text="@employee?.EMail"></TextEdit>
+                                        <TextEdit ReadOnly="true" Text="@employee?.Email"></TextEdit>
                                     </FieldBody>
                                 </Field>
                                 <Field>

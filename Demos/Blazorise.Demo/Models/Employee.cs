@@ -19,7 +19,7 @@ namespace Blazorise.Demo.Models
 
         [Required]
         [EmailAddress]
-        public string EMail { get; set; }
+        public string Email { get; set; }
         public string City { get; set; }
         public string Zip { get; set; }
         public DateTime? DateOfBirth { get; set; }

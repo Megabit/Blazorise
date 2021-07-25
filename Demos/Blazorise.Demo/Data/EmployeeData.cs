@@ -12,20 +12,31 @@ namespace Blazorise.Demo.Data
 {
     public class EmployeeData
     {
+        private readonly IHttpClientFactory httpClientfactory;
+        private readonly NavigationManager navigationManager;
+
         /// <summary>
-        /// Simplified code to get data... ONLY for Demo purposes.
-        /// You should never use this kind of way to get data, specially if it's volatile.
+        /// Simplified code to get & cache data in memory... 
         /// </summary>
         /// <param name="httpClientfactory"></param>
         /// <param name="navigationManager"></param>
         public EmployeeData( IHttpClientFactory httpClientfactory, NavigationManager navigationManager )
         {
-            using HttpClient client = httpClientfactory.CreateClient();
-            client.BaseAddress = new( navigationManager.BaseUri );
-            Data = client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" ).ConfigureAwait( false ).GetAwaiter().GetResult();
+            this.httpClientfactory = httpClientfactory;
+            this.navigationManager = navigationManager;
         }
 
-        public List<Employee> Data { get; }
+        private List<Employee> data;
 
+        public async Task<List<Employee>> GetDataAsync()
+        {
+            if ( data is null )
+            { 
+                using HttpClient client = httpClientfactory.CreateClient();
+                client.BaseAddress = new( navigationManager.BaseUri );
+                data = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );
+            }
+            return data;
+        }
     }
 }
