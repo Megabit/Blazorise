@@ -570,7 +570,8 @@ namespace Blazorise.DataGrid
         public void FilterData()
         {
             FilterData( Data?.AsQueryable() );
-            StateHasChanged();
+
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -589,7 +590,8 @@ namespace Blazorise.DataGrid
             {
                 cellEditContext.CellValue = value;
             }
-            StateHasChanged();
+
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -694,6 +696,7 @@ namespace Blazorise.DataGrid
             }
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+
             await InvokeAsync( StateHasChanged );
         }
 
@@ -763,6 +766,7 @@ namespace Blazorise.DataGrid
             UnSelectAllRows = !selectAll;
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+
             await InvokeAsync( StateHasChanged );
         }
 
