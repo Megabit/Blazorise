@@ -14,6 +14,7 @@
   <ItemGroup>
     <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,46 @@
     <EmbeddedResource Include="Resources\Localization\**\*.json" />
     <None Remove="Resources\Localization\*.json" />
     <EmbeddedResource Include="Resources\Localization\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\blazorise.dependencies.js" />
+    <None Remove="Scripts\blazorise.functions.js" />
+    <None Remove="Scripts\blazorise.main.js" />
+    <None Remove="Scripts\blazorise.table.js" />
+    <None Remove="Scripts\blazorise.tooltip.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Scripts\blazorise.table.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Scripts\blazorise.functions.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Scripts\blazorise.tooltip.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Scripts\blazorise.main.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Scripts\blazorise.dependencies.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
   </ItemGroup>
 
 </Project>

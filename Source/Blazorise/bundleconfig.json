@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/blazorise.js",
+    "inputFiles": [
+      "Scripts/blazorise.dependencies.js",
+      "Scripts/blazorise.main.js",
+      "Scripts/blazorise.tooltip.js",
+      "Scripts/blazorise.functions.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  }
+]
