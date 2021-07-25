@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Demo.Models;
 using Microsoft.AspNetCore.Components;
@@ -16,7 +13,7 @@ namespace Blazorise.Demo.Data
         private readonly NavigationManager navigationManager;
 
         /// <summary>
-        /// Simplified code to get & cache data in memory... 
+        /// Simplified code to get & cache data in memory...
         /// </summary>
         /// <param name="httpClientfactory"></param>
         /// <param name="navigationManager"></param>
@@ -31,7 +28,7 @@ namespace Blazorise.Demo.Data
         public async Task<List<Employee>> GetDataAsync()
         {
             if ( data is null )
-            { 
+            {
                 using HttpClient client = httpClientfactory.CreateClient();
                 client.BaseAddress = new( navigationManager.BaseUri );
                 data = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );

@@ -1,10 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Blazorise.DataGrid.Utils;
@@ -17,49 +14,48 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
 {
     public partial class DataGridPage
     {
-
         #region Members
 
-        Employee editModel = new();
+        private Employee editModel = new();
 
-        DataGridEditMode editMode = DataGridEditMode.Form;
-        DataGridSortMode sortMode = DataGridSortMode.Multiple;
-        DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
-        DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
-        TableResizeMode resizableMode = TableResizeMode.Header;
+        private DataGridEditMode editMode = DataGridEditMode.Form;
+        private DataGridSortMode sortMode = DataGridSortMode.Multiple;
+        private DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
+        private DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
+        private TableResizeMode resizableMode = TableResizeMode.Header;
 
-        DataGrid<Employee> dataGrid;
+        private DataGrid<Employee> dataGrid;
         public int currentPage { get; set; } = 1;
 
-        bool editable = true;
-        bool fixedHeader = false;
-        bool virtualize = false;
-        bool resizable = true;
-        bool sortable = true;
-        bool filterable = true;
-        bool showPager = true;
-        bool showPageSizes = true;
-        bool largeDataMode = false;
-        bool showButtonRow = true;
+        private bool editable = true;
+        private bool fixedHeader = false;
+        private bool virtualize = false;
+        private bool resizable = true;
+        private bool sortable = true;
+        private bool filterable = true;
+        private bool showPager = true;
+        private bool showPageSizes = true;
+        private bool largeDataMode = false;
+        private bool showButtonRow = true;
 
-        Employee selectedEmployee;
-        List<Employee> selectedEmployees;
+        private Employee selectedEmployee;
+        private List<Employee> selectedEmployees;
 
-        List<Employee> employeeList;
-        int totalEmployees;
+        private List<Employee> employeeList;
+        private int totalEmployees;
 
-        string selectedGenderFilter;
-        string selectedCityFilter;
+        private string selectedGenderFilter;
+        private string selectedCityFilter;
 
-        Random random = new();
+        private Random random = new();
 
-        List<Employee> dataModels = new();
-        List<Employee> inMemoryDataModels;
+        private List<Employee> dataModels = new();
+        private List<Employee> inMemoryDataModels;
 
         #endregion
 
         #region Methods
-        [Inject] EmployeeData EmployeeData { get; set; }
+        [Inject] private EmployeeData EmployeeData { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -98,13 +94,13 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             }
         }
 
-        void OnEmployeeNewItemDefaultSetter( Employee employee )
+        private void OnEmployeeNewItemDefaultSetter( Employee employee )
         {
             employee.Salary = 100.0M;
             employee.IsActive = true;
         }
 
-        void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
+        private void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
         {
             //var employee = e.Item;
 
@@ -113,7 +109,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             //dataModels.Add( employee );
         }
 
-        void OnRowUpdated( SavedRowItem<Employee, Dictionary<string, object>> e )
+        private void OnRowUpdated( SavedRowItem<Employee, Dictionary<string, object>> e )
         {
             //var employee = e.Item;
 
@@ -128,7 +124,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             //employee.Salary = (decimal)e.Values["Salary"];
         }
 
-        void OnRowRemoved( Employee model )
+        private void OnRowRemoved( Employee model )
         {
             //if ( dataModels.Contains( model ) )
             //{
@@ -136,7 +132,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             //}
         }
 
-        string customFilterValue;
+        private string customFilterValue;
 
         private Task OnCustomFilterValueChanged( string e )
         {
@@ -144,7 +140,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             return dataGrid.Reload();
         }
 
-        bool OnCustomFilter( Employee model )
+        private bool OnCustomFilter( Employee model )
         {
             if ( string.IsNullOrEmpty( customFilterValue ) )
                 return true;
@@ -155,7 +151,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
                 || model.Email?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
         }
 
-        async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+        private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
             if ( !e.CancellationToken.IsCancellationRequested )
             {
@@ -179,7 +175,6 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
                 }
             }
         }
-
 
         /// <summary>
         /// Simple demo purpose example filter
@@ -223,7 +218,6 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
 
             foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
             {
-
                 var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( column.Field );
                 //if ( column.CustomFilter != null )
                 //{
@@ -234,15 +228,13 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
                 //}
                 //else
                 //{
-
                 filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
                 //}
-
             }
             return Task.FromResult( filteredData );
         }
 
-        Task Reset()
+        private Task Reset()
         {
             currentPage = 1;
             return dataGrid.Reload();

@@ -11,12 +11,12 @@
                           ShowPager="true"
                           ShowPageSizes="true">
                     <DataGridColumns>
-                          <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" >
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name"  />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" >
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
@@ -25,7 +25,7 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn  TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
@@ -52,7 +52,7 @@
                                 <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
-                        </DataGridColumns>
+                    </DataGridColumns>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -67,7 +67,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        inMemoryData = (await EmployeeData.GetDataAsync()).Take(25);
+        inMemoryData = ( await EmployeeData.GetDataAsync() ).Take( 25 );
         await base.OnInitializedAsync();
     }
 }

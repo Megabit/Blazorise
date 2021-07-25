@@ -17,14 +17,14 @@ namespace Blazorise.Demo.Layouts
             await base.OnInitializedAsync();
         }
 
-        Task SelectCulture( string name )
+        private Task SelectCulture( string name )
         {
             LocalizationService.ChangeLanguage( name );
 
             return Task.CompletedTask;
         }
 
-        void OnThemeEnabledChanged( bool value )
+        private void OnThemeEnabledChanged( bool value )
         {
             if ( Theme == null )
                 return;
@@ -34,7 +34,7 @@ namespace Blazorise.Demo.Layouts
             Theme.ThemeHasChanged();
         }
 
-        void OnGradientChanged( bool value )
+        private void OnGradientChanged( bool value )
         {
             if ( Theme == null )
                 return;
@@ -49,7 +49,7 @@ namespace Blazorise.Demo.Layouts
             Theme.ThemeHasChanged();
         }
 
-        void OnRoundedChanged( bool value )
+        private void OnRoundedChanged( bool value )
         {
             if ( Theme == null )
                 return;
@@ -59,7 +59,7 @@ namespace Blazorise.Demo.Layouts
             Theme.ThemeHasChanged();
         }
 
-        void OnThemeColorChanged( string value )
+        private void OnThemeColorChanged( string value )
         {
             if ( Theme == null )
                 return;

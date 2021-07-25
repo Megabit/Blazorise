@@ -6,7 +6,7 @@ namespace Blazorise.Demo.Pages.Tests
     {
         private Size? selectedSize;
 
-        void OnThemeInputSizeChanged( Size? size )
+        private void OnThemeInputSizeChanged( Size? size )
         {
             selectedSize = size;
 

@@ -30,19 +30,19 @@
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <DisplayTemplate>
                                 @{
-                                    var gender = (context as Employee)?.Gender;
+                                    var gender = ( context as Employee )?.Gender;
 
-                                    @if (gender == "M")
+                                    @if ( gender == "M" )
                                     {
-                                    @("Male")
+                                        @("Male")
                                     }
-                                    else if (gender == "F")
+                                    else if ( gender == "F" )
                                     {
-                                    @("Female")
+                                        @("Female")
                                     }
-                                    else if (gender == "D")
+                                    else if ( gender == "D" )
                                     {
-                                    @("Diverse")
+                                        @("Diverse")
                                     }
                                 }
                             </DisplayTemplate>
@@ -76,10 +76,10 @@
     /// <param name="page"></param>
     /// <param name="pageSize"></param>
     /// <returns></returns>
-    private async Task<IEnumerable<Employee>> GetDataFromExternalSource(int page, int pageSize)
+    private async Task<IEnumerable<Employee>> GetDataFromExternalSource( int page, int pageSize )
     {
-        await Task.Delay(random.Next(100));
-        return (await EmployeeData.GetDataAsync()).Take(50).Skip((page - 1) * pageSize).Take(pageSize);
+        await Task.Delay( random.Next( 100 ) );
+        return ( await EmployeeData.GetDataAsync() ).Take( 50 ).Skip( ( page - 1 ) * pageSize ).Take( pageSize );
     }
 
     /// <summary>
@@ -96,13 +96,13 @@
     /// </summary>
     /// <param name="e"></param>
     /// <returns></returns>
-    private async Task OnReadData(DataGridReadDataEventArgs<Employee> e)
+    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
-        if (!e.CancellationToken.IsCancellationRequested)
+        if ( !e.CancellationToken.IsCancellationRequested )
         {
-            IEnumerable<Employee> response = (await GetDataFromExternalSource(e.Page, e.PageSize));
+            IEnumerable<Employee> response = ( await GetDataFromExternalSource( e.Page, e.PageSize ) );
 
-            if (!e.CancellationToken.IsCancellationRequested)
+            if ( !e.CancellationToken.IsCancellationRequested )
             {
                 data = response;
                 totalEmployees = await GetTotalFromExternalSource();
