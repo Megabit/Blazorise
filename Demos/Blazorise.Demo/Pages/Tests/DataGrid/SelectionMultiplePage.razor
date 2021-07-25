@@ -1,18 +1,25 @@
-﻿@page "/tests/datagrid/virtualize/in-memory"
+﻿@page "/tests/datagrid/selection/multiple"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: Virtualize In Memory</CardTitle>
+                <CardTitle>Datagrid: Multiple Selection</CardTitle>
             </CardHeader>
+            <ListGroup Flush="true">
+                <ListGroupItem>Set the Datagrid to multiple selection by setting the Selection Mode to Multiple.</ListGroupItem>
+                <ListGroupItem>Set DataGridMultiSelectColumn for checkbox support.</ListGroupItem>
+                <ListGroupItem>Bind the selected rows to a property by binding to the SelectedRows Parameter.</ListGroupItem>
+                <ListGroupItem>Select various rows by pressing Shift+Click.</ListGroupItem>
+            </ListGroup>
             <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
-                          Virtualize="true"
-                          VirtualizeOptions="virtualizeOptions"
+                          SelectionMode="DataGridSelectionMode.Multiple"
+                          @bind-SelectedRows="selectedEmployees"
                           ShowPager="true"
                           ShowPageSizes="true">
                     <DataGridColumns>
+                        <DataGridMultiSelectColumn TItem="Employee"></DataGridMultiSelectColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
                         </DataGridColumn>
@@ -61,17 +68,83 @@
     </Column>
 </Row>
 
+@if ( selectedEmployees?.Count > 0 )
+{
+    @if ( selectedEmployees?.Count <= 5 )
+    {
+        @foreach ( var employee in selectedEmployees )
+        {
+            <Row @key="employee" Margin="Margin.Is1.FromTop">
+                <Column>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Employee</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>First Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>Last Name</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
+                                </Field>
+                            </Fields>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>Email</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.Email"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>City</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
+                                </Field>
+                            </Fields>
+                        </CardBody>
+                    </Card>
+                </Column>
+            </Row>
+        }
+    }
+    else
+    {
+        <Row Margin="Margin.Is1.FromTop">
+            <Column>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Selected Employees</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>Quantity</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit ReadOnly="true" Text="@selectedEmployees.Count.ToString()"></TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </CardBody>
+                </Card>
+            </Column>
+        </Row>
+    }
+}
+
 @code {
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private Blazorise.DataGrid.Configuration.VirtualizeOptions virtualizeOptions;
     private IEnumerable<Employee> inMemoryData;
+    private List<Employee> selectedEmployees;
 
     protected override async Task OnInitializedAsync()
     {
-        virtualizeOptions = new() { DataGridHeight = "500px" };
-        inMemoryData = ( await EmployeeData.GetDataAsync() );
+        inMemoryData = ( await EmployeeData.GetDataAsync() ).Take( 25 );
         await base.OnInitializedAsync();
     }
 }
