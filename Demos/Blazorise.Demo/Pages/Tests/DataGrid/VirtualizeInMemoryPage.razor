@@ -1,15 +1,15 @@
-﻿@page "/tests/datagrid/data/read-data"
+﻿@page "/tests/datagrid/virtualize/in-memory"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: External Source</CardTitle>
+                <CardTitle>Datagrid: Virtualize In Memory</CardTitle>
             </CardHeader>
             <CardBody>
                 <DataGrid TItem="Employee"
-                          Data="data"
-                          TotalItems="totalEmployees"
-                          ReadData="OnReadData"
+                          Data="inMemoryData"
+                          Virtualize="true"
+                          VirtualizeOptions="virtualizeOptions"
                           ShowPager="true"
                           ShowPageSizes="true">
                     <DataGridColumns>
@@ -30,19 +30,19 @@
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <DisplayTemplate>
                                 @{
-                                    var gender = (context as Employee)?.Gender;
+                                    var gender = ( context as Employee )?.Gender;
 
-                                    @if (gender == "M")
+                                    @if ( gender == "M" )
                                     {
-                                    @("Male")
+                                        @("Male")
                                     }
-                                    else if (gender == "F")
+                                    else if ( gender == "F" )
                                     {
-                                    @("Female")
+                                        @("Female")
                                     }
-                                    else if (gender == "D")
+                                    else if ( gender == "D" )
                                     {
-                                    @("Diverse")
+                                        @("Diverse")
                                     }
                                 }
                             </DisplayTemplate>
@@ -65,49 +65,12 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private IEnumerable<Employee> data;
-    int totalEmployees;
-    Random random = new();
+    private Blazorise.DataGrid.Configuration.VirtualizeOptions virtualizeOptions;
+    private IEnumerable<Employee> inMemoryData;
 
-    /// <summary>
-    /// Simplied version of getting Data from an external source.
-    /// On a real world scenario, you should also handle filtering and sorting, please check our corresponding sections for further examples
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
-    /// <returns></returns>
-    private async Task<IEnumerable<Employee>> GetDataFromExternalSource(int page, int pageSize)
+    protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(random.Next(100));
-        return (await EmployeeData.GetDataAsync()).Take(50).Skip((page - 1) * pageSize).Take(pageSize);
+        inMemoryData = ( await EmployeeData.GetDataAsync() );
+        await base.OnInitializedAsync();
     }
-
-    /// <summary>
-    /// Simplified version of getting Total from an external source.
-    /// On a real world scenario, you should also handle filtering and sorting, please check our corresponding sections for further examples
-    /// </summary>
-    /// <returns></returns>
-    private async Task<int> GetTotalFromExternalSource()
-        => ( await EmployeeData.GetDataAsync() ).Take( 50 ).Count();
-
-    /// <summary>
-    /// Standard pattern for handling Datagrid data on demand according to pagination.
-    /// Filtering and Sorting are omitted for simplicity.
-    /// </summary>
-    /// <param name="e"></param>
-    /// <returns></returns>
-    private async Task OnReadData(DataGridReadDataEventArgs<Employee> e)
-    {
-        if (!e.CancellationToken.IsCancellationRequested)
-        {
-            IEnumerable<Employee> response = (await GetDataFromExternalSource(e.Page, e.PageSize));
-
-            if (!e.CancellationToken.IsCancellationRequested)
-            {
-                data = response;
-                totalEmployees = await GetTotalFromExternalSource();
-            }
-        }
-    }
-
 }
