@@ -8,6 +8,8 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Demo.Data;
+using Blazorise.Demo.Models;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -15,39 +17,6 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
 {
     public partial class DataGridPage
     {
-        #region Types
-
-        public class Employee
-        {
-            public int Id { get; set; }
-
-            [Required]
-            public string FirstName { get; set; }
-
-            [Required]
-            public string LastName { get; set; }
-
-            [Required]
-            [EmailAddress]
-            public string EMail { get; set; }
-            public string City { get; set; }
-            public string Zip { get; set; }
-            public DateTime? DateOfBirth { get; set; }
-            public int? Childrens { get; set; }
-            public string Gender { get; set; }
-            public decimal Salary { get; set; }
-            public bool IsActive { get; set; }
-
-            public List<Salary> Salaries { get; set; } = new();
-        }
-
-        public class Salary
-        {
-            public DateTime Date { get; set; }
-            public decimal Total { get; set; }
-        }
-
-        #endregion
 
         #region Members
 
@@ -90,13 +59,11 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
         #endregion
 
         #region Methods
-        [Inject] NavigationManager NavigationManager { get; set; }
+        [Inject] EmployeeData EmployeeData { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            ///Demo purposes. You should handle your HttpClient injection/parametrization in your startup settings.
-            HttpClient client = new();
-            client.BaseAddress = new Uri( NavigationManager.BaseUri );
-            inMemoryDataModels = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );
+            inMemoryDataModels = EmployeeData.Data;
             dataModels = inMemoryDataModels.Take( 50 ).ToList();
             totalEmployees = dataModels.Count;
             await base.OnInitializedAsync();
