@@ -207,7 +207,6 @@ namespace Blazorise.DataGrid
                 return;
             }
 
-            await HandleSelectionModeChanged();
             await HandleVirtualize();
 
             await base.OnAfterRenderAsync( firstRender );
