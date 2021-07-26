@@ -1,44 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\Build\Blazorise.props" />
+	<Import Project="..\..\Build\Blazorise.props" />
 
-  <PropertyGroup>
-    <PackageTags>blazorise blazor components</PackageTags>
-    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageTags>blazorise blazor components</PackageTags>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-    <None Include="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="bundleconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Localization\**\*.json" />
-    <EmbeddedResource Include="Resources\Localization\**\*.json" />
-    <None Remove="Resources\Localization\*.json" />
-    <EmbeddedResource Include="Resources\Localization\*.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Resources\Localization\**\*.json" />
+		<EmbeddedResource Include="Resources\Localization\**\*.json" />
+		<None Remove="Resources\Localization\*.json" />
+		<EmbeddedResource Include="Resources\Localization\*.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="bundleconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Scripts\*.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="Scripts\*.js" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="BuildWebCompiler" Version="1.12.405">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Build.Framework" Version="15.5.180" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.5.180" PrivateAssets="All" />
+		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" PrivateAssets="All" />
+		<PackageReference Include="BuildWebCompiler" Version="1.12.405" PrivateAssets="All" />
+	</ItemGroup>
 
 </Project>
