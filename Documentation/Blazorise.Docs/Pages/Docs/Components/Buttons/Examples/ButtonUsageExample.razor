@@ -1,0 +1,11 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@OnButtonClicked">Click me</Button>
+@code{
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task OnButtonClicked()
+    {
+        return NotificationService.Info( "Hello world!" );
+    }
+}

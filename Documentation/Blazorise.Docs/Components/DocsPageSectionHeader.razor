@@ -1,0 +1,13 @@
+﻿<div class="docs-page-section-header">
+    <Heading Size="HeadingSize.Is4">
+        @Title
+    </Heading>
+
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

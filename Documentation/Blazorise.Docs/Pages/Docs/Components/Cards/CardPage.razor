@@ -1,0 +1,50 @@
+﻿@page "/docs/components/card"
+
+<Heading Size="HeadingSize.Is1">
+    Cards
+</Heading>
+
+<Paragraph>
+    The card component comprises several elements that you can mix and match:
+</Paragraph>
+
+<ul>
+    <li>
+        <code class="language-plaintext highlighter-rouge">&lt;Card&gt;</code>
+        <ul>
+            <li><code class="language-plaintext highlighter-rouge">&lt;CardHeader&gt;</code></li>
+            <li><code class="language-plaintext highlighter-rouge">&lt;CardImage&gt;</code></li>
+            <li>
+                <code class="language-plaintext highlighter-rouge">&lt;CardBody&gt;</code>
+                <ul>
+                    <li><code class="language-plaintext highlighter-rouge">&lt;CardTitle&gt;</code></li>
+                    <li><code class="language-plaintext highlighter-rouge">&lt;CardSubtitle&gt;</code></li>
+                    <li><code class="language-plaintext highlighter-rouge">&lt;CardText&gt;</code></li>
+                </ul>
+            </li>
+            <li><code class="language-plaintext highlighter-rouge">&lt;CardFooter&gt;</code></li>
+        </ul>
+    </li>
+    <li><code class="language-plaintext highlighter-rouge">&lt;CardGroup&gt;</code></li>
+    <li><code class="language-plaintext highlighter-rouge">&lt;CardDeck&gt;</code></li>
+</ul>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Card">
+        Simple card
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Card deck">
+        A set of equal width and height cards that aren’t attached to one another.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardDeckExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardDeckExample" />
+</DocsPageSection>

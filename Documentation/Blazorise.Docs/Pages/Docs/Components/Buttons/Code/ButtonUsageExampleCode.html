@@ -1,0 +1,15 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnButtonClicked</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Click me<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    [Inject] INotificationService NotificationService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    Task OnButtonClicked()
+    {
+        <span class="keyword">return</span> NotificationService.Info( <span class="string">&quot;Hello world!&quot;</span> );
+    }
+}
+</pre></div>
+</div>

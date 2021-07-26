@@ -1,0 +1,79 @@
+﻿@inherits LayoutComponentBase
+
+<Layout Sider="true">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark"
+                 Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="docs">
+                            <BarIcon IconName="customIcon" />
+                            Blazorise Docs
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To="docs">
+                                <BarIcon IconName="IconName.Dashboard" />
+                                Dashboard
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Wrench" />
+                                    UI Elements
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/components/button">
+                                        Button
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/card">
+                                        Card
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/check">
+                                        Check
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed="true">
+            <Bar @ref="@topBar" @bind-Visible="@topBarVisible" Class="navbar-expand"
+                 Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
+                <BarToggler Bar="@sideBar" Border="Border.Is0" />
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="docs">
+                            <BarIcon IconName="IconName.Dashboard" />
+                            Blazorise Docs
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarEnd>
+                        <BarItem>
+                            <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
+        </LayoutHeader>
+        <LayoutContent Padding="Padding.Is4.OnX">
+            <Container>
+                @Body
+            </Container>
+        </LayoutContent>
+    </Layout>
+</Layout>
+@code{
+    RenderFragment customIcon =@<Image Source="/img/brand-logo.png" Style="width:32px; height: 32px" />;
+}

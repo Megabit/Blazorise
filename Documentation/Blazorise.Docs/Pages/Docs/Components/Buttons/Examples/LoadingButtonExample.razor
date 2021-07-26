@@ -1,0 +1,23 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Loading>Primary</Button>
+<Button Color="Color.Primary" Clicked="@ShowLoading" Loading="@isLoading">
+    <LoadingTemplate>
+        This is a custom loading template
+    </LoadingTemplate>
+    <ChildContent>
+        Click to load
+    </ChildContent>
+</Button>
+@code{
+    private bool isLoading;
+
+    private async Task ShowLoading()
+    {
+        isLoading = true;
+
+        await Task.Delay( TimeSpan.FromSeconds( 3 ) );
+
+        isLoading = false;
+    }
+}

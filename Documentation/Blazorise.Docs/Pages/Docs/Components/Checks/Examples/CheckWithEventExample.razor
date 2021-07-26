@@ -1,0 +1,12 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Check TValue="bool" Checked="@rememberMe" CheckedChanged="@OnRememberMeChanged">Remember Me</Check>
+
+@code{
+    bool rememberMe;
+
+    void OnRememberMeChanged( bool value )
+    {
+        rememberMe = value;
+    }
+}

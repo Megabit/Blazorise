@@ -1,0 +1,142 @@
+﻿@page "/docs/components/button"
+
+<Heading Size="HeadingSize.Is1">
+    Buttons
+</Heading>
+
+<Paragraph>
+    Use Blazorise <code>Button</code> component for actions in forms, dialogs, and more. Includes support for a handful of contextual variations, sizes, states, and more.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is2">
+    Overview
+</Heading>
+
+<Paragraph>
+    Blazorise <code>Button</code> component generates either a <Code Tag>button</Code> element, or <Code Tag>a</Code> element with the styling of a button.
+</Paragraph>
+
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic button">
+        To create a basic button you need to use a Button component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="How to use">
+        To use button you just handle a button <Code>Clicked</Code> event.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ButtonUsageExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonUsageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Colors">
+        To define button color use a <Code>Color</Code> attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ColorButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorButtonsExample" />
+
+    <Alert Color="Color.Info">
+        <AlertMessage>
+            Note: To find the list of supported colors please look at the colors page.
+        </AlertMessage>
+    </Alert>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Outline">
+        To define button color with a borders use an <Code>Outline</Code> attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <OutlineButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OutlineButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Block">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BlockButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BlockButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Active">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ActiveButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ActiveButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabled">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <DisabledButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DisabledButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Loading">
+        Use <Code>Loading</Code> attribute to add spinners within buttons to indicate an action is currently processing or taking place. Use <Code Tag>LoadingTemplate</Code> to add a custom loading template
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <LoadingButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Button group">
+        If you want to group buttons together on a single line, use the <Code Tag>Buttons</Code> xomponent.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ButtonGroupExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonGroupExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Link Button">
+        By default, <Code Tag>Button</Code> works with <Code Tag>button</Code> element, but you can also create an <Code Tag>a</Code> element that will still appear as regular button.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <LinkButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LinkButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Toolbar">
+        To attach buttons together use a <Code>ButtonsRole.Toolbar</Code> role.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ToolbarButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ToolbarButtonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Submit button">
+        When using a submit button inside of <Code Tag>Form</Code> element the browser will automatically try to post the page. This is the default browser behavior. Because of this a new attribute is introduced to the <Code Tag>Button</Code> element, called <Code>PreventDefaultOnSubmit</Code>. Basically it prevents a default browser behavior when clicking the submit button. So instead of posting the page it will stop it and just call the <Code>Clicked</Code> event handler. Pressing the <Code>Enter</Code> key will still work just as it’s supposed to do.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <SubmitButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SubmitButtonExample" />
+</DocsPageSection>

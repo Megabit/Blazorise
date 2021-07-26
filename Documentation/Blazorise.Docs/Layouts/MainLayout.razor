@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+<Layout>
+    <LayoutHeader Fixed="true">
+        <Bar Class="top-bar" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light" Style="height: 88px;">
+            <Container>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink Class="top-bar-brand-link" To="">
+                            @*<Image Display="Display.InlineBlock" Border="Border.RoundedCircle" Padding="Padding.Is1" Background="Background.White" Source="/img/brand-logo.png" Text="Blazorise logo" />*@
+                            Blazorise
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                    </BarStart>
+                    <BarEnd>
+                        <BarItem>
+                            <BarLink To="https://commercial.blazorise.com/" Target="Target.Blank">Commercial</BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="docs">Documentation</BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Container>
+        </Bar>
+    </LayoutHeader>
+    <LayoutContent>
+        <Container Height="Height.Is100" Padding="Padding.Is5.OnY">
+            @Body
+        </Container>
+    </LayoutContent>
+</Layout>
