@@ -33,8 +33,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Build.Framework" Version="15.5.180" PrivateAssets="All" />
-		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.5.180" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.Build.Framework" Version="16.10.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.10.0" PrivateAssets="All" />
 		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" PrivateAssets="All" />
 		<PackageReference Include="BuildWebCompiler" Version="1.12.405" PrivateAssets="All" />
 	</ItemGroup>
