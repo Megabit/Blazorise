@@ -2,6 +2,9 @@ name: Blazorise Push CI
 
 on: [push]
 
+env:
+  MSBUILDDISABLENODEREUSE: 0
+    
 jobs:
   build:
 
