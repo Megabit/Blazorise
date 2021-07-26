@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore
       
     - name: Build - Release
-      run: dotnet publish --configuration Release --no-restore --framework net6.0
+      run: dotnet publish --configuration Release --no-restore --framework net5.0
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
