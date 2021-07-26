@@ -3,7 +3,7 @@ name: Blazorise Push CI
 on: [push]
 
 env:
-  MSBUILDDISABLENODEREUSE: 0
+  MSBUILDDISABLENODEREUSE: 1
     
 jobs:
   build:
