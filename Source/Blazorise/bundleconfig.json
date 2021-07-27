@@ -2,11 +2,17 @@
   {
     "outputFileName": "wwwroot/blazorise.js",
     "inputFiles": [
-      "Scripts/blazorise.dependencies.js",
-      "Scripts/blazorise.main.js",
-      "Scripts/blazorise.tooltip.js",
-      "Scripts/blazorise.table.js",
-      "Scripts/blazorise.functions.js"
+      "Scripts/dependencies.js",
+      "Scripts/main.js",
+      "Scripts/button.js",
+      "Scripts/datePicker.js",
+      "Scripts/fileEdit.js",
+      "Scripts/numericEdit.js",
+      "Scripts/textEdit.js",
+      "Scripts/timePicker.js",
+      "Scripts/tooltip.js",
+      "Scripts/table.js",
+      "Scripts/functions.js"
     ],
     "minify": {
       "enabled": false

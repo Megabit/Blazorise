@@ -39,7 +39,7 @@
       <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
   </Target>
 
-	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;AfterBuild">
+	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
     <Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c webcompilerconfiguration.json" StandardOutputImportance="high" />
 	<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c webcompilerconfiguration.min.json" StandardOutputImportance="high" />
 	<Exec Command="dotnet webcompiler -r wwwroot/blazorise.js -c webcompilerconfiguration.min.json" StandardOutputImportance="high" />
@@ -47,5 +47,19 @@
 
 	<ItemGroup>
 		<Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Watch Remove="Scripts\button.js" />
+	  <Watch Remove="Scripts\datePicker.js" />
+	  <Watch Remove="Scripts\dependencies.js" />
+	  <Watch Remove="Scripts\fileEdit.js" />
+	  <Watch Remove="Scripts\functions.js" />
+	  <Watch Remove="Scripts\main.js" />
+	  <Watch Remove="Scripts\numericEdit.js" />
+	  <Watch Remove="Scripts\table.js" />
+	  <Watch Remove="Scripts\textEdit.js" />
+	  <Watch Remove="Scripts\timePicker.js" />
+	  <Watch Remove="Scripts\tooltip.js" />
 	</ItemGroup>
 </Project>

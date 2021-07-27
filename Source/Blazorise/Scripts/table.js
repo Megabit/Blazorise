@@ -191,4 +191,4 @@ window.blazorise.table = {
             element.querySelectorAll('.b-table-resizer').forEach(x => x.remove());
         }
     }
-}
+};
