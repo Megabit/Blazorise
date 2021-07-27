@@ -8,6 +8,54 @@ namespace Blazorise.Docs.Models
 {
     public static partial class Snippets
     {
+        public const string ButtonAddonExample = @"<Addons>
+    <Addon AddonType=""AddonType.Body"">
+        <TextEdit Placeholder=""Recipient's username"" />
+    </Addon>
+    <Addon AddonType=""AddonType.End"">
+        <Button Color=""Color.Secondary"">Button</Button>
+    </Addon>
+</Addons>";
+
+        public const string DropdownAddonExample = @"<Addons>
+    <Addon AddonType=""AddonType.Start"">
+        <Dropdown>
+            <DropdownToggle Color=""Color.Primary"">Dropdown</DropdownToggle>
+            <DropdownMenu>
+                <DropdownItem>Action</DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
+                <DropdownItem>Something else here</DropdownItem>
+                <DropdownDivider />
+                <DropdownItem>Separated link</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+    </Addon>
+    <Addon AddonType=""AddonType.Body"">
+        <TextEdit />
+    </Addon>
+</Addons>";
+
+        public const string MultipleAddonsExample = @"<Addons>
+    <Addon AddonType=""AddonType.Start"">
+        <AddonLabel>Start</AddonLabel>
+    </Addon>
+    <Addon AddonType=""AddonType.Body"">
+        <TextEdit Placeholder=""Placeholder"" />
+    </Addon>
+    <Addon AddonType=""AddonType.End"">
+        <AddonLabel>End</AddonLabel>
+    </Addon>
+</Addons>";
+
+        public const string StaticAddonExample = @"<Addons>
+    <Addon AddonType=""AddonType.Start"">
+        <AddonLabel>@@</AddonLabel>
+    </Addon>
+    <Addon AddonType=""AddonType.Body"">
+        <TextEdit Placeholder=""Username"" />
+    </Addon>
+</Addons>";
+
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
 <Button Color=""Color.Secondary"" Active>Secondary</Button>";
 

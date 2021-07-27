@@ -88,11 +88,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Benchmark", "Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{700B33A3-A855-46C3-BD5A-C6954FC7274B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Docs", "Documentation\Blazorise.Docs\Blazorise.Docs.csproj", "{77A4B22F-EB1F-4532-9883-2D1863DBD71B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs", "Documentation\Blazorise.Docs\Blazorise.Docs.csproj", "{77A4B22F-EB1F-4532-9883-2D1863DBD71B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Docs.Server", "Documentation\Blazorise.Docs.Server\Blazorise.Docs.Server.csproj", "{3D262581-0F01-4317-9ACC-3F104BB639CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Server", "Documentation\Blazorise.Docs.Server\Blazorise.Docs.Server.csproj", "{3D262581-0F01-4317-9ACC-3F104BB639CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Docs.Compiler", "Documentation\Blazorise.Docs.Compiler\Blazorise.Docs.Compiler.csproj", "{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Compiler", "Documentation\Blazorise.Docs.Compiler\Blazorise.Docs.Compiler.csproj", "{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
