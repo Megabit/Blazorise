@@ -232,12 +232,12 @@ window.blazoriseCharts = {
     wireEvents: (dotnetAdapter, eventOptions, canvas, chart) => {
         if (eventOptions.hasClickEvent) {
             canvas.onclick = function (evt) {
-                var element = chart.getElementsAtEvent(evt);
+                const activePoint = chart.getElementAtEvent(evt);
 
-                for (var i = 0; i < element.length; i++) {
-                    const datasetIndex = element[i]["_datasetIndex"];
-                    const index = element[i]["_index"];
-                    const model = element[i]["_model"];
+                if (activePoint && activePoint.length > 0) {
+                    const datasetIndex = activePoint[0]._datasetIndex;
+                    const index = activePoint[0]._index;
+                    const model = activePoint[0]._model;
 
                     dotnetAdapter.invokeMethodAsync("Event", "click", datasetIndex, index, JSON.stringify(model));
                 }
@@ -246,13 +246,13 @@ window.blazoriseCharts = {
 
         if (eventOptions.hasHoverEvent) {
             chart.config.options.onHover = function (evt) {
-                var element = chart.getElementsAtEvent(evt);
-
                 if (evt.type === "mousemove") {
-                    for (var i = 0; i < element.length; i++) {
-                        const datasetIndex = element[i]["_datasetIndex"];
-                        const index = element[i]["_index"];
-                        const model = element[i]["_model"];
+                    const activePoint = chart.getElementAtEvent(evt);
+
+                    if (activePoint && activePoint.length > 0) {
+                        const datasetIndex = activePoint[0]._datasetIndex;
+                        const index = activePoint[0]._index;
+                        const model = activePoint[0]._model;
 
                         dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
                     }
