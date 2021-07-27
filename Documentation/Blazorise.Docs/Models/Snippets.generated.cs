@@ -219,5 +219,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicColorExample = @"<ColorEdit Color=""#ff0000"" />";
+
     }
 }
