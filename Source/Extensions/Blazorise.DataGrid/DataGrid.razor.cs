@@ -207,7 +207,6 @@ namespace Blazorise.DataGrid
                 return;
             }
 
-            await HandleSelectionModeChanged();
             await HandleVirtualize();
 
             await base.OnAfterRenderAsync( firstRender );
@@ -226,27 +225,27 @@ namespace Blazorise.DataGrid
             }
         }
 
-        private Task HandleSelectionModeChanged()
+        private async Task HandleSelectionModeChanged()
         {
             if ( selectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
             {
                 SelectedRows ??= new();
 
-                if ( !SelectedRows.Contains( SelectedRow ) )
+                if ( !SelectedRows.Contains( SelectedRow ) && Data.Contains( SelectedRow ) )
                 {
                     SelectedRows.Add( SelectedRow );
 
-                    return SelectedRowsChanged.InvokeAsync( SelectedRows );
+                    await SelectedRowsChanged.InvokeAsync( SelectedRows );
                 }
             }
             else if ( selectionMode == DataGridSelectionMode.Single && SelectedRows != null )
             {
                 SelectedRows = null;
 
-                return SelectedRowsChanged.InvokeAsync( SelectedRows );
+                await SelectedRowsChanged.InvokeAsync( SelectedRows );
             }
 
-            return Task.CompletedTask;
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
