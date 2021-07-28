@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Select TValue="int" SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
+    <SelectItem Value="1">One</SelectItem>
+    <SelectItem Value="2">Two</SelectItem>
+    <SelectItem Value="3">Three</SelectItem>
+    <SelectItem Value="4">Four</SelectItem>
+</Select>
+
+@code{
+    int selectedValue;
+
+    Task OnSelectedValueChanged( int value )
+    {
+        selectedValue = value;
+        Console.WriteLine( selectedValue );
+
+        return Task.CompletedTask;
+    }
+}

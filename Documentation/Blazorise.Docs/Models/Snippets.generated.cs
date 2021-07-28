@@ -565,5 +565,60 @@ namespace Blazorise.Docs.Models
 <Radio TValue=""string"" Group=""colors"" Value=""@(""green"")"">Green</Radio>
 <Radio TValue=""string"" Group=""colors"" Value=""@(""blue"")"">Blue</Radio>";
 
+        public const string BasicSelectExample = @"<Select TValue=""int"">
+    <SelectItem Value=""1"">One</SelectItem>
+    <SelectItem Value=""2"">Two</SelectItem>
+    <SelectItem Value=""3"">Three</SelectItem>
+    <SelectItem Value=""4"">Four</SelectItem>
+</Select>";
+
+        public const string GroupSelectExample = @"<Select TValue=""int"">
+    <SelectGroup Label=""Group 1"">
+        <SelectItem Value=""1"">One</SelectItem>
+        <SelectItem Value=""2"">Two</SelectItem>
+    </SelectGroup>
+    <SelectGroup Label=""Group 2"">
+        <SelectItem Value=""3"">Three</SelectItem>
+        <SelectItem Value=""4"">Four</SelectItem>
+    </SelectGroup>
+</Select>";
+
+        public const string MultipleSelectExample = @"<Select TValue=""int"" Multiple=""true"">
+    <SelectItem Value=""1"">One</SelectItem>
+    <SelectItem Value=""2"">Two</SelectItem>
+    <SelectItem Value=""3"">Three</SelectItem>
+    <SelectItem Value=""4"">Four</SelectItem>
+</Select>";
+
+        public const string SelectWithBindExample = @"<Select @bind-SelectedValue=""@selectedValue"">
+    <SelectItem Value=""1"">One</SelectItem>
+    <SelectItem Value=""2"">Two</SelectItem>
+    <SelectItem Value=""3"">Three</SelectItem>
+    <SelectItem Value=""4"">Four</SelectItem>
+</Select>
+
+@code{
+    int selectedValue;
+}";
+
+        public const string SelectWithEventExample = @"<Select TValue=""int"" SelectedValue=""@selectedValue"" SelectedValueChanged=""@OnSelectedValueChanged"">
+    <SelectItem Value=""1"">One</SelectItem>
+    <SelectItem Value=""2"">Two</SelectItem>
+    <SelectItem Value=""3"">Three</SelectItem>
+    <SelectItem Value=""4"">Four</SelectItem>
+</Select>
+
+@code{
+    int selectedValue;
+
+    Task OnSelectedValueChanged( int value )
+    {
+        selectedValue = value;
+        Console.WriteLine( selectedValue );
+
+        return Task.CompletedTask;
+    }
+}";
+
     }
 }
