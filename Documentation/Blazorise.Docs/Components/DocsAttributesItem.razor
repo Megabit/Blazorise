@@ -1,12 +1,15 @@
 ﻿<TableRow>
     <TableRowCell>
-        @Name
+        <Code>@Name</Code>
     </TableRowCell>
     <TableRowCell>
         <Code Tag="@TypeTag">@Type</Code>
     </TableRowCell>
     <TableRowCell>
-        @Default
+        @if ( Default != null )
+        {
+            <Code>@Default</Code>
+        }
     </TableRowCell>
     <TableRowCell>
         @ChildContent
