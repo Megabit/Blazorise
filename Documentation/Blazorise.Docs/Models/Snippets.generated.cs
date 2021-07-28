@@ -455,5 +455,13 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string AnchorLinkExample = @"<Link To=""#"">
+    Link
+</Link>";
+
+        public const string BasicLinkExample = @"<Link To=""docs"">
+    Link
+</Link>";
+
     }
 }
