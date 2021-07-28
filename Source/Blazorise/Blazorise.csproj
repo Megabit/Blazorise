@@ -34,15 +34,15 @@
 	</ItemGroup>
 
 	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-		<Exec Command="dotnet tool restore --tool-manifest ..\..\.config\dotnet-tools.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet tool  restore --tool-manifest ../../.config/dotnet-tools.json" StandardOutputImportance="high" />
 	</Target>
 
 	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
-		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ..\..\webcompilerconfiguration.json" StandardOutputImportance="high" />
-		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ..\..\webcompilerconfiguration.min.json" StandardOutputImportance="high" />
-		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ..\..\webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
-		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.js -c ..\..\webcompilerconfiguration.min.json" StandardOutputImportance="high" />
-		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.js -c ..\..\webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../webcompilerconfiguration.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../webcompilerconfiguration.min.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.js -c ../../webcompilerconfiguration.min.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.js -c ../../webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
 	</Target>
 
 	<ItemGroup>
