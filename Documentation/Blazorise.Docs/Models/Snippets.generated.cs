@@ -507,5 +507,17 @@ namespace Blazorise.Docs.Models
 
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
 
+        public const string BasicPageProgressExample = @"<PageProgress Visible=""true"" Value=""25"" />";
+
+        public const string BasicProgressExample = @"<Progress Value=""25"" />";
+
+        public const string IndeterminatePageProgressExample = @"<PageProgress Visible=""true"" />";
+
+        public const string MultipleProgressExample = @"<Progress>
+    <ProgressBar Value=""15"" />
+    <ProgressBar Color=""Color.Success"" Value=""30"" />
+    <ProgressBar Color=""Color.Info"" Value=""20"" />
+</Progress>";
+
     }
 }
