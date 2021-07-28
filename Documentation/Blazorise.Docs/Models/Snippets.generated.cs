@@ -258,5 +258,13 @@ namespace Blazorise.Docs.Models
     DatePicker<DateTime?> datePicker;
 }";
 
+        public const string DashedDividerExample = @"<Divider DividerType=""DividerType.Dashed"" />";
+
+        public const string DottedDividerExample = @"<Divider DividerType=""DividerType.Dotted"" />";
+
+        public const string SolidDividerExample = @"<Divider />";
+
+        public const string TextContentDividerExample = @"<Divider DividerType=""DividerType.TextContent"" Text=""Hello Blazorise"" />";
+
     }
 }
