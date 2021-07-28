@@ -1,0 +1,11 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddBlazorise( options =>
+    {
+      options.DelayTextOnKeyPress = true;
+      options.DelayTextOnKeyPressInterval = 300;
+    } );
+}

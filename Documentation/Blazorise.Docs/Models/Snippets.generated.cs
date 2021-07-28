@@ -643,5 +643,69 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicTextEditExample = @"<TextEdit />";
+
+        public const string TextEditDisabledExample = @"<TextEdit Disabled />";
+
+        public const string TextEditMaskExample = @"<TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />";
+
+        public const string TextEditPatternExample = @"<Validation UsePattern=""true"">
+    <TextEdit Pattern=""[A-Za-z]{3}"">
+        <Feedback>
+            <ValidationError>Pattern does not match!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>";
+
+        public const string TextEditPlaceholderExample = @"<TextEdit Placeholder=""Some text value..."" />";
+
+        public const string TextEditPlaintextExample = @"<TextEdit Plaintext />";
+
+        public const string TextEditReadonlyExample = @"<TextEdit ReadOnly />";
+
+        public const string TextEditRoleExample = @"<TextEdit Role=""TextRole.Email"" />
+<TextEdit Role=""TextRole.Password"" />";
+
+        public const string TextEditSizingExample = @"<TextEdit Size=""Size.Small"" />
+<TextEdit Size=""Size.Large"" />";
+
+        public const string TextEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddBlazorise( options =>
+    {
+      options.ChangeTextOnKeyPress = false;
+    } );
+}";
+
+        public const string TextEditTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddBlazorise( options =>
+    {
+      options.DelayTextOnKeyPress = true;
+      options.DelayTextOnKeyPressInterval = 300;
+    } );
+}";
+
+        public const string TextEditWithBindExample = @"<TextEdit @bind-Text=""@name"" />
+
+@code{
+    string name;
+}";
+
+        public const string TextEditWithEventExample = @"<TextEdit Text=""@name"" TextChanged=""@OnNameChanged"" />
+
+@code{
+    string name;
+
+    Task OnNameChanged( string value )
+    {
+        name = value;
+
+        return Task.CompletedTask;
+    }
+}";
+
     }
 }
