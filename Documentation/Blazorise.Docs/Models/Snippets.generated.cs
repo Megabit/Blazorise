@@ -503,5 +503,9 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
+
+        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
+
     }
 }
