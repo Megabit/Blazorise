@@ -1,4 +1,11 @@
-﻿<Table>
+﻿@if ( Title != null )
+{
+    <Heading Class="docs-page-attributes-title" Size="HeadingSize.Is3">
+        @Title
+    </Heading>
+}
+
+<Table>
     <TableHeader ThemeContrast="ThemeContrast.Light">
         <TableRow>
             <TableHeaderCell>Name</TableHeaderCell>

@@ -266,5 +266,48 @@ namespace Blazorise.Docs.Models
 
         public const string TextContentDividerExample = @"<Divider DividerType=""DividerType.TextContent"" Text=""Hello Blazorise"" />";
 
+        public const string BasicFieldExample = @"<Field>
+    <TextEdit Placeholder=""Name"" />
+</Field>";
+
+        public const string BasicFieldsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop"">
+        <FieldLabel>City</FieldLabel>
+        <TextEdit />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>State</FieldLabel>
+        <Select TValue=""string"">
+        </Select>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is2.OnDesktop"">
+        <FieldLabel>Zip</FieldLabel>
+        <TextEdit />
+    </Field>
+</Fields>";
+
+        public const string FieldHiddenExample = @"<Field Visibility=""Visibility.Invisible"">
+    <TextEdit />
+</Field>";
+
+        public const string FieldWithHelpExample = @"<Field>
+    <FieldLabel>Email address</FieldLabel>
+    <TextEdit Placeholder=""Enter email"">
+        <FieldHelp>Please enter a valid email address</FieldHelp>
+    </TextEdit>
+</Field>";
+
+        public const string FieldWithLabelExample = @"<Field>
+    <FieldLabel>Email address</FieldLabel>
+    <TextEdit Placeholder=""Enter email"" />
+</Field>";
+
+        public const string HorizontalFieldExample = @"<Field Horizontal=""true"">
+    <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is10"">
+        <TextEdit Placeholder=""Some text value..."" />
+    </FieldBody>
+</Field>";
+
     }
 }
