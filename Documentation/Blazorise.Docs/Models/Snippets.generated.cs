@@ -223,6 +223,8 @@ namespace Blazorise.Docs.Models
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
+        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" />";
+
         public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
         public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
@@ -240,6 +242,20 @@ namespace Blazorise.Docs.Models
     {
         selectedDate = date;
     }
+}";
+
+        public const string DatePickerWithIconExample = @"<Addons>
+    <Addon AddonType=""AddonType.Body"">
+        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" />
+    </Addon>
+    <Addon AddonType=""AddonType.End"">
+        <Button Color=""Color.Light"" Clicked=""@(()=>datePicker.ToggleAsync())"">
+            <Icon Name=""IconName.CalendarDay"" />
+        </Button>
+    </Addon>
+</Addons>
+@code{
+    DatePicker<DateTime?> datePicker;
 }";
 
     }
