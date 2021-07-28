@@ -1,4 +1,10 @@
-﻿.top-bar {
+﻿body {
+    color: #3d4144;
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+    line-height: 1.5;
+}
+
+.top-bar {
     height: 88px;
 
     .nav-link.top-bar-brand-link {
