@@ -309,5 +309,151 @@ namespace Blazorise.Docs.Models
     </FieldBody>
 </Field>";
 
+        public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
+<FileEdit Filter=""image/*"" />
+
+<!-- Accept specific image formats by IANA type -->
+<FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+
+<!-- Accept specific image formats by extension -->
+<FileEdit Filter="".jpg, .png, .gif"" />";
+
+        public const string MultipleFileEditExample = @"<FileEdit Changed=""@OnChanged"" Multiple=""true"" />
+@code{
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string OpenReadStreamFileEditExample = @"@using System.IO
+
+<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+
+@code{
+    string fileContent;
+
+    const int OneMb = 1024 * 1024;
+
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            var file = e.Files.FirstOrDefault();
+            if ( file == null )
+            {
+                return;
+            }
+
+            var buffer = new byte[OneMb];
+            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            {
+                int readCount = 0;
+                int readBytes;
+                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
+                {
+                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
+                    // Do work on the first 1MB of data
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
+    }
+}";
+
+        public const string ResetFileEditExample = @"<FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
+@code{
+    FileEdit fileEdit;
+
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+
+    Task OnSomeButtonClick()
+    {
+        return fileEdit.Reset().AsTask();
+    }
+}";
+
+        public const string SingleFileEditExample = @"<FileEdit Changed=""@OnChanged"" />
+@code{
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string WriteToStreamFileEditExample = @"@using System.IO
+
+<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+
+@code{
+    string fileContent;
+
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                // A stream is going to be the destination stream we're writing to.
+                using ( var stream = new MemoryStream() )
+                {
+                    // Here we're telling the FileEdit where to write the upload result
+                    await file.WriteToStreamAsync( stream );
+
+                    // Once we reach this line it means the file is fully uploaded.
+                    // In this case we're going to offset to the beginning of file
+                    // so we can read it.
+                    stream.Seek( 0, SeekOrigin.Begin );
+
+                    // Use the stream reader to read the content of uploaded file,
+                    // in this case we can assume it is a textual file.
+                    using ( var reader = new StreamReader( stream ) )
+                    {
+                        fileContent = await reader.ReadToEndAsync();
+                    }
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
+    }
+}";
+
     }
 }
