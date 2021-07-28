@@ -620,5 +620,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
+
     }
 }
