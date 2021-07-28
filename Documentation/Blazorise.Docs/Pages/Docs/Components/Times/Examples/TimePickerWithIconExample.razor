@@ -1,0 +1,15 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Addons>
+    <Addon AddonType="AddonType.Body">
+        <TimePicker @ref="@timePicker" TValue="TimeSpan?" />
+    </Addon>
+    <Addon AddonType="AddonType.End">
+        <Button Color="Color.Light" Clicked="@(()=>timePicker.ToggleAsync())">
+            <Icon Name="IconName.CalendarDay" />
+        </Button>
+    </Addon>
+</Addons>
+@code{
+    TimePicker<TimeSpan?> timePicker;
+}

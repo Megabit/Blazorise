@@ -709,6 +709,8 @@ namespace Blazorise.Docs.Models
 
         public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
+        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
@@ -726,6 +728,20 @@ namespace Blazorise.Docs.Models
 
         return Task.CompletedTask;
     }
+}";
+
+        public const string TimePickerWithIconExample = @"<Addons>
+    <Addon AddonType=""AddonType.Body"">
+        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" />
+    </Addon>
+    <Addon AddonType=""AddonType.End"">
+        <Button Color=""Color.Light"" Clicked=""@(()=>timePicker.ToggleAsync())"">
+            <Icon Name=""IconName.CalendarDay"" />
+        </Button>
+    </Addon>
+</Addons>
+@code{
+    TimePicker<TimeSpan?> timePicker;
 }";
 
     }
