@@ -221,5 +221,26 @@ namespace Blazorise.Docs.Models
 
         public const string BasicColorExample = @"<ColorEdit Color=""#ff0000"" />";
 
+        public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
+
+        public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
+
+        public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
+
+@code{
+    DateTime? selectedDate;
+}";
+
+        public const string DateEditWithEventExample = @"<DateEdit TValue=""DateTime?"" Date=""@selectedDate"" DateChanged=""@OnDateChanged"" />
+
+@code{
+    DateTime? selectedDate;
+
+    void OnDateChanged( DateTime? date )
+    {
+        selectedDate = date;
+    }
+}";
+
     }
 }
