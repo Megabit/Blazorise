@@ -59,7 +59,7 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Usage
+    Binding
 </DocsPageSubtitle>
 
 <DocsPageSection>
@@ -105,5 +105,26 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Color" Type="Color" Default="Secondary">
         Defines the color or radio buttons(only when <Code>Buttons</Code> is true).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Radio">
+    <DocsAttributesItem Name="TValue" Type="generic">
+        Data type of <Code>Checked</Code> value. Support types are <Code>bool</Code> and <Code>bool?</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Checked" Type="TValue" Default="default">
+        Gets or sets the checked value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CheckedChanged" Type="@("EventCallback<TValue>")">
+        Occurs when the checked value is changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Group" Type="string" Default="null">
+        Defines the radio group name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
+        Group radios on the same horizontal row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
+        Defines the mouse cursor based on the behavior by the current CSS framework.
     </DocsAttributesItem>
 </DocsAttributes>
