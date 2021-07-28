@@ -519,5 +519,51 @@ namespace Blazorise.Docs.Models
     <ProgressBar Color=""Color.Info"" Value=""20"" />
 </Progress>";
 
+        public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
+    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
+    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
+    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+</RadioGroup>";
+
+        public const string RadioGroupButtonsExample = @"<RadioGroup TValue=""string"" Name=""colors"" Buttons=""true"">
+    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
+    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
+    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+</RadioGroup>";
+
+        public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-CheckedValue=""@checkedValue"">
+    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
+    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
+    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+</RadioGroup>
+
+@code{
+    string checkedValue = ""green"";
+}";
+
+        public const string RadioGroupWithEventExample = @"<RadioGroup TValue=""string""
+            Name=""colors""
+            CheckedValue=""@checkedValue""
+            CheckedValueChanged=""@OnCheckedValueChanged"">
+    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
+    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
+    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+</RadioGroup>
+
+@code{
+    string checkedValue = ""green"";
+
+    Task OnCheckedValueChanged( string value )
+    {
+        checkedValue = value;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string StandaloneRadioExample = @"<Radio TValue=""string"" Group=""colors"" Value=""@(""red"")"">Red</Radio>
+<Radio TValue=""string"" Group=""colors"" Value=""@(""green"")"">Green</Radio>
+<Radio TValue=""string"" Group=""colors"" Value=""@(""blue"")"">Blue</Radio>";
+
     }
 }
