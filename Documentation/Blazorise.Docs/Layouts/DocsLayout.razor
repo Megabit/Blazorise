@@ -22,7 +22,7 @@
                             </BarLink>
                         </BarItem>
                         <BarItem>
-                            <BarDropdown>
+                            <BarDropdown @bind-Visible="@sideBarFormMenuVisible">
                                 <BarDropdownToggle>
                                     <BarIcon IconName="IconName.Wrench" />
                                     UI Elements
@@ -54,6 +54,9 @@
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/link">
                                         Link
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/memo">
+                                        Memo
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/button">
                                         Button

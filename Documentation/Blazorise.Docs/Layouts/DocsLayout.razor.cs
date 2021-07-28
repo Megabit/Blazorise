@@ -14,6 +14,8 @@ namespace Blazorise.Docs.Layouts
 
         private bool topBarVisible;
 
+        private bool sideBarFormMenuVisible = true;
+
         #endregion
     }
 }

@@ -463,5 +463,45 @@ namespace Blazorise.Docs.Models
     Link
 </Link>";
 
+        public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
+
+        public const string MemoEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddBlazorise( options =>
+    {
+      options.ChangeTextOnKeyPress = false;
+    } );
+}";
+
+        public const string MemoEditTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddBlazorise( options =>
+    {
+      options.DelayTextOnKeyPress = true;
+      options.DelayTextOnKeyPressInterval = 300;
+    } );
+}";
+
+        public const string MemoEditWithBindExample = @"<MemoEdit @bind-Text=""@description"" />
+
+@code{
+    string description;
+}";
+
+        public const string MemoEditWithEventExample = @"<MemoEdit Text=""@description"" TextChanged=""@OnDescriptionChanged"" />
+
+@code{
+    string description;
+
+    Task OnDescriptionChanged( string value )
+    {
+        description = value;
+
+        return Task.CompletedTask;
+    }
+}";
+
     }
 }
