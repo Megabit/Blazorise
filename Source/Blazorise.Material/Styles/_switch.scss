@@ -83,7 +83,7 @@
             &::after {
                 height: calc(#{$height} - 4px);
                 width: calc(#{$height} - 4px);
-                left: -calc(#{$width} - 4px);
+                left: calc(#{$width} - 4px);
                 border-radius: 50%;
                 box-shadow: $handle-shadow;
                 border-radius: calc(#{$width} - (#{$height} / 2));

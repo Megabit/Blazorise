@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
@@ -19,4 +15,19 @@
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
+		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+	</Target>
+
+	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.antdesign.scss -c ..\..\webcompilerconfiguration.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.antdesign.scss -c ..\..\webcompilerconfiguration.min.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.antdesign.scss -c ..\..\webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.antdesign.js -c ..\..\webcompilerconfiguration.min.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.antdesign.js -c ..\..\webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
+	</Target>
+
+	<ItemGroup>
+		<Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
+	</ItemGroup>
 </Project>

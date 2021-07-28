@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
@@ -18,5 +14,16 @@
     <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
+	
+	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ..\..\webcompilerconfiguration.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ..\..\webcompilerconfiguration.min.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ..\..\webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.bulma.js -c ..\..\webcompilerconfiguration.min.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r wwwroot/blazorise.bulma.js -c ..\..\webcompilerconfiguration.gzip.json" StandardOutputImportance="high" />
+	</Target>
 
+	<ItemGroup>
+		<Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
+	</ItemGroup>
 </Project>
