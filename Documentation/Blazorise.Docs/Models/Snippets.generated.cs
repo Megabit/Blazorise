@@ -707,5 +707,26 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
+
+        public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
+
+@code{
+    TimeSpan? selectedTime;
+}";
+
+        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Time=""@selectedTime"" TimeChanged=""@OnTimeChanged"" />
+
+@code{
+    TimeSpan? selectedTime;
+
+    Task OnTimeChanged( TimeSpan? Time )
+    {
+        selectedTime = Time;
+
+        return Task.CompletedTask;
+    }
+}";
+
     }
 }
