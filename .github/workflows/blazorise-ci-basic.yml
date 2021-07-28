@@ -23,6 +23,9 @@ jobs:
 
     - name: Restore NuGet Packages
       run: dotnet restore
+
+    - name: Install Tools
+      run: dotnet tool restore
       
     - name: Build - Release
       run: dotnet build --configuration Release --no-restore
