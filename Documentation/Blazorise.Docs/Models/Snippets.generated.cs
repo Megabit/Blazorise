@@ -622,5 +622,26 @@ namespace Blazorise.Docs.Models
 
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
 
+        public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
+
+        public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Checked=""@rememberMe"">Remember Me</Switch>
+
+@code{
+    bool rememberMe;
+}";
+
+        public const string SwitchWithEventExample = @"<Switch TValue=""bool"" Checked=""@rememberMe"" CheckedChanged=""@OnRememberMeChanged"">Remember Me</Switch>
+
+@code{
+    bool rememberMe;
+
+    Task OnRememberMeChanged( bool value )
+    {
+        rememberMe = value;
+
+        return Task.CompletedTask;
+    }
+}";
+
     }
 }
