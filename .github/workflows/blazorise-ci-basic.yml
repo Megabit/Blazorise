@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore
 
     - name: Install Tools
-      run: 
+      run: |
        dotnet new tool-manifest
        dotnet tool install Excubo.WebCompiler
        dotnet tool restore
