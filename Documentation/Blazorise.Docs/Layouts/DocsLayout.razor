@@ -25,7 +25,7 @@
                             <BarDropdown @bind-Visible="@sideBarFormMenuVisible">
                                 <BarDropdownToggle>
                                     <BarIcon IconName="IconName.Wrench" />
-                                    UI Elements
+                                    Form
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/components/addon">
@@ -87,6 +87,19 @@
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/validation">
                                         Validation
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Wrench" />
+                                    Components
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/components/accordion">
+                                        Accordion
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/button">
                                         Button
