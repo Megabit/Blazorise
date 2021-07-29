@@ -94,6 +94,79 @@ namespace Blazorise.Docs.Models
     </Addon>
 </Addons>";
 
+        public const string AlertUseProgrammaticallyExample = @"<Alert @ref=""myAlert"" Color=""Color.Success"">
+    <AlertMessage>
+        Alert test.
+    </AlertMessage>
+</Alert>
+
+<Button Clicked=""@OnButtonClick"" Color=""Color.Primary"">Show alert</Button>
+
+@code{
+    Alert myAlert;
+
+    Task OnButtonClick()
+    {
+        myAlert.Show();
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string AlertUseWithBindExample = @"<Alert Color=""Color.Success"" @bind-Visible=""@visible"">
+    <AlertMessage>
+        Alert test.
+    </AlertMessage>
+</Alert>
+
+<Button Clicked=""@OnButtonClick"" Color=""Color.Primary"">Toggle alert</Button>
+
+@code {
+    bool visible = true;
+
+    Task OnButtonClick()
+    {
+        visible = !visible;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string AlertWithContentExample = @"<Alert Color=""Color.Info"" @bind-Visible=""@visible"">
+    <Heading Size=""HeadingSize.Is4"" TextColor=""TextColor.Success"">
+        Big one!
+        <CloseButton />
+    </Heading>
+    <Paragraph>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+    </Paragraph>
+    <Paragraph>
+        <Button Color=""Color.Info"">Wanna do this</Button>
+        <Button Color=""Color.Light"">Or do this</Button>
+    </Paragraph>
+</Alert>
+@code {
+    bool visible = true;
+}";
+
+        public const string BasicAlertExample = @"<Alert Color=""Color.Success"" Visible>
+    <AlertMessage>Well done!</AlertMessage>
+    <AlertDescription>You successfully read this important alert message.</AlertDescription>
+</Alert>";
+
+        public const string CloseAlertExample = @"<Alert Color=""Color.Success"" @bind-Visible=""@visible"">
+    <AlertDescription>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </AlertDescription>
+    <AlertMessage>
+        Alert Link.
+    </AlertMessage>
+    <CloseButton />
+</Alert>
+@code {
+    bool visible = true;
+}";
+
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
 <Button Color=""Color.Secondary"" Active>Secondary</Button>";
 
