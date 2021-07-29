@@ -1,0 +1,84 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.ComponentModel.DataAnnotations
+
+<Validations Mode="ValidationMode.Auto" Model="@user">
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
+                <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
+                <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
+                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
+                <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+</Validations>
+@code{
+    User user = new User();
+
+    public class User
+    {
+        [Required]
+        [StringLength( 10, ErrorMessage = "Name is too long." )]
+        public string Name { get; set; }
+
+        [Required]
+        [EmailAddress( ErrorMessage = "Invalid email." )]
+        public string Email { get; set; }
+
+        [Required( ErrorMessage = "Password is required" )]
+        [StringLength( 8, ErrorMessage = "Must be between 5 and 8 characters", MinimumLength = 5 )]
+        [DataType( DataType.Password )]
+        public string Password { get; set; }
+
+        [Required( ErrorMessage = "Confirm Password is required" )]
+        [StringLength( 8, ErrorMessage = "Must be between 5 and 8 characters", MinimumLength = 5 )]
+        [DataType( DataType.Password )]
+        [Compare( "Password" )]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
+        [Range( typeof( bool ), "true", "true", ErrorMessage = "You gotta tick the box!" )]
+        public bool TermsAndConditions { get; set; }
+    }
+}

@@ -1,8 +1,10 @@
 ﻿<div class="docs-page-section-header">
-    <Heading Size="HeadingSize.Is3">
-        @Title
-    </Heading>
-
+    @if ( Title != null )
+    {
+        <Heading Size="HeadingSize.Is3">
+            @Title
+        </Heading>
+    }
     @ChildContent
 </div>
 

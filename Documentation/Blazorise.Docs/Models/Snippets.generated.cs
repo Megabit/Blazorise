@@ -744,5 +744,211 @@ namespace Blazorise.Docs.Models
     TimePicker<TimeSpan?> timePicker;
 }";
 
+        public const string AsyncValidationExample = @"@using System.Threading
+
+<Validation AsyncValidator=""@ValidateNameAsync"">
+    <TextEdit Placeholder=""Enter name"">
+        <Feedback>
+            <ValidationError>Enter valid name!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+@code{
+    Random random = new Random();
+
+    async Task ValidateNameAsync( ValidatorEventArgs e, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        // some long running task or call to the rest API
+        await Task.Delay( random.Next( 600 ) );
+
+        e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+    }
+}";
+
+        public const string AutoValidationExample = @"<Validations Mode=""ValidationMode.Auto"" ValidateOnLoad=""true"">
+    ...
+</Validations>";
+
+        public const string BasicValidationExample = @"<Validation Validator=""@ValidateEmail"">
+    <TextEdit Placeholder=""Enter email"">
+        <Feedback>
+            <ValidationNone>Please enter the email.</ValidationNone>
+            <ValidationSuccess>Email is good.</ValidationSuccess>
+            <ValidationError>Enter valid email!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+@code{
+    void ValidateEmail( ValidatorEventArgs e )
+    {
+        var email = Convert.ToString( e.Value );
+
+        e.Status = string.IsNullOrEmpty( email ) ? ValidationStatus.None :
+            email.Contains( ""@"" ) ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+}";
+
+        public const string DataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
+
+<Validations Mode=""ValidationMode.Auto"" Model=""@user"">
+    <Validation>
+        <Field Horizontal=""true"">
+            <FieldLabel ColumnSize=""ColumnSize.Is2"">Full Name</FieldLabel>
+            <FieldBody ColumnSize=""ColumnSize.Is10"">
+                <TextEdit Placeholder=""First and last name"" @bind-Text=""@user.Name"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal=""true"">
+            <FieldLabel ColumnSize=""ColumnSize.Is2"">Email</FieldLabel>
+            <FieldBody ColumnSize=""ColumnSize.Is10"">
+                <TextEdit Placeholder=""Enter email"" @bind-Text=""@user.Email"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal=""true"">
+            <FieldLabel ColumnSize=""ColumnSize.Is2"">Password</FieldLabel>
+            <FieldBody ColumnSize=""ColumnSize.Is10"">
+                <TextEdit Role=""TextRole.Password"" Placeholder=""Password"" @bind-Text=""@user.Password"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal=""true"">
+            <FieldLabel ColumnSize=""ColumnSize.Is2"">Re Password</FieldLabel>
+            <FieldBody ColumnSize=""ColumnSize.Is10"">
+                <TextEdit Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Text=""@user.ConfirmPassword"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+</Validations>
+@code{
+    User user = new User();
+
+    public class User
+    {
+        [Required]
+        [StringLength( 10, ErrorMessage = ""Name is too long."" )]
+        public string Name { get; set; }
+
+        [Required]
+        [EmailAddress( ErrorMessage = ""Invalid email."" )]
+        public string Email { get; set; }
+
+        [Required( ErrorMessage = ""Password is required"" )]
+        [StringLength( 8, ErrorMessage = ""Must be between 5 and 8 characters"", MinimumLength = 5 )]
+        [DataType( DataType.Password )]
+        public string Password { get; set; }
+
+        [Required( ErrorMessage = ""Confirm Password is required"" )]
+        [StringLength( 8, ErrorMessage = ""Must be between 5 and 8 characters"", MinimumLength = 5 )]
+        [DataType( DataType.Password )]
+        [Compare( ""Password"" )]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
+        [Range( typeof( bool ), ""true"", ""true"", ErrorMessage = ""You gotta tick the box!"" )]
+        public bool TermsAndConditions { get; set; }
+    }
+}";
+
+        public const string LocalizationValidationExample = @"@using Blazorise.Localization
+
+<Validation MessageLocalizer=""@Localize"">
+</Validation>
+@code{
+    [Inject] ITextLocalizer<LocalizationValidationExample> L { get; set; }
+
+    string Localize( string message, IEnumerable<string> arguments )
+    {
+        // You should probably do null checks here!
+        return string.Format( L[message], arguments.ToArray() );
+    }
+}";
+
+        public const string ManualValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidationRule.IsNotEmpty"">
+        <Field>
+            <TextEdit Placeholder=""Enter first name"" />
+        </Field>
+    </Validation>
+    <Validation Validator=""@ValidationRule.IsNotEmpty"">
+        <Field>
+            <TextEdit Placeholder=""Enter last name"" />
+        </Field>
+    </Validation>
+    <Button Color=""Color.Primary"" Clicked=""@Submit"">Submit</Button>
+</Validations>
+@code{
+    Validations validations;
+
+    void Submit()
+    {
+        if ( validations.ValidateAll() )
+        {
+            // do something
+        }
+    }
+}";
+
+        public const string PatternValidationExample = @"<Validation UsePattern=""true"">
+    <TextEdit Pattern=""[A-Za-z]{3}"">
+        <Feedback>
+            <ValidationError>Pattern does not match!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>";
+
+        public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateCheck"">
+    <Check TValue=""bool"">
+        <ChildContent>
+            Check me out
+        </ChildContent>
+        <Feedback>
+            <ValidationError>You must check me out!</ValidationError>
+        </Feedback>
+    </Check>
+</Validation>
+@code{
+    void ValidateCheck( ValidatorEventArgs e )
+    {
+        // ...
+    }
+}";
+
+        public const string ValidationRulesExample = @"<Validation Validator=""@ValidationRule.IsNotEmpty"">
+    ...
+</Validation>";
+
+        public const string ValidationSummaryExample = @"<Validations Mode=""ValidationMode.Manual"">
+    <ValidationSummary Label=""Following error occurs..."" />
+
+    @*other validation fields*@
+</Validations>";
+
     }
 }
