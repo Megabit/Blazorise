@@ -9,13 +9,13 @@
     "Clear Filter": "Vyčistiť filter",
     "First": "Prvá",
     "Last": "Posledná",
-    "Prev": "Predchadzajúca",
+    "Prev": "Predchádzajúca",
     "Next": "Nasledujúca",
-    "items": "položky",
-    "items per page": "položiek na stránku",
+    "items": "položky/iek",
+    "items per page": "položky/iek na stránku",
     "{0} - {1} of {2} items": "{0} - {1} z {2} položiek",
-    "Row Edit": "Úprava riadku",
-    "Row Create": "Vytvorenie riadku",
+    "Row Edit": "Úpraviť riadok",
+    "Row Create": "Vytvoriť riadok",
     "Create": "Vytvoriť"
   }
 }
