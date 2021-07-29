@@ -167,6 +167,19 @@ namespace Blazorise.Docs.Models
     bool visible = true;
 }";
 
+        public const string BadgeColorsExample = @"<Badge Color=""Color.Primary"">Primary</Badge>
+<Badge Color=""Color.Secondary"">Secondary</Badge>
+<Badge Color=""Color.Success"">Success</Badge>
+<Badge Color=""Color.Danger"">Danger</Badge>
+<Badge Color=""Color.Warning"">Warning</Badge>
+<Badge Color=""Color.Info"">Info</Badge>
+<Badge Color=""Color.Light"">Light</Badge>
+<Badge Color=""Color.Dark"">Dark</Badge>";
+
+        public const string BasicBadgeExample = @"<Badge Color=""Color.Primary"">Hello</Badge>";
+
+        public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
+
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
 <Button Color=""Color.Secondary"" Active>Secondary</Button>";
 
