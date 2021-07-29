@@ -1,0 +1,21 @@
+{
+  "culture": "sk",
+  "translations": {
+    "New": "Nový",
+    "Edit": "Upraviť",
+    "Delete": "Zmazať",
+    "Save": "Uložiť",
+    "Cancel": "Zrušiť",
+    "Clear Filter": "Vyčistiť filter",
+    "First": "Prvá",
+    "Last": "Posledná",
+    "Prev": "Predchadzajúca",
+    "Next": "Nasledujúca",
+    "items": "položky",
+    "items per page": "položiek na stránku",
+    "{0} - {1} of {2} items": "{0} - {1} z {2} položiek",
+    "Row Edit": "Úprava riadku",
+    "Row Create": "Vytvorenie riadku",
+    "Create": "Vytvoriť"
+  }
+}
