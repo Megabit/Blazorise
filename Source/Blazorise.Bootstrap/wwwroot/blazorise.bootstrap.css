@@ -95,6 +95,9 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll; }
 
+.snackbar {
+    z-index: 1060 !important; }
+
 .figure-is-16x16 {
     height: 16px;
     width: 16px; }
