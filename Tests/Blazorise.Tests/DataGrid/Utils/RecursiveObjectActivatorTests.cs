@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using Blazorise.DataGrid.Utils;
 using Xunit;
 
-namespace Blazorise.Tests.DataGrid.Reflection
+namespace Blazorise.Tests.DataGrid.Utils
 {
-    public class InitObjectTests
+    public class RecursiveObjectActivatorTests
     {
         [Fact]
         public void InitObject_WithComplexObject_Returns_FullyInstancedObject()
         {
             // Act
-            var result = Blazorise.DataGrid.Utils.Reflection.InitObject<Test>();
+            var result = RecursiveObjectActivator.CreateInstance<Test>();
 
             // Assert
             Assert.NotNull( result );
@@ -74,12 +75,10 @@ namespace Blazorise.Tests.DataGrid.Reflection
             protected NestedTest ProtectedNestedTest { get; set; }
 
             internal NestedTest InternalNestedTest { get; set; }
-
         }
 
         private class NestedTest
         {
-
             public FurtherNestedTest FurtherNestedTest { get; set; }
             public FurtherNestedTest AnotherFurtherNestedTest { get; set; }
 
@@ -89,8 +88,6 @@ namespace Blazorise.Tests.DataGrid.Reflection
 
             public int? SomeNullableValueType { get; set; }
             public List<NestedTest> List { get; set; }
-
-
         }
 
         private class FurtherNestedTest
@@ -103,6 +100,5 @@ namespace Blazorise.Tests.DataGrid.Reflection
 
             public List<NestedTest> List { get; set; }
         }
-
     }
 }

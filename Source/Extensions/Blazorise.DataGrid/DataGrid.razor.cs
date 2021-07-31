@@ -633,7 +633,7 @@ namespace Blazorise.DataGrid
             editItem = item;
             editItemCellValues = new();
 
-            validationItem = Reflection.InitObject<TItem>();
+            validationItem = RecursiveObjectActivator .CreateInstance<TItem>();
 
             foreach ( var column in EditableColumns )
             {

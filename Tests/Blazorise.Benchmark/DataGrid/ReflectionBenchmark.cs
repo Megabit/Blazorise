@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using BenchmarkDotNet.Attributes;
 using Blazorise.DataGrid.Utils;
-using Blazorise.Utilities;
 
 namespace Blazorise.Benchmark.DataGrid
 {
@@ -13,7 +10,7 @@ namespace Blazorise.Benchmark.DataGrid
     {
         [Benchmark]
         public Test InitObject_WithComplexObject_Returns_FullyInstancedObject()
-            => Reflection.InitObject<Test>();
+            => RecursiveObjectActivator.CreateInstance<Test>();
 
         [Benchmark]
         public Test InitObject_Standard()
@@ -37,12 +34,10 @@ namespace Blazorise.Benchmark.DataGrid
             protected NestedTest ProtectedNestedTest { get; set; }
 
             internal NestedTest InternalNestedTest { get; set; }
-
         }
 
         public class NestedTest
         {
-
             public FurtherNestedTest FurtherNestedTest { get; set; }
             public FurtherNestedTest AnotherFurtherNestedTest { get; set; }
 
@@ -52,8 +47,6 @@ namespace Blazorise.Benchmark.DataGrid
 
             public int? SomeNullableValueType { get; set; }
             public List<NestedTest> List { get; set; }
-
-
         }
 
         public class FurtherNestedTest
@@ -66,6 +59,5 @@ namespace Blazorise.Benchmark.DataGrid
 
             public List<NestedTest> List { get; set; }
         }
-
     }
 }
