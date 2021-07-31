@@ -36,6 +36,7 @@ namespace Blazorise.Tests.Components
             Assert.NotNull( comp.Find( "#basic-button-event-result" ) );
         }
 
+
         [Fact]
         public void CanRaiseCallback()
         {

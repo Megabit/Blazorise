@@ -6,7 +6,7 @@ namespace Blazorise.Tests
 {
     public class SizingTest
     {
-        private IClassProvider classProvider;
+        IClassProvider classProvider;
 
         public SizingTest()
         {

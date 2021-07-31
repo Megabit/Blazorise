@@ -12,7 +12,7 @@ namespace Blazorise.Benchmark
 {
     public class Program
     {
-        private static void Main( string[] args )
+        static void Main( string[] args )
         {
             //_ = BenchmarkRunner.Run<SequenceEquals>();
             _ = BenchmarkRunner.Run<ReflectionBenchmark>();
@@ -22,7 +22,6 @@ namespace Blazorise.Benchmark
         {
             private List<string> simpleList1 = new() { "A", "B", "C" };
             private List<string> simpleList2 = new() { "A", "B", "C" };
-
             [Benchmark]
             public bool SequenceEqual() => simpleList1.SequenceEqual( simpleList2 );
 

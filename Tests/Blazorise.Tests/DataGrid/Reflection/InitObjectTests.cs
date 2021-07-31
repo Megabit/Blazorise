@@ -74,10 +74,12 @@ namespace Blazorise.Tests.DataGrid.Reflection
             protected NestedTest ProtectedNestedTest { get; set; }
 
             internal NestedTest InternalNestedTest { get; set; }
+
         }
 
         private class NestedTest
         {
+
             public FurtherNestedTest FurtherNestedTest { get; set; }
             public FurtherNestedTest AnotherFurtherNestedTest { get; set; }
 
@@ -87,6 +89,8 @@ namespace Blazorise.Tests.DataGrid.Reflection
 
             public int? SomeNullableValueType { get; set; }
             public List<NestedTest> List { get; set; }
+
+
         }
 
         private class FurtherNestedTest
@@ -99,5 +103,6 @@ namespace Blazorise.Tests.DataGrid.Reflection
 
             public List<NestedTest> List { get; set; }
         }
+
     }
 }

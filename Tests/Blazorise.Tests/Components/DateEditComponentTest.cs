@@ -50,7 +50,7 @@ namespace Blazorise.Tests.Components
             var dateOpen = "<input";
             var dateClose = "</input>";
             var dateType = @"type=""date""";
-            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString().Replace("+", "&#x2B;" ) + "</span>";
             var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
 
             // test
@@ -90,7 +90,7 @@ namespace Blazorise.Tests.Components
         public void SetNullableDateTime()
         {
             // setup
-            var dateOutput = @"<span id=""nullable-date-event-initially-null-result"">" + new DateTime( 1970, 5, 3 ).ToString() + "</span>";
+            var dateOutput = @"<span id=""nullable-date-event-initially-null-result"">" + new DateTime( 1970, 5, 3 ).ToString()  + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 
             // test

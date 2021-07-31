@@ -204,7 +204,7 @@ namespace Blazorise.Tests
 
         /* todo: turn tests back on after bug fixed.
          * bug: setting date outside of the min-max date range doesn't skip the set or throw an error.
-         *
+         * 
         [Fact]
         public void MinMaxRange_After()
         {

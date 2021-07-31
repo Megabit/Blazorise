@@ -19,6 +19,7 @@ namespace Blazorise.Tests.Components
             // test
 
             // validate
+
         }
     }
 }

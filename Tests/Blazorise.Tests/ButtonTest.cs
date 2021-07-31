@@ -166,7 +166,7 @@ namespace Blazorise.Tests
             Assert.False( button.Disabled );
         }
 
-        private class TestCommand : System.Windows.Input.ICommand
+        class TestCommand : System.Windows.Input.ICommand
         {
             private readonly Action<string> callback;
 
@@ -189,7 +189,7 @@ namespace Blazorise.Tests
             public void FireCanExecuteChanged() => CanExecuteChanged?.Invoke( this, EventArgs.Empty );
         }
 
-        private class TestCommandParameter
+        class TestCommandParameter
         {
             public string Message { get; set; }
         }

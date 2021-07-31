@@ -6,7 +6,7 @@ namespace Blazorise.Tests
 {
     public class FluentColumnTest
     {
-        private IClassProvider classProvider;
+        IClassProvider classProvider;
 
         public FluentColumnTest()
         {

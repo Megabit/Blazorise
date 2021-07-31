@@ -6,7 +6,7 @@ namespace Blazorise.Tests
 {
     public class FluentMarginTest
     {
-        private IClassProvider classProvider;
+        IClassProvider classProvider;
 
         public FluentMarginTest()
         {
