@@ -18,17 +18,17 @@ namespace Blazorise.Tests.Components
             // setup
             var comp = RenderComponent<NumericEditComponent>();
             var paragraph = comp.Find( "#int-event-initially-undefined" );
-            var numeric = comp.Find ( "#int-undefined-numeric" );
+            var numeric = comp.Find( "#int-undefined-numeric" );
             var result = comp.Find( "#int-event-initially-undefined-result" );
 
             Assert.Equal( "0", result.InnerHtml );
 
             // test 1
-            numeric.Input("100");
+            numeric.Input( "100" );
             Assert.Equal( "100", result.InnerHtml );
 
             // test 2
-            numeric.Input("10");
+            numeric.Input( "10" );
             Assert.Equal( "10", result.InnerHtml );
         }
 
@@ -102,7 +102,7 @@ namespace Blazorise.Tests.Components
             var result = comp.Find( "#step-change-default" );
 
             Assert.Equal( "1", result.InnerHtml );
-            
+
             numeric.KeyPress( "Keys.Up" );
             numeric.KeyPress( "Keys.Up" );
             Assert.Equal( "3", result.InnerHtml );

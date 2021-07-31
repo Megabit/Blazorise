@@ -6,7 +6,7 @@ namespace Blazorise.Tests
 {
     public class FluentDisplayTest
     {
-        IClassProvider classProvider;
+        private IClassProvider classProvider;
 
         public FluentDisplayTest()
         {

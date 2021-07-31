@@ -6,7 +6,7 @@ namespace Blazorise.Tests
 {
     public class FluentFlexTest
     {
-        IClassProvider classProvider;
+        private IClassProvider classProvider;
 
         public FluentFlexTest()
         {
@@ -93,7 +93,6 @@ namespace Blazorise.Tests
 
             Assert.Equal( expected, classname );
         }
-
 
         [Theory]
         [InlineData( "d-flex justify-content-start", FlexJustifyContent.Start )]

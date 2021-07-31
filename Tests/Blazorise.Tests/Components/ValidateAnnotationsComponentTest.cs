@@ -4,7 +4,6 @@ using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
-
 namespace Blazorise.Tests.Components
 {
     public class ValidateAnnotationsComponentTest : TestContext

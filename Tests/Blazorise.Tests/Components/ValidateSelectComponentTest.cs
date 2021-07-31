@@ -88,7 +88,6 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
         }
 
-
         [Fact]
         public void CanValidateStringWithEvent_InitiallySelected()
         {
@@ -245,6 +244,6 @@ namespace Blazorise.Tests.Components
             // test 3
             select.Change( "Oliver" );
             Assert.Contains( "custom-select", select.GetAttribute( "class" ) );
-        } 
+        }
     }
 }

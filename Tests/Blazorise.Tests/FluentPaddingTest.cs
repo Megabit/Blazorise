@@ -6,7 +6,7 @@ namespace Blazorise.Tests
 {
     public class FluentPaddingTest
     {
-        IClassProvider classProvider;
+        private IClassProvider classProvider;
 
         public FluentPaddingTest()
         {

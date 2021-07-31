@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Blazorise.Tests.DataGrid.Reflection
@@ -33,6 +33,5 @@ namespace Blazorise.Tests.DataGrid.Reflection
             Assert.False( Blazorise.DataGrid.Utils.Reflection.IsListOrCollection( valueType.GetType() ) );
             Assert.False( Blazorise.DataGrid.Utils.Reflection.IsListOrCollection( nullableValueType.GetType() ) );
         }
-
     }
 }
