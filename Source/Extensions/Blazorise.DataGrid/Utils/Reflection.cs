@@ -10,11 +10,11 @@ namespace Blazorise.DataGrid.Utils
 {
     public static class Reflection
     {
-        public static TItem InitObject<TItem>( string path = null )
+        public static TItem InitObject<TItem>()
         {
             Type objType = typeof( TItem );
             var obj = (TItem)Activator.CreateInstance( typeof( TItem ) );
-            var properties = objType.GetProperties();
+            var properties = objType.GetProperties( BindingFlags.Public | BindingFlags.Instance );
             InitPropertyIterator( obj, properties );
 
             return obj;
@@ -33,7 +33,7 @@ namespace Blazorise.DataGrid.Utils
                         instanced = Activator.CreateInstance( currType );
                         property.SetValue( currObjInstance, instanced );
                     }
-                    InitPropertyIterator( instanced, currType.GetProperties() );
+                    InitPropertyIterator( instanced, currType.GetProperties( BindingFlags.Public | BindingFlags.Instance ) );
                 }
             }
         }

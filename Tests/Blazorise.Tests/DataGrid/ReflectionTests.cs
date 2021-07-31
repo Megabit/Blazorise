@@ -52,6 +52,12 @@ namespace Blazorise.Tests.DataGrid
             public int? SomeNullableValueType { get; set; }
             public NestedTest AnotherNestedTest { get; set; }
 
+            private NestedTest PrivateNestedTest { get; set; }
+
+            protected NestedTest ProtectedNestedTest { get; set; }
+
+            internal NestedTest InternalNestedTest { get; set; }
+
         }
 
         private class NestedTest
