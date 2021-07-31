@@ -25,7 +25,7 @@ namespace Blazorise.DataGrid.Utils
             foreach ( var property in properties )
             {
                 var currType = property.PropertyType;
-                if ( !currType.IsValueType )
+                if ( !currType.IsValueType && currType != typeof( string ) )
                 {
                     var instanced = property.GetValue( currObjInstance );
                     if ( instanced is null )
