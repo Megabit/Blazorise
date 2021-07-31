@@ -1,62 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using Blazorise.DataGrid.Utils;
-using Blazorise.Utilities;
+﻿using System.Collections.Generic;
 using Xunit;
 
-namespace Blazorise.Tests.DataGrid
+namespace Blazorise.Tests.DataGrid.Reflection
 {
-    public class ReflectionTests
+    public class InitObjectTests
     {
         [Fact]
         public void InitObject_WithComplexObject_Returns_FullyInstancedObject()
         {
             // Act
-            var result = Reflection.InitObject<Test>();
+            var result = Blazorise.DataGrid.Utils.Reflection.InitObject<Test>();
 
             // Assert
             Assert.NotNull( result );
             Assert.Equal( default, result.UnusualReferenceType );
             Assert.Equal( default, result.SomeValueType );
             Assert.Equal( default, result.SomeNullableValueType );
+            Assert.Equal( default, result.List );
 
             Assert.NotNull( result.NestedTest );
             Assert.Equal( default, result.NestedTest.UnusualReferenceType );
             Assert.Equal( default, result.NestedTest.SomeValueType );
             Assert.Equal( default, result.NestedTest.SomeNullableValueType );
+            Assert.Equal( default, result.NestedTest.List );
 
             Assert.NotNull( result.NestedTest.FurtherNestedTest );
             Assert.Equal( default, result.NestedTest.FurtherNestedTest.UnusualReferenceType );
             Assert.Equal( default, result.NestedTest.FurtherNestedTest.SomeValueType );
             Assert.Equal( default, result.NestedTest.FurtherNestedTest.SomeNullableValueType );
+            Assert.Equal( default, result.NestedTest.FurtherNestedTest.List );
 
             Assert.NotNull( result.NestedTest.AnotherFurtherNestedTest );
             Assert.Equal( default, result.NestedTest.AnotherFurtherNestedTest.UnusualReferenceType );
             Assert.Equal( default, result.NestedTest.AnotherFurtherNestedTest.SomeValueType );
             Assert.Equal( default, result.NestedTest.AnotherFurtherNestedTest.SomeNullableValueType );
+            Assert.Equal( default, result.NestedTest.AnotherFurtherNestedTest.List );
 
             // Assert Copy for AnotherNestedTest
             Assert.NotNull( result.AnotherNestedTest );
             Assert.Equal( default, result.AnotherNestedTest.UnusualReferenceType );
             Assert.Equal( default, result.AnotherNestedTest.SomeValueType );
             Assert.Equal( default, result.AnotherNestedTest.SomeNullableValueType );
+            Assert.Equal( default, result.AnotherNestedTest.List );
 
             Assert.NotNull( result.AnotherNestedTest.FurtherNestedTest );
             Assert.Equal( default, result.AnotherNestedTest.FurtherNestedTest.UnusualReferenceType );
             Assert.Equal( default, result.AnotherNestedTest.FurtherNestedTest.SomeValueType );
             Assert.Equal( default, result.AnotherNestedTest.FurtherNestedTest.SomeNullableValueType );
+            Assert.Equal( default, result.AnotherNestedTest.FurtherNestedTest.List );
 
             Assert.NotNull( result.AnotherNestedTest.AnotherFurtherNestedTest );
             Assert.Equal( default, result.AnotherNestedTest.AnotherFurtherNestedTest.UnusualReferenceType );
             Assert.Equal( default, result.AnotherNestedTest.AnotherFurtherNestedTest.SomeValueType );
             Assert.Equal( default, result.AnotherNestedTest.AnotherFurtherNestedTest.SomeNullableValueType );
+            Assert.Equal( default, result.AnotherNestedTest.AnotherFurtherNestedTest.List );
         }
 
         private class Test
         {
             public NestedTest NestedTest { get; set; }
+            public NestedTest AnotherNestedTest { get; set; }
 
             public string UnusualReferenceType { get; set; }
 
@@ -64,7 +67,7 @@ namespace Blazorise.Tests.DataGrid
 
             public int? SomeNullableValueType { get; set; }
 
-            public NestedTest AnotherNestedTest { get; set; }
+            public List<NestedTest> List { get; set; }
 
             private NestedTest PrivateNestedTest { get; set; }
 
@@ -76,15 +79,18 @@ namespace Blazorise.Tests.DataGrid
 
         private class NestedTest
         {
+
             public FurtherNestedTest FurtherNestedTest { get; set; }
+            public FurtherNestedTest AnotherFurtherNestedTest { get; set; }
 
             public string UnusualReferenceType { get; set; }
 
             public int SomeValueType { get; set; }
 
             public int? SomeNullableValueType { get; set; }
+            public List<NestedTest> List { get; set; }
 
-            public FurtherNestedTest AnotherFurtherNestedTest { get; set; }
+
         }
 
         private class FurtherNestedTest
@@ -94,6 +100,8 @@ namespace Blazorise.Tests.DataGrid
             public int SomeValueType { get; set; }
 
             public int? SomeNullableValueType { get; set; }
+
+            public List<NestedTest> List { get; set; }
         }
 
     }
