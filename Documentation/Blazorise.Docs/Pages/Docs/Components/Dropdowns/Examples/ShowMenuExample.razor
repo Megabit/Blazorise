@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Dropdown @ref="dropdown">
+    <DropdownToggle />
+    <DropdownMenu>
+        <DropdownItem>Action</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>
+
+<Button Clicked="@ShowMenu">Show Menu</Button>
+@code {
+    Dropdown dropdown;
+
+    void ShowMenu()
+    {
+        dropdown.Show();
+    }
+}

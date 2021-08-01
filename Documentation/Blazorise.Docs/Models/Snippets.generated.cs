@@ -324,6 +324,21 @@ namespace Blazorise.Docs.Models
     </CardBody>
 </Card>";
 
+        public const string CarouselExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide"">
+    <CarouselSlide Name=""1"">
+        <Image Source=""_content/Blazorise.Docs/assets/images/city.jpg"" Text=""City Skyline"" Display=""Display.Block"" Style=""width: 100%;"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""2"">
+        <Image Source=""_content/Blazorise.Docs/assets/images/coffee.jpg""  Text=""Coffee"" Display=""Display.Block"" Style=""width: 100%;"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""3"">
+        <Image Source=""_content/Blazorise.Docs/assets/images/mountain.jpg""  Text=""Mountain"" Display=""Display.Block"" Style=""width: 100%;"" />
+    </CarouselSlide>
+</Carousel>
+@code{
+    private string selectedSlide = ""2"";
+}";
+
         public const string CheckExample = @"<Check TValue=""bool"">Check me out</Check>";
 
         public const string CheckWithBindExample = @"<Check TValue=""bool"" @bind-Checked=""@rememberMe"">Remember Me</Check>
@@ -340,6 +355,47 @@ namespace Blazorise.Docs.Models
     void OnRememberMeChanged( bool value )
     {
         rememberMe = value;
+    }
+}";
+
+        public const string AutoCloseExample = @"<Alert @bind-Visible=""@visible"">
+    I can be closed!
+    <CloseButton AutoClose=""true"" />
+</Alert>
+@code {
+    bool visible = true;
+}";
+
+        public const string ManualCloseExample = @"<Alert Visible=""@visible"">
+    I can be closed!
+    <CloseButton Clicked=""@OnClicked"" />
+</Alert>
+@code {
+    bool visible = true;
+
+    Task OnClicked()
+    {
+        visible = false;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string WithOtherComponentsExample = @"@if ( visible )
+{
+    <div>
+        Now you see me...
+        <CloseButton Clicked=""@OnClicked"" />
+    </div>
+}
+@code {
+    bool visible = true;
+
+    Task OnClicked()
+    {
+        visible = false;
+
+        return Task.CompletedTask;
     }
 }";
 
@@ -390,6 +446,46 @@ namespace Blazorise.Docs.Models
 
         public const string TextContentDividerExample = @"<Divider DividerType=""DividerType.TextContent"" Text=""Hello Blazorise"" />";
 
+        public const string DropdownExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"">
+        Dropdown
+    </DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem>Action</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
+        public const string ShowMenuExample = @"<Dropdown @ref=""dropdown"">
+    <DropdownToggle />
+    <DropdownMenu>
+        <DropdownItem>Action</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>
+
+<Button Clicked=""@ShowMenu"">Show Menu</Button>
+@code {
+    Dropdown dropdown;
+
+    void ShowMenu()
+    {
+        dropdown.Show();
+    }
+}";
+
+        public const string SplitDropdownExample = @"<Dropdown>
+    <Button>Split Dropdown</Button>
+    <DropdownToggle Split=""true""/>
+    <DropdownMenu>
+        <DropdownItem>Action</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string BasicFieldExample = @"<Field>
     <TextEdit Placeholder=""Name"" />
 </Field>";
@@ -432,6 +528,11 @@ namespace Blazorise.Docs.Models
         <TextEdit Placeholder=""Some text value..."" />
     </FieldBody>
 </Field>";
+
+        public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
+    <FigureImage Source=""_content/Blazorise.Docs/assets/images/empty-256x256.png"" AlternateText=""empty-256x256"" />
+    <FigureCaption>A caption for the above image.</FigureCaption>
+</Figure>";
 
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
 <FileEdit Filter=""image/*"" />

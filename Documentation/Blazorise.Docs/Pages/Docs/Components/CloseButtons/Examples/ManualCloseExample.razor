@@ -1,0 +1,16 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Alert Visible="@visible">
+    I can be closed!
+    <CloseButton Clicked="@OnClicked" />
+</Alert>
+@code {
+    bool visible = true;
+
+    Task OnClicked()
+    {
+        visible = false;
+
+        return Task.CompletedTask;
+    }
+}

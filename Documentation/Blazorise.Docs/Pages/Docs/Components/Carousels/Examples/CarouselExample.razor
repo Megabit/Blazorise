@@ -1,0 +1,16 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Carousel @bind-SelectedSlide="@selectedSlide">
+    <CarouselSlide Name="1">
+        <Image Source="_content/Blazorise.Docs/assets/images/city.jpg" Text="City Skyline" Display="Display.Block" Style="width: 100%;" />
+    </CarouselSlide>
+    <CarouselSlide Name="2">
+        <Image Source="_content/Blazorise.Docs/assets/images/coffee.jpg"  Text="Coffee" Display="Display.Block" Style="width: 100%;" />
+    </CarouselSlide>
+    <CarouselSlide Name="3">
+        <Image Source="_content/Blazorise.Docs/assets/images/mountain.jpg"  Text="Mountain" Display="Display.Block" Style="width: 100%;" />
+    </CarouselSlide>
+</Carousel>
+@code{
+    private string selectedSlide = "2";
+}

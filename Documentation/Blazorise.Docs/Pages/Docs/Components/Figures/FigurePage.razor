@@ -1,0 +1,59 @@
+﻿@page "/docs/components/figure"
+
+<Heading Size="HeadingSize.Is1">
+    Figure
+</Heading>
+
+<Paragraph>
+    Figures are used as containers for responsive images.
+</Paragraph>
+
+<ul>
+    <li>
+        <code class="language-plaintext highlighter-rouge">&lt;Figure&gt;</code> the main container
+        <ul>
+            <li><code class="language-plaintext highlighter-rouge">&lt;FigureImage&gt;</code> source image that needs to be displayed</li>
+            <li>
+                <code class="language-plaintext highlighter-rouge">&lt;FigureCaption&gt;</code> a caption text bellow the image
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <FigureExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FigureExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is2">
+    Attributes
+</Heading>
+
+
+<Heading Size="HeadingSize.Is2">
+    Figure
+</Heading>
+<DocsAttributes>
+    <DocsAttributesItem Name="Size" Type="ButtonSize" Default="None">
+        Figure size variations.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is2">
+    FigureImage
+</Heading>
+<DocsAttributes>
+    <DocsAttributesItem Name="Source" Type="string">
+        Image URL.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AlternateText" Type="string">
+        Alternate text when image cannot be found.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Rounded" Type="bool" Default="false">
+        Makes the figure border rounded.
+    </DocsAttributesItem>
+</DocsAttributes>
