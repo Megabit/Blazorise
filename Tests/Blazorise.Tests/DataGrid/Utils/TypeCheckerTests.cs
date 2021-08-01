@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Blazorise.DataGrid;
 using Blazorise.DataGrid.Utils;
 using Xunit;
 
@@ -15,10 +16,10 @@ namespace Blazorise.Tests.DataGrid.Utils
             List<string> ListObj = new();
             string[] strArray = { "A", "B", "C" };
 
-            Assert.True( TypeChecker.IsListOrCollection( IEnumerableObj.GetType() ) );
-            Assert.True( TypeChecker.IsListOrCollection( IListObj.GetType() ) );
-            Assert.True( TypeChecker.IsListOrCollection( ListObj.GetType() ) );
-            Assert.True( TypeChecker.IsListOrCollection( strArray.GetType() ) );
+            Assert.True( IEnumerableObj.GetType().IsListOrCollection() );
+            Assert.True( IListObj.GetType().IsListOrCollection() );
+            Assert.True( ListObj.GetType().IsListOrCollection() );
+            Assert.True( strArray.GetType().IsListOrCollection() );
         }
 
         [Fact]
@@ -29,10 +30,10 @@ namespace Blazorise.Tests.DataGrid.Utils
             int valueType = 1;
             int? nullableValueType = 1;
 
-            Assert.False( TypeChecker.IsListOrCollection( str.GetType() ) );
-            Assert.False( TypeChecker.IsListOrCollection( obj.GetType() ) );
-            Assert.False( TypeChecker.IsListOrCollection( valueType.GetType() ) );
-            Assert.False( TypeChecker.IsListOrCollection( nullableValueType.GetType() ) );
+            Assert.False( str.GetType().IsListOrCollection() );
+            Assert.False( obj.GetType().IsListOrCollection() );
+            Assert.False( valueType.GetType().IsListOrCollection() );
+            Assert.False( nullableValueType.GetType().IsListOrCollection() );
         }
     }
 }

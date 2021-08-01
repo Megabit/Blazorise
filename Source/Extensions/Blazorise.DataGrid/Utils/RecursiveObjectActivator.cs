@@ -29,7 +29,7 @@ namespace Blazorise.DataGrid.Utils
             foreach ( var property in properties )
             {
                 var currType = property.PropertyType;
-                if ( !currType.IsValueType && currType != typeof( string ) && !TypeChecker.IsListOrCollection( currType ) )
+                if ( !currType.IsValueType && currType != typeof( string ) && !currType.IsListOrCollection() )
                 {
                     var instanced = property.GetValue( currObjInstance );
                     if ( instanced is null )
