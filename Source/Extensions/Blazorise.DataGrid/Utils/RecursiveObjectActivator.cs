@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Reflection;
+#endregion
 
 namespace Blazorise.DataGrid.Utils
 {
     public static class RecursiveObjectActivator
     {
+        #region Methods
+
         /// <summary>
         /// Creates an instance of a complex object and it's public instance properties.
         /// Ignores lists, valuetypes and strings
         /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="TItem">The type to create.</typeparam>
+        /// <returns>A reference to the newly created object.</returns>
         public static TItem CreateInstance<TItem>()
         {
             var obj = Activator.CreateInstance<TItem>();
@@ -37,5 +41,7 @@ namespace Blazorise.DataGrid.Utils
                 }
             }
         }
+
+        #endregion
     }
 }
