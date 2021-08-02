@@ -14,6 +14,21 @@ namespace Blazorise.Tests.DataGrid.Utils
 
             // Assert
             Assert.NotNull( result );
+
+            Assert.NotNull( result.CycleTest );
+            Assert.NotNull( result.CycleTest.CircularReference );
+            Assert.NotNull( result.CycleTest.CircularReference._CircularReference );
+            Assert.Null( result.CycleTest.CircularReference._CircularReference._CircularReference );
+
+            Assert.NotNull( result.CycleTest.ObjectCycle);
+            Assert.NotNull( result.CycleTest.ObjectCycle.CircularReference );
+            Assert.NotNull( result.CycleTest.ObjectCycle.CircularReference._CircularReference );
+            Assert.Null( result.CycleTest.ObjectCycle.CircularReference._CircularReference._CircularReference );
+
+            Assert.NotNull( result.CycleTest.ObjectCycle.CycleTest );
+            Assert.Null( result.CycleTest.ObjectCycle.CycleTest.ObjectCycle );
+            Assert.NotNull( result.CycleTest.ObjectCycle.CycleTest.CircularReference );
+
             Assert.Equal( default, result.UnusualReferenceType );
             Assert.Equal( default, result.SomeValueType );
             Assert.Equal( default, result.SomeNullableValueType );
@@ -59,6 +74,7 @@ namespace Blazorise.Tests.DataGrid.Utils
 
         private class Test
         {
+            public CyclicTest CycleTest { get; set; }
             public NestedTest NestedTest { get; set; }
             public NestedTest AnotherNestedTest { get; set; }
 
@@ -99,6 +115,25 @@ namespace Blazorise.Tests.DataGrid.Utils
             public int? SomeNullableValueType { get; set; }
 
             public List<NestedTest> List { get; set; }
+        }
+
+        private class CyclicTest
+        {
+            public CircularReference CircularReference{ get; set; }
+
+            public ObjectCycle ObjectCycle { get; set; }
+        }
+
+        private class CircularReference
+        {
+            public CircularReference _CircularReference { get; set; }
+        }
+
+        private class ObjectCycle
+        {
+            public CircularReference CircularReference { get; set; }
+
+            public CyclicTest CycleTest { get; set; }
         }
     }
 }
