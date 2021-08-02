@@ -198,6 +198,9 @@ hr.divider.divider-text {
     .b-layout.b-layout-root:not(.b-layout-has-sider) > .b-layout .b-layout-header-fixed + .b-layout-content {
         margin-top: var(--b-bar-horizontal-height, auto); }
 
+.b-layout.b-layout-root > .b-layout-header.b-layout-header-fixed + .b-layout.b-layout-has-sider {
+    margin-top: var(--b-bar-horizontal-height, auto); }
+
 .b-layout-footer {
     color: rgba(0, 0, 0, 0.65); }
     .b-layout-footer-fixed {
