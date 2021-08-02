@@ -1,14 +1,14 @@
 ﻿@page "/docs/components/date-picker"
 
-<Heading Size="HeadingSize.Is1">
+<DocsPageTitle>
     DatePicker component
-</Heading>
+</DocsPageTitle>
 
-<Paragraph Margin="Margin.Is4.OnY">
+<DocsPageParagraph>
     <Code>DatePicker</Code> is based on a <Blazorise.Link To="https://flatpickr.js.org/">flatpickr</Blazorise.Link> datetime picker
     and as such is not a native date input element. That means that unlike <code>DateEdit</code> which will render <Code>type="date"</Code>,
     <Code>DatePicker</Code> will render <Code>type="text"</Code> in the DOM.
-</Paragraph>
+</DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
@@ -29,15 +29,15 @@
     <DocsPageSectionSource Code="DatePickerWithIconExample" />
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is2">
+<DocsPageSubtitle>
     Format
-</Heading>
+</DocsPageSubtitle>
 
-<Paragraph>
+<DocsPageParagraph>
     Native Flatpickr component has some special rules regarding the date format string. To make it easier to use we
     tried to map the flatpickr custom formatter to behave as close to <Strong>.Net</Strong> date format string. Bellow you can find
     the list of available and supported mappings between Blazorise and flatpickr.
-</Paragraph>
+</DocsPageParagraph>
 
 <Table>
     <TableHeader ThemeContrast="ThemeContrast.Light">
@@ -166,9 +166,9 @@
     </TableBody>
 </Table>
 
-<Heading Size="HeadingSize.Is2">
+<DocsPageSubtitle>
     Attributes
-</Heading>
+</DocsPageSubtitle>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Date" Type="TValue" Default="default">
