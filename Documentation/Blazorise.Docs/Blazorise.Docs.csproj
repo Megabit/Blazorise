@@ -53,10 +53,6 @@
   <ItemGroup>
     <None Include="compilerconfig.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Docs\Components\Figures\Code\" />
-    <Folder Include="wwwroot\assets\images\" />
-  </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">

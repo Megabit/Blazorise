@@ -326,13 +326,13 @@ namespace Blazorise.Docs.Models
 
         public const string CarouselExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide"">
     <CarouselSlide Name=""1"">
-        <Image Source=""_content/Blazorise.Docs/assets/images/city.jpg"" Text=""City Skyline"" Display=""Display.Block"" Style=""width: 100%;"" />
+        <Image Source=""img/gallery/1.jpg"" Text=""Lights"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
     <CarouselSlide Name=""2"">
-        <Image Source=""_content/Blazorise.Docs/assets/images/coffee.jpg""  Text=""Coffee"" Display=""Display.Block"" Style=""width: 100%;"" />
+        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
     <CarouselSlide Name=""3"">
-        <Image Source=""_content/Blazorise.Docs/assets/images/mountain.jpg""  Text=""Mountain"" Display=""Display.Block"" Style=""width: 100%;"" />
+        <Image Source=""img/gallery/3.jpg"" Text=""Road"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
 </Carousel>
 @code{
@@ -383,10 +383,10 @@ namespace Blazorise.Docs.Models
 
         public const string WithOtherComponentsExample = @"@if ( visible )
 {
-    <div>
+    <Div>
         Now you see me...
         <CloseButton Clicked=""@OnClicked"" />
-    </div>
+    </Div>
 }
 @code {
     bool visible = true;
@@ -458,7 +458,7 @@ namespace Blazorise.Docs.Models
 </Dropdown>";
 
         public const string ShowMenuExample = @"<Dropdown @ref=""dropdown"">
-    <DropdownToggle />
+    <DropdownToggle Color=""Color.Primary"">Menu</DropdownToggle>
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
         <DropdownDivider />
@@ -466,19 +466,21 @@ namespace Blazorise.Docs.Models
     </DropdownMenu>
 </Dropdown>
 
-<Button Clicked=""@ShowMenu"">Show Menu</Button>
+<Button Clicked=""@ShowMenu"" Color=""Color.Secondary"">Show Menu</Button>
 @code {
     Dropdown dropdown;
 
-    void ShowMenu()
+    Task ShowMenu()
     {
         dropdown.Show();
+
+        return Task.CompletedTask;
     }
 }";
 
         public const string SplitDropdownExample = @"<Dropdown>
     <Button>Split Dropdown</Button>
-    <DropdownToggle Split=""true""/>
+    <DropdownToggle Split=""true"" />
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
         <DropdownDivider />
@@ -530,7 +532,7 @@ namespace Blazorise.Docs.Models
 </Field>";
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
-    <FigureImage Source=""_content/Blazorise.Docs/assets/images/empty-256x256.png"" AlternateText=""empty-256x256"" />
+    <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" />
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 

@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Dropdown @ref="dropdown">
-    <DropdownToggle />
+    <DropdownToggle Color="Color.Primary">Menu</DropdownToggle>
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
         <DropdownDivider />
@@ -9,12 +9,14 @@
     </DropdownMenu>
 </Dropdown>
 
-<Button Clicked="@ShowMenu">Show Menu</Button>
+<Button Clicked="@ShowMenu" Color="Color.Secondary">Show Menu</Button>
 @code {
     Dropdown dropdown;
 
-    void ShowMenu()
+    Task ShowMenu()
     {
         dropdown.Show();
+
+        return Task.CompletedTask;
     }
 }
