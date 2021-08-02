@@ -370,3 +370,10 @@ Determines the events that cause the tooltip to show.
 - Grid
 - Fold
 - Wander
+
+## ListGroupMode
+
+Defines the ListGroup behavior.
+
+- `Static` - List group will act as a static list.
+- `Selectable` - List group will act on clicking the items.

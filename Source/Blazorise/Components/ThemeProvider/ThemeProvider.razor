@@ -3,7 +3,9 @@
 {
     @((MarkupString)GetVariablesTag())
 }
-<CascadingValue Value=Theme>
-    @ChildContent
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@Theme">
+        @ChildContent
+    </CascadingValue>
 </CascadingValue>
 @((MarkupString)GetStylesTag())

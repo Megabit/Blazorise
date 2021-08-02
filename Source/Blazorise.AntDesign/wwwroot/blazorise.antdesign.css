@@ -1178,6 +1178,9 @@
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll; }
 
+.snackbar {
+    z-index: 1010 !important; }
+
 .ant-figure {
   display: inline-block;
   margin: 0 0 1rem; }
