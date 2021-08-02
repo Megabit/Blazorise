@@ -180,6 +180,30 @@ namespace Blazorise.Docs.Models
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
 
+        public const string BreadcrumbAutoExample = @"<Breadcrumb Mode=""BreadcrumbMode.Auto"">
+    <BreadcrumbItem>
+        <BreadcrumbLink To="""">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To=""account"">Account</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To=""account/settings"">Settings</BreadcrumbLink>
+    </BreadcrumbItem>
+</Breadcrumb>";
+
+        public const string BreadcrumbManualExample = @"<Breadcrumb>
+    <BreadcrumbItem>
+        <BreadcrumbLink To=""#"">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To=""#"">Library</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active=""true"">
+        <BreadcrumbLink To=""#"">Data</BreadcrumbLink>
+    </BreadcrumbItem>
+</Breadcrumb>";
+
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
 <Button Color=""Color.Secondary"" Active>Secondary</Button>";
 
