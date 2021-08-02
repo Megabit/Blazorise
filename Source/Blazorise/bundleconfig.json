@@ -3,6 +3,7 @@
     "outputFileName": "wwwroot/blazorise.js",
     "inputFiles": [
       "Scripts/dependencies.js",
+      "Scripts/theme.js",
       "Scripts/main.js",
       "Scripts/button.js",
       "Scripts/datePicker.js",
