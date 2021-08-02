@@ -11,9 +11,11 @@
             <CardBody>
                 @foreach ( var type in Enum.GetValues<SpinKitType>() )
                 {
-                    <Div Display="Display.InlineBlock" Padding="Padding.Is4">
-                        <SpinKit Type="@type" />
-                    </Div>
+                    <Tooltip Text="@($"Type: {type}")">
+                        <Div Display="Display.InlineBlock" Padding="Padding.Is4">
+                            <SpinKit Type="@type" />
+                        </Div>
+                    </Tooltip>
                 }
             </CardBody>
         </Card>
