@@ -1326,6 +1326,325 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicTableExample = @"<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableBorderedExample = @"<Table Bordered=""true"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableBorderlessExample = @"<Table Borderless=""true"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableDarkHeaderExample = @"<Table>
+    <TableHeader ThemeContrast=""ThemeContrast.Dark"">
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableFixedHeaderExample = @"<Table FixedHeader=""true"" FixedHeaderTableHeight=""300px"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableHoverableExample = @"<Table Hoverable=""true"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableLightHeaderExample = @"<Table>
+    <TableHeader ThemeContrast=""ThemeContrast.Light"">
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableNarrowExample = @"<Table Narrow=""true"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableScrollToExample = @"<Table @ref=""@tableRef"" FixedHeader=""true"" FixedHeaderTableHeight=""300px"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+@code{
+    Table tableRef;
+
+    private Task ScrollToRow()
+        => tableRef.ScrollToRow( 1 ).AsTask();
+
+    private Task ScrollToPixels()
+        => tableRef.ScrollToPixels( 250 ).AsTask();
+}";
+
+        public const string TableStrippedExample = @"<Table Striped=""true"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
         public const string BasicTabExample = @"<Tabs SelectedTab=""@selectedTab"" SelectedTabChanged=""@OnSelectedTabChanged"">
     <Items>
         <Tab Name=""home"">Home</Tab>
