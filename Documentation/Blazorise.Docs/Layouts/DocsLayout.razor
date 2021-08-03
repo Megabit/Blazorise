@@ -170,6 +170,19 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarServicesMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Comment" />
+                                    Services
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/services/message">
+                                        Messages
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
                     </BarStart>
                 </BarMenu>
             </Bar>

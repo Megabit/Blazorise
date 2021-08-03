@@ -2028,5 +2028,35 @@ namespace Blazorise.Docs.Models
     @*other validation fields*@
 </Validations>";
 
+        public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
+<Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
+
+@code{
+    [Inject] IMessageService MessageService { get; set; }
+
+    Task ShowInfoMessage()
+    {
+        return MessageService.Info( ""This is a simple info message!"", ""Hello"" );
+    }
+
+    async Task ShowConfirmMessage()
+    {
+        if ( await MessageService.Confirm( ""Are you sure you want to confirm?"", ""Confirmation"" ) )
+        {
+            Console.WriteLine( ""OK Clicked"" );
+        }
+        else
+        {
+            Console.WriteLine( ""Cancel Clicked"" );
+        }
+    }
+}";
+
+        public const string MessageServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    ...
+</Router>
+
+<MessageAlert />";
+
     }
 }

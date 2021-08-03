@@ -18,6 +18,8 @@ namespace Blazorise.Docs.Layouts
 
         private bool sideBarComponentsMenuVisible = true;
 
+        private bool sideBarServicesMenuVisible = true;
+
         #endregion
     }
 }
