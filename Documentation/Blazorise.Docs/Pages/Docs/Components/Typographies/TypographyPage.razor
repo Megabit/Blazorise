@@ -1,0 +1,91 @@
+﻿@page "/docs/components/typography"
+
+<DocsPageTitle>
+    Typography components
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Documentation and examples for typography, including paragraphs, headings, text, and more.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text">
+        Displays a simple static text on a page.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyTextExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyTextExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Paragraph">
+        Block of text separated from adjacent blocks by blank lines and/or first-line indentation.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyParagraphExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyParagraphExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Headings">
+        All HTML headings, <Code>h1</Code> through <Code>h6</Code>, are available.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyHeadingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyHeadingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Display Headings">
+        raditional heading elements are designed to work best in the meat of your page content.
+        When you need a heading to stand out, consider using a display heading—a larger, slightly more opinionated heading style.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyDisplayHeadingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyDisplayHeadingExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="All typography components">
+    <DocsAttributesItem Name="TextColor" Type="TextColor" Default="None">
+        Sets the text color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="None">
+        Sets the text alignment.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextTransform" Type="TextTransform" Default="None">
+        Sets the text transformation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextWeight" Type="TextWeight" Default="None">
+        Sets the text weight.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextOverflow" Type="TextOverflow" Default="None">
+        Determines how the text will behave when it is larger than a parent container.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Italic" Type="bool" Default="false">
+        Italicize text if set to true.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Heading">
+    <DocsAttributesItem Name="Size" Type="HeadingSize" Default="Is3">
+        Sets the heading size.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DisplayHeading">
+    <DocsAttributesItem Name="Size" Type="DisplayHeadingSize" Default="Is2">
+        Sets the display heading size.
+    </DocsAttributesItem>
+</DocsAttributes>

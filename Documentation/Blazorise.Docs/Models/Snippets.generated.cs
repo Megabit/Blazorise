@@ -1796,6 +1796,32 @@ namespace Blazorise.Docs.Models
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
 </Tooltip>";
 
+        public const string TypographyDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"">Display 1</DisplayHeading>
+<DisplayHeading Size=""DisplayHeadingSize.Is2"">Display 2</DisplayHeading>
+<DisplayHeading Size=""DisplayHeadingSize.Is3"">Display 3</DisplayHeading>
+<DisplayHeading Size=""DisplayHeadingSize.Is4"">Display 4</DisplayHeading>";
+
+        public const string TypographyHeadingExample = @"<Heading Size=""HeadingSize.Is1"">h1. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is2"">h2. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is3"">h3. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is4"">h4. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is5"">h5. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is6"">h6. Blazorise heading</Heading>";
+
+        public const string TypographyParagraphExample = @"<Paragraph>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Nunc sed velit dignissim sodales ut. Mi bibendum neque egestas congue quisque egestas diam in arcu. Quis vel eros donec ac odio tempor. Fermentum posuere urna nec tincidunt praesent. Eget velit aliquet sagittis id consectetur. Molestie at elementum eu facilisis sed odio morbi quis commodo. Ut consequat semper viverra nam libero justo laoreet sit.
+</Paragraph>
+<Paragraph>
+    Cursus euismod quis viverra nibh cras. Fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Varius quam quisque id diam vel quam. Eget sit amet tellus cras adipiscing enim eu turpis. In est ante in nibh mauris cursus mattis. Interdum velit laoreet id donec ultrices tincidunt. Sollicitudin aliquam ultrices sagittis orci a. Turpis egestas sed tempus urna et pharetra pharetra. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Ipsum dolor sit amet consectetur adipiscing elit ut. Enim eu turpis egestas pretium aenean pharetra. Diam sit amet nisl suscipit adipiscing bibendum est. Turpis massa sed elementum tempus egestas. Accumsan in nisl nisi scelerisque eu ultrices vitae. Purus ut faucibus pulvinar elementum integer. Id interdum velit laoreet id donec ultrices tincidunt arcu. Aliquam vestibulum morbi blandit cursus risus at ultrices.
+</Paragraph>";
+
+        public const string TypographyTextExample = @"<Text TextColor=""TextColor.Primary"">
+    Lorem ipsum dolor sit amet.
+</Text>
+<Text TextColor=""TextColor.Secondary"">
+    Cursus euismod quis viverra nibh cras.
+</Text>";
+
         public const string AsyncValidationExample = @"@using System.Threading
 
 <Validation AsyncValidator=""@ValidateNameAsync"">
