@@ -787,6 +787,98 @@ namespace Blazorise.Docs.Models
     </Paragraph>
 </Jumbotron>";
 
+        public const string BasicLayoutExample = @"<Layout>
+    <LayoutHeader>
+        Header
+    </LayoutHeader>
+    <LayoutContent>
+        Content
+    </LayoutContent>
+    <LayoutFooter>
+        Footer
+    </LayoutFooter>
+</Layout>";
+
+        public const string BasicLayoutStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"" Style=""height: 300px;"">
+    <LayoutHeader Style=""background: #7dbcea; color: white; line-height: 60px;"">
+        Header
+    </LayoutHeader>
+    <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
+        Content
+    </LayoutContent>
+    <LayoutFooter Style=""background: #7dbcea; color: white; line-height: 60px;"">
+        Footer
+    </LayoutFooter>
+</Layout>";
+
+        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout>
+    <LayoutHeader Fixed=""true"">
+        Header
+    </LayoutHeader>
+    <Layout Sider=""true"">
+        <LayoutSider>
+            <LayoutSiderContent>
+                Sider
+            </LayoutSiderContent>
+        </LayoutSider>
+        <Layout>
+            <LayoutContent>
+                Content
+            </LayoutContent>
+        </Layout>
+    </Layout>
+</Layout>";
+
+        public const string LayoutWithSiderAndTopHeaderStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"">
+    <LayoutHeader Fixed=""true"" Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
+        Header
+    </LayoutHeader>
+    <Layout Sider=""true"" Style=""height: 240px;"">
+        <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
+            <LayoutSiderContent>
+                Sider
+            </LayoutSiderContent>
+        </LayoutSider>
+        <Layout>
+            <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
+                Content
+            </LayoutContent>
+        </Layout>
+    </Layout>
+</Layout>";
+
+        public const string LayoutWithSiderExample = @"<Layout Sider=""true"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            Sider
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed=""true"">
+            Header
+        </LayoutHeader>
+        <LayoutContent>
+            Content
+        </LayoutContent>
+    </Layout>
+</Layout>";
+
+        public const string LayoutWithSiderStyledExample = @"<Layout Sider=""true"" TextAlignment=""TextAlignment.Center"">
+    <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
+        <LayoutSiderContent>
+            Sider
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout Style=""height: 300px;"">
+        <LayoutHeader Fixed=""true"" Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
+            Header
+        </LayoutHeader>
+        <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
+            Content
+        </LayoutContent>
+    </Layout>
+</Layout>";
+
         public const string AnchorLinkExample = @"<Link To=""#"">
     Link
 </Link>";
