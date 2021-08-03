@@ -706,6 +706,76 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicContainerExample = @"<Container>
+    <Alert Color=""Color.Primary"" Visible=""true"">
+        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+    </Alert>
+</Container>";
+
+        public const string BasicGridExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is12"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            Is12
+        </Alert>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize=""ColumnSize.Is8"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            Is8
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Secondary"" Visible=""true"">
+            Is4
+        </Alert>
+    </Column>
+</Row>";
+
+        public const string ContainerFluidExample = @"<Container Fluid=""true"">
+    <Alert Color=""Color.Primary"" Visible=""true"">
+        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+    </Alert>
+</Container>";
+
+        public const string GridGutterExample = @"<Row Gutter=""(32, 16)"">
+    <Column ColumnSize=""ColumnSize.Is8"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            I have padding
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Secondary"" Visible=""true"">
+            I also have padding
+        </Alert>
+    </Column>
+</Row>";
+
+        public const string GridOffsetExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            Is4
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is4.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            Is4.WithOffset
+        </Alert>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            Is3.Is3.WithOffset
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible=""true"">
+            Is3.Is3.WithOffset
+        </Alert>
+    </Column>
+</Row>";
+
         public const string AnchorLinkExample = @"<Link To=""#"">
     Link
 </Link>";
