@@ -1779,6 +1779,23 @@ namespace Blazorise.Docs.Models
     TimePicker<TimeSpan?> timePicker;
 }";
 
+        public const string BasicTooltipExample = @"<Tooltip Text=""Hello tooltip"">
+    <Button Color=""Color.Primary"">Hover me</Button>
+</Tooltip>";
+
+        public const string TooltipPositionsExample = @"<Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Top"">
+    <Button Color=""Color.Primary"">Top tooltip</Button>
+</Tooltip>
+<Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Right"">
+    <Button Color=""Color.Primary"">Right tooltip</Button>
+</Tooltip>
+<Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Left"">
+    <Button Color=""Color.Primary"">Left tooltip</Button>
+</Tooltip>
+<Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Bottom"">
+    <Button Color=""Color.Primary"">Bottom tooltip</Button>
+</Tooltip>";
+
         public const string AsyncValidationExample = @"@using System.Threading
 
 <Validation AsyncValidator=""@ValidateNameAsync"">
