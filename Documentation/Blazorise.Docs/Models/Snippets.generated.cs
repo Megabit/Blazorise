@@ -1083,6 +1083,34 @@ namespace Blazorise.Docs.Models
 
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
 
+        public const string BasicPaginationExample = @"<Pagination>
+    <PaginationItem>
+        <PaginationLink>
+            <span aria-hidden=""true"">«</span>
+        </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+        <PaginationLink>
+            1
+        </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+        <PaginationLink>
+            2
+        </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+        <PaginationLink>
+            3
+        </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+        <PaginationLink>
+            <span aria-hidden=""true"">»</span>
+        </PaginationLink>
+    </PaginationItem>
+</Pagination>";
+
         public const string BasicPageProgressExample = @"<PageProgress Visible=""true"" Value=""25"" />";
 
         public const string BasicProgressExample = @"<Progress Value=""25"" />";
