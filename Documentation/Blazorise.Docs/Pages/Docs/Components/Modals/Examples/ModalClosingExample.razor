@@ -1,0 +1,16 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Modal @ref="modalRef" Closing="@OnModalClosing">
+    ...
+</Modal>
+
+@code{
+    // reference to the modal component
+    private Modal modalRef;
+
+    private void OnModalClosing( ModalClosingEventArgs e )
+    {
+        // just set Cancel to true to prevent modal from closing
+        e.Cancel = true;
+    }
+}

@@ -895,7 +895,7 @@ namespace Blazorise.Docs.Models
     <ListGroupItem Disabled=""true"">A disabled item</ListGroupItem>
 </ListGroup>";
 
-        public const string ListGroupBadgesExamples = @"<ListGroup Flush>
+        public const string ListGroupBadgesExample = @"<ListGroup Flush>
     <ListGroupItem Flex=""Flex.JustifyContent.Between.AlignItems.Center"">
         A list item
         <Badge Color=""Color.Primary"" Pill=""true"">14</Badge>
@@ -1017,6 +1017,65 @@ namespace Blazorise.Docs.Models
         description = value;
 
         return Task.CompletedTask;
+    }
+}";
+
+        public const string BasicModalExample = @"<Button Clicked=""@ShowModal"">Show Modal</Button>
+
+<Modal @ref=""modalRef"">
+    <ModalContent Centered=""true"">
+        <ModalHeader>
+            <ModalTitle>Employee edit</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit Placeholder=""Enter name..."" />
+            </Field>
+            <Field>
+                <FieldLabel>Surname</FieldLabel>
+                <TextEdit Placeholder=""Enter surname..."" />
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideModal"">Close</Button>
+            <Button Color=""Color.Primary"" Clicked=""@HideModal"">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code{
+    // reference to the modal component
+    private Modal modalRef;
+
+    private Task ShowModal()
+    {
+        modalRef.Show();
+
+        return Task.CompletedTask;
+    }
+
+    private Task HideModal()
+    {
+        modalRef.Hide();
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string ModalClosingExample = @"<Modal @ref=""modalRef"" Closing=""@OnModalClosing"">
+    ...
+</Modal>
+
+@code{
+    // reference to the modal component
+    private Modal modalRef;
+
+    private void OnModalClosing( ModalClosingEventArgs e )
+    {
+        // just set Cancel to true to prevent modal from closing
+        e.Cancel = true;
     }
 }";
 

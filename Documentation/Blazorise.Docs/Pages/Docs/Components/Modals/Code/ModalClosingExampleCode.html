@@ -1,0 +1,19 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Modal</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">modalRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Closing</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnModalClosing</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    ...
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Modal</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    <span class="comment">// reference to the modal component</span>
+    <span class="keyword">private</span> Modal modalRef;
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnModalClosing( ModalClosingEventArgs e )
+    {
+        <span class="comment">// just set Cancel to true to prevent modal from closing</span>
+        e.Cancel = <span class="keyword">true</span>;
+    }
+}
+</pre></div>
+</div>
