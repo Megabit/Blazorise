@@ -1177,6 +1177,37 @@ namespace Blazorise.Docs.Models
     int SelectedValue = 7;
 }";
 
+        public const string BasicRepeaterExample = @"<ul>
+    <Repeater Items=""@items"" CollectionChanged=""@OnCollectionChanged"">
+        <li style=""@GetColor( context )"">@context</li>
+    </Repeater>
+</ul>
+
+@code{
+    System.Collections.ObjectModel.ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
+
+    Task OnCollectionChanged( System.Collections.Specialized.NotifyCollectionChangedEventArgs eventArgs )
+    {
+        // do something
+
+        return Task.CompletedTask;
+    }
+
+    private static string GetColor( int number )
+    {
+        const string letters = ""0123456789ABCDEF"";
+
+        var color = """";
+
+        for ( var i = 0; i < 6; i++ )
+        {
+            color += letters[( 3 * number + i ) % letters.Length];
+        }
+
+        return $""color: #{color}"";
+    }
+}";
+
         public const string BasicSelectExample = @"<Select TValue=""int"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
