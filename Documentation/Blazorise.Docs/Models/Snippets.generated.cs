@@ -1326,6 +1326,39 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicTabExample = @"<Tabs SelectedTab=""@selectedTab"" SelectedTabChanged=""@OnSelectedTabChanged"">
+    <Items>
+        <Tab Name=""home"">Home</Tab>
+        <Tab Name=""profile"">Profile</Tab>
+        <Tab Name=""messages"">Messages</Tab>
+        <Tab Name=""settings"">Settings</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name=""home"">
+            Content for home.
+        </TabPanel>
+        <TabPanel Name=""profile"">
+            Content for profile.
+        </TabPanel>
+        <TabPanel Name=""messages"">
+            Content for messages.
+        </TabPanel>
+        <TabPanel Name=""settings"">
+            Content for settings.
+        </TabPanel>
+    </Content>
+</Tabs>
+@code{
+    string selectedTab = ""profile"";
+
+    private Task OnSelectedTabChanged( string name )
+    {
+        selectedTab = name;
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string BasicTextEditExample = @"<TextEdit />";
 
         public const string TextEditDisabledExample = @"<TextEdit Disabled />";
