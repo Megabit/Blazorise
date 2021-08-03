@@ -33,7 +33,7 @@ Install-Package Blazorise.Components
 <Router AppAssembly="typeof(App).Assembly">
     ...
 </Router>
-<NotificationAlert />
+<NotificationAlert DefaultInterval="10000" />
 ```
 
 ### Basic example

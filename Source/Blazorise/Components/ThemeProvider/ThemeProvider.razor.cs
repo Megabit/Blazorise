@@ -39,7 +39,7 @@ namespace Blazorise
 
             var sb = new StringBuilder();
 
-            sb.AppendLine( "<style>" );
+            sb.AppendLine( "<style id='b-theme-variables'>" );
             sb.AppendLine( ":root" );
             sb.AppendLine( "{" );
 
@@ -62,7 +62,7 @@ namespace Blazorise
 
             var sb = new StringBuilder();
 
-            sb.AppendLine( "<style type=\"text/css\" scoped>" );
+            sb.AppendLine( "<style id='b-theme-styles' type=\"text/css\" scoped>" );
 
             sb.AppendLine( ThemeGenerator.GenerateStyles( Theme ) );
 

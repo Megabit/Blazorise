@@ -70,7 +70,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Defines the list-group behaviour mode.
+        /// Defines the list-group behavior mode.
         /// </summary>
         [Parameter]
         public ListGroupMode Mode

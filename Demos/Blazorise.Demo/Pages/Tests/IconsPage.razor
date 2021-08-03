@@ -1,5 +1,7 @@
 ﻿@page "/tests/icons"
 
+@inject IIconProvider IconProvider
+
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -10,14 +12,16 @@
                 <Div Flex="Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start">
                     @foreach ( var icon in Enum.GetValues<IconName>() )
                     {
-                        <Div Flex="Flex.Column.JustifyContent.Center">
-                            <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
-                                <Icon Name="@icon" />
-                            </Span>
-                            <Text TextAlignment="TextAlignment.Center">
-                                @icon
-                            </Text>
-                        </Div>
+                        <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
+                            <Div Flex="Flex.Column.JustifyContent.Center">
+                                <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
+                                    <Icon Name="@icon"/>
+                                </Span>
+                                <Text TextAlignment="TextAlignment.Center">
+                                    @icon
+                                </Text>
+                            </Div>
+                        </Tooltip>
                     }
                 </Div>
             </CardBody>

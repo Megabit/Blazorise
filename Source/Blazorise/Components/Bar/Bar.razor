@@ -2,7 +2,7 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed="true">
     <CascadingValue Value="@State">
-        <nav id="@ElementId" class="@ClassNames" style="@StyleNames" data-collapse="@CollapseModeString" data-broken="@BrokenStateString" @attributes="@Attributes">
+        <nav @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-collapse="@CollapseModeString" data-broken="@BrokenStateString" @attributes="@Attributes">
             @ChildContent
         </nav>
     </CascadingValue>

@@ -18,7 +18,9 @@ You are now ready to build and test Blazorise:
 
 1. Start a command prompt and navigate to the docs folder under Blazorise root.
 2. Run command: `bundle exec jekyll serve`.
-3. Wait for build to finish and then open your browser and navigate to http://localhost:4000/
+4. Wait for build to finish and then open your browser and navigate to http://localhost:4000/
+
+> Note: In case `bundle exec jekyll serve` fails it's probably because you don't have all the gems installed. Try running `bundle install` command.
 
 ### Testing
 

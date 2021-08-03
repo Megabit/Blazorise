@@ -98,6 +98,8 @@ docs:
         url: /docs/components/jumbotron/
       - title: "Layout"
         url: /docs/components/layout/
+      - title: "List Group"
+        url: /docs/components/list-group/
       - title: "Modal"
         url: /docs/components/modal/
       - title: "Pagination"
@@ -139,6 +141,8 @@ docs:
         url: /docs/extensions/sidebar/
       - title: "Snackbar"
         url: /docs/extensions/snackbar/
+      - title: "SpinKit"
+        url: /docs/extensions/spinkit/
       - title: "TreeView"
         url: /docs/extensions/treeview/
   - title: Services
