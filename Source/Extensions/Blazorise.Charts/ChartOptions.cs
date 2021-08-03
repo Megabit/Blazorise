@@ -328,26 +328,10 @@ namespace Blazorise.Charts
         public bool BeginAtZero { get; set; }
 
         /// <summary>
-        /// Evaluates this JavaScript as a string representation of the tick value as it should be displayed on the chart.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        public string CallbackJavaScript { get; set; }
-
-        /// <summary>
         /// Defines the Expression which will be converted to JavaScript as a string representation of the tick value as it should be displayed on the chart.
         /// </summary>
-        [IgnoreDataMember]
-        public Expression<Func<double, int, double[], FormattableString>> Callback
-        {
-            set
-            {
-                if ( value != null )
-                {
-                    CallbackJavaScript = ExpressionConverter.ToTemplatedStringLiteral( value );
-                    Console.WriteLine( CallbackJavaScript );
-                }
-            }
-        }
+        [DataMember( EmitDefaultValue = false )]
+        public Expression<Func<double, int, double[], FormattableString>> Callback { get; set; }
     }
 
     /// <summary>
