@@ -2058,5 +2058,24 @@ namespace Blazorise.Docs.Models
 
 <MessageAlert />";
 
+        public const string BasicNotificationServiceExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
+
+@code{
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"" );
+    }
+}";
+
+        public const string NotificationServiceInstallationExample = @"Install-Package Blazorise.Components";
+
+        public const string NotificationServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    ...
+</Router>
+
+<NotificationAlert />";
+
     }
 }
