@@ -1169,6 +1169,14 @@ namespace Blazorise.Docs.Models
 <Radio TValue=""string"" Group=""colors"" Value=""@(""green"")"">Green</Radio>
 <Radio TValue=""string"" Group=""colors"" Value=""@(""blue"")"">Blue</Radio>";
 
+        public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";
+
+        public const string RatingWithBindExample = @"<Rating Color=""Color.Primary"" @bind-SelectedValue=""@SelectedValue"" MaxValue=""10"" />
+
+@code{
+    int SelectedValue = 7;
+}";
+
         public const string BasicSelectExample = @"<Select TValue=""int"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
