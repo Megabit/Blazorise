@@ -776,6 +776,17 @@ namespace Blazorise.Docs.Models
     </Column>
 </Row>";
 
+        public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
+    <JumbotronTitle Size=""JumbotronTitleSize.Is4"">Hello, world!</JumbotronTitle>
+    <JumbotronSubtitle>
+        This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
+    </JumbotronSubtitle>
+    <Divider></Divider>
+    <Paragraph>
+        It uses utility classes for typography and spacing to space content out within the larger container.
+    </Paragraph>
+</Jumbotron>";
+
         public const string AnchorLinkExample = @"<Link To=""#"">
     Link
 </Link>";
