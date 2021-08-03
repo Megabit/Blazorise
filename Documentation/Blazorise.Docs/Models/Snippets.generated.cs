@@ -1265,6 +1265,46 @@ namespace Blazorise.Docs.Models
 
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
 
+        public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
+    <Items>
+        <Step Name=""step1"">Step 1</Step>
+        <Step Name=""step2"">Step 2</Step>
+        <Step Name=""step3"">Step 3</Step>
+        <Step Name=""step4"">
+            <Marker>
+                <Icon Name=""IconName.Flag"" />
+            </Marker>
+            <Caption>
+                Finish
+            </Caption>
+        </Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""step1"">
+            Content for step 1.
+        </StepPanel>
+        <StepPanel Name=""step2"">
+            Content for step 2.
+        </StepPanel>
+        <StepPanel Name=""step3"">
+            Content for step 3.
+        </StepPanel>
+        <StepPanel Name=""step4"">
+            Content for finish.
+        </StepPanel>
+    </Content>
+</Steps>
+@code{
+    string selectedStep = ""step1"";
+
+    private Task OnSelectedStepChanged( string name )
+    {
+        selectedStep = name;
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
 
         public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Checked=""@rememberMe"">Remember Me</Switch>
