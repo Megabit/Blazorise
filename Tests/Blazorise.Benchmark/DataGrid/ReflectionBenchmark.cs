@@ -18,6 +18,7 @@ namespace Blazorise.Benchmark.DataGrid
 
         public class Test
         {
+            public CyclicTest CycleTest { get; set; }
             public NestedTest NestedTest { get; set; }
             public NestedTest AnotherNestedTest { get; set; }
 
@@ -58,6 +59,25 @@ namespace Blazorise.Benchmark.DataGrid
             public int? SomeNullableValueType { get; set; }
 
             public List<NestedTest> List { get; set; }
+        }
+
+        public class CyclicTest
+        {
+            public CircularReference CircularReference { get; set; }
+
+            public ObjectCycle ObjectCycle { get; set; }
+        }
+
+        public class CircularReference
+        {
+            public CircularReference _CircularReference { get; set; }
+        }
+
+        public class ObjectCycle
+        {
+            public CircularReference CircularReference { get; set; }
+
+            public CyclicTest CycleTest { get; set; }
         }
     }
 }
