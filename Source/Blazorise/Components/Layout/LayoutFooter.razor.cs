@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -17,6 +18,19 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            var rect = await JSRunner.GetElementInfo( ElementRef, ElementId );
+
+            if ( rect.BoundingClientRect.Height > 0 )
+            {
+                await JSRunner.AddThemeVariable( ThemeVariables.LayoutFooterHeight, $"{rect.BoundingClientRect.Height}px" );
+            }
+
+            await base.OnFirstAfterRenderAsync();
+        }
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )

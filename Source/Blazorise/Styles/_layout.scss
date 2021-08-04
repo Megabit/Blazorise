@@ -85,14 +85,14 @@
         flex: 0;
 
         + .b-layout-content {
-            margin-top: var(--b-bar-horizontal-height, auto);
+            margin-top: var(--b-layout-header-height, auto);
         }
     }
 }
 
 .b-layout.b-layout-root {
     > .b-layout-header.b-layout-header-fixed + .b-layout.b-layout-has-sider {
-        margin-top: var(--b-bar-horizontal-height, auto);
+        margin-top: var(--b-layout-header-height, auto);
     }
 }
 
