@@ -481,7 +481,7 @@ namespace Blazorise.Docs.Models
     </DropdownMenu>
 </Dropdown>";
 
-        public const string ShowMenuExample = @"<Dropdown @ref=""dropdown"">
+        public const string ShowMenuExample = @"<Dropdown @ref=""dropdown"" Display=""Display.InlineBlock"">
     <DropdownToggle Color=""Color.Primary"">Menu</DropdownToggle>
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
@@ -503,8 +503,8 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string SplitDropdownExample = @"<Dropdown>
-    <Button>Split Dropdown</Button>
-    <DropdownToggle Split=""true"" />
+    <Button Color=""Color.Primary"">Split Dropdown</Button>
+    <DropdownToggle Color=""Color.Primary"" Split=""true"" />
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
         <DropdownDivider />
