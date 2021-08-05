@@ -2259,6 +2259,15 @@ namespace Blazorise.Docs.Models
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
+<Field Horizontal=""true"">
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected search value: @selectedSearchValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected text value: @selectedAutoCompleteText
+    </FieldBody>
+</Field>
+
 @code{
     public class MySelectModel
     {
@@ -2276,7 +2285,6 @@ namespace Blazorise.Docs.Models
     {
         selectedSearchValue = newValue;
     }
-
 }";
 
         public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""

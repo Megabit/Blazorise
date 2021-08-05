@@ -15,6 +15,15 @@
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
+<Field Horizontal="true">
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected search value: @selectedSearchValue
+    </FieldBody>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected text value: @selectedAutoCompleteText
+    </FieldBody>
+</Field>
+
 @code{
     public class MySelectModel
     {
@@ -32,5 +41,4 @@
     {
         selectedSearchValue = newValue;
     }
-
 }
