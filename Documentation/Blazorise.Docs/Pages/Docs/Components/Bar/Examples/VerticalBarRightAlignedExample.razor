@@ -1,0 +1,37 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Layout Sider="true">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
+                 Breakpoint="Breakpoint.Desktop"
+                 Background="Background.Light"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="#">
+                            <BarIcon IconName="IconName.Dashboard" />
+                            Example
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Edit" />
+                                    Toggle
+                                </BarDropdownToggle>
+                                <BarDropdownMenu RightAligned="true">
+                                    <BarDropdownItem>Action</BarDropdownItem>
+                                    <BarDropdownItem>Another action</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+</Layout>

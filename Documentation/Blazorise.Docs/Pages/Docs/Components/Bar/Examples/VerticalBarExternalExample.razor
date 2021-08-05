@@ -1,0 +1,39 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Layout Sider="true">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar @ref="@sidebar" Mode="BarMode.VerticalInline"
+                 Breakpoint="Breakpoint.Desktop"
+                 Background="Background.Light"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarItem>Example</BarItem>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed="true">
+            <Bar Mode="BarMode.Horizontal"
+                 Background="Background.Light"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarToggler Bar="@sidebar" />
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="#">
+                            <BarIcon IconName="IconName.Dashboard" />
+                            Example
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarItem>Example</BarItem>
+                </BarMenu>
+                <BarToggler />
+            </Bar>
+        </LayoutHeader>
+    </Layout>
+</Layout>
+
+@code {
+    private Bar sidebar;
+}

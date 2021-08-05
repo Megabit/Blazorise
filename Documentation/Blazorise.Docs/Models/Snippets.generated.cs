@@ -180,6 +180,222 @@ namespace Blazorise.Docs.Models
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
 
+        public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
+     Background=""Background.Light""
+     ThemeContrast=""ThemeContrast.Light"">
+    <BarBrand>
+        Brandname
+    </BarBrand>
+    <BarToggler />
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""#home"">Home</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To=""#docs"">Documentation</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>Dropdown</BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem>Action</BarDropdownItem>
+                        <BarDropdownDivider />
+                        <BarDropdownItem>Another action</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+        <BarEnd>
+            <BarItem>
+                <Button Color=""Color.Primary"">Sign up</Button>
+                <Button Color=""Color.Secondary"">Log in</Button>
+            </BarItem>
+        </BarEnd>
+    </BarMenu>
+</Bar>";
+
+        public const string VerticalBarExternalExample = @"<Layout Sider=""true"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar @ref=""@sidebar"" Mode=""BarMode.VerticalInline""
+                 Breakpoint=""Breakpoint.Desktop""
+                 Background=""Background.Light""
+                 ThemeContrast=""ThemeContrast.Light"">
+                <BarItem>Example</BarItem>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed=""true"">
+            <Bar Mode=""BarMode.Horizontal""
+                 Background=""Background.Light""
+                 ThemeContrast=""ThemeContrast.Light"">
+                <BarToggler Bar=""@sidebar"" />
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#"">
+                            <BarIcon IconName=""IconName.Dashboard"" />
+                            Example
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarItem>Example</BarItem>
+                </BarMenu>
+                <BarToggler />
+            </Bar>
+        </LayoutHeader>
+    </Layout>
+</Layout>
+
+@code {
+    private Bar sidebar;
+}";
+
+        public const string VerticalBarInlineExample = @"<Bar Mode=""BarMode.VerticalInline""
+     Breakpoint=""Breakpoint.Desktop""
+     Background=""Background.Light""
+     ThemeContrast=""ThemeContrast.Light"">
+    <BarToggler />
+    <BarBrand>
+        <BarItem>
+            <BarLink To=""#"">
+                <BarIcon IconName=""IconName.Dashboard"" />
+                Example
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarMenu>
+        <BarItem>Example</BarItem>
+    </BarMenu>
+</Bar>";
+
+        public const string VerticalBarNestedDropdownsExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
+     Background=""Background.Light""
+     ThemeContrast=""ThemeContrast.Light"">
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        Top-level toggler
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem>
+                            Top-level item
+                        </BarDropdownItem>
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Nested toggler
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem>
+                                    Nested item
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>";
+
+        public const string VerticalBarPopoutExample = @"<Bar Mode=""BarMode.VerticalInline""
+     Breakpoint=""Breakpoint.Desktop""
+     Background=""Background.Light""
+     ThemeContrast=""ThemeContrast.Light"">
+    <BarBrand>
+        <BarItem>
+            <BarLink To=""#"">
+                <BarIcon IconName=""IconName.Dashboard"" />
+                Blazorise Demo
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarToggler Mode=""BarTogglerMode.Popout"" />
+    <BarMenu>
+        <BarItem>Popout!</BarItem>
+    </BarMenu>
+</Bar>";
+
+        public const string VerticalBarRightAlignedExample = @"<Layout Sider=""true"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode=""BarMode.VerticalInline"" CollapseMode=""BarCollapseMode.Small""
+                 Breakpoint=""Breakpoint.Desktop""
+                 Background=""Background.Light""
+                 ThemeContrast=""ThemeContrast.Light"">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#"">
+                            <BarIcon IconName=""IconName.Dashboard"" />
+                            Example
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName=""IconName.Edit"" />
+                                    Toggle
+                                </BarDropdownToggle>
+                                <BarDropdownMenu RightAligned=""true"">
+                                    <BarDropdownItem>Action</BarDropdownItem>
+                                    <BarDropdownItem>Another action</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+</Layout>";
+
+        public const string VerticalBarSideBarExample = @"<Bar Mode=""BarMode.VerticalInline""
+     CollapseMode=""BarCollapseMode.Small""
+     Breakpoint=""Breakpoint.Desktop""
+     NavigationBreakpoint=""Breakpoint.Tablet""
+     ThemeContrast=""ThemeContrast.Dark"">
+    <BarBrand>
+        <BarItem>
+            <BarLink To=""#"">
+                <BarIcon IconName=""IconName.Dashboard"" />
+                Blazorise Demo
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""#home"">
+                    <BarIcon IconName=""IconName.Dashboard"" />
+                    Home
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To=""#docs"">Documentation</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.Edit"" />
+                        Dropdown
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem>Action</BarDropdownItem>
+                        <BarDropdownItem>Another action</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>";
+
         public const string BreadcrumbAutoExample = @"<Breadcrumb Mode=""BreadcrumbMode.Auto"">
     <BreadcrumbItem>
         <BreadcrumbLink To="""">Home</BreadcrumbLink>
