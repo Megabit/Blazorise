@@ -2279,6 +2279,43 @@ namespace Blazorise.Docs.Models
 
 }";
 
+        public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""
+              Data=""@myDdlData""
+              TextField=""@((item)=>item.MyTextField)""
+              ValueField=""@((item)=>item.MyValueField)""
+              SelectedValue=""@selectedDropValue""
+              SelectedValueChanged=""@MyDropValueChangedHandler""
+              Color=""Color.Primary"">
+    Select item
+</DropdownList>
+
+<Field Horizontal=""true"">
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected item: @selectedDropValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected value: @Countries[selectedDropValue - 1]
+    </FieldBody>
+</Field>
+
+@code{
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+
+    int selectedDropValue { get; set; } = 2;
+
+    void MyDropValueChangedHandler( int newValue )
+    {
+        selectedDropValue = newValue;
+    }
+}";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 

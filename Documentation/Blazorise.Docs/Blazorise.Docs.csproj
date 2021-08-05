@@ -56,6 +56,7 @@
   <ItemGroup>
     <Folder Include="Pages\Docs\Components\Bar\Code\" />
     <Folder Include="Pages\Docs\Extensions\Autocomplete\Code\" />
+    <Folder Include="Pages\Docs\Extensions\DropdownList\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
