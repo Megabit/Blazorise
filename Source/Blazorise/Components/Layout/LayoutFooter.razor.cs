@@ -20,19 +20,6 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
-        {
-            var rect = await JSRunner.GetElementInfo( ElementRef, ElementId );
-
-            if ( rect.BoundingClientRect.Height > 0 )
-            {
-                await JSRunner.AddThemeVariable( ThemeVariables.LayoutFooterHeight, $"{rect.BoundingClientRect.Height}px" );
-            }
-
-            await base.OnFirstAfterRenderAsync();
-        }
-
-        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.LayoutFooter() );
