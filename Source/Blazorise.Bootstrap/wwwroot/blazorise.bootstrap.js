@@ -48,21 +48,27 @@ window.blazoriseBootstrap = {
             window.blazoriseBootstrap.modal.resetAdjustments(element);
         },
         adjustDialog: (element) => {
-            const isModalOverflowing = element.scrollHeight > document.documentElement.clientHeight;
-            const scrollbarWidth = window.blazoriseBootstrap.modal.getScrollBarWidth();
-            const isBodyOverflowing = scrollbarWidth > 0;
+            if (element) {
+                const isModalOverflowing = element.scrollHeight > document.documentElement.clientHeight;
+                const scrollbarWidth = window.blazoriseBootstrap.modal.getScrollBarWidth();
+                const isBodyOverflowing = scrollbarWidth > 0;
 
-            if (!isBodyOverflowing && isModalOverflowing) {
-                element.style.paddingLeft = `${scrollbarWidth}px`;
-            }
+                if (element.style) {
+                    if (!isBodyOverflowing && isModalOverflowing) {
+                        element.style.paddingLeft = `${scrollbarWidth}px`;
+                    }
 
-            if (isBodyOverflowing && !isModalOverflowing) {
-                element.style.paddingRight = `${scrollbarWidth}px`;
+                    if (isBodyOverflowing && !isModalOverflowing) {
+                        element.style.paddingRight = `${scrollbarWidth}px`;
+                    }
+                }
             }
         },
         resetAdjustments: (element) => {
-            element.style.paddingLeft = ''
-            element.style.paddingRight = '';
+            if (element && element.style) {
+                element.style.paddingLeft = ''
+                element.style.paddingRight = '';
+            }
         },
         getScrollBarWidth: () => {
             const documentWidth = document.documentElement.clientWidth;
