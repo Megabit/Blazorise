@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
@@ -57,6 +58,7 @@
     <Folder Include="Pages\Docs\Components\Bar\Code\" />
     <Folder Include="Pages\Docs\Extensions\Autocomplete\Code\" />
     <Folder Include="Pages\Docs\Extensions\DropdownList\Code\" />
+    <Folder Include="Pages\Docs\Extensions\Icons\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

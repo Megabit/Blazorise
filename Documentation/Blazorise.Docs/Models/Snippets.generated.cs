@@ -2324,6 +2324,14 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
+
+        public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
+
+        public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
+
+        public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
