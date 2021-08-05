@@ -76,6 +76,9 @@
         public const string SidebarBackground = "--b-sidebar-background";
         public const string SidebarColor = "--b-sidebar-color";
 
+        public const string LayoutHeaderHeight = "--b-layout-header-height";
+        public const string LayoutFooterHeight = "--b-layout-footer-height";
+
         public const string VerticalBarWidth = "--b-vertical-bar-width";
         public const string VerticalBarSmallWidth = "--b-vertical-bar-small-width";
         public const string VerticalBarBrandHeight = "--b-vertical-bar-brand-height";
