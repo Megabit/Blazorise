@@ -55,13 +55,6 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\Docs\Components\Bar\Code\" />
-    <Folder Include="Pages\Docs\Extensions\Autocomplete\Code\" />
-    <Folder Include="Pages\Docs\Extensions\DropdownList\Code\" />
-    <Folder Include="Pages\Docs\Extensions\Icons\Code\" />
-    <Folder Include="Pages\Docs\Extensions\Markdown\Code\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
 
