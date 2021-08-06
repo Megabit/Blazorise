@@ -1958,6 +1958,74 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string ThemingColorsExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""typeof(App).Assembly"" />
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        ColorOptions = new ThemeColorOptions
+        {
+            Primary = ""#45B1E8"",
+            Secondary = ""#A65529"",
+            // other
+        }
+    };
+}";
+
+        public const string ThemingGradientExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""typeof(App).Assembly"" />
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        IsGradient = true,
+    };
+}";
+
+        public const string ThemingRoundedExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""typeof(App).Assembly"" />
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        IsRounded = false,
+    };
+}";
+
+        public const string ThemingRuntimeExample = @"<Button Clicked=""@(()=>OnThemeColorChanged(""#d16f9e""))"">Change theme</Button>
+
+@code{
+    Task OnThemeColorChanged( string value )
+    {
+        if ( Theme?.ColorOptions != null )
+            Theme.ColorOptions.Primary = value;
+
+        if ( Theme?.BackgroundOptions != null )
+            Theme.BackgroundOptions.Primary = value;
+
+        Theme.ThemeHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    [CascadingParameter] Theme Theme { get; set; }
+}";
+
+        public const string ThemingStartExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""typeof(App).Assembly"" />
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        // theme settings
+    };
+}";
+
         public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";

@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Clicked="@(()=>OnThemeColorChanged("#d16f9e"))">Change theme</Button>
+
+@code{
+    Task OnThemeColorChanged( string value )
+    {
+        if ( Theme?.ColorOptions != null )
+            Theme.ColorOptions.Primary = value;
+
+        if ( Theme?.BackgroundOptions != null )
+            Theme.BackgroundOptions.Primary = value;
+
+        Theme.ThemeHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    [CascadingParameter] Theme Theme { get; set; }
+}
