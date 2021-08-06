@@ -32,8 +32,10 @@ namespace Blazorise.Docs.Compiler
                 cb.AddLine( "{" );
                 cb.IndentLevel++;
 
-                foreach ( var entry in Directory.EnumerateFiles( paths.DocsDirPath, "*.razor", SearchOption.AllDirectories )
-                    .OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
+                var razorFiles = Directory.EnumerateFiles( paths.DocsDirPath, "*.razor", SearchOption.AllDirectories );
+                //var snippetFiles = Directory.EnumerateFiles( paths.DocsDirPath, "*.snippet", SearchOption.AllDirectories );
+
+                foreach ( var entry in razorFiles/*.Concat( snippetFiles )*/.OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
                 {
                     var filename = Path.GetFileName( entry );
                     var componentName = Path.GetFileNameWithoutExtension( filename );
