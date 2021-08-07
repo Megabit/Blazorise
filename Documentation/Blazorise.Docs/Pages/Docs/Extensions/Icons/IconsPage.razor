@@ -16,39 +16,26 @@
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
-        Install-Package Blazorise.Icons.FontAwesome
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FontAwesomeNugetInstallExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="CSS">
         Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
-        &lt;link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"/&gt;
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FontAwesomeCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="CSS">
         Note: If instead of FontAwesome icons you want to use Material icons you will need to define static <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
-        &lt;link href="_content/Blazorise.Icons.Material/blazorise.icons.material.css" rel="stylesheet" /&gt;
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MaterialCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Registrations" />
-    <DocsPageSectionContent Outlined>
-        <Code>
-            builder.Services<br />
-            .AddBlazorise()<br />
-            .AddBootstrapProviders()<br />
-            +  .AddFontAwesomeIcons();
-        </Code>
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RegistrationsExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>

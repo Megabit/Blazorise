@@ -18,31 +18,21 @@ Markdown component is created as an extension for Blazorise so before you contin
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
-        Install-Package Blazorise.Markdown
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Imports">
         In your main Imports.razor add:
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
-        &#64;using Blazorise.Markdown
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ImportMarkdownExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static Files">
         Include CSS and JS links into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
-        &lt;link href="https://unpkg.com/easymde/dist/easymde.min.css" rel="stylesheet"&gt;<br/>
-        &lt;script src="https://unpkg.com/easymde/dist/easymde.min.js"&gt;&lt;/script&gt;<br/>
-        &lt;script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"&gt;&lt;/script&gt;<br/>
-        <br/>
-        &lt;script src="_content/Blazorise.Markdown/blazorise.markdown.js"&gt;&lt;/script&gt;
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StaticFilesMarkdownExample" />
 </DocsPageSection>
 
 

@@ -2355,6 +2355,30 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string ChartExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
+
+@code{
+    string markdownValue = ""# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`."";
+
+    string markdownHtml;
+
+    protected override void OnInitialized()
+    {
+        markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? string.Empty );
+
+        base.OnInitialized();
+    }
+
+    Task OnMarkdownValueChanged( string value )
+    {
+        markdownValue = value;
+
+        markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? string.Empty );
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""
               Data=""@myDdlData""
               TextField=""@((item)=>item.MyTextField)""
