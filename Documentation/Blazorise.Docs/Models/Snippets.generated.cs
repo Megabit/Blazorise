@@ -2613,6 +2613,93 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string SidebarDynamicExample = @"<Sidebar Data=""@sidebarInfo"" />
+
+@code{
+    Sidebar sidebar;
+    
+    SidebarInfo sidebarInfo = new SidebarInfo
+    {
+        Brand = new SidebarBrandInfo
+        {
+            Text = ""Blazorise Demo""
+        },
+        Items = new List<SidebarItemInfo>
+        {
+            new SidebarItemInfo { To = ""#"", Text = ""Dashboard"" },
+            new SidebarItemInfo
+            {
+                Text = ""Email"",
+                Icon = IconName.Mail,
+                SubItems = new List<SidebarItemInfo>
+                {
+                    new SidebarItemInfo { To = ""#email/inbox"", Text = ""Inbox"" },
+                    new SidebarItemInfo { To = ""#email/compose"", Text = ""Compose Email"" },
+                }
+            },
+            new SidebarItemInfo
+            {
+                Text = ""Applications"",
+                SubItems = new List<SidebarItemInfo>
+                {
+                    new SidebarItemInfo { To = ""#apps/todo"", Text = ""Todo List"" }
+                }
+            },
+        }
+    };
+}";
+
+        public const string SidebarManualExample = @"<Sidebar @ref=""sidebar"">
+    <SidebarContent>
+        <SidebarBrand>
+            <a href=""#"">Blazorise Sidebar</a>
+        </SidebarBrand>
+        <SidebarNavigation>
+            <SidebarLabel>Main</SidebarLabel>
+            <SidebarItem>
+                <SidebarLink To=""#"" Title=""Home"">
+                    <Icon Name=""IconName.Home"" Margin=""Margin.Is3.FromRight"" />Home
+                </SidebarLink>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled=""(isOpen)=> mailSidebarSubItems.Toggle(isOpen)"" IsShow=""true"">
+                    <Icon Name=""IconName.Mail"" Margin=""Margin.Is3.FromRight"" />Email
+                </SidebarLink>
+                <SidebarSubItem @ref=""mailSidebarSubItems"" IsShow=""true"">
+                    <SidebarItem>
+                        <SidebarLink To=""#email/inbox"">Inbox</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To=""#email/compose"">Compose Email</SidebarLink>
+                    </SidebarItem>
+                    @* other subitems *@
+                </SidebarSubItem>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled=""(isOpen)=> appsSidebarSubItems.Toggle(isOpen)"" IsShow=""true"">
+                    <Icon Name=""IconName.Smartphone"" Margin=""Margin.Is3.FromRight"" />Apps
+                </SidebarLink>
+                <SidebarSubItem @ref=""appsSidebarSubItems"" IsShow=""true"">
+                    <SidebarItem>
+                        <SidebarLink To=""#apps/todo"">Todo List</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
+        </SidebarNavigation>
+    </SidebarContent>
+</Sidebar>
+
+@code{
+    Sidebar sidebar;
+    SidebarSubItem mailSidebarSubItems;
+    SidebarSubItem appsSidebarSubItems;
+
+    void ToggleSidebar()
+    {
+        sidebar.Toggle();
+    }
+}";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
