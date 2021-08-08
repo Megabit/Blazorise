@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\Docs\Extensions\Chart\Code\" />
+    <Folder Include="Pages\Docs\Extensions\SelectList\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
