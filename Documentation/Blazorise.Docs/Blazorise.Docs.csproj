@@ -69,6 +69,7 @@
     <Folder Include="Pages\Docs\Extensions\Sidebar\Code\" />
     <Folder Include="Pages\Docs\Extensions\Snackbar\Code\" />
     <Folder Include="Pages\Docs\Extensions\SpinKit\Code\" />
+    <Folder Include="Pages\Docs\Extensions\TreeView\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

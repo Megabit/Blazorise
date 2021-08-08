@@ -2748,6 +2748,48 @@ namespace Blazorise.Docs.Models
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
+        public const string TreeViewExample = @"<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          @bind-SelectedNode=""selectedNode""
+          @bind-ExpandedNodes=""ExpandedNodes"">
+    <NodeContent>@context.Text</NodeContent>
+</TreeView>
+
+@code{
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item {
+            Text = ""Item 2"",
+            Children = new []
+        {
+                new Item { Text = ""Item 2.1"" },
+                new Item { Text = ""Item 2.2"", Children = new []
+            {
+                    new Item { Text = ""Item 2.2.1"" },
+                    new Item { Text = ""Item 2.2.2"" },
+                    new Item { Text = ""Item 2.2.3"" },
+                    new Item { Text = ""Item 2.2.4"" }
+                }
+            },
+            new Item { Text = ""Item 2.3"" },
+            new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> ExpandedNodes = new List<Item>();
+    Item selectedNode;
+}";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
