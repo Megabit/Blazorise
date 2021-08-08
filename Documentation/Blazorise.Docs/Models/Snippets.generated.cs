@@ -2742,6 +2742,12 @@ namespace Blazorise.Docs.Models
     private Snackbar snackbarSecondary;
 }";
 
+        public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""#ff4a3d"" />";
+
+        public const string SpinKitExample = @"<SpinKit Type=""SpinKitType.Plane"" />";
+
+        public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
