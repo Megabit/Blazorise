@@ -1,0 +1,26 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          Editable="true">
+    <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true">
+        <EditTemplate>
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => {
+            context.CellValue = v;
+            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+        })" />
+        </EditTemplate>
+    </DataGridColumn>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Tax )" Caption="Tax" Editable="false"> </DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Salary = 50000, Tax = 50000 * .25m }, new() { Salary = 30000, Tax = 30000 * .25m } };
+
+    public class Employee
+    {
+        public decimal Tax { get; set; }
+        public decimal Salary { get; set; }
+    }
+}

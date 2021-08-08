@@ -2515,6 +2515,164 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DataGridExample = @"<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          @bind-SelectedNode=""selectedNode""
+          @bind-ExpandedNodes=""ExpandedNodes"">
+    <NodeContent>@context.Text</NodeContent>
+</TreeView>
+
+@code{
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item {
+            Text = ""Item 2"",
+            Children = new []
+    {
+                new Item { Text = ""Item 2.1"" },
+                new Item { Text = ""Item 2.2"", Children = new []
+        {
+                    new Item { Text = ""Item 2.2.1"" },
+                    new Item { Text = ""Item 2.2.2"" },
+                    new Item { Text = ""Item 2.2.3"" },
+                    new Item { Text = ""Item 2.2.4"" }
+                }
+            },
+            new Item { Text = ""Item 2.3"" },
+            new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> ExpandedNodes = new List<Item>();
+    Item selectedNode;
+}";
+
+        public const string DataGridFilterExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Filterable=""true""
+          FilterMethod=""DataGridFilterMethod.StartsWith"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Name = ""David"" }, new() { Name = ""MLaden"" }, new() { Name = ""John"" }, new() { Name = ""Ana"" }, new() { Name = ""Jessica"" } };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
+}";
+
+        public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          RowSelectable=@((item)=>item.Name != ""John"")>
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Name = ""David"" }, new() { Name = ""MLaden"" }, new() { Name = ""John"" }, new() { Name = ""Ana"" }, new() { Name = ""Jessica"" } };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
+}";
+
+        public const string DataGridUpdateCellExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Editable=""true"">
+    <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable=""true"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => {
+            context.CellValue = v;
+            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+        })"" />
+        </EditTemplate>
+    </DataGridColumn>
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable=""false""> </DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Salary = 50000, Tax = 50000 * .25m }, new() { Salary = 30000, Tax = 30000 * .25m } };
+
+    public class Employee
+    {
+        public decimal Tax { get; set; }
+        public decimal Salary { get; set; }
+    }
+}";
+
+        public const string DataGridValidatorEditTemplateExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Editable=""true"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" Editable=""true"">
+        <EditTemplate>
+            <Validation Validator=""@CheckName"">
+                <TextEdit Text=""@((string)context.CellValue)"" TextChanged=""(value => context.CellValue = value)"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Name = ""David"" }, new() { Name = ""MLaden"" }, new() { Name = ""John"" }, new() { Name = ""Ana"" }, new() { Name = ""Jessica"" } };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
+
+    public void CheckName( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsNotEmpty( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = ""Name can't be empty."";
+        }
+    }
+}";
+
+        public const string DataGridValidatorExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Editable=""true"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" Validator=""@CheckName"" Editable=""true"" />
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Name = ""David"" }, new() { Name = ""MLaden"" }, new() { Name = ""John"" }, new() { Name = ""Ana"" }, new() { Name = ""Jessica"" } };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
+
+    public void CheckName( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsNotEmpty( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = ""Name can't be empty."";
+        }
+    }
+}";
+
         public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""
               Data=""@myDdlData""
               TextField=""@((item)=>item.MyTextField)""

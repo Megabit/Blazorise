@@ -1,0 +1,225 @@
+﻿@page "/docs/extensions/datagrid"
+
+<DocsPageTitle>
+    DataGrid
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    To create a basic grid in Blazorise you need to set the Column that will define the grid structure and behavior.
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code>DataGrid</Code> the main <Strong>container</Strong>
+        <ul>
+            <li>
+                <Code>DataGridColumns</Code> container for datagrid columns
+                <ul>
+                    <li><Code>DataGridColumn</Code> column template for text editor</li>
+                    <li><Code>DataGridNumericColumn</Code> column template for numeric values</li>
+                    <li><Code>DataGridDateColumn</Code> column template for datetime values</li>
+                    <li><Code>DataGridCheckColumn</Code> column template for boolean values</li>
+                    <li><Code>DataGridSelectColumn</Code> column template for selectable values</li>
+                    <li><Code>DataGridCommandColumn</Code> column template for editing commands like Edit, Save, Cancel, etc.</li>
+                </ul>
+            </li>
+            <li>
+                <Code>DataGridAggregates</Code> container for datagrid aggregates
+                <ul>
+                    <li><Code>DataGridAggregate</Code> defines the column and aggregation function type</li>
+                </ul>
+            </li>
+
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="DataGridNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="DataGridImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static files">
+        Include the necessary file into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="DataGridResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Features
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Sorting">
+        All columns can be sorted automatically if the option <Code>Sortable</Code> is enabled on the column.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Filtering">
+        Use an attribute <Code>Filterable</Code> to enable or disable automatic filtering in grid component.
+
+        Default method for filtering is <Code>Contains</Code>. If you want to change it you can set the <Code>FilterMethod</Code> attribute on data grid. Supported methods are:
+        <ul>
+            <li><Code>Contains</Code> search for any occurrence (default)</li>
+            <li><Code>StartsWith</Code> search only the beginning</li>
+            <li><Code>EndsWith</Code> search only the ending</li>
+            <li><Code>Equals</Code> search must match the entire value</li>
+            <li><Code>NotEquals</Code> opposite of Equals</li>
+        </ul>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridFilterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridFilterExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Filtering">
+        Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute <Code>CustomFilter</Code>. More can be found in Usage section.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Paging">
+        Paging is handled automatically by the <Code>DataGrid</Code>. You also have some additional attributes to configure paging based on your requirements.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <ul>
+            <li><Code>ShowPager</Code> to hide or show pagination controls</li>
+            <li><Code>PageSize</Code> the maximum number of items for each page.</li>
+            <li><Code>CurrentPage</Code> current page number.</li>
+            <li><Code>PreviousPageButtonTemplate</Code> template for previous page button</li>
+            <li><Code>NextPageButtonTemplate</Code> template for next page button</li>
+            <li><Code>FirstPageButtonTemplate</Code> template for first page button</li>
+            <li><Code>LastPageButtonTemplate</Code> template for last page button</li>
+            <li><Code>PageButtonTemplate</Code> template for explicated page button with <Code>PageButtonContext</Code> as parameter</li>
+        </ul>
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Editing">
+        The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid just set the <Code>Editable</Code> attribute to true.
+
+        By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        The grid can work in two different editing modes that can provide different user experiences.
+        <ul>
+            <li><Code>Form</Code> editing is done in the internal DataGrid form</li>
+            <li><Code>Inline</Code> editing is done in the current row</li>
+            <li><Code>Popup</Code> editing is done in the the modal dialog</li>
+        </ul>
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Cascading values">
+        In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an <Code>UpdateCell</Code> method. You have two ways of updating a cell:
+        <ul>
+            <li>by calling <Code>UpdateCell</Code> on the context inside of <Code>EditTemplate</Code>, or</li>
+            <li>by calling <Code>UpdateCellEditValue</Code> on the <Code>DataGrid</Code> instance</li>
+        </ul>
+
+        In the following example we’re simply calling <Code>context.UpdateCell</Code> with a field-name to change and a new value that we want it to assign:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridUpdateCellExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridUpdateCellExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Selecting">
+        If you need to control how and when the grid row will be selected you can use a <Code>RowSelectable</Code> event handler. A simple example is:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridSelectingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSelectingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Large Data">
+        By default, <Code>DataGrid</Code> will load everything in memory and it will perform the necessary operations like paging, sorting and filtering. For large datasets this is impractical and so for these scenarios it is advised to load data page-by-page. This is accomplished with the use of <Code>ReadData</Code> event handler and <Code>TotalItems</Code> attribute. When you define the usage of <Code>ReadData</Code> the <Code>DataGrid</Code> will automatically switch to manual mode and every interaction with the grid will be proxied through the <Code>ReadData</Code>. This means that you as a developer will be responsible for all the loading, filtering and sorting of the data.
+        <ul>
+            <li><Code>ReadData</Code> event handler used to handle the loading of data</li>
+            <li><Code>TotalItems</Code> total number of items in the source data-set</li>
+        </ul>
+
+        Bellow you can find a basic example of how to load large data and apply it to the <Code>DataGrid</Code>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Virtualization">
+        By setting <Code>Virtualize</Code>, you will enable virtualize capabilities on the <Code>DataGrid</Code>, meaning that instead of having pagination, you’ll be able to scroll across the data with perceived improved performance.
+
+        Virtualization is a technique for limiting UI rendering to just the parts that are currently visible. For example, virtualization is helpful when the app must render a long list of items and only a subset of items is required to be visible at any given time.
+
+        You will still have access to every available <Code>DataGrid</Code> feature. <Code>VirtualizeOptions</Code> allows to further customize the <Code>Virtualize</Code> feature.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Aggregates">
+        The <Code>DataGrid</Code> provider several built-in aggregates for column values. Supported aggregate functions are:
+        <ul>
+            <li><Code>Sum</Code> Calculate total(sum) value of the collection.</li>
+            <li><Code>Average</Code> Calculates the average of the numeric items in the collection.</li>
+            <li><Code>Min</Code> Finds the smallest value in the collection.</li>
+            <li><Code>Max</Code> Finds the largest value in the collection.</li>
+            <li><Code>Count</Code> Counts the elements in a collection.</li>
+            <li><Code>TrueCount</Code> Counts boolean elements with true value.</li>
+            <li><Code>FalseCount</Code> Counts boolean elements with false value.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validations">
+        The <Code>DataGrid</Code> provides validations of column values at editing or creating items. For using validation of <Code>DataGrid</Code> you have to use these properties:
+        <ul>
+            <li>UseValidation must be set to true to enable validation.</li>
+            <li>ShowValidationFeedback of DataGrid to hide or show feedback for validation.</li>
+            <li>ShowValidationsSummary of DataGrid to hide or show validations summary.</li>
+            <li>ValidationsSummaryLabel of DataGrid to set label of validations summary.</li>
+            <li>Validator of DataGridColumn validates the input value after trying to save.</li>
+            <li>ValidationPattern of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.</li>
+        </ul>
+        By default, <Code>DataGrid</Code> will use data-annotation to validate editing fields. You only need to define them on your model and they will automatically be picked up by the grid.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="DataGridAnnotationExample" />
+    <DocsPageSectionContent>
+        <Alert Visible="true" Color="Color.Warning">
+            <AlertDescription>
+                <Strong>Note:</Strong> Don’t forget to enable validation by setting <Code>UseValidation="true"</Code>.
+            </AlertDescription>
+        </Alert>
+    </DocsPageSectionContent>
+    <DocsPageSectionContent>
+        To override data-annotation you only need to define a <Code>Validator</Code> attribute and assign it to your validation method.
+        <DataGridValidatorExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridValidatorExample" />
+        <DocsPageSectionContent>
+        If you use <Code>EditTemplate</Code> to customize editing of columns, then using <Code>Validator</Code> or <Code>ValidationPattern</Code> will not work and you have to use <Code>Validation</Code> like this:
+        <DataGridValidatorEditTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridValidatorEditTemplateExample" />
+</DocsPageSection>
