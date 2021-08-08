@@ -1,1 +1,3 @@
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Shared\Code\ComponentsNugetInstallExampleCode.html
+C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Extensions\LiveChart\Code\ChartStreamingExampleCode.html
+C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Extensions\LiveChart\Code\ChartStreamingNugetInstallExampleCode.html
+C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Extensions\LiveChart\Code\ChartStreamingResourcesExampleCode.html
