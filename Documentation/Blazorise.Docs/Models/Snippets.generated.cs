@@ -2584,6 +2584,83 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
+
+@* Define this configuration in a javascript file
+    window.myComponent = {
+        configureQuillJs: () => {
+            var link = Quill.import(""formats/link"");
+
+            link.sanitize = url => {
+                let newUrl = window.decodeURIComponent(url);
+                newUrl = newUrl.trim().replace(/\s/g, """");
+
+                if (/^(:\/\/)/.test(newUrl)) {
+                    return `http${newUrl}`;
+                }
+
+                if (!/^(f|ht)tps?:\/\//i.test(newUrl)) {
+                    return `http://${newUrl}`;
+                }
+
+                return newUrl;
+            }
+        }
+    }
+*@";
+
+        public const string RichTextEditExample = @"<RichTextEdit @ref=""richTextEditRef""
+              Theme=""RichTextEditTheme.Snow""
+              ContentChanged=""@OnContentChanged""
+              PlaceHolder=""Type your post here...""
+              ReadOnly=""@readOnly""
+              SubmitOnEnter=""false""
+              EnterPressed=""@OnSave""
+              ToolbarPosition=""Placement.Bottom"">
+    <Editor>My example content</Editor>
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Italic"" />
+            <RichTextEditToolbarSelect Action=""RichTextEditAction.Size"">
+                <RichTextEditToolbarSelectItem Value=""small"" />
+                <RichTextEditToolbarSelectItem Selected=""true"" />
+                <RichTextEditToolbarSelectItem Value=""large"" />
+                <RichTextEditToolbarSelectItem Value=""huge"">Very Big</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""ordered"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""bullet"" />
+        </RichTextEditToolbarGroup>
+        <!-- Custom toolbar content -->
+        <RichTextEditToolbarGroup Float=""Float.Right"">
+            <Button onClick=""window.open('https://www.quilljs.com/','quilljs')""><Icon Name=""IconName.InfoCircle"" /></Button>
+            <Button Clicked=""@OnSave""><Icon Name=""IconName.Save"" /></Button>
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>
+
+@code{
+    private RichTextEdit richTextEditRef;
+    private bool readOnly;
+    private string contentAsHtml;
+    private string contentAsDeltaJson;
+    private string contentAsText;
+    private string savedContent;
+
+    public async Task OnContentChanged()
+    {
+        contentAsHtml = await richTextEditRef.GetHtmlAsync();
+        contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
+        contentAsText = await richTextEditRef.GetTextAsync();
+    }
+
+    public async Task OnSave()
+    {
+        savedContent = await richTextEditRef.GetHtmlAsync();
+        await richTextEditRef.ClearAsync();
+    }
+}";
+
         public const string SelectListExample = @"<SelectList TItem=""MySelectModel""
             TValue=""int""
             Data=""@myDdlData""

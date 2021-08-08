@@ -1,5 +1,6 @@
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,8 @@ namespace Blazorise.Docs.Server
                   options.ChangeTextOnKeyPress = true; // optional
               } )
               .AddBootstrapProviders()
-              .AddFontAwesomeIcons();
+              .AddFontAwesomeIcons()
+              .AddBlazoriseRichTextEdit();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
