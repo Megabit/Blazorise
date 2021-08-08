@@ -4,10 +4,10 @@
 @code{
     Chart<double> barChart;
 
-    void OnClicked(ChartMouseEventArgs e)
+    void OnClicked( ChartMouseEventArgs e )
     {
         var model = e.Model as BarChartModel;
 
-        Console.WriteLine($"{model.X}-{model.Y}");
+        Console.WriteLine( $"{model.X}-{model.Y}" );
     }
 }

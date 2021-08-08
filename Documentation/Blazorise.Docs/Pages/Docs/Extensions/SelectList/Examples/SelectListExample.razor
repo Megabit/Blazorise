@@ -1,14 +1,13 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<SelectList
-    TItem="MySelectModel"
-    TValue="int"
-    Data="@myDdlData"
-    TextField="@((item)=>item.MyTextField)"
-    ValueField="@((item)=>item.MyValueField)"
-    SelectedValue="@selectedListValue"
-    SelectedValueChanged="@MyListValueChangedHandler"
-    DefaultItemText="Choose your country" />
+<SelectList TItem="MySelectModel"
+            TValue="int"
+            Data="@myDdlData"
+            TextField="@((item)=>item.MyTextField)"
+            ValueField="@((item)=>item.MyValueField)"
+            SelectedValue="@selectedListValue"
+            SelectedValueChanged="@MyListValueChangedHandler"
+            DefaultItemText="Choose your country" />
 
 @code{
     public class MySelectModel

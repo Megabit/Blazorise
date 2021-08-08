@@ -10,14 +10,14 @@
             Text = "Blazorise Demo"
         },
         Items = new List<SidebarItemInfo>
-        {
+    {
             new SidebarItemInfo { To = "#", Text = "Dashboard" },
             new SidebarItemInfo
             {
                 Text = "Email",
                 Icon = IconName.Mail,
                 SubItems = new List<SidebarItemInfo>
-                {
+            {
                     new SidebarItemInfo { To = "#email/inbox", Text = "Inbox" },
                     new SidebarItemInfo { To = "#email/compose", Text = "Compose Email" },
                 }
@@ -26,7 +26,7 @@
             {
                 Text = "Applications",
                 SubItems = new List<SidebarItemInfo>
-                {
+            {
                     new SidebarItemInfo { To = "#apps/todo", Text = "Todo List" }
                 }
             },

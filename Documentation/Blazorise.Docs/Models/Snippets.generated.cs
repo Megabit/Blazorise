@@ -2359,11 +2359,11 @@ namespace Blazorise.Docs.Models
 @code{
     Chart<double> barChart;
 
-    void OnClicked(ChartMouseEventArgs e)
+    void OnClicked( ChartMouseEventArgs e )
     {
         var model = e.Model as BarChartModel;
 
-        Console.WriteLine($""{model.X}-{model.Y}"");
+        Console.WriteLine( $""{model.X}-{model.Y}"" );
     }
 }";
 
@@ -2415,51 +2415,6 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""
-              Data=""@myDdlData""
-              TextField=""@((item)=>item.MyTextField)""
-              ValueField=""@((item)=>item.MyValueField)""
-              SelectedValue=""@selectedDropValue""
-              SelectedValueChanged=""@MyDropValueChangedHandler""
-              Color=""Color.Primary"">
-    Select item
-</DropdownList>
-
-<Field Horizontal=""true"">
-    <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected item: @selectedDropValue
-    </FieldBody>
-    <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected value: @Countries[selectedDropValue - 1]
-    </FieldBody>
-</Field>
-
-@code{
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
-    }
-
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
-
-    int selectedDropValue { get; set; } = 2;
-
-    void MyDropValueChangedHandler( int newValue )
-    {
-        selectedDropValue = newValue;
-    }
-}";
-
-        public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
-
-        public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
-
-        public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
-
-        public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
-
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
                     Options=""new ChartStreamingOptions { Delay = 2000 }""
@@ -2496,7 +2451,7 @@ namespace Blazorise.Docs.Models
                     ScaleLabel = new {
                     Display = true, LabelString = ""value"" }
                 }
-                }
+                    }
         },
         Tooltips = new
         {
@@ -2560,6 +2515,51 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""
+              Data=""@myDdlData""
+              TextField=""@((item)=>item.MyTextField)""
+              ValueField=""@((item)=>item.MyValueField)""
+              SelectedValue=""@selectedDropValue""
+              SelectedValueChanged=""@MyDropValueChangedHandler""
+              Color=""Color.Primary"">
+    Select item
+</DropdownList>
+
+<Field Horizontal=""true"">
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected item: @selectedDropValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected value: @Countries[selectedDropValue - 1]
+    </FieldBody>
+</Field>
+
+@code{
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+
+    int selectedDropValue { get; set; } = 2;
+
+    void MyDropValueChangedHandler( int newValue )
+    {
+        selectedDropValue = newValue;
+    }
+}";
+
+        public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
+
+        public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
+
+        public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
+
+        public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
+
         public const string MarkdownExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
 
 @code{
@@ -2584,15 +2584,14 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string SelectListExample = @"<SelectList
-    TItem=""MySelectModel""
-    TValue=""int""
-    Data=""@myDdlData""
-    TextField=""@((item)=>item.MyTextField)""
-    ValueField=""@((item)=>item.MyValueField)""
-    SelectedValue=""@selectedListValue""
-    SelectedValueChanged=""@MyListValueChangedHandler""
-    DefaultItemText=""Choose your country"" />
+        public const string SelectListExample = @"<SelectList TItem=""MySelectModel""
+            TValue=""int""
+            Data=""@myDdlData""
+            TextField=""@((item)=>item.MyTextField)""
+            ValueField=""@((item)=>item.MyValueField)""
+            SelectedValue=""@selectedListValue""
+            SelectedValueChanged=""@MyListValueChangedHandler""
+            DefaultItemText=""Choose your country"" />
 
 @code{
     public class MySelectModel
@@ -2623,14 +2622,14 @@ namespace Blazorise.Docs.Models
             Text = ""Blazorise Demo""
         },
         Items = new List<SidebarItemInfo>
-        {
+    {
             new SidebarItemInfo { To = ""#"", Text = ""Dashboard"" },
             new SidebarItemInfo
             {
                 Text = ""Email"",
                 Icon = IconName.Mail,
                 SubItems = new List<SidebarItemInfo>
-                {
+            {
                     new SidebarItemInfo { To = ""#email/inbox"", Text = ""Inbox"" },
                     new SidebarItemInfo { To = ""#email/compose"", Text = ""Compose Email"" },
                 }
@@ -2639,7 +2638,7 @@ namespace Blazorise.Docs.Models
             {
                 Text = ""Applications"",
                 SubItems = new List<SidebarItemInfo>
-                {
+            {
                     new SidebarItemInfo { To = ""#apps/todo"", Text = ""Todo List"" }
                 }
             },
@@ -2701,9 +2700,9 @@ namespace Blazorise.Docs.Models
         public const string SnackbarExample = @"<Button Clicked=""@(()=>snackbar.Show())"">Snackbar</Button>
 
 <Snackbar @ref=""snackbar"">
-  <SnackbarBody>
-    Single line of text directly related to the operation performed
-  </SnackbarBody>
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
 </Snackbar>
 
 @code{
@@ -2737,7 +2736,7 @@ namespace Blazorise.Docs.Models
   </SnackbarBody>
 </Snackbar>
 
-@code{ 
+@code{
     private Snackbar snackbarPrimary;
     private Snackbar snackbarSecondary;
 }";
@@ -2769,10 +2768,10 @@ namespace Blazorise.Docs.Models
         new Item {
             Text = ""Item 2"",
             Children = new []
-        {
+    {
                 new Item { Text = ""Item 2.1"" },
                 new Item { Text = ""Item 2.2"", Children = new []
-            {
+        {
                     new Item { Text = ""Item 2.2.1"" },
                     new Item { Text = ""Item 2.2.2"" },
                     new Item { Text = ""Item 2.2.3"" },

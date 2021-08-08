@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\Docs\Extensions\Chart\Code\" />
-    <Folder Include="Pages\Docs\Extensions\LiveChart\Code\" />
     <Folder Include="Pages\Docs\Extensions\SelectList\Code\" />
     <Folder Include="Pages\Docs\Extensions\Sidebar\Code\" />
     <Folder Include="Pages\Docs\Extensions\Snackbar\Code\" />

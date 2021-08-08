@@ -6,11 +6,11 @@
 <span class="atSign">&#64;</span>code{
     Chart&lt;<span class="keyword">double</span>&gt; barChart;
 
-    <span class="keyword">void</span> OnClicked(ChartMouseEventArgs e)
+    <span class="keyword">void</span> OnClicked( ChartMouseEventArgs e )
     {
         <span class="keyword">var</span> model = e.Model <span class="keyword">as</span> BarChartModel;
 
-        Console.WriteLine($<span class="string">&quot;{model.X}-{model.Y}&quot;</span>);
+        Console.WriteLine( $<span class="string">&quot;{model.X}-{model.Y}&quot;</span> );
     }
 }
 </pre></div>
