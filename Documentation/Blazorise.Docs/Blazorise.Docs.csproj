@@ -67,6 +67,7 @@
     <Folder Include="Pages\Docs\Extensions\LiveChart\Code\" />
     <Folder Include="Pages\Docs\Extensions\SelectList\Code\" />
     <Folder Include="Pages\Docs\Extensions\Sidebar\Code\" />
+    <Folder Include="Pages\Docs\Extensions\Snackbar\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

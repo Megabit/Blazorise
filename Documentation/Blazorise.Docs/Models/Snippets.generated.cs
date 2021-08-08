@@ -2616,8 +2616,6 @@ namespace Blazorise.Docs.Models
         public const string SidebarDynamicExample = @"<Sidebar Data=""@sidebarInfo"" />
 
 @code{
-    Sidebar sidebar;
-    
     SidebarInfo sidebarInfo = new SidebarInfo
     {
         Brand = new SidebarBrandInfo
@@ -2698,6 +2696,50 @@ namespace Blazorise.Docs.Models
     {
         sidebar.Toggle();
     }
+}";
+
+        public const string SnackbarExample = @"<Button Clicked=""@(()=>snackbar.Show())"">Snackbar</Button>
+
+<Snackbar @ref=""snackbar"">
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
+  </SnackbarBody>
+</Snackbar>
+
+@code{
+    Snackbar snackbar;
+}";
+
+        public const string SnackbarStackedExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>snackbarStack.PushAsync(""Current time is: "" + DateTime.Now, SnackbarColor.Info))"">Primary</Button>
+
+<Button Color=""Color.Info"" Clicked=""@(()=>snackbarStack.PushAsync(""Some info message! Timeout: "" + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))"">Show Info</Button>
+
+<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.Right"" />
+
+@code{
+    SnackbarStack snackbarStack;
+    double intervalBeforeMsgClose = 2000;
+}";
+
+        public const string SnackbarVariantExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>snackbarPrimary.Show())"">Primary</Button>
+<Button Color=""Color.Secondary"" Clicked=""@(()=>snackbarSecondary.Show())"">Secondary</Button>
+
+<Snackbar @ref=""snackbarPrimary"" Color=""SnackbarColor.Primary"">
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
+    <SnackbarAction Clicked=""@(()=>snackbarPrimary.Hide())"">ACTION</SnackbarAction>
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref=""snackbarSecondary"" Color=""SnackbarColor.Secondary"">
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
+    <SnackbarAction Clicked=""@(()=>snackbarSecondary.Hide())"">ACTION</SnackbarAction>
+  </SnackbarBody>
+</Snackbar>
+
+@code{ 
+    private Snackbar snackbarPrimary;
+    private Snackbar snackbarSecondary;
 }";
 
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
