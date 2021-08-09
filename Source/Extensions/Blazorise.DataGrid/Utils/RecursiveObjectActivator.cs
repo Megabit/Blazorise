@@ -29,7 +29,7 @@ namespace Blazorise.DataGrid.Utils
         public static TItem CreateInstance<TItem>()
         {
             var objType = typeof( TItem );
-            var obj = (TItem)FormatterServices.GetUninitializedObject( typeof( TItem ) );
+            var obj = (TItem)FormatterServices.GetUninitializedObject( objType );
             var properties = objType.GetProperties( BindingFlags.Public | BindingFlags.Instance );
             CreateInstanceRecursive( obj, properties, (null, objType) );
 
