@@ -226,7 +226,8 @@
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation="true"
-                          SortChanged="@OnSortChanged">
+                          SortChanged="@OnSortChanged"
+                          NewItemCreator="@OnEmployeeNewItemCreator">
                     <EmptyTemplate>
                         <Span>
                             <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
@@ -289,7 +290,7 @@
                                 <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="Test.Name" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
+                        <DataGridColumn TItem="Employee" Field="Test.Salary.Description" Caption="Last Name" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>

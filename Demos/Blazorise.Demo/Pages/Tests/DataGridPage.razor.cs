@@ -45,6 +45,10 @@ namespace Blazorise.Demo.Pages.Tests
 
         public class MyTest
         {
+            public Salary Salary { get; set; }
+
+            [Required]
+            [MinLength(3)]
             public string Name { get; set; }
 
             public MyTest( string name )
@@ -62,6 +66,11 @@ namespace Blazorise.Demo.Pages.Tests
             }
 
             public DateTime Date { get; set; }
+
+            [Required]
+            [MinLength( 3 )]
+            public string Description { get; set; }
+
             public decimal Total { get; set; }
         }
 
@@ -153,7 +162,7 @@ namespace Blazorise.Demo.Pages.Tests
         {
             return new Employee
             {
-                Test = new MyTest( "" ),
+                Test = new MyTest( "" ) { Salary = new(DateTime.Now, 10)},
             };
         }
 
