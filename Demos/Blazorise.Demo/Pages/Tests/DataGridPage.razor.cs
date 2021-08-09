@@ -39,10 +39,28 @@ namespace Blazorise.Demo.Pages.Tests
             public bool IsActive { get; set; }
 
             public List<Salary> Salaries { get; set; } = new();
+
+            public MyTest Test { get; set; }
+        }
+
+        public class MyTest
+        {
+            public string Name { get; set; }
+
+            public MyTest( string name )
+            {
+                Name = name;
+            }
         }
 
         public class Salary
         {
+            public Salary( DateTime date, decimal total )
+            {
+                Date = date;
+                Total = total;
+            }
+
             public DateTime Date { get; set; }
             public decimal Total { get; set; }
         }
@@ -129,6 +147,14 @@ namespace Blazorise.Demo.Pages.Tests
             {
                 validationArgs.ErrorText = "First name has to be provided";
             }
+        }
+
+        Employee OnEmployeeNewItemCreator()
+        {
+            return new Employee
+            {
+                Test = new MyTest( "" ),
+            };
         }
 
         void OnEmployeeNewItemDefaultSetter( Employee employee )
