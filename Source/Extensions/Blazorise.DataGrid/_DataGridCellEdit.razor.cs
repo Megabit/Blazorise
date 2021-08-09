@@ -22,7 +22,8 @@ namespace Blazorise.DataGrid
         {
             CellEditContext.CellValue = value;
 
-            Column.SetValue( ValidationItem, value );
+            if ( ValidationItem != null )
+                Column.SetValue( ValidationItem, value );
 
             return CellValueChanged.InvokeAsync( value );
         }

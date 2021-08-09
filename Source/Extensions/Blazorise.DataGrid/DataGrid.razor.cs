@@ -633,7 +633,9 @@ namespace Blazorise.DataGrid
             editItem = item;
             editItemCellValues = new();
 
-            validationItem = RecursiveObjectActivator.CreateInstance<TItem>();
+            validationItem = UseValidation
+                ? RecursiveObjectActivator.CreateInstance<TItem>()
+                : default;
 
             foreach ( var column in EditableColumns )
             {
@@ -642,7 +644,8 @@ namespace Blazorise.DataGrid
                     CellValue = column.GetValue( editItem ),
                 } );
 
-                column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
+                if ( validationItem != null )
+                    column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
             }
         }
 
