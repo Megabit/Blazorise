@@ -169,13 +169,15 @@ namespace Blazorise.DataGrid.Utils
             var parameter = Expression.Parameter( typeof( TItem ), "item" );
             var property = GetPropertyOrField( parameter, fieldName );
             var path = fieldName.Split( '.' );
+
             Func<TItem, object> instanceGetter;
+
             if ( path.Length <= 1 )
                 instanceGetter = ( item ) => item;
             else
                 instanceGetter = CreateValueGetter<TItem>( string.Join( '.', path.Take( path.Length - 1 ) ) );
 
-            var convertExpression = Expression.MakeMemberAccess( Expression.Constant( instanceGetter( item) ), property.Member );
+            var convertExpression = Expression.MakeMemberAccess( Expression.Constant( instanceGetter( item ) ), property.Member );
 
             return Expression.Lambda<Func<TValue>>( convertExpression );
         }
