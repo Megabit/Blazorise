@@ -1328,7 +1328,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Gets if <see cref="ShowValidationsSummary"/> is true, and there are validation error messages <seealso cref="ValidationsSummaryErrors"/>.
+        /// Gets true if <see cref="ShowValidationsSummary"/> is enabled, and there are validation error messages <seealso cref="ValidationsSummaryErrors"/>.
         /// </summary>
         internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
