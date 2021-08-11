@@ -20,7 +20,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Internal timer used to delay the value.
         /// </summary>
-        private readonly Timer timer;
+        private readonly System.Timers.Timer timer;
 
         /// <summary>
         /// Event raised after the interval has passed.
