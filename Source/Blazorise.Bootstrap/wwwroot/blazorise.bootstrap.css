@@ -50,6 +50,9 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
 
+.btn-group.btn-group-toggle .btn.active.disabled {
+    opacity: 1; }
+
 .btn-group-vertical > .b-tooltip:not(:last-child) > .btn {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0; }
