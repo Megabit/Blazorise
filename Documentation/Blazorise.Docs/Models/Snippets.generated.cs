@@ -2590,17 +2590,20 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridUpdateCellExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Editable=""true"">
+          Editable=""true""
+          EditMode=""DataGridEditMode.Inline"">
     <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable=""true"">
         <EditTemplate>
-            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => {
-            context.CellValue = v;
-            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
-        })"" />
+            <NumericEdit TValue=""decimal""
+                         Value=""@((decimal)context.CellValue)""
+                         ValueChanged=""@( v => {
+                            context.CellValue = v;
+                            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+                         })"" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable=""false""> </DataGridColumn>
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable=""true"" />
 </DataGrid>
 
 @code{
