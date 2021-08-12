@@ -81,17 +81,31 @@
     You should not include both of them as that is generally not supported.
 </DocsPageParagraph>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="4.a Blazor WebAssembly">
-        This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
-        You should place the code into the <Strong>Program.cs</Strong> of your client project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideRegistration1Example" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="4.b Blazor Server">
-        This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideRegistration2Example" />
-</DocsPageSection>
+<Tabs @bind-SelectedTab="@selectedSection4">
+    <Items>
+        <Tab Name="4a" TextWeight="TextWeight.Bold">4.a Blazor WebAssembly</Tab>
+        <Tab Name="4b" TextWeight="TextWeight.Bold">4.b Blazor Server</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="4a" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="BootstrapGuideRegistration1Example" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="4b" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="BootstrapGuideRegistration2Example" />
+            </DocsPageSection>
+        </TabPanel>
+    </Content>
+</Tabs>
+@code{
+    string selectedSection4 = "4a";
+}

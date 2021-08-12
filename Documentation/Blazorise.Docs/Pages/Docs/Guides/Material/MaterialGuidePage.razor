@@ -80,17 +80,31 @@
     To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0" Target="Target.Blank">official documentation</Blazorise.Link>.
 </DocsPageParagraph>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="5.a Blazor WebAssembly">
-        This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
-        You should place the code into the <Strong>Program.cs</Strong> of your client project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="MaterialGuideRegistration1Example" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="5.b Blazor Server">
-        This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="MaterialGuideRegistration2Example" />
-</DocsPageSection>
+<Tabs @bind-SelectedTab="@selectedSection5">
+    <Items>
+        <Tab Name="5a" TextWeight="TextWeight.Bold">5.a Blazor WebAssembly</Tab>
+        <Tab Name="5b" TextWeight="TextWeight.Bold">5.b Blazor Server</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="5a" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="MaterialGuideRegistration1Example" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="5b" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="MaterialGuideRegistration2Example" />
+            </DocsPageSection>
+        </TabPanel>
+    </Content>
+</Tabs>
+@code{
+    string selectedSection5 = "5a";
+}
