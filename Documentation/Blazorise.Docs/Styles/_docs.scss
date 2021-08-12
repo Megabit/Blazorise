@@ -62,14 +62,17 @@
     }
 }
 
-.docs-page-section-source-toolbar {
-    position: relative;
-    float: right;
-    display: inline-block;
-}
+
 
 .docs-page-section-source {
+    position: relative;
     height: 100%;
+
+    .docs-page-section-source-toolbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 
     & .docs-page-section-source-code {
         height: 100%;
