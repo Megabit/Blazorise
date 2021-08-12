@@ -48,7 +48,7 @@ namespace Blazorise.DataGrid
         protected override Task OnInitializedAsync()
         {
             if ( ValueType == typeof( string ) )
-                stringExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, string>( ValidationItem, Column.Field );
+                stringExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, string>( ValidationItem, Field );
             else if ( ValueType == typeof( decimal ) )
                 decimalExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, decimal>( ValidationItem, Field );
             else if ( ValueType == typeof( decimal? ) )

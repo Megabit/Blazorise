@@ -23,7 +23,9 @@
             <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
                 @if ( ParentDataGrid.ShowValidationsSummary )
                 {
-                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
+                    <Field Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Display.Always : Display.None)">
+                        <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
+                    </Field>
                 }
                 <Fields>
                     @foreach ( var column in OrderedEditableColumns )

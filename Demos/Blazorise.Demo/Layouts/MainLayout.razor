@@ -1,7 +1,6 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
 
-
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
@@ -21,25 +20,42 @@
     </Layout>
 </Layout>
 
+@* These layouts are commented and used for internal testing. Don't remove them!  *@
+
 @*<Layout>
-    <LayoutHeader Fixed="true">
-        <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                 ThemeGradientChanged="@OnThemeGradientChanged"
-                 ThemeRoundedChanged="@OnThemeRoundedChanged"
-                 ThemeColorChanged="@OnThemeColorChanged" />
-    </LayoutHeader>
+        <LayoutHeader Fixed="true">
+            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                     ThemeGradientChanged="@OnThemeGradientChanged"
+                     ThemeRoundedChanged="@OnThemeRoundedChanged"
+                     ThemeColorChanged="@OnThemeColorChanged" />
+        </LayoutHeader>
+        <LayoutContent>
+            @Body
+        </LayoutContent>
+        <LayoutFooter Fixed="true">
+            <FooterMenu></FooterMenu>
+        </LayoutFooter>
+    </Layout>*@
 
-    <Layout Sider>
-        <LayoutSider>
-            <LayoutSiderContent>
-                <SideMenu />
-            </LayoutSiderContent>
-        </LayoutSider>
-        <Layout>
-            <LayoutContent Padding="Padding.Is4.OnX">
-                @Body
-            </LayoutContent>
+@*<Layout>
+        <LayoutHeader Fixed="true">
+            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                     ThemeGradientChanged="@OnThemeGradientChanged"
+                     ThemeRoundedChanged="@OnThemeRoundedChanged"
+                     ThemeColorChanged="@OnThemeColorChanged" />
+        </LayoutHeader>
+
+        <Layout Sider>
+            <LayoutSider>
+                <LayoutSiderContent>
+                    <SideMenu />
+                </LayoutSiderContent>
+            </LayoutSider>
+            <Layout>
+                <LayoutContent Padding="Padding.Is4.OnX">
+                    @Body
+                </LayoutContent>
+            </Layout>
         </Layout>
-    </Layout>
 
-</Layout>*@
+    </Layout>*@

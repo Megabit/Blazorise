@@ -72,19 +72,6 @@ namespace Blazorise
                     await Toggle();
                 }
             }
-            else
-            {
-                // only calculate HorizontalHeight if the Bar is placed inside of LayoutHeader
-                if ( LayoutHeader != null && string.IsNullOrEmpty( Theme?.BarOptions?.HorizontalHeight ) )
-                {
-                    var rect = await JSRunner.GetElementInfo( ElementRef, ElementId );
-
-                    if ( rect.BoundingClientRect.Height > 0 )
-                    {
-                        await JSRunner.AddThemeVariable( ThemeVariables.HorizontalBarHeight, $"{rect.BoundingClientRect.Height}px" );
-                    }
-                }
-            }
 
             await base.OnFirstAfterRenderAsync();
         }
