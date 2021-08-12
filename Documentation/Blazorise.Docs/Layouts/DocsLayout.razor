@@ -184,11 +184,11 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarExtensionsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.PuzzlePiece" />
+                                    Extensions
+                                </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownToggle>
-                                        <BarIcon IconName="IconName.PuzzlePiece" />
-                                        Extensions
-                                    </BarDropdownToggle>
                                     <BarDropdownItem To="docs/extensions/autocomplete">
                                         Autocomplete
                                     </BarDropdownItem>
