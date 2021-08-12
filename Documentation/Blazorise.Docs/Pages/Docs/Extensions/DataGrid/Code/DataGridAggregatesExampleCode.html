@@ -1,0 +1,72 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.ComponentModel.DataAnnotations;
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridAggregate</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Email )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Aggregate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridAggregateType</span><span class="enumValue">.Count</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>($&quot;Total emails: {context.Value}&quot;)
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridAggregate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridAggregate</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Aggregate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridAggregateType</span><span class="enumValue">.Sum</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo(&quot;fr-FR&quot;)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridAggregate</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.IsActive )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Aggregate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridAggregateType</span><span class="enumValue">.TrueCount</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    <span class="keyword">public</span> <span class="keyword">class</span> Employee
+    {
+        <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Required]
+        <span class="keyword">public</span> <span class="keyword">string</span> FirstName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Required]
+        <span class="keyword">public</span> <span class="keyword">string</span> LastName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Required]
+        [EmailAddress]
+        <span class="keyword">public</span> <span class="keyword">string</span> Email { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Salary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">bool</span> IsActive { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+    Employee selectedEmployee;
+    <span class="keyword">int</span> totalEmployees;
+    List&lt;Employee&gt; employeeList = <span class="keyword">new</span> List&lt;Employee&gt;()
+{
+        <span class="keyword">new</span>()
+        {
+            Id = <span class="number">1</span>,
+            FirstName = <span class="string">&quot;Samuel&quot;</span>,
+            LastName = <span class="string">&quot;Collier&quot;</span>,
+            Email = <span class="string">&quot;Samuel.Collier62<span class="atSign">&#64;</span>gmail.com&quot;</span>,
+            Salary = <span class="number">8603041</span>,
+            IsActive = <span class="keyword">true</span>
+        },
+        <span class="keyword">new</span>()
+        {
+            Id = <span class="number">2</span>,
+            FirstName = <span class="string">&quot;Irvin&quot;</span>,
+            LastName = <span class="string">&quot;Ziemann&quot;</span>,
+            Email = <span class="string">&quot;Irvin.Ziemann<span class="atSign">&#64;</span>gmail.com&quot;</span>,
+            Salary = <span class="number">6178131</span>,
+            IsActive = <span class="keyword">true</span>
+        },
+        <span class="keyword">new</span>()
+        {
+            Id = <span class="number">3</span>,
+            FirstName = <span class="string">&quot;Gerald&quot;</span>,
+            LastName = <span class="string">&quot;Pollich	&quot;</span>,
+            Email = <span class="string">&quot;Gerald82<span class="atSign">&#64;</span>yahoo.com&quot;</span>,
+            Salary = <span class="number">5881075</span>,
+            IsActive = <span class="keyword">false</span>
+        }
+
+    };
+}
+</pre></div>
+</div>

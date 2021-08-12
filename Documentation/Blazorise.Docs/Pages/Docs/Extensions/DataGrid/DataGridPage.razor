@@ -217,9 +217,119 @@
         <DataGridValidatorExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridValidatorExample" />
-        <DocsPageSectionContent>
+    <DocsPageSectionContent>
         If you use <Code>EditTemplate</Code> to customize editing of columns, then using <Code>Validator</Code> or <Code>ValidationPattern</Code> will not work and you have to use <Code>Validation</Code> like this:
         <DataGridValidatorEditTemplateExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridValidatorEditTemplateExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGrid">
+        For DataGrid the required fields are <Code>TItem</Code> typeparam and Data attribute. Other attributes on the <Code>DataGrid</Code> are optional.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Columns">
+        Next you must set the Columns that you want to see in the grid. When defining the columns the required fields are:
+
+        <Code>TItem</Code> this is always the same model as on <Code>DataGrid</Code>.
+        <Code>Field</Code> name of the field in the supplied model.
+        <Code>Caption</Code> the column caption text.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Nested fields">
+        Field attribute also supports nested fields. You can define a column with field name like <Code>"City.Country.Name"</Code> and it will work. Just keep in mind that when editing nested fields they must be initialized first or otherwise they will raise an exception.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Large Example">
+        Just as in the previous example everything is the same except that now we must define the attribute <Code>ReadData</Code> and <Code>TotalItems</Code>. They’re used to handle all of the loading, filtering and sorting of an actual data.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridLargeDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridLargeDataExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Aggregates">
+        DataGrid will automatically generate necessary group cells based on the defined <Code>DataGridAggregate</Code> options.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridAggregatesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridAggregatesExample" />
+    <DocsPageSectionContent>
+        By default all aggregate operations are run on in-memory <Code>Data</Code>. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with <Code>ReadData</Code> and set the <Code>AggregateData</Code> property.
+    </DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <DataGridAggregatesLargeDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridAggregatesLargeDataExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Filtering">
+        Filter API is fairly straightforward. All you need is to attach <Code>CustomFilter</Code> to a function and bind search value to <Code>TextEdit</Code> field. DataGrid will automatically respond to entered value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridCustomFilteringExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridCustomFilteringExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Column Filtering">
+        Similar to the DataGrid custom filtering it is also possible to use custom filtering on per-column basis.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridCustomColumnFilteringExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridCustomColumnFilteringExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Row Colors">
+        You have full control over appearance of each row, including the selected rows.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridCustomRowColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridCustomRowColorsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NewItemDefaultSetter">
+        <Code>NewItemDefaultSetter</Code> function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if <Code>DataGrid</Code> is editable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridNewItemDefaultSetterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridNewItemDefaultSetterExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Templates">
+        For extra customization <Code>DataGrid</Code> will provide you with two additional templates that you can use to extend it’s default behavior. A display template is used to customize display cells and an edit template is used to customize cell editors. You can place anything inside of the templates, be it a Blazorise components, regular html tags or your own components.
+
+        Both templates have a special <Code>context</Code> attribute that is used to give access to the underline cell value. To learn more about <Code>context</Code> please go to official <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/templated-components?view=aspnetcore-5.0" Target="Target.Blank">Blazor documentation</Blazorise.Link>.
+    </DocsPageSectionHeader>
 </DocsPageSection>

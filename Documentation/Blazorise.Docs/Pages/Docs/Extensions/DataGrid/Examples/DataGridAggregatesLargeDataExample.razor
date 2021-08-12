@@ -1,0 +1,101 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          ReadData="@OnReadData"
+          TotalItems="@totalEmployees"
+          AggregateData="@employeeSummary">
+    <DataGridAggregates>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
+            <DisplayTemplate>
+                @($"Total emails: {context.Value}")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
+    </DataGridAggregates>
+    <DataGridColumns>
+    </DataGridColumns>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
+    }
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = "Samuel",
+            LastName = "Collier",
+            Email = "Samuel.Collier62@gmail.com",
+            Salary = 8603041,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = "Irvin",
+            LastName = "Ziemann",
+            Email = "Irvin.Ziemann@gmail.com",
+            Salary = 6178131,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = "Gerald",
+            LastName = "Pollich	",
+            Email = "Gerald82@yahoo.com",
+            Salary = 5881075,
+            IsActive = false
+        }
+
+    };
+    List<Employee> employeeSummary;
+
+
+    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        if ( !e.CancellationToken.IsCancellationRequested )
+        {
+            List<Employee> response = null;
+
+            // this can be call to anything, in this case we're calling a fictional api
+            //var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
+            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+                response = employeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+                response = employeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+            else
+                throw new Exception( "Unhandled ReadDataMode" );
+
+
+            if ( !e.CancellationToken.IsCancellationRequested )
+            {
+                totalEmployees = employeeList.Count;
+                employeeList = new List<Employee>( response ); // an actual data for the current page
+                //var aggregateResponse = await Http.GetJsonAsync<Employee[]>( $"some-aggregate-api/employees" );
+                employeeSummary = employeeList; //aggregateResponse.Data
+            }
+        }
+        return Task.CompletedTask;
+    }
+}
