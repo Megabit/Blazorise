@@ -228,9 +228,15 @@ hr.divider.divider-text {
 .b-bar-horizontal[data-collapse=hide] {
     flex-wrap: nowrap; }
     .b-bar-horizontal[data-collapse=hide][data-broken=true] {
-        height: var(--b-bar-horizontal-height, auto); }
+        height: auto; }
 
 .b-bar-horizontal[data-broken=false] {
+    height: auto; }
+
+.b-layout > .b-layout-header .b-bar-horizontal[data-collapse=hide][data-broken=true] {
+    height: var(--b-bar-horizontal-height, auto); }
+
+.b-layout > .b-layout-header .b-bar-horizontal[data-broken=false] {
     height: var(--b-bar-horizontal-height, auto); }
 
 .b-bar-vertical-inline,

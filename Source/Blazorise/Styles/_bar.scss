@@ -76,14 +76,31 @@
         flex-wrap: nowrap;
 
         &[data-broken=true] {
-            height: var(--b-bar-horizontal-height, auto);
+            height: auto;
         }
     }
 
     &[data-broken=false] {
-        height: var(--b-bar-horizontal-height, auto);
+        height: auto;
     }
 }
+
+.b-layout {
+    > .b-layout-header {
+        .b-bar-horizontal {
+            &[data-collapse=hide] {
+                &[data-broken=true] {
+                    height: var(--b-bar-horizontal-height, auto);
+                }
+            }
+
+            &[data-broken=false] {
+                height: var(--b-bar-horizontal-height, auto);
+            }
+        }
+    }
+}
+
 
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,

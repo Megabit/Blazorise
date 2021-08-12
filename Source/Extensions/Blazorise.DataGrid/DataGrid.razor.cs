@@ -633,7 +633,9 @@ namespace Blazorise.DataGrid
             editItem = item;
             editItemCellValues = new();
 
-            validationItem = RecursiveObjectActivator.CreateInstance<TItem>();
+            validationItem = UseValidation
+                ? RecursiveObjectActivator.CreateInstance<TItem>()
+                : default;
 
             foreach ( var column in EditableColumns )
             {
@@ -642,7 +644,8 @@ namespace Blazorise.DataGrid
                     CellValue = column.GetValue( editItem ),
                 } );
 
-                column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
+                if ( validationItem != null )
+                    column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
             }
         }
 
@@ -1326,6 +1329,11 @@ namespace Blazorise.DataGrid
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets true if <see cref="ShowValidationsSummary"/> is enabled, and there are validation error messages <seealso cref="ValidationsSummaryErrors"/>.
+        /// </summary>
+        internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
