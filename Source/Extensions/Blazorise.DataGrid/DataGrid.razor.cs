@@ -978,6 +978,8 @@ namespace Blazorise.DataGrid
 
         private void FilterData( IQueryable<TItem> query )
         {
+            dirtyFilter = false;
+
             if ( query == null )
             {
                 filteredData.Clear();
@@ -1048,8 +1050,6 @@ namespace Blazorise.DataGrid
             }
 
             filteredData = query.ToList();
-
-            dirtyFilter = false;
 
             FilteredDataChanged?.Invoke( new(
                 filteredData,
