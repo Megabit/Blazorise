@@ -194,8 +194,8 @@ namespace Blazorise.DataGrid
         /// </para>
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
-        public bool RemoveColumn( DataGridColumn<TItem> column )
-            => Columns.Remove( column );
+        internal bool RemoveColumn( DataGridColumn<TItem> column )
+            => Columns.Remove( column ); // TODO: mark as public in v0.9.5
 
         /// <summary>
         /// Links the child column with this datagrid.
