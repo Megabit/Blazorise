@@ -188,6 +188,16 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Removes an existing link of a child column with this datagrid.
+        /// <para>Returns:
+        ///     true if item is successfully removed; otherwise, false. 
+        /// </para>
+        /// </summary>
+        /// <param name="column">Column to link with this datagrid.</param>
+        internal bool RemoveColumn( DataGridColumn<TItem> column )
+            => Columns.Remove( column ); // TODO: mark as public in v0.9.5
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="aggregate">Aggregate column to link with this datagrid.</param>
