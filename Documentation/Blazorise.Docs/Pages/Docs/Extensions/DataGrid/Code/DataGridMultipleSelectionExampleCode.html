@@ -1,0 +1,76 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.ComponentModel.DataAnnotations;
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">SelectionMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridSelectionMode</span><span class="enumValue">.Multiple</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRows</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedEmployees</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridMultiSelectColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">30px</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridMultiSelectColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Id)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Sortable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.FirstName)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">First Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.LastName)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Last Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Email)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Email</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Salary)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>($&quot;{( context as Employee )?.Salary} €&quot;)
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NumericEdit</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">decimal</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((decimal)context.CellValue)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( v =&gt; context.CellValue = v)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    <span class="keyword">public</span> <span class="keyword">class</span> Employee
+    {
+        <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Required]
+        <span class="keyword">public</span> <span class="keyword">string</span> FirstName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Required]
+        <span class="keyword">public</span> <span class="keyword">string</span> LastName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Required]
+        [EmailAddress]
+        <span class="keyword">public</span> <span class="keyword">string</span> Email { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Salary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+    Employee selectedEmployee;
+    List&lt;Employee&gt; selectedEmployees;
+    List&lt;Employee&gt; employeeList = <span class="keyword">new</span> List&lt;Employee&gt;()
+{
+        <span class="keyword">new</span>()
+        {
+            Id = <span class="number">1</span>,
+            FirstName = <span class="string">&quot;Samuel&quot;</span>,
+            LastName = <span class="string">&quot;Collier&quot;</span>,
+            Email = <span class="string">&quot;Samuel.Collier62<span class="atSign">&#64;</span>gmail.com&quot;</span>,
+            Salary = <span class="number">8603041</span>
+        },
+        <span class="keyword">new</span>()
+        {
+            Id = <span class="number">2</span>,
+            FirstName = <span class="string">&quot;Irvin&quot;</span>,
+            LastName = <span class="string">&quot;Ziemann&quot;</span>,
+            Email = <span class="string">&quot;Irvin.Ziemann<span class="atSign">&#64;</span>gmail.com&quot;</span>,
+            Salary = <span class="number">6178131</span>
+        },
+        <span class="keyword">new</span>()
+        {
+            Id = <span class="number">3</span>,
+            FirstName = <span class="string">&quot;Gerald&quot;</span>,
+            LastName = <span class="string">&quot;Pollich	&quot;</span>,
+            Email = <span class="string">&quot;Gerald82<span class="atSign">&#64;</span>yahoo.com&quot;</span>,
+            Salary = <span class="number">5881075</span>
+        }
+
+    };
+
+}
+</pre></div>
+</div>

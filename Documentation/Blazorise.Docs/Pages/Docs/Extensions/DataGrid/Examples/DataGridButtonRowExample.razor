@@ -1,0 +1,75 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          @bind-SelectedRow="@selectedEmployee">
+    <DataGridColumns>
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Email)" Caption="Email" Editable="true" />
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
+            <DisplayTemplate>
+                @($"{( context as Employee )?.Salary} €")
+            </DisplayTemplate>
+            <EditTemplate>
+                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <ButtonRowTemplate>
+        <Button Color="Color.Success" Clicked="context.NewCommand.Clicked">New</Button>
+        <Button Color="Color.Primary" Disabled="(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+        <Button Color="Color.Danger" Disabled="(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+        <Button Color="Color.Link" Clicked="context.ClearFilterCommand.Clicked">Clear Filter</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = "Samuel",
+            LastName = "Collier",
+            Email = "Samuel.Collier62@gmail.com",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = "Irvin",
+            LastName = "Ziemann",
+            Email = "Irvin.Ziemann@gmail.com",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = "Gerald",
+            LastName = "Pollich	",
+            Email = "Gerald82@yahoo.com",
+            Salary = 5881075
+        }
+
+    };
+
+}
