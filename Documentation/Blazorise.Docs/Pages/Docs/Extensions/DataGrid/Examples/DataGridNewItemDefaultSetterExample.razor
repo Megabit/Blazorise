@@ -3,7 +3,9 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee">
+          @bind-SelectedRow="@selectedEmployee"
+          NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
+          Editable="true">
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
@@ -20,6 +22,12 @@
 </DataGrid>
 
 @code{
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
+
     public class Employee
     {
         public int Id { get; set; }
@@ -34,17 +42,19 @@
         [EmailAddress]
         public string Email { get; set; }
         public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
     }
     Employee selectedEmployee;
     List<Employee> employeeList = new List<Employee>()
-    {
+{
         new()
         {
             Id = 1,
             FirstName = "Samuel",
             LastName = "Collier",
             Email = "Samuel.Collier62@gmail.com",
-            Salary = 8603041
+            Salary = 8603041,
+            IsActive = true
         },
         new()
         {
@@ -52,7 +62,8 @@
             FirstName = "Irvin",
             LastName = "Ziemann",
             Email = "Irvin.Ziemann@gmail.com",
-            Salary = 6178131
+            Salary = 6178131,
+            IsActive = true
         },
         new()
         {
@@ -60,7 +71,8 @@
             FirstName = "Gerald",
             LastName = "Pollich	",
             Email = "Gerald82@yahoo.com",
-            Salary = 5881075
+            Salary = 5881075,
+            IsActive = false
         }
 
     };

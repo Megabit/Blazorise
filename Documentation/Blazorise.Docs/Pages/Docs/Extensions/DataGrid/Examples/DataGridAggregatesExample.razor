@@ -1,0 +1,68 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem="Employee" Data="@employeeList">
+    <DataGridAggregates>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
+            <DisplayTemplate>
+                @($"Total emails: {context.Value}")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
+    </DataGridAggregates>
+    <DataGridColumns>
+    </DataGridColumns>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
+    }
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = "Samuel",
+            LastName = "Collier",
+            Email = "Samuel.Collier62@gmail.com",
+            Salary = 8603041,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = "Irvin",
+            LastName = "Ziemann",
+            Email = "Irvin.Ziemann@gmail.com",
+            Salary = 6178131,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = "Gerald",
+            LastName = "Pollich	",
+            Email = "Gerald82@yahoo.com",
+            Salary = 5881075,
+            IsActive = false
+        }
+
+    };
+}

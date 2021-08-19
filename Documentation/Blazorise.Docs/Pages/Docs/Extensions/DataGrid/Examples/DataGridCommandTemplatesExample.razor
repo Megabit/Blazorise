@@ -4,7 +4,14 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee">
-    <DataGridCommandColumn TItem="Employee" />
+    <DataGridCommandColumn TItem="Employee">
+        <NewCommandTemplate>
+            <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
+        </NewCommandTemplate>
+        <EditCommandTemplate>
+            <Button Color="Color.Primary" Clicked="@context.Clicked">Edit</Button>
+        </EditCommandTemplate>
+    </DataGridCommandColumn>
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
@@ -37,7 +44,7 @@
     }
     Employee selectedEmployee;
     List<Employee> employeeList = new List<Employee>()
-    {
+{
         new()
         {
             Id = 1,

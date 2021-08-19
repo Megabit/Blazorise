@@ -2515,46 +2515,831 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DataGridExample = @"<TreeView Nodes=""Items""
-          GetChildNodes=""@(item => item.Children)""
-          HasChildNodes=""@(item => item.Children?.Any() == true)""
-          @bind-SelectedNode=""selectedNode""
-          @bind-ExpandedNodes=""ExpandedNodes"">
-    <NodeContent>@context.Text</NodeContent>
-</TreeView>
+        public const string DataGridAggregatesExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"">
+    <DataGridAggregates>
+        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
+            <DisplayTemplate>
+                @($""Total emails: {context.Value}"")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
+        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
+    </DataGridAggregates>
+    <DataGridColumns>
+    </DataGridColumns>
+</DataGrid>
 
 @code{
-    public class Item
+    public class Employee
     {
-        public string Text { get; set; }
-        public IEnumerable<Item> Children { get; set; }
-    }
+        public int Id { get; set; }
 
-    IEnumerable<Item> Items = new[]
-    {
-        new Item { Text = ""Item 1"" },
-        new Item {
-            Text = ""Item 2"",
-            Children = new []
-    {
-                new Item { Text = ""Item 2.1"" },
-                new Item { Text = ""Item 2.2"", Children = new []
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
+    }
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
         {
-                    new Item { Text = ""Item 2.2.1"" },
-                    new Item { Text = ""Item 2.2.2"" },
-                    new Item { Text = ""Item 2.2.3"" },
-                    new Item { Text = ""Item 2.2.4"" }
-                }
-            },
-            new Item { Text = ""Item 2.3"" },
-            new Item { Text = ""Item 2.4"" }
-            }
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041,
+            IsActive = true
         },
-        new Item { Text = ""Item 3"" },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075,
+            IsActive = false
+        }
+
+    };
+}";
+
+        public const string DataGridAggregatesLargeDataExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          ReadData=""@OnReadData""
+          TotalItems=""@totalEmployees""
+          AggregateData=""@employeeSummary"">
+    <DataGridAggregates>
+        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
+            <DisplayTemplate>
+                @($""Total emails: {context.Value}"")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
+        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
+    </DataGridAggregates>
+    <DataGridColumns>
+    </DataGridColumns>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
+    }
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075,
+            IsActive = false
+        }
+
+    };
+    List<Employee> employeeSummary;
+
+
+    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        if ( !e.CancellationToken.IsCancellationRequested )
+        {
+            List<Employee> response = null;
+
+            // this can be call to anything, in this case we're calling a fictional api
+            //var response = await Http.GetJsonAsync<Employee[]>( $""some-api/employees?page={e.Page}&pageSize={e.PageSize}"" );
+            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+                response = employeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+                response = employeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+            else
+                throw new Exception( ""Unhandled ReadDataMode"" );
+
+
+            if ( !e.CancellationToken.IsCancellationRequested )
+            {
+                totalEmployees = employeeList.Count;
+                employeeList = new List<Employee>( response ); // an actual data for the current page
+                //var aggregateResponse = await Http.GetJsonAsync<Employee[]>( $""some-aggregate-api/employees"" );
+                employeeSummary = employeeList; //aggregateResponse.Data
+            }
+        }
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string DataGridButtonRowExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee"">
+    <DataGridColumns>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+            <DisplayTemplate>
+                @($""{( context as Employee )?.Salary} €"")
+            </DisplayTemplate>
+            <EditTemplate>
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <ButtonRowTemplate>
+        <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
+        <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
+        <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
+        <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
     };
 
-    IList<Item> ExpandedNodes = new List<Item>();
-    Item selectedNode;
+}";
+
+        public const string DataGridCommandTemplatesExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee"">
+    <DataGridCommandColumn TItem=""Employee"">
+        <NewCommandTemplate>
+            <Button Color=""Color.Success"" Clicked=""@context.Clicked"">New</Button>
+        </NewCommandTemplate>
+        <EditCommandTemplate>
+            <Button Color=""Color.Primary"" Clicked=""@context.Clicked"">Edit</Button>
+        </EditCommandTemplate>
+    </DataGridCommandColumn>
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
+    };
+
+}";
+
+        public const string DataGridCustomColumnFilteringExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Filterable=""true"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+    <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable=""true"">
+        <FilterTemplate>
+            <Select TValue=""string"" SelectedValue=""@selectedGenderFilter"" SelectedValueChanged=""@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })"">
+                <SelectItem TValue=""string"" Value=""@(""*"")"">All</SelectItem>
+                <SelectItem TValue=""string"" Value=""@(""M"")"">Male</SelectItem>
+                <SelectItem TValue=""string"" Value=""@(""F"")"">Female</SelectItem>
+                <SelectItem TValue=""string"" Value=""@(""D"")"">Diverse</SelectItem>
+            </Select>
+        </FilterTemplate>
+    </DataGridSelectColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Name = ""David"", Gender = ""M"" }, new() { Name = ""MLaden"", Gender = ""M"" }, new() { Name = ""John"", Gender = ""M"" }, new() { Name = ""Ana"", Gender = ""F"" }, new() { Name = ""Jessica"", Gender = ""F"" } };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+        public string Gender { get; set; }
+    }
+
+    string selectedGenderFilter;
+
+    private bool OnGenderCustomFilter( object itemValue, object searchValue )
+    {
+        if ( searchValue is string genderFilter )
+        {
+            return genderFilter == ""*"" || genderFilter == itemValue?.ToString();
+        }
+
+        return true;
+    }
+
+}";
+
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit @bind-Text=""@customFilterValue"" ></TextEdit>
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          CustomFilter=""@OnCustomFilter"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { Name = ""David"" }, new() { Name = ""MLaden"" }, new() { Name = ""John"" }, new() { Name = ""Ana"" }, new() { Name = ""Jessica"" } };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
+
+    string customFilterValue;
+
+    bool OnCustomFilter( Employee model )
+    {
+        // We want to accept empty value as valid or otherwise
+        // datagrid will not show anything.
+        if ( string.IsNullOrEmpty( customFilterValue ) )
+            return true;
+
+        return model.Name?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+    }
+
+}";
+
+        public const string DataGridCustomRowColorsExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          RowStyling=""@OnRowStyling""
+          SelectedRowStyling=""@OnSelectedRowStyling"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        if ( !employee.IsActive )
+            styling.Style = ""color: red;"";
+    }
+
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        styling.Background = Background.Info;
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> employeeList = new List<Employee>()
+    {
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075,
+            IsActive = false
+        }
+
+    };
+
+}";
+
+        public const string DataGridDetailRowTemplateExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          DetailRowTrigger=""@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"">
+    <DataGridColumns>
+        <DataGridCommandColumn TItem=""Employee"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" />
+    </DataGridColumns>
+    <DetailRowTemplate>
+        @{
+            var salaries = ( context as Employee ).Salaries;
+
+            <DataGrid TItem=""Salary""
+                      Data=""salaries""
+                      Sortable=""false""
+                      ShowCaptions=""false"">
+                <DataGridCommandColumn TItem=""Salary"" />
+                <DataGridDateColumn TItem=""Salary"" Field=""@nameof(Salary.Date)"" Caption=""Date"" />
+                <DataGridNumericColumn TItem=""Salary"" Field=""@nameof(Salary.Total)"" Caption=""Total"" />
+            </DataGrid>
+        }
+    </DetailRowTemplate>
+</DataGrid>
+
+@code{
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
+        public List<Salary> Salaries { get; set; }
+    }
+
+    private Employee selectedEmployee;
+
+    List<Employee> employeeList = new List<Employee>()
+    {
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salaries = new(){ new(){ Date = DateTime.Now, Total = 50000 }, new(){ Date = DateTime.Now.AddDays(-31), Total = 30000 }  }
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salaries = new(){ new(){ Date = DateTime.Now, Total = 100000 }, new(){ Date =  DateTime.Now.AddDays(-31), Total = 10000 }  }
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com""
+        }
+
+    };
+
+}";
+
+        public const string DataGridDisplayTemplateExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList"">
+    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable=""true"">
+    <DisplayTemplate>
+        @{
+            var date = ( context as Employee )?.DateOfBirth;
+
+            if ( date != null )
+            {
+                @($""{date.Value.ToShortDateString()}, age: {( DateTime.Now.Year - date.Value.Year )}"")
+            }
+        }
+    </DisplayTemplate>
+</DataGridNumericColumn>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+    }
+    List<Employee> employeeList = new List<Employee>()
+    {
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
+    };
+
+}";
+
+        public const string DataGridEditTemplateExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Editable=""true"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+    }
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
+    };
+
+}";
+
+        public const string DataGridEmptyCellTemplateExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          TotalItems=""@totalEmployees""
+          ReadData=""@LoadEmployeesFromService"">
+    <DataGridColumns>
+        <DataGridCommandColumn TItem=""Employee"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+            <DisplayTemplate>
+                @($""{( context as Employee )?.Salary} €"")
+            </DisplayTemplate>
+            <EditTemplate>
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <EmptyTemplate>
+        <div class=""box"">
+            No employees are found!
+        </div>
+    </EmptyTemplate>
+    <LoadingTemplate>
+        <div class=""box"">
+            <progress class=""progress is-small is-primary"" max=""100"" />
+        </div>
+    </LoadingTemplate>
+    <EmptyCellTemplate>
+        <Text Style=""opacity: .5;"">-</Text>
+    </EmptyCellTemplate>
+</DataGrid>
+
+@code{
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList;
+
+    public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    {
+        /*
+        * This can be call to anything like calling api for load employees
+        * and while execution 'LoadingTemplate' will be displayed.
+        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
+        * so that you can see easily, that your loading is finish, but your result is empty.
+        */
+        return Task.Delay( 2000 );
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+}";
+
+        public const string DataGridExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> employeeList = new List<Employee>()
+    {
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
+    };
+
 }";
 
         public const string DataGridFilterExample = @"<DataGrid TItem=""Employee""
@@ -2571,6 +3356,320 @@ namespace Blazorise.Docs.Models
     {
         public string Name { get; set; }
     }
+}";
+
+        public const string DataGridLargeDataExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          ReadData=""@OnReadData""
+          TotalItems=""@totalEmployees""
+          PageSize=""1""
+          ShowPager=""true"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
+    };
+
+    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        if ( !e.CancellationToken.IsCancellationRequested )
+        {
+            List<Employee> response = null;
+
+            // this can be call to anything, in this case we're calling a fictional api
+            //var response = await Http.GetJsonAsync<Employee[]>( $""some-api/employees?page={e.Page}&pageSize={e.PageSize}"" );
+            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+                response = employeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+                response = employeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+            else
+                throw new Exception( ""Unhandled ReadDataMode"" );
+
+            if ( !e.CancellationToken.IsCancellationRequested )
+            {
+                totalEmployees = employeeList.Count;
+                employeeList = new List<Employee>( response ); // an actual data for the current page
+            }
+        }
+        return Task.CompletedTask;
+    }
+
+}";
+
+        public const string DataGridLoadingEmptyTemplateExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          TotalItems=""@totalEmployees""
+          ReadData=""@LoadEmployeesFromService"">
+    <DataGridColumns>
+        <DataGridCommandColumn TItem=""Employee"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+            <DisplayTemplate>
+                @($""{( context as Employee )?.Salary} €"")
+            </DisplayTemplate>
+            <EditTemplate>
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <EmptyTemplate>
+        <div class=""box"">
+            No employees are found!
+        </div>
+    </EmptyTemplate>
+    <LoadingTemplate>
+        <div class=""box"">
+            <progress class=""progress is-small is-primary"" max=""100"" />
+        </div>
+    </LoadingTemplate>
+</DataGrid>
+
+@code{
+    Employee selectedEmployee;
+    int totalEmployees;
+    List<Employee> employeeList;
+
+    public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    {
+        /*
+        * This can be call to anything like calling api for load employees
+        * and while execution 'LoadingTemplate' will be displayed.
+        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
+        * so that you can see easily, that your loading is finish, but your result is empty.
+        */
+        return Task.Delay( 2000 );
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+}";
+
+        public const string DataGridMultipleSelectionExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          SelectionMode=""DataGridSelectionMode.Multiple""
+          @bind-SelectedRows=""selectedEmployees"">
+    <DataGridMultiSelectColumn TItem=""Employee"" Width=""30px""></DataGridMultiSelectColumn>
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> selectedEmployees;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075
+        }
+
+    };
+
+}";
+
+        public const string DataGridNewItemDefaultSetterExample = @"@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          NewItemDefaultSetter=""@OnEmployeeNewItemDefaultSetter""
+          Editable=""true"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable=""true"">
+        <DisplayTemplate>
+            @($""{( context as Employee )?.Salary} €"")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
+    }
+    Employee selectedEmployee;
+    List<Employee> employeeList = new List<Employee>()
+{
+        new()
+        {
+            Id = 1,
+            FirstName = ""Samuel"",
+            LastName = ""Collier"",
+            Email = ""Samuel.Collier62@gmail.com"",
+            Salary = 8603041,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = ""Irvin"",
+            LastName = ""Ziemann"",
+            Email = ""Irvin.Ziemann@gmail.com"",
+            Salary = 6178131,
+            IsActive = true
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = ""Gerald"",
+            LastName = ""Pollich	"",
+            Email = ""Gerald82@yahoo.com"",
+            Salary = 5881075,
+            IsActive = false
+        }
+
+    };
+
 }";
 
         public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""

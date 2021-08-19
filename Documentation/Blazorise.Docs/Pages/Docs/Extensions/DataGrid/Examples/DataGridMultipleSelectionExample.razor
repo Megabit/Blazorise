@@ -3,7 +3,10 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee">
+          @bind-SelectedRow="@selectedEmployee"
+          SelectionMode="DataGridSelectionMode.Multiple"
+          @bind-SelectedRows="selectedEmployees">
+    <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
@@ -36,8 +39,9 @@
         public decimal Salary { get; set; }
     }
     Employee selectedEmployee;
+    List<Employee> selectedEmployees;
     List<Employee> employeeList = new List<Employee>()
-    {
+{
         new()
         {
             Id = 1,

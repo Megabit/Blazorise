@@ -1,0 +1,84 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.ComponentModel.DataAnnotations;
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          @bind-SelectedRow="@selectedEmployee"
+          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
+    <DataGridColumns>
+        <DataGridCommandColumn TItem="Employee" />
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" />
+    </DataGridColumns>
+    <DetailRowTemplate>
+        @{
+            var salaries = ( context as Employee ).Salaries;
+
+            <DataGrid TItem="Salary"
+                      Data="salaries"
+                      Sortable="false"
+                      ShowCaptions="false">
+                <DataGridCommandColumn TItem="Salary" />
+                <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
+                <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
+            </DataGrid>
+        }
+    </DetailRowTemplate>
+</DataGrid>
+
+@code{
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
+
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
+        public List<Salary> Salaries { get; set; }
+    }
+
+    private Employee selectedEmployee;
+
+    List<Employee> employeeList = new List<Employee>()
+    {
+        new()
+        {
+            Id = 1,
+            FirstName = "Samuel",
+            LastName = "Collier",
+            Email = "Samuel.Collier62@gmail.com",
+            Salaries = new(){ new(){ Date = DateTime.Now, Total = 50000 }, new(){ Date = DateTime.Now.AddDays(-31), Total = 30000 }  }
+        },
+        new()
+        {
+            Id = 2,
+            FirstName = "Irvin",
+            LastName = "Ziemann",
+            Email = "Irvin.Ziemann@gmail.com",
+            Salaries = new(){ new(){ Date = DateTime.Now, Total = 100000 }, new(){ Date =  DateTime.Now.AddDays(-31), Total = 10000 }  }
+        },
+        new()
+        {
+            Id = 3,
+            FirstName = "Gerald",
+            LastName = "Pollich	",
+            Email = "Gerald82@yahoo.com"
+        }
+
+    };
+
+}

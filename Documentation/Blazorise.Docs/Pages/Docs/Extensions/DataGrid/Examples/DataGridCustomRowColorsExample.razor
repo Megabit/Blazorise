@@ -3,7 +3,9 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee">
+          @bind-SelectedRow="@selectedEmployee"
+          RowStyling="@OnRowStyling"
+          SelectedRowStyling="@OnSelectedRowStyling">
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
@@ -20,6 +22,17 @@
 </DataGrid>
 
 @code{
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        if ( !employee.IsActive )
+            styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        styling.Background = Background.Info;
+    }
+
     public class Employee
     {
         public int Id { get; set; }
@@ -34,6 +47,7 @@
         [EmailAddress]
         public string Email { get; set; }
         public decimal Salary { get; set; }
+        public bool IsActive { get; set; }
     }
     Employee selectedEmployee;
     List<Employee> employeeList = new List<Employee>()
@@ -44,7 +58,8 @@
             FirstName = "Samuel",
             LastName = "Collier",
             Email = "Samuel.Collier62@gmail.com",
-            Salary = 8603041
+            Salary = 8603041,
+            IsActive = true
         },
         new()
         {
@@ -52,7 +67,8 @@
             FirstName = "Irvin",
             LastName = "Ziemann",
             Email = "Irvin.Ziemann@gmail.com",
-            Salary = 6178131
+            Salary = 6178131,
+            IsActive = true
         },
         new()
         {
@@ -60,7 +76,8 @@
             FirstName = "Gerald",
             LastName = "Pollich	",
             Email = "Gerald82@yahoo.com",
-            Salary = 5881075
+            Salary = 5881075,
+            IsActive = false
         }
 
     };

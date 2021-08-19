@@ -55,20 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
-    <Content Remove="Pages\Docs\Extensions\DataGrid\Examples\DataGridFilterExample.razor" />
-    <Content Remove="Pages\Docs\Extensions\DataGrid\Examples\DataGridSelectingExample.razor" />
-    <Content Remove="Pages\Docs\Extensions\DataGrid\Examples\DataGridValidatorEditTemplateExample.razor" />
-    <Content Remove="Pages\Docs\Extensions\DataGrid\Examples\DataGridValidatorExample.razor" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Pages\Docs\Extensions\DataGrid\Code\DataGridSelectingExample.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="compilerconfig.json" />
-    <None Include="Pages\Docs\Extensions\DataGrid\Examples\DataGridValidatorEditTemplateExample.razor" />
-    <None Include="Pages\Docs\Extensions\DataGrid\Examples\DataGridValidatorExample.razor" />
-    <None Include="Pages\Docs\Extensions\DataGrid\Examples\DataGridSelectingExample.razor" />
-    <None Include="Pages\Docs\Extensions\DataGrid\Examples\DataGridFilterExample.razor" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
