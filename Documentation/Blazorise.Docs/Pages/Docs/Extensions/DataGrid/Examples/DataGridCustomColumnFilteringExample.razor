@@ -1,9 +1,10 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
           Filterable="true">
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Name )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
     <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
         <FilterTemplate>
             <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
@@ -17,13 +18,7 @@
 </DataGrid>
 
 @code{
-    private List<Employee> employeeList = new() { new() { Name = "David", Gender = "M" }, new() { Name = "MLaden", Gender = "M" }, new() { Name = "John", Gender = "M" }, new() { Name = "Ana", Gender = "F" }, new() { Name = "Jessica", Gender = "F" } };
-
-    public class Employee
-    {
-        public string Name { get; set; }
-        public string Gender { get; set; }
-    }
+    private List<Employee> employeeList = new() { new() { FirstName = "David", Gender = "M" }, new() { FirstName = "Mladen", Gender = "M" }, new() { FirstName = "John", Gender = "M" }, new() { FirstName = "Ana", Gender = "F" }, new() { FirstName = "Jessica", Gender = "F" } };
 
     string selectedGenderFilter;
 

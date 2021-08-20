@@ -1,0 +1,37 @@
+﻿@page "/docs/extensions/datagrid/aggregates"
+
+<DocsPageTitle>
+    DataGrid : Aggregates
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Aggregates">
+        The <Code>DataGrid</Code> provider several built-in aggregates for column values. Supported aggregate functions are:
+        <ul>
+            <li><Code>Sum</Code> Calculate total(sum) value of the collection.</li>
+            <li><Code>Average</Code> Calculates the average of the numeric items in the collection.</li>
+            <li><Code>Min</Code> Finds the smallest value in the collection.</li>
+            <li><Code>Max</Code> Finds the largest value in the collection.</li>
+            <li><Code>Count</Code> Counts the elements in a collection.</li>
+            <li><Code>TrueCount</Code> Counts boolean elements with true value.</li>
+            <li><Code>FalseCount</Code> Counts boolean elements with false value.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Aggregates">
+        DataGrid will automatically generate necessary group cells based on the defined <Code>DataGridAggregate</Code> options.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridAggregatesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridAggregatesExample" />
+    <DocsPageSectionContent>
+        By default all aggregate operations are run on in-memory <Code>Data</Code>. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with <Code>ReadData</Code> and set the <Code>AggregateData</Code> property.
+    </DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <DataGridAggregatesLargeDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridAggregatesLargeDataExample" />
+</DocsPageSection>

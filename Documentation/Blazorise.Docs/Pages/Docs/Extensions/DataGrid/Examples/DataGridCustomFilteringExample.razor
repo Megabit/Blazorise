@@ -1,20 +1,16 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
 
  Custom Filter: <TextEdit @bind-Text="@customFilterValue" ></TextEdit>
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
           CustomFilter="@OnCustomFilter">
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Name )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
 </DataGrid>
 
 @code{
-    private List<Employee> employeeList = new() { new() { Name = "David" }, new() { Name = "MLaden" }, new() { Name = "John" }, new() { Name = "Ana" }, new() { Name = "Jessica" } };
-
-    public class Employee
-    {
-        public string Name { get; set; }
-    }
+    private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "MLaden" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
 
     string customFilterValue;
 
@@ -25,7 +21,7 @@
         if ( string.IsNullOrEmpty( customFilterValue ) )
             return true;
 
-        return model.Name?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+        return model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
     }
 
 }
