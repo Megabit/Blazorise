@@ -3635,6 +3635,44 @@ namespace Blazorise.Docs.Models
     <FileEdit BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
 </Field>";
 
+        public const string BorderExample = @"<Span Border=""Border.Is1"">Border on all sides</Span>
+
+<Span Border=""Border.Is1.Rounded"">Rounded</Span>
+
+<Span Border=""Border.Primary"">Borders with primary color</Span>";
+
+        public const string ColumnSizeExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile"">
+    Some content...    
+    </Column>
+</Row>";
+
+        public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnFullHD"">
+    Hides on screens smaller than lg
+</Paragraph>";
+
+        public const string FlexExample = @"<Div Flex=""Flex.JustifyContent.Start"">
+    Some content at the start
+</Div>
+
+<Div Flex=""Flex.AlignItems.Center"">
+    Some content at the center
+</Div>";
+
+        public const string OverflowExample = @"<Div Overflow=""Overflow.Auto"">Auto...</Div>
+<Divider />
+<Div Overflow=""Overflow.Hidden"">Hidden...</Div>
+<Divider />
+<Div Overflow=""Overflow.Visible"">Visible...</Div>
+<Divider />
+<Div Overflow=""Overflow.Scroll"">Scroll...</Div>";
+
+        public const string SpacingExample = @"<Card>
+    <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
+        This example sets the margins for mobile(xs) and desktop(md) breakpoints
+    </CardBody>
+</Card>";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
