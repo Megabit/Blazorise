@@ -3544,6 +3544,97 @@ namespace Blazorise.Docs.Models
     Item selectedNode;
 }";
 
+        public const string CustomLanguageExample = @"<Field>
+    <FileEdit Multiple=""false"" />
+    <FileEdit Multiple=""true"" />
+</Field>
+<Field>
+    <Button Clicked=""OnButtonClick"">Change culture to polish</Button>
+</Field>
+
+@code{
+    [Inject]
+    Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
+
+    // By using FileEdit as generic typeparam, Blazorise will know
+    // what component need to update localization resources.
+    [Inject]
+    Blazorise.Localization.ITextLocalizer<FileEdit> FileEditLocalizer { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        FileEditLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
+        {
+            Culture = ""pl-PL"",
+            Translations = new Dictionary<string, string>()
+{
+            { ""Choose file"", ""Wybierz plik"" },
+            { ""Choose files"", ""Wybierz pliki"" },
+        }
+        } );
+
+        return base.OnInitializedAsync();
+    }
+
+    Task OnButtonClick()
+    {
+        return SelectCulture( ""pl-PL"" );
+    }
+
+    Task SelectCulture( string name )
+    {
+        LocalizationService.ChangeLanguage( name );
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string ITextLocalizerServiceExample = @"<Field>
+    <FileEdit />
+</Field>
+<Field>
+    <Addons>
+        <Addon AddonType=""AddonType.Start"">
+            <SelectList TItem=""string""
+                        TValue=""string""
+                        Data=""@Blazorise.Docs.Models.LocalizationCulture.AvailableCultures""
+                        TextField=""@((item)=>item)""
+                        ValueField=""@((item)=>item)""
+                        @bind-SelectedValue=""selectedCulture""
+                        DefaultItemText=""Choose your culture"" />
+        </Addon>
+        <Addon AddonType=""AddonType.Body"">
+            <Button Clicked=""OnButtonClick"">Change culture</Button>
+        </Addon>
+    </Addons>
+</Field>
+
+@code{
+    [Inject]
+    Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
+
+    private string selectedCulture;
+
+    Task OnButtonClick()
+    {
+        if ( string.IsNullOrWhiteSpace( selectedCulture ) )
+            return Task.CompletedTask;
+
+        return SelectCulture( selectedCulture );
+    }
+
+    Task SelectCulture( string name )
+    {
+        LocalizationService.ChangeLanguage( name );
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string TextLocalizerHandlerExample = @"<Field>
+    <FileEdit BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
+</Field>";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 

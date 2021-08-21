@@ -1,0 +1,60 @@
+﻿@page "/docs/helpers/localization"
+
+<DocsPageTitle>
+    Localization
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Overview">
+        <p>Localization within Blazorise can be done in multiple ways:</p>
+
+        <ul>
+            <li>By using <code class="language-plaintext highlighter-rouge">ITextLocalizer</code> and <code class="language-plaintext highlighter-rouge">ITextLocalizerService</code>.</li>
+            <li>By using custom localizer handler(s) <code class="language-plaintext highlighter-rouge">TextLocalizerHandler</code></li>
+        </ul>
+        <p>List of predefined language that comes with Blazorise is:</p>
+        <ul>
+            <li><code class="language-plaintext highlighter-rouge">de-DE</code> German</li>
+            <li><code class="language-plaintext highlighter-rouge">en-US</code> English</li>
+            <li><code class="language-plaintext highlighter-rouge">es-ES</code> Spanish</li>
+            <li><code class="language-plaintext highlighter-rouge">fr-FR</code> French</li>
+            <li><code class="language-plaintext highlighter-rouge">hr-HR</code> Croatian</li>
+            <li><code class="language-plaintext highlighter-rouge">nl-NL</code> Dutch</li>
+            <li><code class="language-plaintext highlighter-rouge">pt-PT</code> Portuguese</li>
+        </ul>
+        <Alert Background="Background.Info" Visible="true">
+            <AlertDescription>
+                <Strong>Note:</Strong> If not specified, a default language(or culture) will be <Code>en-US</Code>.
+            </AlertDescription>
+        </Alert>
+        <p>In this guide we will explain both ways.</p>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ITextLocalizerService">
+        This is the preferred way and the easiest way of changing the components display text. To change a language you just need to inject <Code>ITextLocalizerService</Code> into your component or page and then call the <Code>ChangeLanguage</Code> method.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent><ITextLocalizerServiceExample /></DocsPageSectionContent>
+    <DocsPageSectionSource Code="ITextLocalizerServiceExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextLocalizerHandler">
+        <p><Code>TextLocalizerHandler</Code> handler is used to control the localization for each component individually. Once used it will override any localizations done by the <Code>ITextLocalizer</Code> or <Code>ITextLocalizerService</Code>.</p>
+        <p>
+            While this is the good approach to handle localization, it is not very flexible since you need to do it on every component. But, for a quick override it is fairly easy. Just need to remember that.
+        </p>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent><TextLocalizerHandlerExample /></DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextLocalizerHandlerExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom languages">
+        While Blazorise will have all standard languages built-in it cannot have every one out there. So, if you want to have your own language injected into the component you can add it with <Code>AddLanguageResource</Code> method, found on <a href="#">ITextLocalizer</a>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent><CustomLanguageExample /></DocsPageSectionContent>
+    <DocsPageSectionSource Code="CustomLanguageExample"></DocsPageSectionSource>
+</DocsPageSection>
+
