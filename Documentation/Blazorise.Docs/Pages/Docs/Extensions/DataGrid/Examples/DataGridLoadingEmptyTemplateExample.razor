@@ -1,7 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using System.ComponentModel.DataAnnotations;
+@using Blazorise.Docs.Models
 
-<DataGrid TItem="Employee"
+<DataGrid @ref="datagridRef"
+          TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
           TotalItems="@totalEmployees"
@@ -12,10 +13,7 @@
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.Email)" Caption="Email" Editable="true" />
-        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
-            <DisplayTemplate>
-                @($"{( context as Employee )?.Salary} €")
-            </DisplayTemplate>
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable="true">
             <EditTemplate>
                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
             </EditTemplate>
@@ -23,45 +21,50 @@
     </DataGridColumns>
     <EmptyTemplate>
         <div class="box">
-            No employees are found!
+            No employees were found!
         </div>
     </EmptyTemplate>
     <LoadingTemplate>
-        <div class="box">
-            <progress class="progress is-small is-primary" max="100" />
-        </div>
+        <Progress @ref="progressRef" Color="Color.Primary" Max="100" Value="progress" />
     </LoadingTemplate>
 </DataGrid>
 
+<Button Background="Background.Primary" Color="Color.Light" Clicked="() => datagridRef.Reload()">Load</Button>
+
 @code{
+    DataGrid.DataGrid<Employee> datagridRef;
+    Progress progressRef;
+    int progress;
     Employee selectedEmployee;
-    int totalEmployees;
+    int totalEmployees = 0;
     List<Employee> employeeList;
 
-    public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    public async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
         /*
-        * This can be call to anything like calling api for load employees
-        * and while execution 'LoadingTemplate' will be displayed.
+        * This can be call to anything like calling an api to load employees.
+        * During execution 'LoadingTemplate' will be displayed.
         * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
-        * so that you can see easily, that your loading is finish, but your result is empty.
+        * this way you have proper feedback, for when your datagrid is loading or empty.
         */
-        return Task.Delay( 2000 );
-    }
+        progress = 0;
+        await InvokeAsync( StateHasChanged );
 
-    public class Employee
-    {
-        public int Id { get; set; }
+        await Task.Delay( 500 );
+        progress = 25;
+        await InvokeAsync( StateHasChanged );
 
-        [Required]
-        public string FirstName { get; set; }
+        await Task.Delay( 500 );
+        progress = 50;
+        await InvokeAsync( StateHasChanged );
 
-        [Required]
-        public string LastName { get; set; }
+        await Task.Delay( 500 );
+        progress = 75;
+        await InvokeAsync( StateHasChanged );
 
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        public decimal Salary { get; set; }
+
+        await Task.Delay( 500 );
+        progress = 100;
+        await InvokeAsync( StateHasChanged );
     }
 }

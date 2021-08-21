@@ -14,13 +14,15 @@ namespace Blazorise.Docs.Layouts
 
         private bool topBarVisible;
 
-        private bool sideBarFormMenuVisible = true;
+        private bool sideBarFormMenuVisible;
 
-        private bool sideBarComponentsMenuVisible = true;
+        private bool sideBarComponentsMenuVisible;
 
-        private bool sideBarServicesMenuVisible = true;
+        private bool sideBarServicesMenuVisible;
 
-        private bool sideBarExtensionsMenuVisible = true;
+        private bool sideBarExtensionsMenuVisible;
+
+        private bool sideBarHelpersMenuVisible;
 
         #endregion
     }

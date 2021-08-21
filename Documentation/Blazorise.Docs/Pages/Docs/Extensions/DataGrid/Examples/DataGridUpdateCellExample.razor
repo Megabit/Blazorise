@@ -1,11 +1,12 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
           Editable="true"
           EditMode="DataGridEditMode.Inline">
     <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true">
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable="true">
         <EditTemplate>
             <NumericEdit TValue="decimal"
                          Value="@((decimal)context.CellValue)"
@@ -19,11 +20,5 @@
 </DataGrid>
 
 @code{
-    private List<Employee> employeeList = new() { new() { Salary = 50000, Tax = 50000 * .25m }, new() { Salary = 30000, Tax = 30000 * .25m } };
-
-    public class Employee
-    {
-        public decimal Tax { get; set; }
-        public decimal Salary { get; set; }
-    }
+    private List<Employee> employeeList = EmployeeData.EmployeeList;
 }

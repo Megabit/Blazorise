@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using System.ComponentModel.DataAnnotations;
+@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
@@ -12,10 +12,7 @@
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.Email)" Caption="Email" Editable="true" />
-        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
-            <DisplayTemplate>
-                @($"{( context as Employee )?.Salary} €")
-            </DisplayTemplate>
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable="true">
             <EditTemplate>
                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
             </EditTemplate>
@@ -50,21 +47,5 @@
         * so that you can see easily, that your loading is finish, but your result is empty.
         */
         return Task.Delay( 2000 );
-    }
-
-    public class Employee
-    {
-        public int Id { get; set; }
-
-        [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        public decimal Salary { get; set; }
     }
 }

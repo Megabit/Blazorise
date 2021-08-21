@@ -1,11 +1,13 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
+<span class="atSign">&#64;</span>using Blazorise.Docs.Models
+
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">EditMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridEditMode</span><span class="enumValue">.Inline</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridCommandColumn</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo(&quot;fr-FR&quot;)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
             &lt;NumericEdit TValue=&quot;decimal&quot;
                          Value=&quot;<span class="atSign">&#64;</span>((decimal)context.CellValue)&quot;
@@ -20,13 +22,7 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    <span class="keyword">private</span> List&lt;Employee&gt; employeeList = <span class="keyword">new</span>() { <span class="keyword">new</span>() { Salary = <span class="number">50000</span>, Tax = <span class="number">50000</span> * .25m }, <span class="keyword">new</span>() { Salary = <span class="number">30000</span>, Tax = <span class="number">30000</span> * .25m } };
-
-    <span class="keyword">public</span> <span class="keyword">class</span> Employee
-    {
-        <span class="keyword">public</span> <span class="keyword">decimal</span> Tax { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">public</span> <span class="keyword">decimal</span> Salary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-    }
+    <span class="keyword">private</span> List&lt;Employee&gt; employeeList = EmployeeData.EmployeeList;
 }
 </pre></div>
 </div>

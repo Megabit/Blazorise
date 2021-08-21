@@ -1,9 +1,10 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using System.ComponentModel.DataAnnotations;
+@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee">
+          @bind-SelectedRow="@selectedEmployee"
+          Editable="true">
     <DataGridCommandColumn TItem="Employee">
         <NewCommandTemplate>
             <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
@@ -16,10 +17,7 @@
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Email)" Caption="Email" Editable="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
-        <DisplayTemplate>
-            @($"{( context as Employee )?.Salary} €")
-        </DisplayTemplate>
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable="true">
         <EditTemplate>
             <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
@@ -27,49 +25,6 @@
 </DataGrid>
 
 @code{
-    public class Employee
-    {
-        public int Id { get; set; }
-
-        [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        public decimal Salary { get; set; }
-    }
     Employee selectedEmployee;
-    List<Employee> employeeList = new List<Employee>()
-{
-        new()
-        {
-            Id = 1,
-            FirstName = "Samuel",
-            LastName = "Collier",
-            Email = "Samuel.Collier62@gmail.com",
-            Salary = 8603041
-        },
-        new()
-        {
-            Id = 2,
-            FirstName = "Irvin",
-            LastName = "Ziemann",
-            Email = "Irvin.Ziemann@gmail.com",
-            Salary = 6178131
-        },
-        new()
-        {
-            Id = 3,
-            FirstName = "Gerald",
-            LastName = "Pollich	",
-            Email = "Gerald82@yahoo.com",
-            Salary = 5881075
-        }
-
-    };
-
+    List<Employee> employeeList = EmployeeData.EmployeeList;
 }

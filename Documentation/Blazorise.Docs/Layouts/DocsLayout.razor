@@ -198,9 +198,36 @@
                                     <BarDropdownItem To="docs/extensions/chart-live">
                                         Live Chart
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/datagrid">
-                                        ONGOING: DataGrid
-                                    </BarDropdownItem>
+                                    <BarDropdown>
+                                        <BarDropdownToggle>
+                                            Datagrid
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdown>
+                                                <BarDropdownItem To="docs/extensions/datagrid/getting-started">
+                                                    Getting Started
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/extensions/datagrid/binding-data">
+                                                    Binding Data
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/extensions/datagrid/selection">
+                                                    Selection
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/extensions/datagrid/validations">
+                                                    Validations
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/extensions/datagrid/features">
+                                                    Features
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/extensions/datagrid/templates">
+                                                    Templates
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/extensions/datagrid/aggregates">
+                                                    Aggregates
+                                                </BarDropdownItem>
+                                            </BarDropdown>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/dropdownlist">
                                         DropdownList
                                     </BarDropdownItem>
@@ -247,6 +274,80 @@
                                     <BarDropdownItem To="docs/services/page-progress">
                                         Page Progress
                                     </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarHelpersMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Flask" />
+                                    Helpers
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/helpers/colors">
+                                        Colors
+                                    </BarDropdownItem>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle>
+                                            Enums
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdown>
+                                                <BarDropdownItem To="docs/helpers/enums/common">
+                                                    Common
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/bar">
+                                                    Bar
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/button">
+                                                    Button
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/datagrid">
+                                                    DataGrid
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/date">
+                                                    Date
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/divider">
+                                                    Divider
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/dropdown">
+                                                    Dropdown
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/heading">
+                                                    Heading
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/icon">
+                                                    Icon
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/listgroup">
+                                                    ListGroup
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/snackbar">
+                                                    Snackbar
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/spinkit">
+                                                    SpinKit
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/table">
+                                                    Table
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/tabs">
+                                                    Tabs
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/text">
+                                                    Text
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/tooltip">
+                                                    Tooltip
+                                                </BarDropdownItem>
+                                                <BarDropdownItem To="docs/helpers/enums/validation">
+                                                    Validation
+                                                </BarDropdownItem>
+                                            </BarDropdown>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>

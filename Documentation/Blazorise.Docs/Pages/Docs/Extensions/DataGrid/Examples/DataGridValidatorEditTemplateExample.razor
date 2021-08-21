@@ -1,9 +1,12 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          Editable="true">
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Name )" Caption="Name" Editable="true">
+          Editable="true"
+          UseValidation="true"
+          ShowValidationsSummary="false">
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="true">
         <EditTemplate>
             <Validation Validator="@CheckName">
                 <TextEdit Text="@((string)context.CellValue)" TextChanged="(value => context.CellValue = value)">
@@ -14,15 +17,11 @@
             </Validation>
         </EditTemplate>
     </DataGridColumn>
+    <DataGridCommandColumn TItem="Employee" />
 </DataGrid>
 
 @code{
-    private List<Employee> employeeList = new() { new() { Name = "David" }, new() { Name = "MLaden" }, new() { Name = "John" }, new() { Name = "Ana" }, new() { Name = "Jessica" } };
-
-    public class Employee
-    {
-        public string Name { get; set; }
-    }
+    private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "Mladen" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
 
     public void CheckName( ValidatorEventArgs validationArgs )
     {

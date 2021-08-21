@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using System.ComponentModel.DataAnnotations;
+@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList">
@@ -10,7 +10,7 @@
 
             if ( date != null )
             {
-                @($"{date.Value.ToShortDateString()}, age: {( DateTime.Now.Year - date.Value.Year )}")
+                @($"{date.Value.ToShortDateString()} | Age: {( DateTime.Now.Year - date.Value.Year )}")
             }
         }
     </DisplayTemplate>
@@ -18,50 +18,5 @@
 </DataGrid>
 
 @code{
-    public class Employee
-    {
-        public int Id { get; set; }
-
-        [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        public decimal Salary { get; set; }
-
-        public DateTime DateOfBirth { get; set; }
-    }
-    List<Employee> employeeList = new List<Employee>()
-    {
-        new()
-        {
-            Id = 1,
-            FirstName = "Samuel",
-            LastName = "Collier",
-            Email = "Samuel.Collier62@gmail.com",
-            Salary = 8603041
-        },
-        new()
-        {
-            Id = 2,
-            FirstName = "Irvin",
-            LastName = "Ziemann",
-            Email = "Irvin.Ziemann@gmail.com",
-            Salary = 6178131
-        },
-        new()
-        {
-            Id = 3,
-            FirstName = "Gerald",
-            LastName = "Pollich	",
-            Email = "Gerald82@yahoo.com",
-            Salary = 5881075
-        }
-
-    };
-
+    List<Employee> employeeList = EmployeeData.EmployeeList;
 }
