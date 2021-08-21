@@ -1,0 +1,521 @@
+﻿@page "/docs/helpers/enums"
+
+<DocsPageTitle>
+    Enums
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Breakpoint">
+        <p>Defines the media breakpoint.</p>
+        <ul>
+            <li><Code>None</Code> Undefined.</li>
+            <li><Code>Mobile</Code> Valid on all devices. (extra small)</li>
+            <li><Code>Tablet</Code> Breakpoint on tablets (small).</li>
+            <li><Code>Desktop</Code> Breakpoint on desktop (medium).</li>
+            <li><Code>Widescreen</Code> Breakpoint on widescreen (large).</li>
+            <li><Code>FullHD</Code> Breakpoint on large desktops (extra large).</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ThemeContrast">
+        <p>Adjusts the contrast for light or dark themes.</p>
+        <ul>
+            <li><Code>None</Code> Undefined.</li>
+            <li><Code>Light</Code> Adjusts the theme for a light colors.</li>
+            <li><Code>Dark</Code> Adjusts the theme for a dark colors.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Match">
+        <p>Modifies the URL matching behavior for a link.</p>
+        <ul>
+            <li><Code>Prefix</Code> Specifies that the link should be active when it matches any prefix of the current URL.</li>
+            <li><Code>All</Code> Specifies that the link should be active when it matches the entire current URL.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ButtonType">
+        <p>Defines the button type and behavior.</p>
+        <ul>
+            <li><Code>Button</Code> The button is a clickable button.</li>
+            <li><Code>Submit</Code> The button is a submit button (submits form-data).</li>
+            <li><Code>Reset</Code> The button is a reset button (resets the form-data to its initial values).</li>
+            <li><Code>Link</Code> The button will be rendered as a link but will appear as a regular button.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Cursor">
+        <p>Defines the mouse cursor.</p>
+        <ul>
+            <li><Code>Default</Code> Default behavior, nothing will be changed.</li>
+            <li><Code>Pointer</Code> The cursor is a pointer and indicates a link.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Direction">
+        <p>Direction of a dropdown menu.</p>
+        <ul>
+            <li><Code>None</Code> Same as Down.</li>
+            <li><Code>Down</Code> Trigger dropdown menus bellow an element (default behavior).</li>
+            <li><Code>Up</Code> Trigger dropdown menus above an element.</li>
+            <li><Code>Right</Code> Trigger dropdown menus to the right of an element.</li>
+            <li><Code>Left</Code> Trigger dropdown menus to the left of an element.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="JustifyContent">
+        <p>Aligns the flexible container’s items when the items do not use all available space on the main-axis (horizontally).</p>
+        <ul>
+            <li><code>None</code> Sets this property to its default value.</li>
+            <li><code>Start</code> Items are positioned at the beginning of the container.</li>
+            <li><code>End</code> Items are positioned at the end of the container.</li>
+            <li><code>Center</code> Items are positioned at the center of the container.</li>
+            <li><code>Between</code> Items are positioned with space between the lines.</li>
+            <li><code>Around</code> Items are positioned with space before, between, and after the lines.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Alignment">
+        <p>Defines the alignment of an element.</p>
+        <ul>
+            <li><Code>None</Code> No alignment will be applied.</li>
+            <li><Code>Start</Code> Aligns an element to the left.</li>
+            <li><Code>Center</Code> Aligns an element on the center.</li>
+            <li><Code>End</Code> Aligns an element to the right.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ValidationStatus">
+        <p>Defines the validation results.</p>
+        <ul>
+            <li><Code>None</Code> No validation.</li>
+            <li><Code>Success</Code> Validation has passed the check.</li>
+            <li><Code>Error</Code> Validation has failed.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ChartType">
+        <p>Defines the chart type.</p>
+        <ul>
+            <li><Code>Line</Code></li>
+            <li><Code>Bar</Code></li>
+            <li><Code>Pie</Code></li>
+            <li><Code>Doughnut</Code></li>
+            <li><Code>PolarArea</Code></li>
+            <li><Code>Radar</Code></li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Screenreader">
+        <p>Defines the visibility for screen readers.</p>
+        <ul>
+            <li><Code>Always</Code> Default.</li>
+            <li><Code>Only</Code> Hide an element to all devices except screen readers.</li>
+            <li><Code>OnlyFocusable</Code> Show the element again when it’s focused.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="MaskType">
+        <p>Lists values that specify the type of mask used by an editor.</p>
+        <ul>
+            <li><Code>None</Code> Specifies that the mask feature is disabled.</li>
+            <li><Code>Numeric</Code> Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.</li>
+            <li><Code>DateTime</Code> Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.</li>
+            <li><Code>RegEx</Code> Specifies that the mask should be created using full-functional regular expressions.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Placement">
+        <p>Defines the placement of an element.</p>
+        <ul>
+            <li><Code>Top</Code> Top side.</li>
+            <li><Code>Bottom</Code> Bottom side.</li>
+            <li><Code>Left</Code> Left side.</li>
+            <li><Code>Right</Code> Right side.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TooltipPlacement">
+        <p>Defines the placement of an element.</p>
+        <ul>
+            <li><Code>Top</Code> Top-center side.</li>
+            <li><Code>TopStart</Code> Top-left side.</li>
+            <li><Code>TopEnd</Code> Top-right side.</li>
+            <li><Code>Bottom</Code> Bottom-center side.</li>
+            <li><Code>BottomStart</Code> Bottom-left side.</li>
+            <li><Code>BottomEnd</Code> Bottom-right side.</li>
+            <li><Code>Left</Code> Left-center side.</li>
+            <li><Code>LeftStart</Code> Left-top side.</li>
+            <li><Code>LeftEnd</Code> Left-bottom side.</li>
+            <li><Code>Right</Code> Right-center side.</li>
+            <li><Code>RightStart</Code> Right-top side.</li>
+            <li><Code>RightEnd</Code> Right-bottom side.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridFilterMethod">
+        <ul>
+            <li><Code>Contains</Code> search for any occurrence (default)</li>
+            <li><Code>StartsWith</Code> search only the beginning</li>
+            <li><Code>EndsWith</Code> search only the ending</li>
+            <li><Code>Equals</Code> search must match the entire value</li>
+            <li><Code>NotEquals</Code> opposite of Equals</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridSortMode">
+        <ul>
+            <li><Code>Single</Code> The data grid can only be sorted by one column at a time.</li>
+            <li><Code>Multiple</Code> The data grid can sorted by multiple columns.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridSelectionMode">
+        <ul>
+            <li><Code>Single</Code> The data grid only supports a row selected at a time.</li>
+            <li><Code>Multiple</Code> The data grid enables multiple rows to be selected.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridCommandMode">
+        <ul>
+            <li><Code>Default</Code> Default state which means that both defined commands and button row will render.</li>
+            <li><Code>Commands</Code> Only defined commands will render.</li>
+            <li><Code>ButtonRow</Code> Only button row will render.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridCommandMode">
+        <ul>
+            <li><Code>Default</Code> Default state which means that both defined commands and button row will render.</li>
+            <li><Code>Commands</Code> Only defined commands will render.</li>
+            <li><Code>ButtonRow</Code> Only button row will render.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridPagerPosition">
+        <ul>
+            <li><Code>Top</Code> Positions the pagination above the table.</li>
+            <li><Code>Bottom</Code> Positions the pagination below the table.</li>
+            <li><Code>TopAndBottom</Code> Positions the pagination on above and below the table.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextAlignment">
+        <p>Defines the alignment of an text within element.</p>
+        <ul>
+            <li><Code>None</Code> No alignment will be applied.</li>
+            <li><Code>Start</Code> Aligns the text to the left.</li>
+            <li><Code>Center</Code> Centers the text.</li>
+            <li><Code>End</Code> Aligns the text to the right.</li>
+            <li><Code>Justified</Code> Stretches the lines so that each line has equal width.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextTransform">
+        <p>Defines the text transformation.</p>
+        <ul>
+            <li><Code>None</Code> No capitalization. The text renders as it is. This is default.</li>
+            <li><Code>Lowercase</Code> Transforms all characters to lowercase.</li>
+            <li><Code>Uppercase</Code> Transforms all characters to uppercase.</li>
+            <li><Code>Capitalize</Code> Transforms the first character of each word to uppercase.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextWeight">
+        <p>Defines the text weight.</p>
+        <ul>
+            <li><Code>None</Code> No weight will be applied.</li>
+            <li><Code>Normal</Code> Defines normal characters. This is default.</li>
+            <li><Code>Bold</Code> Defines thick characters.</li>
+            <li><Code>Light</Code> Defines lighter characters.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextOverflow">
+        <p>Determines how the text will behave when it is larger than a parent container.</p>
+        <ul>
+            <li><Code>None</Code> No overflow will be applied.</li>
+            <li><Code>Wrap</Code> Text will wrap into a new line when it reaches the end of container.</li>
+            <li><Code>NoWrap</Code> Prevents text from wrapping.</li>
+            <li><Code>Truncate</Code> Truncate the text with an ellipsis.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="HeadingSize">
+        <p>Defines the heading size.</p>
+        <ul>
+            <li><Code>Is1</Code> Heading 1</li>
+            <li><Code>Is2</Code> Heading 2</li>
+            <li><Code>Is3</Code> Heading 3</li>
+            <li><Code>Is4</Code> Heading 4</li>
+            <li><Code>Is5</Code> Heading 5</li>
+            <li><Code>Is6</Code> Heading 6</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DisplayHeadingSize">
+        <p>Defines the display heading size.</p>
+        <ul>
+            <li><Code>Is1</Code> Heading 1</li>
+            <li><Code>Is2</Code> Heading 2</li>
+            <li><Code>Is3</Code> Heading 3</li>
+            <li><Code>Is4</Code> Heading 4</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SortDirection">
+        <p>Specifies the direction of a sort operation.</p>
+        <ul>
+            <li><Code>None</Code> No sorting will be applied.</li>
+            <li><Code>Ascending</Code> Sorts in ascending order.</li>
+            <li><Code>Descending</Code> Sorts in descending order.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DividerType">
+        <p>Specifies divider variants.</p>
+        <ul>
+            <li><Code>Solid</Code></li>
+            <li><Code>Dashed</Code></li>
+            <li><Code>Dotted</Code></li>
+            <li><Code>TextContent</Code></li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TabPosition">
+        <p>Specifies tab position.</p>
+        <ul>
+            <li><Code>Top</Code> Top side.</li>
+            <li><Code>Bottom</Code> Bottom side.</li>
+            <li><Code>Left</Code> Left side.</li>
+            <li><Code>Right</Code> Right side.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="BreadcrumbMode">
+        <p>Defines the breadcrumb activation mode.</p>
+        <ul>
+            <li><Code>None</Code> No activation will be applied.</li>
+            <li><Code>Auto</Code> Breadcrumb items will be activated based on current navigation.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="IconStyle">
+        <p>Defines the breadcrumb activation mode.</p>
+        <ul>
+            <li><Code>Solid</Code></li>
+            <li><Code>Regular</Code></li>
+            <li><Code>Light</Code></li>
+            <li><Code>DuoTone</Code></li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="IconSize">
+        <p>Defines the size of an Icon element.</p>
+        <ul>
+            <li><Code>None</Code> The icon size will not be applied.</li>
+            <li><Code>ExtraSmall</Code> The icon will be size 0.75em.</li>
+            <li><Code>Small</Code> The icon will be size 0.875em.</li>
+            <li><Code>Large</Code> The icon will be size 1.33em (Also applies vertical-align: -25%).</li>
+            <li><Code>x2</Code> The icon will be size 2em.</li>
+            <li><Code>x3</Code> The icon will be size 3em.</li>
+            <li><Code>x4</Code> The icon will be size 4em.</li>
+            <li><Code>x5</Code> The icon will be size 5em.</li>
+            <li><Code>x6</Code> The icon will be size 6em.</li>
+            <li><Code>x7</Code> The icon will be size 7em.</li>
+            <li><Code>x8</Code> The icon will be size 8em.</li>
+            <li><Code>x9</Code> The icon will be size 9em.</li>
+            <li><Code>x10</Code> The icon will be size 10em.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SnackbarLocation">
+        <ul>
+            <li><Code>None</Code> Default behavior.</li>
+            <li><Code>Left</Code> Show the snackbar on the left side of the screen.</li>
+            <li><Code>Right</Code> Show the snackbar on the right side of the screen.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ValidationMode">
+        <p>Defines the validation execution mode.</p>
+        <ul>
+            <li><Code>Auto</Code> Validation will execute on every input change.</li>
+            <li><Code>Manual</Code> Validation will run only when explicitly called.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="BarMode">
+        <p>Defines the style of <Code>Bar</Code> component</p>
+        <ul>
+            <li><Code>Horizontal</Code> - top bar</li>
+            <li><Code>VerticalPopout</Code> - sidebar with popout <Code>BarDropdown</Code> menus</li>
+            <li><Code>VerticalInline</Code> - sidebar with inline <Code>BarDropdown</Code> menus</li>
+            <li><Code>VerticalSmall</Code> - sidebar with icons only, and popout <Code>BarDropdown</Code> menus</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="BarCollapseMode">
+        <p>Defines the <Code>Bar</Code> state when collapsed (only works with <Code>Vertical</Code> bar modes)</p>
+        <ul>
+            <li><Code>Hide</Code> - collapses to be completely hidden</li>
+            <li><Code>Small</Code> - collapse to behave like <Code>BarMode.VerticalSmall</Code></li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Target">
+        <p>The target attribute specifies where to open the linked document.</p>
+        <ul>
+            <li><Code>None</Code> - No target will be applied. Usually this is the same as <Code>Self</Code>.</li>
+            <li><Code>Self</Code> - Opens the linked document in the same frame as it was clicked (this is default)</li>
+            <li><Code>Blank</Code> - Opens the linked document in a new window or tab.</li>
+            <li><Code>Parent</Code> - Opens the linked document in the parent frame.</li>
+            <li><Code>Top</Code> - Opens the linked document in the full body of the window.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DateInputMode">
+        <p>Hints at the type of data that might be entered into DateEdit by the user while editing the element or its contents.</p>
+        <ul>
+            <li><Code>Date</Code> - Only date is allowed to be entered.</li>
+            <li><Code>DateTime</Code> - Both date and time are allowed to be entered.</li>
+            <li><Code>Month</Code> - Allowed to select only year and month.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Orientation">
+        <p>Defines the orientation of the elements.</p>
+        <ul>
+            <li><Code>Horizontal</Code> - Elements will be stacked horizontally.</li>
+            <li><Code>Vertical</Code> - - Elements will be stacked vertically.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TableResizeMode">
+        <p>Defines the resize mode of the data grid columns.</p>
+        <ul>
+            <li><Code>Header</Code> - The table can only be resized from the columns header.</li>
+            <li><Code>Columns</Code> - The table can be resized from the entire column area.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TooltipTrigger">
+        <p>Determines the events that cause the tooltip to show.</p>
+        <ul>
+            <li><Code>MouseEnterFocus</Code> - Tooltip will show on mouse enter and focus event (default option).</li>
+            <li><Code>Click</Code> - Tooltip will show on click event only.</li>
+            <li><Code>Focus</Code> - Tooltip will show on focus event only.</li>
+            <li><Code>MouseEnterClick</Code> - Tooltip will show on mouse enter and click event.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SpinKitType">
+        <ul>
+            <li><Code>Plane</Code></li>
+            <li><Code>Chase</Code></li>
+            <li><Code>Bounce</Code></li>
+            <li><Code>Wave</Code></li>
+            <li><Code>Pulse</Code></li>
+            <li><Code>Flow</Code></li>
+            <li><Code>Swing</Code></li>
+            <li><Code>Circle</Code></li>
+            <li><Code>CircleFade</Code></li>
+            <li><Code>Grid</Code></li>
+            <li><Code>Fold</Code></li>
+            <li><Code>Wander</Code></li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ListGroupMode">
+        <p>Defines the ListGroup behavior.</p>
+        <ul>
+            <li><Code>Static</Code> - List group will act as a static list.</li>
+            <li><Code>Selectable</Code> - List group will act on clicking the items.</li>
+        </ul>
+    </DocsPageSectionHeader>
+</DocsPageSection>

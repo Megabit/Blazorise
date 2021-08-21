@@ -277,6 +277,22 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarHelpersMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Flask" />
+                                    Helpers
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/helpers/colors">
+                                        Colors
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/enums">
+                                        Enums
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
                     </BarStart>
                 </BarMenu>
             </Bar>

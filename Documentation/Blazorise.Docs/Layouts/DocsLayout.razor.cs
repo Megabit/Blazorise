@@ -22,6 +22,8 @@ namespace Blazorise.Docs.Layouts
 
         private bool sideBarExtensionsMenuVisible;
 
+        private bool sideBarHelpersMenuVisible;
+
         #endregion
     }
 }
