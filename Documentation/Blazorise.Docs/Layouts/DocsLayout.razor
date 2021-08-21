@@ -359,6 +359,22 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarMetaMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.QuestionCircle" />
+                                    Meta
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/meta/faq">
+                                        FAQ
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="https://commercial.blazorise.com/files/licences/SLA-2021-06.pdf" Target="Target.Blank">
+                                        License
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
                     </BarStart>
                 </BarMenu>
             </Bar>
