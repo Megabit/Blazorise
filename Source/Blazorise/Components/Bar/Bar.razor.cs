@@ -74,7 +74,8 @@ namespace Blazorise
             }
             else
             {
-                if ( string.IsNullOrEmpty( Theme?.BarOptions?.HorizontalHeight ) )
+                // only calculate HorizontalHeight if the Bar is placed inside of LayoutHeader
+                if ( LayoutHeader != null && string.IsNullOrEmpty( Theme?.BarOptions?.HorizontalHeight ) )
                 {
                     var rect = await JSRunner.GetElementInfo( ElementRef, ElementId );
 
@@ -334,6 +335,11 @@ namespace Blazorise
         /// Cascaded theme settings.
         /// </summary>
         [CascadingParameter] public Theme Theme { get; set; }
+
+        /// <summary>
+        /// Cascaded layour header component.
+        /// </summary>
+        [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
 
         #endregion
     }

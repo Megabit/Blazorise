@@ -1,5 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<footer id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @ChildContent
-</footer>
+<CascadingValue Value="@this" IsFixed="true">
+    <footer id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </footer>
+</CascadingValue>
