@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -56,16 +57,29 @@ namespace Blazorise.DataGrid
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
-            {
-                if ( Filter != null )
-                {
-                    Filter.Unsubscribe( OnSearchValueChanged );
-
-                    Filter = null;
-                }
-            }
+                DisposeSubscriptions();
 
             base.Dispose( disposing );
+        }
+
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+                DisposeSubscriptions();
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeSubscriptions()
+        {
+            ParentDataGrid.RemoveColumn( this );
+
+            if ( Filter != null )
+            {
+                Filter.Unsubscribe( OnSearchValueChanged );
+
+                Filter = null;
+            }
         }
 
         public async void OnSearchValueChanged( object filterValue )
