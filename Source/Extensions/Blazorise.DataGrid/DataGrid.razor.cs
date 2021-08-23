@@ -342,7 +342,9 @@ namespace Blazorise.DataGrid
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Edit( TItem item )
         {
-            InitEditItem( item );
+            TItem editingItem = EditItemCreator != null ? EditItemCreator.Invoke( item ) : item;
+            
+            InitEditItem( editingItem );
 
             editState = DataGridEditState.Edit;
 
@@ -1693,6 +1695,11 @@ namespace Blazorise.DataGrid
         /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
         /// </summary>
         [Parameter] public Func<TItem> NewItemCreator { get; set; }
+        
+        /// <summary>
+        /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
+        /// </summary>
+        [Parameter] public Func<TItem, TItem> EditItemCreator { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.
