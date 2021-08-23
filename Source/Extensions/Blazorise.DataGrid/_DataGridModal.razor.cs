@@ -19,6 +19,8 @@ namespace Blazorise.DataGrid
 
         protected bool popupVisible;
 
+        protected bool isInvalid;
+
         protected EventCallback Cancel
             => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
 
@@ -45,6 +47,8 @@ namespace Blazorise.DataGrid
 
         protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
         {
+            isInvalid = args.Status == ValidationStatus.Error;
+
             InvokeAsync( StateHasChanged );
         }
 

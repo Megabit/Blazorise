@@ -43,7 +43,14 @@ namespace Blazorise.Demo.Pages.Tests
 
         public class Salary
         {
+            public Salary( DateTime date, decimal total )
+            {
+                Date = date;
+                Total = total;
+            }
+
             public DateTime Date { get; set; }
+
             public decimal Total { get; set; }
         }
 

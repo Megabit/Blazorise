@@ -14,6 +14,9 @@ window.blazoriseBootstrap = {
     },
     modal: {
         open: (element, scrollToTop) => {
+            // adjust modal and page padding BEFORE modal is shown
+            window.blazoriseBootstrap.modal.adjustDialog(element);
+
             var modals = Number(document.body.getAttribute("data-modals") || "0");
 
             if (modals === 0) {
@@ -27,8 +30,6 @@ window.blazoriseBootstrap = {
             if (scrollToTop) {
                 element.querySelector('.modal-body').scrollTop = 0;
             }
-
-            window.blazoriseBootstrap.modal.adjustDialog(element);
         },
         close: (element) => {
             var modals = Number(document.body.getAttribute("data-modals") || "0");
@@ -48,21 +49,76 @@ window.blazoriseBootstrap = {
             window.blazoriseBootstrap.modal.resetAdjustments(element);
         },
         adjustDialog: (element) => {
-            const isModalOverflowing = element.scrollHeight > document.documentElement.clientHeight;
-            const scrollbarWidth = window.blazoriseBootstrap.modal.getScrollBarWidth();
-            const isBodyOverflowing = scrollbarWidth > 0;
+            if (element) {
+                const rect = document.body.getBoundingClientRect();
+                const isBodyOverflowing = Math.round(rect.left + rect.right) < window.innerWidth;
+                const scrollbarWidth = window.blazoriseBootstrap.modal.getScrollBarWidth();
 
-            if (!isBodyOverflowing && isModalOverflowing) {
-                element.style.paddingLeft = `${scrollbarWidth}px`;
-            }
+                if (isBodyOverflowing) {
+                    const fixedContent = [].slice.call(document.querySelectorAll('.fixed-top, .fixed-bottom, .is-fixed, .sticky-top'));
+                    const stickyContent = [].slice.call(document.querySelectorAll('.sticky-top'));
 
-            if (isBodyOverflowing && !isModalOverflowing) {
-                element.style.paddingRight = `${scrollbarWidth}px`;
+                    // Adjust fixed content padding
+                    if (fixedContent) {
+                        fixedContent.forEach((fixedContentElement) => {
+                            const calculatedPadding = fixedContentElement.style.paddingRight;
+
+                            fixedContentElement.style.paddingRight = `${parseFloat(calculatedPadding) + scrollbarWidth}px`;
+                        });
+                    }
+
+                    // Adjust sticky content margin
+                    if (stickyContent) {
+                        stickyContent.forEach((stickyContentElement) => {
+                            const calculatedMargin = stickyContentElement.style.marginRight;
+
+                            stickyContentElement.style.marginRight = `${parseFloat(calculatedMargin) - scrollbarWidth}px`;
+                        });
+                    }
+
+                    // Adjust body padding
+                    const calculatedPadding = document.body.style.paddingRight;
+
+                    document.body.style.paddingRight = `${calculatedPadding + scrollbarWidth}px`;
+                }
+
+                const isModalOverflowing = element.scrollHeight > document.documentElement.clientHeight;
+
+                if (!isBodyOverflowing && isModalOverflowing) {
+                    element.style.paddingLeft = `${scrollbarWidth}px`;
+                }
+
+                if (isBodyOverflowing && !isModalOverflowing) {
+                    element.style.paddingRight = `${scrollbarWidth}px`;
+                }
             }
         },
         resetAdjustments: (element) => {
-            element.style.paddingLeft = ''
-            element.style.paddingRight = '';
+            // Restore element padding
+            if (element && element.style) {
+                element.style.paddingLeft = ''
+                element.style.paddingRight = '';
+            }
+
+            const fixedContent = [].slice.call(document.querySelectorAll('.fixed-top, .fixed-bottom, .is-fixed, .sticky-top'));
+            const stickyContent = [].slice.call(document.querySelectorAll('.sticky-top'));
+
+            // Restore fixed content padding
+            if (fixedContent) {
+                fixedContent.forEach((fixedContentElement) => {
+                    fixedContentElement.style.paddingRight = '';
+                });
+            }
+
+            // Restore sticky content
+            if (stickyContent) {
+                stickyContent.forEach((stickyContentElement) => {
+                    stickyContentElement.style.marginRight = '';
+                });
+            }
+
+            // Restore body padding
+            document.body.style.paddingRight = '';
         },
         getScrollBarWidth: () => {
             const documentWidth = document.documentElement.clientWidth;
