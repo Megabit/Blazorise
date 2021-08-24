@@ -15,7 +15,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Internal timer used to debounce the value.
         /// </summary>
-        private Timer timer;
+        private System.Timers.Timer timer;
 
         /// <summary>
         /// Holds the last updated value.

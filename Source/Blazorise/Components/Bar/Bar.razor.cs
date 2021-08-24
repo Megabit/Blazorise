@@ -318,6 +318,16 @@ namespace Blazorise
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
+
+        /// <summary>
+        /// Cascaded layour header component.
+        /// </summary>
+        [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
+
         #endregion
     }
 }

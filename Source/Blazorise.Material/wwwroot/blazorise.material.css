@@ -75,6 +75,9 @@
 .b-is-autocomplete .dropdown-menu:before {
     box-shadow: none; }
 
+.snackbar {
+    z-index: 1060 !important; }
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,

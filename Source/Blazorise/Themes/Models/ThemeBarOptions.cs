@@ -26,7 +26,7 @@
         public string VerticalPopoutMenuWidth { get; set; } = "180px";
 
         /// <summary>
-        /// Gets or sets the height of the <see cref="Bar"/> in horizontal mode.
+        /// Gets or sets the height of the <see cref="Bar"/> in horizontal mode (only for Bar that is placed inside of <see cref="LayoutHeader"/>).
         /// </summary>
         public string HorizontalHeight { get; set; } = "auto";
 

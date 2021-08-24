@@ -303,6 +303,15 @@ namespace Blazorise
 
         #endregion
 
+        #region Theme
+
+        public virtual ValueTask AddThemeVariable( string name, string value )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.theme.addVariable", name, value );
+        }
+
+        #endregion
+
         #region Tooltip
 
         public virtual ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )

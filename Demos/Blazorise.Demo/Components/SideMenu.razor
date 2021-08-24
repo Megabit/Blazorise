@@ -1,0 +1,197 @@
+﻿<Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark"
+     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
+    <BarToggler />
+    <BarBrand>
+        <BarItem>
+            <BarLink To="">
+                <BarIcon IconName="customIcon" />
+                Blazorise Demo
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To="">
+                    <BarIcon IconName="IconName.Dashboard" />
+                    Dashboard
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown @bind-Visible="uiElementsVisible">
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.Wrench" />
+                        UI Elements
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="tests/buttons">
+                            Buttons
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/modals">
+                            Modals
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/cards">
+                            Cards
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/progressbars">
+                            Progress bars
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/elements">
+                            General UI
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/typography">
+                            Typography
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/collapse">
+                            Collapse
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/tables">
+                            Tables
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/figures">
+                            Figures
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/tabs">
+                            Tabs
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/steps">
+                            Steps
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/carousel">
+                            Carousel
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/ratings">
+                            Rating
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/icons">
+                            Icons
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/listgroup">
+                            List group
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.Edit" />
+                        Forms
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="tests/forms">
+                            Forms
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/validations">
+                            Validations
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/misc-forms">
+                            Misc
+                        </BarDropdownItem>
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Nested Forms
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/forms">
+                                    Nested Forms
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/validations">
+                                    Nested Validations
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.PuzzlePiece" />
+                        Extensions
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="tests/datagrid">
+                            Data Grid
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/components">
+                            Components
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/charts">
+                            Charts
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/livecharts">
+                            Live Charts
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/markdown">
+                            Markdown
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/treeview">
+                            TreeView
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/richtextedit">
+                            RichTextEdit
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/spinkit">
+                            Spin Kit
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+        <BarEnd>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.Flask" />
+                        Utilities
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="tests/utilities/borders">
+                            Borders
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/flex">
+                            Flex
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/overflow">
+                            Overflow
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/layout">
+                            Layout
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/shadows">
+                            Shadows
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/sizing">
+                            Sizing
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/vertical-align">
+                            Vertical align
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/services">
+                            Services
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.Smartphone" />
+                        Apps
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="apps/todo">
+                            Todo
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarEnd>
+    </BarMenu>
+</Bar>
+@code{
+    private bool uiElementsVisible = true;
+
+    RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
+}

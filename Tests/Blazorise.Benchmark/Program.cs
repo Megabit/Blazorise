@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
+using Blazorise.Benchmark.DataGrid;
 using Blazorise.Extensions;
 #endregion
 
@@ -11,17 +12,17 @@ namespace Blazorise.Benchmark
 {
     public class Program
     {
-        static void Main( string[] args )
+        private static void Main( string[] args )
         {
-            Console.WriteLine( "Hello World!" );
-
-            _ = BenchmarkRunner.Run<SequenceEquals>();
+            //_ = BenchmarkRunner.Run<SequenceEquals>();
+            _ = BenchmarkRunner.Run<ReflectionBenchmark>();
         }
 
         public class SequenceEquals
         {
             private List<string> simpleList1 = new() { "A", "B", "C" };
             private List<string> simpleList2 = new() { "A", "B", "C" };
+
             [Benchmark]
             public bool SequenceEqual() => simpleList1.SequenceEqual( simpleList2 );
 

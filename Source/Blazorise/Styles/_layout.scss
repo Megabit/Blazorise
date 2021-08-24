@@ -90,6 +90,12 @@
     }
 }
 
+.b-layout.b-layout-root {
+    > .b-layout-header.b-layout-header-fixed + .b-layout.b-layout-has-sider {
+        margin-top: var(--b-bar-horizontal-height, auto);
+    }
+}
+
 .b-layout-footer {
     color: rgba(0, 0, 0, 0.65);
 

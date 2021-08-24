@@ -207,7 +207,6 @@ namespace Blazorise.DataGrid
                 return;
             }
 
-            await HandleSelectionModeChanged();
             await HandleVirtualize();
 
             await base.OnAfterRenderAsync( firstRender );
@@ -226,27 +225,27 @@ namespace Blazorise.DataGrid
             }
         }
 
-        private Task HandleSelectionModeChanged()
+        private async Task HandleSelectionModeChanged()
         {
             if ( selectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
             {
                 SelectedRows ??= new();
 
-                if ( !SelectedRows.Contains( SelectedRow ) )
+                if ( !SelectedRows.Contains( SelectedRow ) && Data.Contains( SelectedRow ) )
                 {
                     SelectedRows.Add( SelectedRow );
 
-                    return SelectedRowsChanged.InvokeAsync( SelectedRows );
+                    await SelectedRowsChanged.InvokeAsync( SelectedRows );
                 }
             }
             else if ( selectionMode == DataGridSelectionMode.Single && SelectedRows != null )
             {
                 SelectedRows = null;
 
-                return SelectedRowsChanged.InvokeAsync( SelectedRows );
+                await SelectedRowsChanged.InvokeAsync( SelectedRows );
             }
 
-            return Task.CompletedTask;
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -333,7 +332,7 @@ namespace Blazorise.DataGrid
 
             editState = DataGridEditState.New;
 
-            return Task.CompletedTask;
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -379,6 +378,8 @@ namespace Blazorise.DataGrid
             {
                 await Paginate( ( CurrentPage - 1 ).ToString() );
             }
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -429,17 +430,21 @@ namespace Blazorise.DataGrid
                 editState = DataGridEditState.None;
                 await VirtualizeOnEditCompleteScroll().AsTask();
             }
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Cancels the editing of DataGrid item.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Cancel()
+        public async Task Cancel()
         {
             editState = DataGridEditState.None;
 
-            return VirtualizeOnEditCompleteScroll().AsTask();
+            await VirtualizeOnEditCompleteScroll().AsTask();
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -447,9 +452,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="item">Item to select.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Select( TItem item )
+        public async Task Select( TItem item )
         {
-            return SelectRow( item );
+            await SelectRow( item );
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -535,7 +542,7 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            return Task.CompletedTask;
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -562,6 +569,8 @@ namespace Blazorise.DataGrid
         public void FilterData()
         {
             FilterData( Data?.AsQueryable() );
+
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -580,6 +589,8 @@ namespace Blazorise.DataGrid
             {
                 cellEditContext.CellValue = value;
             }
+
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -622,7 +633,9 @@ namespace Blazorise.DataGrid
             editItem = item;
             editItemCellValues = new();
 
-            validationItem = (TItem)Activator.CreateInstance( typeof( TItem ) );
+            validationItem = UseValidation
+                ? RecursiveObjectActivator.CreateInstance<TItem>()
+                : default;
 
             foreach ( var column in EditableColumns )
             {
@@ -631,7 +644,8 @@ namespace Blazorise.DataGrid
                     CellValue = column.GetValue( editItem ),
                 } );
 
-                column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
+                if ( validationItem != null )
+                    column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
             }
         }
 
@@ -684,6 +698,8 @@ namespace Blazorise.DataGrid
             }
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+
+            await InvokeAsync( StateHasChanged );
         }
 
         private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
@@ -752,6 +768,8 @@ namespace Blazorise.DataGrid
             UnSelectAllRows = !selectAll;
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+
+            await InvokeAsync( StateHasChanged );
         }
 
         // this is to give user a way to stop save if necessary
@@ -1311,6 +1329,11 @@ namespace Blazorise.DataGrid
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets true if <see cref="ShowValidationsSummary"/> is enabled, and there are validation error messages <seealso cref="ValidationsSummaryErrors"/>.
+        /// </summary>
+        internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
         /// <summary>
         /// Gets or sets the datagrid data-source.

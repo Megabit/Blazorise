@@ -6,10 +6,6 @@ namespace Blazorise.Demo.Layouts
 {
     public partial class MainLayout
     {
-        private bool topbarVisible = false;
-        private bool uiElementsVisible = true;
-        private bool utilitiesVisible = false;
-
         protected override async Task OnInitializedAsync()
         {
             await SelectCulture( "en-US" );
@@ -24,20 +20,22 @@ namespace Blazorise.Demo.Layouts
             return Task.CompletedTask;
         }
 
-        private void OnThemeEnabledChanged( bool value )
+        Task OnThemeEnabledChanged( bool value )
         {
             if ( Theme == null )
-                return;
+                return Task.CompletedTask;
 
             Theme.Enabled = value;
 
             Theme.ThemeHasChanged();
+
+            return Task.CompletedTask;
         }
 
-        private void OnGradientChanged( bool value )
+        Task OnThemeGradientChanged( bool value )
         {
             if ( Theme == null )
-                return;
+                return Task.CompletedTask;
 
             Theme.IsGradient = value;
 
@@ -47,22 +45,26 @@ namespace Blazorise.Demo.Layouts
             //Theme.GradientOptions.BlendPercentage = 80;
 
             Theme.ThemeHasChanged();
+
+            return Task.CompletedTask;
         }
 
-        private void OnRoundedChanged( bool value )
+        Task OnThemeRoundedChanged( bool value )
         {
             if ( Theme == null )
-                return;
+                return Task.CompletedTask;
 
             Theme.IsRounded = value;
 
             Theme.ThemeHasChanged();
+
+            return Task.CompletedTask;
         }
 
-        private void OnThemeColorChanged( string value )
+        Task OnThemeColorChanged( string value )
         {
             if ( Theme == null )
-                return;
+                return Task.CompletedTask;
 
             Theme.ColorOptions ??= new();
 
@@ -85,6 +87,8 @@ namespace Blazorise.Demo.Layouts
             Theme.SpinKitOptions.Color = value;
 
             Theme.ThemeHasChanged();
+
+            return Task.CompletedTask;
         }
 
         [Inject] protected ITextLocalizerService LocalizationService { get; set; }

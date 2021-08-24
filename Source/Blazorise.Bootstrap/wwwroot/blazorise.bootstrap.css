@@ -50,6 +50,9 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
 
+.btn-group.btn-group-toggle .btn.active.disabled {
+    opacity: 1; }
+
 .btn-group-vertical > .b-tooltip:not(:last-child) > .btn {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0; }
@@ -94,6 +97,9 @@
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll; }
+
+.snackbar {
+    z-index: 1060 !important; }
 
 .figure-is-16x16 {
     height: 16px;

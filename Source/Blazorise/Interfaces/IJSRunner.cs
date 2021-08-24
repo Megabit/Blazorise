@@ -43,6 +43,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Theme
+
+        ValueTask AddThemeVariable( string name, string value );
+
+        #endregion
+
         #region Button
 
         ValueTask InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit );
