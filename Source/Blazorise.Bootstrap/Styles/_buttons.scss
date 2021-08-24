@@ -6,6 +6,12 @@
     > .b-tooltip:not(:first-child) > .btn {
         @include border-left-radius(0);
     }
+
+    &.btn-group-toggle {
+        .btn.active.disabled {
+            opacity:1;
+        }
+    }
 }
 
 .btn-group-vertical {

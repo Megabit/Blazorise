@@ -188,6 +188,16 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Removes an existing link of a child column with this datagrid.
+        /// <para>Returns:
+        ///     true if item is successfully removed; otherwise, false. 
+        /// </para>
+        /// </summary>
+        /// <param name="column">Column to link with this datagrid.</param>
+        internal bool RemoveColumn( DataGridColumn<TItem> column )
+            => Columns.Remove( column ); // TODO: mark as public in v0.9.5
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="aggregate">Aggregate column to link with this datagrid.</param>
@@ -633,7 +643,9 @@ namespace Blazorise.DataGrid
             editItem = item;
             editItemCellValues = new();
 
-            validationItem = RecursiveObjectActivator.CreateInstance<TItem>();
+            validationItem = UseValidation
+                ? RecursiveObjectActivator.CreateInstance<TItem>()
+                : default;
 
             foreach ( var column in EditableColumns )
             {
@@ -642,7 +654,8 @@ namespace Blazorise.DataGrid
                     CellValue = column.GetValue( editItem ),
                 } );
 
-                column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
+                if ( validationItem != null )
+                    column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
             }
         }
 
@@ -975,6 +988,8 @@ namespace Blazorise.DataGrid
 
         private void FilterData( IQueryable<TItem> query )
         {
+            dirtyFilter = false;
+
             if ( query == null )
             {
                 filteredData.Clear();
@@ -1045,8 +1060,6 @@ namespace Blazorise.DataGrid
             }
 
             filteredData = query.ToList();
-
-            dirtyFilter = false;
 
             FilteredDataChanged?.Invoke( new(
                 filteredData,
@@ -1326,6 +1339,11 @@ namespace Blazorise.DataGrid
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets true if <see cref="ShowValidationsSummary"/> is enabled, and there are validation error messages <seealso cref="ValidationsSummaryErrors"/>.
+        /// </summary>
+        internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
         /// <summary>
         /// Gets or sets the datagrid data-source.

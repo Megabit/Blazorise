@@ -32,12 +32,12 @@ namespace Blazorise
         /// <summary>
         /// A times used to activate the slide animation.
         /// </summary>
-        public Timer Timer { get; set; }
+        public System.Timers.Timer Timer { get; set; }
 
         /// <summary>
         /// A times used to animate the slide transition.
         /// </summary>
-        public Timer TransitionTimer { get; set; }
+        public System.Timers.Timer TransitionTimer { get; set; }
 
         /// <summary>
         /// A list of slides placed inside of this carousel.

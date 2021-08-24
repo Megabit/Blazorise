@@ -72,18 +72,6 @@ namespace Blazorise
                     await Toggle();
                 }
             }
-            else
-            {
-                if ( string.IsNullOrEmpty( Theme?.BarOptions?.HorizontalHeight ) )
-                {
-                    var rect = await JSRunner.GetElementInfo( ElementRef, ElementId );
-
-                    if ( rect.BoundingClientRect.Height > 0 )
-                    {
-                        await JSRunner.AddThemeVariable( ThemeVariables.HorizontalBarHeight, $"{rect.BoundingClientRect.Height}px" );
-                    }
-                }
-            }
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -334,6 +322,11 @@ namespace Blazorise
         /// Cascaded theme settings.
         /// </summary>
         [CascadingParameter] public Theme Theme { get; set; }
+
+        /// <summary>
+        /// Cascaded layour header component.
+        /// </summary>
+        [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
 
         #endregion
     }

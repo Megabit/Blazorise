@@ -1,5 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<header id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @ChildContent
-</header>
+<CascadingValue Value="@this" IsFixed="true">
+    <header @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </header>
+</CascadingValue>
