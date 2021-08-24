@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Demo.Models;
 using Microsoft.AspNetCore.Components;
@@ -10,6 +12,7 @@ namespace Blazorise.Demo.Data
     public class EmployeeData
     {
         private readonly IHttpClientFactory httpClientfactory;
+        private readonly HttpClient httpClient;
         private readonly NavigationManager navigationManager;
 
         /// <summary>
@@ -21,6 +24,8 @@ namespace Blazorise.Demo.Data
         {
             this.httpClientfactory = httpClientfactory;
             this.navigationManager = navigationManager;
+            httpClient = httpClientfactory.CreateClient();
+            httpClient.BaseAddress = new( navigationManager.BaseUri );
         }
 
         private List<Employee> data;
@@ -28,12 +33,14 @@ namespace Blazorise.Demo.Data
         public async Task<List<Employee>> GetDataAsync()
         {
             if ( data is null )
-            {
-                using HttpClient client = httpClientfactory.CreateClient();
-                client.BaseAddress = new( navigationManager.BaseUri );
-                data = await client.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );
-            }
+                await LoadData().ConfigureAwait( false );
             return data;
         }
+
+        private async Task LoadData()
+        {
+            data = await httpClient.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" ).ConfigureAwait( false );
+        }
     }
+
 }

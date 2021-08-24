@@ -1,23 +1,18 @@
-﻿@page "/tests/datagrid/selection/single"
+﻿@page "/tests/datagrid/selection/styling"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: Single Selection</CardTitle>
+                <CardTitle>Datagrid: Styling</CardTitle>
             </CardHeader>
-            <ListGroup Flush="true">
-                <ListGroupItem>By default, the Datagrid's Selection Mode is set to Single.</ListGroupItem>
-                <ListGroupItem>Bind the selected row to a property by binding to the SelectedRow Parameter.</ListGroupItem>
-                <ListGroupItem>Unselect a row by pressing Ctrl+Click.</ListGroupItem>
-                <ListGroupItem>You may also limit which rows are selectable. Try selecting any First Name starting with an "A".</ListGroupItem>
-            </ListGroup>
             <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
                           ShowPager="true"
                           ShowPageSizes="true"
                           @bind-SelectedRow="@selectedEmployee"
-                          RowSelectable="@((x) => !x.FirstName.StartsWith("A"))">
+                          RowStyling="@OnRowStyling"
+                          SelectedRowStyling="@OnSelectedRowStyling">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
@@ -67,42 +62,6 @@
     </Column>
 </Row>
 
-<Row>
-    <Column>
-        <Card>
-            <CardHeader>
-                <CardTitle>Selected Employee</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Fields>
-                    <Field>
-                        <FieldLabel>First Name</FieldLabel>
-                        <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
-                    </Field>
-                </Fields>
-                <Fields>
-                    <Field>
-                        <FieldLabel>Email</FieldLabel>
-                        <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
-                    </Field>
-                </Fields>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-
 @code {
 
     [Inject] EmployeeData EmployeeData { get; set; }
@@ -114,5 +73,18 @@
     {
         inMemoryData = ( await EmployeeData.GetDataAsync() ).Take( 25 );
         await base.OnInitializedAsync();
+    }
+
+    void OnRowStyling(Employee employee, DataGridRowStyling styling)
+    {
+        if ( !employee.IsActive )
+            styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling(Employee employee, DataGridRowStyling styling)
+    {
+        styling.Color = Color.Warning;
+        styling.Style = "font-weight:bold;";
+        styling.Background = Background.Warning;
     }
 }

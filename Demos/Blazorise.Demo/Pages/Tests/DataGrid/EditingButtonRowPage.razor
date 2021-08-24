@@ -1,30 +1,35 @@
-﻿@page "/tests/datagrid/selection/single"
+﻿@page "/tests/datagrid/editing/button-row"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: Single Selection</CardTitle>
+                <CardTitle>Datagrid: Button Row</CardTitle>
             </CardHeader>
-            <ListGroup Flush="true">
-                <ListGroupItem>By default, the Datagrid's Selection Mode is set to Single.</ListGroupItem>
-                <ListGroupItem>Bind the selected row to a property by binding to the SelectedRow Parameter.</ListGroupItem>
-                <ListGroupItem>Unselect a row by pressing Ctrl+Click.</ListGroupItem>
-                <ListGroupItem>You may also limit which rows are selectable. Try selecting any First Name starting with an "A".</ListGroupItem>
-            </ListGroup>
             <CardBody>
+                <Field>
+                    <FieldLabel>
+                        Edit Mode
+                    </FieldLabel>
+                    <FieldBody>
+                        <Select @bind-SelectedValue="@editMode">
+                            <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
                           ShowPager="true"
                           ShowPageSizes="true"
                           @bind-SelectedRow="@selectedEmployee"
-                          RowSelectable="@((x) => !x.FirstName.StartsWith("A"))">
+                          Editable="true">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
-                        </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
@@ -61,58 +66,28 @@
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
+                    <ButtonRowTemplate>
+                        <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+                        <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+                        <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+                        <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
+                    </ButtonRowTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
     </Column>
 </Row>
 
-<Row>
-    <Column>
-        <Card>
-            <CardHeader>
-                <CardTitle>Selected Employee</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Fields>
-                    <Field>
-                        <FieldLabel>First Name</FieldLabel>
-                        <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
-                    </Field>
-                </Fields>
-                <Fields>
-                    <Field>
-                        <FieldLabel>Email</FieldLabel>
-                        <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
-                    </Field>
-                </Fields>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-
 @code {
-
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private IEnumerable<Employee> inMemoryData;
+    private List<Employee> inMemoryData;
     private Employee selectedEmployee;
+    private DataGridEditMode editMode = DataGridEditMode.Form;
 
     protected override async Task OnInitializedAsync()
     {
-        inMemoryData = ( await EmployeeData.GetDataAsync() ).Take( 25 );
+        inMemoryData = ( await EmployeeData.GetDataAsync() ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
     }
 }

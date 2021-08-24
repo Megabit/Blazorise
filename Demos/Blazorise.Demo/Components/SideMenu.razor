@@ -105,14 +105,14 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
-                <BarDropdown>
+                <BarDropdown Visible="true">
                     <BarDropdownToggle>
                         <BarIcon IconName="IconName.PuzzlePiece" />
                         Extensions
                     </BarDropdownToggle>
                     <BarDropdownMenu>
-<BarItem>
-                            <BarDropdown>
+                        <BarItem>
+                            <BarDropdown Visible="true">
                                 <BarDropdownToggle>
                                     <BarIcon IconName="IconName.CompactDisc" />
                                     Datagrid
@@ -171,9 +171,17 @@
                                             Editing
                                         </BarDropdownToggle>
                                         <BarDropdownMenu>
+                                            <BarDropdownItem To="tests/datagrid/editing/commands">
+                                                Commands
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="tests/datagrid/editing/button-row">
+                                                Button Row
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="tests/datagrid/editing/update-cell">
+                                                Update Cell
+                                            </BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-
 
                                     <BarDropdown>
                                         <BarDropdownToggle>
