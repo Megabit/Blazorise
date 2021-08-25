@@ -131,7 +131,7 @@
                                             </BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-
+                                    
                                     <BarDropdown>
                                         <BarDropdownToggle>
                                             Virtualize
@@ -185,17 +185,25 @@
 
                                     <BarDropdown>
                                         <BarDropdownToggle>
+                                            Validations
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle>
                                             Filter
                                         </BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="tests/datagrid/filter/standard">
                                                 Standard
                                             </BarDropdownItem>
-                                            <BarDropdownItem To="tests/datagrid/editing/button-row">
-                                                Button Row
+                                            <BarDropdownItem To="tests/datagrid/filter/custom">
+                                                Custom
                                             </BarDropdownItem>
-                                            <BarDropdownItem To="tests/datagrid/editing/update-cell">
-                                                Update Cell
+                                            <BarDropdownItem To="tests/datagrid/filter/column-filter">
+                                                Column Filter
                                             </BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
@@ -205,30 +213,12 @@
                                             Sort
                                         </BarDropdownToggle>
                                         <BarDropdownMenu>
-                                        </BarDropdownMenu>
-                                    </BarDropdown>
-
-                                    <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Pager
-                                        </BarDropdownToggle>
-                                        <BarDropdownMenu>
-                                        </BarDropdownMenu>
-                                    </BarDropdown>
-
-                                    <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Resize
-                                        </BarDropdownToggle>
-                                        <BarDropdownMenu>
-                                        </BarDropdownMenu>
-                                    </BarDropdown>
-
-                                    <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Fixed Header
-                                        </BarDropdownToggle>
-                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="tests/datagrid/sort/single">
+                                                Single
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="tests/datagrid/sort/multiple">
+                                                Multiple
+                                            </BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
 
@@ -239,6 +229,18 @@
                                         <BarDropdownMenu>
                                         </BarDropdownMenu>
                                     </BarDropdown>
+
+                                    <BarDropdownItem To="tests/datagrid/pager">
+                                        Pager
+                                    </BarDropdownItem>
+
+                                    <BarDropdownItem To="tests/datagrid/resize">
+                                        Resize
+                                    </BarDropdownItem>
+
+                                    <BarDropdownItem To="tests/datagrid/fixed-header">
+                                        Fixed Header
+                                    </BarDropdownItem>
 
                                 </BarDropdownMenu>
                             </BarDropdown>

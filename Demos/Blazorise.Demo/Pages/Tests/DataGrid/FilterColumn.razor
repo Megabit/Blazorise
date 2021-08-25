@@ -1,9 +1,9 @@
-﻿@page "/tests/datagrid/filter/standard"
+﻿@page "/tests/datagrid/filter/column-filter"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: Standard Filter</CardTitle>
+                <CardTitle>Datagrid: Column Filter</CardTitle>
             </CardHeader>
             <CardBody>
                 <DataGrid TItem="Employee"
@@ -13,21 +13,21 @@
                           Filterable="true"
                           FilterMethod="DataGridFilterMethod.Contains">
                     <DataGridColumns>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable="false" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable="false">
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable="false"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Filterable="false"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Filterable="false">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Filterable="false">
                         </DataGridColumn>
-                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" Filterable="false"/>
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true" CustomFilter="@OnGenderCustomFilter">
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
@@ -46,8 +46,16 @@
                                     }
                                 }
                             </DisplayTemplate>
+                            <FilterTemplate>
+                                <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                                    <SelectItem TValue="string" Value="@("*")">All</SelectItem>
+                                    <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                                    <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                </Select>
+                            </FilterTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right" Filterable="false">
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
                             <DisplayTemplate>
@@ -66,6 +74,18 @@
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private IEnumerable<Employee> inMemoryData;
+
+    private string selectedGenderFilter;
+
+    private bool OnGenderCustomFilter(object itemValue, object searchValue)
+    {
+        if ( searchValue is string genderFilter )
+        {
+            return genderFilter == "*" || genderFilter == itemValue?.ToString();
+        }
+
+        return true;
+    }
 
     protected override async Task OnInitializedAsync()
     {

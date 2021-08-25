@@ -79,7 +79,7 @@
     private async Task<IEnumerable<Employee>> GetDataFromExternalSource( int page, int pageSize )
     {
         await Task.Delay( random.Next( 100 ) );
-        return ( await EmployeeData.GetDataAsync() ).Take( 50 ).Skip( ( page - 1 ) * pageSize ).Take( pageSize );
+        return ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 50 ).Skip( ( page - 1 ) * pageSize ).Take( pageSize );
     }
 
     /// <summary>
@@ -88,7 +88,7 @@
     /// </summary>
     /// <returns></returns>
     private async Task<int> GetTotalFromExternalSource()
-        => ( await EmployeeData.GetDataAsync() ).Take( 50 ).Count();
+        => ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 50 ).Count();
 
     /// <summary>
     /// Standard pattern for handling Datagrid data on demand according to pagination.

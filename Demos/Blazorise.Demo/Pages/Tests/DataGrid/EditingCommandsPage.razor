@@ -84,7 +84,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        inMemoryData = ( await EmployeeData.GetDataAsync() ).Take( 25 ).ToList();
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
     }
 }

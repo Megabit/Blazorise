@@ -32,11 +32,11 @@ namespace Blazorise.Demo.Data
         public Task<List<Employee>> GetDataAsync()
             => cache.GetOrCreateAsync<List<Employee>>( employeesCacheKey, LoadData );
 
-        private  Task<List<Employee>> LoadData(ICacheEntry cacheEntry )
+        private async Task<List<Employee>> LoadData(ICacheEntry cacheEntry )
         {
             HttpClient httpClient = httpClientfactory.CreateClient();
             httpClient.BaseAddress = new( navigationManager.BaseUri );
-            return httpClient.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" );
+            return await httpClient.GetFromJsonAsync<List<Employee>>( "_content/Blazorise.Demo/demoData.json" ).ConfigureAwait( false );
         }
     }
 

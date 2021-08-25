@@ -1,35 +1,27 @@
-﻿@page "/tests/datagrid/editing/button-row"
+﻿@page "/tests/datagrid/filter/custom"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: Button Row</CardTitle>
+                <CardTitle>Datagrid: Custom Filter</CardTitle>
             </CardHeader>
             <CardBody>
                 <Field>
-                    <FieldLabel>
-                        Edit Mode
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select @bind-SelectedValue="@editMode">
-                            <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
-                            <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
-                            <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
-                        </Select>
-                    </FieldBody>
+                    Custom Filter: <TextEdit @bind-Text="@customFilterValue"></TextEdit>
                 </Field>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
                           ShowPager="true"
                           ShowPageSizes="true"
-                          @bind-SelectedRow="@selectedEmployee"
-                          Editable="true">
+                          Filterable="false"
+                          CustomFilter="OnCustomFilter">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true"/>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true"/>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true"/>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
@@ -66,12 +58,6 @@
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
-                    <ButtonRowTemplate>
-                        <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
-                        <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
-                        <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
-                        <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
-                    </ButtonRowTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -79,15 +65,25 @@
 </Row>
 
 @code {
+
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private List<Employee> inMemoryData;
-    private Employee selectedEmployee;
-    private DataGridEditMode editMode = DataGridEditMode.Form;
+    private IEnumerable<Employee> inMemoryData;
+    private string customFilterValue;
+
+    private bool OnCustomFilter(Employee model)
+    {
+        // We want to accept empty value as valid or otherwise
+        // datagrid will not show anything.
+        if ( string.IsNullOrEmpty( customFilterValue ) )
+            return true;
+
+        return model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
         await base.OnInitializedAsync();
     }
 }
