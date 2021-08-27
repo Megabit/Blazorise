@@ -200,10 +200,7 @@ namespace Blazorise
 
             if ( carouselSlides.Count == 1 && string.IsNullOrEmpty( SelectedSlide ) )
             {
-                state = state with
-                {
-                    SelectedSlide = carouselSlides.Single().Name
-                };
+                SelectedSlide = carouselSlides.Single().Name;
             }
         }
 
@@ -608,8 +605,8 @@ namespace Blazorise
 
                 state = state with
                 {
-                    PreviouslySelectedSlide = SelectedSlide,
-                    SelectedSlide = value
+                    SelectedSlide = value,
+                    PreviouslySelectedSlide = state.PreviouslySelectedSlide is null ? value : SelectedSlide
                 };
 
                 InvokeAsync( () => SelectedSlideChanged.InvokeAsync( state.SelectedSlide ) );
