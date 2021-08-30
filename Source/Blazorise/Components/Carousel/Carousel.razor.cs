@@ -200,7 +200,10 @@ namespace Blazorise
 
             if ( carouselSlides.Count == 1 && string.IsNullOrEmpty( SelectedSlide ) )
             {
-                SelectedSlide = carouselSlides.Single().Name;
+                state = state with
+                {
+                    SelectedSlide = carouselSlides.Single().Name
+                };
             }
         }
 
@@ -336,9 +339,16 @@ namespace Blazorise
             {
                 AnimationRunning = false;
 
-                carouselSlides[PreviouslySelectedSlideIndex].Clean();
-                carouselSlides[SelectedSlideIndex].Clean();
-                carouselSlides[SelectedSlideIndex].Active = true;
+                if ( PreviouslySelectedSlideIndex >= 0 && PreviouslySelectedSlideIndex < NumberOfSlides )
+                {
+                    carouselSlides[PreviouslySelectedSlideIndex].Clean();
+                }
+
+                if ( SelectedSlideIndex >= 0 && SelectedSlideIndex < NumberOfSlides )
+                {
+                    carouselSlides[SelectedSlideIndex].Clean();
+                    carouselSlides[SelectedSlideIndex].Active = true;
+                }
 
                 await InvokeAsync( StateHasChanged );
 
@@ -382,10 +392,18 @@ namespace Blazorise
 
             //Trigger Animation
             carouselSlides[SelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
-            carouselSlides[PreviouslySelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
+
+            if ( PreviouslySelectedSlideIndex >= 0 && PreviouslySelectedSlideIndex < NumberOfSlides )
+            {
+                carouselSlides[PreviouslySelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
+            }
 
             carouselSlides[SelectedSlideIndex].Right = Direction == CarouselDirection.Next;
-            carouselSlides[PreviouslySelectedSlideIndex].Right = Direction == CarouselDirection.Next;
+
+            if ( PreviouslySelectedSlideIndex >= 0 && PreviouslySelectedSlideIndex < NumberOfSlides )
+            {
+                carouselSlides[PreviouslySelectedSlideIndex].Right = Direction == CarouselDirection.Next;
+            }
 
             await InvokeAsync( StateHasChanged );
 
@@ -605,8 +623,8 @@ namespace Blazorise
 
                 state = state with
                 {
-                    SelectedSlide = value,
-                    PreviouslySelectedSlide = state.PreviouslySelectedSlide is null ? value : SelectedSlide
+                    PreviouslySelectedSlide = state.SelectedSlide,
+                    SelectedSlide = value
                 };
 
                 InvokeAsync( () => SelectedSlideChanged.InvokeAsync( state.SelectedSlide ) );
