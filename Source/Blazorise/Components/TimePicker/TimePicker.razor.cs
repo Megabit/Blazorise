@@ -26,6 +26,8 @@ namespace Blazorise
             var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
             var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
+            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
+            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
 
             if ( timeChanged )
             {
@@ -39,7 +41,12 @@ namespace Blazorise
                 }
             }
 
-            if ( Rendered && ( minChanged || maxChanged || displayFormatChanged || timeAs24hrChanged ) )
+            if ( Rendered && ( minChanged
+                || maxChanged
+                || displayFormatChanged
+                || timeAs24hrChanged
+                || disabledChanged
+                || readOnlyChanged ) )
             {
                 ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerOptions( ElementRef, ElementId, new
                 {
@@ -47,6 +54,8 @@ namespace Blazorise
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                     Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
                     Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
+                    Disabled = new { Changed = disabledChanged, Value = disabled },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 } ) );
             }
 
@@ -82,6 +91,8 @@ namespace Blazorise
                 Default = FormatValueAsString( Time ),
                 Min = Min?.ToString( Parsers.InternalTimeFormat ),
                 Max = Max?.ToString( Parsers.InternalTimeFormat ),
+                Disabled,
+                ReadOnly,
             } );
 
             await base.OnFirstAfterRenderAsync();
