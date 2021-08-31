@@ -487,6 +487,19 @@ select[readonly] {
 .custom-file-label {
     overflow: hidden; }
 
+input[readonly][type=range],
+input[readonly="readonly"][type=range] {
+    pointer-events: none; }
+    input[readonly][type=range]::-webkit-slider-thumb,
+    input[readonly="readonly"][type=range]::-webkit-slider-thumb {
+        pointer-events: none; }
+    input[readonly][type=range]::-moz-range-thumb,
+    input[readonly="readonly"][type=range]::-moz-range-thumb {
+        pointer-events: none; }
+    input[readonly][type=range]::-ms-thumb,
+    input[readonly="readonly"][type=range]::-ms-thumb {
+        pointer-events: none; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }
