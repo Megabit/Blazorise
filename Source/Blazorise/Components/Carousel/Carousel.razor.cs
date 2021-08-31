@@ -303,7 +303,7 @@ namespace Blazorise
 
                 if ( TimerEnabled )
                 {
-                    Timer.Interval = GetSelectedCarouselSlide().Interval ?? Interval;
+                    Timer.Interval = GetSelectedCarouselSlide()?.Interval ?? Interval;
                     Timer.Start();
                 }
             }
