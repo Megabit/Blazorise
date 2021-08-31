@@ -110,9 +110,17 @@ namespace Blazorise
 
         #region Properties
 
-        bool IndicatorActive => ParentCarousel.SelectedSlideIndex < ParentCarousel.NumberOfSlides
-            ? ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this )
-            : false;
+        bool IndicatorActive
+        {
+            get
+            {
+                var selectedSlideIndex = ParentCarousel.SelectedSlideIndex;
+
+                return selectedSlideIndex >= 0 && selectedSlideIndex < ParentCarousel.NumberOfSlides
+                    ? ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this )
+                    : false;
+            }
+        }
 
         internal bool Active
         {

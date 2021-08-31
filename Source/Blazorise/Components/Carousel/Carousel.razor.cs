@@ -167,7 +167,7 @@ namespace Blazorise
         /// <returns>Next slide in a sequence or first if not found.</returns>
         private CarouselSlide FindNextSlide( string slideName )
         {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) + 1;
+            var slideIndex = carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) ) + 1;
 
             if ( slideIndex >= carouselSlides.Count )
                 slideIndex = 0;
@@ -182,7 +182,7 @@ namespace Blazorise
         /// <returns>Previous slide in a sequence or last if not found.</returns>
         private CarouselSlide FindPreviousSlide( string slideName )
         {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) - 1;
+            var slideIndex = carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) ) - 1;
 
             if ( slideIndex < 0 )
                 slideIndex = carouselSlides.Count - 1;
