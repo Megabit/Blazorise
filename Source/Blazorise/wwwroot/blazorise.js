@@ -465,7 +465,8 @@ window.blazorise = {
                 locale: {
                     firstDayOfWeek: options.firstDayOfWeek
                 },
-                time_24hr: options.timeAs24hr ? options.timeAs24hr : false
+                time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
+                clickOpens: !(options.readOnly || false)
             };
 
             const pluginOptions = options.inputMode === 2 ? {
@@ -480,6 +481,11 @@ window.blazorise = {
                 ...defaultOptions,
                 ...pluginOptions
             });
+
+            if (options) {
+                picker.altInput.disabled = options.disabled || false;
+                picker.altInput.readOnly = options.readOnly || false;
+            }
 
             window.blazorise.datePicker._pickers[elementId] = picker;
         },
@@ -519,6 +525,15 @@ window.blazorise = {
 
                 if (options.max.changed) {
                     picker.set("maxDate", options.max.value);
+                }
+
+                if (options.disabled.changed) {
+                    picker.altInput.disabled = options.disabled.value;
+                }
+
+                if (options.readOnly.changed) {
+                    picker.altInput.readOnly = options.readOnly.value;
+                    picker.set("clickOpens", !options.readOnly.value);
                 }
             }
         },
@@ -589,8 +604,14 @@ window.blazorise = {
                 defaultValue: options.default,
                 minTime: options.min,
                 maxTime: options.max,
-                time_24hr: options.timeAs24hr ? options.timeAs24hr : false
+                time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
+                clickOpens: !(options.readOnly || false)
             });
+
+            if (options) {
+                picker.altInput.disabled = options.disabled || false;
+                picker.altInput.readOnly = options.readOnly || false;
+            }
 
             window.blazorise.timePicker._pickers[elementId] = picker;
         },
@@ -626,6 +647,15 @@ window.blazorise = {
 
                 if (options.max.changed) {
                     picker.set("maxTime", options.max.value);
+                }
+
+                if (options.disabled.changed) {
+                    picker.altInput.disabled = options.disabled.value;
+                }
+
+                if (options.readOnly.changed) {
+                    picker.altInput.readOnly = options.readOnly.value;
+                    picker.set("clickOpens", !options.readOnly.value);
                 }
             }
         },

@@ -27,6 +27,8 @@ namespace Blazorise
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
             var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
+            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
+            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
 
             if ( dateChanged )
             {
@@ -40,7 +42,13 @@ namespace Blazorise
                 }
             }
 
-            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged || displayFormatChanged || timeAs24hrChanged ) )
+            if ( Rendered && ( minChanged
+                || maxChanged
+                || firstDayOfWeekChanged
+                || displayFormatChanged
+                || timeAs24hrChanged
+                || disabledChanged
+                || readOnlyChanged ) )
             {
                 ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
                 {
@@ -49,6 +57,8 @@ namespace Blazorise
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                     Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
                     Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
+                    Disabled = new { Changed = disabledChanged, Value = disabled },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 } ) );
             }
 
@@ -86,6 +96,8 @@ namespace Blazorise
                 Default = FormatValueAsString( Date ),
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
+                Disabled,
+                ReadOnly,
             } );
 
             await base.OnFirstAfterRenderAsync();
