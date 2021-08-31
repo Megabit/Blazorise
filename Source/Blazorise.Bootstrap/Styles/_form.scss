@@ -367,3 +367,20 @@ select[readonly] {
 .custom-file-label {
     overflow: hidden;
 }
+
+input[readonly][type=range],
+input[readonly="readonly"][type=range] {
+    pointer-events: none;
+
+    &::-webkit-slider-thumb {
+        pointer-events: none;
+    }
+
+    &::-moz-range-thumb {
+        pointer-events: none;
+    }
+
+    &::-ms-thumb {
+        pointer-events: none;
+    }
+}
