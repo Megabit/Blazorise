@@ -90,3 +90,31 @@
 .b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
     padding: .3rem;
 }
+
+.b-docs-attributes {
+    tbody {
+        tr {
+            td:first-child code {
+                color: #1867c0;
+            }
+
+            td:nth-child(2) code {
+                color: #690;
+            }
+
+            .b-attribute-token {
+                &.boolean code {
+                    color: #905;
+                }
+
+                &.keyword code {
+                    color: #07a;
+                }
+
+                &.string code {
+                    color: #690
+                }
+            }
+        }
+    }
+}

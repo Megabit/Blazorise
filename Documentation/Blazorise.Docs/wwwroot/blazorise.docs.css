@@ -93,6 +93,21 @@
 .b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
   padding: .3rem; }
 
+.b-docs-attributes tbody tr td:first-child code {
+  color: #1867c0; }
+
+.b-docs-attributes tbody tr td:nth-child(2) code {
+  color: #690; }
+
+.b-docs-attributes tbody tr .b-attribute-token.boolean code {
+  color: #905; }
+
+.b-docs-attributes tbody tr .b-attribute-token.keyword code {
+  color: #07a; }
+
+.b-docs-attributes tbody tr .b-attribute-token.string code {
+  color: #690; }
+
 .blazorise-codeblock {
   height: 100%;
   background-color: #272C35;

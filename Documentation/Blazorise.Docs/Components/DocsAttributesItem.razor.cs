@@ -8,6 +8,15 @@ namespace Blazorise.Docs.Components
     {
         #region Properties
 
+        private string DefaultClassNames => Default switch
+        {
+            "true" => "b-attribute-token boolean",
+            "false" => "b-attribute-token boolean",
+            "null" => "b-attribute-token keyword",
+            "None" => "b-attribute-token keyword",
+            _ => "b-attribute-token string",
+        };
+
         [Parameter] public string Name { get; set; }
 
         [Parameter] public string Type { get; set; }
