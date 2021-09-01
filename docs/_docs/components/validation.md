@@ -145,6 +145,9 @@ To use data annotations with Blazorise you must combine both `Validation` and th
 
 After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
 
+**Note:** By default, Blazor will have enough information about the validating field when you use the two-way binding, eg. `@bind-Text`. In case you do the manual two-way binding with `Text` and `TextChanged` parameters you will also need to define a third parameter `TextExpression` that will tell Blazor everything about the validating field. To use `TextExpression` you need to define it as follows `TextExpression="@(() => user.Name)"`
+{: .notice--info}
+
 ### Example
 
 ```html
