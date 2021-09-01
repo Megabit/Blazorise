@@ -127,8 +127,17 @@
 </DocsPageSubtitle>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
-        Specifies that multiple files can be selected.
+    <DocsAttributesItem Name="AutoReset" Type="bool" Default="true">
+        If true file input will be automatically reset after it has being uploaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BrowseButtonLocalizer" Type="TextLocalizerHandler" Default="null">
+        Function used to handle browse button localization that will override a default <Code>ITextLocalizer</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Changed" Type="@("EventCallback<FileChangedEventArgs>")">
+        Occurs every time the file(s) has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ended" Type="@("EventCallback<FileEndedEventArgs>")">
+        Occurs when an individual file upload has ended.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Filter" Type="string" Default="null">
         Types of files that the input accepts.
@@ -136,11 +145,11 @@
     <DocsAttributesItem Name="MaxMessageSize" Type="int" Default="20480">
         Max message size (in bytes) when uploading the file.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Changed" Type="@("EventCallback<FileChangedEventArgs>")">
-        Occurs every time the file(s) has changed.
+    <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
+        Specifies that multiple files can be selected.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Written" Type="@("EventCallback<FileWrittenEventArgs>")">
-        Occurs every time the part of file has being uploaded.
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        Sets the placeholder for the empty file input.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Progressed" Type="@("EventCallback<FileProgressedEventArgs>")">
         Notifies the progress of file being uploaded.
@@ -148,16 +157,7 @@
     <DocsAttributesItem Name="Started" Type="@("EventCallback<FileStartedEventArgs>")">
         Occurs when an individual file upload has started.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Ended" Type="@("EventCallback<FileEndedEventArgs>")">
-        Occurs when an individual file upload has ended.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="AutoReset" Type="bool" Default="true">
-        If true file input will be automatically reset after it has being uploaded.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="BrowseButtonLocalizer" Type="TextLocalizerHandler" Default="null">
-        Function used to handle browse button localization that will override a default <Code>ITextLocalizer</Code>.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
-        Sets the placeholder for the empty file input.
+    <DocsAttributesItem Name="Written" Type="@("EventCallback<FileWrittenEventArgs>")">
+        Occurs every time the part of file has being uploaded.
     </DocsAttributesItem>
 </DocsAttributes>
