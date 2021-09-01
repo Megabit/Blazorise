@@ -12,10 +12,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Editing">
-        <p>The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid just set the <Code>Editable</Code> attribute to true.</p>
+        <Paragraph>The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid just set the <Code>Editable</Code> attribute to true.</Paragraph>
 
-        <p>By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.</p>
-        <p>The grid can work in two different editing modes that can provide different user experiences.</p>
+        <Paragraph>By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.</Paragraph>
+        <Paragraph>The grid can work in two different editing modes that can provide different user experiences.</Paragraph>
         <Code>EditMode</Code>:
         <ul>
             <li><Code>Form</Code> editing is done in the internal DataGrid form</li>
@@ -53,12 +53,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Cascading values">
-        <p>In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an <Code>UpdateCell</Code> method. You have two ways of updating a cell:</p>
+        <Paragraph>In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an <Code>UpdateCell</Code> method. You have two ways of updating a cell:</Paragraph>
         <ul>
             <li>by calling <Code>UpdateCell</Code> on the context inside of <Code>EditTemplate</Code>, or</li>
             <li>by calling <Code>UpdateCellEditValue</Code> on the <Code>DataGrid</Code> instance</li>
         </ul>
-        <p>In the following example we’re simply calling <Code>context.UpdateCell</Code> with a field-name to change and a new value that we want it to assign:</p>
+        <Paragraph>In the following example we’re simply calling <Code>context.UpdateCell</Code> with a field-name to change and a new value that we want it to assign:</Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <DataGridUpdateCellExample />
@@ -68,8 +68,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Filtering">
-        <p>Use an attribute <Code>Filterable</Code> to enable or disable automatic filtering in grid component.</p>
-        <p>Default method for filtering is <Code>Contains</Code>. If you want to change it you can set the <Code>FilterMethod</Code> attribute on data grid. Supported methods are:</p>
+        <Paragraph>Use an attribute <Code>Filterable</Code> to enable or disable automatic filtering in grid component.</Paragraph>
+        <Paragraph>Default method for filtering is <Code>Contains</Code>. If you want to change it you can set the <Code>FilterMethod</Code> attribute on data grid. Supported methods are:</Paragraph>
         <ul>
             <li><Code>Contains</Code> search for any occurrence (default)</li>
             <li><Code>StartsWith</Code> search only the beginning</li>

@@ -26,16 +26,16 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple Selection">
-        <p>Set <Code>SelectionMode</Code> to <Code>DataGridSelectionMode.Multiple</Code> to enable multiple selection on Datagrid.</p>
-        <p>Clicking rows will now select multiple records at a time. You can now access them by using the <Code>SelectedRows</Code> parameter and also bind to the <Code>SelectedRowsChanged</Code> event callback.</p>
+        <Paragraph>Set <Code>SelectionMode</Code> to <Code>DataGridSelectionMode.Multiple</Code> to enable multiple selection on Datagrid.</Paragraph>
+        <Paragraph>Clicking rows will now select multiple records at a time. You can now access them by using the <Code>SelectedRows</Code> parameter and also bind to the <Code>SelectedRowsChanged</Code> event callback.</Paragraph>
 
-        <p>Optionally you can use the new Datagrid column <Code>DataGridMultiSelectColumn</Code> to enable a checkbox column that works exclusively with multiple selection.</p>
-        <p>
+        <Paragraph>Optionally you can use the new Datagrid column <Code>DataGridMultiSelectColumn</Code> to enable a checkbox column that works exclusively with multiple selection.</Paragraph>
+        <Paragraph>
             You can either use your own <Code>MultiSelectTemplate</Code> render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided <Code>SelectedChanged</Code> event callback or just use the provided default by not specifying a <Code>MultiSelectTemplate</Code> render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows.
-        </p>
-        <p>
+        </Paragraph>
+        <Paragraph>
             Shift-clicking will also select multiple rows starting from the last selected row.
-        </p>
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <DataGridMultipleSelectionExample />

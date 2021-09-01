@@ -6,25 +6,23 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Spacing">
-        <p>To define spacing between components you have an option to use a fluent-builder pattern. This way you can combine multiple spacings at once.</p>
-        <p>The following example will set the margins for mobile(xs) and desktop(md) breakpoints:</p>
+        <Paragraph>To define spacing between components you have an option to use a fluent-builder pattern. This way you can combine multiple spacings at once.</Paragraph>
+        <Paragraph>The following example will set the margins for mobile(xs) and desktop(md) breakpoints:</Paragraph>
     </DocsPageSectionHeader>
+    <Alert Color="Color.Info" Visible="true">
+        <AlertDescription>
+            <Strong>Note:</Strong> The same rules can also be applied for paddings.
+        </AlertDescription>
+    </Alert>
     <DocsPageSectionContent>
         <SpacingExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="SpacingExample" />
-    <DocsPageSectionContent>
-        <Alert Background="Background.Info" Visible="true">
-            <AlertDescription>
-                <Strong>Note:</Strong> The same rules can also be applied for paddings.
-            </AlertDescription>
-        </Alert>
-    </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Display">
-        <p>Quickly and responsively toggle the display value of components and more with display utilities.</p>
+        <Paragraph>Quickly and responsively toggle the display value of components and more with display utilities.</Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <DisplayExample />
@@ -34,7 +32,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="ColumnSize">
-        <p>Similar to the spacing builder you can also define column sizes using the same pattern.</p>
+        <Paragraph>Similar to the spacing builder you can also define column sizes using the same pattern.</Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <ColumnSizeExample />
@@ -44,8 +42,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Flex">
-        <p>Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities.</p>
-        <p>For more complex implementations, custom CSS may be necessary.</p>
+        <Paragraph>Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities.</Paragraph>
+        <Paragraph>For more complex implementations, custom CSS may be necessary.</Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <FlexExample />
@@ -55,24 +53,22 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Border">
-        <p>Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.</p>
+        <Paragraph>Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.</Paragraph>
     </DocsPageSectionHeader>
+    <Alert Color="Color.Info" Visible="true">
+        <AlertDescription>
+            <Code>Note:</Code> Please note that if your element doesn’t have any styles you will not be able to see any changes once you apply the <Code>Borders</Code>. You still need to add your own CSS rules like <Code>background-color</Code> so that visually you can see the applied borders on an element.
+        </AlertDescription>
+    </Alert>
     <DocsPageSectionContent>
         <BorderExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BorderExample" />
-    <DocsPageSectionContent>
-        <Alert Background="Background.Info" Visible="true">
-            <AlertDescription>
-                <Code>Note:</Code> Please note that if your element doesn’t have any styles you will not be able to see any changes once you apply the <Code>Borders</Code>. You still need to add your own CSS rules like <Code>background-color</Code> so that visually you can see the applied borders on an element.
-            </AlertDescription>
-        </Alert>
-    </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Overflow">
-        <p>Use overflow shorthand utilities for quickly configuring how content overflows an element.</p>
+        <Paragraph>Use overflow shorthand utilities for quickly configuring how content overflows an element.</Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <OverflowExample />

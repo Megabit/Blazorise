@@ -6,13 +6,13 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Overview">
-        <p>Localization within Blazorise can be done in multiple ways:</p>
+        <Paragraph>Localization within Blazorise can be done in multiple ways:</Paragraph>
 
         <ul>
             <li>By using <Code>ITextLocalizer</Code> and <Code>ITextLocalizerService</Code>.</li>
             <li>By using custom localizer handler(s) <Code>TextLocalizerHandler</Code></li>
         </ul>
-        <p>List of predefined language that comes with Blazorise is:</p>
+        <Paragraph>List of predefined language that comes with Blazorise is:</Paragraph>
         <ul>
             <li><Code>de-DE</Code> German</li>
             <li><Code>en-US</Code> English</li>
@@ -22,13 +22,15 @@
             <li><Code>nl-NL</Code> Dutch</li>
             <li><Code>pt-PT</Code> Portuguese</li>
         </ul>
-        <Alert Background="Background.Info" Visible="true">
-            <AlertDescription>
-                <Strong>Note:</Strong> If not specified, a default language(or culture) will be <Code>en-US</Code>.
-            </AlertDescription>
-        </Alert>
-        <p>In this guide we will explain both ways.</p>
+        <Paragraph>
+            In this guide we will explain both ways.
+        </Paragraph>
     </DocsPageSectionHeader>
+    <Alert Color="Color.Info" Visible="true">
+        <AlertDescription>
+            <Strong>Note:</Strong> If not specified, a default language(or culture) will be <Code>en-US</Code>.
+        </AlertDescription>
+    </Alert>
 </DocsPageSection>
 
 <DocsPageSection>
@@ -41,10 +43,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="TextLocalizerHandler">
-        <p><Code>TextLocalizerHandler</Code> handler is used to control the localization for each component individually. Once used it will override any localizations done by the <Code>ITextLocalizer</Code> or <Code>ITextLocalizerService</Code>.</p>
-        <p>
+        <Paragraph><Code>TextLocalizerHandler</Code> handler is used to control the localization for each component individually. Once used it will override any localizations done by the <Code>ITextLocalizer</Code> or <Code>ITextLocalizerService</Code>.</Paragraph>
+        <Paragraph>
             While this is the good approach to handle localization, it is not very flexible since you need to do it on every component. But, for a quick override it is fairly easy. Just need to remember that.
-        </p>
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent><TextLocalizerHandlerExample /></DocsPageSectionContent>
     <DocsPageSectionSource Code="TextLocalizerHandlerExample"></DocsPageSectionSource>
