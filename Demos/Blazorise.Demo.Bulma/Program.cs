@@ -29,7 +29,7 @@ namespace Blazorise.Demo.Bulma
                 .AddBulmaProviders()
                 .AddFontAwesomeIcons();
 
-
+            builder.Services.AddMemoryCache();
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<EmployeeData>();
 

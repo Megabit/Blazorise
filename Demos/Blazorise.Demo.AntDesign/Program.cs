@@ -29,6 +29,7 @@ namespace Blazorise.Demo.AntDesign
                 .AddAntDesignProviders()
                 .AddFontAwesomeIcons();
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<EmployeeData>();
 

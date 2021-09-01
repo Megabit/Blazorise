@@ -30,6 +30,7 @@ namespace Blazorise.Demo.Material
                 .AddMaterialProviders()
                 .AddMaterialIcons();
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<EmployeeData>();
 

@@ -29,6 +29,7 @@ namespace Blazorise.Demo.Bootstrap
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<EmployeeData>();
 
