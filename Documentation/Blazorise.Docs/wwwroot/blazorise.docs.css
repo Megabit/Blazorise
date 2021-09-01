@@ -98,6 +98,7 @@
   background-color: #272C35;
   border-radius: 0 0 4px 4px;
   padding: 16px;
+  font-size: .9rem;
   /*overflow: auto;*/ }
   .blazorise-codeblock pre {
     height: 100%;
