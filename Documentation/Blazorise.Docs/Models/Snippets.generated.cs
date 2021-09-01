@@ -2312,6 +2312,12 @@ namespace Blazorise.Docs.Models
     @*other validation fields*@
 </Validations>";
 
+        public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddEmptyProviders();
+}";
+
         public const string AutocompleteExample = @"<Autocomplete TItem=""MySelectModel""
               TValue=""string""
               Data=""@myDdlData""
@@ -2415,6 +2421,14 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string ChartImportsExample = @"@using Blazorise.Charts";
+
+        public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
+
+        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
+
+<script src=""_content/Blazorise.Charts/blazorise.charts.js""></script>";
+
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
                     Options=""new ChartStreamingOptions { Delay = 2000 }""
@@ -2515,6 +2529,15 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
+
+        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>
+
+<script src=""_content/Blazorise.Charts/blazorise.charts.js""></script>
+<script src=""_content/Blazorise.Charts.Streaming/blazorise.charts.streaming.js""></script>";
+
         public const string DataGridAggregatesExample = @"@using Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
@@ -2609,6 +2632,15 @@ namespace Blazorise.Docs.Models
         }
         return Task.CompletedTask;
     }
+}";
+
+        public const string DataGridAnnotationExample = @"public class Employee
+{
+	[Required]
+	public string FirstName { get; set; }
+
+	[Required]
+	public string LastName { get; set; }
 }";
 
         public const string DataGridButtonRowExample = @"@using Blazorise.Docs.Models
@@ -2935,6 +2967,8 @@ namespace Blazorise.Docs.Models
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 }";
 
+        public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
+
         public const string DataGridLargeDataExample = @"@using Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
@@ -3114,6 +3148,10 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
+
+        public const string DataGridResourcesExample = @"<script src=""_content/Blazorise.DataGrid/blazorise.datagrid.js""></script>";
+
         public const string DataGridSelectingExample = @"@using Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
@@ -3250,6 +3288,10 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"" />";
+
+        public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
+
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
@@ -3257,6 +3299,15 @@ namespace Blazorise.Docs.Models
         public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
 
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
+
+        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />";
+
+        public const string RegistrationsExample = @"builder.Services
+	.AddBlazorise()
+	.AddBootstrapProviders()
++   .AddFontAwesomeIcons();";
+
+        public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
 
@@ -3281,6 +3332,14 @@ namespace Blazorise.Docs.Models
         return Task.CompletedTask;
     }
 }";
+
+        public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+
+        public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
+<script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
+<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>
+        
+<script src=""_content/Blazorise.Markdown/blazorise.markdown.js""></script>";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
@@ -3359,6 +3418,15 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string RichTextEditImportsExample = @"@using Blazorise.RichTextEdit";
+
+        public const string RichTextEditNugetInstallExample = @"Install-Package Blazorise.RichTextEdit";
+
+        public const string RichTextEditResourcesExample = @"<script src=""_content/Blazorise.RichTextEdit/blazorise.richtextedit.js""></script>";
+
+        public const string RichTextEditStartupExample = @"builder.Services
+    .AddBlazoriseRichTextEdit( options => { ... } );";
+
         public const string SelectListExample = @"<SelectList TItem=""MySelectModel""
             TValue=""int""
             Data=""@myDdlData""
@@ -3421,6 +3489,8 @@ namespace Blazorise.Docs.Models
     };
 }";
 
+        public const string SidebarImportsExample = @"@using Blazorise.Sidebar";
+
         public const string SidebarManualExample = @"<Sidebar @ref=""sidebar"">
     <SidebarContent>
         <SidebarBrand>
@@ -3472,6 +3542,10 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string SidebarNugetInstallExample = @"Install-Package Blazorise.Sidebar";
+
+        public const string SidebarResourcesExample = @"<link href=""_content/Blazorise.Sidebar/blazorise.sidebar.css"" rel=""stylesheet"" />";
+
         public const string SnackbarExample = @"<Button Clicked=""@(()=>snackbar.Show())"">Snackbar</Button>
 
 <Snackbar @ref=""snackbar"">
@@ -3483,6 +3557,12 @@ namespace Blazorise.Docs.Models
 @code{
     Snackbar snackbar;
 }";
+
+        public const string SnackbarImportsExample = @"@using Blazorise.Snackbar";
+
+        public const string SnackbarNugetInstallExample = @"Install-Package Blazorise.Snackbar";
+
+        public const string SnackbarResourcesExample = @"<link href=""_content/Blazorise.Snackbar/blazorise.snackbar.css"" rel=""stylesheet"" />";
 
         public const string SnackbarStackedExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>snackbarStack.PushAsync(""Current time is: "" + DateTime.Now, SnackbarColor.Info))"">Primary</Button>
 
@@ -3519,6 +3599,12 @@ namespace Blazorise.Docs.Models
         public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""#ff4a3d"" />";
 
         public const string SpinKitExample = @"<SpinKit Type=""SpinKitType.Plane"" />";
+
+        public const string SpinKitImportsExample = @"@using Blazorise.SpinKit";
+
+        public const string SpinKitNugetInstallExample = @"Install-Package Blazorise.SpinKit";
+
+        public const string SpinKitResourcesExample = @"<link href=""_content/Blazorise.SpinKit/blazorise.spinkit.css"" rel=""stylesheet"" />";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
@@ -3563,6 +3649,359 @@ namespace Blazorise.Docs.Models
     IList<Item> ExpandedNodes = new List<Item>();
     Item selectedNode;
 }";
+
+        public const string TreeViewImportsExample = @"@using Blazorise.TreeView";
+
+        public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
+
+        public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
+
+        public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
+
+        public const string AntDesignGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string AntDesignGuideRegistration1Example = @"// other usings
+using Blazorise;
+using Blazorise.AntDesign;
+using Blazorise.Icons.FontAwesome;
+
+public class Program
+{
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddAntDesignProviders()
+      .AddFontAwesomeIcons();
+
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( ""#app"" );
+
+    var host = builder.Build();
+
+    await host.RunAsync();
+  }
+}";
+
+        public const string AntDesignGuideRegistration2Example = @"// other usings
+using Blazorise;
+using Blazorise.AntDesign;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true;
+      } )
+      .AddAntDesignProviders()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( ""/_Host"" );
+    } );
+  }
+}";
+
+        public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+
+<script src=""_content/Blazorise/blazorise.js""></script>
+<script src=""_content/Blazorise.AntDesign/blazorise.antdesign.js""></script>";
+
+        public const string AntDesignGuideUsingExample = @"@using Blazorise";
+
+        public const string BootstrapGuideNuget1Example = @"Install-Package Blazorise.Bootstrap";
+
+        public const string BootstrapGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string BootstrapGuideRegistration1Example = @"// other usings
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+
+public class Program
+{
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+    
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( ""#app"" );
+
+    var host = builder.Build();
+
+    await host.RunAsync();
+  }
+}";
+
+        public const string BootstrapGuideRegistration2Example = @"// other usings
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true; // optional
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( ""/_Host"" );
+    } );
+  }
+}";
+
+        public const string BootstrapGuideSourceFilesExample = @"<html>
+<head>
+  <!-- inside of head section -->
+  <link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"" integrity=""sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"" crossorigin=""anonymous"">
+  <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
+
+  <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+  <link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
+</head>
+<body>
+  <div id=""app""></div>
+
+  <!-- inside of body section and after the div/app tag  -->
+  <script src=""https://code.jquery.com/jquery-3.5.1.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
+  <script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
+  <script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"" integrity=""sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"" crossorigin=""anonymous""></script>
+
+  <script src=""_content/Blazorise/blazorise.js""></script>
+  <script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js""></script>
+</body>
+</html>";
+
+        public const string BootstrapGuideUsingExample = @"@using Blazorise";
+
+        public const string BulmaGuideNuget1Example = @"Install-Package Blazorise.Bulma";
+
+        public const string BulmaGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string BulmaGuideRegistration1Example = @"// other usings
+using Blazorise;
+using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
+
+public class Program
+{
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBulmaProviders()
+      .AddFontAwesomeIcons();
+
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( ""#app"" );
+
+    var host = builder.Build();
+
+    await host.RunAsync();
+  }
+}";
+
+        public const string BulmaGuideRegistration2Example = @"// other usings
+using Blazorise;
+using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBulmaProviders()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( ""/_Host"" );
+    } );
+  }
+}";
+
+        public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"">
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css"" rel=""stylesheet"" />
+
+<script defer src=""https://use.fontawesome.com/releases/v5.3.1/js/all.js""></script>
+<script src=""_content/Blazorise/blazorise.js""></script>
+<script src=""_content/Blazorise.Bulma/blazorise.bulma.js""></script>";
+
+        public const string BulmaGuideUsingExample = @"@using Blazorise";
+
+        public const string MaterialGuideFileStructureExample = @"blazorproject.client/
+└── wwwroot/
+    ├── css/
+    └── js/";
+
+        public const string MaterialGuideNuget1Example = @"Install-Package Blazorise.Material";
+
+        public const string MaterialGuideNuget2Example = @"Install-Package Blazorise.Icons.Material";
+
+        public const string MaterialGuideRegistration1Example = @"public class Program
+{
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddMaterialProviders()
+      .AddMaterialIcons();
+
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( ""#app"" );
+
+    var host = builder.Build();
+
+    await host.RunAsync();
+  }
+}";
+
+        public const string MaterialGuideRegistration2Example = @"// other usings
+using Blazorise;
+using Blazorise.Material;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true; // optional
+      } )
+      .AddMaterialProviders()
+      .AddMaterialIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( ""/_Host"" );
+    } );
+  }
+}";
+
+        public const string MaterialGuideSourceFilesExample = @"<!-- Material CSS -->
+<link href=""css/material.min.css"" rel=""stylesheet"">
+
+<!-- Add Material font (Roboto) and Material icon as needed -->
+<link href=""https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700"" rel=""stylesheet"">
+<link href=""https://fonts.googleapis.com/icon?family=Material+Icons"" rel=""stylesheet"">
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Material JS -->
+<script src=""https://code.jquery.com/jquery-3.3.1.slim.min.js""></script>
+<script src=""https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js""></script>
+<script src=""https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js""></script>
+<script src=""js/material.min.js""></script>
+
+<script src=""_content/Blazorise/blazorise.js""></script>
+<script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
+
+        public const string MaterialGuideUsingExample = @"@using Blazorise";
 
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
@@ -3791,6 +4230,8 @@ namespace Blazorise.Docs.Models
 </Router>
 
 <PageProgressAlert />";
+
+        public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
     }
 }
