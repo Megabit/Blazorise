@@ -32,6 +32,25 @@
     color: #fff;
     text-decoration: underline; }
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  z-index: 1; }
+
+::-webkit-scrollbar-track {
+  background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: #757575;
+  border-radius: 1px; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5c5c5c; }
+
+html, body * {
+  scrollbar-color: #757575 transparent;
+  scrollbar-width: thin; }
+
 .docs-page-title {
   margin-bottom: 1.5rem; }
 
