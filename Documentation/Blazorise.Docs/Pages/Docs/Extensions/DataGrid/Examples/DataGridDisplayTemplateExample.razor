@@ -2,7 +2,8 @@
 @using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
-          Data="@employeeList">
+          Data="@employeeList"
+          Responsive>
     <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable="true">
     <DisplayTemplate>
         @{

@@ -5,7 +5,8 @@
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
           SelectionMode="DataGridSelectionMode.Multiple"
-          @bind-SelectedRows="selectedEmployees">
+          @bind-SelectedRows="selectedEmployees"
+          Responsive>
     <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />

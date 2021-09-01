@@ -3,7 +3,8 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          Editable="true">
+          Editable
+          Responsive>
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable="true">
         <EditTemplate>

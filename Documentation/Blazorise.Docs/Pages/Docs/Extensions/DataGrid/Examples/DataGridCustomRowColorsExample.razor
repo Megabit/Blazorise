@@ -5,7 +5,8 @@
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
           RowStyling="@OnRowStyling"
-          SelectedRowStyling="@OnSelectedRowStyling">
+          SelectedRowStyling="@OnSelectedRowStyling"
+          Responsive>
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />

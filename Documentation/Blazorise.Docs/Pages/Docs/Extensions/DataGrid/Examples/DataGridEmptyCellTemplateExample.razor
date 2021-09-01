@@ -5,7 +5,8 @@
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
           TotalItems="@totalEmployees"
-          ReadData="@LoadEmployeesFromService">
+          ReadData="@LoadEmployeesFromService"
+          Responsive>
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />

@@ -5,7 +5,8 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          CustomFilter="@OnCustomFilter">
+          CustomFilter="@OnCustomFilter"
+          Responsive>
     <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
 </DataGrid>
 

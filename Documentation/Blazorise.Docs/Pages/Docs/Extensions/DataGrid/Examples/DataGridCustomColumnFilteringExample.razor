@@ -3,7 +3,8 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          Filterable="true">
+          Filterable
+          Responsive>
     <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
     <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
         <FilterTemplate>

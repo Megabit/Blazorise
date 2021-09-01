@@ -4,7 +4,8 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
-          Editable="true">
+          Editable
+          Responsive>
     <DataGridCommandColumn TItem="Employee">
         <NewCommandTemplate>
             <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>

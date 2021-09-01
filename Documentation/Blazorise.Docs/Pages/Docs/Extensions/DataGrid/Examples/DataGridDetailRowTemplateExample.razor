@@ -4,7 +4,8 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
-          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
+          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+          Responsive>
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" />

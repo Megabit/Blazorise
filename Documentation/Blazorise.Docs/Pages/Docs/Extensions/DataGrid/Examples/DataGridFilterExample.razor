@@ -3,8 +3,9 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          Filterable="true"
-          FilterMethod="DataGridFilterMethod.StartsWith">
+          Filterable
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Responsive>
     <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
 </DataGrid>
 

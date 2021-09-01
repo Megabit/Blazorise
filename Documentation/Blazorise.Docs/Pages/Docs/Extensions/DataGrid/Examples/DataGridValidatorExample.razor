@@ -3,8 +3,9 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          Editable="true"
-          UseValidation="true">
+          Responsive
+          Editable
+          UseValidation>
     <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Validator="@CheckName" Editable="true" />
     <DataGridCommandColumn TItem="Employee" />
 </DataGrid>

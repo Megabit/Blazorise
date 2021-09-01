@@ -5,7 +5,8 @@
           Data="@employeeList"
           ReadData="@OnReadData"
           TotalItems="@totalEmployees"
-          AggregateData="@employeeSummary">
+          AggregateData="@employeeSummary"
+          Responsive>
     <DataGridAggregates>
         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
             <DisplayTemplate>

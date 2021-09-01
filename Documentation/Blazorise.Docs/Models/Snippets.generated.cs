@@ -2517,7 +2517,7 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridAggregatesExample = @"@using Blazorise.Docs.Models
 
-<DataGrid TItem=""Employee"" Data=""@employeeList"">
+<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
         <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
             <DisplayTemplate>
@@ -2552,7 +2552,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
-          AggregateData=""@employeeSummary"">
+          AggregateData=""@employeeSummary""
+          Responsive>
     <DataGridAggregates>
         <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
             <DisplayTemplate>
@@ -2615,7 +2616,8 @@ namespace Blazorise.Docs.Models
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          Editable=""true"">
+          Editable
+          Responsive>
     <DataGridColumns>
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -2645,7 +2647,8 @@ namespace Blazorise.Docs.Models
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          Editable=""true"">
+          Editable
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"">
         <NewCommandTemplate>
             <Button Color=""Color.Success"" Clicked=""@context.Clicked"">New</Button>
@@ -2674,7 +2677,8 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Filterable=""true"">
+          Filterable
+          Responsive>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable=""true"">
         <FilterTemplate>
@@ -2711,7 +2715,8 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          CustomFilter=""@OnCustomFilter"">
+          CustomFilter=""@OnCustomFilter""
+          Responsive>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
@@ -2738,7 +2743,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           RowStyling=""@OnRowStyling""
-          SelectedRowStyling=""@OnSelectedRowStyling"">
+          SelectedRowStyling=""@OnSelectedRowStyling""
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -2772,7 +2778,8 @@ namespace Blazorise.Docs.Models
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          DetailRowTrigger=""@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"">
+          DetailRowTrigger=""@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)""
+          Responsive>
     <DataGridColumns>
         <DataGridCommandColumn TItem=""Employee"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" />
@@ -2801,7 +2808,8 @@ namespace Blazorise.Docs.Models
         public const string DataGridDisplayTemplateExample = @"@using Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
-          Data=""@employeeList"">
+          Data=""@employeeList""
+          Responsive>
     <DataGridNumericColumn TItem=""Employee"" Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable=""true"">
     <DisplayTemplate>
         @{
@@ -2824,7 +2832,8 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Editable=""true"">
+          Editable
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
@@ -2843,7 +2852,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           TotalItems=""@totalEmployees""
-          ReadData=""@LoadEmployeesFromService"">
+          ReadData=""@LoadEmployeesFromService""
+          Responsive>
     <DataGridColumns>
         <DataGridCommandColumn TItem=""Employee"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
@@ -2892,7 +2902,8 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          @bind-SelectedRow=""@selectedEmployee"">
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -2914,8 +2925,9 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Filterable=""true""
-          FilterMethod=""DataGridFilterMethod.StartsWith"">
+          Filterable
+          FilterMethod=""DataGridFilterMethod.StartsWith""
+          Responsive>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
@@ -2930,7 +2942,8 @@ namespace Blazorise.Docs.Models
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
           PageSize=""1""
-          ShowPager=""true"">
+          ShowPager
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -2979,7 +2992,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           TotalItems=""@totalEmployees""
-          ReadData=""@LoadEmployeesFromService"">
+          ReadData=""@LoadEmployeesFromService""
+          Responsive>
     <DataGridColumns>
         <DataGridCommandColumn TItem=""Employee"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
@@ -3048,7 +3062,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           SelectionMode=""DataGridSelectionMode.Multiple""
-          @bind-SelectedRows=""selectedEmployees"">
+          @bind-SelectedRows=""selectedEmployees""
+          Responsive>
     <DataGridMultiSelectColumn TItem=""Employee"" Width=""30px""></DataGridMultiSelectColumn>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
@@ -3074,7 +3089,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           NewItemDefaultSetter=""@OnEmployeeNewItemDefaultSetter""
-          Editable=""true"">
+          Editable
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3102,7 +3118,8 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          RowSelectable=@((item)=>item.FirstName != ""John"")>
+          RowSelectable=@((item)=>item.FirstName != ""John"")
+          Responsive>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
@@ -3114,8 +3131,9 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Editable=""true""
-          EditMode=""DataGridEditMode.Inline"">
+          Editable
+          EditMode=""DataGridEditMode.Inline""
+          Responsive>
     <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
@@ -3138,8 +3156,9 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Editable=""true""
-          UseValidation=""true""
+          Responsive
+          Editable
+          UseValidation
           ShowValidationsSummary=""false"">
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""true"">
         <EditTemplate>
@@ -3173,8 +3192,9 @@ namespace Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
-          Editable=""true""
-          UseValidation=""true"">
+          Responsive
+          Editable
+          UseValidation>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Validator=""@CheckName"" Editable=""true"" />
     <DataGridCommandColumn TItem=""Employee"" />
 </DataGrid>

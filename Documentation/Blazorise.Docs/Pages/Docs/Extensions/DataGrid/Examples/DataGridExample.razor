@@ -3,7 +3,8 @@
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee">
+          @bind-SelectedRow="@selectedEmployee"
+          Responsive>
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
