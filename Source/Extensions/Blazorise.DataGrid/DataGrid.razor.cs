@@ -188,6 +188,16 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Removes an existing link of a child column with this datagrid.
+        /// <para>Returns:
+        ///     true if item is successfully removed; otherwise, false. 
+        /// </para>
+        /// </summary>
+        /// <param name="column">Column to link with this datagrid.</param>
+        internal bool RemoveColumn( DataGridColumn<TItem> column )
+            => Columns.Remove( column ); // TODO: mark as public in v0.9.5
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="aggregate">Aggregate column to link with this datagrid.</param>
@@ -342,7 +352,9 @@ namespace Blazorise.DataGrid
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Edit( TItem item )
         {
-            InitEditItem( item );
+            TItem editingItem = EditItemCreator != null ? EditItemCreator.Invoke( item ) : item;
+            
+            InitEditItem( editingItem );
 
             editState = DataGridEditState.Edit;
 
@@ -978,6 +990,8 @@ namespace Blazorise.DataGrid
 
         private void FilterData( IQueryable<TItem> query )
         {
+            dirtyFilter = false;
+
             if ( query == null )
             {
                 filteredData.Clear();
@@ -1048,8 +1062,6 @@ namespace Blazorise.DataGrid
             }
 
             filteredData = query.ToList();
-
-            dirtyFilter = false;
 
             FilteredDataChanged?.Invoke( new(
                 filteredData,
@@ -1693,6 +1705,11 @@ namespace Blazorise.DataGrid
         /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
         /// </summary>
         [Parameter] public Func<TItem> NewItemCreator { get; set; }
+        
+        /// <summary>
+        /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
+        /// </summary>
+        [Parameter] public Func<TItem, TItem> EditItemCreator { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.
