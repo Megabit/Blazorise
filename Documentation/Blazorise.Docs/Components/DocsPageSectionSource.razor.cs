@@ -30,6 +30,7 @@ namespace Blazorise.Docs.Components
         private async Task OnCopyCode()
         {
             await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
+            await NotificationService.Info( $"Copied code example!" );
         }
 
         private RenderFragment CodeComponent( string code ) => builder =>
@@ -72,6 +73,8 @@ namespace Blazorise.Docs.Components
         private string CurrentCode { get; set; }
 
         private TextColor ButtonColor => ShowCode ? TextColor.White : TextColor.Dark;
+
+        [Inject] public INotificationService NotificationService { get; set; }
 
         [Inject] public IJSRuntime JSRuntime { get; set; }
 
