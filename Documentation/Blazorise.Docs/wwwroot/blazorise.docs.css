@@ -107,7 +107,8 @@
     font-size: 1em;
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     -webkit-font-smoothing: subpixel-antialiased;
-    direction: ltr; }
+    direction: ltr;
+    margin-bottom: 0; }
   .blazorise-codeblock .html + .csharp {
     margin-top: 23px; }
   .blazorise-codeblock .html .htmlTagDelimiter {
