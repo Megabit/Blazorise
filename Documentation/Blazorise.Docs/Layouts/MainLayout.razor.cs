@@ -11,6 +11,8 @@ namespace Blazorise.Docs.Layouts
 
         private Bar topBar;
 
+        private bool topbarVisible = false;
+
         #endregion
     }
 }
