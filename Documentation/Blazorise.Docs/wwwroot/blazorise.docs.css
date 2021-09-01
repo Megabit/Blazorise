@@ -90,6 +90,9 @@
     .docs-page-section-source .docs-page-section-source-code.docs-page-section-source-code-hide {
       display: none; }
 
+.b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
+  padding: .3rem; }
+
 .blazorise-codeblock {
   height: 100%;
   background-color: #272C35;
@@ -154,7 +157,3 @@
     color: #b4eb8f; }
   .blazorise-codeblock .csharp .comment {
     color: #57a64a; }
-
-.b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
-    padding: .3rem;
-}
