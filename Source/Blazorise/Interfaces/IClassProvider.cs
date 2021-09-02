@@ -559,6 +559,8 @@ namespace Blazorise
 
         string Bar();
 
+        string BarInitial( bool initial );
+
         string BarAlignment( Alignment alignment );
 
         string BarThemeContrast( ThemeContrast themeContrast );

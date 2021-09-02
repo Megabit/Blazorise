@@ -40,6 +40,16 @@ namespace Blazorise
             Alignment = Alignment.None,
         };
 
+        /// <summary>
+        /// Used to tell us that bar is initializing.
+        /// </summary>
+        private bool initial = true;
+
+        /// <summary>
+        /// Used to tell us that <see cref="initial"/> should be used until the component is finished with initialization.
+        /// </summary>
+        private bool keepInitialState;
+
         #endregion
 
         #region Methods
@@ -69,6 +79,8 @@ namespace Blazorise
 
                 if ( isBroken )
                 {
+                    keepInitialState = true;
+
                     await Toggle();
                 }
             }
@@ -80,6 +92,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
+            builder.Append( ClassProvider.BarInitial( initial && Mode != BarMode.Horizontal ) );
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
@@ -205,9 +218,19 @@ namespace Blazorise
 
                 state = state with { Visible = value };
 
-                VisibleChanged.InvokeAsync( value );
+                if ( Rendered && initial && !keepInitialState )
+                {
+                    initial = false;
+                }
+
+                if ( keepInitialState )
+                {
+                    keepInitialState = false;
+                }
 
                 DirtyClasses();
+
+                VisibleChanged.InvokeAsync( value );
             }
         }
 
