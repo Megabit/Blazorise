@@ -45,11 +45,6 @@ namespace Blazorise
         /// </summary>
         private bool initial = true;
 
-        /// <summary>
-        /// Used to tell us that <see cref="initial"/> should be used until the component is finished with initialization.
-        /// </summary>
-        private bool keepInitialState;
-
         #endregion
 
         #region Methods
@@ -79,9 +74,16 @@ namespace Blazorise
 
                 if ( isBroken )
                 {
-                    keepInitialState = true;
+                    initial = false;
 
                     await Toggle();
+                }
+                else if ( initial )
+                {
+                    initial = false;
+
+                    DirtyClasses();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
@@ -217,16 +219,6 @@ namespace Blazorise
                     return;
 
                 state = state with { Visible = value };
-
-                if ( Rendered && initial && !keepInitialState )
-                {
-                    initial = false;
-                }
-
-                if ( keepInitialState )
-                {
-                    keepInitialState = false;
-                }
 
                 DirtyClasses();
 

@@ -240,7 +240,7 @@ hr.divider.divider-text {
     height: var(--b-bar-horizontal-height, auto); }
 
 .b-bar-initial {
-    display: none; }
+    display: none !important; }
 
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,
