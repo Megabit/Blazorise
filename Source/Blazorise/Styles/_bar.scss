@@ -398,8 +398,8 @@
                 }
 
                 &:hover {
-                    color: var(--b-bar-item-dark-hover-color, #000);
-                    background: var(--b-bar-item-dark-hover-background, rgba(0,0,0,0.3));
+                    color: var(--b-bar-item-light-hover-color, #000);
+                    background: var(--b-bar-item-light-hover-background, rgba(0,0,0,0.3));
                 }
             }
         }
@@ -413,8 +413,8 @@
             }
 
             &:hover {
-                color: var(--b-bar-item-dark-hover-color, #000);
-                background: var(--b-bar-item-dark-hover-background, rgba(0,0,0,0.3));
+                color: var(--b-bar-item-light-hover-color, #000);
+                background: var(--b-bar-item-light-hover-background, rgba(0,0,0,0.3));
             }
         }
     }

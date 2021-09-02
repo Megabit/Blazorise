@@ -534,8 +534,8 @@ hr.divider.divider-text {
             .b-bar-vertical-inline.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover,
             .b-bar-vertical-popout.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover,
             .b-bar-vertical-small.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover {
-                color: var(--b-bar-item-dark-hover-color, #000);
-                background: var(--b-bar-item-dark-hover-background, rgba(0, 0, 0, 0.3)); }
+                color: var(--b-bar-item-light-hover-color, #000);
+                background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.3)); }
         .b-bar-vertical-inline.b-bar-light .b-bar-link,
         .b-bar-vertical-popout.b-bar-light .b-bar-link,
         .b-bar-vertical-small.b-bar-light .b-bar-link {
@@ -548,8 +548,8 @@ hr.divider.divider-text {
             .b-bar-vertical-inline.b-bar-light .b-bar-link:hover,
             .b-bar-vertical-popout.b-bar-light .b-bar-link:hover,
             .b-bar-vertical-small.b-bar-light .b-bar-link:hover {
-                color: var(--b-bar-item-dark-hover-color, #000);
-                background: var(--b-bar-item-dark-hover-background, rgba(0, 0, 0, 0.3)); }
+                color: var(--b-bar-item-light-hover-color, #000);
+                background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.3)); }
 
 .b-bar-vertical-small,
 .b-bar-vertical-inline[data-collapse=small],
