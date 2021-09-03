@@ -571,7 +571,8 @@ namespace Blazorise.AntDesign
 
         #region Container
 
-        public override string Container() => "ant-container";
+        public override string Container( Breakpoint breakpoint )
+            => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"ant-container-{ToBreakpoint( breakpoint )}" : "ant-container";
 
         public override string ContainerFluid() => "ant-container-fluid";
 

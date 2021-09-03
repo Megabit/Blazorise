@@ -553,7 +553,7 @@ namespace Blazorise.Providers
 
         #region Container
 
-        public string Container() => null;
+        public string Container( Breakpoint breakpoint ) => null;
 
         public string ContainerFluid() => null;
 

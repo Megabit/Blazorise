@@ -564,7 +564,8 @@ namespace Blazorise.Bootstrap
 
         #region Container
 
-        public override string Container() => "container";
+        public override string Container( Breakpoint breakpoint )
+            => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"container-{ToBreakpoint( breakpoint )}" : "container";
 
         public override string ContainerFluid() => "container-fluid";
 

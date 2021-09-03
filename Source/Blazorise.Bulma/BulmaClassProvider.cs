@@ -574,7 +574,8 @@ namespace Blazorise.Bulma
 
         #region Container
 
-        public override string Container() => "container";
+        public override string Container( Breakpoint breakpoint )
+            => breakpoint > Breakpoint.Desktop ? $"container is-{ToBreakpoint( breakpoint )}" : "container";
 
         public override string ContainerFluid() => "container-fluid";
 

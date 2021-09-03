@@ -550,7 +550,7 @@ namespace Blazorise
 
         #region Container
 
-        public abstract string Container();
+        public abstract string Container( Breakpoint breakpoint );
 
         public abstract string ContainerFluid();
 
