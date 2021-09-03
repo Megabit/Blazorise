@@ -84,6 +84,19 @@
     <DocsPageSectionSource Code="ContainerFluidExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Responsive">
+        Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached,
+        after which we apply <Code>max-widths</Code> for each of the higher breakpoints. For example, <Code>Breakpoint.Tablet</Code>
+        is 100% wide to start until the <Code>Tablet</Code> breakpoint is reached, where it will scale up
+        with <Code>Desktop</Code>, <Code>Widescreen</Code>, and <Code>FullHD</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ContainerBreakpointExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ContainerBreakpointExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -101,6 +114,9 @@
 </DocsAttributes>
 
 <DocsAttributes Title="Container">
+    <DocsAttributesItem Name="Breakpoint" Type="Breakpoint" Default="None">
+        Makes a full width container that is 100% wide until the specified breakpoint is reached.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Fluid" Type="bool" Default="false">
         Makes a full width container, spanning the entire width of the viewport.
     </DocsAttributesItem>
