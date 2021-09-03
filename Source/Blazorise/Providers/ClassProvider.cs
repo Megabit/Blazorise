@@ -560,6 +560,8 @@ namespace Blazorise
 
         public abstract string Bar();
 
+        public abstract string BarInitial( bool initial );
+
         public abstract string BarAlignment( Alignment alignment );
 
         public abstract string BarThemeContrast( ThemeContrast themeContrast );

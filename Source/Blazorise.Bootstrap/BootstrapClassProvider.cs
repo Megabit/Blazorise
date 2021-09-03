@@ -574,6 +574,8 @@ namespace Blazorise.Bootstrap
 
         public override string Bar() => "navbar";
 
+        public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";

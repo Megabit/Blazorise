@@ -581,6 +581,8 @@ namespace Blazorise.AntDesign
 
         public override string Bar() => "ant-menu ant-menu-root";
 
+        public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+
         public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";

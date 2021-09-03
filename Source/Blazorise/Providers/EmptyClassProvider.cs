@@ -563,6 +563,8 @@ namespace Blazorise.Providers
 
         public string Bar() => null;
 
+        public string BarInitial( bool initial ) => null;
+
         public string BarAlignment( Alignment alignment ) => null;
 
         public string BarThemeContrast( ThemeContrast themeContrast ) => null;

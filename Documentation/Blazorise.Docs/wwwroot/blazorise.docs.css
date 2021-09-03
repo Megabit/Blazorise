@@ -41,14 +41,14 @@
   background: transparent; }
 
 ::-webkit-scrollbar-thumb {
-  background: #757575;
+  background: #bfbfbf;
   border-radius: 1px; }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5c5c5c; }
+  background: #a8a8a8; }
 
 html, body * {
-  scrollbar-color: #757575 transparent;
+  scrollbar-color: #bfbfbf transparent;
   scrollbar-width: thin; }
 
 .docs-page-title {
