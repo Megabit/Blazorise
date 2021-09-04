@@ -558,3 +558,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.ant-list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}

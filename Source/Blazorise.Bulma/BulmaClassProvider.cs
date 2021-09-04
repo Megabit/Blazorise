@@ -1208,9 +1208,9 @@ namespace Blazorise.Bulma
 
         #region Elements
 
-        public override string UnorderedListUnstyled( bool unstyled ) => null;
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "is-list-unstyled" : null;
 
-        public override string OrderedListUnstyled( bool unstyled ) => null;
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "is-list-unstyled" : null;
 
         #endregion
 

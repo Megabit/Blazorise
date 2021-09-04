@@ -21,7 +21,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.UnorderedListUnstyled( Unstyled ) );
+            builder.Append( ClassProvider.OrderedListUnstyled( Unstyled ) );
 
             base.BuildClasses( builder );
         }

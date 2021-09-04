@@ -2060,6 +2060,10 @@
     text-overflow: ellipsis;
     white-space: nowrap; }
 
+.is-list-unstyled {
+    padding-left: 0;
+    list-style: none; }
+
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }
