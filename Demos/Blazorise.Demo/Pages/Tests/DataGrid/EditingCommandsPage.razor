@@ -20,10 +20,10 @@
                 </Field>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
-                          ShowPager="true"
-                          ShowPageSizes="true"
+                          ShowPager
+                          ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
-                          Editable="true"
+                          Editable
                           EditMode="editMode">
                     <DataGridColumns>
                         <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
