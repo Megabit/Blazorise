@@ -443,3 +443,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.is-list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}

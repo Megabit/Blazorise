@@ -1206,6 +1206,14 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Elements
+
+        public override string UnorderedListUnstyled( bool unstyled ) => null;
+
+        public override string OrderedListUnstyled( bool unstyled ) => null;
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )

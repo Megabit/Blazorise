@@ -1051,6 +1051,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Elements
+
+        public string UnorderedListUnstyled( bool unstyled ) => null;
+
+        public string OrderedListUnstyled( bool unstyled ) => null;
+
+        #endregion
+
         #region Enums
 
         public string ToSize( Size size ) => null;

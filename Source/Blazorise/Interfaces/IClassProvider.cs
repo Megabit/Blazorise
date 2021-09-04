@@ -1043,6 +1043,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Elements
+
+        string UnorderedListUnstyled( bool unstyled );
+
+        string OrderedListUnstyled( bool unstyled );
+
+        #endregion
+
         #region Enums
 
         /* 

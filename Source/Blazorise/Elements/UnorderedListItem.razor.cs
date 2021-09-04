@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Elements
+﻿namespace Blazorise
 {
     /// <summary>
     /// An <see cref="UnorderedList"/> item created using the &lt;li&gt; element.

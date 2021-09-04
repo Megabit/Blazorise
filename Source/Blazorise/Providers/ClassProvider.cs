@@ -1051,6 +1051,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Elements
+
+        public abstract string UnorderedListUnstyled( bool unstyled );
+
+        public abstract string OrderedListUnstyled( bool unstyled );
+
+        #endregion
+
         #region Enums
 
         public virtual string ToSize( Size size )

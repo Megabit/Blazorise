@@ -1177,6 +1177,14 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Elements
+
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+
+        #endregion
+
         public override bool UseCustomInputStyles { get; set; } = true;
 
         public override string Provider => "Bootstrap";
