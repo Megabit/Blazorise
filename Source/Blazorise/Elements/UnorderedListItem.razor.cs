@@ -1,0 +1,9 @@
+﻿namespace Blazorise.Elements
+{
+    /// <summary>
+    /// An <see cref="UnorderedList"/> item created using the &lt;li&gt; element.
+    /// </summary>
+    public partial class UnorderedListItem : BaseElementComponent
+    {
+    }
+}
