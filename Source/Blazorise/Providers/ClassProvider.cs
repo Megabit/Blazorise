@@ -1053,9 +1053,15 @@ namespace Blazorise
 
         #region Elements
 
+        public abstract string UnorderedList();
+
         public abstract string UnorderedListUnstyled( bool unstyled );
 
+        public abstract string OrderedList();
+
         public abstract string OrderedListUnstyled( bool unstyled );
+
+        public abstract string OrderedListType( OrderedListType orderedListType );
 
         #endregion
 
@@ -1720,6 +1726,18 @@ namespace Blazorise
                 Blazorise.Shadow.Remove => "none",
                 Blazorise.Shadow.Small => "sm",
                 Blazorise.Shadow.Large => "lg",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOrderedListType( OrderedListType orderedListType )
+        {
+            return orderedListType switch
+            {
+                Blazorise.OrderedListType.LowerAlpha => "lower-alpha",
+                Blazorise.OrderedListType.LowerRoman => "lower-roman",
+                Blazorise.OrderedListType.UpperAlpha => "upper-alpha",
+                Blazorise.OrderedListType.UpperRoman => "upper-roman",
                 _ => null,
             };
         }

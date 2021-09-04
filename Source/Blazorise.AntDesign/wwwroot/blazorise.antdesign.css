@@ -5480,9 +5480,25 @@ li.ant-list-item-actionable {
     text-overflow: ellipsis;
     white-space: nowrap; }
 
-.ant-list-unstyled {
+.ant-unordered-list-unstyled {
     padding-left: 0;
     list-style: none; }
+
+ol.ant-ordered-list-unstyled {
+    padding-left: 0;
+    list-style: none; }
+
+ol.ant-ordered-list-lower-alpha {
+    list-style-type: lower-alpha; }
+
+ol.ant-ordered-list-lower-roman {
+    list-style-type: lower-roman; }
+
+ol.ant-ordered-list-upper-alpha {
+    list-style-type: upper-alpha; }
+
+ol.ant-ordered-list-upper-roman {
+    list-style-type: upper-roman; }
 
 .flatpickr-months {
     margin: 0.5rem 0; }

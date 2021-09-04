@@ -5,3 +5,21 @@
 .overflow-scroll {
     overflow: scroll !important;
 }
+
+ol.ordered-list {
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}

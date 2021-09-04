@@ -1045,9 +1045,15 @@ namespace Blazorise
 
         #region Elements
 
+        string UnorderedList();
+
         string UnorderedListUnstyled( bool unstyled );
 
+        string OrderedList();
+
         string OrderedListUnstyled( bool unstyled );
+
+        string OrderedListType( OrderedListType orderedListType );
 
         #endregion
 
@@ -1145,6 +1151,8 @@ namespace Blazorise
         string ToVerticalAlignment( VerticalAlignment verticalAlignment );
 
         string ToShadow( Shadow shadow );
+
+        string ToOrderedListType( OrderedListType orderedListType );
 
         #endregion
 

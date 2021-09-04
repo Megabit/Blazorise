@@ -1179,9 +1179,15 @@ namespace Blazorise.Bootstrap
 
         #region Elements
 
+        public override string UnorderedList() => "unordered-list";
+
         public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
 
+        public override string OrderedList() => "ordered-list";
+
         public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+
+        public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
 
         #endregion
 

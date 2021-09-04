@@ -1195,9 +1195,15 @@ namespace Blazorise.AntDesign
 
         #region Elements
 
-        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "ant-list-unstyled" : null;
+        public override string UnorderedList() => "ant-unordered-list";
 
-        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "ant-list-unstyled" : null;
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "ant-unordered-list-unstyled" : null;
+
+        public override string OrderedList() => "ant-ordered-list";
+
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "ant-ordered-list-unstyled" : null;
+
+        public override string OrderedListType( OrderedListType orderedListType ) => $"ant-ordered-list-{ToOrderedListType( orderedListType )}";
 
         #endregion
 

@@ -14,6 +14,8 @@ namespace Blazorise
 
         private bool unstyled;
 
+        private OrderedListType listType = OrderedListType.Default;
+
         #endregion
 
         #region Methods
@@ -21,7 +23,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
+            builder.Append( ClassProvider.OrderedList() );
             builder.Append( ClassProvider.OrderedListUnstyled( Unstyled ) );
+            builder.Append( ClassProvider.OrderedListType( ListType ), ListType != OrderedListType.Default );
 
             base.BuildClasses( builder );
         }
@@ -40,6 +44,21 @@ namespace Blazorise
             set
             {
                 unstyled = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the type of item markers.
+        /// </summary>
+        [Parameter]
+        public OrderedListType ListType
+        {
+            get => listType;
+            set
+            {
+                listType = value;
 
                 DirtyClasses();
             }
