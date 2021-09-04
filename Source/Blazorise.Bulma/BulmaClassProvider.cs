@@ -1218,6 +1218,12 @@ namespace Blazorise.Bulma
 
         public override string OrderedListType( OrderedListType orderedListType ) => $"is-ordered-list-{ToOrderedListType( orderedListType )}";
 
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
+
         #endregion
 
         #region Enums

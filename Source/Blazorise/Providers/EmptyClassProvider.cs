@@ -1063,6 +1063,12 @@ namespace Blazorise.Providers
 
         public string OrderedListType( OrderedListType orderedListType ) => null;
 
+        public string DescriptionList() => null;
+
+        public string DescriptionListTerm() => null;
+
+        public string DescriptionListDefinition() => null;
+
         #endregion
 
         #region Enums

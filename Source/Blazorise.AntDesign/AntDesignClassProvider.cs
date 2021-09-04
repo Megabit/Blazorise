@@ -1205,6 +1205,12 @@ namespace Blazorise.AntDesign
 
         public override string OrderedListType( OrderedListType orderedListType ) => $"ant-ordered-list-{ToOrderedListType( orderedListType )}";
 
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
+
         #endregion
 
         #region Enums

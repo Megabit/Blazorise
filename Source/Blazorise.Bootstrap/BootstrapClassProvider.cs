@@ -1189,6 +1189,12 @@ namespace Blazorise.Bootstrap
 
         public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
 
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
+
         #endregion
 
         public override bool UseCustomInputStyles { get; set; } = true;

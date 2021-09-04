@@ -1063,6 +1063,12 @@ namespace Blazorise
 
         public abstract string OrderedListType( OrderedListType orderedListType );
 
+        public abstract string DescriptionList();
+
+        public abstract string DescriptionListTerm();
+
+        public abstract string DescriptionListDefinition();
+
         #endregion
 
         #region Enums

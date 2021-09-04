@@ -1055,6 +1055,12 @@ namespace Blazorise
 
         string OrderedListType( OrderedListType orderedListType );
 
+        string DescriptionList();
+
+        string DescriptionListTerm();
+
+        string DescriptionListDefinition();
+
         #endregion
 
         #region Enums
