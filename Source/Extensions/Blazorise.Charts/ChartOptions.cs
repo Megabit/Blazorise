@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts
@@ -326,10 +328,10 @@ namespace Blazorise.Charts
         public bool BeginAtZero { get; set; }
 
         /// <summary>
-        /// Evaluates this JavaScript as a string representation of the tick value as it should be displayed on the chart.
+        /// Defines the Expression which will be converted to JavaScript as a string representation of the tick value as it should be displayed on the chart.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public string CallbackJavaScript { get; set; }
+        public Expression<Func<double, int, double[], FormattableString>> Callback { get; set; }
     }
 
     /// <summary>

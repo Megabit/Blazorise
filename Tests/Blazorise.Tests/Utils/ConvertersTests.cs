@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using Blazorise.Utilities;
 using Xunit;
@@ -284,6 +285,23 @@ namespace Blazorise.Tests.Utils
             Assert.Equal( "abc", result["Foo"] );
         }
 
+        [Fact]
+        public void ToDictionary_With_CallbackExpression_ConvertsExpression_To_TemplatedStringLiteral()
+        {
+            // Arrange
+            var test = new Test
+            {
+                Callback = ( value, index, values ) => $"{value / 1000} K"
+            };
+
+            // Act
+            var result = Converters.ToDictionary( test, false );
+
+            // Assert
+            Assert.NotNull( result );
+            Assert.Equal( "`${(value / 1000)} K`", result["callback"] );
+        }
+
         [Theory]
         [InlineData( "2020-08-24T17:48:00-04:00", true )]
         [InlineData( "not a date", false )]
@@ -342,6 +360,9 @@ namespace Blazorise.Tests.Utils
 
         [DataMember( EmitDefaultValue = false )]
         public List<NestedTest> ComplexList { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public Expression<Func<double, int, double[], FormattableString>> Callback { get; set; }
     }
 
     public class NestedTest
