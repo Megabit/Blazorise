@@ -385,6 +385,12 @@ namespace Blazorise
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Sets the preferred color contrast for the Table Header.
+        /// </summary>
+        [Parameter] public ThemeContrast ThemeContrast { get; set; }
+
+
         #endregion
     }
 }
