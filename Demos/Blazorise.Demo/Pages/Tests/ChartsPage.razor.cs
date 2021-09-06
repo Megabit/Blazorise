@@ -15,22 +15,22 @@ namespace Blazorise.Demo.Pages.Tests
         private Chart<double> polarAreaChart;
         private Chart<double> radarChart;
 
-        //LineChartOptions lineChartOptions = new()
-        //{
-        //    Scales = new()
-        //    {
-        //        YAxes = new()
-        //        {
-        //            new()
-        //            {
-        //                Ticks = new AxisTicks
-        //                {
-        //                    CallbackJavaScript = "`${value / 1000} ${index} K`"
-        //                }
-        //            }
-        //        }
-        //    }
-        //};
+        LineChartOptions lineChartOptions = new()
+        {
+            Scales = new()
+            {
+                YAxes = new()
+                {
+                    new()
+                    {
+                        Ticks = new AxisTicks
+                        {
+                            Callback = ( value, index, values ) => $"{value / 1000} K"
+                        }
+                    }
+                }
+            }
+        };
 
         private LineChart<double> lineChartWithData;
 
@@ -94,7 +94,7 @@ namespace Blazorise.Demo.Pages.Tests
             return new()
             {
                 Label = "# of randoms",
-                Data = RandomizeData(),
+                Data = RandomizeData( 3000, 50000 ),
                 BackgroundColor = backgroundColors[0], // line chart can only have one color
                 BorderColor = borderColors[0],
                 Fill = true,
@@ -181,9 +181,11 @@ namespace Blazorise.Demo.Pages.Tests
             await lineChart.Update();
         }
 
-        private List<double> RandomizeData()
+        List<double> RandomizeData() => RandomizeData( 3, 50 );
+
+        List<double> RandomizeData( int min, int max )
         {
-            return new() { random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble() };
+            return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
         }
     }
 }

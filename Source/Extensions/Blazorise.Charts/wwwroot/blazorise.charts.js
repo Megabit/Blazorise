@@ -32,9 +32,12 @@ window.blazoriseCharts = {
         function processTicksCallback(scales, axis) {
             if (scales && Array.isArray(scales[axis])) {
                 scales[axis].forEach(a => {
-                    if (a.ticks && a.ticks.callbackJavaScript) {
-                        a.ticks.callback = function (value, index, ticks) {
-                            return eval(a.ticks.callbackJavaScript)
+                    if (a.ticks && a.ticks.callback) {
+                        if (typeof a.ticks.callback === 'string') {
+                            const callback = a.ticks.callback;
+                            a.ticks.callback = function (value, index, ticks) {
+                                return eval(callback);
+                            }
                         }
                     }
                 });
