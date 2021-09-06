@@ -558,3 +558,33 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.ant-unordered-list {
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+}
+
+ol.ant-ordered-list {
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}
