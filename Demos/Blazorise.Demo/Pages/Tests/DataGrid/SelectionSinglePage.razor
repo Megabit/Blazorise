@@ -5,12 +5,12 @@
             <CardHeader>
                 <CardTitle>Datagrid: Single Selection</CardTitle>
             </CardHeader>
-            <ListGroup Flush="true">
-                <ListGroupItem>By default, the Datagrid's Selection Mode is set to Single.</ListGroupItem>
-                <ListGroupItem>Bind the selected row to a property by binding to the SelectedRow Parameter.</ListGroupItem>
-                <ListGroupItem>Unselect a row by pressing Ctrl+Click.</ListGroupItem>
-                <ListGroupItem>You may also limit which rows are selectable. Try selecting any First Name starting with an "A".</ListGroupItem>
-            </ListGroup>
+            <CardBody>
+                <Paragraph>By default, the Datagrid's Selection Mode is set to Single.</Paragraph>
+                <Paragraph>Bind the selected row to a property by binding to the SelectedRow Parameter.</Paragraph>
+                <Paragraph>Unselect a row by pressing Ctrl+Click.</Paragraph>
+                <Paragraph>You may also limit which rows are selectable. Try selecting any First Name starting with an "A".</Paragraph>
+            </CardBody>
             <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
