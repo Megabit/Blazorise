@@ -940,6 +940,14 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Blockquote
+
+        public override string Blockquote() => "blockquote";
+
+        public override string BlockquoteFooter() => "blockquote-footer";
+
+        #endregion
+
         #region Figure
 
         public override string Figure() => "figure";

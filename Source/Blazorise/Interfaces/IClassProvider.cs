@@ -899,6 +899,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Blockquote
+
+        string Blockquote();
+
+        string BlockquoteFooter();
+
+        #endregion
+
         #region Figure
 
         string Figure();

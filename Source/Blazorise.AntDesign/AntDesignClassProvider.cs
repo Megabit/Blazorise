@@ -953,6 +953,14 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Blockquote
+
+        public override string Blockquote() => "ant-blockquote";
+
+        public override string BlockquoteFooter() => "ant-blockquote-footer";
+
+        #endregion
+
         #region Figure
 
         public override string Figure() => "ant-figure";

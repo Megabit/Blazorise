@@ -907,6 +907,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Blockquote
+
+        public string Blockquote() => null;
+
+        public string BlockquoteFooter() => null;
+
+        #endregion
+
         #region Figure
 
         public string Figure() => null;

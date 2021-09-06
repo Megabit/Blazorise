@@ -906,6 +906,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Blockquote
+
+        public abstract string Blockquote();
+
+        public abstract string BlockquoteFooter();
+
+        #endregion
+
         #region Figure
 
         public abstract string Figure();
