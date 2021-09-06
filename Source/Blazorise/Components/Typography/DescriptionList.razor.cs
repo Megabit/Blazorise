@@ -8,7 +8,7 @@ namespace Blazorise
     /// <summary>
     /// A description list is a list of items with a description or definition of each item.
     /// </summary>
-    public partial class DescriptionList : BaseElementComponent
+    public partial class DescriptionList : BaseTypographyComponent
     {
         #region Members
 

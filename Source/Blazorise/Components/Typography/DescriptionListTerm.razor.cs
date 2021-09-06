@@ -8,7 +8,7 @@ namespace Blazorise
     /// <summary>
     /// Element which specify a term.
     /// </summary>
-    public partial class DescriptionListTerm : BaseElementComponent
+    public partial class DescriptionListTerm : BaseTypographyComponent
     {
         #region Members
 
