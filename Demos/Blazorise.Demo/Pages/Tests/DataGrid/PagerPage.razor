@@ -56,7 +56,11 @@
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
-                    <PageButtonTemplate><Button Size="Size.ExtraSmall" Color="Color.Success" Disabled="@(!context.Active)">@context.PageNumer</Button></PageButtonTemplate>
+                    <PageButtonTemplate>
+                        <Span TextColor="TextColor.Success">
+                            @context.PageNumer
+                        </Span>
+                    </PageButtonTemplate>
                     <NextPageButtonTemplate><Icon Name="IconName.StepForward" TextColor="TextColor.Success" /></NextPageButtonTemplate>
                     <PreviousPageButtonTemplate><Icon Name="IconName.StepBackward" TextColor="TextColor.Success" /></PreviousPageButtonTemplate>
                     <LastPageButtonTemplate><Icon Name="IconName.Forward" TextColor="TextColor.Success" /></LastPageButtonTemplate>
