@@ -113,7 +113,7 @@
     void ValidateGender( ValidatorEventArgs e )
     {
         var validValues = new[] { "M", "F", "D" };
-        e.ErrorText = $"Gender must be: {string.Join(", ",validValues)} ";
+        e.ErrorText = $"Gender must be: {string.Join( ", ", validValues )} ";
         var value = e.Value?.ToString();
         e.Status = validValues.Contains( value )
                     ? ValidationStatus.Success

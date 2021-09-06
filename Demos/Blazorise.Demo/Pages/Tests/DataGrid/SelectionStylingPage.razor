@@ -75,13 +75,13 @@
         await base.OnInitializedAsync();
     }
 
-    void OnRowStyling(Employee employee, DataGridRowStyling styling)
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
     {
         if ( !employee.IsActive )
             styling.Style = "color: red;";
     }
 
-    void OnSelectedRowStyling(Employee employee, DataGridRowStyling styling)
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
     {
         styling.Color = Color.Warning;
         styling.Style = "font-weight:bold;";

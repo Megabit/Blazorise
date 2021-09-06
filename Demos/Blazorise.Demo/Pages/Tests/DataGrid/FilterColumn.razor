@@ -16,8 +16,8 @@
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable="false" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable="false">
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable="false"/>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Filterable="false"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable="false" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Filterable="false" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Filterable="false">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -25,7 +25,7 @@
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Filterable="false">
                         </DataGridColumn>
-                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" Filterable="false"/>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" Filterable="false" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true" CustomFilter="@OnGenderCustomFilter">
                             <DisplayTemplate>
@@ -77,7 +77,7 @@
 
     private string selectedGenderFilter;
 
-    private bool OnGenderCustomFilter(object itemValue, object searchValue)
+    private bool OnGenderCustomFilter( object itemValue, object searchValue )
     {
         if ( searchValue is string genderFilter )
         {

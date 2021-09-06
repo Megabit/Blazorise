@@ -27,9 +27,9 @@
                           EditMode="editMode">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true"/>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true"/>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true"/>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -101,7 +101,7 @@
         await base.OnInitializedAsync();
     }
 
-    private string TitleFromGender(string gender)
+    private string TitleFromGender( string gender )
     {
         return gender switch
         {
@@ -111,7 +111,7 @@
         };
     }
 
-    private string TitleToName(string title, object name)
+    private string TitleToName( string title, object name )
     {
         var resultName = name.ToString();
         resultName = resultName.Replace( "Mr.", string.Empty ).Replace( "Mrs.", string.Empty ).Trim();
