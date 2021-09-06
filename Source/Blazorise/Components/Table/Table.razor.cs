@@ -99,7 +99,7 @@ namespace Blazorise
                     builder.Append( $"height: {FixedHeaderTableHeight};" );
 
                 if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
-                    builder.Append( $"height: {FixedHeaderTableMaxHeight};" );
+                    builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
             }
         }
 
