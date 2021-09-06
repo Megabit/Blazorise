@@ -1,0 +1,21 @@
+{
+  "culture": "pl",
+  "translations": {
+    "New": "Nowy",
+    "Edit": "Edytuj",
+    "Delete": "Usuń",
+    "Save": "Zapisz",
+    "Cancel": "Anuluj",
+    "Clear Filter": "Wyczyść filtr",
+    "First": "Pierwsza",
+    "Last": "Ostatnia",
+    "Prev": "Poprzednia",
+    "Next": "Następna",
+    "items": "wierszy",
+    "items per page": "wierszy na stronę",
+    "{0} - {1} of {2} items": "{0} - {1} z {2} wierszy",
+    "Row Edit": "Edytuj wiersz",
+    "Row Create": "Utwórz wiersz",
+    "Create": "Utwórz"
+  }
+}
