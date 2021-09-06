@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -18,11 +17,6 @@ namespace Blazorise
         #endregion
 
         #region Methods
-
-        protected override Task OnParametersSetAsync()
-        {
-            return base.OnParametersSetAsync();
-        }
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
