@@ -165,6 +165,18 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Sets the max height for the FixedHeader table feature.
+        /// </summary>
+        /// <returns></returns>
+        private string GetFixedTableHeaderMaxHeight()
+        {
+            if ( Virtualize )
+                return VirtualizeOptions?.DataGridMaxHeight ?? "500px";
+            else
+                return FixedHeaderDataGridMaxHeight;
+        }
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
@@ -1850,6 +1862,11 @@ namespace Blazorise.DataGrid
         /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
         /// </summary>
         [Parameter] public string FixedHeaderDataGridHeight { get; set; } = "500px";
+
+        /// <summary>
+        /// Sets the Datagrid max height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
+        /// </summary>
+        [Parameter] public string FixedHeaderDataGridMaxHeight { get; set; } = "500px";
 
         #endregion
     }
