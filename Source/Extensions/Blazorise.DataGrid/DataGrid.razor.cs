@@ -1851,6 +1851,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public string FixedHeaderDataGridHeight { get; set; } = "500px";
 
+        /// <summary>
+        /// Sets the Datagrid's table header <see cref="ThemeContrast"/>.
+        /// </summary>
+        [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
+
         #endregion
     }
 }
