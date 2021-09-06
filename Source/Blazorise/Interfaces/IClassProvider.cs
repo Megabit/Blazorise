@@ -899,6 +899,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Blockquote
+
+        string Blockquote();
+
+        string BlockquoteFooter();
+
+        #endregion
+
         #region Figure
 
         string Figure();
@@ -1043,6 +1051,26 @@ namespace Blazorise
 
         #endregion
 
+        #region Elements
+
+        string UnorderedList();
+
+        string UnorderedListUnstyled( bool unstyled );
+
+        string OrderedList();
+
+        string OrderedListUnstyled( bool unstyled );
+
+        string OrderedListType( OrderedListType orderedListType );
+
+        string DescriptionList();
+
+        string DescriptionListTerm();
+
+        string DescriptionListDefinition();
+
+        #endregion
+
         #region Enums
 
         /* 
@@ -1137,6 +1165,8 @@ namespace Blazorise
         string ToVerticalAlignment( VerticalAlignment verticalAlignment );
 
         string ToShadow( Shadow shadow );
+
+        string ToOrderedListType( OrderedListType orderedListType );
 
         #endregion
 

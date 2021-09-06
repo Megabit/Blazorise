@@ -959,6 +959,14 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Blockquote
+
+        public override string Blockquote() => "blockquote";
+
+        public override string BlockquoteFooter() => "blockquote-footer";
+
+        #endregion
+
         #region Figure
 
         public override string Figure() => "image";
@@ -1203,6 +1211,26 @@ namespace Blazorise.Bulma
         #region Overflow
 
         public override string Overflow( Overflow overflow ) => $"is-overflow-{ToOverflow( overflow )}";
+
+        #endregion
+
+        #region Elements
+
+        public override string UnorderedList() => "is-unordered-list";
+
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "is-unordered-list-unstyled" : null;
+
+        public override string OrderedList() => "is-ordered-list";
+
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "is-ordered-list-unstyled" : null;
+
+        public override string OrderedListType( OrderedListType orderedListType ) => $"is-ordered-list-{ToOrderedListType( orderedListType )}";
+
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
 
         #endregion
 
