@@ -47,3 +47,19 @@
 .ant-typography-white-50 {
     color: rgba($white, .5) !important;
 }
+
+// Blockquotes
+.ant-blockquote {
+    margin-bottom: $spacer;
+    font-size: $blockquote-font-size;
+}
+
+.ant-blockquote-footer {
+    display: block;
+    font-size: $blockquote-small-font-size;
+    color: $blockquote-small-color;
+
+    &::before {
+        content: "\2014\00A0"; // em dash, nbsp
+    }
+}
