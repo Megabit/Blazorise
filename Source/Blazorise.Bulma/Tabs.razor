@@ -21,7 +21,7 @@
         else if ( TabPosition == TabPosition.Left )
         {
             <Row>
-                <Column ColumnSize="ColumnSize.Is2">
+                <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items != null )
                     {
                         <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
@@ -31,7 +31,7 @@
                         </div>
                     }
                 </Column>
-                <Column ColumnSize="ColumnSize.Is10">
+                <Column>
                     @if ( Content != null )
                     {
                         <div class="@ContentClassNames" @attributes="@Attributes">
@@ -44,7 +44,7 @@
         else if ( TabPosition == TabPosition.Right )
         {
             <Row>
-                <Column ColumnSize="ColumnSize.Is10">
+                <Column>
                     @if ( Content != null )
                     {
                         <div class="@ContentClassNames" @attributes="@Attributes">
@@ -52,7 +52,7 @@
                         </div>
                     }
                 </Column>
-                <Column ColumnSize="ColumnSize.Is2">
+                <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items != null )
                     {
                         <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">

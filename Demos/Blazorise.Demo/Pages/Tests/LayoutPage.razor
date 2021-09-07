@@ -217,6 +217,56 @@
         </Card>
     </Column>
 </Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Variable width content</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>ColumnSize.IsAuto</code> utilities to size columns based on the natural width of their content.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row Flex="Flex.JustifyContent.Center">
+                    <Column ColumnSize="ColumnSize.Is2.OnWidescreen">
+                        <Alert Color="Color.Primary" Visible="true">
+                            Is2.OnWidescreen
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto.OnDesktop">
+                        <Alert Color="Color.Primary" Visible="true">
+                            Variable width content
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2.OnWidescreen">
+                        <Alert Color="Color.Primary" Visible="true">
+                            Is2.OnWidescreen
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Alert Color="Color.Primary" Visible="true">
+                            1 of 3
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto.OnDesktop">
+                        <Alert Color="Color.Primary" Visible="true">
+                            Variable width content
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2.OnWidescreen">
+                        <Alert Color="Color.Primary" Visible="true">
+                            3 of 3
+                        </Alert>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 <Row>
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
