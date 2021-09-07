@@ -220,6 +220,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Controls the size of the items bar when in vertical mode. If left undefined it will default to the <c>ColumnSize.IsAuto</c>.
+        /// </summary>
+        [Parameter] public IFluentColumn VerticalItemsColumnSize { get; set; }
+
+        /// <summary>
         /// Gets or sets currently selected tab name.
         /// </summary>
         [Parameter]
