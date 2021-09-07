@@ -1,8 +1,12 @@
+using System;
+using System.Net.Http;
 using Blazorise.Bootstrap;
+using Blazorise.Demo.Data;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -36,6 +40,9 @@ namespace Blazorise.Demo.Bootstrap.RC
             {
                 o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
             } );
+            
+            services.AddHttpClient(); 
+            services.AddScoped<EmployeeData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

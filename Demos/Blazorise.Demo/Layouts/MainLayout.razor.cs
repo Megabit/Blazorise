@@ -13,7 +13,7 @@ namespace Blazorise.Demo.Layouts
             await base.OnInitializedAsync();
         }
 
-        Task SelectCulture( string name )
+        private Task SelectCulture( string name )
         {
             LocalizationService.ChangeLanguage( name );
 

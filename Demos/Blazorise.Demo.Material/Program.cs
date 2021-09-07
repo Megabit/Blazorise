@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazorise.Demo.Data;
 using Blazorise.Icons.Material;
 using Blazorise.Material;
 using Blazorise.RichTextEdit;
@@ -29,10 +30,9 @@ namespace Blazorise.Demo.Material
                 .AddMaterialProviders()
                 .AddMaterialIcons();
 
-            builder.Services.AddSingleton( new HttpClient
-            {
-                BaseAddress = new( builder.HostEnvironment.BaseAddress )
-            } );
+            builder.Services.AddMemoryCache();
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<EmployeeData>();
 
             builder.RootComponents.Add<App>( "#app" );
 
