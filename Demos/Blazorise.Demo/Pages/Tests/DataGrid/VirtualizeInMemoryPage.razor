@@ -6,6 +6,21 @@
                 <CardTitle>Datagrid: Virtualize In Memory</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph>
+                    Set the <code>Virtualize</code> property to <code>true</code> to enable virtual scrolling in our Data Grid. The Data Grid
+                    loads and renders only the data rows that become visible. You can also define <code>VirtualizeOptions</code> for
+                    additional control over virtualize look and behaviour.
+                </Paragraph>
+                <Alert Color="Color.Info" Visible>
+                    <AlertDescription>
+                        Note that this mode requires that all rows have the same height.
+                    </AlertDescription>
+                </Alert>
+                <Paragraph>
+                    In this mode, the Data Grid does not display the pager.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
                           Virtualize="true"
