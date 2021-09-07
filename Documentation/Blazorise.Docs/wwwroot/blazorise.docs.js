@@ -3,6 +3,18 @@
         copyToClipboard: (text) => {
             navigator.clipboard.writeText(text);
         }
+    },
+
+    navigation: {
+        scrollToTop: () => {
+            var element = document.getElementById("docs-layout-header");
+
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'auto'
+                });
+            }
+        }
     }
 }
 
