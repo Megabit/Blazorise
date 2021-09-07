@@ -948,6 +948,27 @@ namespace Blazorise.Docs.Models
     </Column>
 </Row>";
 
+        public const string ContainerBreakpointExample = @"<Container Breakpoint=""Breakpoint.Tablet"">
+    <Alert Color=""Color.Primary"" Visible=""true"">
+        100% wide until tablet breakpoint
+    </Alert>
+</Container>
+<Container Breakpoint=""Breakpoint.Desktop"">
+    <Alert Color=""Color.Primary"" Visible=""true"">
+        100% wide until desktop breakpoint
+    </Alert>
+</Container>
+<Container Breakpoint=""Breakpoint.Widescreen"">
+    <Alert Color=""Color.Primary"" Visible=""true"">
+        100% wide until widescreen breakpoint
+    </Alert>
+</Container>
+<Container Breakpoint=""Breakpoint.FullHD"">
+    <Alert Color=""Color.Primary"" Visible=""true"">
+        100% wide until full-hd breakpoint
+    </Alert>
+</Container>";
+
         public const string ContainerFluidExample = @"<Container Fluid=""true"">
     <Alert Color=""Color.Primary"" Visible=""true"">
         Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
