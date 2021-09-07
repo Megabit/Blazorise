@@ -1,0 +1,128 @@
+﻿@page "/tests/datagrid/selection/single"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: Single Selection</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    By default, the DataGrid's <code>SelectionMode</code> is set to <code>Single</code>.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        Bind the selected row to a property by binding to the <code>SelectedRow</code> parameter.
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        Unselect a row by pressing <kbd>Ctrl</kbd> + <kbd>Click</kbd>.
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        You may also limit which rows are selectable. Try selecting any First Name starting with an "A".
+                    </UnorderedListItem>
+                </UnorderedList>
+            </CardBody>
+            <CardBody>
+                <DataGrid TItem="Employee"
+                          Data="inMemoryData"
+                          ShowPager="true"
+                          ShowPageSizes="true"
+                          @bind-SelectedRow="@selectedEmployee"
+                          RowSelectable="@((x) => !x.FirstName.StartsWith("A"))">
+                    <DataGridColumns>
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
+                        </DataGridColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                            <DisplayTemplate>
+                                @{
+                                    var gender = ( context as Employee )?.Gender;
+
+                                    @if ( gender == "M" )
+                                    {
+                                        @("Male")
+                                    }
+                                    else if ( gender == "F" )
+                                    {
+                                        @("Female")
+                                    }
+                                    else if ( gender == "D" )
+                                    {
+                                        @("Diverse")
+                                    }
+                                }
+                            </DisplayTemplate>
+                        </DataGridSelectColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
+                        </DataGridColumn>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Selected Employee</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>First Name</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Last Name</FieldLabel>
+                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
+                    </Field>
+                </Fields>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Email</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>City</FieldLabel>
+                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> inMemoryData;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+        await base.OnInitializedAsync();
+    }
+}

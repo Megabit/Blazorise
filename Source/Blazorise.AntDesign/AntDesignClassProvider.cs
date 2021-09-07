@@ -956,6 +956,14 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Blockquote
+
+        public override string Blockquote() => "ant-blockquote";
+
+        public override string BlockquoteFooter() => "ant-blockquote-footer";
+
+        #endregion
+
         #region Figure
 
         public override string Figure() => "ant-figure";
@@ -1193,6 +1201,26 @@ namespace Blazorise.AntDesign
         #region Overflow
 
         public override string Overflow( Overflow overflow ) => $"ant-overflow-{ToOverflow( overflow )}";
+
+        #endregion
+
+        #region Elements
+
+        public override string UnorderedList() => "ant-unordered-list";
+
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "ant-unordered-list-unstyled" : null;
+
+        public override string OrderedList() => "ant-ordered-list";
+
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "ant-ordered-list-unstyled" : null;
+
+        public override string OrderedListType( OrderedListType orderedListType ) => $"ant-ordered-list-{ToOrderedListType( orderedListType )}";
+
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
 
         #endregion
 

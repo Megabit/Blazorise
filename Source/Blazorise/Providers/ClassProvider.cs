@@ -908,6 +908,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Blockquote
+
+        public abstract string Blockquote();
+
+        public abstract string BlockquoteFooter();
+
+        #endregion
+
         #region Figure
 
         public abstract string Figure();
@@ -1050,6 +1058,26 @@ namespace Blazorise
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
+
+        #endregion
+
+        #region Elements
+
+        public abstract string UnorderedList();
+
+        public abstract string UnorderedListUnstyled( bool unstyled );
+
+        public abstract string OrderedList();
+
+        public abstract string OrderedListUnstyled( bool unstyled );
+
+        public abstract string OrderedListType( OrderedListType orderedListType );
+
+        public abstract string DescriptionList();
+
+        public abstract string DescriptionListTerm();
+
+        public abstract string DescriptionListDefinition();
 
         #endregion
 
@@ -1714,6 +1742,18 @@ namespace Blazorise
                 Blazorise.Shadow.Remove => "none",
                 Blazorise.Shadow.Small => "sm",
                 Blazorise.Shadow.Large => "lg",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOrderedListType( OrderedListType orderedListType )
+        {
+            return orderedListType switch
+            {
+                Blazorise.OrderedListType.LowerAlpha => "lower-alpha",
+                Blazorise.OrderedListType.LowerRoman => "lower-roman",
+                Blazorise.OrderedListType.UpperAlpha => "upper-alpha",
+                Blazorise.OrderedListType.UpperRoman => "upper-roman",
                 _ => null,
             };
         }

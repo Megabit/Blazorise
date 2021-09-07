@@ -9,8 +9,8 @@
     {
         @paginationFragment
     }
-    <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()">
-        <TableHeader>
+    <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()">
+        <TableHeader ThemeContrast="HeaderThemeContrast">
             @if ( ShowCaptions )
             {
                 <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.None)" Color="@(HeaderRowStyling?.Color ?? Color.None)">

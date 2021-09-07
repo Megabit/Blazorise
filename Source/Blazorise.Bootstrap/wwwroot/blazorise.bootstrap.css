@@ -1154,6 +1154,18 @@ tr.table-row-selectable:hover {
 .overflow-scroll {
     overflow: scroll !important; }
 
+ol.ordered-list-lower-alpha {
+    list-style-type: lower-alpha; }
+
+ol.ordered-list-lower-roman {
+    list-style-type: lower-roman; }
+
+ol.ordered-list-upper-alpha {
+    list-style-type: upper-alpha; }
+
+ol.ordered-list-upper-roman {
+    list-style-type: upper-roman; }
+
 .flatpickr-months {
     margin: 0.5rem 0; }
     .flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {

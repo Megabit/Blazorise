@@ -962,6 +962,14 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Blockquote
+
+        public override string Blockquote() => "blockquote";
+
+        public override string BlockquoteFooter() => "blockquote-footer";
+
+        #endregion
+
         #region Figure
 
         public override string Figure() => "image";
@@ -1209,6 +1217,26 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Elements
+
+        public override string UnorderedList() => "is-unordered-list";
+
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "is-unordered-list-unstyled" : null;
+
+        public override string OrderedList() => "is-ordered-list";
+
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "is-ordered-list-unstyled" : null;
+
+        public override string OrderedListType( OrderedListType orderedListType ) => $"is-ordered-list-{ToOrderedListType( orderedListType )}";
+
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
@@ -1315,39 +1343,23 @@ namespace Blazorise.Bulma
 
         public override string ToColumnWidth( ColumnWidth columnWidth )
         {
-            switch ( columnWidth )
+            return columnWidth switch
             {
-                case Blazorise.ColumnWidth.Is1:
-                    return "1";
-                case Blazorise.ColumnWidth.Is2:
-                    return "2";
-                case Blazorise.ColumnWidth.Is3:
-                case Blazorise.ColumnWidth.Quarter:
-                    return "3";
-                case Blazorise.ColumnWidth.Is4:
-                case Blazorise.ColumnWidth.Third:
-                    return "4";
-                case Blazorise.ColumnWidth.Is5:
-                    return "5";
-                case Blazorise.ColumnWidth.Is6:
-                case Blazorise.ColumnWidth.Half:
-                    return "6";
-                case Blazorise.ColumnWidth.Is7:
-                    return "7";
-                case Blazorise.ColumnWidth.Is8:
-                    return "8";
-                case Blazorise.ColumnWidth.Is9:
-                    return "9";
-                case Blazorise.ColumnWidth.Is10:
-                    return "10";
-                case Blazorise.ColumnWidth.Is11:
-                    return "11";
-                case Blazorise.ColumnWidth.Is12:
-                case Blazorise.ColumnWidth.Full:
-                    return "12";
-                default:
-                    return null;
-            }
+                Blazorise.ColumnWidth.Is1 => "1",
+                Blazorise.ColumnWidth.Is2 => "2",
+                Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => "3",
+                Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => "4",
+                Blazorise.ColumnWidth.Is5 => "5",
+                Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => "6",
+                Blazorise.ColumnWidth.Is7 => "7",
+                Blazorise.ColumnWidth.Is8 => "8",
+                Blazorise.ColumnWidth.Is9 => "9",
+                Blazorise.ColumnWidth.Is10 => "10",
+                Blazorise.ColumnWidth.Is11 => "11",
+                Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
+                Blazorise.ColumnWidth.Auto => "narrow",
+                _ => null,
+            };
         }
 
         public override string ToScreenreader( Screenreader screenreader )

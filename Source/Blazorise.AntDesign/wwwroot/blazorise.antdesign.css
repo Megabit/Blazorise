@@ -2325,6 +2325,17 @@ li.ant-list-item-actionable {
 .ant-typography-white-50 {
     color: rgba(255, 255, 255, 0.5) !important; }
 
+.ant-blockquote {
+    margin-bottom: 1rem;
+    font-size: 20px; }
+
+.ant-blockquote-footer {
+    display: block;
+    font-size: 12px;
+    color: #6c757d; }
+    .ant-blockquote-footer::before {
+        content: "\2014\00A0"; }
+
 .ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon {
     background-color: #1890ff; }
     .ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon {
@@ -5479,6 +5490,26 @@ li.ant-list-item-actionable {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap; }
+
+.ant-unordered-list-unstyled {
+    padding-left: 0;
+    list-style: none; }
+
+ol.ant-ordered-list-unstyled {
+    padding-left: 0;
+    list-style: none; }
+
+ol.ant-ordered-list-lower-alpha {
+    list-style-type: lower-alpha; }
+
+ol.ant-ordered-list-lower-roman {
+    list-style-type: lower-roman; }
+
+ol.ant-ordered-list-upper-alpha {
+    list-style-type: upper-alpha; }
+
+ol.ant-ordered-list-upper-roman {
+    list-style-type: upper-roman; }
 
 .flatpickr-months {
     margin: 0.5rem 0; }

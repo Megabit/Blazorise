@@ -11,7 +11,7 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async ()=> await PopLineChart())">Pop</Button>
             </CardBody>
             <CardBody>
-                <LineChart @ref="lineChart" TItem="double" />
+                <LineChart @ref="lineChart" TItem="double" Options=lineChartOptions />
             </CardBody>
         </Card>
     </Column>

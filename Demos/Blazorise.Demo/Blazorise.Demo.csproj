@@ -4,6 +4,8 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

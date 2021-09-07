@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Demo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,9 @@ namespace Blazorise.Demo.Bootstrap.Server
             services
                 .AddMvc()
                 .AddNewtonsoftJson();
+
+            services.AddHttpClient();
+            services.AddScoped<EmployeeData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

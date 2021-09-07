@@ -8,39 +8,39 @@ namespace Blazorise.Demo.Pages.Tests
 {
     public partial class ChartsPage
     {
-        LineChart<double> lineChart;
-        Chart<double> barChart;
-        Chart<double> pieChart;
-        Chart<double> doughnutChart;
-        Chart<double> polarAreaChart;
-        Chart<double> radarChart;
+        private LineChart<double> lineChart;
+        private Chart<double> barChart;
+        private Chart<double> pieChart;
+        private Chart<double> doughnutChart;
+        private Chart<double> polarAreaChart;
+        private Chart<double> radarChart;
 
-        //LineChartOptions lineChartOptions = new()
-        //{
-        //    Scales = new()
-        //    {
-        //        YAxes = new()
-        //        {
-        //            new()
-        //            {
-        //                Ticks = new AxisTicks
-        //                {
-        //                    CallbackJavaScript = "`${value / 1000} ${index} K`"
-        //                }
-        //            }
-        //        }
-        //    }
-        //};
+        LineChartOptions lineChartOptions = new()
+        {
+            Scales = new()
+            {
+                YAxes = new()
+                {
+                    new()
+                    {
+                        Ticks = new AxisTicks
+                        {
+                            Callback = ( value, index, values ) => $"{value / 1000} K"
+                        }
+                    }
+                }
+            }
+        };
 
-        LineChart<double> lineChartWithData;
+        private LineChart<double> lineChartWithData;
 
-        string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-        List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-        List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+        private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+        private List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+        private List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
-        bool isAlreadyInitialised;
+        private bool isAlreadyInitialised;
 
-        Random random = new( DateTime.Now.Millisecond );
+        private Random random = new( DateTime.Now.Millisecond );
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
@@ -59,7 +59,7 @@ namespace Blazorise.Demo.Pages.Tests
             }
         }
 
-        async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<TDataSet> getDataSet )
+        private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<TDataSet> getDataSet )
             where TDataSet : ChartDataset<TItem>
             where TOptions : ChartOptions
             where TModel : ChartModel
@@ -69,7 +69,7 @@ namespace Blazorise.Demo.Pages.Tests
             await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSet() );
         }
 
-        async Task SetDataAndUpdate<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<List<TItem>> items )
+        private async Task SetDataAndUpdate<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<List<TItem>> items )
             where TDataSet : ChartDataset<TItem>
             where TOptions : ChartOptions
             where TModel : ChartModel
@@ -78,7 +78,7 @@ namespace Blazorise.Demo.Pages.Tests
             await chart.Update();
         }
 
-        ChartDataset<double> GetChartDataset()
+        private ChartDataset<double> GetChartDataset()
         {
             return new()
             {
@@ -89,12 +89,12 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        LineChartDataset<double> GetLineChartDataset()
+        private LineChartDataset<double> GetLineChartDataset()
         {
             return new()
             {
                 Label = "# of randoms",
-                Data = RandomizeData(),
+                Data = RandomizeData( 3000, 50000 ),
                 BackgroundColor = backgroundColors[0], // line chart can only have one color
                 BorderColor = borderColors[0],
                 Fill = true,
@@ -104,7 +104,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        BarChartDataset<double> GetBarChartDataset()
+        private BarChartDataset<double> GetBarChartDataset()
         {
             return new()
             {
@@ -116,9 +116,9 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        int pieLabel;
+        private int pieLabel;
 
-        PieChartDataset<double> GetPieChartDataset()
+        private PieChartDataset<double> GetPieChartDataset()
         {
             return new()
             {
@@ -130,7 +130,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        DoughnutChartDataset<double> GetDoughnutChartDataset()
+        private DoughnutChartDataset<double> GetDoughnutChartDataset()
         {
             return new()
             {
@@ -142,7 +142,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        PolarAreaChartDataset<double> GetPolarAreaChartDataset()
+        private PolarAreaChartDataset<double> GetPolarAreaChartDataset()
         {
             return new()
             {
@@ -154,7 +154,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        RadarChartDataset<double> GetRadarChartDataset()
+        private RadarChartDataset<double> GetRadarChartDataset()
         {
             return new()
             {
@@ -167,23 +167,25 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        async Task ShiftLineChart()
+        private async Task ShiftLineChart()
         {
             await lineChart.ShiftData( 0 );
             await lineChart.ShiftLabel();
             await lineChart.Update();
         }
 
-        async Task PopLineChart()
+        private async Task PopLineChart()
         {
             await lineChart.PopData( 0 );
             await lineChart.PopLabel();
             await lineChart.Update();
         }
 
-        List<double> RandomizeData()
+        List<double> RandomizeData() => RandomizeData( 3, 50 );
+
+        List<double> RandomizeData( int min, int max )
         {
-            return new() { random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble() };
+            return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
         }
     }
 }

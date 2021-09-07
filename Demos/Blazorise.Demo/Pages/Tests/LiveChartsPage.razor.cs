@@ -10,17 +10,17 @@ namespace Blazorise.Demo.Pages.Tests
 {
     public partial class LiveChartsPage : ComponentBase
     {
-        LineChart<LiveDataPoint> horizontalLineChart;
-        LineChart<LiveDataPoint> verticalLineChart;
+        private LineChart<LiveDataPoint> horizontalLineChart;
+        private LineChart<LiveDataPoint> verticalLineChart;
 
-        BarChart<LiveDataPoint> horizontalBarChart;
-        HorizontalBarChart<LiveDataPoint> verticalBarChart;
+        private BarChart<LiveDataPoint> horizontalBarChart;
+        private HorizontalBarChart<LiveDataPoint> verticalBarChart;
 
-        Random random = new( DateTime.Now.Millisecond );
+        private Random random = new( DateTime.Now.Millisecond );
 
-        string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-        List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.5f ), ChartColor.FromRgba( 54, 162, 235, 0.5f ), ChartColor.FromRgba( 255, 206, 86, 0.5f ), ChartColor.FromRgba( 75, 192, 192, 0.5f ), ChartColor.FromRgba( 153, 102, 255, 0.5f ), ChartColor.FromRgba( 255, 159, 64, 0.5f ) };
-        List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+        private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+        private List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.5f ), ChartColor.FromRgba( 54, 162, 235, 0.5f ), ChartColor.FromRgba( 255, 206, 86, 0.5f ), ChartColor.FromRgba( 75, 192, 192, 0.5f ), ChartColor.FromRgba( 153, 102, 255, 0.5f ), ChartColor.FromRgba( 255, 159, 64, 0.5f ) };
+        private List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
         public struct LiveDataPoint
         {
@@ -29,7 +29,7 @@ namespace Blazorise.Demo.Pages.Tests
             public object Y { get; set; }
         }
 
-        object horizontalLineChartOptions = new
+        private object horizontalLineChartOptions = new
         {
             Title = new
             {
@@ -58,7 +58,7 @@ namespace Blazorise.Demo.Pages.Tests
             }
         };
 
-        object verticalLineChartOptions = new
+        private object verticalLineChartOptions = new
         {
             Title = new
             {
@@ -90,7 +90,7 @@ namespace Blazorise.Demo.Pages.Tests
             }
         };
 
-        object horizontalBarChartOptions = new
+        private object horizontalBarChartOptions = new
         {
             Title = new
             {
@@ -122,7 +122,7 @@ namespace Blazorise.Demo.Pages.Tests
             }
         };
 
-        object verticalBarChartOptions = new
+        private object verticalBarChartOptions = new
         {
             Title = new
             {
@@ -165,7 +165,7 @@ namespace Blazorise.Demo.Pages.Tests
             }
         }
 
-        async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( BaseChart<TDataSet, TItem, TOptions, TModel> chart, params Func<TDataSet>[] getDataSets )
+        private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( BaseChart<TDataSet, TItem, TOptions, TModel> chart, params Func<TDataSet>[] getDataSets )
             where TDataSet : ChartDataset<TItem>
             where TOptions : ChartOptions
             where TModel : ChartModel
@@ -175,7 +175,7 @@ namespace Blazorise.Demo.Pages.Tests
             await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSets.Select( x => x.Invoke() ).ToArray() );
         }
 
-        async Task AddNewHorizontalLineDataSet()
+        private async Task AddNewHorizontalLineDataSet()
         {
             var colorIndex = horizontalLineChart.Data.Datasets.Count % backgroundColors.Count;
 
@@ -190,7 +190,7 @@ namespace Blazorise.Demo.Pages.Tests
             } );
         }
 
-        async Task AddNewHorizontalLineData()
+        private async Task AddNewHorizontalLineData()
         {
             foreach ( var dataset in horizontalLineChart.Data.Datasets )
             {
@@ -204,7 +204,7 @@ namespace Blazorise.Demo.Pages.Tests
             await horizontalLineChart.Update();
         }
 
-        async Task AddNewVerticalLineDataSet()
+        private async Task AddNewVerticalLineDataSet()
         {
             var colorIndex = verticalLineChart.Data.Datasets.Count % backgroundColors.Count;
 
@@ -219,7 +219,7 @@ namespace Blazorise.Demo.Pages.Tests
             } );
         }
 
-        async Task AddNewVerticalLineData()
+        private async Task AddNewVerticalLineData()
         {
             foreach ( var dataset in verticalLineChart.Data.Datasets )
             {
@@ -233,7 +233,7 @@ namespace Blazorise.Demo.Pages.Tests
             await verticalLineChart.Update();
         }
 
-        async Task AddNewHorizontalBarDataSet()
+        private async Task AddNewHorizontalBarDataSet()
         {
             var colorIndex = horizontalBarChart.Data.Datasets.Count % backgroundColors.Count;
 
@@ -246,7 +246,7 @@ namespace Blazorise.Demo.Pages.Tests
             } );
         }
 
-        async Task AddNewHorizontalBarData()
+        private async Task AddNewHorizontalBarData()
         {
             foreach ( var dataset in horizontalBarChart.Data.Datasets )
             {
@@ -260,7 +260,7 @@ namespace Blazorise.Demo.Pages.Tests
             await horizontalBarChart.Update();
         }
 
-        async Task AddNewVerticalBarDataSet()
+        private async Task AddNewVerticalBarDataSet()
         {
             var colorIndex = verticalBarChart.Data.Datasets.Count % backgroundColors.Count;
 
@@ -273,7 +273,7 @@ namespace Blazorise.Demo.Pages.Tests
             } );
         }
 
-        async Task AddNewVerticalBarData()
+        private async Task AddNewVerticalBarData()
         {
             foreach ( var dataset in verticalBarChart.Data.Datasets )
             {
@@ -287,7 +287,7 @@ namespace Blazorise.Demo.Pages.Tests
             await verticalBarChart.Update();
         }
 
-        LineChartDataset<LiveDataPoint> GetLineChartDataset1()
+        private LineChartDataset<LiveDataPoint> GetLineChartDataset1()
         {
             return new()
             {
@@ -301,7 +301,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        LineChartDataset<LiveDataPoint> GetLineChartDataset2()
+        private LineChartDataset<LiveDataPoint> GetLineChartDataset2()
         {
             return new()
             {
@@ -314,7 +314,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        BarChartDataset<LiveDataPoint> GetBarChartDataset1()
+        private BarChartDataset<LiveDataPoint> GetBarChartDataset1()
         {
             return new()
             {
@@ -325,7 +325,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        BarChartDataset<LiveDataPoint> GetBarChartDataset2()
+        private BarChartDataset<LiveDataPoint> GetBarChartDataset2()
         {
             return new()
             {
@@ -337,7 +337,7 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        Task OnHorizontalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
+        private Task OnHorizontalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
             data.Value = new()
             {
@@ -348,7 +348,7 @@ namespace Blazorise.Demo.Pages.Tests
             return Task.CompletedTask;
         }
 
-        Task OnVerticalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
+        private Task OnVerticalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
             data.Value = new()
             {
@@ -359,7 +359,7 @@ namespace Blazorise.Demo.Pages.Tests
             return Task.CompletedTask;
         }
 
-        Task OnHorizontalBarRefreshed( ChartStreamingData<LiveDataPoint> data )
+        private Task OnHorizontalBarRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
             data.Value = new()
             {
@@ -370,7 +370,7 @@ namespace Blazorise.Demo.Pages.Tests
             return Task.CompletedTask;
         }
 
-        Task OnVerticalBarRefreshed( ChartStreamingData<LiveDataPoint> data )
+        private Task OnVerticalBarRefreshed( ChartStreamingData<LiveDataPoint> data )
         {
             data.Value = new()
             {
@@ -381,7 +381,7 @@ namespace Blazorise.Demo.Pages.Tests
             return Task.CompletedTask;
         }
 
-        double RandomScalingFactor()
+        private double RandomScalingFactor()
         {
             return ( random.NextDouble() > 0.5 ? 1.0 : -1.0 ) * Math.Round( random.NextDouble() * 100 );
         }

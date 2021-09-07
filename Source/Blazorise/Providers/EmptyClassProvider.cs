@@ -909,6 +909,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Blockquote
+
+        public string Blockquote() => null;
+
+        public string BlockquoteFooter() => null;
+
+        #endregion
+
         #region Figure
 
         public string Figure() => null;
@@ -1053,6 +1061,26 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Elements
+
+        public string UnorderedList() => null;
+
+        public string UnorderedListUnstyled( bool unstyled ) => null;
+
+        public string OrderedList() => null;
+
+        public string OrderedListUnstyled( bool unstyled ) => null;
+
+        public string OrderedListType( OrderedListType orderedListType ) => null;
+
+        public string DescriptionList() => null;
+
+        public string DescriptionListTerm() => null;
+
+        public string DescriptionListDefinition() => null;
+
+        #endregion
+
         #region Enums
 
         public string ToSize( Size size ) => null;
@@ -1142,6 +1170,8 @@ namespace Blazorise.Providers
         public string ToVerticalAlignment( VerticalAlignment verticalAlignment ) => null;
 
         public string ToShadow( Shadow shadow ) => null;
+
+        public string ToOrderedListType( OrderedListType orderedListType ) => null;
 
         #endregion
 

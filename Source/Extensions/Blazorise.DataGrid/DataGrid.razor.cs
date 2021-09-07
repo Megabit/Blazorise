@@ -165,6 +165,18 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Sets the max height for the FixedHeader table feature.
+        /// </summary>
+        /// <returns></returns>
+        private string GetFixedTableHeaderMaxHeight()
+        {
+            if ( Virtualize )
+                return VirtualizeOptions?.DataGridMaxHeight ?? "500px";
+            else
+                return FixedHeaderDataGridMaxHeight;
+        }
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
@@ -353,7 +365,7 @@ namespace Blazorise.DataGrid
         public Task Edit( TItem item )
         {
             TItem editingItem = EditItemCreator != null ? EditItemCreator.Invoke( item ) : item;
-            
+
             InitEditItem( editingItem );
 
             editState = DataGridEditState.Edit;
@@ -1705,7 +1717,7 @@ namespace Blazorise.DataGrid
         /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
         /// </summary>
         [Parameter] public Func<TItem> NewItemCreator { get; set; }
-        
+
         /// <summary>
         /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
         /// </summary>
@@ -1850,6 +1862,16 @@ namespace Blazorise.DataGrid
         /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
         /// </summary>
         [Parameter] public string FixedHeaderDataGridHeight { get; set; } = "500px";
+
+        /// <summary>
+        /// Sets the Datagrid max height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
+        /// </summary>
+        [Parameter] public string FixedHeaderDataGridMaxHeight { get; set; } = "500px";
+
+        /// <summary>
+        /// Sets the Datagrid's table header <see cref="ThemeContrast"/>.
+        /// </summary>
+        [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
 
         #endregion
     }

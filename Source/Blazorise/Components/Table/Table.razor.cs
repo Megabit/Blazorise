@@ -31,6 +31,8 @@ namespace Blazorise
 
         private string fixedHeaderTableHeight = "300px";
 
+        private string fixedHeaderTableMaxHeight = "300px";
+
         private bool resizable;
 
         #endregion
@@ -91,9 +93,13 @@ namespace Blazorise
         /// <param name="builder">Style builder used to append the classnames.</param>
         protected virtual void BuildContainerStyles( StyleBuilder builder )
         {
-            if ( FixedHeader && !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
+            if ( FixedHeader )
             {
-                builder.Append( $"height: {FixedHeaderTableHeight};" );
+                if ( !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
+                    builder.Append( $"height: {FixedHeaderTableHeight};" );
+
+                if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
+                    builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
             }
         }
 
@@ -348,6 +354,22 @@ namespace Blazorise
             set
             {
                 fixedHeaderTableHeight = value;
+
+                DirtyClasses();
+                DirtyStyles();
+            }
+        }
+
+        /// <summary>
+        /// Sets the table max height when <see cref="FixedHeader"/> feature is enabled (defaults to 300px).
+        /// </summary>
+        [Parameter]
+        public string FixedHeaderTableMaxHeight
+        {
+            get => fixedHeaderTableMaxHeight;
+            set
+            {
+                fixedHeaderTableMaxHeight = value;
 
                 DirtyClasses();
                 DirtyStyles();

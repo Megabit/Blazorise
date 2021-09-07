@@ -112,3 +112,11 @@
 .bd-example-border-utils-0 [class*="border"] {
     border: 1px solid #dee2e6;
 }
+
+code {
+    background-color: rgba(0,0,0,.05);
+    padding: .2em .4em;
+    border-radius: 3px;
+    font-size: 85%;
+    font-weight: 400;
+}
