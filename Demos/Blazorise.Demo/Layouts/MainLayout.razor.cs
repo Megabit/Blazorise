@@ -6,6 +6,8 @@ namespace Blazorise.Demo.Layouts
 {
     public partial class MainLayout
     {
+        string layoutType = "fixed-header";
+
         protected override async Task OnInitializedAsync()
         {
             await SelectCulture( "en-US" );
