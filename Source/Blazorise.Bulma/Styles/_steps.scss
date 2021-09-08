@@ -155,20 +155,6 @@
         }
     }
 
-    .steps-content {
-        align-items: stretch;
-        flex-basis: 100%;
-        margin: 2rem 0;
-
-        .step-content {
-            display: none;
-
-            &.is-active {
-                display: block;
-            }
-        }
-    }
-
     .steps-actions {
         display: flex;
         align-items: stretch;
@@ -198,4 +184,18 @@
     }
 
     @include steps-size($size-normal);
+}
+
+.steps-content {
+    align-items: stretch;
+    flex-basis: 100%;
+    margin: 2rem 0;
+
+    .step-content {
+        display: none;
+
+        &.is-active {
+            display: block;
+        }
+    }
 }
