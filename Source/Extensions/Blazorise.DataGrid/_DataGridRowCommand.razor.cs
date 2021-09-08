@@ -56,20 +56,7 @@ namespace Blazorise.DataGrid
         }
 
         protected string BuildCellStyle()
-        {
-            var style = Column.BuildCellStyle( Item );
-            var width = Column.Width;
-
-            var sb = new StringBuilder();
-
-            if ( !string.IsNullOrEmpty( style ) )
-                sb.Append( style );
-
-            if ( width != null )
-                sb.Append( $"; width: {width}" );
-
-            return sb.ToString().TrimStart( ' ', ';' );
-        }
+            => Column.BuildCellStyle( Item );
 
         protected EventCallback Edit
             => EventCallback.Factory.Create( this, () => ParentDataGrid.Edit( Item ) );
