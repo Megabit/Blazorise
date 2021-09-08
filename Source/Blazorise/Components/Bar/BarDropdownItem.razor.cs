@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -33,7 +34,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1 ) }rem", ParentDropdownState.IsInlineDisplay );
+            builder.Append( FormattableString.Invariant( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1d ) }rem" ), ParentDropdownState.IsInlineDisplay );
         }
 
         /// <summary>
