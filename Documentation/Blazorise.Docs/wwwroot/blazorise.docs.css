@@ -133,7 +133,7 @@ html, body * {
   border-radius: 0 0 4px 4px;
   padding: 16px;
   font-size: .9rem;
-  /*overflow: auto;*/ }
+  overflow: auto; }
   .blazorise-codeblock pre {
     height: 100%;
     color: #ededed;
@@ -142,7 +142,8 @@ html, body * {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     -webkit-font-smoothing: subpixel-antialiased;
     direction: ltr;
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    overflow: visible; }
   .blazorise-codeblock .html + .csharp {
     margin-top: 23px; }
   .blazorise-codeblock .html .htmlTagDelimiter {
