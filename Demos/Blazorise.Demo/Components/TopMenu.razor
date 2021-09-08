@@ -32,6 +32,34 @@
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>Layout</BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("fixed-header"))">
+                            @if ( LayoutType == "fixed-header" )
+                            {
+                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                            }
+                            Fixed Header
+                        </BarDropdownItem>
+                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("fixed-header-footer-only"))">
+                            @if ( LayoutType == "fixed-header-footer-only" )
+                            {
+                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                            }
+                            Fixed Header and Footer only
+                        </BarDropdownItem>
+                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("sider-with-header-on-top"))">
+                            @if ( LayoutType == "sider-with-header-on-top" )
+                            {
+                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                            }
+                            Sider with Header on top
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
         </BarStart>
         <BarEnd>
             <BarItem>
@@ -108,6 +136,13 @@
 
     private bool topbarVisible = false;
 
+    Task OnLayoutTypeChecked( string layoutType )
+    {
+        LayoutType = layoutType;
+
+        return LayoutTypeChanged.InvokeAsync( layoutType );
+    }
+
     [Parameter] public EventCallback<bool> ThemeEnabledChanged { get; set; }
 
     [Parameter] public EventCallback<bool> ThemeGradientChanged { get; set; }
@@ -115,6 +150,10 @@
     [Parameter] public EventCallback<bool> ThemeRoundedChanged { get; set; }
 
     [Parameter] public EventCallback<string> ThemeColorChanged { get; set; }
+
+    [Parameter] public string LayoutType { get; set; }
+
+    [Parameter] public EventCallback<string> LayoutTypeChanged { get; set; }
 
     [Inject] protected ITextLocalizerService LocalizationService { get; set; }
 
