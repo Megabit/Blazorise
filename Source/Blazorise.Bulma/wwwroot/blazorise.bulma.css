@@ -4237,14 +4237,6 @@ li.list-group-item-action {
             background-color: #00d1b2;
             border-color: #00d1b2;
             color: #fff; }
-    .steps .steps-content {
-        align-items: stretch;
-        flex-basis: 100%;
-        margin: 2rem 0; }
-        .steps .steps-content .step-content {
-            display: none; }
-            .steps .steps-content .step-content.is-active {
-                display: block; }
     .steps .steps-actions {
         display: flex;
         align-items: stretch;
@@ -4282,6 +4274,15 @@ li.list-group-item-action {
         .steps .step-item .step-details .step-title {
             font-size: 1.2rem;
             font-weight: 600; }
+
+.steps-content {
+    align-items: stretch;
+    flex-basis: 100%;
+    margin: 2rem 0; }
+    .steps-content .step-content {
+        display: none; }
+        .steps-content .step-content.is-active {
+            display: block; }
 
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .switch[type="checkbox"] {

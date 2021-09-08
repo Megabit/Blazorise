@@ -1,50 +1,56 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
 
-<Layout Sider="true">
-    <LayoutSider>
-        <LayoutSiderContent>
-            <SideMenu />
-        </LayoutSiderContent>
-    </LayoutSider>
-    <Layout>
-        <LayoutHeader Fixed="true">
-            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                     ThemeGradientChanged="@OnThemeGradientChanged"
-                     ThemeRoundedChanged="@OnThemeRoundedChanged"
-                     ThemeColorChanged="@OnThemeColorChanged" />
-        </LayoutHeader>
-        <LayoutContent Padding="Padding.Is4.OnX">
-            @Body
-        </LayoutContent>
+@if ( layoutType == "fixed-header" )
+{
+    <Layout Sider>
+        <LayoutSider>
+            <LayoutSiderContent>
+                <SideMenu />
+            </LayoutSiderContent>
+        </LayoutSider>
+        <Layout>
+            <LayoutHeader Fixed>
+                <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                         ThemeGradientChanged="@OnThemeGradientChanged"
+                         ThemeRoundedChanged="@OnThemeRoundedChanged"
+                         ThemeColorChanged="@OnThemeColorChanged"
+                         @bind-LayoutType="@layoutType" />
+            </LayoutHeader>
+            <LayoutContent Padding="Padding.Is4.OnX">
+                @Body
+            </LayoutContent>
+        </Layout>
     </Layout>
-</Layout>
-
-@* These layouts are commented and used for internal testing. Don't remove them!  *@
-
-@*<Layout>
-        <LayoutHeader Fixed="true">
+}
+else if ( layoutType == "fixed-header-footer-only" )
+{
+    <Layout>
+        <LayoutHeader Fixed>
             <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
                      ThemeGradientChanged="@OnThemeGradientChanged"
                      ThemeRoundedChanged="@OnThemeRoundedChanged"
-                     ThemeColorChanged="@OnThemeColorChanged" />
+                     ThemeColorChanged="@OnThemeColorChanged"
+                     @bind-LayoutType="@layoutType" />
         </LayoutHeader>
         <LayoutContent>
             @Body
         </LayoutContent>
-        <LayoutFooter Fixed="true">
+        <LayoutFooter Fixed>
             <FooterMenu></FooterMenu>
         </LayoutFooter>
-    </Layout>*@
-
-@*<Layout>
-        <LayoutHeader Fixed="true">
+    </Layout>
+}
+else if ( layoutType == "sider-with-header-on-top" )
+{
+    <Layout>
+        <LayoutHeader Fixed>
             <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
                      ThemeGradientChanged="@OnThemeGradientChanged"
                      ThemeRoundedChanged="@OnThemeRoundedChanged"
-                     ThemeColorChanged="@OnThemeColorChanged" />
+                     ThemeColorChanged="@OnThemeColorChanged"
+                     @bind-LayoutType="@layoutType" />
         </LayoutHeader>
-
         <Layout Sider>
             <LayoutSider>
                 <LayoutSiderContent>
@@ -57,5 +63,5 @@
                 </LayoutContent>
             </Layout>
         </Layout>
-
-    </Layout>*@
+    </Layout>
+}

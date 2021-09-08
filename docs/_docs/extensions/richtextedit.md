@@ -66,6 +66,16 @@ builder.Services
 | QuillJSVersion        | string | 1.3.7   | The QuillJS version to load.                             |
 | DynamicLoadReferences | bool   | true    | Load the RichTextEdit scripts and stylesheets on demand. |
 
+**Note:** In case you're working on Blazor server-side project and you want to upload images or files (larger than 1M or so), you will need to configure the `MaximumReceiveMessageSize` for the SignalR Hub options.
+{: .notice--info}
+
+```cs
+services.AddServerSideBlazor().AddHubOptions( ( o ) =>
+{
+    o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+} );
+```
+
 ## Usage
 
 ### Markup
