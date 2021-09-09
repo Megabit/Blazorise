@@ -1,0 +1,8 @@
+﻿<Paragraph Margin="Margin.Is3.FromBottom">
+    <Image Source="@Source" Text="@Text" />
+</Paragraph>
+@code {
+    [Parameter] public string Source { get; set; }
+
+    [Parameter] public string Text { get; set; }
+}

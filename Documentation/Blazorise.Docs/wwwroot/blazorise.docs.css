@@ -3,14 +3,14 @@
   font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
   line-height: 1.5; }
 
-.top-bar {
-  height: 88px; }
-  .top-bar .nav-link.top-bar-brand-link {
-    font-size: 1.5rem;
-    font-weight: 500; }
-  .top-bar .nav-link {
-    font-size: 1.125rem;
-    font-weight: 500; }
+.b-top-bar {
+  /*.navbar-brand {
+        font-size: 1.25rem;
+        font-weight: 500;
+    }*/ }
+  .b-top-bar > :not(.navbar-brand) .nav-link {
+    font-size: 1.1rem;
+    font-weight: 400; }
 
 .page-hero-overlay {
   position: relative;
@@ -194,3 +194,25 @@ html, body * {
     color: #b4eb8f; }
   .blazorise-codeblock .csharp .comment {
     color: #57a64a; }
+
+.b-news .b-news-content {
+  line-height: 1.5;
+  font-size: 22px; }
+  .b-news .b-news-content a {
+    color: var(--b-theme-primary); }
+  .b-news .b-news-content p > code, .b-news .b-news-content a > code, .b-news .b-news-content li > code, .b-news .b-news-content td > code {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    font-size: 0.8em;
+    background: #fafafa;
+    border-radius: 4px; }
+    .b-news .b-news-content p > code:before, .b-news .b-news-content a > code:before, .b-news .b-news-content li > code:before, .b-news .b-news-content td > code:before {
+      letter-spacing: -0.2em;
+      content: "\00a0"; }
+    .b-news .b-news-content p > code:after, .b-news .b-news-content a > code:after, .b-news .b-news-content li > code:after, .b-news .b-news-content td > code:after {
+      letter-spacing: -0.2em;
+      content: "\00a0"; }
+  .b-news .b-news-content :not(pre) > code {
+    background-color: #f5f5f5;
+    color: #ff3860;
+    font-weight: 400; }

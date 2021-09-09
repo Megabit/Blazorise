@@ -1,8 +1,8 @@
 ﻿@inherits LayoutComponentBase
 
-<Layout>
+<Layout Class="b-news">
     <LayoutHeader>
-        <Bar Class="b-top-bar" @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
+        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
             <Container>
                 <BarBrand>
                     <BarItem>
@@ -22,8 +22,8 @@
             </Container>
         </Bar>
     </LayoutHeader>
-    <LayoutContent>
-        <Container Fluid="true" Padding="Padding.Is0.OnX">
+    <LayoutContent Class="b-news-content">
+        <Container Padding="Padding.Is0.OnX.Is4.OnY.OnDesktop">
             @Body
         </Container>
     </LayoutContent>

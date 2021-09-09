@@ -1,0 +1,36 @@
+﻿.b-news {
+    .b-news-content {
+        line-height: 1.5;
+        font-size: 22px;
+
+        a {
+            color: var(--b-theme-primary);
+        }
+
+        p, a, li, td {
+            > code {
+                padding-top: 0.1rem;
+                padding-bottom: 0.1rem;
+                font-size: 0.8em;
+                background: #fafafa;
+                border-radius: 4px;
+
+                &:before {
+                    letter-spacing: -0.2em;
+                    content: "\00a0";
+                }
+
+                &:after {
+                    letter-spacing: -0.2em;
+                    content: "\00a0";
+                }
+            }
+        }
+
+        :not(pre) > code {
+            background-color: #f5f5f5;
+            color: #ff3860;
+            font-weight: 400;
+        }
+    }
+}

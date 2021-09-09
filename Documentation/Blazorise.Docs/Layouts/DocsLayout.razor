@@ -381,22 +381,19 @@
     </LayoutSider>
     <Layout>
         <LayoutHeader ElementId="docs-layout-header">
-            <Bar @ref="@topBar" @bind-Visible="@topBarVisible" Class="navbar-expand"
+            <Bar Class="b-top-bar navbar-expand" @ref="@topBar" @bind-Visible="@topBarVisible"
                  Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
                 <BarToggler Bar="@sideBar" Border="Border.Is0" />
                 <BarBrand Display="Display.None.InlineBlock.OnDesktop">
                     <BarItem>
-                        <BarLink To="docs">
-                            <BarIcon IconName="IconName.Dashboard" />
-                            Blazorise Docs
+                        <BarLink To="">
+                            Blazorise
                         </BarLink>
                     </BarItem>
                 </BarBrand>
                 <BarMenu>
                     <BarEnd>
-                        <BarItem>
-                            <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
-                        </BarItem>
+                        <TopMenuEnd />
                     </BarEnd>
                 </BarMenu>
             </Bar>
