@@ -561,6 +561,7 @@
 .b-bar-vertical-small[data-collapse=hide] {
     width: 0px;
     min-width: 0px;
+    overflow-y: hidden;
 
     &:not(.b-bar-initial) {
         transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;

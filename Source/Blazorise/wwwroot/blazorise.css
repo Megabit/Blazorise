@@ -748,6 +748,7 @@ hr.divider.divider-text {
 .b-bar-vertical-small[data-collapse=hide] {
     width: 0px;
     min-width: 0px;
+    overflow-y: hidden;
     visibility: hidden; }
     .b-bar-vertical-inline[data-collapse=hide]:not(.b-bar-initial),
     .b-bar-vertical-popout[data-collapse=hide]:not(.b-bar-initial),
