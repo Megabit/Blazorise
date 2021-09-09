@@ -197,7 +197,13 @@ html, body * {
 
 .b-news .b-news-content {
   line-height: 1.5;
-  font-size: 22px; }
+  font-size: 1.25rem; }
+  @media (max-width: 48rem) {
+    .b-news .b-news-content {
+      font-size: 1.125rem; } }
+  @media (max-width: 40rem) {
+    .b-news .b-news-content {
+      font-size: 1rem; } }
   .b-news .b-news-content a {
     color: var(--b-theme-primary); }
   .b-news .b-news-content p > code, .b-news .b-news-content a > code, .b-news .b-news-content li > code, .b-news .b-news-content td > code {

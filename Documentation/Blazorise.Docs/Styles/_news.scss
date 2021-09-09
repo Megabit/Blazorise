@@ -1,7 +1,15 @@
 ﻿.b-news {
     .b-news-content {
         line-height: 1.5;
-        font-size: 22px;
+        font-size: 1.25rem;
+
+        @media (max-width:48rem) {
+            font-size: 1.125rem;
+        }
+
+        @media (max-width:40rem) {
+            font-size: 1rem;
+        }
 
         a {
             color: var(--b-theme-primary);
