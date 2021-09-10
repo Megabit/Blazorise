@@ -272,6 +272,11 @@ namespace Blazorise.DataGrid
         [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
         /// <summary>
+        /// Specifies the display behavior of a cell.
+        /// </summary>
+        [Parameter] public IFluentDisplay Display { get; set; }
+
+        /// <summary>
         /// Defines the alignment for column header cell.
         /// </summary>
         [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
@@ -280,6 +285,11 @@ namespace Blazorise.DataGrid
         /// Defines the vertical alignment for column header cell.
         /// </summary>
         [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
+
+        /// <summary>
+        /// Specifies the display behavior of a header cell.
+        /// </summary>
+        [Parameter] public IFluentDisplay HeaderDisplay { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
