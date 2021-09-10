@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
@@ -14,11 +15,6 @@ namespace Blazorise
     public partial class Validations : ComponentBase
     {
         #region Members
-
-        /// <summary>
-        /// Raises an intent to validate all validations inside of this container.
-        /// </summary>
-        public event ValidatingAllEventHandler ValidatingAll;
 
         /// <summary>
         /// Raises an intent that validations are going to be cleared.
@@ -70,7 +66,28 @@ namespace Blazorise
             {
                 RaiseStatusChanged( ValidationStatus.Success, null );
 
-                ValidatedAll.InvokeAsync( null );
+                InvokeAsync( () => ValidatedAll.InvokeAsync( null ) );
+            }
+            else if ( HasFailedValidations )
+            {
+                RaiseStatusChanged( ValidationStatus.Error, FailedValidations );
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Asynchronously runs the validation process for all validations and returns false if any is failed.
+        /// </summary>
+        public async Task<bool> ValidateAllAsync()
+        {
+            var result = await TryValidateAllAsync();
+
+            if ( result )
+            {
+                RaiseStatusChanged( ValidationStatus.Success, null );
+
+                await InvokeAsync( () => ValidatedAll.InvokeAsync( null ) );
             }
             else if ( HasFailedValidations )
             {
@@ -94,21 +111,23 @@ namespace Blazorise
         {
             var validated = true;
 
-            var handler = ValidatingAll;
-
-            if ( handler != null )
+            foreach ( var validation in validations ?? Enumerable.Empty<IValidation>() )
             {
-                var args = new ValidatingAllEventArgs( false );
+                if ( validation.Validate() == ValidationStatus.Error )
+                    validated = false;
+            }
 
-                foreach ( ValidatingAllEventHandler subHandler in handler?.GetInvocationList() )
-                {
-                    subHandler( args );
+            return validated;
+        }
 
-                    if ( args.Cancel )
-                    {
-                        validated = false;
-                    }
-                }
+        private async Task<bool> TryValidateAllAsync()
+        {
+            var validated = true;
+
+            foreach ( var validation in validations ?? Enumerable.Empty<IValidation>() )
+            {
+                if ( await validation.ValidateAsync() == ValidationStatus.Error )
+                    validated = false;
             }
 
             return validated;
