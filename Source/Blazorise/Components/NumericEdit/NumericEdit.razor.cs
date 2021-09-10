@@ -238,7 +238,9 @@ namespace Blazorise
             // make sure that null values also starts from zero
             value ??= Converters.ChangeType<TValue>( 0 );
 
-            return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
+            return sign > 0
+                ? MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) )
+                : MathUtils<TValue>.Subtract( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) );
         }
 
         /// <summary>
