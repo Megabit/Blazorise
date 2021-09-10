@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
@@ -409,8 +410,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Validates the input value after trying to save.
         /// </summary>
-        [Parameter]
-        public Action<ValidatorEventArgs> Validator { get; set; }
+        [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Asynchronously validates the input value after trying to save.
+        /// </summary>
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.
