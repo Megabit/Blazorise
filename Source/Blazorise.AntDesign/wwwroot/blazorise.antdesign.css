@@ -1196,6 +1196,9 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll; }
 
+.snackbar-stack {
+    z-index: 1009 !important; }
+
 .snackbar {
     z-index: 1010 !important; }
 

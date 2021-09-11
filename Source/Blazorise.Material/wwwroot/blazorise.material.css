@@ -75,6 +75,9 @@
 .b-is-autocomplete .dropdown-menu:before {
     box-shadow: none; }
 
+.snackbar-stack {
+    z-index: 1059 !important; }
+
 .snackbar {
     z-index: 1060 !important; }
 
