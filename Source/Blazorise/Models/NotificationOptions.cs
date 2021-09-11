@@ -22,11 +22,17 @@
         public static NotificationOptions Default => new()
         {
             OkButtonIcon = "OK",
+            Multiline = true,
         };
 
         /// <summary>
         /// Delay in milliseconds to wait before closing.
         /// </summary>
         public double? IntervalBeforeClose { get; set; }
+
+        /// <summary>
+        /// Defines if the notification will contain multiple lines.
+        /// </summary>
+        public bool Multiline { get; set; }
     }
 }
