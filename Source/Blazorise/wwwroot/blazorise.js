@@ -251,6 +251,17 @@ window.blazorise = {
             });
         }
     },
+    select: (element, elementId, focus) => {
+        if (focus) {
+            window.blazorise.focus(element, elementId, true);
+        }
+
+        element = window.blazorise.utils.getRequiredElement(element, elementId);
+
+        if (element) {
+            element.select();
+        }
+    },
     theme: {
         addVariable: (name, value) => {
             const themeVariablesElement = document.getElementById("b-theme-variables");
@@ -560,6 +571,22 @@ window.blazorise = {
             if (picker) {
                 picker.toggle();
             }
+        },
+
+        focus: (element, elementId, scrollToElement) => {
+            const picker = window.blazorise.datePicker._pickers[elementId];
+
+            if (picker && picker.altInput) {
+                window.blazorise.focus(picker.altInput, null, scrollToElement);
+            }
+        },
+
+        select: (element, elementId, focus) => {
+            const picker = window.blazorise.datePicker._pickers[elementId];
+
+            if (picker && picker.altInput) {
+                window.blazorise.select(picker.altInput, null, focus);
+            }
         }
     },
 
@@ -681,6 +708,22 @@ window.blazorise = {
 
             if (picker) {
                 picker.toggle();
+            }
+        },
+
+        focus: (element, elementId, scrollToElement) => {
+            const picker = window.blazorise.timePicker._pickers[elementId];
+
+            if (picker && picker.altInput) {
+                window.blazorise.focus(picker.altInput, null, scrollToElement);
+            }
+        },
+
+        select: (element, elementId, focus) => {
+            const picker = window.blazorise.timePicker._pickers[elementId];
+
+            if (picker && picker.altInput) {
+                window.blazorise.select(picker.altInput, null, focus);
             }
         }
     },
