@@ -1027,6 +1027,8 @@ namespace Blazorise.Providers
 
         public string Float( Float @float ) => null;
 
+        public string Clearfix() => null;
+
         #endregion
 
         #region Visibility

@@ -21,6 +21,8 @@ namespace Blazorise
 
         private Float @float = Float.None;
 
+        private bool clearfix;
+
         private Visibility visibility = Visibility.None;
 
         private IFluentSizing width;
@@ -164,6 +166,9 @@ namespace Blazorise
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.Float( Float ) );
+
+            if ( Clearfix )
+                builder.Append( ClassProvider.Clearfix() );
 
             if ( Visibility != Visibility.None )
                 builder.Append( ClassProvider.Visibility( Visibility ) );
@@ -360,6 +365,21 @@ namespace Blazorise
             set
             {
                 @float = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Fixes an element's floating children.
+        /// </summary>
+        [Parameter]
+        public bool Clearfix
+        {
+            get => clearfix;
+            set
+            {
+                clearfix = value;
 
                 DirtyClasses();
             }

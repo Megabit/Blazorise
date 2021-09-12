@@ -1173,6 +1173,8 @@ namespace Blazorise.Bulma
 
         public override string Float( Float @float ) => $"is-pulled-{ToFloat( @float )}";
 
+        public override string Clearfix() => "is-clearfix";
+
         #endregion
 
         #region Visibility

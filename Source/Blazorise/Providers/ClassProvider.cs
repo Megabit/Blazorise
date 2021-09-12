@@ -1027,6 +1027,8 @@ namespace Blazorise
 
         public virtual string Float( Float @float ) => $"float-{ToFloat( @float )}";
 
+        public virtual string Clearfix() => "clearfix";
+
         #endregion
 
         #region Visibility

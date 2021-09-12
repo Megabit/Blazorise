@@ -1019,6 +1019,8 @@ namespace Blazorise
 
         string Float( Float @float );
 
+        string Clearfix();
+
         #endregion
 
         #region Visibility
