@@ -52,14 +52,12 @@ namespace Blazorise.DataGrid
             InvokeAsync( StateHasChanged );
         }
 
-        protected Task SaveWithValidation()
+        protected async Task SaveWithValidation()
         {
-            var isValid = validations.ValidateAll();
-
-            if ( isValid )
-                return ParentDataGrid.Save();
-
-            return Task.CompletedTask;
+            if ( await validations.ValidateAllAsync() )
+            {
+                await ParentDataGrid.Save();
+            }
         }
 
         #endregion
