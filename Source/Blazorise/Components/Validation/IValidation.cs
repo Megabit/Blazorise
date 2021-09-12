@@ -70,5 +70,10 @@ namespace Blazorise
         /// <param name="status">New <see cref="ValidationStatus"/>.</param>
         /// <param name="messages">New error or success message(s).</param>
         void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null );
+
+        /// <summary>
+        /// Runs the asynchronous validation process based on the last available value.
+        /// </summary>
+        public Task<ValidationStatus> ValidateAsync();
     }
 }

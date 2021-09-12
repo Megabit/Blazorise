@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// The editor that allows you to select a color from a dropdown menu.
     /// </summary>
-    public partial class ColorEdit : BaseInputComponent<string>
+    public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponent
     {
         #region Members
 
@@ -67,6 +67,18 @@ namespace Blazorise
         protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
         {
             return Task.FromResult( new ParseValue<string>( true, value, null ) );
+        }
+
+        /// <inheritdoc/>
+        public virtual void Select( bool focus = true )
+        {
+            InvokeAsync( () => SelectAsync( focus ) );
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task SelectAsync( bool focus = true )
+        {
+            await JSRunner.Select( ElementRef, ElementId, focus );
         }
 
         #endregion

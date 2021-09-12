@@ -221,6 +221,18 @@ namespace Blazorise
             return JSRunner.ToggleTimePicker( ElementRef, ElementId );
         }
 
+        /// <inheritdoc/>
+        public override async Task FocusAsync( bool scrollToElement = true )
+        {
+            await JSRunner.FocusTimePicker( ElementRef, ElementId, scrollToElement );
+        }
+
+        /// <inheritdoc/>
+        public override async Task SelectAsync( bool focus = true )
+        {
+            await JSRunner.SelectTimePicker( ElementRef, ElementId, focus );
+        }
+
         #endregion
 
         #region Properties

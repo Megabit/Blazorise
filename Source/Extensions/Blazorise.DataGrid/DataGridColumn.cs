@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
@@ -272,6 +273,11 @@ namespace Blazorise.DataGrid
         [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
         /// <summary>
+        /// Specifies the display behavior of a cell.
+        /// </summary>
+        [Parameter] public IFluentDisplay Display { get; set; }
+
+        /// <summary>
         /// Defines the alignment for column header cell.
         /// </summary>
         [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
@@ -280,6 +286,11 @@ namespace Blazorise.DataGrid
         /// Defines the vertical alignment for column header cell.
         /// </summary>
         [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
+
+        /// <summary>
+        /// Specifies the display behavior of a header cell.
+        /// </summary>
+        [Parameter] public IFluentDisplay HeaderDisplay { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
@@ -399,8 +410,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Validates the input value after trying to save.
         /// </summary>
-        [Parameter]
-        public Action<ValidatorEventArgs> Validator { get; set; }
+        [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Asynchronously validates the input value after trying to save.
+        /// </summary>
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.

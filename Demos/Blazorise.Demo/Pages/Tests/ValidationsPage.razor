@@ -588,17 +588,17 @@
         }
     }
 
-    void Submit()
+    async Task Submit()
     {
-        if ( validations.ValidateAll() )
+        if ( await validations.ValidateAllAsync() )
         {
             validations.ClearAll();
         }
     }
 
-    void AnnotationsSubmit()
+    async Task AnnotationsSubmit()
     {
-        if ( annotationsValidations.ValidateAll() )
+        if ( await annotationsValidations.ValidateAllAsync() )
         {
             annotationsValidations.ClearAll();
         }

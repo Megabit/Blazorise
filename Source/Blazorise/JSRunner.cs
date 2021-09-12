@@ -209,6 +209,16 @@ namespace Blazorise
             return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.toggle", elementRef, elementId );
         }
 
+        public virtual ValueTask FocusDatePicker( ElementReference elementRef, string elementId, bool scrollToElement )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.focus", elementRef, elementId, scrollToElement );
+        }
+
+        public virtual ValueTask SelectDatePicker( ElementReference elementRef, string elementId, bool focus )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.select", elementRef, elementId, focus );
+        }
+
         #endregion
 
         #region TimePicker
@@ -253,6 +263,16 @@ namespace Blazorise
             return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.toggle", elementRef, elementId );
         }
 
+        public virtual ValueTask FocusTimePicker( ElementReference elementRef, string elementId, bool scrollToElement )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.focus", elementRef, elementId, scrollToElement );
+        }
+
+        public virtual ValueTask SelectTimePicker( ElementReference elementRef, string elementId, bool focus )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.select", elementRef, elementId, focus );
+        }
+
         #endregion
 
         #region Select
@@ -289,6 +309,11 @@ namespace Blazorise
         public ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
+        }
+
+        public ValueTask Select( ElementReference elementRef, string elementId, bool focus )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.select", elementRef, elementId, focus );
         }
 
         public ValueTask<string> GetBreakpoint()

@@ -37,6 +37,8 @@ namespace Blazorise
 
         ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
+        ValueTask Select( ElementReference elementRef, string elementId, bool focus );
+
         ValueTask<string> GetBreakpoint();
 
         ValueTask ScrollIntoView( string anchorTarget );
@@ -107,6 +109,10 @@ namespace Blazorise
 
         ValueTask ToggleDatePicker( ElementReference elementRef, string elementId );
 
+        ValueTask FocusDatePicker( ElementReference elementRef, string elementId, bool scrollToElement );
+
+        ValueTask SelectDatePicker( ElementReference elementRef, string elementId, bool focus );
+
         #endregion
 
         #region TimePicker
@@ -126,6 +132,10 @@ namespace Blazorise
         ValueTask CloseTimePicker( ElementReference elementRef, string elementId );
 
         ValueTask ToggleTimePicker( ElementReference elementRef, string elementId );
+
+        ValueTask FocusTimePicker( ElementReference elementRef, string elementId, bool scrollToElement );
+
+        ValueTask SelectTimePicker( ElementReference elementRef, string elementId, bool focus );
 
         #endregion
 

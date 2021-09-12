@@ -68,7 +68,7 @@
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Validator="ValidationRule.IsUppercase" Editable="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" AsyncValidator="@IsNotEmptyAsync" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
@@ -124,6 +124,21 @@
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
+    }
+    Random random = new();
+
+    async Task IsNotEmptyAsync( ValidatorEventArgs e, System.Threading.CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.Delay( random.Next( 1300 ) );
+
+        e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+
+        if ( e.Status == ValidationStatus.Error )
+            e.ErrorText = "City is not valid";
     }
 
     void ValidateCheck( ValidatorEventArgs e )
