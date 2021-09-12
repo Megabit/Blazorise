@@ -34,6 +34,11 @@ namespace Blazorise
         /// </summary>
         [Parameter] public IconStyle IconStyle { get; set; }
 
+        /// <summary>
+        /// Defines the icon size.
+        /// </summary>
+        [Parameter] public IconSize IconSize { get; set; }
+
         #endregion
     }
 }

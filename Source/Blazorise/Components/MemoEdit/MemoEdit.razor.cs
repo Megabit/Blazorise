@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Component that allows you to display and edit multi-line text.
     /// </summary>
-    public partial class MemoEdit : BaseInputComponent<string>
+    public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     {
         #region Members
 
@@ -134,6 +134,18 @@ namespace Blazorise
         private void OnInputValueDebounced( object sender, string value )
         {
             InvokeAsync( () => CurrentValueHandler( value ) );
+        }
+
+        /// <inheritdoc/>
+        public virtual void Select( bool focus = true )
+        {
+            InvokeAsync( () => SelectAsync( focus ) );
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task SelectAsync( bool focus = true )
+        {
+            await JSRunner.Select( ElementRef, ElementId, focus );
         }
 
         #endregion
