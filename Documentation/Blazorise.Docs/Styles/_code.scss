@@ -1,0 +1,119 @@
+﻿.blazorise-codeblock {
+    height: 100%;
+    background-color: #272C35;
+    border-radius: 0 0 4px 4px;
+    padding: 16px;
+    font-size: .9rem;
+    overflow: auto;
+
+    & pre {
+        height: 100%;
+        color: #ededed;
+        padding: 0px;
+        font-size: 1em;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        -webkit-font-smoothing: subpixel-antialiased;
+        direction: ltr;
+        margin-bottom: 0;
+        overflow: visible;
+    }
+
+    & .html + .csharp {
+        margin-top: 23px;
+    }
+
+    & .html {
+
+        & .htmlTagDelimiter {
+            color: #979797;
+        }
+
+        & .htmlElementName {
+            color: #FF8B9C;
+        }
+
+        & .htmlAttributeName {
+            color: #c5a5c5;
+        }
+
+        & .htmlOperator, .quot {
+            color: #c8c8c8;
+        }
+
+        & .htmlAttributeValue {
+            color: #ededed;
+        }
+
+        & .htmlLink {
+            color: #61afef;
+            text-decoration: underline;
+        }
+
+        & .enum {
+            color: #b4eb8f;
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        & .enumValue, .sharpVariable {
+            color: #ededed;
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        & .keyword {
+            color: #61afef;
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        & .atSign {
+            color: #000;
+            background-color: #b9b928;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+
+    & .csharp {
+        & .atSign {
+            color: #000;
+            background-color: #b9b928;
+        }
+
+        & .keyword {
+            color: #c5a5c5;
+        }
+
+        & .string {
+            color: #d69d85;
+        }
+
+        & .function {
+            color: #68B6F8;
+        }
+
+        & .class {
+            color: #c5a5c5
+        }
+
+        & .localVar {
+            color: #FFC74C;
+        }
+
+        & .interface {
+            color: #b0d7a3;
+        }
+
+        & .number {
+            color: #b0d7a3;
+        }
+
+        & .enum {
+            color: #b4eb8f;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+}

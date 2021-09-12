@@ -1,0 +1,17 @@
+﻿<TableRow>
+    <TableRowCell>
+        <Code>@Name</Code>
+    </TableRowCell>
+    <TableRowCell>
+        <Code Tag="@TypeTag">@Type</Code>
+    </TableRowCell>
+    <TableRowCell Class="@DefaultClassNames">
+        @if ( Default != null )
+        {
+            <Code>@Default</Code>
+        }
+    </TableRowCell>
+    <TableRowCell>
+        @ChildContent
+    </TableRowCell>
+</TableRow>

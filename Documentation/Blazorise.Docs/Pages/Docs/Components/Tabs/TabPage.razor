@@ -1,0 +1,144 @@
+﻿@page "/docs/components/tab"
+
+<DocsPageTitle>
+    Tab component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab.
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code Tag>Tabs</Code> container for Tab items
+        <ul>
+            <li>
+                <Code Tag>Items</Code> container for tab items
+                <ul>
+                    <li>
+                        <Code Tag>Tab</Code> clickable tab item
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <Code Tag>Content</Code> container for tab panels
+                <ul>
+                    <li>
+                        <Code Tag>TabPanel</Code> container for tab content
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageParagraph>
+    The tabs are container for tab items. Each tab item contains a link to a tab panel. The <Code>Name</Code> of each
+    tab item should match the <Code>Name</Code> of a tab panel.
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code Tag>TabsContent</Code> container for tab panels
+        <ul>
+            <li>
+                <Code Tag>TabPanel</Code> container for tab content
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageParagraph>
+    The tab content container is used to hold tab panels. Each content pane also has a unique <Code>Name</Code>, which
+    is targeted by a link in the tab-strip.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Most of the time you will only need to use <Code>Tabs</Code> component as it is crafted to hold both clickable
+    tab items and tab content. Only in the advanced scenario where the content will be separated from the tab items you
+    will need to use <Code Tag>TabsContent</Code> component.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicTabExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicTabExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>SelectTab(string name)</Code></TableRowCell>
+            <TableRowCell>Sets the active tab by the name.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Tabs">
+    <DocsAttributesItem Name="Pills" Type="bool" Default="false">
+        Makes the tab items to appear as pills.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullWidth" Type="bool" Default="false">
+        Makes the tab items to extend the full available width.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Justified" Type="bool" Default="false">
+        Makes the tab items to extend the full available width, but every item will be the same width.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabPosition" Type="TabPosition" Default="Top">
+        Defines the placement of a tab items.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTab" Type="string" Default="null">
+        Currently selected tab name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTabChanged" Type="EventCallback<string>">
+        Occurs after the selected tab has changed.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Tab">
+    <DocsAttributesItem Name="Name" Type="string" Default="null">
+        Defines the unique tab name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback">
+        Occurs when the button is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Prevents user interactions and make it appear lighter.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="TabsContent">
+    <DocsAttributesItem Name="SelectedPanel" Type="string" Default="null">
+        Currently selected panel name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedPanelChanged" Type="EventCallback<string>">
+        Occurs after the selected panel has changed.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="TabPanel">
+    <DocsAttributesItem Name="Name" Type="string" Default="null">
+        Defines the panel name that must match the corresponding tab name.
+    </DocsAttributesItem>
+</DocsAttributes>

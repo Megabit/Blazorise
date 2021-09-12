@@ -1,0 +1,17 @@
+﻿<Div Class="docs-page-section-source">
+    <Div Class="docs-page-section-source-toolbar">
+        <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
+            <Button TextColor="@ButtonColor">
+                <Icon Name="IconName.Code" Clicked="@OnToggleCode" />
+            </Button>
+        </Tooltip>
+        <Tooltip Text="Copy code" Inline>
+            <Button TextColor="@ButtonColor" Clicked="@OnCopyCode">
+                <Icon Name="@("fas fa-copy")" />
+            </Button>
+        </Tooltip>
+    </Div>
+    <Div Class="@SourceCodeClassNames">
+        @CodeComponent( CurrentCode )
+    </Div>
+</Div>

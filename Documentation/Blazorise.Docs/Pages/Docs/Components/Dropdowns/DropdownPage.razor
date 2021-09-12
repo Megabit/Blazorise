@@ -1,0 +1,151 @@
+﻿@page "/docs/components/dropdown"
+
+<DocsPageTitle>
+    Dropdown
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The dropdown component is a container for a dropdown button and a dropdown menu.
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code>Dropdown</Code> the main container
+        <ul>
+            <li>
+                <Code Tag>DropdownToggle</Code> toggle button
+            </li>
+            <li>
+                <Code Tag>DropdownMenu</Code> the toggable menu, hidden by default
+                <ul>
+                    <li>
+                        <Code Tag>DropdownItem</Code> each single item of the dropdown menu
+                    </li>
+                    <li>
+                        <Code Tag>DropdownDivider</Code> a horizontal line to separate dropdown items
+                    </li>
+                    <li>
+                        <Code Tag>DropdownHeader</Code> a label for a section of items
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <DropdownExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Split Dropdown">
+        Just add another Button to have a split dropdown.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <SplitDropdownExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitDropdownExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show Menu">
+        By default a dropdown toggle will show and hide a dropdown menu without the need to do it manually. In case you need to control the menu programmatically you have to use the Dropdown reference.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ShowMenuExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ShowMenuExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Show()</Code></TableRowCell>
+            <TableRowCell>Show the dropdown menu.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Hide()</Code></TableRowCell>
+            <TableRowCell>Hides the dropdown menu.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Toggle()</Code></TableRowCell>
+            <TableRowCell>Switches the visibility of dropdown menu.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Dropdown">
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Handles the visibility of dropdown menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RightAligned" Type="bool" Default="false">
+        Right aligned dropdown menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Disables the button or toggle button that are placed inside of dropdown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="Direction" Default="Down">
+        Direction of an dropdown menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Toggled" Type="EventCallback">
+        Occurs after the dropdown menu visibility has changed.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DropdownMenu">
+    <DocsAttributesItem Name="RightAligned" Type="bool" Default="false">
+        Right aligned dropdown menu.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DropdownItem">
+    <DocsAttributesItem Name="Value" Type="object" Default="null">
+        Holds the item value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback">
+        Occurs when the item is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Active" Type="bool" Default="false">
+        Marks the item with an state.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Marks the item with disabled state and doesn’t allow the click event.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DropdownToggle">
+    <DocsAttributesItem Name="Color" Type="Colors" Default="None">
+        Component visual or contextual style variants.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="Size" Default="None">
+        Button size variations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Split" Type="bool" Default="false">
+        Handles the visibility of split button.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Outline" Type="bool" Default="false">
+        Outlined button
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Makes toggle look inactive.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -1,0 +1,37 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+// other usings
+using Blazorise;
+using Blazorise.AntDesign;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =&gt;
+      {
+        options.ChangeTextOnKeyPress = true;
+      } )
+      .AddAntDesignProviders()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.UseEndpoints( endpoints =&gt;
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( &quot;/_Host&quot; );
+    } );
+  }
+}
+</pre></div>
+</div>

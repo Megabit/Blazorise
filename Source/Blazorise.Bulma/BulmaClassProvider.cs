@@ -574,7 +574,8 @@ namespace Blazorise.Bulma
 
         #region Container
 
-        public override string Container() => "container";
+        public override string Container( Breakpoint breakpoint )
+            => breakpoint > Breakpoint.Desktop ? $"container is-{ToBreakpoint( breakpoint )}" : "container";
 
         public override string ContainerFluid() => "container-fluid";
 
@@ -583,6 +584,8 @@ namespace Blazorise.Bulma
         #region Bar
 
         public override string Bar() => "navbar";
+
+        public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 

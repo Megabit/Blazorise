@@ -1,0 +1,68 @@
+﻿@page "/docs/components/link"
+
+<DocsPageTitle>
+    Link component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    <Code Tag>Link</Code> is the building block for most Blazorise components that offer link functionality.
+    A <Code>Link</Code> component behaves like an <Code Tag>a</Code> element, except it toggles an active CSS class
+    based on whether its <Code>href</Code> matches the current URL.
+</DocsPageParagraph>
+
+<Alert Color="Color.Warning" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> due to a <Blazorise.Link To="https://github.com/dotnet/aspnetcore/issues/18685">bug</Blazorise.Link> in VisualStudio tooling you should write <Code Tag>Link</Code> as <Code Tag>Blazorise.Link</Code> until the issue is resolved.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        By specifying a value in the <Code>To</Code> property, a standard link (<Code Tag>a</Code>) element will be rendered.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicLinkExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicLinkExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Anchor Links">
+        A <Code>#</Code> in front of a link location specifies that the link is pointing to an anchor on a page.
+        (Anchor meaning a specific place in the middle of your page).
+
+        Typically <Code tag>a href="#"</Code> will cause the document to scroll to the top of page when clicked.
+        <Code Tag>Link</Code> addresses this by preventing the default action (scroll to top) when <Code>To</Code> is set to <Code>#</Code>.
+        If you need scroll to top behavior, use a standard <Code Tag>Link To="#"&gt;...&lt;/Link</Code> tag.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnchorLinkExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnchorLinkExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="To" Type="string" Default="null">
+        Specifies that multiple files can be selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Target" Type="Target" Default="None">
+        The target attribute specifies where to open the linked document.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Match" Type="Match" Default="Prefix">
+        URL matching behavior for a link.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="string" Default="null">
+        Defines the title of a link, which appears to the user as a tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback">
+        Occurs when the link is clicked.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -1,0 +1,145 @@
+﻿@page "/docs/components/alert"
+
+<DocsPageTitle>
+    Alert component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<ul>
+    <li>
+        <Code>Alert</Code> main container.
+        <ul>
+            <li>
+                <Code>AlertMessage</Code> content of the Alert.
+            </li>
+            <li>
+                <Code>AlertDescription</Code>additional content of the Alert.
+            </li>
+            <li>
+                <Code>CloseButton</Code> an optional button to close the Alert.
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSubtitle>
+    When to use
+</DocsPageSubtitle>
+
+<ul>
+    <li>
+        When you need to show alert messages to users.
+    </li>
+    <li>
+        When you need a persistent static container which is closable by user actions.
+    </li>
+</ul>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicAlertExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicAlertExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        You can also add a <Code>CloseButton</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <CloseAlertExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CloseAlertExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With content">
+        <Code Tag>Alert</Code> can also contain additional HTML elements like headings and paragraphs, which will be styled with the appropriate color matching the variant.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AlertWithContentExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AlertWithContentExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Usages
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        To show alert just set <Code>Visible</Code> attribute to true.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AlertUseWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AlertUseWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Programmatically">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AlertUseProgrammaticallyExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AlertUseProgrammaticallyExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Show()</Code></TableRowCell>
+            <TableRowCell>Makes the alert visible.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Hide()</Code></TableRowCell>
+            <TableRowCell>Hides the alert.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Toggle()</Code></TableRowCell>
+            <TableRowCell>Switches the alert visibility.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Dismisable" Type="bool" Default="false">
+        Enables the alert to be closed by placing the padding for close button.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Defines the alert visibility.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the alert visibility changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="None">
+        Component visual or contextual style variants.
+    </DocsAttributesItem>
+</DocsAttributes>

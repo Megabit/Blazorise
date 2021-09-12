@@ -84,7 +84,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.SpinKit", "Source
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Markdown", "Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj", "{1D30D96F-71FC-49A7-AF88-5749CBAA8153}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Benchmark", "Tests\Blazorise.Benchmark\Blazorise.Benchmark.csproj", "{E4EDDFC0-0E25-48E1-A8AC-6ED091FC859F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Benchmark", "Tests\Blazorise.Benchmark\Blazorise.Benchmark.csproj", "{E4EDDFC0-0E25-48E1-A8AC-6ED091FC859F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{700B33A3-A855-46C3-BD5A-C6954FC7274B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs", "Documentation\Blazorise.Docs\Blazorise.Docs.csproj", "{77A4B22F-EB1F-4532-9883-2D1863DBD71B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Server", "Documentation\Blazorise.Docs.Server\Blazorise.Docs.Server.csproj", "{3D262581-0F01-4317-9ACC-3F104BB639CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Compiler", "Documentation\Blazorise.Docs.Compiler\Blazorise.Docs.Compiler.csproj", "{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -228,6 +236,18 @@ Global
 		{E4EDDFC0-0E25-48E1-A8AC-6ED091FC859F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4EDDFC0-0E25-48E1-A8AC-6ED091FC859F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4EDDFC0-0E25-48E1-A8AC-6ED091FC859F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A4B22F-EB1F-4532-9883-2D1863DBD71B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A4B22F-EB1F-4532-9883-2D1863DBD71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A4B22F-EB1F-4532-9883-2D1863DBD71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A4B22F-EB1F-4532-9883-2D1863DBD71B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D262581-0F01-4317-9ACC-3F104BB639CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D262581-0F01-4317-9ACC-3F104BB639CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D262581-0F01-4317-9ACC-3F104BB639CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D262581-0F01-4317-9ACC-3F104BB639CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +289,9 @@ Global
 		{DF5A3CCD-ECEA-49BC-871E-350CEAA7790A} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{1D30D96F-71FC-49A7-AF88-5749CBAA8153} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{E4EDDFC0-0E25-48E1-A8AC-6ED091FC859F} = {D04C5874-4D6A-493E-8CF4-6C7922198563}
+		{77A4B22F-EB1F-4532-9883-2D1863DBD71B} = {700B33A3-A855-46C3-BD5A-C6954FC7274B}
+		{3D262581-0F01-4317-9ACC-3F104BB639CB} = {700B33A3-A855-46C3-BD5A-C6954FC7274B}
+		{AEF90960-9169-4B5A-B94B-7A5001FFCD1C} = {700B33A3-A855-46C3-BD5A-C6954FC7274B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

@@ -1,0 +1,83 @@
+﻿@page "/docs/components/addon"
+
+<DocsPageTitle>
+    Addons
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Addons are used to attach controls together.
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code Tag>Addons</Code>
+        <ul>
+            <li>
+                <Code Tag>Addon</Code>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageParagraph>
+    To define addon location you have to set the <Code>AddonType</Code> attribute:
+</DocsPageParagraph>
+
+<ul>
+    <li><Code>.Start</Code> will place addon on the left side.</li>
+    <li><Code>.Body</Code> will place it in the middle.</li>
+    <li><Code>.End</Code> will place it at the right side.</li>
+</ul>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static addon">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StaticAddonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StaticAddonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With multiple addons">
+        Addons are used to attach controls together.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MultipleAddonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MultipleAddonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Button addon">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ButtonAddonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonAddonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown addon">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DropdownAddonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownAddonExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Addons">
+    <DocsAttributesItem Name="Size" Type="Size" Default="None">
+        Addons size variations.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Addon">
+    <DocsAttributesItem Name="AddonType" Type="AddonType" Default="Body">
+        Defines the location and behavior of addon container.
+    </DocsAttributesItem>
+</DocsAttributes>

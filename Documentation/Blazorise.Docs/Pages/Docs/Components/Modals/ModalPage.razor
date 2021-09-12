@@ -1,0 +1,129 @@
+﻿@page "/docs/components/modal"
+
+<DocsPageTitle>
+    Modal component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The modal structure is very simple:
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code Tag>Modal</Code> the main container
+        <ul>
+            <li>
+                <Code Tag>ModalContent</Code> a horizontally and vertically centered container, in which you can include any content
+                <ul>
+                    <li>
+                        <Code Tag>ModalHeader</Code> top part of the modal, usually contains a title and close button
+                        <ul>
+                            <li>
+                                <Code Tag>ModalTitle</Code> a modal title
+                            </li>
+                            <li>
+                                <Code Tag>CloseButton</Code> a simple close button located in the top right corner
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <Code Tag>ModalBody</Code> main part of the modal, holds the input fields, images, etc.
+                    </li>
+                    <li>
+                        <Code Tag>ModalFooter</Code> bottom part of the modal, usually contains the action buttons
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Place the modal markup somewhere at root of you component layout.
+        <br />
+        <br />
+        To work with the modal you must use the reference to the Modal component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicModalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicModalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Closing">
+        If you want to prevent modal from closing you can use <Code>Closing</Code> event.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ModalClosingExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Show()</Code></TableRowCell>
+            <TableRowCell>Open the modal dialog.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Hide()</Code></TableRowCell>
+            <TableRowCell>Close the modal dialog.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Modal">
+    <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
+        Handles the visibility of modal dialog.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Action<ModalClosingEventArgs>">
+        Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToTop" Type="boolean" Default="true">
+        If true modal will scroll to top when opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
+        If true the the backdrop will be rendered.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ModalContent">
+    <DocsAttributesItem Name="Centered" Type="boolean" Default="false">
+        Centers the modal vertically.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="boolean" Default="false">
+        Scrolls the modal content independent of the page itself.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="ModalSize" Default="Default">
+        Changes the size of the modal.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ModalBody">
+    <DocsAttributesItem Name="MaxHeight" Type="int?" Default="null">
+        Sets the maximum height of the modal body (in viewport size unit).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ModalTitle">
+    <DocsAttributesItem Name="Size" Type="HeadingSize" Default="Is4">
+        Sets the title size and tag name.
+    </DocsAttributesItem>
+</DocsAttributes>

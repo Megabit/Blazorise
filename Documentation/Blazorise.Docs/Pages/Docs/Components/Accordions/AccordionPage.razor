@@ -1,0 +1,60 @@
+﻿@page "/docs/components/accordion"
+
+<DocsPageTitle>
+    Accordion component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    A content area which can be collapsed and expanded.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>Accordion</Code> and <Code>Collapse</Code> structure is very simple:
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code Tag>Accordion</Code> the main container
+        <ul>
+            <li>
+                <Code Tag>Collapse</Code> defines an collapsible element - controls the <Code>Visible</Code> state.
+                <ul>
+                    <li>
+                        <Code Tag>CollapseHeader</Code> the header that will always be shown - this is where you would put a toggle element (such as a <Code>Button</Code>).
+                    </li>
+                    <li>
+                        <Code Tag>CollapseBody</Code> the main content that will be toggled.
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Here is an example of how to use the Accordion with the Collapse components.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicAccordionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicAccordionExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Collapse">
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Defines the collapse visibility.
+    </DocsAttributesItem>
+</DocsAttributes>

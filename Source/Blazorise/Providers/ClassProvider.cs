@@ -550,7 +550,7 @@ namespace Blazorise
 
         #region Container
 
-        public abstract string Container();
+        public abstract string Container( Breakpoint breakpoint );
 
         public abstract string ContainerFluid();
 
@@ -559,6 +559,8 @@ namespace Blazorise
         #region Bar
 
         public abstract string Bar();
+
+        public abstract string BarInitial( bool initial );
 
         public abstract string BarAlignment( Alignment alignment );
 

@@ -1,0 +1,41 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Table @ref="@tableRef" FixedHeader="true" FixedHeaderTableHeight="300px">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+@code{
+    Table tableRef;
+
+    private Task ScrollToRow()
+        => tableRef.ScrollToRow( 1 ).AsTask();
+
+    private Task ScrollToPixels()
+        => tableRef.ScrollToPixels( 250 ).AsTask();
+}

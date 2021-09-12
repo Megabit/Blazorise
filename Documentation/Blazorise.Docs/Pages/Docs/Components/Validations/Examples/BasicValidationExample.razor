@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Validation Validator="@ValidateEmail">
+    <TextEdit Placeholder="Enter email">
+        <Feedback>
+            <ValidationNone>Please enter the email.</ValidationNone>
+            <ValidationSuccess>Email is good.</ValidationSuccess>
+            <ValidationError>Enter valid email!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+@code{
+    void ValidateEmail( ValidatorEventArgs e )
+    {
+        var email = Convert.ToString( e.Value );
+
+        e.Status = string.IsNullOrEmpty( email ) ? ValidationStatus.None :
+            email.Contains( "@" ) ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+}

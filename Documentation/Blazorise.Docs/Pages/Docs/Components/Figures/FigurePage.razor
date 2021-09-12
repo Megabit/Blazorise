@@ -1,0 +1,54 @@
+﻿@page "/docs/components/figure"
+
+<DocsPageTitle>
+    Figure
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Figures are used as containers for responsive images.
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code Tag>Figure</Code> the main container
+        <ul>
+            <li>
+                <Code Tag>FigureImage</Code> source image that needs to be displayed
+            </li>
+            <li>
+                <Code Tag>FigureCaption</Code> a caption text bellow the image
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <FigureExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FigureExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Figure">
+    <DocsAttributesItem Name="Size" Type="ButtonSize" Default="None">
+        Figure size variations.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="FigureImage">
+    <DocsAttributesItem Name="Source" Type="string">
+        Image URL.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AlternateText" Type="string">
+        Alternate text when image cannot be found.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Rounded" Type="bool" Default="false">
+        Makes the figure border rounded.
+    </DocsAttributesItem>
+</DocsAttributes>
