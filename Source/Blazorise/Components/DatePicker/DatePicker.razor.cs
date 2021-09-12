@@ -223,6 +223,18 @@ namespace Blazorise
             return JSRunner.ToggleDatePicker( ElementRef, ElementId );
         }
 
+        /// <inheritdoc/>
+        public override async Task FocusAsync( bool scrollToElement = true )
+        {
+            await JSRunner.FocusDatePicker( ElementRef, ElementId, scrollToElement );
+        }
+
+        /// <inheritdoc/>
+        public override async Task SelectAsync( bool focus = true )
+        {
+            await JSRunner.SelectDatePicker( ElementRef, ElementId, focus );
+        }
+
         #endregion
 
         #region Properties

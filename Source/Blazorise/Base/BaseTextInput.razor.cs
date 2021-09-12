@@ -12,7 +12,7 @@ namespace Blazorise
     /// Base component for inputs that are text-based.
     /// </summary>
     /// <typeparam name="TValue">Editable value type.</typeparam>
-    public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>
+    public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelectableComponent
     {
         #region Members
 
@@ -119,6 +119,18 @@ namespace Blazorise
         private void OnInputValueDebounced( object sender, string value )
         {
             InvokeAsync( () => CurrentValueHandler( value ) );
+        }
+
+        /// <inheritdoc/>
+        public virtual void Select( bool focus = true )
+        {
+            InvokeAsync( () => SelectAsync( focus ) );
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task SelectAsync( bool focus = true )
+        {
+            await JSRunner.Select( ElementRef, ElementId, focus );
         }
 
         #endregion
