@@ -18,9 +18,9 @@
 <span class="atSign">&#64;</span>code{
     Validations validations;
 
-    <span class="keyword">void</span> Submit()
+    <span class="keyword">async</span> Task Submit()
     {
-        <span class="keyword">if</span> ( validations.ValidateAll() )
+        <span class="keyword">if</span> ( <span class="keyword">await</span> validations.ValidateAllAsync() )
         {
             <span class="comment">// do something</span>
         }
