@@ -56,27 +56,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Runs the validation process for all validations and returns false if any is failed.
-        /// </summary>
-        public bool ValidateAll()
-        {
-            var result = TryValidateAll();
-
-            if ( result )
-            {
-                RaiseStatusChanged( ValidationStatus.Success, null );
-
-                InvokeAsync( () => ValidatedAll.InvokeAsync( null ) );
-            }
-            else if ( HasFailedValidations )
-            {
-                RaiseStatusChanged( ValidationStatus.Error, FailedValidations );
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Asynchronously runs the validation process for all validations and returns false if any is failed.
         /// </summary>
         public async Task<bool> ValidateAllAsync()
@@ -105,19 +84,6 @@ namespace Blazorise
             ClearingAll?.Invoke();
 
             RaiseStatusChanged( ValidationStatus.None, null );
-        }
-
-        private bool TryValidateAll()
-        {
-            var validated = true;
-
-            foreach ( var validation in validations ?? Enumerable.Empty<IValidation>() )
-            {
-                if ( validation.Validate() == ValidationStatus.Error )
-                    validated = false;
-            }
-
-            return validated;
         }
 
         private async Task<bool> TryValidateAllAsync()
