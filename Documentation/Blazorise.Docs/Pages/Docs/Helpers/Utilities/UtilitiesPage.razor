@@ -1,0 +1,126 @@
+﻿@page "/docs/helpers/utilities"
+
+<DocsPageTitle>
+    Utilities
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Spacing">
+        <Paragraph>To define spacing between components you have an option to use a fluent-builder pattern. This way you can combine multiple spacings at once.</Paragraph>
+        <Paragraph>The following example will set the margins for mobile(xs) and desktop(md) breakpoints:</Paragraph>
+    </DocsPageSectionHeader>
+    <Alert Color="Color.Info" Visible="true">
+        <AlertDescription>
+            <Strong>Note:</Strong> The same rules can also be applied for paddings.
+        </AlertDescription>
+    </Alert>
+    <DocsPageSectionContent>
+        <SpacingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SpacingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Display">
+        <Paragraph>Quickly and responsively toggle the display value of components and more with display utilities.</Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DisplayExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DisplayExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ColumnSize">
+        <Paragraph>Similar to the spacing builder you can also define column sizes using the same pattern.</Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <ColumnSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColumnSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Flex">
+        <Paragraph>Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities.</Paragraph>
+        <Paragraph>For more complex implementations, custom CSS may be necessary.</Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <FlexExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FlexExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Border">
+        <Paragraph>Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.</Paragraph>
+    </DocsPageSectionHeader>
+    <Alert Color="Color.Info" Visible="true">
+        <AlertDescription>
+            <Code>Note:</Code> Please note that if your element doesn’t have any styles you will not be able to see any changes once you apply the <Code>Borders</Code>. You still need to add your own CSS rules like <Code>background-color</Code> so that visually you can see the applied borders on an element.
+        </AlertDescription>
+    </Alert>
+    <DocsPageSectionContent>
+        <BorderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BorderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Overflow">
+        <Paragraph>Use overflow shorthand utilities for quickly configuring how content overflows an element.</Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <OverflowExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OverflowExample" />
+</DocsPageSection>
+
+<Heading Class="docs-page-attributes-title" Size="HeadingSize.Is3">
+    Breakpoints by frameworks
+</Heading>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Blazorise</TableHeaderCell>
+            <TableHeaderCell>Bootstrap</TableHeaderCell>
+            <TableHeaderCell>Material</TableHeaderCell>
+            <TableHeaderCell>Bulma</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell>Mobile</TableRowCell>
+            <TableRowCell>xs</TableRowCell>
+            <TableRowCell>xs</TableRowCell>
+            <TableRowCell>mobile</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Tablet</TableRowCell>
+            <TableRowCell>sm</TableRowCell>
+            <TableRowCell>sm</TableRowCell>
+            <TableRowCell>tablet</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Desktop</TableRowCell>
+            <TableRowCell>md</TableRowCell>
+            <TableRowCell>md</TableRowCell>
+            <TableRowCell>desktop</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Widescreen</TableRowCell>
+            <TableRowCell>lg</TableRowCell>
+            <TableRowCell>lg</TableRowCell>
+            <TableRowCell>widescreen</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>FullHD</TableRowCell>
+            <TableRowCell>xl</TableRowCell>
+            <TableRowCell>xl</TableRowCell>
+            <TableRowCell>fullHD</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+

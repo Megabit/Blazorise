@@ -1,0 +1,28 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">RichTextEdit</span> <span class="htmlAttributeName">ConfigureQuillJsMethod</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">myComponent.configureQuillJs</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<span class="atSign">&#64;</span>* Define this configuration in a javascript file
+    window.myComponent = {
+        configureQuillJs: () =&gt; {
+            var link = Quill.import(&quot;formats/link&quot;);
+
+            link.sanitize = url =&gt; {
+                let newUrl = window.decodeURIComponent(url);
+                newUrl = newUrl.trim().replace(/\s/g, &quot;&quot;);
+
+                if (/^(:\/\/)/.test(newUrl)) {
+                    return `http${newUrl}`;
+                }
+
+                if (!/^(f|ht)tps?:\/\//i.test(newUrl)) {
+                    return `http://${newUrl}`;
+                }
+
+                return newUrl;
+            }
+        }
+    }
+*<span class="atSign">&#64;</span>
+</pre></div>
+</div>

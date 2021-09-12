@@ -564,7 +564,8 @@ namespace Blazorise.Bootstrap
 
         #region Container
 
-        public override string Container() => "container";
+        public override string Container( Breakpoint breakpoint )
+            => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"container-{ToBreakpoint( breakpoint )}" : "container";
 
         public override string ContainerFluid() => "container-fluid";
 
@@ -573,6 +574,8 @@ namespace Blazorise.Bootstrap
         #region Bar
 
         public override string Bar() => "navbar";
+
+        public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 

@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Alert Color="Color.Info" @bind-Visible="@visible">
+    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
+        Big one!
+        <CloseButton />
+    </Heading>
+    <Paragraph>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+    </Paragraph>
+    <Paragraph>
+        <Button Color="Color.Info">Wanna do this</Button>
+        <Button Color="Color.Light">Or do this</Button>
+    </Paragraph>
+</Alert>
+@code {
+    bool visible = true;
+}

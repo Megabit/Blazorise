@@ -1,0 +1,19 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+@if ( visible )
+{
+    <Div>
+        Now you see me...
+        <CloseButton Clicked="@OnClicked" />
+    </Div>
+}
+@code {
+    bool visible = true;
+
+    Task OnClicked()
+    {
+        visible = false;
+
+        return Task.CompletedTask;
+    }
+}

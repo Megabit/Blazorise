@@ -239,6 +239,9 @@ hr.divider.divider-text {
 .b-layout > .b-layout-header .b-bar-horizontal[data-broken=false] {
     height: var(--b-bar-horizontal-height, auto); }
 
+.b-bar-initial {
+    display: none !important; }
+
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,
 .b-bar-vertical-small {
@@ -251,7 +254,6 @@ hr.divider.divider-text {
     min-width: var(--b-vertical-bar-width, 230px);
     max-width: var(--b-vertical-bar-width, 230px);
     width: var(--b-vertical-bar-width, 230px);
-    transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     height: 100%;
     -webkit-user-select: none;
@@ -261,6 +263,10 @@ hr.divider.divider-text {
     /* 
         Theming
     */ }
+    .b-bar-vertical-inline:not(.b-bar-initial),
+    .b-bar-vertical-popout:not(.b-bar-initial),
+    .b-bar-vertical-small:not(.b-bar-initial) {
+        transition: width 200ms ease-in-out, min-width 200ms ease-in-out; }
     .b-bar-vertical-inline .b-bar-menu,
     .b-bar-vertical-popout .b-bar-menu,
     .b-bar-vertical-small .b-bar-menu {
@@ -302,9 +308,12 @@ hr.divider.divider-text {
         height: 40px;
         padding: 5px;
         align-items: center;
-        transition: width 200ms ease-in-out, left 200ms ease-in-out;
         box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
         cursor: pointer; }
+        .b-bar-vertical-inline .b-bar-toggler-popout:not(.b-bar-mobile-toggle):not(.b-bar-initial),
+        .b-bar-vertical-popout .b-bar-toggler-popout:not(.b-bar-mobile-toggle):not(.b-bar-initial),
+        .b-bar-vertical-small .b-bar-toggler-popout:not(.b-bar-mobile-toggle):not(.b-bar-initial) {
+            transition: width 200ms ease-in-out, left 200ms ease-in-out; }
         .b-bar-vertical-inline .b-bar-toggler-popout:not(.b-bar-mobile-toggle) > *,
         .b-bar-vertical-popout .b-bar-toggler-popout:not(.b-bar-mobile-toggle) > *,
         .b-bar-vertical-small .b-bar-toggler-popout:not(.b-bar-mobile-toggle) > * {
@@ -525,8 +534,8 @@ hr.divider.divider-text {
             .b-bar-vertical-inline.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover,
             .b-bar-vertical-popout.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover,
             .b-bar-vertical-small.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover {
-                color: var(--b-bar-item-dark-hover-color, #000);
-                background: var(--b-bar-item-dark-hover-background, rgba(0, 0, 0, 0.3)); }
+                color: var(--b-bar-item-light-hover-color, #000);
+                background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.3)); }
         .b-bar-vertical-inline.b-bar-light .b-bar-link,
         .b-bar-vertical-popout.b-bar-light .b-bar-link,
         .b-bar-vertical-small.b-bar-light .b-bar-link {
@@ -539,15 +548,18 @@ hr.divider.divider-text {
             .b-bar-vertical-inline.b-bar-light .b-bar-link:hover,
             .b-bar-vertical-popout.b-bar-light .b-bar-link:hover,
             .b-bar-vertical-small.b-bar-light .b-bar-link:hover {
-                color: var(--b-bar-item-dark-hover-color, #000);
-                background: var(--b-bar-item-dark-hover-background, rgba(0, 0, 0, 0.3)); }
+                color: var(--b-bar-item-light-hover-color, #000);
+                background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.3)); }
 
 .b-bar-vertical-small,
 .b-bar-vertical-inline[data-collapse=small],
 .b-bar-vertical-popout[data-collapse=small] {
     width: var(--b-vertical-bar-small-width, 64px);
-    min-width: var(--b-vertical-bar-small-width, 64px);
-    transition: width 200ms ease-in-out, min-width 200ms ease-in-out; }
+    min-width: var(--b-vertical-bar-small-width, 64px); }
+    .b-bar-vertical-small:not(.b-bar-initial),
+    .b-bar-vertical-inline[data-collapse=small]:not(.b-bar-initial),
+    .b-bar-vertical-popout[data-collapse=small]:not(.b-bar-initial) {
+        transition: width 200ms ease-in-out, min-width 200ms ease-in-out; }
     .b-bar-vertical-small .b-bar-toggler-inline,
     .b-bar-vertical-inline[data-collapse=small] .b-bar-toggler-inline,
     .b-bar-vertical-popout[data-collapse=small] .b-bar-toggler-inline {
@@ -736,8 +748,12 @@ hr.divider.divider-text {
 .b-bar-vertical-small[data-collapse=hide] {
     width: 0px;
     min-width: 0px;
-    transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;
+    overflow-y: hidden;
     visibility: hidden; }
+    .b-bar-vertical-inline[data-collapse=hide]:not(.b-bar-initial),
+    .b-bar-vertical-popout[data-collapse=hide]:not(.b-bar-initial),
+    .b-bar-vertical-small[data-collapse=hide]:not(.b-bar-initial) {
+        transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms; }
     .b-bar-vertical-inline[data-collapse=hide] .b-bar-toggler-inline,
     .b-bar-vertical-popout[data-collapse=hide] .b-bar-toggler-inline,
     .b-bar-vertical-small[data-collapse=hide] .b-bar-toggler-inline {

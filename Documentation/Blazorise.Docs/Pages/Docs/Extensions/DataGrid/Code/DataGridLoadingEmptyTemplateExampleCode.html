@@ -1,0 +1,75 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using Blazorise.Docs.Models
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">datagridRef</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TotalItems</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>totalEmployees</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ReadData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>LoadEmployeesFromService</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Responsive</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Id)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Sortable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.FirstName)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">First Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.LastName)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Last Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Email)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Email</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Salary)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo(&quot;fr-FR&quot;)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NumericEdit</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">decimal</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((decimal)context.CellValue)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( v =&gt; context.CellValue = v)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EmptyTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div</span> <span class="htmlAttributeName">class</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">box</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            No employees were found!
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">div</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EmptyTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LoadingTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Progress</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">progressRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">progress</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LoadingTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">() =&gt; datagridRef.Reload()</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Load<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    DataGrid.DataGrid&lt;Employee&gt; datagridRef;
+    Progress progressRef;
+    <span class="keyword">int</span> progress;
+    Employee selectedEmployee;
+    <span class="keyword">int</span> totalEmployees = <span class="number">0</span>;
+    List&lt;Employee&gt; employeeList;
+
+    <span class="keyword">public</span> <span class="keyword">async</span> Task LoadEmployeesFromService( DataGridReadDataEventArgs&lt;Employee&gt; e )
+    {
+        <span class="comment">/*
+        * This can be call to anything like calling an api to load employees.
+        * During execution &#39;LoadingTemplate&#39; will be displayed.
+        * If your api call returns empty result, then &#39;EmptyTemplate&#39; will be displayed,
+        * this way you have proper feedback, for when your datagrid is loading or empty.
+        */</span>
+        progress = <span class="number">0</span>;
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">500</span> );
+        progress = <span class="number">25</span>;
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">500</span> );
+        progress = <span class="number">50</span>;
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">500</span> );
+        progress = <span class="number">75</span>;
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
+
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">500</span> );
+        progress = <span class="number">100</span>;
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
+    }
+}
+</pre></div>
+</div>

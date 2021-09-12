@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          Editable
+          Responsive>
+    <DataGridCommandColumn TItem="Employee" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable="true">
+        <EditTemplate>
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    List<Employee> employeeList = EmployeeData.EmployeeList;
+}

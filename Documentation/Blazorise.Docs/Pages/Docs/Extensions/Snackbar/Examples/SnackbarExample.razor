@@ -1,0 +1,13 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Clicked="@(()=>snackbar.Show())">Snackbar</Button>
+
+<Snackbar @ref="snackbar">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+
+@code{
+    Snackbar snackbar;
+}

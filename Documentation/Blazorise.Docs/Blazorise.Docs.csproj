@@ -1,0 +1,93 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\Build\Blazorise.Docs.props" />
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
+  </ItemGroup>
+
+  <!--Binary path for the code generator-->
+  <PropertyGroup>
+    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net5.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+  </PropertyGroup>
+
+  <!--Project path for code generator-->
+  <PropertyGroup>
+    <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
+  </PropertyGroup>
+
+  <!--Execute the code generator-->
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
+    <!--Command-line for the code generator-->
+    <Message Text="Generating Docs and Tests" Importance="high" />
+    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
+    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
+  </Target>
+
+  <!--This file contains any ExampleCode that is new and needs including in the build -->
+  <Target Name="ReadFromFile" DependsOnTargets="CompileDocs">
+    <ItemGroup>
+      <NewFiles Include="NewFilesToBuild.txt" />
+    </ItemGroup>
+    <ReadLinesFromFile File="@(NewFiles)">
+      <Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
+    </ReadLinesFromFile>
+  </Target>
+
+  <!--Update ExampleCode-->
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\**\*.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Pages\Docs\Extensions\DataGrid\Code\DataGridSelectingExample.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.25.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Docs\Extensions\Chart\Code\" />
+    <Folder Include="Pages\Docs\Extensions\RichTextEdit\Code\" />
+    <Folder Include="Pages\Docs\Extensions\SelectList\Code\" />
+    <Folder Include="Pages\Docs\Extensions\Sidebar\Code\" />
+    <Folder Include="Pages\Docs\Extensions\Snackbar\Code\" />
+    <Folder Include="Pages\Docs\Extensions\SpinKit\Code\" />
+    <Folder Include="Pages\Docs\Extensions\TreeView\Code\" />
+  </ItemGroup>
+
+  <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+  <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
+    <PropertyGroup>
+      <CleanGeneratedFiles>false</CleanGeneratedFiles>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
+    <ItemGroup>
+      <FilesToClean Include="./Pages/**/*ExampleCode.*" />
+      <FilesToClean Include="./NewFilesToBuild.txt" />
+    </ItemGroup>
+    <Delete Files="@(FilesToClean)" />
+  </Target>
+
+</Project>

@@ -553,7 +553,7 @@ namespace Blazorise.Providers
 
         #region Container
 
-        public string Container() => null;
+        public string Container( Breakpoint breakpoint ) => null;
 
         public string ContainerFluid() => null;
 
@@ -562,6 +562,8 @@ namespace Blazorise.Providers
         #region Bar
 
         public string Bar() => null;
+
+        public string BarInitial( bool initial ) => null;
 
         public string BarAlignment( Alignment alignment ) => null;
 

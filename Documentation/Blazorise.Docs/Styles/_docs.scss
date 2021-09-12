@@ -1,0 +1,120 @@
+﻿.docs-page-title {
+    margin-bottom: 1.5rem;
+}
+
+.docs-page-subtitle {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #f2f3f3;
+}
+
+.docs-page-paragraph {
+    margin-bottom: 1.5rem;
+}
+
+.docs-page-section {
+    margin-bottom: 50px;
+}
+
+.docs-page-section-header {
+    margin-bottom: 20px;
+}
+
+.docs-page-section-content {
+    padding: 20px;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 40px;
+    background-color: white;
+    margin: auto;
+    display: flex;
+    outline: 0;
+    position: relative;
+    justify-content: start;
+
+    & .docs-page-section-content-inner {
+        /*margin-left: auto;
+        margin-right: auto;*/
+        display: block;
+        outline: 0;
+        position: relative;
+        justify-content: start;
+    }
+
+    &.docs-display-flex {
+        & > .docs-page-section-content-inner {
+            display: flex;
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }
+    }
+
+    &.docs-page-section-content-fullwidth {
+        & > .docs-page-section-content-inner {
+            width: 100%;
+        }
+    }
+
+    &.docs-page-section-content-outlined {
+        border: 1px solid #e3e3e3;
+    }
+
+    &.docs-page-section-content-display-grid {
+        display: grid;
+    }
+}
+
+
+
+.docs-page-section-source {
+    position: relative;
+    height: 100%;
+
+    .docs-page-section-source-toolbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    & .docs-page-section-source-code {
+        height: 100%;
+
+        &.docs-page-section-source-code-show {
+            display: block;
+        }
+
+        &.docs-page-section-source-code-hide {
+            display: none;
+        }
+    }
+}
+
+.b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
+    padding: .3rem;
+}
+
+.b-docs-attributes {
+    tbody {
+        tr {
+            td:first-child code {
+                color: #1867c0;
+            }
+
+            td:nth-child(2) code {
+                color: #690;
+            }
+
+            .b-attribute-token {
+                &.boolean code {
+                    color: #905;
+                }
+
+                &.keyword code {
+                    color: #07a;
+                }
+
+                &.string code {
+                    color: #690
+                }
+            }
+        }
+    }
+}

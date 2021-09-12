@@ -1,0 +1,22 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@(()=>snackbarPrimary.Show())">Primary</Button>
+<Button Color="Color.Secondary" Clicked="@(()=>snackbarSecondary.Show())">Secondary</Button>
+
+<Snackbar @ref="snackbarPrimary" Color="SnackbarColor.Primary">
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
+    <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarSecondary" Color="SnackbarColor.Secondary">
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
+    <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
+  </SnackbarBody>
+</Snackbar>
+
+@code{
+    private Snackbar snackbarPrimary;
+    private Snackbar snackbarSecondary;
+}

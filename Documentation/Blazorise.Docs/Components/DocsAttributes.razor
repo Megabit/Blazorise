@@ -1,0 +1,20 @@
+﻿@if ( Title != null )
+{
+    <Heading Class="docs-page-attributes-title" Size="HeadingSize.Is3">
+        @Title
+    </Heading>
+}
+
+<Table Class="b-docs-attributes" Responsive>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Type</TableHeaderCell>
+            <TableHeaderCell>Default</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @ChildContent
+    </TableBody>
+</Table>

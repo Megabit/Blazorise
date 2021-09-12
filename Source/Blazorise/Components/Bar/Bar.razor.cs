@@ -40,6 +40,11 @@ namespace Blazorise
             Alignment = Alignment.None,
         };
 
+        /// <summary>
+        /// Used to tell us that bar is initializing.
+        /// </summary>
+        private bool initial = true;
+
         #endregion
 
         #region Methods
@@ -69,7 +74,16 @@ namespace Blazorise
 
                 if ( isBroken )
                 {
+                    initial = false;
+
                     await Toggle();
+                }
+                else if ( initial )
+                {
+                    initial = false;
+
+                    DirtyClasses();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
@@ -80,6 +94,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
+            builder.Append( ClassProvider.BarInitial( initial && Mode != BarMode.Horizontal ) );
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
@@ -205,9 +220,9 @@ namespace Blazorise
 
                 state = state with { Visible = value };
 
-                VisibleChanged.InvokeAsync( value );
-
                 DirtyClasses();
+
+                VisibleChanged.InvokeAsync( value );
             }
         }
 

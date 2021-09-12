@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Validation Validator="@ValidateCheck">
+    <Check TValue="bool">
+        <ChildContent>
+            Check me out
+        </ChildContent>
+        <Feedback>
+            <ValidationError>You must check me out!</ValidationError>
+        </Feedback>
+    </Check>
+</Validation>
+@code{
+    void ValidateCheck( ValidatorEventArgs e )
+    {
+        // ...
+    }
+}

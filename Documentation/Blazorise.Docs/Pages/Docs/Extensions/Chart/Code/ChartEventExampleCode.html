@@ -1,0 +1,17 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Chart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">barChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ChartType</span><span class="enumValue">.Bar</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnClicked</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    Chart&lt;<span class="keyword">double</span>&gt; barChart;
+
+    <span class="keyword">void</span> OnClicked( ChartMouseEventArgs e )
+    {
+        <span class="keyword">var</span> model = e.Model <span class="keyword">as</span> BarChartModel;
+
+        Console.WriteLine( $<span class="string">&quot;{model.X}-{model.Y}&quot;</span> );
+    }
+}
+</pre></div>
+</div>
