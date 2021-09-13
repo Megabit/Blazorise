@@ -548,7 +548,7 @@ window.blazorise = {
                     picker.set("clickOpens", !options.readOnly.value);
                 }
 
-                if (options.min.changed) {
+                if (options.disabledDates.changed) {
                     picker.set("disable", options.disabledDates.value);
                 }
             }

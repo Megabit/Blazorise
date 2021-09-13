@@ -313,7 +313,7 @@ namespace Blazorise
         /// List of disabled Dates. Format string "yyyy-MM-dd".
         /// </summary>
         [Parameter] public string[] DisabledDates { get; set; } = new string[0];
-        
+
         #endregion
     }
 }
