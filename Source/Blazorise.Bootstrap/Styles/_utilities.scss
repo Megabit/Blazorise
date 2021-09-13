@@ -6,6 +6,14 @@
     overflow: scroll !important;
 }
 
+@each $value1 in $overflows {
+    @each $value2 in $overflows {
+        .overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
+}
+
 ol.ordered-list {
     &-lower-alpha {
         list-style-type: lower-alpha;

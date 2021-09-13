@@ -529,20 +529,16 @@
     box-shadow: none !important;
 }
 
-.ant-overflow-visible {
-    overflow: visible !important;
-}
+@each $value1 in $overflows {
+    .ant-overflow-#{$value1} {
+        overflow: $value1 !important;
+    }
 
-.ant-overflow-hidden {
-    overflow: hidden !important;
-}
-
-.ant-overflow-scroll {
-    overflow: scroll !important;
-}
-
-.ant-overflow-auto {
-    overflow: auto !important;
+    @each $value2 in $overflows {
+        .ant-overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
 }
 
 .ant-typography-wrap {

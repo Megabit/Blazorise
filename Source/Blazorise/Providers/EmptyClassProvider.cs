@@ -1053,7 +1053,7 @@ namespace Blazorise.Providers
 
         #region Overflow
 
-        public string Overflow( Overflow overflow ) => null;
+        public string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => null;
 
         #endregion
 

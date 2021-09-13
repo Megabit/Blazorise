@@ -1184,7 +1184,9 @@ namespace Blazorise.Bootstrap
 
         #region Overflow
 
-        public override string Overflow( Overflow overflow ) => $"overflow-{ToOverflow( overflow )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
+                ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+                : $"overflow-{ToOverflowType( overflowType )}";
 
         #endregion
 

@@ -1215,7 +1215,9 @@ namespace Blazorise.Bulma
 
         #region Overflow
 
-        public override string Overflow( Overflow overflow ) => $"is-overflow-{ToOverflow( overflow )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
+                ? $"is-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+                : $"is-overflow-{ToOverflowType( overflowType )}";
 
         #endregion
 

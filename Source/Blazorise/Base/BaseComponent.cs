@@ -41,6 +41,8 @@ namespace Blazorise
 
         private IFluentPosition position;
 
+        private IFluentOverflow overflow;
+
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
         private TextColor textColor = TextColor.None;
@@ -58,8 +60,6 @@ namespace Blazorise
         private Background background = Background.None;
 
         private Shadow shadow = Shadow.None;
-
-        private Overflow overflow = Overflow.None;
 
         #endregion
 
@@ -169,6 +169,9 @@ namespace Blazorise
             if ( Position != null )
                 builder.Append( Position.Class( ClassProvider ) );
 
+            if ( Overflow != null )
+                builder.Append( Overflow.Class( ClassProvider ) );
+
             if ( Float != Float.None )
                 builder.Append( ClassProvider.Float( Float ) );
 
@@ -210,9 +213,6 @@ namespace Blazorise
 
             if ( Shadow != Shadow.None )
                 builder.Append( ClassProvider.Shadow( Shadow ) );
-
-            if ( Overflow != Overflow.None )
-                builder.Append( ClassProvider.Overflow( Overflow ) );
         }
 
         /// <summary>
@@ -526,6 +526,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// The overflow property controls what happens to content that is too big to fit into an area.
+        /// </summary>
+        [Parameter]
+        public IFluentOverflow Overflow
+        {
+            get => overflow;
+            set
+            {
+                overflow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Changes the character casing of a element.
         /// </summary>
         [Parameter]
@@ -655,21 +670,6 @@ namespace Blazorise
             set
             {
                 shadow = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// The overflow property controls what happens to content that is too big to fit into an area.
-        /// </summary>
-        [Parameter]
-        public Overflow Overflow
-        {
-            get => overflow;
-            set
-            {
-                overflow = value;
 
                 DirtyClasses();
             }

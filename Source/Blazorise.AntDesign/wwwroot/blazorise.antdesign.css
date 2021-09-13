@@ -5468,17 +5468,65 @@ li.ant-list-item-actionable {
 .ant-shadow-none {
     box-shadow: none !important; }
 
-.ant-overflow-visible {
-    overflow: visible !important; }
+.ant-overflow-auto {
+    overflow: auto !important; }
+
+.ant-overflow-auto-auto {
+    overflow: auto auto !important; }
+
+.ant-overflow-auto-hidden {
+    overflow: auto hidden !important; }
+
+.ant-overflow-auto-visible {
+    overflow: auto visible !important; }
+
+.ant-overflow-auto-scroll {
+    overflow: auto scroll !important; }
 
 .ant-overflow-hidden {
     overflow: hidden !important; }
 
+.ant-overflow-hidden-auto {
+    overflow: hidden auto !important; }
+
+.ant-overflow-hidden-hidden {
+    overflow: hidden hidden !important; }
+
+.ant-overflow-hidden-visible {
+    overflow: hidden visible !important; }
+
+.ant-overflow-hidden-scroll {
+    overflow: hidden scroll !important; }
+
+.ant-overflow-visible {
+    overflow: visible !important; }
+
+.ant-overflow-visible-auto {
+    overflow: visible auto !important; }
+
+.ant-overflow-visible-hidden {
+    overflow: visible hidden !important; }
+
+.ant-overflow-visible-visible {
+    overflow: visible visible !important; }
+
+.ant-overflow-visible-scroll {
+    overflow: visible scroll !important; }
+
 .ant-overflow-scroll {
     overflow: scroll !important; }
 
-.ant-overflow-auto {
-    overflow: auto !important; }
+.ant-overflow-scroll-auto {
+    overflow: scroll auto !important; }
+
+.ant-overflow-scroll-hidden {
+    overflow: scroll hidden !important; }
+
+.ant-overflow-scroll-visible {
+    overflow: scroll visible !important; }
+
+.ant-overflow-scroll-scroll {
+    overflow: scroll scroll !important; }
 
 .ant-typography-wrap {
     white-space: normal !important; }

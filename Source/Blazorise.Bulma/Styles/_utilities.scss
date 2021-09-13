@@ -414,20 +414,16 @@
     box-shadow: none !important;
 }
 
-.is-overflow-visible {
-    overflow: visible !important;
-}
+@each $value1 in $overflows {
+    .is-overflow-#{$value1} {
+        overflow: $value1 !important;
+    }
 
-.is-overflow-hidden {
-    overflow: hidden !important;
-}
-
-.is-overflow-scroll {
-    overflow: scroll !important;
-}
-
-.is-overflow-auto {
-    overflow: auto !important;
+    @each $value2 in $overflows {
+        .is-overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
 }
 
 .has-text-wrap {

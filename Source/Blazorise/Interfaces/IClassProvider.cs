@@ -1045,7 +1045,7 @@ namespace Blazorise
 
         #region Overflow
 
-        string Overflow( Overflow overflow );
+        string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
 
         #endregion
 

@@ -1053,7 +1053,7 @@ namespace Blazorise
 
         #region Overflow
 
-        public abstract string Overflow( Overflow overflow );
+        public abstract string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
 
         #endregion
 
@@ -1768,14 +1768,14 @@ namespace Blazorise
             };
         }
 
-        public virtual string ToOverflow( Overflow overflow )
+        public virtual string ToOverflowType( OverflowType overflowType )
         {
-            return overflow switch
+            return overflowType switch
             {
-                Blazorise.Overflow.Visible => "visible",
-                Blazorise.Overflow.Hidden => "hidden",
-                Blazorise.Overflow.Scroll => "scroll",
-                Blazorise.Overflow.Auto => "auto",
+                Blazorise.OverflowType.Visible => "visible",
+                Blazorise.OverflowType.Hidden => "hidden",
+                Blazorise.OverflowType.Scroll => "scroll",
+                Blazorise.OverflowType.Auto => "auto",
                 _ => null,
             };
         }
