@@ -477,7 +477,8 @@ window.blazorise = {
                     firstDayOfWeek: options.firstDayOfWeek
                 },
                 time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
-                clickOpens: !(options.readOnly || false)
+                clickOpens: !(options.readOnly || false),
+                disable: options.disabledDates,
             };
 
             const pluginOptions = options.inputMode === 2 ? {
@@ -545,6 +546,10 @@ window.blazorise = {
                 if (options.readOnly.changed) {
                     picker.altInput.readOnly = options.readOnly.value;
                     picker.set("clickOpens", !options.readOnly.value);
+                }
+
+                if (options.min.changed) {
+                    picker.set("disable", options.disabledDates.value);
                 }
             }
         },

@@ -29,6 +29,7 @@ namespace Blazorise
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
+            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out string[] disabledDates ) && DisabledDates != disabledDates && DisabledDates != null;
 
             if ( dateChanged )
             {
@@ -48,7 +49,8 @@ namespace Blazorise
                 || displayFormatChanged
                 || timeAs24hrChanged
                 || disabledChanged
-                || readOnlyChanged ) )
+                || readOnlyChanged
+                || disabledDatesChanged ) )
             {
                 ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
                 {
@@ -59,6 +61,7 @@ namespace Blazorise
                     Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
                     Disabled = new { Changed = disabledChanged, Value = disabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
+                    DisabledDates = new { Changed = disabledDatesChanged, Value = disabledDates },
                 } ) );
             }
 
@@ -98,6 +101,7 @@ namespace Blazorise
                 Max = Max?.ToString( DateFormat ),
                 Disabled,
                 ReadOnly,
+                DisabledDates,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -305,6 +309,11 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool TimeAs24hr { get; set; }
 
+        /// <summary>
+        /// List of disabled Dates. Format string "yyyy-MM-dd".
+        /// </summary>
+        [Parameter] public string[] DisabledDates { get; set; } = new string[0];
+        
         #endregion
     }
 }
