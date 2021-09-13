@@ -5468,17 +5468,65 @@ li.ant-list-item-actionable {
 .ant-shadow-none {
     box-shadow: none !important; }
 
-.ant-overflow-visible {
-    overflow: visible !important; }
+.ant-overflow-auto {
+    overflow: auto !important; }
+
+.ant-overflow-auto-auto {
+    overflow: auto auto !important; }
+
+.ant-overflow-auto-hidden {
+    overflow: auto hidden !important; }
+
+.ant-overflow-auto-visible {
+    overflow: auto visible !important; }
+
+.ant-overflow-auto-scroll {
+    overflow: auto scroll !important; }
 
 .ant-overflow-hidden {
     overflow: hidden !important; }
 
+.ant-overflow-hidden-auto {
+    overflow: hidden auto !important; }
+
+.ant-overflow-hidden-hidden {
+    overflow: hidden hidden !important; }
+
+.ant-overflow-hidden-visible {
+    overflow: hidden visible !important; }
+
+.ant-overflow-hidden-scroll {
+    overflow: hidden scroll !important; }
+
+.ant-overflow-visible {
+    overflow: visible !important; }
+
+.ant-overflow-visible-auto {
+    overflow: visible auto !important; }
+
+.ant-overflow-visible-hidden {
+    overflow: visible hidden !important; }
+
+.ant-overflow-visible-visible {
+    overflow: visible visible !important; }
+
+.ant-overflow-visible-scroll {
+    overflow: visible scroll !important; }
+
 .ant-overflow-scroll {
     overflow: scroll !important; }
 
-.ant-overflow-auto {
-    overflow: auto !important; }
+.ant-overflow-scroll-auto {
+    overflow: scroll auto !important; }
+
+.ant-overflow-scroll-hidden {
+    overflow: scroll hidden !important; }
+
+.ant-overflow-scroll-visible {
+    overflow: scroll visible !important; }
+
+.ant-overflow-scroll-scroll {
+    overflow: scroll scroll !important; }
 
 .ant-typography-wrap {
     white-space: normal !important; }
@@ -5510,6 +5558,67 @@ ol.ant-ordered-list-upper-alpha {
 
 ol.ant-ordered-list-upper-roman {
     list-style-type: upper-roman; }
+
+.ant-position-static {
+    position: static !important; }
+
+.ant-position-relative {
+    position: relative !important; }
+
+.ant-position-absolute {
+    position: absolute !important; }
+
+.ant-position-fixed {
+    position: fixed !important; }
+
+.ant-position-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important; }
+
+.ant-top-0 {
+    top: 0 !important; }
+
+.ant-bottom-0 {
+    bottom: 0 !important; }
+
+.ant-left-0 {
+    left: 0 !important; }
+
+.ant-right-0 {
+    right: 0 !important; }
+
+.ant-top-50 {
+    top: 50% !important; }
+
+.ant-bottom-50 {
+    bottom: 50% !important; }
+
+.ant-left-50 {
+    left: 50% !important; }
+
+.ant-right-50 {
+    right: 50% !important; }
+
+.ant-top-100 {
+    top: 100% !important; }
+
+.ant-bottom-100 {
+    bottom: 100% !important; }
+
+.ant-left-100 {
+    left: 100% !important; }
+
+.ant-right-100 {
+    right: 100% !important; }
+
+.ant-translate-middle {
+    transform: translate(-50%, -50%) !important; }
+
+.ant-translate-middle-x {
+    transform: translateX(-50%) !important; }
+
+.ant-translate-middle-y {
+    transform: translateY(-50%) !important; }
 
 .flatpickr-months {
     margin: 0.5rem 0; }

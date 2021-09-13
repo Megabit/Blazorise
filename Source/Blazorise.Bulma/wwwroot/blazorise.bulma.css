@@ -2037,17 +2037,65 @@
 .has-shadow-none {
     box-shadow: none !important; }
 
-.is-overflow-visible {
-    overflow: visible !important; }
+.is-overflow-auto {
+    overflow: auto !important; }
+
+.is-overflow-auto-auto {
+    overflow: auto auto !important; }
+
+.is-overflow-auto-hidden {
+    overflow: auto hidden !important; }
+
+.is-overflow-auto-visible {
+    overflow: auto visible !important; }
+
+.is-overflow-auto-scroll {
+    overflow: auto scroll !important; }
 
 .is-overflow-hidden {
     overflow: hidden !important; }
 
+.is-overflow-hidden-auto {
+    overflow: hidden auto !important; }
+
+.is-overflow-hidden-hidden {
+    overflow: hidden hidden !important; }
+
+.is-overflow-hidden-visible {
+    overflow: hidden visible !important; }
+
+.is-overflow-hidden-scroll {
+    overflow: hidden scroll !important; }
+
+.is-overflow-visible {
+    overflow: visible !important; }
+
+.is-overflow-visible-auto {
+    overflow: visible auto !important; }
+
+.is-overflow-visible-hidden {
+    overflow: visible hidden !important; }
+
+.is-overflow-visible-visible {
+    overflow: visible visible !important; }
+
+.is-overflow-visible-scroll {
+    overflow: visible scroll !important; }
+
 .is-overflow-scroll {
     overflow: scroll !important; }
 
-.is-overflow-auto {
-    overflow: auto !important; }
+.is-overflow-scroll-auto {
+    overflow: scroll auto !important; }
+
+.is-overflow-scroll-hidden {
+    overflow: scroll hidden !important; }
+
+.is-overflow-scroll-visible {
+    overflow: scroll visible !important; }
+
+.is-overflow-scroll-scroll {
+    overflow: scroll scroll !important; }
 
 .has-text-wrap {
     white-space: normal !important; }
@@ -2083,6 +2131,67 @@ ol.is-ordered-list-upper-alpha {
 
 ol.is-ordered-list-upper-roman {
     list-style-type: upper-roman; }
+
+.is-position-static {
+    position: static !important; }
+
+.is-position-relative {
+    position: relative !important; }
+
+.is-position-absolute {
+    position: absolute !important; }
+
+.is-position-fixed {
+    position: fixed !important; }
+
+.is-position-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important; }
+
+.is-top-0 {
+    top: 0 !important; }
+
+.is-bottom-0 {
+    bottom: 0 !important; }
+
+.is-left-0 {
+    left: 0 !important; }
+
+.is-right-0 {
+    right: 0 !important; }
+
+.is-top-50 {
+    top: 50% !important; }
+
+.is-bottom-50 {
+    bottom: 50% !important; }
+
+.is-left-50 {
+    left: 50% !important; }
+
+.is-right-50 {
+    right: 50% !important; }
+
+.is-top-100 {
+    top: 100% !important; }
+
+.is-bottom-100 {
+    bottom: 100% !important; }
+
+.is-left-100 {
+    left: 100% !important; }
+
+.is-right-100 {
+    right: 100% !important; }
+
+.is-translate-middle {
+    transform: translate(-50%, -50%) !important; }
+
+.is-translate-middle-x {
+    transform: translateX(-50%) !important; }
+
+.is-translate-middle-y {
+    transform: translateY(-50%) !important; }
 
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {

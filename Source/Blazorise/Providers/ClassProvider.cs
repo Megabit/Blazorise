@@ -1029,6 +1029,8 @@ namespace Blazorise
 
         public virtual string Float( Float @float ) => $"float-{ToFloat( @float )}";
 
+        public virtual string Clearfix() => "clearfix";
+
         #endregion
 
         #region Visibility
@@ -1051,7 +1053,15 @@ namespace Blazorise
 
         #region Overflow
 
-        public abstract string Overflow( Overflow overflow );
+        public abstract string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
+
+        #endregion
+
+        #region Position
+
+        public abstract string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
+
+        public abstract string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
 
         #endregion
 
@@ -1758,14 +1768,50 @@ namespace Blazorise
             };
         }
 
-        public virtual string ToOverflow( Overflow overflow )
+        public virtual string ToOverflowType( OverflowType overflowType )
         {
-            return overflow switch
+            return overflowType switch
             {
-                Blazorise.Overflow.Visible => "visible",
-                Blazorise.Overflow.Hidden => "hidden",
-                Blazorise.Overflow.Scroll => "scroll",
-                Blazorise.Overflow.Auto => "auto",
+                Blazorise.OverflowType.Visible => "visible",
+                Blazorise.OverflowType.Hidden => "hidden",
+                Blazorise.OverflowType.Scroll => "scroll",
+                Blazorise.OverflowType.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public string ToPositionType( PositionType positionType )
+        {
+            return positionType switch
+            {
+                Blazorise.PositionType.Static => "static",
+                Blazorise.PositionType.Relative => "relative",
+                Blazorise.PositionType.Absolute => "absolute",
+                Blazorise.PositionType.Fixed => "fixed",
+                Blazorise.PositionType.Sticky => "sticky",
+                _ => null,
+            };
+        }
+
+        public string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+        {
+            return positionEdgeType switch
+            {
+                Blazorise.PositionEdgeType.Top => "top",
+                Blazorise.PositionEdgeType.Left => "left",
+                Blazorise.PositionEdgeType.Bottom => "bottom",
+                Blazorise.PositionEdgeType.Right => "right",
+                _ => null,
+            };
+        }
+
+        public string ToPositionTranslateType( PositionTranslateType positionTranslateType )
+        {
+            return positionTranslateType switch
+            {
+                Blazorise.PositionTranslateType.Middle => "middle",
+                Blazorise.PositionTranslateType.MiddleX => "middle-x",
+                Blazorise.PositionTranslateType.MiddleY => "middle-y",
                 _ => null,
             };
         }

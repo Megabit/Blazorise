@@ -1176,6 +1176,8 @@ namespace Blazorise.Bulma
 
         public override string Float( Float @float ) => $"is-pulled-{ToFloat( @float )}";
 
+        public override string Clearfix() => "is-clearfix";
+
         #endregion
 
         #region Visibility
@@ -1213,7 +1215,31 @@ namespace Blazorise.Bulma
 
         #region Overflow
 
-        public override string Overflow( Overflow overflow ) => $"is-overflow-{ToOverflow( overflow )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
+                ? $"is-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+                : $"is-overflow-{ToOverflowType( overflowType )}";
+
+        #endregion
+
+        #region Position
+
+        public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
+        {
+            return $"is-{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        }
+
+        public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
+        {
+            var sb = new StringBuilder( $"is-position-{ToPositionType( positionType )}" );
+
+            if ( edges != null && edges.Count() > 0 )
+                sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
+
+            if ( translateType != PositionTranslateType.None )
+                sb.Append( " is-translate-" ).Append( ToPositionTranslateType( translateType ) );
+
+            return sb.ToString();
+        }
 
         #endregion
 

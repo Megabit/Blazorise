@@ -1200,7 +1200,31 @@ namespace Blazorise.AntDesign
 
         #region Overflow
 
-        public override string Overflow( Overflow overflow ) => $"ant-overflow-{ToOverflow( overflow )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
+                 ? $"ant-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+                 : $"ant-overflow-{ToOverflowType( overflowType )}";
+
+        #endregion
+
+        #region Position
+
+        public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
+        {
+            return $"ant-{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        }
+
+        public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
+        {
+            var sb = new StringBuilder( $"ant-position-{ToPositionType( positionType )}" );
+
+            if ( edges != null && edges.Count() > 0 )
+                sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
+
+            if ( translateType != PositionTranslateType.None )
+                sb.Append( " ant-translate-" ).Append( ToPositionTranslateType( translateType ) );
+
+            return sb.ToString();
+        }
 
         #endregion
 

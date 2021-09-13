@@ -1021,6 +1021,8 @@ namespace Blazorise
 
         string Float( Float @float );
 
+        string Clearfix();
+
         #endregion
 
         #region Visibility
@@ -1043,7 +1045,15 @@ namespace Blazorise
 
         #region Overflow
 
-        string Overflow( Overflow overflow );
+        string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
+
+        #endregion
+
+        #region Position
+
+        string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
+
+        string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
 
         #endregion
 
@@ -1169,6 +1179,12 @@ namespace Blazorise
         string ToShadow( Shadow shadow );
 
         string ToOrderedListType( OrderedListType orderedListType );
+
+        string ToPositionType( PositionType positionType );
+
+        string ToPositionEdgeType( PositionEdgeType positionEdgeType );
+
+        string ToPositionTranslateType( PositionTranslateType positionTranslateType );
 
         #endregion
 
