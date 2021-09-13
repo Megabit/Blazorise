@@ -1029,6 +1029,8 @@ namespace Blazorise.Providers
 
         public string Float( Float @float ) => null;
 
+        public string Clearfix() => null;
+
         #endregion
 
         #region Visibility
@@ -1051,7 +1053,15 @@ namespace Blazorise.Providers
 
         #region Overflow
 
-        public string Overflow( Overflow overflow ) => null;
+        public string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => null;
+
+        #endregion
+
+        #region Position
+
+        public string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType ) => null;
+
+        public string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType ) => null;
 
         #endregion
 
@@ -1172,6 +1182,12 @@ namespace Blazorise.Providers
         public string ToShadow( Shadow shadow ) => null;
 
         public string ToOrderedListType( OrderedListType orderedListType ) => null;
+
+        public string ToPositionType( PositionType positionType ) => null;
+
+        public string ToPositionEdgeType( PositionEdgeType positionEdgeType ) => null;
+
+        public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
 
         #endregion
 

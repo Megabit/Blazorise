@@ -6,6 +6,14 @@
     overflow: scroll !important;
 }
 
+@each $value1 in $overflows {
+    @each $value2 in $overflows {
+        .overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
+}
+
 ol.ordered-list {
     &-lower-alpha {
         list-style-type: lower-alpha;
@@ -22,4 +30,36 @@ ol.ordered-list {
     &-upper-roman {
         list-style-type: upper-roman;
     }
+}
+
+// Position
+
+@each $name, $value in $position-values {
+    .top-#{$name} {
+        top: #{$value} !important;
+    }
+
+    .bottom-#{$name} {
+        bottom: #{$value} !important;
+    }
+
+    .left-#{$name} {
+        left: #{$value} !important;
+    }
+
+    .right-#{$name} {
+        right: #{$value} !important;
+    }
+}
+
+.translate-middle {
+    transform: translate(-50%, -50%) !important;
+}
+
+.translate-middle-x {
+    transform: translateX(-50%) !important;
+}
+
+.translate-middle-y {
+    transform: translateY(-50%) !important;
 }

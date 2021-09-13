@@ -21,6 +21,8 @@ namespace Blazorise
 
         private Float @float = Float.None;
 
+        private bool clearfix;
+
         private Visibility visibility = Visibility.None;
 
         private IFluentSizing width;
@@ -36,6 +38,10 @@ namespace Blazorise
         private IFluentBorder border;
 
         private IFluentFlex flex;
+
+        private IFluentPosition position;
+
+        private IFluentOverflow overflow;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
@@ -54,8 +60,6 @@ namespace Blazorise
         private Background background = Background.None;
 
         private Shadow shadow = Shadow.None;
-
-        private Overflow overflow = Overflow.None;
 
         #endregion
 
@@ -162,8 +166,17 @@ namespace Blazorise
             if ( Flex != null )
                 builder.Append( Flex.Class( ClassProvider ) );
 
+            if ( Position != null )
+                builder.Append( Position.Class( ClassProvider ) );
+
+            if ( Overflow != null )
+                builder.Append( Overflow.Class( ClassProvider ) );
+
             if ( Float != Float.None )
                 builder.Append( ClassProvider.Float( Float ) );
+
+            if ( Clearfix )
+                builder.Append( ClassProvider.Clearfix() );
 
             if ( Visibility != Visibility.None )
                 builder.Append( ClassProvider.Visibility( Visibility ) );
@@ -200,9 +213,6 @@ namespace Blazorise
 
             if ( Shadow != Shadow.None )
                 builder.Append( ClassProvider.Shadow( Shadow ) );
-
-            if ( Overflow != Overflow.None )
-                builder.Append( ClassProvider.Overflow( Overflow ) );
         }
 
         /// <summary>
@@ -366,6 +376,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Fixes an element's floating children.
+        /// </summary>
+        [Parameter]
+        public bool Clearfix
+        {
+            get => clearfix;
+            set
+            {
+                clearfix = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Controls the visibility, without modifying the display, of elements with visibility utilities.
         /// </summary>
         [Parameter]
@@ -480,6 +505,36 @@ namespace Blazorise
             set
             {
                 flex = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// The position property specifies the type of positioning method used for an element (static, relative, fixed, absolute or sticky).
+        /// </summary>
+        [Parameter]
+        public IFluentPosition Position
+        {
+            get => position;
+            set
+            {
+                position = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// The overflow property controls what happens to content that is too big to fit into an area.
+        /// </summary>
+        [Parameter]
+        public IFluentOverflow Overflow
+        {
+            get => overflow;
+            set
+            {
+                overflow = value;
 
                 DirtyClasses();
             }
@@ -615,21 +670,6 @@ namespace Blazorise
             set
             {
                 shadow = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// The overflow property controls what happens to content that is too big to fit into an area.
-        /// </summary>
-        [Parameter]
-        public Overflow Overflow
-        {
-            get => overflow;
-            set
-            {
-                overflow = value;
 
                 DirtyClasses();
             }

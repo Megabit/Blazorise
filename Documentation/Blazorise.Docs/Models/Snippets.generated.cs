@@ -4153,6 +4153,58 @@ public class Startup
     </CardBody>
 </Card>";
 
+        public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
+<Div Position=""Position.Relative"">...</Div>
+<Div Position=""Position.Absolute"">...</Div>
+<Div Position=""Position.Fixed"">...</Div>
+<Div Position=""Position.Sticky"">...</Div>";
+
+        public const string PositionArrangeElementsExample = @"<Div Position=""Position.Relative"">
+    <Div Position=""Position.Absolute.Top.Is0.Left.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Right.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Left.Is50""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is50.Right.Is50""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is0""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Right.Is0""></Div>
+</Div>";
+
+        public const string PositionCenterElements1Example = @"<Div Position=""Position.Relative"">
+    <Div Position=""Position.Absolute.Top.Is0.Left.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Left.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Left.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Left.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Left.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Left.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Left.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Left.Is100.Translate.Middle""></Div>
+</Div>";
+
+        public const string PositionCenterElements2Example = @"<Div Position=""Position.Relative"">
+    <Div Position=""Position.Absolute.Top.Is0.Left.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Left.Is50.Translate.MiddleX""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Right.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Left.Is0.Translate.MiddleY""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Left.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Right.Is0.Translate.MiddleY""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is0""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is50.Translate.MiddleX""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Right.Is0""></Div>
+</Div>";
+
+        public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"">
+    Mails
+    <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle"">
+        +99
+    </Badge>
+</Button>
+<Button Color=""Color.Primary"" Position=""Position.Relative"">
+    Alerts
+    <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
+        <Span Visibility=""Visibility.Invisible"" Position=""Position.Absolute"">unread messages</Span>
+    </Badge>
+</Button>";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 <Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
