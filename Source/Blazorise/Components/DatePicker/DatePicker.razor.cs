@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -29,7 +30,7 @@ namespace Blazorise
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
-            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out string[] disabledDates ) && DisabledDates != disabledDates && DisabledDates != null;
+            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> disabledDates ) && !DisabledDates.AreEqual( disabledDates );
 
             if ( dateChanged )
             {
@@ -310,9 +311,9 @@ namespace Blazorise
         [Parameter] public bool TimeAs24hr { get; set; }
 
         /// <summary>
-        /// List of disabled Dates. Format string "yyyy-MM-dd".
+        /// List of disabled dates.
         /// </summary>
-        [Parameter] public string[] DisabledDates { get; set; } = new string[0];
+        [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
         #endregion
     }
