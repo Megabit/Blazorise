@@ -26,7 +26,7 @@ namespace Blazorise
     /// Type of positions allowed for the fluent position builder.
     /// </summary>
     public interface IFluentPositionType :
-        IFluentBorder
+        IFluentPosition
     {
         /// <summary>
         /// An element is not positioned in any special way; it is always positioned according to the normal flow of the page.
@@ -60,7 +60,7 @@ namespace Blazorise
     /// Defines the position of the element relative to its side.
     /// </summary>
     public interface IFluentPositionEdgeType :
-        IFluentBorder
+        IFluentPosition
     {
         /// <summary>
         /// The top property affects the vertical position of a positioned element.
@@ -87,7 +87,7 @@ namespace Blazorise
     /// Defines the offset, in percentages, relative to its edge.
     /// </summary>
     public interface IFluentPositionEdgeOffset :
-        IFluentBorder,
+        IFluentPosition,
         IFluentPositionTranslate
     {
         /// <summary>
@@ -110,7 +110,7 @@ namespace Blazorise
     /// Starts the translation rules.
     /// </summary>
     public interface IFluentPositionTranslate :
-        IFluentBorder
+        IFluentPosition
     {
         /// <summary>
         /// Translation rule to start.
@@ -122,7 +122,7 @@ namespace Blazorise
     /// Defines the types of element translations based on its center.
     /// </summary>
     public interface IFluentPositionTranslateType :
-        IFluentBorder
+        IFluentPosition
     {
         /// <summary>
         /// Translate on both X and Y coordinates.
@@ -164,7 +164,7 @@ namespace Blazorise
     }
 
     /// <summary>
-    /// Default implementation of fluent border builder.
+    /// Default implementation of fluent position builder.
     /// </summary>
     public class FluentPosition :
         IFluentPosition,
@@ -192,12 +192,12 @@ namespace Blazorise
         private PositionType positionType;
 
         /// <summary>
-        /// Currently used border rules.
+        /// Currently used edge rules.
         /// </summary>
         private PositionEdgeDefinition currentPositionEdgeDefinition;
 
         /// <summary>
-        /// List of all border rules to build.
+        /// List of all position edge rules to build.
         /// </summary>
         private Dictionary<PositionEdgeType, PositionEdgeDefinition> edgeRules;
 
@@ -212,7 +212,7 @@ namespace Blazorise
         private bool dirty = true;
 
         /// <summary>
-        /// Holds the built classnames bases on the border rules.
+        /// Holds the built classnames bases on the position rules.
         /// </summary>
         private string classNames;
 
