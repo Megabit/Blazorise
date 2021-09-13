@@ -1057,6 +1057,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Position
+
+        public string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType ) => null;
+
+        public string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
@@ -1174,6 +1182,12 @@ namespace Blazorise.Providers
         public string ToShadow( Shadow shadow ) => null;
 
         public string ToOrderedListType( OrderedListType orderedListType ) => null;
+
+        public string ToPositionType( PositionType positionType ) => null;
+
+        public string ToPositionEdgeType( PositionEdgeType positionEdgeType ) => null;
+
+        public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
 
         #endregion
 

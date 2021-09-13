@@ -39,6 +39,8 @@ namespace Blazorise
 
         private IFluentFlex flex;
 
+        private IFluentPosition position;
+
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
         private TextColor textColor = TextColor.None;
@@ -163,6 +165,9 @@ namespace Blazorise
 
             if ( Flex != null )
                 builder.Append( Flex.Class( ClassProvider ) );
+
+            if ( Position != null )
+                builder.Append( Position.Class( ClassProvider ) );
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.Float( Float ) );
@@ -500,6 +505,21 @@ namespace Blazorise
             set
             {
                 flex = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// The position property specifies the type of positioning method used for an element (static, relative, fixed, absolute or sticky).
+        /// </summary>
+        [Parameter]
+        public IFluentPosition Position
+        {
+            get => position;
+            set
+            {
+                position = value;
 
                 DirtyClasses();
             }

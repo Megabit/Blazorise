@@ -1057,6 +1057,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Position
+
+        public abstract string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
+
+        public abstract string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1768,6 +1776,42 @@ namespace Blazorise
                 Blazorise.Overflow.Hidden => "hidden",
                 Blazorise.Overflow.Scroll => "scroll",
                 Blazorise.Overflow.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public string ToPositionType( PositionType positionType )
+        {
+            return positionType switch
+            {
+                Blazorise.PositionType.Static => "static",
+                Blazorise.PositionType.Relative => "relative",
+                Blazorise.PositionType.Absolute => "absolute",
+                Blazorise.PositionType.Fixed => "fixed",
+                Blazorise.PositionType.Sticky => "sticky",
+                _ => null,
+            };
+        }
+
+        public string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+        {
+            return positionEdgeType switch
+            {
+                Blazorise.PositionEdgeType.Top => "top",
+                Blazorise.PositionEdgeType.Left => "left",
+                Blazorise.PositionEdgeType.Bottom => "bottom",
+                Blazorise.PositionEdgeType.Right => "right",
+                _ => null,
+            };
+        }
+
+        public string ToPositionTranslateType( PositionTranslateType positionTranslateType )
+        {
+            return positionTranslateType switch
+            {
+                Blazorise.PositionTranslateType.Middle => "middle",
+                Blazorise.PositionTranslateType.MiddleX => "middle-x",
+                Blazorise.PositionTranslateType.MiddleY => "middle-y",
                 _ => null,
             };
         }

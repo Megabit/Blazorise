@@ -5511,6 +5511,67 @@ ol.ant-ordered-list-upper-alpha {
 ol.ant-ordered-list-upper-roman {
     list-style-type: upper-roman; }
 
+.ant-position-static {
+    position: static !important; }
+
+.ant-position-relative {
+    position: relative !important; }
+
+.ant-position-absolute {
+    position: absolute !important; }
+
+.ant-position-fixed {
+    position: fixed !important; }
+
+.ant-position-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important; }
+
+.ant-top-0 {
+    top: 0 !important; }
+
+.ant-bottom-0 {
+    bottom: 0 !important; }
+
+.ant-left-0 {
+    left: 0 !important; }
+
+.ant-right-0 {
+    right: 0 !important; }
+
+.ant-top-50 {
+    top: 50% !important; }
+
+.ant-bottom-50 {
+    bottom: 50% !important; }
+
+.ant-left-50 {
+    left: 50% !important; }
+
+.ant-right-50 {
+    right: 50% !important; }
+
+.ant-top-100 {
+    top: 100% !important; }
+
+.ant-bottom-100 {
+    bottom: 100% !important; }
+
+.ant-left-100 {
+    left: 100% !important; }
+
+.ant-right-100 {
+    right: 100% !important; }
+
+.ant-translate-middle {
+    transform: translate(-50%, -50%) !important; }
+
+.ant-translate-middle-x {
+    transform: translateX(-50%) !important; }
+
+.ant-translate-middle-y {
+    transform: translateY(-50%) !important; }
+
 .flatpickr-months {
     margin: 0.5rem 0; }
     .flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {

@@ -1182,6 +1182,51 @@ ol.ordered-list-upper-alpha {
 ol.ordered-list-upper-roman {
     list-style-type: upper-roman; }
 
+.top-0 {
+    top: 0 !important; }
+
+.bottom-0 {
+    bottom: 0 !important; }
+
+.left-0 {
+    left: 0 !important; }
+
+.right-0 {
+    right: 0 !important; }
+
+.top-50 {
+    top: 50% !important; }
+
+.bottom-50 {
+    bottom: 50% !important; }
+
+.left-50 {
+    left: 50% !important; }
+
+.right-50 {
+    right: 50% !important; }
+
+.top-100 {
+    top: 100% !important; }
+
+.bottom-100 {
+    bottom: 100% !important; }
+
+.left-100 {
+    left: 100% !important; }
+
+.right-100 {
+    right: 100% !important; }
+
+.translate-middle {
+    transform: translate(-50%, -50%) !important; }
+
+.translate-middle-x {
+    transform: translateX(-50%) !important; }
+
+.translate-middle-y {
+    transform: translateY(-50%) !important; }
+
 .flatpickr-months {
     margin: 0.5rem 0; }
     .flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {
