@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -313,7 +315,40 @@ namespace Blazorise
         /// List of disabled Dates. Format string "yyyy-MM-dd".
         /// </summary>
         [Parameter] public string[] DisabledDates { get; set; } = new string[0];
-        
+
+        /// <summary>
+        /// List of disabled Date. Format DateTime
+        /// </summary>
+        [Parameter] public List<DateTime> DisabledDatesDateTime 
+        {
+            get 
+            {
+                List<DateTime> result = new List<DateTime>();
+                if (DisabledDates != null)
+                {
+                    foreach ( string data in DisabledDates )
+                    {
+                        result.Add( DateTime.ParseExact( data, "yyyy-MM-dd", CultureInfo.InvariantCulture ) );
+                    }
+                }
+                return result;
+            } 
+            set
+            {
+                if(value != null)
+                {
+                    string[] result = new string[value.Count];
+
+                    int a = 0;
+                    foreach(DateTime data in value)
+                    {
+                        result[a] = data.ToString( "yyyy-MM-dd" );
+                        a++;
+                    }
+                    DisabledDates = result;
+                }
+            }
+        }
         #endregion
     }
 }
