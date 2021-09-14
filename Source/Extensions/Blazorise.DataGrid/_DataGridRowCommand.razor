@@ -20,9 +20,18 @@
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@Save">
-                        @saveButtonString
-                    </Button>
+                    @if ( ParentDataGrid.SubmitFormOnEnter )
+                    {
+                        <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
+                            @saveButtonString
+                        </Button>
+                    }
+                    else
+                    {
+                        <Button Color="Color.Link" Clicked="@Save">
+                            @saveButtonString
+                        </Button>
+                    }
                 }
             }
             @if ( ParentDataGrid.CommandColumn?.CancelCommandAllowed == true )
