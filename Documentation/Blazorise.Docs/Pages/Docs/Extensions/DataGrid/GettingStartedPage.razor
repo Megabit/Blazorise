@@ -249,6 +249,12 @@
     <DocsAttributesItem Name="SubmitFormOnEnter" Type="bool" Default="true">
         If true, the edit form will have the Save button as <c>type="submit"</c>, and it will react to Enter keys being pressed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderThemeContrast" Type="ThemeContrast">
+        Sets the Datagrid's table header ThemeContrast.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataGridMaxHeigh" Type="string" Default="500px">
+        Sets the DataGrid height when <Code>Virtualize</Code> feature is enabled.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="DataGridColumn">
@@ -350,5 +356,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CustomFilter" Type="DataGridColumnCustomFilter">
         Custom filter function used to override internal filtering.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Display" Type="IFluentDisplay">
+        Specifies the display behavior of a cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderDisplay" Type="IFluentDisplay">
+        Specifies the display behavior of a header cell.
     </DocsAttributesItem>
 </DocsAttributes>
