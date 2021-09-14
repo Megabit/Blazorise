@@ -13,13 +13,6 @@ namespace Blazorise.DataGrid
 
         private static readonly Action<ValidatorEventArgs> EmptyValidator = ( args ) => { args.Status = ValidationStatus.Success; };
 
-        private static readonly Func<ValidatorEventArgs, CancellationToken, Task> EmptyAsyncValidator = ( args, cancellationToken ) =>
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            return Task.CompletedTask;
-        };
-
         #endregion
 
         #region Properties
@@ -37,7 +30,7 @@ namespace Blazorise.DataGrid
             => Column.Validator ?? EmptyValidator;
 
         protected Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator
-            => Column.AsyncValidator ?? EmptyAsyncValidator;
+            => Column.AsyncValidator; // AsyncValidator must be defined explicitelly. We don't want to have an EmptyAsyncValidator.
 
         protected string ValidationPattern
             => string.IsNullOrWhiteSpace( Column.ValidationPattern ) ? null : Column.ValidationPattern;

@@ -1873,6 +1873,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
 
+        /// <summary>
+        /// If true, the edit form will have the Save button as <c>type="submit"</c>, and it will react to Enter keys being pressed.
+        /// </summary>
+        [Parameter] public bool SubmitFormOnEnter { get; set; } = true;
+
         #endregion
     }
 }
