@@ -9,6 +9,7 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFrameworks>net5.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
