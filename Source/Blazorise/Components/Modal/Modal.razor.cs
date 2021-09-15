@@ -143,29 +143,29 @@ namespace Blazorise
         /// <summary>
         /// Opens the modal dialog.
         /// </summary>
-        public void Show()
+        public Task Show()
         {
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Fires the modal dialog closure process.
         /// </summary>
-        public void Hide()
+        public Task Hide()
         {
-            Hide( CloseReason.UserClosing );
+            return Hide( CloseReason.UserClosing );
         }
 
         /// <summary>
         /// Internal method to hide the modal with reason of closing.
         /// </summary>
         /// <param name="closeReason">Reason why modal was closed.</param>
-        internal protected void Hide( CloseReason closeReason )
+        internal protected async Task Hide( CloseReason closeReason )
         {
             if ( !Visible )
                 return;
@@ -182,7 +182,7 @@ namespace Blazorise
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
 
-                InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
             }
         }
 
@@ -331,9 +331,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task Close( CloseReason closeReason )
         {
-            Hide( closeReason );
-
-            return Task.CompletedTask;
+            return Hide( closeReason );
         }
 
         #endregion

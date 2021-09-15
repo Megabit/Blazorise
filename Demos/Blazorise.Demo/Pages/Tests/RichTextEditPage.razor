@@ -205,7 +205,7 @@
     public async Task OnSave()
     {
         savedContent = await richTextEditRef.GetHtmlAsync();
-        modalRef.Show();
+        await modalRef.Show();
         await richTextEditRef.ClearAsync();
     }
 }

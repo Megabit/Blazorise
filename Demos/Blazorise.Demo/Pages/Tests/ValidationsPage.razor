@@ -611,15 +611,11 @@
 
         modalValidations.ClearAll();
 
-        modalRef.Show();
-
-        return Task.CompletedTask;
+        return modalRef.Show();
     }
 
     Task CloseUserModal()
     {
-        modalRef.Hide();
-
-        return Task.CompletedTask;
+        return modalRef.Hide();
     }
 }

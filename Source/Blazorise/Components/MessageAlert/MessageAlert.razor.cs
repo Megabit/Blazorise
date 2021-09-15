@@ -55,7 +55,7 @@ namespace Blazorise
             {
                 await Okayed.InvokeAsync( null );
 
-                ModalRef.Hide();
+                await ModalRef.Hide();
             } );
         }
 
@@ -67,7 +67,7 @@ namespace Blazorise
         {
             return InvokeAsync( async () =>
             {
-                ModalRef.Hide();
+                await ModalRef.Hide();
 
                 if ( IsConfirmation && Callback != null )
                 {
@@ -86,7 +86,7 @@ namespace Blazorise
         {
             return InvokeAsync( async () =>
             {
-                ModalRef.Hide();
+                await ModalRef.Hide();
 
                 if ( IsConfirmation && Callback != null )
                 {
