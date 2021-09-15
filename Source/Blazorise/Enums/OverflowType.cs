@@ -3,7 +3,7 @@
     /// <summary>
     /// The overflow property controls what happens to content that is too big to fit into an area.
     /// </summary>
-    public enum Overflow
+    public enum OverflowType
     {
         /// <summary>
         /// No overflow will be applied

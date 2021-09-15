@@ -1184,7 +1184,31 @@ namespace Blazorise.Bootstrap
 
         #region Overflow
 
-        public override string Overflow( Overflow overflow ) => $"overflow-{ToOverflow( overflow )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
+                ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+                : $"overflow-{ToOverflowType( overflowType )}";
+
+        #endregion
+
+        #region Position
+
+        public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
+        {
+            return $"{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        }
+
+        public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
+        {
+            var sb = new StringBuilder( $"position-{ToPositionType( positionType )}" );
+
+            if ( edges != null && edges.Count() > 0 )
+                sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
+
+            if ( translateType != PositionTranslateType.None )
+                sb.Append( " translate-" ).Append( ToPositionTranslateType( translateType ) );
+
+            return sb.ToString();
+        }
 
         #endregion
 
