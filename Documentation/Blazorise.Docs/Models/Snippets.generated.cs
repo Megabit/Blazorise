@@ -710,9 +710,7 @@ namespace Blazorise.Docs.Models
 
     Task ShowMenu()
     {
-        dropdown.Show();
-
-        return Task.CompletedTask;
+        return dropdown.Show();
     }
 }";
 
