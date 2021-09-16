@@ -70,13 +70,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public virtual void Select( bool focus = true )
-        {
-            InvokeAsync( () => SelectAsync( focus ) );
-        }
-
-        /// <inheritdoc/>
-        public virtual async Task SelectAsync( bool focus = true )
+        public virtual async Task Select( bool focus = true )
         {
             await JSRunner.Select( ElementRef, ElementId, focus );
         }

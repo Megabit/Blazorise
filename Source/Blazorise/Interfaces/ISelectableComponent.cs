@@ -13,13 +13,7 @@ namespace Blazorise
         /// Select all text in the underline component.
         /// </summary>
         /// <param name="focus">If true, the input will be focused before the text is selected.</param>
-        void Select( bool focus = true );
-
-        /// <summary>
-        /// Select all text in the underline component.
-        /// </summary>
-        /// <param name="focus">If true, the input will be focused before the text is selected.</param>
-        /// <returns>Returns awaitable task.</returns>
-        Task SelectAsync( bool focus = true );
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        Task Select( bool focus = true );
     }
 }

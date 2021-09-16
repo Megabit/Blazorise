@@ -246,7 +246,7 @@ namespace Blazorise
 
                         if ( firstFocusableComponent != null )
                         {
-                            return firstFocusableComponent.FocusAsync();
+                            return firstFocusableComponent.Focus();
                         }
 
                         return Task.CompletedTask;
