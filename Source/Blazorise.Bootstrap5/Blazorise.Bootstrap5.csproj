@@ -19,10 +19,4 @@
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="_Imports.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
-
 </Project>

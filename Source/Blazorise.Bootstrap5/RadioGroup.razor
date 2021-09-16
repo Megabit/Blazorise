@@ -1,0 +1,18 @@
+﻿@typeparam TValue
+@inherits Blazorise.RadioGroup<TValue>
+<CascadingValue Value="@this" IsFixed="true">
+    @if ( Buttons )
+    {
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @attributes="@Attributes" data-toggle="buttons">
+            @ChildContent
+        </div>
+        @Feedback
+    }
+    else
+    {
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @attributes="@Attributes">
+            @ChildContent
+        </div>
+        @Feedback
+    }
+</CascadingValue>

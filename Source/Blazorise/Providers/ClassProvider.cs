@@ -1452,7 +1452,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPlacement( Placement placement )
+        public virtual string ToPlacement( Placement placement )
         {
             return placement switch
             {
@@ -1463,7 +1463,7 @@ namespace Blazorise
             };
         }
 
-        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
+        public virtual string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
         {
             return tooltipPlacement switch
             {
@@ -1780,7 +1780,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPositionType( PositionType positionType )
+        public virtual string ToPositionType( PositionType positionType )
         {
             return positionType switch
             {
@@ -1793,7 +1793,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+        public virtual string ToPositionEdgeType( PositionEdgeType positionEdgeType )
         {
             return positionEdgeType switch
             {
@@ -1805,7 +1805,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPositionTranslateType( PositionTranslateType positionTranslateType )
+        public virtual string ToPositionTranslateType( PositionTranslateType positionTranslateType )
         {
             return positionTranslateType switch
             {
