@@ -58,9 +58,9 @@ namespace Blazorise
         /// <summary>
         /// Asynchronously runs the validation process for all validations and returns false if any is failed.
         /// </summary>
-        public async Task<bool> ValidateAllAsync()
+        public async Task<bool> ValidateAll()
         {
-            var result = await TryValidateAllAsync();
+            var result = await TryValidateAll();
 
             if ( result )
             {
@@ -79,14 +79,16 @@ namespace Blazorise
         /// <summary>
         /// Clears all validation statuses.
         /// </summary>
-        public void ClearAll()
+        public Task ClearAll()
         {
             ClearingAll?.Invoke();
 
             RaiseStatusChanged( ValidationStatus.None, null );
+
+            return Task.CompletedTask;
         }
 
-        private async Task<bool> TryValidateAllAsync()
+        private async Task<bool> TryValidateAll()
         {
             var validated = true;
 

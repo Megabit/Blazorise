@@ -2283,7 +2283,7 @@ namespace Blazorise.Docs.Models
 
     async Task Submit()
     {
-        if ( await validations.ValidateAllAsync() )
+        if ( await validations.ValidateAll() )
         {
             // do something
         }
