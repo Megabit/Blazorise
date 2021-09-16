@@ -61,7 +61,8 @@ namespace Blazorise
         /// <summary>
         /// Shows the dropdown menu.
         /// </summary>
-        internal Task Show()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Show()
         {
             if ( Visible )
                 return Task.CompletedTask;
@@ -74,7 +75,8 @@ namespace Blazorise
         /// <summary>
         /// Hides the dropdown menu.
         /// </summary>
-        internal Task Hide()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Hide()
         {
             if ( !Visible )
                 return Task.CompletedTask;
@@ -87,7 +89,8 @@ namespace Blazorise
         /// <summary>
         /// Toggles the visibility of the dropdown menu.
         /// </summary>
-        internal Task Toggle()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Toggle()
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
             // This will be handled by mouse over actions below.

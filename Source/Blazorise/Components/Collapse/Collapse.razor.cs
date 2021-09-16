@@ -31,6 +31,7 @@ namespace Blazorise
         /// <summary>
         /// Toggles the collapse visibility state.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Toggle()
         {
             Visible = !Visible;

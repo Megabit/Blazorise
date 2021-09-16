@@ -68,6 +68,7 @@ namespace Blazorise
         /// <summary>
         /// Show the dropdown menu.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
@@ -82,6 +83,7 @@ namespace Blazorise
         /// <summary>
         /// Hide the dropdown menu.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Hide()
         {
             // used to prevent toggle event call if Close() is called multiple times
@@ -96,6 +98,7 @@ namespace Blazorise
         /// <summary>
         /// Toggle the visibility of the dropdown menu.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Toggle()
         {
             Visible = !Visible;

@@ -144,6 +144,7 @@ namespace Blazorise
         /// Sets focus on the button element, if it can be focused.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Focus( bool scrollToElement = true )
         {
             return JSRunner.Focus( ElementRef, ElementId, scrollToElement ).AsTask();

@@ -143,6 +143,7 @@ namespace Blazorise
         /// <summary>
         /// Opens the modal dialog.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Show()
         {
             if ( Visible )
@@ -156,6 +157,7 @@ namespace Blazorise
         /// <summary>
         /// Fires the modal dialog closure process.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Hide()
         {
             return Hide( CloseReason.UserClosing );
@@ -165,6 +167,7 @@ namespace Blazorise
         /// Internal method to hide the modal with reason of closing.
         /// </summary>
         /// <param name="closeReason">Reason why modal was closed.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal protected async Task Hide( CloseReason closeReason )
         {
             if ( !Visible )

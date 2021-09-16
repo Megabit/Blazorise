@@ -61,6 +61,7 @@ namespace Blazorise
         /// <summary>
         /// Displays the alert to the user.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Show()
         {
             if ( Visible )
@@ -74,6 +75,7 @@ namespace Blazorise
         /// <summary>
         /// Conceals the alert from the user.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Hide()
         {
             if ( !Visible )
@@ -87,6 +89,7 @@ namespace Blazorise
         /// <summary>
         /// Toggles the visibility of the alert.
         /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Toggle()
         {
             Visible = !Visible;
