@@ -38,7 +38,7 @@ namespace Blazorise
             {
                 if ( ParentAlert != null )
                 {
-                    ParentAlert.Hide();
+                    await ParentAlert.Hide();
                 }
                 else if ( ParentModal != null )
                 {

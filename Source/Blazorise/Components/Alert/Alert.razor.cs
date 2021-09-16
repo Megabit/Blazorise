@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -60,34 +61,37 @@ namespace Blazorise
         /// <summary>
         /// Displays the alert to the user.
         /// </summary>
-        public void Show()
+        public Task Show()
         {
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
-            InvokeAsync( StateHasChanged );
+
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Conceals the alert from the user.
         /// </summary>
-        public void Hide()
+        public Task Hide()
         {
             if ( !Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = false;
-            InvokeAsync( StateHasChanged );
+
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Toggles the visibility of the alert.
         /// </summary>
-        public void Toggle()
+        public Task Toggle()
         {
             Visible = !Visible;
-            InvokeAsync( StateHasChanged );
+
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -109,7 +113,7 @@ namespace Blazorise
         /// <param name="visible">True if <see cref="Alert"/> is visible.</param>
         private void RaiseEvents( bool visible )
         {
-            VisibleChanged.InvokeAsync( visible );
+            InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
         }
 
         /// <summary>

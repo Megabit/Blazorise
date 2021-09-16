@@ -277,7 +277,7 @@ namespace Blazorise
                 Closed.InvokeAsync( null );
             }
 
-            VisibleChanged.InvokeAsync( visible );
+            InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
