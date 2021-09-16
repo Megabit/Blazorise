@@ -34,7 +34,7 @@ namespace Blazorise
             if ( ParentCollapse != null )
                 await ParentCollapse.Toggle();
 
-            await Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         #endregion

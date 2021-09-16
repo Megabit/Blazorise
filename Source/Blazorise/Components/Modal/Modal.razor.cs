@@ -274,7 +274,7 @@ namespace Blazorise
         {
             if ( !visible )
             {
-                Closed.InvokeAsync( null );
+                Closed.InvokeAsync();
             }
 
             InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );

@@ -53,7 +53,7 @@ namespace Blazorise
         {
             return InvokeAsync( async () =>
             {
-                await Okayed.InvokeAsync( null );
+                await Okayed.InvokeAsync();
 
                 await ModalRef.Hide();
             } );
@@ -74,7 +74,7 @@ namespace Blazorise
                     await InvokeAsync( () => Callback.SetResult( true ) );
                 }
 
-                await Confirmed.InvokeAsync( null );
+                await Confirmed.InvokeAsync();
             } );
         }
 
@@ -93,7 +93,7 @@ namespace Blazorise
                     await InvokeAsync( () => Callback.SetResult( false ) );
                 }
 
-                await Canceled.InvokeAsync( null );
+                await Canceled.InvokeAsync();
             } );
         }
 

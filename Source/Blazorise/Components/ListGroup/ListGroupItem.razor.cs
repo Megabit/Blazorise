@@ -56,7 +56,7 @@ namespace Blazorise
 
             ParentListGroup?.SelectItem( Name );
 
-            return Clicked.InvokeAsync( null );
+            return Clicked.InvokeAsync();
         }
 
         #endregion

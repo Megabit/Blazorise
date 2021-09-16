@@ -46,7 +46,7 @@ namespace Blazorise
                 }
             }
 
-            await Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         #endregion

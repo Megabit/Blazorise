@@ -66,7 +66,7 @@ namespace Blazorise
             {
                 RaiseStatusChanged( ValidationStatus.Success, null );
 
-                await InvokeAsync( () => ValidatedAll.InvokeAsync( null ) );
+                await InvokeAsync( () => ValidatedAll.InvokeAsync() );
             }
             else if ( HasFailedValidations )
             {
@@ -129,7 +129,7 @@ namespace Blazorise
             {
                 RaiseStatusChanged( ValidationStatus.Success, null );
 
-                ValidatedAll.InvokeAsync( null );
+                ValidatedAll.InvokeAsync();
             }
             else if ( HasFailedValidations )
             {
