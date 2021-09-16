@@ -102,14 +102,17 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            if ( !Disabled )
+            if ( Disabled )
+                return;
+
+            if ( ParentDropdown != null )
             {
-                ParentDropdown?.Toggle();
+                await ParentDropdown.Toggle();
             }
 
-            return Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         /// <summary>
@@ -131,7 +134,8 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         public Task Close( CloseReason closeReason )
         {
-            ParentDropdown?.Hide();
+            if ( ParentDropdown != null )
+                return ParentDropdown.Hide();
 
             return Task.CompletedTask;
         }

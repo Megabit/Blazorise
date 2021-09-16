@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -67,39 +68,39 @@ namespace Blazorise
         /// <summary>
         /// Show the dropdown menu.
         /// </summary>
-        public void Show()
+        public Task Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Hide the dropdown menu.
         /// </summary>
-        public void Hide()
+        public Task Hide()
         {
             // used to prevent toggle event call if Close() is called multiple times
             if ( !Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = false;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Toggle the visibility of the dropdown menu.
         /// </summary>
-        public void Toggle()
+        public Task Toggle()
         {
             Visible = !Visible;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
