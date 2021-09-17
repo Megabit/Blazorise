@@ -633,17 +633,17 @@ namespace Blazorise
 
         #region Collapse
 
-        string Collapse();
+        string Collapse( bool accordion );
 
-        string CollapseActive( bool active );
+        string CollapseActive( bool accordion, bool active );
 
-        string CollapseHeader();
+        string CollapseHeader( bool accordion );
 
-        string CollapseBody();
+        string CollapseBody( bool accordion );
 
-        string CollapseBodyActive( bool active );
+        string CollapseBodyActive( bool accordion, bool active );
 
-        string CollapseBodyContent();
+        string CollapseBodyContent( bool accordion );
 
         #endregion
 

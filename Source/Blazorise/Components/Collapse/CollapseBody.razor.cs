@@ -33,8 +33,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CollapseBody() );
-            builder.Append( ClassProvider.CollapseBodyActive( Visible ) );
+            builder.Append( ClassProvider.CollapseBody( ParentCollapse?.InsideAccordion == true ) );
+            builder.Append( ClassProvider.CollapseBodyActive( ParentCollapse?.InsideAccordion == true, Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -45,7 +45,7 @@ namespace Blazorise
         /// <param name="builder">Class builder used to append the classnames.</param>
         private void BuildBodyClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CollapseBodyContent() );
+            builder.Append( ClassProvider.CollapseBodyContent( ParentCollapse?.InsideAccordion == true ) );
         }
 
         /// <inheritdoc/>
@@ -84,6 +84,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the cascaded parent collapse component.
+        /// </summary>
+        [CascadingParameter] public Collapse ParentCollapse { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="CollapseBody"/>.
