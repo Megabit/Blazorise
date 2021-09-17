@@ -383,7 +383,7 @@ namespace Blazorise.Bootstrap5
 
         public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
-        public override string DropdownMenuRight() => "dropdown-menu-right";
+        public override string DropdownMenuRight() => "dropdown-menu-end";
 
         public override string DropdownToggle() => "btn dropdown-toggle";
 
@@ -402,8 +402,8 @@ namespace Blazorise.Bootstrap5
             return direction switch
             {
                 Direction.Up => "dropup",
-                Direction.Right => "dropright",
-                Direction.Left => "dropleft",
+                Direction.Right => "dropend",
+                Direction.Left => "dropstart",
                 _ => null,
             };
         }
@@ -478,9 +478,9 @@ namespace Blazorise.Bootstrap5
 
         public override string CarouselSlideActive( bool active ) => active ? Active() : null;
 
-        public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-left" : null;
+        public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-start" : null;
 
-        public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-right" : null;
+        public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-end" : null;
 
         public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "carousel-item-prev" : null;
 
@@ -630,7 +630,7 @@ namespace Blazorise.Bootstrap5
 
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-        public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
+        public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-end" : "b-bar-right";
 
         public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 
