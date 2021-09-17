@@ -881,7 +881,7 @@ namespace Blazorise.Bootstrap5
 
         public override string BadgeColor( Color color ) => $"bg-{ToColor( color )}";
 
-        public override string BadgePill() => $"{Badge()}-pill";
+        public override string BadgePill() => "rounded-pill";
 
         public override string BadgeClose() => "badge-close";
 
