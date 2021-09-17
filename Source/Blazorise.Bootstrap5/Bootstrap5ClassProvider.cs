@@ -186,7 +186,7 @@ namespace Blazorise.Bootstrap5
 
         #region Label
 
-        public override string Label() => null;
+        public override string Label() => "form-label";
 
         public override string LabelType( LabelType labelType )
         {
