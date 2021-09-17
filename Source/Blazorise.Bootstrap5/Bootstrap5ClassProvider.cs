@@ -116,7 +116,7 @@ namespace Blazorise.Bootstrap5
 
         #region Radio
 
-        public override string Radio( bool button ) => button ? null : "form-check-input";
+        public override string Radio( bool button ) => button ? "btn-check" : "form-check-input";
 
         public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
