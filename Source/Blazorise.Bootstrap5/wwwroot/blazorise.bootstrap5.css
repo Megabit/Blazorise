@@ -426,6 +426,20 @@ input[readonly="readonly"][type=range] {
     input[readonly="readonly"][type=range]::-ms-thumb {
         pointer-events: none; }
 
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: 0.3rem; }
+    @media (min-width: 576px) {
+        .jumbotron {
+            padding: 4rem 2rem; } }
+
+.jumbotron-fluid {
+    padding-right: 0;
+    padding-left: 0;
+    border-radius: 0; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }
