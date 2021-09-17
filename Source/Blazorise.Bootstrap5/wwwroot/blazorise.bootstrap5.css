@@ -474,6 +474,13 @@ input[readonly="readonly"][type=range] {
 li.list-group-item-action {
     cursor: pointer; }
 
+.media {
+    display: flex;
+    align-items: flex-start; }
+
+.media-body {
+    flex: 1; }
+
 .modal.show {
     animation-duration: 0.25s;
     animation-fill-mode: both;
