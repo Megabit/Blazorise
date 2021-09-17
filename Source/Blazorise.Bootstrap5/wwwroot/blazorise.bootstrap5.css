@@ -189,11 +189,11 @@
     padding-left: 1rem;
     font-size: 1.5rem; }
 
-.input-group > .b-numeric > input:not(:last-child) {
+.input-group > .b-numeric:not(:last-child) > input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }
 
-.input-group > .b-numeric > input:not(:first-child) {
+.input-group > .b-numeric:not(:first-child) > input {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
 

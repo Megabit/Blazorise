@@ -63,19 +63,16 @@
 }
 
 .input-group {
-    > .b-numeric > input {
-        &:not(:last-child) {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+    > .b-numeric:not(:last-child) > input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 
-        &:not(:first-child) {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
+    > .b-numeric:not(:first-child) > input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 }
-
 
 .input-group-xs > .form-control:not(textarea),
 .input-group-xs > .form-select,
