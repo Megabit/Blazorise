@@ -259,15 +259,11 @@ namespace Blazorise.Bootstrap5
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".custom-select" ).Append( "{" )
+            sb.Append( ".form-select" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".custom-checkbox .custom-control-label::before" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".custom-file-label" ).Append( "{" )
+            sb.Append( ".form-check:not(.form-switch) .form-check-input[type=checkbox]" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
@@ -281,7 +277,7 @@ namespace Blazorise.Bootstrap5
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
 
-                sb.Append( ".custom-select" ).Append( "{" )
+                sb.Append( ".form-select" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
             }
@@ -297,7 +293,7 @@ namespace Blazorise.Bootstrap5
 
                 sb
                     .Append( ".form-control:focus," )
-                    .Append( ".custom-select:focus" )
+                    .Append( ".form-select:focus" )
                     .Append( "{" )
                     .Append( $"border-color: {focusColor};" )
                     .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusColor};" )
@@ -367,20 +363,19 @@ namespace Blazorise.Bootstrap5
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb
-                .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".form-check-input.is-valid:checked, .was-validated .form-check-input:valid:checked" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
-                .Append( $"color: {options.Color};" )
+                .Append( ".form-check-input.is-valid, .was-validated .form-check-input:valid" ).Append( "{" )
                 .Append( $"border-color: {options.CheckColor};" )
-                .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".form-check-input:checked" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
+                .Append( $"border-color: {options.CheckColor};" )
                 .AppendLine( "}" );
         }
 
@@ -416,21 +411,21 @@ namespace Blazorise.Bootstrap5
             var disabledBackground = ToHex( disabledBackgroundColor );
 
             sb
-                .Append( $".custom-switch .custom-control-input.custom-control-input-{variant}:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $".form-check.form-switch .form-check-input.form-check-input-{variant}:checked" ).Append( "{" )
                 .Append( $"background-color: {background};" )
                 .Append( $"border-color: {background};" )
                 .AppendLine( "}" );
 
-            sb
-                .Append( $".custom-switch .custom-control-input.custom-control-input-{variant}:focus ~ .custom-control-label::before" ).Append( "{" )
-                .Append( $"box-shadow: {boxShadow};" )
-                .Append( $"border-color: {background};" )
-                .AppendLine( "}" );
+            //sb
+            //    .Append( $".custom-switch .custom-control-input.custom-control-input-{variant}:focus ~ .custom-control-label::before" ).Append( "{" )
+            //    .Append( $"box-shadow: {boxShadow};" )
+            //    .Append( $"border-color: {background};" )
+            //    .AppendLine( "}" );
 
-            sb
-                .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant}:checked ~ .custom-control-label::before" ).Append( "{" )
-                .Append( $"background-color: {disabledBackground};" )
-                .AppendLine( "}" );
+            //sb
+            //    .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant}:checked ~ .custom-control-label::before" ).Append( "{" )
+            //    .Append( $"background-color: {disabledBackground};" )
+            //    .AppendLine( "}" );
         }
 
         protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
@@ -681,7 +676,7 @@ namespace Blazorise.Bootstrap5
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( ".badge:not(.badge-pill)" ).Append( "{" )
+            sb.Append( ".badge:not(.rounded-pill)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
