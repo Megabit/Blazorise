@@ -1,11 +1,2 @@
 ﻿@inherits Blazorise.Addon
-@if ( AddonType != AddonType.Body )
-{
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
-}
-else
-{
-    @ChildContent
-}
+@ChildContent

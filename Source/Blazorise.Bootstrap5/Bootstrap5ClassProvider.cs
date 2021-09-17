@@ -292,15 +292,7 @@ namespace Blazorise.Bootstrap5
 
         public override string AddonsHasButton( bool hasButton ) => null;
 
-        public override string Addon( AddonType addonType )
-        {
-            return addonType switch
-            {
-                AddonType.Start => "input-group-prepend",
-                AddonType.End => "input-group-append",
-                _ => null,
-            };
-        }
+        public override string Addon( AddonType addonType ) => null;
 
         public override string AddonLabel() => "input-group-text";
 
