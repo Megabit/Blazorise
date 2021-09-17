@@ -504,7 +504,7 @@ namespace Blazorise.Bootstrap5
 
         #region Card
 
-        public override string CardDeck() => "card-deck";
+        public override string CardDeck() => "row row-cols-1 row-cols-md-3 text-center";
 
         public override string CardGroup() => "card-group";
 

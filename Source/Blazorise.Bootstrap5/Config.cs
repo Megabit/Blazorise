@@ -46,6 +46,7 @@ namespace Blazorise.Bootstrap5
             { typeof( Blazorise.BarDropdown ), typeof( Bootstrap5.BarDropdown ) },
             { typeof( Blazorise.BarDropdownMenu ), typeof( Bootstrap5.BarDropdownMenu ) },
             { typeof( Blazorise.Button ), typeof( Bootstrap5.Button ) },
+            { typeof( Blazorise.Card ), typeof( Bootstrap5.Card ) },
             { typeof( Blazorise.CardTitle ), typeof( Bootstrap5.CardTitle ) },
             { typeof( Blazorise.CardSubtitle ), typeof( Bootstrap5.CardSubtitle ) },
             { typeof( Blazorise.Carousel ), typeof( Bootstrap5.Carousel ) },
