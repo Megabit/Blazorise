@@ -907,11 +907,11 @@ namespace Blazorise.Bootstrap5
 
         public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
 
-        public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+        public override string TextWeight( TextWeight textWeight ) => $"fw-{ToTextWeight( textWeight )}";
 
         public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
 
-        public override string TextItalic() => "font-italic";
+        public override string TextItalic() => "fst-italic";
 
         #endregion
 
