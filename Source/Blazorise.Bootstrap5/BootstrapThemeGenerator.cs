@@ -396,9 +396,8 @@ namespace Blazorise.Bootstrap5
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
 
-            sb.Append( $".badge-{variant}" ).Append( "{" )
+            sb.Append( $".badge.bg-{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
-                .Append( $"background-color: {background};" )
                 .AppendLine( "}" );
         }
 
