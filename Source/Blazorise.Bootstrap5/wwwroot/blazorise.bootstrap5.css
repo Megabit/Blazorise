@@ -79,6 +79,17 @@
     line-height: 1.5;
     border-radius: 0.4rem; }
 
+.btn-block {
+    display: block;
+    width: 100%; }
+    .btn-block + .btn-block {
+        margin-top: 0.5rem; }
+
+input[type="submit"].btn-block,
+input[type="reset"].btn-block,
+input[type="button"].btn-block {
+    width: 100%; }
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
     content: none !important; }
 

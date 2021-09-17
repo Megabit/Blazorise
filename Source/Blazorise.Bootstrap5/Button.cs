@@ -32,10 +32,6 @@ namespace Blazorise.Bootstrap5
 
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
-            if ( Block )
-                builder.OpenElement( "div" )
-                    .Class( "d-grid" );
-
             builder
                 .OpenElement( Type.ToButtonTagName() )
                 .Id( ElementId )
@@ -82,9 +78,6 @@ namespace Blazorise.Bootstrap5
             }
 
             builder.CloseElement();
-
-            if ( Block )
-                builder.CloseElement();
         }
 
         /// <inheritdoc/>
