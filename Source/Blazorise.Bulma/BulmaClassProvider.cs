@@ -254,9 +254,7 @@ namespace Blazorise.Bulma
 
         #region FieldLabel
 
-        public override string FieldLabel() => "field-label";
-
-        public override string FieldLabelHorizontal() => "is-normal";
+        public override string FieldLabel( bool horizontal ) => horizontal ? "field-label is-normal" : "field-label";
 
         #endregion
 

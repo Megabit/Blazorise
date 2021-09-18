@@ -250,9 +250,7 @@ namespace Blazorise.AntDesign
 
         #region FieldLabel
 
-        public override string FieldLabel() => null;
-
-        public override string FieldLabelHorizontal() => "ant-form-item-label";
+        public override string FieldLabel( bool horizontal ) => horizontal ? "ant-form-item-label" : null;
 
         #endregion
 

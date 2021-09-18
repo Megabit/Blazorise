@@ -238,9 +238,7 @@ namespace Blazorise
 
         #region FieldLabel
 
-        public abstract string FieldLabel();
-
-        public abstract string FieldLabelHorizontal();
+        public abstract string FieldLabel( bool horizontal );
 
         #endregion
 

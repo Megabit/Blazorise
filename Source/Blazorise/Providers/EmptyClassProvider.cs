@@ -239,9 +239,7 @@ namespace Blazorise.Providers
 
         #region FieldLabel
 
-        public string FieldLabel() => null;
-
-        public string FieldLabelHorizontal() => null;
+        public string FieldLabel( bool horizontal ) => null;
 
         #endregion
 

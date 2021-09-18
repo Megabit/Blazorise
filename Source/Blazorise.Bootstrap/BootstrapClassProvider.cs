@@ -252,9 +252,7 @@ namespace Blazorise.Bootstrap
 
         #region FieldLabel
 
-        public override string FieldLabel() => null;
-
-        public override string FieldLabelHorizontal() => "col-form-label";
+        public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
 
         #endregion
 
