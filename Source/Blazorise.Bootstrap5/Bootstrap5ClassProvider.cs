@@ -238,7 +238,7 @@ namespace Blazorise.Bootstrap5
 
         #region Field
 
-        public override string Field() => null;
+        public override string Field() => "form-group";
 
         public override string FieldHorizontal() => "row";
 

@@ -8,11 +8,11 @@ namespace Blazorise.Bootstrap5
     {
         #region Members
 
-        /// <summary>
-        /// Bootstrap 5 doesn't have "form-group" any more so all fields are without marging by default.
-        /// With this I am defining the default marging if it is undefined. This is per bootstrap 5 documentation.
-        /// </summary>
-        private static readonly IFluentSpacing DefaultMargin = Blazorise.Margin.Is3.FromBottom;
+        ///// <summary>
+        ///// Bootstrap 5 doesn't have "form-group" any more so all fields are without marging by default.
+        ///// With this I am defining the default marging if it is undefined. This is per bootstrap 5 documentation.
+        ///// </summary>
+        //private static readonly IFluentSpacing DefaultMargin = Blazorise.Margin.Is3.FromBottom;
 
         #endregion
 
@@ -20,10 +20,10 @@ namespace Blazorise.Bootstrap5
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( Margin == null )
-            {
-                builder.Append( DefaultMargin.Class( ClassProvider ) );
-            }
+            //if ( Margin == null )
+            //{
+            //    builder.Append( DefaultMargin.Class( ClassProvider ) );
+            //}
 
             if ( IsFields && ColumnSize == null )
                 builder.Append( ClassProvider.FieldColumn() );

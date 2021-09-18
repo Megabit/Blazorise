@@ -426,6 +426,54 @@ input[readonly="readonly"][type=range] {
     input[readonly="readonly"][type=range]::-ms-thumb {
         pointer-events: none; }
 
+.form-group {
+    margin-bottom: 1rem; }
+
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center; }
+    .form-inline .form-check {
+        width: 100%; }
+    @media (min-width: 576px) {
+        .form-inline label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0; }
+        .form-inline .form-group {
+            display: flex;
+            flex: 0 0 auto;
+            flex-flow: row wrap;
+            align-items: center;
+            margin-bottom: 0; }
+        .form-inline .form-control {
+            display: inline-block;
+            width: auto;
+            vertical-align: middle; }
+        .form-inline .form-control-plaintext {
+            display: inline-block; }
+        .form-inline .input-group,
+        .form-inline .custom-select {
+            width: auto; }
+        .form-inline .form-check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            padding-left: 0; }
+        .form-inline .form-check-input {
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 0;
+            margin-right: 0.25rem;
+            margin-left: 0; }
+        .form-inline .form-select {
+            align-items: center;
+            justify-content: center; }
+        .form-inline .form-check-label {
+            margin-bottom: 0; } }
+
 .jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 2rem;
