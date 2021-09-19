@@ -70,9 +70,9 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public virtual async Task Select( bool focus = true )
+        public virtual Task Select( bool focus = true )
         {
-            await JSRunner.Select( ElementRef, ElementId, focus );
+            return JSRunner.Select( ElementRef, ElementId, focus ).AsTask();
         }
 
         #endregion

@@ -168,10 +168,10 @@ namespace Blazorise
         /// </summary>
         /// <param name="closeReason">Reason why modal was closed.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal protected async Task Hide( CloseReason closeReason )
+        internal protected Task Hide( CloseReason closeReason )
         {
             if ( !Visible )
-                return;
+                return Task.CompletedTask;
 
             this.closeReason = closeReason;
 
@@ -185,7 +185,7 @@ namespace Blazorise
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
 
-                await InvokeAsync( StateHasChanged );
+                return InvokeAsync( StateHasChanged );
             }
         }
 
