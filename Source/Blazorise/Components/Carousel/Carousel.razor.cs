@@ -66,11 +66,6 @@ namespace Blazorise
         {
             SetTimer();
 
-            if ( AutoPlayEnabled )
-            {
-                Timer.Start();
-            }
-
             base.OnParametersSet();
         }
 
@@ -78,9 +73,6 @@ namespace Blazorise
         protected override void OnInitialized()
         {
             SetTimer();
-
-            if ( AutoPlayEnabled )
-                Timer.Start();
 
             if ( TransitionTimer == null )
             {
@@ -295,6 +287,11 @@ namespace Blazorise
             if ( Timer == null && TimerEnabled )
             {
                 InitializeTimer();
+            }
+
+            if ( AutoPlayEnabled )
+            {
+                Timer.Start();
             }
         }
 
