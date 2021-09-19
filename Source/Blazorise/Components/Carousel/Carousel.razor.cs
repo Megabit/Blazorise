@@ -290,7 +290,7 @@ namespace Blazorise
 
         private void SetTimer()
         {
-            TimerEnabled = ( Interval == 0 );
+            TimerEnabled = ( Interval > 0 );
 
             if ( Timer == null && TimerEnabled )
             {
@@ -304,7 +304,7 @@ namespace Blazorise
             {
                 Timer.Stop();
 
-                if ( TimerEnabled )
+                if ( AutoPlayEnabled )
                 {
                     Timer.Interval = GetSelectedCarouselSlide()?.Interval ?? Interval;
                     Timer.Start();
@@ -379,8 +379,7 @@ namespace Blazorise
 
                 if ( TimerEnabled )
                 {
-                    InitializeTimer();
-                    Timer.Start();
+                    ResetTimer();
                 }
 
                 await SelectedSlideChanged.InvokeAsync( SelectedSlide );
