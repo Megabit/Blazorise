@@ -187,6 +187,8 @@ namespace Blazorise
 
                 return InvokeAsync( StateHasChanged );
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
