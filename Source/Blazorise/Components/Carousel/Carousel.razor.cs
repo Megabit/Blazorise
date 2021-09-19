@@ -67,14 +67,15 @@ namespace Blazorise
             if ( Interval != 0 )
                 TimerEnabled = true;
 
-            if ( Autoplay /*&& SelectedSlideIndex == 0*/ )
+            if ( AutoPlayEnabled )
             {
-                if ( TimerEnabled )
-                    Timer.Start();
+                Timer.Start();
             }
 
             base.OnParametersSet();
         }
+
+
 
         /// <inheritdoc/>
         protected override void OnInitialized()
@@ -85,9 +86,10 @@ namespace Blazorise
             if ( Timer == null && TimerEnabled )
             {
                 InitializeTimer();
-
-                Timer.Start();
             }
+
+            if ( AutoPlayEnabled )
+                Timer.Start();
 
             if ( TransitionTimer == null )
             {
@@ -490,6 +492,12 @@ namespace Blazorise
         /// Gets or sets the flag that indicates if the timer is running.
         /// </summary>
         private bool TimerEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the flag that indicates if the timer is running and AutoPlay is enabled.
+        /// </summary>
+        private bool AutoPlayEnabled
+            => ( Autoplay && TimerEnabled );
 
         /// <summary>
         /// Gets the carousel state.
