@@ -64,8 +64,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnParametersSet()
         {
-            if ( Interval != 0 )
-                TimerEnabled = true;
+            SetTimer();
 
             if ( AutoPlayEnabled )
             {
@@ -75,18 +74,10 @@ namespace Blazorise
             base.OnParametersSet();
         }
 
-
-
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( Interval == 0 )
-                TimerEnabled = false;
-
-            if ( Timer == null && TimerEnabled )
-            {
-                InitializeTimer();
-            }
+            SetTimer();
 
             if ( AutoPlayEnabled )
                 Timer.Start();
@@ -295,6 +286,16 @@ namespace Blazorise
             TransitionTimer = new( 2000 );
             TransitionTimer.Elapsed += OnTransitionTimerEvent;
             TransitionTimer.AutoReset = false;
+        }
+
+        private void SetTimer()
+        {
+            TimerEnabled = ( Interval == 0 );
+
+            if ( Timer == null && TimerEnabled )
+            {
+                InitializeTimer();
+            }
         }
 
         private void ResetTimer()
