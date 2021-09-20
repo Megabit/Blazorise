@@ -33,6 +33,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// True if card is placed inside of a deck.
+        /// </summary>
+        protected bool InsideDeck => ParentCardDeck != null;
+
+        /// <summary>
         /// Sets the white text when using the darker background.
         /// </summary>
         [Parameter]
@@ -46,6 +51,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent deck component.
+        /// </summary>
+        [CascadingParameter] protected CardDeck ParentCardDeck { get; set; }
 
         #endregion
     }

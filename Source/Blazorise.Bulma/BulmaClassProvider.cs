@@ -254,9 +254,7 @@ namespace Blazorise.Bulma
 
         #region FieldLabel
 
-        public override string FieldLabel() => "field-label";
-
-        public override string FieldLabelHorizontal() => "is-normal";
+        public override string FieldLabel( bool horizontal ) => horizontal ? "field-label is-normal" : "field-label";
 
         #endregion
 
@@ -664,17 +662,17 @@ namespace Blazorise.Bulma
 
         #region Collapse
 
-        public override string Collapse() => "card";
+        public override string Collapse( bool accordion ) => "card";
 
-        public override string CollapseActive( bool active ) => null;
+        public override string CollapseActive( bool accordion, bool active ) => null;
 
-        public override string CollapseHeader() => "card-header";
+        public override string CollapseHeader( bool accordion ) => "card-header";
 
-        public override string CollapseBody() => "collapse";
+        public override string CollapseBody( bool accordion ) => "collapse";
 
-        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
+        public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
 
-        public override string CollapseBodyContent() => "card-content";
+        public override string CollapseBodyContent( bool accordion ) => "card-content";
 
         #endregion
 
