@@ -107,29 +107,27 @@
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
 
-    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
+    private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
     {
         this.centered = centered;
         this.modalSize = modalSize;
         this.maxHeight = maxHeight;
 
-        modalRef.Show();
+        return modalRef.Show();
     }
 
-    private void HideModal()
+    private Task HideModal()
     {
-        modalRef.Hide();
+        return modalRef.Hide();
     }
 
     private Task ShowModal2()
     {
-        modalRef2.Show();
-
-        return Task.CompletedTask;
+        return modalRef2.Show();
     }
 
-    private void HideModal2()
+    private Task HideModal2()
     {
-        modalRef2.Hide();
+        return modalRef2.Hide();
     }
 }

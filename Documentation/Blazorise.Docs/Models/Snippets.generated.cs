@@ -107,9 +107,7 @@ namespace Blazorise.Docs.Models
 
     Task OnButtonClick()
     {
-        myAlert.Show();
-
-        return Task.CompletedTask;
+        return myAlert.Show();
     }
 }";
 
@@ -712,9 +710,7 @@ namespace Blazorise.Docs.Models
 
     Task ShowMenu()
     {
-        dropdown.Show();
-
-        return Task.CompletedTask;
+        return dropdown.Show();
     }
 }";
 
@@ -1288,16 +1284,12 @@ namespace Blazorise.Docs.Models
 
     private Task ShowModal()
     {
-        modalRef.Show();
-
-        return Task.CompletedTask;
+        return modalRef.Show();
     }
 
     private Task HideModal()
     {
-        modalRef.Hide();
-
-        return Task.CompletedTask;
+        return modalRef.Hide();
     }
 }";
 
@@ -2291,7 +2283,7 @@ namespace Blazorise.Docs.Models
 
     async Task Submit()
     {
-        if ( await validations.ValidateAllAsync() )
+        if ( await validations.ValidateAll() )
         {
             // do something
         }

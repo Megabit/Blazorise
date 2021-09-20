@@ -61,42 +61,45 @@ namespace Blazorise
         /// <summary>
         /// Shows the dropdown menu.
         /// </summary>
-        internal void Show()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Show()
         {
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Hides the dropdown menu.
         /// </summary>
-        internal void Hide()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Hide()
         {
             if ( !Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = false;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Toggles the visibility of the dropdown menu.
         /// </summary>
-        internal void Toggle()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Toggle()
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
             // This will be handled by mouse over actions below.
             if ( ParentBarItemState != null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
-                return;
+                return Task.CompletedTask;
 
             Visible = !Visible;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -108,9 +111,7 @@ namespace Blazorise
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return Task.CompletedTask;
 
-            Show();
-
-            return Task.CompletedTask;
+            return Show();
         }
 
         /// <summary>
@@ -122,9 +123,7 @@ namespace Blazorise
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return Task.CompletedTask;
 
-            Hide();
-
-            return Task.CompletedTask;
+            return Hide();
         }
 
         #endregion

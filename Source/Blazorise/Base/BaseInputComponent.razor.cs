@@ -62,7 +62,7 @@ namespace Blazorise
                     }
                     else
                     {
-                        ExecuteAfterRender( () => FocusAsync() );
+                        ExecuteAfterRender( () => Focus() );
                     }
                 }
                 else
@@ -187,13 +187,7 @@ namespace Blazorise
         protected abstract Task OnInternalValueChanged( TValue value );
 
         /// <inheritdoc/>
-        public virtual void Focus( bool scrollToElement = true )
-        {
-            InvokeAsync( () => FocusAsync( scrollToElement ) );
-        }
-
-        /// <inheritdoc/>
-        public virtual async Task FocusAsync( bool scrollToElement = true )
+        public virtual async Task Focus( bool scrollToElement = true )
         {
             // workaround from: https://github.com/dotnet/aspnetcore/issues/30070#issuecomment-823938686
             await Task.Yield();

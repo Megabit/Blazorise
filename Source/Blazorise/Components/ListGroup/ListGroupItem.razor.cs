@@ -49,14 +49,15 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
             if ( Disabled )
-                return Task.CompletedTask;
+                return;
 
-            ParentListGroup?.SelectItem( Name );
+            if ( ParentListGroup != null )
+                await ParentListGroup.SelectItem( Name );
 
-            return Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         #endregion

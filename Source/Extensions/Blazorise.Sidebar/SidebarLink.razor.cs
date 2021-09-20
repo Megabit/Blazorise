@@ -35,7 +35,7 @@ namespace Blazorise.Sidebar
 
         protected async Task ClickHandler()
         {
-            await Click.InvokeAsync( null );
+            await Click.InvokeAsync();
 
             if ( Collapsable )
             {

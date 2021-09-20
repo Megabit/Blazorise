@@ -42,7 +42,7 @@ namespace Blazorise.Snackbar
 
         protected Task ClickHandler()
         {
-            return Clicked.InvokeAsync( null );
+            return Clicked.InvokeAsync();
         }
 
         #endregion

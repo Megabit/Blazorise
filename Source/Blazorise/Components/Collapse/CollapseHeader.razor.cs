@@ -29,11 +29,12 @@ namespace Blazorise
         /// Handles the header onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            ParentCollapse.Toggle();
+            if ( ParentCollapse != null )
+                await ParentCollapse.Toggle();
 
-            return Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         #endregion

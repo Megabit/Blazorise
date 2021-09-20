@@ -610,36 +610,32 @@
 
     async Task Submit()
     {
-        if ( await validations.ValidateAllAsync() )
+        if ( await validations.ValidateAll() )
         {
-            validations.ClearAll();
+            await validations.ClearAll();
         }
     }
 
     async Task AnnotationsSubmit()
     {
-        if ( await annotationsValidations.ValidateAllAsync() )
+        if ( await annotationsValidations.ValidateAll() )
         {
-            annotationsValidations.ClearAll();
+            await annotationsValidations.ClearAll();
         }
     }
 
-    Task OpenUserModal()
+    async Task OpenUserModal()
     {
         // re-initiate model will be act as a "first load" for validations inside of modal dialog
         modalUser = new();
 
-        modalValidations.ClearAll();
+        await modalValidations.ClearAll();
 
-        modalRef.Show();
-
-        return Task.CompletedTask;
+        await modalRef.Show();
     }
 
     Task CloseUserModal()
     {
-        modalRef.Hide();
-
-        return Task.CompletedTask;
+        return modalRef.Hide();
     }
 }

@@ -80,7 +80,7 @@
             </TextEdit>
         </Validation>
     </Validations>
-    <Button Clicked="@(()=>manualValidationsNameRef.ValidateAllAsync())">Validate</Button>
+    <Button Clicked="@(()=>manualValidationsNameRef.ValidateAll())">Validate</Button>
 </div>
 <div id="manually-validate-name-initially-populated">
     Initially populated:
@@ -93,7 +93,7 @@
             </TextEdit>
         </Validation>
     </Validations>
-    <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAllAsync())">Validate</Button>
+    <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAll())">Validate</Button>
 </div>
 @code {
     User autoModelForName = new();

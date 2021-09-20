@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -30,10 +31,12 @@ namespace Blazorise
         /// <summary>
         /// Toggles the collapse visibility state.
         /// </summary>
-        public void Toggle()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Toggle()
         {
             Visible = !Visible;
-            InvokeAsync( StateHasChanged );
+
+            return InvokeAsync( StateHasChanged );
         }
 
         #endregion

@@ -10,16 +10,10 @@ namespace Blazorise
     public interface IFocusableComponent
     {
         /// <summary>
-        /// Sets the focus on the underline component.
+        /// Sets the focus on the underline element.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        void Focus( bool scrollToElement = true );
-
-        /// <summary>
-        /// Sets the focus on the underline component.
-        /// </summary>
-        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        /// <returns>Returns awaitable task.</returns>
-        Task FocusAsync( bool scrollToElement = true );
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        Task Focus( bool scrollToElement = true );
     }
 }

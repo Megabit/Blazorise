@@ -52,7 +52,7 @@ namespace Blazorise
         {
             if ( Clicked.HasDelegate )
             {
-                await Clicked.InvokeAsync( null );
+                await Clicked.InvokeAsync();
             }
 
             if ( Bar != null )
