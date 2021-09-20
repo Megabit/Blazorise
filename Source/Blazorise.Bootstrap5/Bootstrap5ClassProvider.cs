@@ -1310,6 +1310,16 @@ namespace Blazorise.Bootstrap5
             };
         }
 
+        public override string ToScreenreader( Screenreader screenreader )
+        {
+            return screenreader switch
+            {
+                Blazorise.Screenreader.Only => "visually-hidden",
+                Blazorise.Screenreader.OnlyFocusable => "visually-hidden-focusable",
+                _ => null,
+            };
+        }
+
         #endregion
 
         public override bool UseCustomInputStyles { get; set; } = true;
