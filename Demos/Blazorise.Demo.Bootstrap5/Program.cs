@@ -26,7 +26,7 @@ namespace Blazorise.Demo.Bootstrap5
                     options.UseBubbleTheme = true;
                     options.UseShowTheme = true;
                 } )
-                .AddBootstrapProviders()
+                .AddBootstrap5Providers()
                 .AddFontAwesomeIcons();
 
             builder.Services.AddMemoryCache();

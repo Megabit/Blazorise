@@ -13,7 +13,7 @@ namespace Blazorise.Bootstrap5
         /// </summary>
         /// <param name="serviceCollection"></param>
         /// <returns></returns>
-        public static IServiceCollection AddBootstrapProviders( this IServiceCollection serviceCollection, Action<IClassProvider> configureClassProvider = null )
+        public static IServiceCollection AddBootstrap5Providers( this IServiceCollection serviceCollection, Action<IClassProvider> configureClassProvider = null )
         {
             var classProvider = new BootstrapClassProvider();
 
@@ -24,12 +24,12 @@ namespace Blazorise.Bootstrap5
             serviceCollection.AddScoped<IJSRunner, BootstrapJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
 
-            serviceCollection.AddBootstrapComponents();
+            serviceCollection.AddBootstrap5Components();
 
             return serviceCollection;
         }
 
-        public static IServiceCollection AddBootstrapComponents( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddBootstrap5Components( this IServiceCollection serviceCollection )
         {
             foreach ( var mapping in ComponentMap )
             {
