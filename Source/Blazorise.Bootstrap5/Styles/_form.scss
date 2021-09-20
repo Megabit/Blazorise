@@ -250,14 +250,12 @@ select[readonly] {
 }
 
 .form-control + .b-numeric-handler-wrap {
-    height: $input-height;
     font-size: $input-font-size;
     border-top-right-radius: $input-border-radius;
     border-bottom-right-radius: $input-border-radius;
 }
 
 .form-control-xs + .b-numeric-handler-wrap {
-    height: $input-height-xs;
     font-size: $input-font-size-xs;
     border-top-right-radius: $input-border-radius-xs;
     border-bottom-right-radius: $input-border-radius-xs;
@@ -268,7 +266,6 @@ select[readonly] {
 }
 
 .form-control-sm + .b-numeric-handler-wrap {
-    height: $input-height-sm;
     font-size: $input-font-size-sm;
     border-top-right-radius: $input-border-radius-sm;
     border-bottom-right-radius: $input-border-radius-sm;
@@ -279,7 +276,6 @@ select[readonly] {
 }
 
 .form-control-md + .b-numeric-handler-wrap {
-    height: $input-height-md;
     font-size: $input-font-size-md;
     border-top-right-radius: $input-border-radius-md;
     border-bottom-right-radius: $input-border-radius-md;
@@ -290,7 +286,6 @@ select[readonly] {
 }
 
 .form-control-lg + .b-numeric-handler-wrap {
-    height: $input-height-lg;
     font-size: $input-font-size-lg;
     border-top-right-radius: $input-border-radius-lg;
     border-bottom-right-radius: $input-border-radius-lg;
@@ -301,7 +296,6 @@ select[readonly] {
 }
 
 .form-control-xl + .b-numeric-handler-wrap {
-    height: $input-height-xl;
     font-size: $input-font-size-xl;
     border-top-right-radius: $input-border-radius-xl;
     border-bottom-right-radius: $input-border-radius-xl;
