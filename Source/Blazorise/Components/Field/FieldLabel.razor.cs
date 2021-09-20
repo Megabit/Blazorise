@@ -21,8 +21,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.FieldLabel() );
-            builder.Append( ClassProvider.FieldLabelHorizontal(), IsHorizontal );
+            builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
             builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
             base.BuildClasses( builder );

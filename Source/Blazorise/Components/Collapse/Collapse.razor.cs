@@ -22,8 +22,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Collapse() );
-            builder.Append( ClassProvider.CollapseActive( Visible ) );
+            builder.Append( ClassProvider.Collapse( InsideAccordion ) );
+            builder.Append( ClassProvider.CollapseActive( InsideAccordion, Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -44,6 +44,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Determines if the collapse is placed inside of accordion component.
+        /// </summary>
+        public bool InsideAccordion => ParentAccordion != null;
+
+        /// <summary>
         /// Gets or sets the collapse visibility state.
         /// </summary>
         [Parameter]
@@ -57,6 +62,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the cascaded parent accordion component.
+        /// </summary>
+        [CascadingParameter] protected Accordion ParentAccordion { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Collapse"/>.

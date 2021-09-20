@@ -239,9 +239,7 @@ namespace Blazorise.Providers
 
         #region FieldLabel
 
-        public string FieldLabel() => null;
-
-        public string FieldLabelHorizontal() => null;
+        public string FieldLabel( bool horizontal ) => null;
 
         #endregion
 
@@ -639,17 +637,17 @@ namespace Blazorise.Providers
 
         #region Collapse
 
-        public string Collapse() => null;
+        public string Collapse( bool accordion ) => null;
 
-        public string CollapseActive( bool active ) => null;
+        public string CollapseActive( bool accordion, bool active ) => null;
 
-        public string CollapseHeader() => null;
+        public string CollapseHeader( bool accordion ) => null;
 
-        public string CollapseBody() => null;
+        public string CollapseBody( bool accordion ) => null;
 
-        public string CollapseBodyActive( bool active ) => null;
+        public string CollapseBodyActive( bool accordion, bool active ) => null;
 
-        public string CollapseBodyContent() => null;
+        public string CollapseBodyContent( bool accordion ) => null;
 
         #endregion
 
