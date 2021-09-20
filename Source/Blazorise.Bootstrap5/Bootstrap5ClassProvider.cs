@@ -845,7 +845,7 @@ namespace Blazorise.Bootstrap5
 
         public override string TableHeader() => null;
 
-        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"thead-{ToThemeContrast( themeContrast )}";
+        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
 
