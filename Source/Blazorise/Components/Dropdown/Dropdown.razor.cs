@@ -92,14 +92,35 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
+        internal bool ShouldClose { get; set; } = false;
+
+        protected void MouseLeave()
+        {
+            ShouldClose = true;
+        }
+
+        protected void MouseEnter()
+        {
+            ShouldClose = false;
+        }
+
         /// <summary>
         /// Toggle the visibility of the dropdown menu.
         /// </summary>
-        public void Toggle()
+        public void Toggle(string dropdownToggleElementId)
         {
+
+            SetLastSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
             InvokeAsync( StateHasChanged );
+        }
+
+        protected void SetLastSelectedDropdownElementId( string dropdownToggleElementId )
+        {
+            SelectedDropdownElementId = dropdownToggleElementId;
+            if ( ParentDropdown is not null )
+                ParentDropdown.SetLastSelectedDropdownElementId( dropdownToggleElementId );
         }
 
         /// <summary>
@@ -258,9 +279,17 @@ namespace Blazorise
         [CascadingParameter] protected Table ParentTable { get; set; }
 
         /// <summary>
+        /// Gets or sets the cascaded parent Dropdown component.
+        /// </summary>
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
+
+        /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Dropdown"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        public string SelectedDropdownElementId { get; set; }
+
 
         #endregion
     }

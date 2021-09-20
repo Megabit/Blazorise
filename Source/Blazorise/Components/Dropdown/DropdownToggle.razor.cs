@@ -106,11 +106,14 @@ namespace Blazorise
         {
             if ( !Disabled )
             {
-                ParentDropdown?.Toggle();
+                ParentDropdown?.Toggle( ElementId );
             }
 
             return Clicked.InvokeAsync( null );
         }
+
+
+
 
         /// <summary>
         /// Returns true of the parent dropdown-menu is safe to be closed.
@@ -121,7 +124,7 @@ namespace Blazorise
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( ParentDropdown?.ShouldClose ?? true && ( elementId != ElementId && ParentDropdown?.SelectedDropdownElementId != ElementId ) ) );
         }
 
         /// <summary>

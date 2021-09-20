@@ -224,6 +224,8 @@ window.blazorise = {
     },
 
     tryClose: (closable, targetElementId, isEscapeKey, isChildClicked) => {
+        console.log("tryClose");
+        console.log(isEscapeKey);
         let request = new Promise((resolve, reject) => {
             closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey ? 'escape' : 'leave', isChildClicked)
                 .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
@@ -1208,9 +1210,10 @@ document.addEventListener('mousedown', function handler(evt) {
 });
 
 document.addEventListener('mouseup', function handler(evt) {
+    console.log(evt.target);
     if (evt.button === 0 && evt.target === window.blazorise.lastClickedDocumentElement && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
-
+        console.log(lastClosable.elementId);
         if (lastClosable) {
             window.blazorise.tryClose(lastClosable, evt.target.id, false, hasParentInTree(evt.target, lastClosable.elementId));
         }
