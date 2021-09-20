@@ -3843,6 +3843,98 @@ public class Startup
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
+        public const string Bootstrap5GuideNuget1Example = @"Install-Package Blazorise.Bootstrap";
+
+        public const string Bootstrap5GuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string Bootstrap5GuideRegistration1Example = @"// other usings
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+
+public class Program
+{
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBootstrap5Providers()
+      .AddFontAwesomeIcons();
+    
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( ""#app"" );
+
+    var host = builder.Build();
+
+    await host.RunAsync();
+  }
+}";
+
+        public const string Bootstrap5GuideRegistration2Example = @"// other usings
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true; // optional
+      } )
+      .AddBootstrap5Providers()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( ""/_Host"" );
+    } );
+  }
+}";
+
+        public const string Bootstrap5GuideSourceFilesExample = @"<html>
+<head>
+  <!-- inside of head section -->
+  <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"" crossorigin=""anonymous"">
+  <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
+
+  <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+  <link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
+</head>
+<body>
+  <div id=""app""></div>
+
+  <!-- inside of body section and after the div/app tag  -->
+  <script src=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"" integrity=""sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"" crossorigin=""anonymous""></script>
+
+  <script src=""_content/Blazorise/blazorise.js""></script>
+  <script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js""></script>
+</body>
+</html>";
+
+        public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
+
         public const string BulmaGuideNuget1Example = @"Install-Package Blazorise.Bulma";
 
         public const string BulmaGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
