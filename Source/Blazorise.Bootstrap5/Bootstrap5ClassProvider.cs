@@ -664,7 +664,7 @@ namespace Blazorise.Bootstrap5
             return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
         }
 
-        public override string RowNoGutters() => "no-gutters";
+        public override string RowNoGutters() => "g-0";
 
         #endregion
 
