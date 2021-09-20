@@ -9,20 +9,23 @@ tr.table-row-selectable:hover {
 .table-fixed-header {
     overflow-y: auto;
 
-    .table {
+    > .table {
         border-collapse: separate;
         border-spacing: 0;
 
-        thead tr th {
+        > thead > tr > th {
             border-top: none;
             position: sticky;
             background: white;
             z-index: 10;
         }
 
-        thead tr:nth-child(1) th {
+        > thead > tr:nth-child(1) > th {
             top: 0;
         }
     }
-}
 
+    > .table-bordered > :not(caption) > * > * {
+        border-width: 1px 1px;
+    }
+}
