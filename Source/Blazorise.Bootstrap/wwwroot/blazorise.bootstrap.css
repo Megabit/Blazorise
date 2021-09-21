@@ -191,11 +191,11 @@
     padding-left: 1rem;
     font-size: 1.5rem; }
 
-.input-group > .b-numeric > input:not(:last-child) {
+.input-group > .b-numeric:not(:last-child) > input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }
 
-.input-group > .b-numeric > input:not(:first-child) {
+.input-group > .b-numeric:not(:first-child) > input {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
 
@@ -439,13 +439,11 @@ select[readonly] {
         padding: 0; }
 
 .form-control + .b-numeric-handler-wrap {
-    height: calc(1.5em + 0.75rem + 2px);
     font-size: 1rem;
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem; }
 
 .form-control-xs + .b-numeric-handler-wrap {
-    height: calc(1.5em + 0.3rem + 2px);
     font-size: 0.75rem;
     border-top-right-radius: 0.15rem;
     border-bottom-right-radius: 0.15rem; }
@@ -453,7 +451,6 @@ select[readonly] {
         font-size: 0.75rem; }
 
 .form-control-sm + .b-numeric-handler-wrap {
-    height: calc(1.5em + 0.5rem + 2px);
     font-size: 0.875rem;
     border-top-right-radius: 0.2rem;
     border-bottom-right-radius: 0.2rem; }
@@ -461,7 +458,6 @@ select[readonly] {
         font-size: 0.875rem; }
 
 .form-control-md + .b-numeric-handler-wrap {
-    height: calc(1.5em + 0.94rem + 2px);
     font-size: 1.125rem;
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem; }
@@ -469,7 +465,6 @@ select[readonly] {
         font-size: 1.125rem; }
 
 .form-control-lg + .b-numeric-handler-wrap {
-    height: calc(1.5em + 1rem + 2px);
     font-size: 1.25rem;
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem; }
@@ -477,7 +472,6 @@ select[readonly] {
         font-size: 1.25rem; }
 
 .form-control-xl + .b-numeric-handler-wrap {
-    height: calc(1.5em + 1rem + 2px);
     font-size: 1.5rem;
     border-top-right-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem; }
