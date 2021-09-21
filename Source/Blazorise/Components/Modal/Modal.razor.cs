@@ -325,8 +325,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            bool childEscapeClick = closeReason == CloseReason.EscapeClosing && isChildClicked;
-            return Task.FromResult( !childEscapeClick && (ElementId == elementId || closeActivatorElementIds.Contains( elementId ) ));
+            return Task.FromResult( ElementId == elementId || closeActivatorElementIds.Contains( elementId ) );
         }
 
         /// <inheritdoc/>

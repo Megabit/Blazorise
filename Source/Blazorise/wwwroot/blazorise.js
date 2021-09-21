@@ -1225,7 +1225,7 @@ document.addEventListener('keyup', function handler(evt) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true, hasParentInTree(evt.target, lastClosable.elementId));
+            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true, false);
         }
     }
 });
