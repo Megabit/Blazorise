@@ -31,7 +31,7 @@ namespace Blazorise.Material
             var yiqActiveBackground = Var( ThemeVariables.ButtonYiqActiveBackground( variant ) );
             var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
 
-            // Material provider have some special rules for buttons placed inside of modal footer. So to keep it 
+            // Material provider have some special rules for buttons placed inside of modal dialog. So to keep it 
             // consistent we need to apply the same styles as in the base generator.
             sb
                 .Append( $".modal .btn-{variant}," ).Append( $".modal a.btn-{variant}," )
