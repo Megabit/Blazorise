@@ -866,160 +866,90 @@ select[readonly] {
 .custom-switch .custom-control-input:disabled.custom-control-input-link ~ .custom-control-track {
     background-color: rgba(189, 189, 189, 0.25); }
 
-.custom-switch .custom-control-input.custom-control-input-xs {
-    /* &:not(:checked):focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($black, 0.08);
-        }
+.custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label {
+    padding-left: 0;
+    line-height: 0.5rem;
+    vertical-align: middle; }
+    .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label::before {
+        width: 1rem;
+        height: 0.5rem;
+        border-radius: 0.25rem; }
+    .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label::after {
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 50%;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-        &:checked:focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($primary, 0.12);
-        }*/ }
-    .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-track {
-        height: calc(1rem - 4px);
-        top: 0;
-        left: 0;
-        width: calc(1rem + 0.75rem); }
-    .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label {
-        padding-left: 0;
-        line-height: 1rem;
-        vertical-align: middle; }
-        .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label::before {
-            height: calc(1rem * 1.5);
-            width: calc(1rem * 1.5); }
-        .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label::after {
-            height: calc(1rem - 4px);
-            width: calc(1rem - 4px);
-            left: -calc(1rem - 4px);
-            border-radius: 50%;
-            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-            border-radius: calc(1rem - (1rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::after,
-    .custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::before {
-        transform: translateX(calc(1rem - (1rem / 2))); }
+.custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::after {
+    transform: translateX(0.8rem); }
 
-.custom-switch .custom-control-input.custom-control-input-sm {
-    /* &:not(:checked):focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($black, 0.08);
-        }
+.custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label {
+    padding-left: 0;
+    line-height: 0.75rem;
+    vertical-align: middle; }
+    .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label::before {
+        width: 1.5rem;
+        height: 0.75rem;
+        border-radius: 0.375rem; }
+    .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label::after {
+        width: 1.05rem;
+        height: 1.05rem;
+        border-radius: 50%;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-        &:checked:focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($primary, 0.12);
-        }*/ }
-    .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-track {
-        height: calc(1.5rem - 4px);
-        top: 0;
-        left: 0;
-        width: calc(1.5rem + 0.75rem); }
-    .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label {
-        padding-left: 0;
-        line-height: 1.5rem;
-        vertical-align: middle; }
-        .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label::before {
-            height: calc(1.5rem * 1.5);
-            width: calc(1.5rem * 1.5); }
-        .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label::after {
-            height: calc(1.5rem - 4px);
-            width: calc(1.5rem - 4px);
-            left: -calc(1.5rem - 4px);
-            border-radius: 50%;
-            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-            border-radius: calc(1.5rem - (1.5rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::after,
-    .custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::before {
-        transform: translateX(calc(1.5rem - (1.5rem / 2))); }
+.custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::after {
+    transform: translateX(1.05rem); }
 
-.custom-switch .custom-control-input.custom-control-input-md {
-    /* &:not(:checked):focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($black, 0.08);
-        }
+.custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label {
+    padding-left: 0.5rem;
+    line-height: 1.25rem;
+    vertical-align: middle; }
+    .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label::before {
+        width: 2.5rem;
+        height: 1.25rem;
+        border-radius: 0.625rem; }
+    .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label::after {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-        &:checked:focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($primary, 0.12);
-        }*/ }
-    .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-track {
-        height: calc(2rem - 4px);
-        top: 0;
-        left: 0;
-        width: calc(2.5rem + 0.75rem); }
-    .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label {
-        padding-left: 1.25rem;
-        line-height: 2rem;
-        vertical-align: middle; }
-        .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label::before {
-            height: calc(2rem * 1.5);
-            width: calc(2rem * 1.5); }
-        .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label::after {
-            height: calc(2rem - 4px);
-            width: calc(2rem - 4px);
-            left: -calc(2.5rem - 4px);
-            border-radius: 50%;
-            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-            border-radius: calc(2.5rem - (2rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::after,
-    .custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::before {
-        transform: translateX(calc(2.5rem - (2rem / 2))); }
+.custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::after {
+    transform: translateX(1.5rem); }
 
-.custom-switch .custom-control-input.custom-control-input-lg {
-    /* &:not(:checked):focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($black, 0.08);
-        }
+.custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label {
+    padding-left: 1rem;
+    line-height: 1.5rem;
+    vertical-align: middle; }
+    .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label::before {
+        width: 3rem;
+        height: 1.5rem;
+        border-radius: 0.75rem; }
+    .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label::after {
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 50%;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-        &:checked:focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($primary, 0.12);
-        }*/ }
-    .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-track {
-        height: calc(2.25rem - 4px);
-        top: 0;
-        left: 0;
-        width: calc(3rem + 0.75rem); }
-    .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label {
-        padding-left: 1.5rem;
-        line-height: 2.25rem;
-        vertical-align: middle; }
-        .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label::before {
-            height: calc(2.25rem * 1.5);
-            width: calc(2.25rem * 1.5); }
-        .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label::after {
-            height: calc(2.25rem - 4px);
-            width: calc(2.25rem - 4px);
-            left: -calc(3rem - 4px);
-            border-radius: 50%;
-            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-            border-radius: calc(3rem - (2.25rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::after,
-    .custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::before {
-        transform: translateX(calc(3rem - (2.25rem / 2))); }
+.custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::after {
+    transform: translateX(1.8rem); }
 
-.custom-switch .custom-control-input.custom-control-input-xl {
-    /* &:not(:checked):focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($black, 0.08);
-        }
+.custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label {
+    padding-left: 2rem;
+    line-height: 2rem;
+    vertical-align: middle; }
+    .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label::before {
+        width: 4rem;
+        height: 2rem;
+        border-radius: 1rem; }
+    .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label::after {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 50%;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-        &:checked:focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($primary, 0.12);
-        }*/ }
-    .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-track {
-        height: calc(2.5rem - 4px);
-        top: 0;
-        left: 0;
-        width: calc(4rem + 0.75rem); }
-    .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label {
-        padding-left: 2rem;
-        line-height: 2.5rem;
-        vertical-align: middle; }
-        .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label::before {
-            height: calc(2.5rem * 1.5);
-            width: calc(2.5rem * 1.5); }
-        .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label::after {
-            height: calc(2.5rem - 4px);
-            width: calc(2.5rem - 4px);
-            left: -calc(4rem - 4px);
-            border-radius: 50%;
-            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-            border-radius: calc(4rem - (2.5rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::after,
-    .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::before {
-        transform: translateX(calc(4rem - (2.5rem / 2))); }
+.custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::after {
+    transform: translateX(2.3rem); }
 
 table.table tbody tr.selected {
     background-color: var(--primary); }

@@ -37,7 +37,7 @@ namespace Blazorise.Charts
                 eventOptions,
                 canvasId,
                 ToChartTypeString( type ),
-                ToChartDataSet( data ),
+                ToChartData( data ),
                 options,
                 dataJsonString,
                 optionsJsonString,
@@ -71,7 +71,7 @@ namespace Blazorise.Charts
 
         public static ValueTask AddDataSet( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newDataSet )
         {
-            return runtime.InvokeVoidAsync( "blazoriseCharts.addDataset", canvasId, newDataSet );
+            return runtime.InvokeVoidAsync( "blazoriseCharts.addDataset", canvasId, ToChartDataSet( newDataSet ) );
         }
 
         public static ValueTask RemoveDataSet( IJSRuntime runtime, string canvasId, int dataSetIndex )
@@ -81,12 +81,12 @@ namespace Blazorise.Charts
 
         public static ValueTask AddDatasetsAndUpdate( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newDataSet )
         {
-            return runtime.InvokeVoidAsync( "blazoriseCharts.addDatasetsAndUpdate", canvasId, newDataSet );
+            return runtime.InvokeVoidAsync( "blazoriseCharts.addDatasetsAndUpdate", canvasId, ToChartDataSet( newDataSet ) );
         }
 
         public static ValueTask AddLabelsDatasetsAndUpdate( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newLabels, IReadOnlyCollection<object> newDataSet )
         {
-            return runtime.InvokeVoidAsync( "blazoriseCharts.addLabelsDatasetsAndUpdate", canvasId, newLabels, newDataSet );
+            return runtime.InvokeVoidAsync( "blazoriseCharts.addLabelsDatasetsAndUpdate", canvasId, newLabels, ToChartDataSet( newDataSet ) );
         }
 
         public static ValueTask SetData<TItem>( IJSRuntime runtime, string canvasId, int dataSetIndex, IReadOnlyCollection<TItem> newData )
@@ -145,13 +145,18 @@ namespace Blazorise.Charts
             return runtime.InvokeVoidAsync( "blazoriseCharts.resize", canvasId );
         }
 
-        private static object ToChartDataSet<T>( ChartData<T> data )
+        private static object ToChartData<T>( ChartData<T> data )
         {
             return new
             {
                 data?.Labels,
                 Datasets = data?.Datasets?.ToList<object>()
             };
+        }
+
+        private static object ToChartDataSet( IReadOnlyCollection<object> dataSet )
+        {
+            return dataSet?.ToList<object>();
         }
     }
 }
