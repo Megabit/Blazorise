@@ -347,7 +347,7 @@ window.blazorise = {
             var instances = window.blazorise.textEdit._instances = window.blazorise.textEdit._instances || {};
 
             if (maskType === "numeric") {
-                instances[elementId] = new window.blazorise.NumericMaskValidator(element, elementId);
+                instances[elementId] = new window.blazorise.NumericMaskValidator(null, element, elementId);
             }
             else if (maskType === "datetime") {
                 instances[elementId] = new window.blazorise.DateTimeMaskValidator(element, elementId);
@@ -691,6 +691,8 @@ window.blazorise = {
         };
     },
     NumericMaskValidator: function (dotnetAdapter, element, elementId, options) {
+        options = options || {};
+
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
@@ -736,7 +738,10 @@ window.blazorise = {
             let newValue = number.toString().replace(".", this.separator);
 
             this.element.value = newValue;
-            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+
+            if (this.dotnetAdapter) {
+                this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+            }
         };
     },
     DateTimeMaskValidator: function (element, elementId) {
