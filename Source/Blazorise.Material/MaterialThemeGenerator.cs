@@ -161,7 +161,7 @@ namespace Blazorise.Material
                 .AppendLine( "}" );
 
             sb
-                .Append( ".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
