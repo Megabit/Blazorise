@@ -34,6 +34,8 @@
 
         @if ( DropdownVisible )
         {
+            JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+            jsRegistered = true;
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Components
@@ -17,9 +19,24 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : ComponentBase
+    public partial class Autocomplete<TItem, TValue> : ComponentBase, ICloseActivator, IAsyncDisposable
     {
         #region Members
+
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
+        [Inject] protected IJSRunner JSRunner { get; set; }
+
+        /// <summary>
+        /// Tells us that modal is tracked by the JS interop.
+        /// </summary>
+        private bool jsRegistered;
+
+        /// <summary>
+        /// A JS interop object reference used to access this modal.
+        /// </summary>
+        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         /// <summary>
         /// Reference to the TextEdit component.
@@ -49,6 +66,17 @@ namespace Blazorise.Components
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
+            {
+                dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+            }
+
+            return base.OnAfterRenderAsync( firstRender );
+        }
 
         /// <summary>
         /// Handles the search field onchange or oninput event.
@@ -82,7 +110,10 @@ namespace Blazorise.Components
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
             if ( !DropdownVisible )
+            {
+                await UnregisterCloseableComponent();
                 return;
+            }
 
             if ( dirtyFilter )
                 FilterData();
@@ -95,10 +126,6 @@ namespace Blazorise.Components
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
-            }
-            else if ( eventArgs.Code == "Escape" )
-            {
-                await Clear();
             }
             else if ( eventArgs.Code == "ArrowUp" )
             {
@@ -132,6 +159,8 @@ namespace Blazorise.Components
             // Give enough time for other events to do their stuff before closing
             // the dropdown.
             await Task.Delay( 250 );
+            await UnregisterCloseableComponent();
+
             if ( !FreeTyping && SelectedValue == null )
             {
                 SelectedText = string.Empty;
@@ -245,6 +274,55 @@ namespace Blazorise.Components
         public void Focus( bool scrollToElement = true )
         {
             textEditRef.Focus( scrollToElement );
+        }
+
+        /// <summary>
+        /// Determines if Autocomplete can be closed
+        /// Only accounts for Escape Key, Lost focus is handled by the component onBlur event.
+        /// </summary>
+        /// <returns>True if Autocomplete can be closed.</returns>
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
+        {
+            return Task.FromResult( ElementId == elementId && closeReason == CloseReason.EscapeClosing );
+        }
+
+        /// <inheritdoc/>
+        public async Task Close( CloseReason closeReason )
+        {
+            await Clear();
+            await UnregisterCloseableComponent();
+        }
+
+        /// <summary>
+        /// Unregisters the closeable component.
+        /// </summary>
+        /// <returns></returns>
+        protected async Task UnregisterCloseableComponent()
+        {
+            await JSRunner.UnregisterClosableComponent( this );
+            jsRegistered = false;
+        }
+
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync()
+        {
+            if ( jsRegistered )
+            {
+                jsRegistered = false;
+
+                var task = JSRunner.UnregisterClosableComponent( this );
+
+                try
+                {
+                    await task;
+                }
+                catch when ( task.IsCanceled )
+                {
+                }
+            }
+
+            dotNetObjectRef.Dispose();
+            dotNetObjectRef = null;
         }
 
         #endregion
@@ -499,6 +577,7 @@ namespace Blazorise.Components
         /// Handler for custom filtering on Autocomplete's data source.
         /// </summary>
         [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
+        public ElementReference ElementRef { get; }
 
         #endregion
     }
