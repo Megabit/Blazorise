@@ -1,0 +1,10 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DatePicker TValue="DateTime?" DisabledDates="@disabledDates" />
+
+@code {
+    DateTime?[] disabledDates = new DateTime?[] {
+        new DateTime(2021,9,15),
+        new DateTime(2021,9,10),
+    };
+}
