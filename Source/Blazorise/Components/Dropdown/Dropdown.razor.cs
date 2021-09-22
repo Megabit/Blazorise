@@ -90,6 +90,7 @@ namespace Blazorise
         /// <summary>
         /// Hide the dropdown menu.
         /// </summary>
+        /// <param name="hideAll">Indicates if we need to hide current dropdown menu and all its parent dropdown menus.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Hide( bool hideAll = false )
         {
