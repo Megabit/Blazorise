@@ -121,7 +121,7 @@ namespace Blazorise
         /// Handles the onmouseleave event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected void MouseLeave()
+        protected void OnMouseLeaveHandler()
         {
             ShouldClose = true;
         }
@@ -131,7 +131,7 @@ namespace Blazorise
         /// Handles the onmouseenter event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected void MouseEnter()
+        protected void OnMouseEnterHandler()
         {
             ShouldClose = false;
         }
