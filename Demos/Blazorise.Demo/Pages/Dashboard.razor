@@ -1,29 +1,29 @@
 ﻿@page "/"
-<Dropdown ElementId="1">
-    <DropdownToggle ElementId="Toggle1">Down</DropdownToggle>
+<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.FromBottom">Blazorise</Heading>
 
-    <DropdownMenu>
-        <DropdownItem>Item 1</DropdownItem>
-        <DropdownItem>
-            <Dropdown ElementId="2" Direction="Direction.Right">
-                <DropdownToggle ElementId="Toggle2">Right</DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem>Item 1</DropdownItem>
-                    <DropdownItem>Item 2</DropdownItem>
-                    <DropdownItem>
-                        <Dropdown ElementId="3" Direction="Direction.Right">
-                            <DropdownToggle ElementId="Toggle3">Right</DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem>Item 12</DropdownItem>
-                                <DropdownItem>Item 12</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-        </DropdownItem>
-    </DropdownMenu>
+<Paragraph>
+    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
+</Paragraph>
 
+<Alert Color="Color.Info" Visible="true">
+    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
+        Note:
+    </Heading>
+    <Paragraph>
+        This is a demo application for Blazorise used to show basic example for most of the components and extensions.
+    </Paragraph>
+    <Paragraph>
+        Full source code for this demo can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
+    </Paragraph>
+    <Paragraph>
+        If you wish to learn more about Blazorise please go to the official <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">documentation</Anchor>.
+    </Paragraph>
+</Alert>
 
-</Dropdown>
-
+<Paragraph>
+    On the left sidebar you can see the Blazorise components and extensions in action.
+</Paragraph>
+<br />
+<Paragraph>
+    <Strong> Demo application for</Strong>: Blazorise @($"v{typeof( Blazorise.BaseComponent ).Assembly.GetName().Version.ToString( 3 )}")
+</Paragraph>
