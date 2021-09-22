@@ -33,6 +33,11 @@ namespace Blazorise
         /// </summary>
         private List<Button> buttonList;
 
+        /// <summary>
+        /// Tracks the last DropdownToggle Element Id that acted.
+        /// </summary>
+        public string SelectedDropdownElementId { get; set; }
+
         #endregion
 
         #region Methods        
@@ -61,6 +66,8 @@ namespace Blazorise
                 InvokeAsync( StateHasChanged );
             }
 
+            WasJustToggled = false;
+
             base.OnAfterRender( firstRender );
         }
 
@@ -81,7 +88,7 @@ namespace Blazorise
         /// <summary>
         /// Hide the dropdown menu.
         /// </summary>
-        public void Hide()
+        public void Hide( bool hideAll = false )
         {
             // used to prevent toggle event call if Close() is called multiple times
             if ( !Visible )
@@ -89,16 +96,37 @@ namespace Blazorise
 
             Visible = false;
 
+            if ( ParentDropdown is not null && ( ParentDropdown.ShouldClose || hideAll ) )
+                ParentDropdown.Hide( hideAll );
+
             InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// Keeps track whether the Dropdown is in a state where it should close.
+        /// </summary>
         internal bool ShouldClose { get; set; } = false;
 
+        /// <summary>
+        /// Keeps track whether the Dropdown was just toggled, ignoring possible DropdownItem clicks which would otherwise close the dropdown.
+        /// </summary>
+        internal bool WasJustToggled { get; set; } = false;
+
+
+        /// <summary>
+        /// Handles the onmouseleave event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected void MouseLeave()
         {
             ShouldClose = true;
         }
 
+
+        /// <summary>
+        /// Handles the onmouseenter event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected void MouseEnter()
         {
             ShouldClose = false;
@@ -107,20 +135,30 @@ namespace Blazorise
         /// <summary>
         /// Toggle the visibility of the dropdown menu.
         /// </summary>
-        public void Toggle(string dropdownToggleElementId)
+        public void Toggle( string dropdownToggleElementId )
         {
-
-            SetLastSelectedDropdownElementId( dropdownToggleElementId );
+            SetWasJustToggled( true );
+            SetSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
             InvokeAsync( StateHasChanged );
         }
 
-        protected void SetLastSelectedDropdownElementId( string dropdownToggleElementId )
+        /// <summary>
+        /// Sets the WasToggled Flag on the current Dropdown and every existing ParentDropdown.
+        /// </summary>
+        /// <param name="wasToggled"></param>
+        internal void SetWasJustToggled( bool wasToggled )
+        {
+            WasJustToggled = wasToggled;
+            ParentDropdown?.SetWasJustToggled( wasToggled );
+        }
+
+        internal void SetSelectedDropdownElementId( string dropdownToggleElementId )
         {
             SelectedDropdownElementId = dropdownToggleElementId;
             if ( ParentDropdown is not null )
-                ParentDropdown.SetLastSelectedDropdownElementId( dropdownToggleElementId );
+                ParentDropdown.SetSelectedDropdownElementId( dropdownToggleElementId );
         }
 
         /// <summary>
@@ -287,9 +325,6 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Dropdown"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        public string SelectedDropdownElementId { get; set; }
-
 
         #endregion
     }

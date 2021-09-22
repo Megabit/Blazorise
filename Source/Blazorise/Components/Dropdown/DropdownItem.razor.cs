@@ -39,6 +39,11 @@ namespace Blazorise
         {
             if ( !Disabled )
             {
+                if ( ParentDropdown is not null )
+                {
+                    if ( !ParentDropdown.WasJustToggled )
+                        ParentDropdown.Hide( true );
+                }
                 return Clicked.InvokeAsync( Value );
             }
 
@@ -99,6 +104,11 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="DropdownItem"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent dropdown.
+        /// </summary>
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         #endregion
     }
