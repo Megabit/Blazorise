@@ -1347,18 +1347,52 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string ModalClosingExample = @"<Modal @ref=""modalRef"" Closing=""@OnModalClosing"">
-    ...
+        public const string ModalClosingExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
+
+<Modal @ref=""modalRef"" Closing=""@OnModalClosing"">
+    <ModalContent Centered=""true"">
+        <ModalHeader>
+            <ModalTitle>Closing modal</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+            Click on the buttons to close the modal.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@CloseModal"">This will close the modal</Button>
+            <Button Color=""Color.Primary"" Clicked=""@TryCloseModal"">This will not</Button>
+        </ModalFooter>
+    </ModalContent>
 </Modal>
 
-@code{
+@code {
     // reference to the modal component
     private Modal modalRef;
 
+    private bool cancelClose;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task CloseModal()
+    {
+        cancelClose = false;
+
+        return modalRef.Hide();
+    }
+
+    private Task TryCloseModal()
+    {
+        cancelClose = true;
+
+        return modalRef.Hide();
+    }
+
     private Task OnModalClosing( ModalClosingEventArgs e )
     {
-        // just set Cancel to true to prevent modal from closing
-        e.Cancel = true;
+        // just set Cancel to prevent modal from closing
+        e.Cancel = cancelClose;
 
         return Task.CompletedTask;
     }
