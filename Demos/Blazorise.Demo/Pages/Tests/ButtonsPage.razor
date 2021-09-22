@@ -218,6 +218,52 @@
         </Card>
     </Column>
 </Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown Nesting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Level 1</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1.1</DropdownItem>
+                        <DropdownItem>
+                            <Dropdown Direction="Direction.Right">
+                                <DropdownToggle Color="Color.Secondary">Level 2</DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem>Item 2.1</DropdownItem>
+                                    <DropdownItem>Item 2.2</DropdownItem>
+                                    <DropdownItem>
+                                        <Dropdown Direction="Direction.Right">
+                                            <DropdownToggle Color="Color.Secondary">Level 3</DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem>Item 3.1</DropdownItem>
+                                                <DropdownItem>Item 3.2</DropdownItem>
+                                                <DropdownItem>
+                                                    <Dropdown Direction="Direction.Right">
+                                                        <DropdownToggle Color="Color.Secondary">Level 4</DropdownToggle>
+                                                        <DropdownMenu>
+                                                            <DropdownItem>Item 4.1</DropdownItem>
+                                                            <DropdownItem>Item 4.2</DropdownItem>
+                                                        </DropdownMenu>
+                                                    </Dropdown>
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 <Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
@@ -307,7 +353,7 @@
         </Card>
     </Column>
 </Row>
-@code{
+@code {
     private bool isLoading;
 
     private async Task ShowLoading()
