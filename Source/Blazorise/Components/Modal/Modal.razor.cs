@@ -66,7 +66,7 @@ namespace Blazorise
         {
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
             {
-                if ( visibleResult == true )
+                if ( visibleResult == true && await IsSafeToOpen() )
                 {
                     state = state with { Visible = true };
 
@@ -81,7 +81,10 @@ namespace Blazorise
                     RaiseEvents( false );
                 }
                 else
+                {
+                    // skip execution
                     return;
+                }
             }
 
             await base.SetParametersAsync( parameters );
@@ -170,17 +173,20 @@ namespace Blazorise
         /// Opens the modal dialog.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Show()
+        public async Task Show()
         {
             if ( state.Visible )
-                return Task.CompletedTask;
+                return;
 
-            state = state with { Visible = true };
+            if ( await IsSafeToOpen() )
+            {
+                state = state with { Visible = true };
 
-            HandleVisibilityStyles( true );
-            RaiseEvents( true );
+                HandleVisibilityStyles( true );
+                RaiseEvents( true );
 
-            return InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         /// <summary>
@@ -219,6 +225,29 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Determines if modal can be opened.
+        /// </summary>
+        /// <returns>True if modal can be opened.</returns>
+        private async Task<bool> IsSafeToOpen()
+        {
+            var safeToOpen = true;
+
+            if ( Opening != null )
+            {
+                var eventArgs = new ModalOpeningEventArgs( false );
+
+                await Opening.Invoke( eventArgs );
+
+                if ( eventArgs.Cancel )
+                {
+                    safeToOpen = false;
+                }
+            }
+
+            return safeToOpen;
+        }
+
+        /// <summary>
         /// Determines if modal can be closed.
         /// </summary>
         /// <returns>True if modal can be closed.</returns>
@@ -228,11 +257,11 @@ namespace Blazorise
 
             if ( Closing != null )
             {
-                var args = new ModalClosingEventArgs( false, closeReason );
+                var eventArgs = new ModalClosingEventArgs( false, closeReason );
 
-                await Closing.Invoke( args );
+                await Closing.Invoke( eventArgs );
 
-                if ( args.Cancel )
+                if ( eventArgs.Cancel )
                 {
                     safeToClose = false;
                 }
@@ -405,6 +434,11 @@ namespace Blazorise
         /// If true modal will scroll to top when opened.
         /// </summary>
         [Parameter] public bool ScrollToTop { get; set; } = true;
+
+        /// <summary>
+        /// Occurs before the modal is opened.
+        /// </summary>
+        [Parameter] public Func<ModalOpeningEventArgs, Task> Opening { get; set; }
 
         /// <summary>
         /// Occurs before the modal is closed.
