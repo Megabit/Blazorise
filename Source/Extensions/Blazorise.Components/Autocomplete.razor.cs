@@ -322,7 +322,7 @@ namespace Blazorise.Components
                 }
             }
 
-            dotNetObjectRef.Dispose();
+            dotNetObjectRef?.Dispose();
             dotNetObjectRef = null;
         }
 
