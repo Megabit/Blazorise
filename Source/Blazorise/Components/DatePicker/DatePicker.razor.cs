@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -313,7 +312,7 @@ namespace Blazorise
         [Parameter] public bool TimeAs24hr { get; set; }
 
         /// <summary>
-        /// List of disabled Dates. Format string "yyyy-MM-dd".
+        /// List of disabled dates that the user should not be able to pick.
         /// </summary>
         [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
