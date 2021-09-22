@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -62,11 +63,12 @@ namespace Blazorise
         /// Sets the progress bar <see cref="Animated"/> flag.
         /// </summary>
         /// <param name="animated">True to animate the progress bar.</param>
-        public void Animate( bool animated )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Animate( bool animated )
         {
             Animated = animated;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         #endregion

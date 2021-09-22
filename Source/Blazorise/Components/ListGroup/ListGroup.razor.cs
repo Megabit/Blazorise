@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -38,11 +39,12 @@ namespace Blazorise
         /// Sets the active item by the name.
         /// </summary>
         /// <param name="name"></param>
-        public void SelectItem( string name )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task SelectItem( string name )
         {
             SelectedItem = name;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         #endregion

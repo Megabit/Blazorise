@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -60,11 +61,12 @@ namespace Blazorise
         /// Sets the active panel by the name.
         /// </summary>
         /// <param name="name">The name of the panel.</param>
-        public void SelectPanel( string name )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task SelectPanel( string name )
         {
             SelectedPanel = name;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         #endregion

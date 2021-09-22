@@ -49,12 +49,12 @@ namespace TodoApp
 
         protected async Task OnAddTodo()
         {
-            if ( await validations.ValidateAllAsync() )
+            if ( await validations.ValidateAll() )
             {
                 todos.Add( new() { Description = description } );
                 description = null;
 
-                validations.ClearAll();
+                await validations.ClearAll();
             }
         }
 

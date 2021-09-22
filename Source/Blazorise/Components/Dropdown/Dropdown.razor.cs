@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -74,32 +75,34 @@ namespace Blazorise
         /// <summary>
         /// Show the dropdown menu.
         /// </summary>
-        public void Show()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Hide the dropdown menu.
         /// </summary>
-        public void Hide( bool hideAll = false )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Hide( bool hideAll = false )
         {
             // used to prevent toggle event call if Close() is called multiple times
             if ( !Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = false;
 
             if ( ParentDropdown is not null && ( ParentDropdown.ShouldClose || hideAll ) )
                 ParentDropdown.Hide( hideAll );
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -135,13 +138,14 @@ namespace Blazorise
         /// <summary>
         /// Toggle the visibility of the dropdown menu.
         /// </summary>
-        public void Toggle( string dropdownToggleElementId )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Toggle( string dropdownToggleElementId )
         {
             SetWasJustToggled( true );
             SetSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>

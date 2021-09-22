@@ -35,7 +35,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler()
         {
-            return Clicked.InvokeAsync( null );
+            return Clicked.InvokeAsync();
         }
 
         #endregion

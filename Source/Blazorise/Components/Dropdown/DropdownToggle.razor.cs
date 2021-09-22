@@ -102,14 +102,17 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            if ( !Disabled )
+            if ( Disabled )
+                return;
+
+            if ( ParentDropdown != null )
             {
                 ParentDropdown?.Toggle( ElementId );
             }
 
-            return Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
 
@@ -134,7 +137,8 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         public Task Close( CloseReason closeReason )
         {
-            ParentDropdown?.Hide();
+            if ( ParentDropdown != null )
+                return ParentDropdown.Hide();
 
             return Task.CompletedTask;
         }
@@ -143,9 +147,10 @@ namespace Blazorise
         /// Sets focus on the input element, if it can be focused.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        public void Focus( bool scrollToElement = true )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
         {
-            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+            return JSRunner.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <summary>

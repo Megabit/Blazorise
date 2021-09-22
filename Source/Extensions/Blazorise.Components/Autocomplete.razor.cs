@@ -271,9 +271,10 @@ namespace Blazorise.Components
         /// Sets focus on the input element, if it can be focused.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        public void Focus( bool scrollToElement = true )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
         {
-            textEditRef.Focus( scrollToElement );
+            return textEditRef.Focus( scrollToElement );
         }
 
         /// <summary>

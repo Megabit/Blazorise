@@ -1,0 +1,23 @@
+﻿.dropdown-toggle.dropdown-toggle-hidden::after {
+    content: none !important;
+}
+
+.dropdown-toggle.dropdown-toggle-hidden::before {
+    content: none !important;
+}
+
+.dropdown-menu.show {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+}
+
+.dropdown-menu a:not([href]).dropdown-item:not(.disabled) {
+    cursor: pointer;
+}
+
+.b-is-autocomplete .dropdown-menu {
+    width: 100%;
+    max-height: var(--autocomplete-menu-max-height, 200px);
+    overflow-y: scroll;
+}

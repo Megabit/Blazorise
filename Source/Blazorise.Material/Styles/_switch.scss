@@ -29,78 +29,71 @@
 }
 
 @mixin switch($size) {
-    $width: 1rem;
-    $height: 1rem;
+    $switch-handle-width: 1.25rem !default;
+    $switch-handle-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12) !default;
+    $switch-height: 0.875rem !default;
+    $switch-transition: 90ms cubic-bezier(0.4, 0, 0.2, 1) !default;
+    $switch-width: 2rem !default;
+
     $padding-left: 0;
 
     @if $size == 'xs' {
-        $width: 1rem;
-        $height: 1rem;
+        $switch-handle-width: .8rem;
+        $switch-width: 1rem;
+        $switch-height: .5rem;
     }
     @else if $size == 'sm' {
-        $width: 1.5rem;
-        $height: 1.5rem;
+        $switch-handle-width: 1.05rem;
+        $switch-width: 1.5rem;
+        $switch-height: .75rem;
     }
     @else if $size == 'md' {
-        $width: 2.5rem;
-        $height: 2rem;
-        $padding-left: $width / 2;
+        $switch-handle-width: 1.5rem;
+        $switch-width: 2.5rem;
+        $switch-height: 1.25rem;
+
+        $padding-left: .5rem;
     }
     @else if $size == 'lg' {
-        $width: 3rem;
-        $height: 2.25rem;
-        $padding-left: $width / 2;
+        $switch-handle-width: 1.8rem;
+        $switch-width: 3rem;
+        $switch-height: 1.5rem;
+
+        $padding-left: 1rem;
     }
     @else if $size == 'xl' {
-        $width: 4rem;
-        $height: 2.5rem;
-        $padding-left: $width / 2;
-    }
+        $switch-handle-width: 2.3rem;
+        $switch-width: 4rem;
+        $switch-height: 2rem;
 
-    $handle-width: $width;
-    $handle-height: $height;
+        $padding-left: 2rem;
+    }
 
     $handle-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12) !default;
 
     .custom-control-input.custom-control-input-#{$size} {
-        ~ .custom-control-track {
-            height: calc(#{$height} - 4px);
-            top: 0;
-            left: 0;
-            width: calc(#{$width} + 0.75rem);
-        }
-
         ~ .custom-control-label {
-            padding-left: #{$padding-left};
-            line-height: $height;
+            padding-left: $padding-left;
+            line-height: $switch-height;
             vertical-align: middle;
 
             &::before {
-                height: calc(#{$height} * 1.5);
-                width: calc(#{$height} * 1.5);
+                width: $switch-width;
+                height: $switch-height;
+                border-radius: $switch-height / 2;
             }
 
             &::after {
-                height: calc(#{$height} - 4px);
-                width: calc(#{$height} - 4px);
-                left: -calc(#{$width} - 4px);
+                width: $switch-handle-width;
+                height: $switch-handle-width;
                 border-radius: 50%;
                 box-shadow: $handle-shadow;
-                border-radius: calc(#{$width} - (#{$height} / 2));
             }
         }
 
-        &:checked ~ .custom-control-label::after,
-        &:checked ~ .custom-control-label::before {
-            transform: translateX(calc(#{$width} - (#{$height} / 2)));
+        &:checked ~ .custom-control-label::after {
+            transform: translateX($switch-handle-width );
         }
-        /* &:not(:checked):focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($black, 0.08);
-        }
-
-        &:checked:focus ~ .custom-control-label::after {
-            box-shadow: $handle-shadow, 0 0 0 $height rgba($primary, 0.12);
-        }*/
     }
 }
 

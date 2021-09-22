@@ -143,32 +143,35 @@ namespace Blazorise
         /// <summary>
         /// Opens the modal dialog.
         /// </summary>
-        public void Show()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Show()
         {
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Fires the modal dialog closure process.
         /// </summary>
-        public void Hide()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Hide()
         {
-            Hide( CloseReason.UserClosing );
+            return Hide( CloseReason.UserClosing );
         }
 
         /// <summary>
         /// Internal method to hide the modal with reason of closing.
         /// </summary>
         /// <param name="closeReason">Reason why modal was closed.</param>
-        internal protected void Hide( CloseReason closeReason )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        internal protected Task Hide( CloseReason closeReason )
         {
             if ( !Visible )
-                return;
+                return Task.CompletedTask;
 
             this.closeReason = closeReason;
 
@@ -182,8 +185,10 @@ namespace Blazorise
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
 
-                InvokeAsync( StateHasChanged );
+                return InvokeAsync( StateHasChanged );
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -243,7 +248,7 @@ namespace Blazorise
 
                         if ( firstFocusableComponent != null )
                         {
-                            return firstFocusableComponent.FocusAsync();
+                            return firstFocusableComponent.Focus();
                         }
 
                         return Task.CompletedTask;
@@ -274,10 +279,10 @@ namespace Blazorise
         {
             if ( !visible )
             {
-                Closed.InvokeAsync( null );
+                Closed.InvokeAsync();
             }
 
-            VisibleChanged.InvokeAsync( visible );
+            InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
@@ -331,9 +336,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task Close( CloseReason closeReason )
         {
-            Hide( closeReason );
-
-            return Task.CompletedTask;
+            return Hide( closeReason );
         }
 
         #endregion

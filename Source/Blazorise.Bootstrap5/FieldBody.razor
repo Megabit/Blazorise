@@ -1,0 +1,13 @@
+﻿@inherits Blazorise.FieldBody
+<CascadingValue Value="@this" IsFixed="true">
+    @if ( IsHorizontal )
+    {
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        @ChildContent
+    }
+</CascadingValue>

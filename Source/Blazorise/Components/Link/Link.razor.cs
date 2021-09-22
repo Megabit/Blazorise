@@ -113,7 +113,7 @@ namespace Blazorise
                 await JSRunner.ScrollIntoView( anchorTarget );
             }
 
-            await Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         private bool ShouldMatch( string currentUriAbsolute )

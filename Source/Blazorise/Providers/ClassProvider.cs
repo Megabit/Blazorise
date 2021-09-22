@@ -238,9 +238,7 @@ namespace Blazorise
 
         #region FieldLabel
 
-        public abstract string FieldLabel();
-
-        public abstract string FieldLabelHorizontal();
+        public abstract string FieldLabel( bool horizontal );
 
         #endregion
 
@@ -636,17 +634,17 @@ namespace Blazorise
 
         #region Collapse
 
-        public abstract string Collapse();
+        public abstract string Collapse( bool accordion );
 
-        public abstract string CollapseActive( bool active );
+        public abstract string CollapseActive( bool accordion, bool active );
 
-        public abstract string CollapseHeader();
+        public abstract string CollapseHeader( bool accordion );
 
-        public abstract string CollapseBody();
+        public abstract string CollapseBody( bool accordion );
 
-        public abstract string CollapseBodyActive( bool active );
+        public abstract string CollapseBodyActive( bool accordion, bool active );
 
-        public abstract string CollapseBodyContent();
+        public abstract string CollapseBodyContent( bool accordion );
 
         #endregion
 
@@ -1452,7 +1450,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPlacement( Placement placement )
+        public virtual string ToPlacement( Placement placement )
         {
             return placement switch
             {
@@ -1463,7 +1461,7 @@ namespace Blazorise
             };
         }
 
-        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
+        public virtual string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
         {
             return tooltipPlacement switch
             {
@@ -1780,7 +1778,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPositionType( PositionType positionType )
+        public virtual string ToPositionType( PositionType positionType )
         {
             return positionType switch
             {
@@ -1793,7 +1791,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+        public virtual string ToPositionEdgeType( PositionEdgeType positionEdgeType )
         {
             return positionEdgeType switch
             {
@@ -1805,7 +1803,7 @@ namespace Blazorise
             };
         }
 
-        public string ToPositionTranslateType( PositionTranslateType positionTranslateType )
+        public virtual string ToPositionTranslateType( PositionTranslateType positionTranslateType )
         {
             return positionTranslateType switch
             {

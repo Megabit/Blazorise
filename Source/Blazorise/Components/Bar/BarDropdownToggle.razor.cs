@@ -83,9 +83,10 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         protected Task ClickHandler()
         {
-            ParentBarDropdown?.Toggle();
+            if ( ParentBarDropdown != null )
+                return ParentBarDropdown.Toggle();
 
-            return Clicked.InvokeAsync( null );
+            return Clicked.InvokeAsync();
         }
 
         /// <inheritdoc/>
@@ -97,7 +98,8 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task Close( CloseReason closeReason )
         {
-            ParentBarDropdown?.Hide();
+            if ( ParentBarDropdown != null )
+                return ParentBarDropdown.Hide();
 
             return Task.CompletedTask;
         }
