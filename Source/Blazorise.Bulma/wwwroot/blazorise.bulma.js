@@ -24,7 +24,11 @@ window.blazoriseBulma = {
     modal: {
         open: (element, scrollToTop) => {
             if (scrollToTop) {
-                element.querySelector('.modal-card-body').scrollTop = 0;
+                const modalBody = element.querySelector('.modal-card-body');
+
+                if (modalBody) {
+                    modalBody.scrollTop = 0;
+                }
             }
         },
         close: (element) => {
