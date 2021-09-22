@@ -29,5 +29,10 @@
         /// Define a search field (like a site search, or Google search).
         /// </summary>
         Search,
+
+        /// <summary>
+        /// Define a field for entering a telephone number.
+        /// </summary>
+        Telephone,
     }
 }
