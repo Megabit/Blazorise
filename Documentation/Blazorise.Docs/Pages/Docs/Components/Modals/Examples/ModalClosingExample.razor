@@ -8,9 +8,11 @@
     // reference to the modal component
     private Modal modalRef;
 
-    private void OnModalClosing( ModalClosingEventArgs e )
+    private Task OnModalClosing( ModalClosingEventArgs e )
     {
         // just set Cancel to true to prevent modal from closing
         e.Cancel = true;
+
+        return Task.CompletedTask;
     }
 }

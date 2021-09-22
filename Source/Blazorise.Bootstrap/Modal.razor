@@ -4,7 +4,7 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="-1" role="dialog" @attributes="@Attributes">
             @ChildContent
         </div>
-        @if ( ShowBackdrop && Visible )
+        @if ( ShowBackdrop && IsVisible )
         {
             <_ModalBackdrop CloseActivatorDisabled="true" />
         }

@@ -9,10 +9,12 @@
     <span class="comment">// reference to the modal component</span>
     <span class="keyword">private</span> Modal modalRef;
 
-    <span class="keyword">private</span> <span class="keyword">void</span> OnModalClosing( ModalClosingEventArgs e )
+    <span class="keyword">private</span> Task OnModalClosing( ModalClosingEventArgs e )
     {
         <span class="comment">// just set Cancel to true to prevent modal from closing</span>
         e.Cancel = <span class="keyword">true</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
     }
 }
 </pre></div>
