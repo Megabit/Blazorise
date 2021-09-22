@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -31,7 +32,7 @@ namespace Blazorise
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
-            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out string[] disabledDates ) && DisabledDates != disabledDates && DisabledDates != null;
+            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> disabledDates ) && !DisabledDates.AreEqual( disabledDates );
 
             if ( dateChanged )
             {
@@ -63,7 +64,7 @@ namespace Blazorise
                     Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
                     Disabled = new { Changed = disabledChanged, Value = disabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
-                    DisabledDates = new { Changed = disabledDatesChanged, Value = disabledDates },
+                    DisabledDates = new { Changed = disabledDatesChanged, Value = disabledDates?.Select( x => FormatValueAsString( x ) ) },
                 } ) );
             }
 
@@ -103,7 +104,7 @@ namespace Blazorise
                 Max = Max?.ToString( DateFormat ),
                 Disabled,
                 ReadOnly,
-                DisabledDates,
+                DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -314,41 +315,8 @@ namespace Blazorise
         /// <summary>
         /// List of disabled Dates. Format string "yyyy-MM-dd".
         /// </summary>
-        [Parameter] public string[] DisabledDates { get; set; } = new string[0];
+        [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
-        /// <summary>
-        /// List of disabled Date. Format DateTime
-        /// </summary>
-        [Parameter] public List<DateTime> DisabledDatesDateTime 
-        {
-            get 
-            {
-                List<DateTime> result = new List<DateTime>();
-                if (DisabledDates != null)
-                {
-                    foreach ( string data in DisabledDates )
-                    {
-                        result.Add( DateTime.ParseExact( data, "yyyy-MM-dd", CultureInfo.InvariantCulture ) );
-                    }
-                }
-                return result;
-            } 
-            set
-            {
-                if(value != null)
-                {
-                    string[] result = new string[value.Count];
-
-                    int a = 0;
-                    foreach(DateTime data in value)
-                    {
-                        result[a] = data.ToString( "yyyy-MM-dd" );
-                        a++;
-                    }
-                    DisabledDates = result;
-                }
-            }
-        }
         #endregion
     }
 }
