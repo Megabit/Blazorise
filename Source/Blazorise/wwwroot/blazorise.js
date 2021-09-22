@@ -478,7 +478,7 @@ window.blazorise = {
                 },
                 time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
                 clickOpens: !(options.readOnly || false),
-                disable: options.disabledDates,
+                disable: options.disabledDates || []
             };
 
             const pluginOptions = options.inputMode === 2 ? {
@@ -549,7 +549,7 @@ window.blazorise = {
                 }
 
                 if (options.disabledDates.changed) {
-                    picker.set("disable", options.disabledDates.value);
+                    picker.set("disable", options.disabledDates.value || []);
                 }
             }
         },
