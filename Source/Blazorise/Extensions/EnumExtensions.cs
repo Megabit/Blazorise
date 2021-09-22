@@ -31,6 +31,7 @@
                 TextRole.Password => "password",
                 TextRole.Url => "url",
                 TextRole.Search => "search",
+                TextRole.Telephone => "tel",
                 _ => "text",
             };
         }

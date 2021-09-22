@@ -64,14 +64,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnParametersSet()
         {
-            if ( Interval != 0 )
-                TimerEnabled = true;
-
-            if ( Autoplay /*&& SelectedSlideIndex == 0*/ )
-            {
-                if ( TimerEnabled )
-                    Timer.Start();
-            }
+            SetTimer();
 
             base.OnParametersSet();
         }
@@ -79,15 +72,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( Interval == 0 )
-                TimerEnabled = false;
-
-            if ( Timer == null && TimerEnabled )
-            {
-                InitializeTimer();
-
-                Timer.Start();
-            }
+            SetTimer();
 
             if ( TransitionTimer == null )
             {
@@ -295,13 +280,28 @@ namespace Blazorise
             TransitionTimer.AutoReset = false;
         }
 
+        private void SetTimer()
+        {
+            TimerEnabled = ( Interval > 0 );
+
+            if ( Timer == null && TimerEnabled )
+            {
+                InitializeTimer();
+            }
+
+            if ( AutoPlayEnabled )
+            {
+                Timer.Start();
+            }
+        }
+
         private void ResetTimer()
         {
             if ( Timer != null )
             {
                 Timer.Stop();
 
-                if ( TimerEnabled )
+                if ( AutoPlayEnabled )
                 {
                     Timer.Interval = GetSelectedCarouselSlide()?.Interval ?? Interval;
                     Timer.Start();
@@ -376,8 +376,7 @@ namespace Blazorise
 
                 if ( TimerEnabled )
                 {
-                    InitializeTimer();
-                    Timer.Start();
+                    ResetTimer();
                 }
 
                 await SelectedSlideChanged.InvokeAsync( SelectedSlide );
@@ -490,6 +489,12 @@ namespace Blazorise
         /// Gets or sets the flag that indicates if the timer is running.
         /// </summary>
         private bool TimerEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the flag that indicates if the timer is running and AutoPlay is enabled.
+        /// </summary>
+        private bool AutoPlayEnabled
+            => ( Autoplay && TimerEnabled );
 
         /// <summary>
         /// Gets the carousel state.

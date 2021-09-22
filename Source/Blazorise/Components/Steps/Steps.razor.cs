@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -77,11 +78,12 @@ namespace Blazorise
         /// Sets the active step by the name.
         /// </summary>
         /// <param name="stepName"></param>
-        public void SelectStep( string stepName )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task SelectStep( string stepName )
         {
             SelectedStep = stepName;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>

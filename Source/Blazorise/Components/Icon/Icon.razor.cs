@@ -39,7 +39,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnClickHandler()
         {
-            return Clicked.InvokeAsync( null );
+            return Clicked.InvokeAsync();
         }
 
         /// <summary>

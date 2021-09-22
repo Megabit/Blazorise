@@ -272,7 +272,7 @@
                                 <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </EditCommandTemplate>
                             <SaveCommandTemplate>
-                                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                                <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </SaveCommandTemplate>
                             <DeleteCommandTemplate>
                                 <Button Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>

@@ -52,7 +52,7 @@ namespace Blazorise.DataGrid
 
         protected async Task SaveWithValidation()
         {
-            if ( await validations.ValidateAllAsync() )
+            if ( await validations.ValidateAll() )
             {
                 await ParentDataGrid.Save();
             }

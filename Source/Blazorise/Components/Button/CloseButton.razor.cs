@@ -29,7 +29,7 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
             // We must have priority over what get's closed once we click on close button.
             // For example, there can be Alert placed inside of Modal, and Close Button inside of Alert.
@@ -38,15 +38,15 @@ namespace Blazorise
             {
                 if ( ParentAlert != null )
                 {
-                    ParentAlert.Hide();
+                    await ParentAlert.Hide();
                 }
-                else
+                else if ( ParentModal != null )
                 {
-                    ParentModal?.Hide();
+                    await ParentModal.Hide();
                 }
             }
 
-            return Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -113,11 +114,12 @@ namespace Blazorise
         /// Sets the active tab by the name.
         /// </summary>
         /// <param name="tabName">The name of the tab.</param>
-        public void SelectTab( string tabName )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task SelectTab( string tabName )
         {
             SelectedTab = tabName;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         #endregion
