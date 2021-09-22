@@ -662,6 +662,15 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DatePickerDisabledDatesExample = @"<DatePicker TValue=""DateTime?"" DisabledDates=""@disabledDates"" />
+
+@code {
+    DateTime?[] disabledDates = new DateTime?[] {
+        new DateTime(2021,9,15),
+        new DateTime(2021,9,10),
+    };
+}";
+
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" />

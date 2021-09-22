@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -29,6 +31,7 @@ namespace Blazorise
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
+            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> disabledDates ) && !DisabledDates.AreEqual( disabledDates );
 
             if ( dateChanged )
             {
@@ -48,7 +51,8 @@ namespace Blazorise
                 || displayFormatChanged
                 || timeAs24hrChanged
                 || disabledChanged
-                || readOnlyChanged ) )
+                || readOnlyChanged
+                || disabledDatesChanged ) )
             {
                 ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
                 {
@@ -59,6 +63,7 @@ namespace Blazorise
                     Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
                     Disabled = new { Changed = disabledChanged, Value = disabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
+                    DisabledDates = new { Changed = disabledDatesChanged, Value = disabledDates?.Select( x => FormatValueAsString( x ) ) },
                 } ) );
             }
 
@@ -98,6 +103,7 @@ namespace Blazorise
                 Max = Max?.ToString( DateFormat ),
                 Disabled,
                 ReadOnly,
+                DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -304,6 +310,11 @@ namespace Blazorise
         /// Displays time picker in 24 hour mode without AM/PM selection when enabled.
         /// </summary>
         [Parameter] public bool TimeAs24hr { get; set; }
+
+        /// <summary>
+        /// List of disabled dates that the user should not be able to pick.
+        /// </summary>
+        [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
         #endregion
     }
