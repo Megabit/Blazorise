@@ -1,3 +1,7 @@
+cd ..
+call clean.bat
+cd NuGet
+
 del *.nupkg
 del *.snupkg
 

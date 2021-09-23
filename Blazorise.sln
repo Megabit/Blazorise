@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28531.58
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{73CD9574-5204-442D-A67C-CA7B038057C2}"
 EndProject
@@ -94,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Server", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Compiler", "Documentation\Blazorise.Docs.Compiler\Blazorise.Docs.Compiler.csproj", "{AEF90960-9169-4B5A-B94B-7A5001FFCD1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Bootstrap5", "Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj", "{224FDE0F-A04B-4BF4-8D14-E0D7871B0F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Bootstrap5", "Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj", "{224FDE0F-A04B-4BF4-8D14-E0D7871B0F1E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Bootstrap5", "Demos\Blazorise.Demo.Bootstrap5\Blazorise.Demo.Bootstrap5.csproj", "{CCA627E3-633E-4F00-854C-F028AB298CF5}"
 EndProject
