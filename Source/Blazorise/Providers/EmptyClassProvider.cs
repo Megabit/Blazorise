@@ -333,6 +333,8 @@ namespace Blazorise.Providers
 
         public string DropdownShow() => null;
 
+        public string DropdownSubmenu() => null;
+
         public string DropdownRight() => null;
 
         public string DropdownItem() => null;
@@ -353,7 +355,7 @@ namespace Blazorise.Providers
 
         public string DropdownMenuRight() => null;
 
-        public string DropdownToggle() => null;
+        public string DropdownToggle( bool isDropdownSubmenu ) => null;
 
         public string DropdownToggleColor( Color color ) => null;
 

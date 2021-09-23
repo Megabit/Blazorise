@@ -367,6 +367,8 @@ namespace Blazorise.Bulma
 
         public override string DropdownShow() => Active();
 
+        public override string DropdownSubmenu() => null;
+
         public override string DropdownRight() => "is-right";
 
         public override string DropdownItem() => "dropdown-item";
@@ -387,7 +389,7 @@ namespace Blazorise.Bulma
 
         public override string DropdownMenuRight() => null;
 
-        public override string DropdownToggle() => "button dropdown-trigger";
+        public override string DropdownToggle( bool isDropdownSubmenu ) => "button dropdown-trigger";
 
         public override string DropdownToggleColor( Color color ) => $"is-{ToColor( color )}";
 

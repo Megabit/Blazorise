@@ -331,6 +331,8 @@ namespace Blazorise
 
         string DropdownShow();
 
+        string DropdownSubmenu();
+
         string DropdownRight();
 
         string DropdownItem();
@@ -351,7 +353,7 @@ namespace Blazorise
 
         string DropdownMenuRight();
 
-        string DropdownToggle();
+        string DropdownToggle( bool isDropdownSubmenu );
 
         string DropdownToggleColor( Color color );
 

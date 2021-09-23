@@ -230,33 +230,27 @@
                     <DropdownToggle Color="Color.Primary">Level 1</DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem>Item 1.1</DropdownItem>
-                        <DropdownItem>
-                            <Dropdown Direction="Direction.Right">
-                                <DropdownToggle Color="Color.Secondary">Level 2</DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem>Item 2.1</DropdownItem>
-                                    <DropdownItem>Item 2.2</DropdownItem>
-                                    <DropdownItem>
-                                        <Dropdown Direction="Direction.Right">
-                                            <DropdownToggle Color="Color.Secondary">Level 3</DropdownToggle>
+                        <Dropdown>
+                            <DropdownToggle>Level 2</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 2.1</DropdownItem>
+                                <DropdownItem>Item 2.2</DropdownItem>
+                                <Dropdown>
+                                    <DropdownToggle>Level 3</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Item 3.1</DropdownItem>
+                                        <DropdownItem>Item 3.2</DropdownItem>
+                                        <Dropdown>
+                                            <DropdownToggle>Level 4</DropdownToggle>
                                             <DropdownMenu>
-                                                <DropdownItem>Item 3.1</DropdownItem>
-                                                <DropdownItem>Item 3.2</DropdownItem>
-                                                <DropdownItem>
-                                                    <Dropdown Direction="Direction.Right">
-                                                        <DropdownToggle Color="Color.Secondary">Level 4</DropdownToggle>
-                                                        <DropdownMenu>
-                                                            <DropdownItem>Item 4.1</DropdownItem>
-                                                            <DropdownItem>Item 4.2</DropdownItem>
-                                                        </DropdownMenu>
-                                                    </Dropdown>
-                                                </DropdownItem>
+                                                <DropdownItem>Item 4.1</DropdownItem>
+                                                <DropdownItem>Item 4.2</DropdownItem>
                                             </DropdownMenu>
                                         </Dropdown>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
-                        </DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </DropdownMenu>
+                        </Dropdown>
                     </DropdownMenu>
                 </Dropdown>
             </CardBody>

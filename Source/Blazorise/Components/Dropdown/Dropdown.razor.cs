@@ -49,6 +49,7 @@ namespace Blazorise
             builder.Append( ClassProvider.Dropdown() );
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
             builder.Append( ClassProvider.DropdownShow(), Visible );
+            builder.Append( ClassProvider.DropdownSubmenu(), IsDropdownSubmenu );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
             builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
@@ -235,6 +236,11 @@ namespace Blazorise
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
         /// </summary>
         protected internal bool IsGroup => ParentButtons != null || buttonList?.Count >= 1;
+
+        /// <summary>
+        /// Returns true if the dropdown is placed inside of another dropdown.
+        /// </summary>
+        protected internal bool IsDropdownSubmenu => ParentDropdown != null;
 
         /// <summary>
         /// Returns true if dropdown is placed inside of responsive table.
