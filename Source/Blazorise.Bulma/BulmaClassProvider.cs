@@ -361,7 +361,7 @@ namespace Blazorise.Bulma
 
         #region Dropdown
 
-        public override string Dropdown() => "dropdown";
+        public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
         public override string DropdownGroup() => "field has-addons";
 
@@ -387,7 +387,7 @@ namespace Blazorise.Bulma
 
         public override string DropdownMenuRight() => null;
 
-        public override string DropdownToggle() => "button dropdown-trigger";
+        public override string DropdownToggle( bool isDropdownSubmenu ) => "button dropdown-trigger";
 
         public override string DropdownToggleColor( Color color ) => $"is-{ToColor( color )}";
 

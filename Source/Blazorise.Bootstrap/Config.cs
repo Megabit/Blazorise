@@ -50,6 +50,7 @@ namespace Blazorise.Bootstrap
             { typeof( Blazorise.Carousel ), typeof( Bootstrap.Carousel ) },
             { typeof( Blazorise.CloseButton ), typeof( Bootstrap.CloseButton ) },
             { typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( Bootstrap.DropdownToggle ) },
             { typeof( Blazorise.Field ), typeof( Bootstrap.Field ) },
             { typeof( Blazorise.FieldBody ), typeof( Bootstrap.FieldBody ) },
             { typeof( Blazorise.FileEdit ), typeof( Bootstrap.FileEdit ) },

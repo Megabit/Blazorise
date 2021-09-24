@@ -34,26 +34,21 @@ namespace Blazorise
         /// </summary>
         private List<Button> buttonList;
 
-        /// <summary>
-        /// Tracks the last DropdownToggle Element Id that acted.
-        /// </summary>
-        public string SelectedDropdownElementId { get; set; }
+        private Dropdown childDroopdown;
 
         #endregion
 
-        #region Methods        
+        #region Methods
 
         /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
+        protected override void OnInitialized()
         {
-            builder.Append( ClassProvider.Dropdown() );
-            builder.Append( ClassProvider.DropdownGroup(), IsGroup );
-            builder.Append( ClassProvider.DropdownShow(), Visible );
-            builder.Append( ClassProvider.DropdownRight(), RightAligned );
-            builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
-            builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
+            if ( ParentDropdown != null )
+            {
+                ParentDropdown.NotifyChildDropdownInitialized( this );
+            }
 
-            base.BuildClasses( builder );
+            base.OnInitialized();
         }
 
         /// <inheritdoc/>
@@ -70,6 +65,33 @@ namespace Blazorise
             WasJustToggled = false;
 
             base.OnAfterRender( firstRender );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
+            builder.Append( ClassProvider.DropdownGroup(), IsGroup );
+            builder.Append( ClassProvider.DropdownShow(), Visible );
+            builder.Append( ClassProvider.DropdownRight(), RightAligned );
+            builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
+            builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
+
+            base.BuildClasses( builder );
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentDropdown != null )
+                {
+                    ParentDropdown.NotifyChildDropdownRemoved( this );
+                }
+            }
+
+            base.Dispose( disposing );
         }
 
         /// <summary>
@@ -107,17 +129,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Keeps track whether the Dropdown is in a state where it should close.
-        /// </summary>
-        internal bool ShouldClose { get; set; } = false;
-
-        /// <summary>
-        /// Keeps track whether the Dropdown was just toggled, ignoring possible DropdownItem clicks which would otherwise close the dropdown.
-        /// </summary>
-        internal bool WasJustToggled { get; set; } = false;
-
-
-        /// <summary>
         /// Handles the onmouseleave event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -125,7 +136,6 @@ namespace Blazorise
         {
             ShouldClose = true;
         }
-
 
         /// <summary>
         /// Handles the onmouseenter event.
@@ -199,6 +209,25 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Notifies the <see cref="Dropdown"/> that it has a child dropdown component.
+        /// </summary>
+        /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal void NotifyChildDropdownInitialized( Dropdown dropdown )
+        {
+            if ( childDroopdown == null )
+                childDroopdown = dropdown;
+        }
+
+        /// <summary>
+        /// Notifies the <see cref="Dropdown"/> that it's a child dropdown component should be removed.
+        /// </summary>
+        /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal void NotifyChildDropdownRemoved( Dropdown dropdown )
+        {
+            childDroopdown = null;
+        }
+
+        /// <summary>
         /// Handles the styles based on the visibility flag.
         /// </summary>
         /// <param name="visible">Dropdown menu visibility flag.</param>
@@ -223,6 +252,16 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Keeps track whether the Dropdown is in a state where it should close.
+        /// </summary>
+        internal bool ShouldClose { get; set; } = false;
+
+        /// <summary>
+        /// Keeps track whether the Dropdown was just toggled, ignoring possible DropdownItem clicks which would otherwise close the dropdown.
+        /// </summary>
+        internal bool WasJustToggled { get; set; } = false;
+
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
@@ -237,9 +276,24 @@ namespace Blazorise
         protected internal bool IsGroup => ParentButtons != null || buttonList?.Count >= 1;
 
         /// <summary>
+        /// Returns true if the dropdown is placed inside of another dropdown.
+        /// </summary>
+        protected internal bool IsDropdownSubmenu => ParentDropdown != null;
+
+        /// <summary>
+        /// Returns true if this dropdown contains any child dropdown.
+        /// </summary>
+        protected internal bool HasSubmenu => childDroopdown != null;
+
+        /// <summary>
         /// Returns true if dropdown is placed inside of responsive table.
         /// </summary>
         protected internal bool InResponsiveTable => ParentTable?.Responsive == true;
+
+        /// <summary>
+        /// Tracks the last DropdownToggle Element Id that acted.
+        /// </summary>
+        public string SelectedDropdownElementId { get; set; }
 
         /// <summary>
         /// If true, a dropdown menu will be visible.

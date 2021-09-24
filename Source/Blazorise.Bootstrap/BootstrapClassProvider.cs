@@ -357,7 +357,7 @@ namespace Blazorise.Bootstrap
 
         #region Dropdown
 
-        public override string Dropdown() => "dropdown";
+        public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-submenu" : "dropdown";
 
         public override string DropdownGroup() => "btn-group";
 
@@ -383,7 +383,7 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 
-        public override string DropdownToggle() => "btn dropdown-toggle";
+        public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
