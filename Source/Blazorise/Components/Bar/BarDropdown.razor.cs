@@ -46,6 +46,14 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void OnAfterRender( bool firstRender )
+        {
+            WasJustToggled = false;
+
+            base.OnAfterRender( firstRender );
+        }
+
+        /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
             // This is needed for the two-way binding to work properly.
@@ -75,27 +83,34 @@ namespace Blazorise
         /// <summary>
         /// Hides the dropdown menu.
         /// </summary>
+        /// <param name="hideAll">Indicates if we need to hide current dropdown menu and all its parent dropdown menus.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Hide()
+        public async Task Hide( bool hideAll = false )
         {
             if ( !Visible )
-                return Task.CompletedTask;
+                return;
+
+            if ( ParentBarDropdown is not null && ( ParentBarDropdown.ShouldClose || hideAll ) )
+                await ParentBarDropdown.Hide( hideAll );
 
             Visible = false;
 
-            return InvokeAsync( StateHasChanged );
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Toggles the visibility of the dropdown menu.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Toggle()
+        public Task Toggle( string dropdownToggleElementId )
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
             // This will be handled by mouse over actions below.
             if ( ParentBarItemState != null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
                 return Task.CompletedTask;
+
+            SetWasJustToggled( true );
+            SetSelectedDropdownElementId( dropdownToggleElementId );
 
             Visible = !Visible;
 
@@ -103,11 +118,34 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Sets the WasToggled Flag on the current Dropdown and every existing ParentDropdown.
+        /// </summary>
+        /// <param name="wasToggled"></param>
+        internal void SetWasJustToggled( bool wasToggled )
+        {
+            WasJustToggled = wasToggled;
+            ParentBarDropdown?.SetWasJustToggled( wasToggled );
+        }
+
+        /// <summary>
+        /// Sets Selected Dropdown Toggle ElementId
+        /// </summary>
+        /// <param name="dropdownToggleElementId"></param>
+        internal void SetSelectedDropdownElementId( string dropdownToggleElementId )
+        {
+            SelectedBarDropdownElementId = dropdownToggleElementId;
+            if ( ParentBarDropdown is not null )
+                ParentBarDropdown.SetSelectedDropdownElementId( dropdownToggleElementId );
+        }
+
+        /// <summary>
         /// Handles the onmouseenter event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task OnMouseEnter()
+        public Task OnMouseEnterHandler()
         {
+            ShouldClose = false;
+
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return Task.CompletedTask;
 
@@ -118,8 +156,10 @@ namespace Blazorise
         /// Handles the onmouseleave event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task OnMouseLeave()
+        public Task OnMouseLeaveHandler()
         {
+            ShouldClose = true;
+
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return Task.CompletedTask;
 
@@ -134,6 +174,16 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
+        /// Keeps track whether the Dropdown is in a state where it should close.
+        /// </summary>
+        internal bool ShouldClose { get; set; } = false;
+
+        /// <summary>
+        /// Keeps track whether the Dropdown was just toggled, ignoring possible DropdownItem clicks which would otherwise close the dropdown.
+        /// </summary>
+        internal bool WasJustToggled { get; set; } = false;
+
+        /// <summary>
         /// Gets the reference to the state object for this <see cref="BarDropdown"/> component.
         /// </summary>
         protected BarDropdownState State => state;
@@ -142,6 +192,11 @@ namespace Blazorise
         /// Gets the <see cref="Visible"/> flag represented as a string.
         /// </summary>
         protected string VisibleString => State.Visible.ToString().ToLower();
+
+        /// <summary>
+        /// Tracks the last BarDropdownToggle Element Id that acted.
+        /// </summary>
+        public string SelectedBarDropdownElementId { get; set; }
 
         /// <summary>
         /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
@@ -216,6 +271,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the cascaded parent BarDropdown component.
+        /// </summary>
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.

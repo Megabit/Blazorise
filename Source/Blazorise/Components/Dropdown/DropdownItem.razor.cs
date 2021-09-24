@@ -35,19 +35,17 @@ namespace Blazorise
         /// Handles the onclick event, if not disabled.
         /// </summary>
         /// <returns></returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
             if ( !Disabled )
             {
                 if ( ParentDropdown is not null )
                 {
                     if ( !ParentDropdown.WasJustToggled )
-                        ParentDropdown.Hide( true );
+                        await ParentDropdown.Hide( true );
                 }
-                return Clicked.InvokeAsync( Value );
+                await Clicked.InvokeAsync( Value );
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion

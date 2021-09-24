@@ -114,18 +114,18 @@ namespace Blazorise
         /// </summary>
         /// <param name="hideAll">Indicates if we need to hide current dropdown menu and all its parent dropdown menus.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Hide( bool hideAll = false )
+        public async Task Hide( bool hideAll = false )
         {
             // used to prevent toggle event call if Close() is called multiple times
             if ( !Visible )
-                return Task.CompletedTask;
+                return;
 
             Visible = false;
 
             if ( ParentDropdown is not null && ( ParentDropdown.ShouldClose || hideAll ) )
-                ParentDropdown.Hide( hideAll );
+                await ParentDropdown.Hide( hideAll );
 
-            return InvokeAsync( StateHasChanged );
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -149,6 +149,7 @@ namespace Blazorise
         /// <summary>
         /// Toggle the visibility of the dropdown menu.
         /// </summary>
+        /// <param name="dropdownToggleElementId"></param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Toggle( string dropdownToggleElementId )
         {
@@ -169,6 +170,10 @@ namespace Blazorise
             ParentDropdown?.SetWasJustToggled( wasToggled );
         }
 
+        /// <summary>
+        /// Sets Selected Dropdown Toggle ElementId
+        /// </summary>
+        /// <param name="dropdownToggleElementId"></param>
         internal void SetSelectedDropdownElementId( string dropdownToggleElementId )
         {
             SelectedDropdownElementId = dropdownToggleElementId;

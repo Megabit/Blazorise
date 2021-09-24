@@ -108,9 +108,7 @@ namespace Blazorise
                 return;
 
             if ( ParentDropdown != null )
-            {
-                ParentDropdown?.Toggle( ElementId );
-            }
+                await ParentDropdown.Toggle( ElementId );
 
             await Clicked.InvokeAsync();
         }
