@@ -34,7 +34,7 @@ namespace Blazorise
         /// </summary>
         private List<Button> buttonList;
 
-        private Dropdown childDroopdown;
+        private Dropdown childDropdown;
 
         #endregion
 
@@ -219,8 +219,8 @@ namespace Blazorise
         /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
         internal void NotifyChildDropdownInitialized( Dropdown dropdown )
         {
-            if ( childDroopdown == null )
-                childDroopdown = dropdown;
+            if ( childDropdown == null )
+                childDropdown = dropdown;
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Blazorise
         /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
         internal void NotifyChildDropdownRemoved( Dropdown dropdown )
         {
-            childDroopdown = null;
+            childDropdown = null;
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Blazorise
         /// <summary>
         /// Returns true if this dropdown contains any child dropdown.
         /// </summary>
-        protected internal bool HasSubmenu => childDroopdown != null;
+        protected internal bool HasSubmenu => childDropdown != null;
 
         /// <summary>
         /// Returns true if dropdown is placed inside of responsive table.

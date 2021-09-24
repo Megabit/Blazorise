@@ -1,4 +1,9 @@
 ﻿@inherits Blazorise.BarDropdownToggle
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" data-bs-toggle="dropdown" @onclick="@ClickHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" data-bs-toggle="@DataToggle" @onclick="@ClickHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
     @ChildContent
 </a>
+
+@code {
+    string DataToggle => ParentBarDropdown?.HasSubmenu == true ? null : "dropdown";
+}

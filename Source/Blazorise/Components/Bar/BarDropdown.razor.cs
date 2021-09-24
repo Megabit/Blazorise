@@ -23,6 +23,8 @@ namespace Blazorise
             NestedIndex = 1
         };
 
+        private BarDropdown childBarDropdown;
+
         #endregion
 
         #region Methods
@@ -39,8 +41,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
-            // link to the parent component
             ParentBarItem?.NotifyBarDropdownInitialized( this );
+            ParentBarDropdown?.NotifyChildDropdownInitialized( this );
 
             return base.OnInitializedAsync();
         }
@@ -166,6 +168,39 @@ namespace Blazorise
             return Hide();
         }
 
+        /// <summary>
+        /// Notifies the <see cref="BarDropdown"/> that it has a child BarDropdown component.
+        /// </summary>
+        /// <param name="dropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
+        internal void NotifyChildDropdownInitialized( BarDropdown barDropdown )
+        {
+            if ( childBarDropdown == null )
+                childBarDropdown = barDropdown;
+        }
+
+        /// <summary>
+        /// Notifies the <see cref="BarDropdown"/> that it's a child BarDropdown component should be removed.
+        /// </summary>
+        /// <param name="dropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
+        internal void NotifyChildDropdownRemoved( BarDropdown barDropdown )
+        {
+            childBarDropdown = null;
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentBarDropdown != null )
+                {
+                    ParentBarDropdown.NotifyChildDropdownRemoved( this );
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
         #endregion
 
         #region Properties
@@ -187,6 +222,16 @@ namespace Blazorise
         /// Gets the reference to the state object for this <see cref="BarDropdown"/> component.
         /// </summary>
         protected BarDropdownState State => state;
+
+        /// <summary>
+        /// Returns true if the BarDropdown is placed inside of another BarDropdown.
+        /// </summary>
+        protected internal bool IsBarDropdownSubmenu => ParentBarDropdown != null;
+
+        /// <summary>
+        /// Returns true if this BarDropdown contains any child BarDropdown.
+        /// </summary>
+        protected internal bool HasSubmenu => childBarDropdown != null;
 
         /// <summary>
         /// Gets the <see cref="Visible"/> flag represented as a string.
