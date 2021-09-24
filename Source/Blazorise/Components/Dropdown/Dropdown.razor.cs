@@ -46,10 +46,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Dropdown() );
+            builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
             builder.Append( ClassProvider.DropdownShow(), Visible );
-            builder.Append( ClassProvider.DropdownSubmenu(), IsDropdownSubmenu );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
             builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );

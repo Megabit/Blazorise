@@ -325,13 +325,11 @@ namespace Blazorise
 
         #region Dropdown
 
-        string Dropdown();
+        string Dropdown( bool isDropdownSubmenu );
 
         string DropdownGroup();
 
         string DropdownShow();
-
-        string DropdownSubmenu();
 
         string DropdownRight();
 

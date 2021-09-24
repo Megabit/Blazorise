@@ -349,13 +349,11 @@ namespace Blazorise.Bootstrap5
 
         #region Dropdown
 
-        public override string Dropdown() => "dropdown";
+        public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
         public override string DropdownGroup() => "btn-group";
 
         public override string DropdownShow() => Show();
-
-        public override string DropdownSubmenu() => null;
 
         public override string DropdownRight() => null;
 

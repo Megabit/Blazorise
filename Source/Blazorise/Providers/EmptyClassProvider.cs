@@ -327,13 +327,11 @@ namespace Blazorise.Providers
 
         #region Dropdown
 
-        public string Dropdown() => null;
+        public string Dropdown( bool isDropdownSubmenu ) => null;
 
         public string DropdownGroup() => null;
 
         public string DropdownShow() => null;
-
-        public string DropdownSubmenu() => null;
 
         public string DropdownRight() => null;
 

@@ -326,13 +326,11 @@ namespace Blazorise
 
         #region Dropdown
 
-        public abstract string Dropdown();
+        public abstract string Dropdown( bool isDropdownSubmenu );
 
         public abstract string DropdownGroup();
 
         public abstract string DropdownShow();
-
-        public abstract string DropdownSubmenu();
 
         public abstract string DropdownRight();
 

@@ -358,13 +358,11 @@ namespace Blazorise.AntDesign
 
         #region Dropdown
 
-        public override string Dropdown() => "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
+        public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-vertical" : "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
 
         public override string DropdownGroup() => null;
 
         public override string DropdownShow() => null;
-
-        public override string DropdownSubmenu() => null;
 
         public override string DropdownRight() => null;
 
