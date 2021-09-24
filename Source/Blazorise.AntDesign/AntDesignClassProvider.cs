@@ -384,7 +384,7 @@ namespace Blazorise.AntDesign
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 
-        public override string DropdownToggle( bool isDropdownSubmenu ) => "ant-btn ant-dropdown-trigger";
+        public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
