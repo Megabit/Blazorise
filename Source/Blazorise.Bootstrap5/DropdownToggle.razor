@@ -7,7 +7,10 @@
 }
 else
 {
-    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-boundary="@DataBoundary" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
+    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-bs-toggle="@DataToggle" data-boundary="@DataBoundary" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </button>
+}
+@code {
+    string DataToggle => ParentDropdown?.HasSubmenu == true ? null : "dropdown";
 }
