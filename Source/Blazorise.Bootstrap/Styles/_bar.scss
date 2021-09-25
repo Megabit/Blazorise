@@ -16,20 +16,15 @@
 
 .b-bar-horizontal {
     .nav-item.dropdown {
-        > .dropdown-menu {
+        .dropdown-menu {
             > .dropdown {
-                &::after {
-                    transform: rotate(-90deg);
-                    position: absolute;
-                    right: 6px;
-                    top: .8em;
-                }
-
                 > .dropdown-item {
                     width: 100%;
 
+                    @include caret();
+
                     &::after {
-                        transform: rotate(-90deg);
+                        transform: rotate( -90deg);
                         position: absolute;
                         right: 10%;
                         top: 45%;
