@@ -147,6 +147,9 @@ $border-hover: $grey-light !default;
 $border-light: $grey-lightest !default;
 $border-light-hover: $grey-light !default;
 
+$caret-width: .3em !default;
+$caret-vertical-align: $caret-width * .85 !default;
+$caret-spacing: $caret-width * .85 !default;
 // Components
 
 $border-radius: .25rem !default;

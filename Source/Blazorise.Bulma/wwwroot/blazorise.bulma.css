@@ -2202,6 +2202,35 @@ ol.is-ordered-list-upper-roman {
     animation-fill-mode: both;
     animation-name: fadeIn; }
 
+.b-bar-horizontal .navbar-dropdown {
+    border: 0; }
+    .b-bar-horizontal .navbar-dropdown .b-bar-dropdown {
+        position: relative; }
+        .b-bar-horizontal .navbar-dropdown .b-bar-dropdown > .navbar-item.b-bar-dropdown-toggle {
+            width: 100%; }
+            .b-bar-horizontal .navbar-dropdown .b-bar-dropdown > .navbar-item.b-bar-dropdown-toggle::after {
+                display: inline-block;
+                margin-left: 0.255em;
+                vertical-align: 0.255em;
+                content: "";
+                border-top: 0.3em solid;
+                border-right: 0.3em solid transparent;
+                border-bottom: 0;
+                border-left: 0.3em solid transparent; }
+            .b-bar-horizontal .navbar-dropdown .b-bar-dropdown > .navbar-item.b-bar-dropdown-toggle:empty::after {
+                margin-left: 0; }
+            .b-bar-horizontal .navbar-dropdown .b-bar-dropdown > .navbar-item.b-bar-dropdown-toggle::after {
+                transform: rotate(-90deg);
+                position: absolute;
+                right: 10%;
+                top: 45%; }
+        .b-bar-horizontal .navbar-dropdown .b-bar-dropdown > div {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            margin-left: 0rem;
+            margin-right: .1rem; }
+
 .button.is-secondary {
     background-color: #6c757d;
     border-color: transparent;
