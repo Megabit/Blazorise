@@ -13,3 +13,36 @@
 .nav-item {
     position: relative;
 }
+
+.b-bar-horizontal {
+    .nav-item.dropdown {
+        > .dropdown-menu {
+            > .dropdown {
+                &::after {
+                    transform: rotate(-90deg);
+                    position: absolute;
+                    right: 6px;
+                    top: .8em;
+                }
+
+                > .dropdown-item {
+                    width: 100%;
+
+                    &::after {
+                        transform: rotate(-90deg);
+                        position: absolute;
+                        right: 10%;
+                        top: 45%;
+                    }
+                }
+
+                > .dropdown-menu {
+                    top: 0;
+                    left: 100%;
+                    margin-left: 0rem;
+                    margin-right: .1rem;
+                }
+            }
+        }
+    }
+}

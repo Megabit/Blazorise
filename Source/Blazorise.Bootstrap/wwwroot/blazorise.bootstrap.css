@@ -42,6 +42,26 @@
 .nav-item {
     position: relative; }
 
+.b-bar-horizontal .nav-item.dropdown > .dropdown-menu > .dropdown::after {
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 6px;
+    top: .8em; }
+
+.b-bar-horizontal .nav-item.dropdown > .dropdown-menu > .dropdown > .dropdown-item {
+    width: 100%; }
+    .b-bar-horizontal .nav-item.dropdown > .dropdown-menu > .dropdown > .dropdown-item::after {
+        transform: rotate(-90deg);
+        position: absolute;
+        right: 10%;
+        top: 45%; }
+
+.b-bar-horizontal .nav-item.dropdown > .dropdown-menu > .dropdown > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: 0rem;
+    margin-right: .1rem; }
+
 .btn-group > .b-tooltip:not(:last-child) > .btn {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }

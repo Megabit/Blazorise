@@ -32,7 +32,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdown( State.Mode ) );
+            builder.Append( ClassProvider.BarDropdown( State.Mode, IsBarDropdownSubmenu ) );
             builder.Append( ClassProvider.BarDropdownShow( State.Mode ), State.Visible );
 
             base.BuildClasses( builder );
