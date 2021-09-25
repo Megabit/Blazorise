@@ -63,6 +63,10 @@ $border-radius-lg: $border-radius * 4 !default;
 $border-radius-xl: $border-radius * 5 !default;
 $border-width: 1px !default;
 
+$caret-width: .3em !default;
+$caret-vertical-align: $caret-width * .85 !default;
+$caret-spacing: $caret-width * .85 !default;
+
 $sizes: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
