@@ -267,6 +267,15 @@
     animation-fill-mode: both;
     animation-name: fadeIn; }
 
+.ant-menu-submenu.ant-menu-submenu-horizontal .ant-menu-submenu-open {
+    position: relative; }
+    .ant-menu-submenu.ant-menu-submenu-horizontal .ant-menu-submenu-open .ant-menu-submenu.ant-menu-submenu-popup {
+        display: block;
+        top: 0;
+        left: 100%;
+        margin-left: .1rem;
+        margin-right: .1rem; }
+
 .ant-btn-secondary {
     color: #fff;
     background-color: #6c757d;
@@ -1710,6 +1719,9 @@
 
 .b-layout-header {
     line-height: 64px; }
+
+.b-layout-header {
+    z-index: 1; }
 
 .ant-list.ant-list-bordered.ant-list-flush {
     border-right: 0;
