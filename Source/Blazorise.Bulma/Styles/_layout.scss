@@ -1,4 +1,5 @@
-﻿body {
+﻿
+body {
     &::-webkit-scrollbar {
         display: none;
     }
@@ -16,4 +17,8 @@
             }
         }
     }
+}
+
+.b-layout-header {
+    z-index: 1;
 }

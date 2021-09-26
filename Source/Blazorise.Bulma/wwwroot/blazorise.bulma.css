@@ -3796,6 +3796,9 @@ body::-webkit-scrollbar {
         flex: 0 0 16.66667%;
         max-width: 16.66667%; } }
 
+.b-layout-header {
+    z-index: 1; }
+
 .list-group {
     display: flex;
     flex-direction: column;
