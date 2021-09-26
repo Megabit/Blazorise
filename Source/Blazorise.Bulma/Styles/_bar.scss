@@ -14,31 +14,24 @@
 }
 
 .b-bar-horizontal {
-    .navbar-dropdown {
-        border: 0;
+    .nav-item.dropdown.has-dropdown {
+        .navbar-dropdown {
+            border: 0;
 
-        .b-bar-dropdown {
-            position: relative;
-
-            > .navbar-item.b-bar-dropdown-toggle {
-                width: 100%;
-
-                @include caret();
-
-                &::after {
-                    transform: rotate( -90deg);
-                    position: absolute;
-                    right: 10%;
-                    top: 45%;
+            .dropdown {
+                > .dropdown-item {
+                    width: 100%;
                 }
-            }
 
-            > div {
-                position: absolute;
-                top: 0;
-                left: 100%;
-                margin-left: 0rem;
-                margin-right: .1rem;
+                > div {
+                    > .navbar-dropdown {
+                        display: none;
+                        top: 0;
+                        left: 100%;
+                        margin-left: 0rem;
+                        margin-right: .1rem;
+                    }
+                }
             }
         }
     }
