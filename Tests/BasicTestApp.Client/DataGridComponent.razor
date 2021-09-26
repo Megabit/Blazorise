@@ -1,0 +1,42 @@
+﻿@using Blazorise.DataGrid
+<h3>TestComponent</h3>
+
+<DataGrid TItem="WeatherForecast"
+          Data="@forecasts"
+          @bind-SelectedRow="@selectedForecast"
+          DetailRowTrigger="@DetailRowTrigger">
+    <DataGridColumns>
+        <DataGridColumn TItem="WeatherForecast" Field="@nameof(WeatherForecast.Date)" />
+        <DataGridColumn TItem="WeatherForecast" Field="@nameof(WeatherForecast.TemperatureC)" />
+    </DataGridColumns>
+    <DetailRowTemplate>
+        <span class="detail-row">@context.Summary</span>
+    </DetailRowTemplate>
+</DataGrid>
+
+@code {
+    private WeatherForecast[] forecasts;
+    private WeatherForecast selectedForecast;
+
+    public int TriggerCount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = new List<WeatherForecast> { new() { Date = DateTime.Now, TemperatureC = "40º", Summary = "Hot Hot" } }.ToArray();
+    }
+
+    public bool DetailRowTrigger( WeatherForecast item )
+    {
+        TriggerCount++;
+        return item.Date == selectedForecast?.Date;
+    }
+
+
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+        public string TemperatureC { get; set; }
+        public string Summary { get; set; }
+    }
+
+}
