@@ -316,7 +316,11 @@ namespace Blazorise
         /// <param name="visible"></param>
         protected virtual void RaiseEvents( bool visible )
         {
-            if ( !visible )
+            if ( visible )
+            {
+                Opened.InvokeAsync();
+            }
+            else
             {
                 Closed.InvokeAsync();
             }
@@ -444,6 +448,11 @@ namespace Blazorise
         /// Occurs before the modal is closed.
         /// </summary>
         [Parameter] public Func<ModalClosingEventArgs, Task> Closing { get; set; }
+
+        /// <summary>
+        /// Occurs after the modal has opened.
+        /// </summary>
+        [Parameter] public EventCallback Opened { get; set; }
 
         /// <summary>
         /// Occurs after the modal has closed.
