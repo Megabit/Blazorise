@@ -106,8 +106,20 @@
     <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
         Handles the visibility of modal dialog.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Closing" Type="Action<ModalClosingEventArgs>">
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the modal visibility state changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opening" Type="Func<ModalOpeningEventArgs, Task>">
         Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Func<ModalClosingEventArgs, Task>">
+        Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Occurs after the modal has opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Occurs after the modal has closed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ScrollToTop" Type="boolean" Default="true">
         If true modal will scroll to top when opened.
