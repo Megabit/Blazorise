@@ -42,6 +42,31 @@
 .nav-item {
     position: relative; }
 
+.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item {
+    width: 100%; }
+    .b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item::after {
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent; }
+    .b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item:empty::after {
+        margin-left: 0; }
+    .b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item::after {
+        transform: rotate(-90deg);
+        position: absolute;
+        right: 10%;
+        top: 45%; }
+
+.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: 0rem;
+    margin-right: .1rem; }
+
 .btn-group > .b-tooltip:not(:last-child) > .btn {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }
@@ -108,6 +133,26 @@ input[type="button"].btn-block {
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll; }
+
+.dropdown > .dropdown-menu > .dropdown {
+    position: relative; }
+    .dropdown > .dropdown-menu > .dropdown::after {
+        transform: rotate(-90deg);
+        position: absolute;
+        right: 6px;
+        top: .8em; }
+    .dropdown > .dropdown-menu > .dropdown > .dropdown-toggle {
+        width: 100%; }
+        .dropdown > .dropdown-menu > .dropdown > .dropdown-toggle::after {
+            transform: rotate(-90deg);
+            position: absolute;
+            right: 10%;
+            top: 45%; }
+    .dropdown > .dropdown-menu > .dropdown > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-left: 0rem;
+        margin-right: .1rem; }
 
 .snackbar {
     z-index: 1060 !important; }
@@ -1164,7 +1209,7 @@ ol.ordered-list-upper-roman {
             border-color: #007bff; }
     .flatpickr-day:hover {
         background: rgba(0, 123, 255, 0.1);
-        border-color: transparent; }
+        border-color: rgba(0, 0, 0, 0); }
 
 span.flatpickr-weekday {
     color: #212529; }

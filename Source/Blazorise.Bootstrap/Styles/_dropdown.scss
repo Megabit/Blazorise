@@ -21,3 +21,36 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 }
+
+.dropdown {
+    > .dropdown-menu {
+        > .dropdown {
+            position: relative;
+
+            &::after {
+                transform: rotate(-90deg);
+                position: absolute;
+                right: 6px;
+                top: .8em;
+            }
+
+            > .dropdown-toggle {
+                width: 100%;
+
+                &::after {
+                    transform: rotate(-90deg);
+                    position: absolute;
+                    right: 10%;
+                    top: 45%;
+                }
+            }
+
+            > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-left: 0rem;
+                margin-right: .1rem;
+            }
+        }
+    }
+}

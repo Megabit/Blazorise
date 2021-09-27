@@ -20,6 +20,45 @@
 
 .b-is-autocomplete .dropdown-menu {
     width: 100%;
-     max-height: var(--autocomplete-menu-max-height, 200px);
+    max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
+}
+
+.dropdown.is-active {
+    .dropdown-menu > .dropdown-content {
+        > .dropdown {
+            width: 100%;
+
+            &::after {
+                transform: rotate(-90deg);
+                position: absolute;
+                right: 6px;
+                top: .8em;
+            }
+
+            > .dropdown-trigger {
+                width: 100%;
+
+                > .dropdown-item {
+                    padding-right: .5rem;
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+
+            > .dropdown-menu {
+                display: none;
+                top: 0;
+                left: 100%;
+                margin-left: 0rem;
+                margin-right: .1rem;
+            }
+
+            &.is-active {
+                > .dropdown-menu {
+                    display: block;
+                }
+            }
+        }
+    }
 }

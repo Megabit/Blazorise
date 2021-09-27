@@ -36,7 +36,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownToggle( ParentDropdownState.Mode ) );
+            builder.Append( ClassProvider.BarDropdownToggle( ParentDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
 
             base.BuildClasses( builder );
         }
@@ -83,8 +83,9 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         protected Task ClickHandler()
         {
+
             if ( ParentBarDropdown != null )
-                return ParentBarDropdown.Toggle();
+                return ParentBarDropdown.Toggle( ElementId );
 
             return Clicked.InvokeAsync();
         }
@@ -92,7 +93,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( elementId != ElementId && !isChildClicked ) );
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( ParentBarDropdown?.ShouldClose ?? true && ( elementId != ElementId && ParentBarDropdown?.SelectedBarDropdownElementId != ElementId && !isChildClicked ) ) );
         }
 
         /// <inheritdoc/>

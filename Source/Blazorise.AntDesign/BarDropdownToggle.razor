@@ -1,8 +1,19 @@
 ﻿@inherits Blazorise.BarDropdownToggle
-<div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave">
-    <span>@ChildContent</span>
-    <i class="ant-menu-submenu-arrow"></i>
-</div>
-@code{
+
+@if ( ParentBarDropdown?.IsBarDropdownSubmenu == true )
+{
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @attributes="@Attributes">
+        @ChildContent
+        <i class="ant-menu-submenu-arrow"></i>
+    </li>
+}
+else
+{
+    <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+        <span>@ChildContent</span>
+        <i class="ant-menu-submenu-arrow"></i>
+    </div>
+}
+@code {
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
 }

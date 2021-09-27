@@ -35,14 +35,17 @@ namespace Blazorise
         /// Handles the onclick event, if not disabled.
         /// </summary>
         /// <returns></returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
             if ( !Disabled )
             {
-                return Clicked.InvokeAsync( Value );
+                if ( ParentDropdown is not null )
+                {
+                    if ( !ParentDropdown.WasJustToggled )
+                        await ParentDropdown.Hide( true );
+                }
+                await Clicked.InvokeAsync( Value );
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion
@@ -99,6 +102,11 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="DropdownItem"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent dropdown.
+        /// </summary>
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         #endregion
     }
