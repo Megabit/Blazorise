@@ -19,14 +19,9 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : ComponentBase, ICloseActivator, IAsyncDisposable
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, ICloseActivator
     {
         #region Members
-
-        /// <summary>
-        /// Gets or set the javascript runner.
-        /// </summary>
-        [Inject] protected IJSRunner JSRunner { get; set; }
 
         /// <summary>
         /// Tells us that modal is tracked by the JS interop.
@@ -111,7 +106,7 @@ namespace Blazorise.Components
         {
             if ( !DropdownVisible )
             {
-                await UnregisterCloseableComponent();
+                await UnregisterClosableComponent();
                 return;
             }
 
@@ -153,13 +148,13 @@ namespace Blazorise.Components
         /// Handles the search field onblur event.
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
-        /// <returns>Returns awaitabdle task</returns>
+        /// <returns>Returns awaitable task</returns>
         protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
         {
             // Give enough time for other events to do their stuff before closing
             // the dropdown.
             await Task.Delay( 250 );
-            await UnregisterCloseableComponent();
+            await UnregisterClosableComponent();
 
             if ( !FreeTyping && SelectedValue == null )
             {
@@ -291,27 +286,28 @@ namespace Blazorise.Components
         public async Task Close( CloseReason closeReason )
         {
             await Clear();
-            await UnregisterCloseableComponent();
+            await UnregisterClosableComponent();
         }
 
         /// <summary>
-        /// Unregisters the closeable component.
+        /// Unregisters the closable component.
         /// </summary>
         /// <returns></returns>
-        protected async Task UnregisterCloseableComponent()
-        {
-            await JSRunner.UnregisterClosableComponent( this );
-            jsRegistered = false;
-        }
-
-        /// <inheritdoc/>
-        public async ValueTask DisposeAsync()
+        protected async Task UnregisterClosableComponent()
         {
             if ( jsRegistered )
             {
                 jsRegistered = false;
 
-                var task = JSRunner.UnregisterClosableComponent( this );
+                await JSRunner.UnregisterClosableComponent( this );
+            }
+        }
+
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                var task = UnregisterClosableComponent();
 
                 try
                 {
@@ -320,10 +316,12 @@ namespace Blazorise.Components
                 catch when ( task.IsCanceled )
                 {
                 }
+
+                dotNetObjectRef?.Dispose();
+                dotNetObjectRef = null;
             }
 
-            dotNetObjectRef?.Dispose();
-            dotNetObjectRef = null;
+            await base.DisposeAsync( disposing );
         }
 
         #endregion
@@ -331,7 +329,7 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
-        /// Gets the dropdown css styles.
+        /// Gets the dropdown CSS styles.
         /// </summary>
         protected string CssStyle
         {
@@ -348,11 +346,6 @@ namespace Blazorise.Components
                 return sb.ToString();
             }
         }
-
-        /// <summary>
-        /// Gets or sets the dropdown element id.
-        /// </summary>
-        [Parameter] public string ElementId { get; set; }
 
         /// <summary>
         /// Gets or sets the current search value.
@@ -394,10 +387,20 @@ namespace Blazorise.Components
             => CurrentSearch?.Length >= MinLength;
 
         /// <summary>
-        /// Gets the custom classnames for dropdown element.
+        /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownClassNames
             => $"{Class} b-is-autocomplete";
+
+        /// <summary>
+        /// Gets or set the JavaScript runner.
+        /// </summary>
+        [Inject] protected IJSRunner JSRunner { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dropdown element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
 
         /// <summary>
         /// Defines the method by which the search will be done.
@@ -521,7 +524,7 @@ namespace Blazorise.Components
         [Parameter] public EventCallback<string> NotFound { get; set; }
 
         /// <summary>
-        /// Custom classname for dropdown element.
+        /// Custom class-name for dropdown element.
         /// </summary>
         [Parameter] public string Class { get; set; }
 

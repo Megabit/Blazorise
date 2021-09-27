@@ -1,4 +1,5 @@
-﻿@typeparam TItem
+﻿@inherits BaseAfterRenderComponent
+@typeparam TItem
 @typeparam TValue
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
@@ -34,8 +35,19 @@
 
         @if ( DropdownVisible )
         {
-            JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
-            jsRegistered = true;
+            // once the menu is opened we need to register it as closable so that user could properly close it with escape key
+            // without accidentally triggering the parent component closing
+            if ( !jsRegistered )
+            {
+                jsRegistered = true;
+
+                ExecuteAfterRender( async () =>
+                {
+
+                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                } );
+            }
+
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
