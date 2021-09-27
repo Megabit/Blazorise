@@ -23,7 +23,11 @@ window.blazoriseMaterial = {
             window.blazorise.addClassToBody("modal-open");
 
             if (scrollToTop) {
-                element.querySelector('.modal-body').scrollTop = 0;
+                const modalBody = element.querySelector('.modal-body');
+
+                if (modalBody) {
+                    modalBody.scrollTop = 0;
+                }
             }
         },
         close: (element) => {
