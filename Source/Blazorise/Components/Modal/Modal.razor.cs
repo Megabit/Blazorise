@@ -68,17 +68,11 @@ namespace Blazorise
             {
                 if ( visibleResult == true && await IsSafeToOpen() )
                 {
-                    state = state with { Visible = true };
-
-                    HandleVisibilityStyles( true );
-                    RaiseEvents( true );
+                    SetVisibleState( true );
                 }
                 else if ( visibleResult == false && await IsSafeToClose() )
                 {
-                    state = state with { Visible = false };
-
-                    HandleVisibilityStyles( false );
-                    RaiseEvents( false );
+                    SetVisibleState( false );
                 }
                 else
                 {
@@ -180,10 +174,7 @@ namespace Blazorise
 
             if ( await IsSafeToOpen() )
             {
-                state = state with { Visible = true };
-
-                HandleVisibilityStyles( true );
-                RaiseEvents( true );
+                SetVisibleState( true );
 
                 await InvokeAsync( StateHasChanged );
             }
@@ -212,10 +203,7 @@ namespace Blazorise
 
             if ( await IsSafeToClose() )
             {
-                state = state with { Visible = false };
-
-                HandleVisibilityStyles( false );
-                RaiseEvents( false );
+                SetVisibleState( false );
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
@@ -388,6 +376,18 @@ namespace Blazorise
         public Task Close( CloseReason closeReason )
         {
             return Hide( closeReason );
+        }
+
+        /// <summary>
+        /// Handles the internal visibility states.
+        /// </summary>
+        /// <param name="visible">Visible state.</param>
+        private void SetVisibleState( bool visible )
+        {
+            state = state with { Visible = visible };
+
+            HandleVisibilityStyles( visible );
+            RaiseEvents( visible );
         }
 
         #endregion
