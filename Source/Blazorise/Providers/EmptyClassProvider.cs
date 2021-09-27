@@ -327,7 +327,7 @@ namespace Blazorise.Providers
 
         #region Dropdown
 
-        public string Dropdown() => null;
+        public string Dropdown( bool isDropdownSubmenu ) => null;
 
         public string DropdownGroup() => null;
 
@@ -353,7 +353,7 @@ namespace Blazorise.Providers
 
         public string DropdownMenuRight() => null;
 
-        public string DropdownToggle() => null;
+        public string DropdownToggle( bool isDropdownSubmenu ) => null;
 
         public string DropdownToggleColor( Color color ) => null;
 
@@ -571,7 +571,7 @@ namespace Blazorise.Providers
 
         public string BarMode( BarMode mode ) => null;
 
-        public string BarItem( BarMode mode ) => null;
+        public string BarItem( BarMode mode, bool hasDropdown ) => null;
 
         public string BarItemActive( BarMode mode ) => null;
 
@@ -603,11 +603,11 @@ namespace Blazorise.Providers
 
         //public  string BarHasDropdown() => null;
 
-        public string BarDropdown( BarMode mode ) => null;
+        public string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
         public string BarDropdownShow( BarMode mode ) => null;
 
-        public string BarDropdownToggle( BarMode mode ) => null;
+        public string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
         public string BarDropdownItem( BarMode mode ) => null;
 

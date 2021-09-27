@@ -41,9 +41,14 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            return Clicked.InvokeAsync();
+            if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+            {
+                if ( !ParentBarDropdown.WasJustToggled )
+                    await ParentBarDropdown.Hide( true );
+            }
+            await Clicked.InvokeAsync();
         }
 
         #endregion
@@ -103,6 +108,11 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent BarDropdown.
+        /// </summary>
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         #endregion
     }

@@ -325,7 +325,7 @@ namespace Blazorise
 
         #region Dropdown
 
-        string Dropdown();
+        string Dropdown( bool isDropdownSubmenu );
 
         string DropdownGroup();
 
@@ -351,7 +351,7 @@ namespace Blazorise
 
         string DropdownMenuRight();
 
-        string DropdownToggle();
+        string DropdownToggle( bool isDropdownSubmenu );
 
         string DropdownToggleColor( Color color );
 
@@ -567,7 +567,7 @@ namespace Blazorise
 
         string BarMode( BarMode mode );
 
-        string BarItem( BarMode mode );
+        string BarItem( BarMode mode, bool hasDropdown );
 
         string BarItemActive( BarMode mode );
 
@@ -597,11 +597,11 @@ namespace Blazorise
 
         //string BarHasDropdown();
 
-        string BarDropdown( BarMode mode );
+        string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
         string BarDropdownShow( BarMode mode );
 
-        string BarDropdownToggle( BarMode mode );
+        string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
         string BarDropdownItem( BarMode mode );
 

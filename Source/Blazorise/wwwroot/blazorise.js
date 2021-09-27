@@ -1220,7 +1220,6 @@ document.addEventListener('mousedown', function handler(evt) {
 document.addEventListener('mouseup', function handler(evt) {
     if (evt.button === 0 && evt.target === window.blazorise.lastClickedDocumentElement && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
-
         if (lastClosable) {
             window.blazorise.tryClose(lastClosable, evt.target.id, false, hasParentInTree(evt.target, lastClosable.elementId));
         }
@@ -1232,7 +1231,7 @@ document.addEventListener('keyup', function handler(evt) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true, false);
+            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true, hasParentInTree(evt.target, lastClosable.elementId));
         }
     }
 });

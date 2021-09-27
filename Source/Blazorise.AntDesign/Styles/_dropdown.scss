@@ -44,3 +44,21 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 }
+
+.ant-dropdown-menu-submenu.ant-dropdown-menu-submenu-vertical {
+    position: unset;
+
+    > .ant-dropdown-menu-item {
+        width: 100%;
+    }
+
+    > .ant-dropdown {
+        > .ant-dropdown-menu {
+            transform: translate(0, -32px);
+            top: 0;
+            left: 100%;
+            margin-left: .1rem;
+            margin-right: .1rem;
+        }
+    }
+}

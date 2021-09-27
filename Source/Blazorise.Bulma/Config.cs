@@ -33,6 +33,7 @@ namespace Blazorise.Bulma
             { typeof( Blazorise.Badge ), typeof( Bulma.Badge ) },
             { typeof( Blazorise.BarToggler ), typeof( Bulma.BarToggler ) },
             { typeof( Blazorise.BarDropdown ), typeof( Bulma.BarDropdown ) },
+            { typeof( Blazorise.BarDropdownToggle ), typeof( Bulma.BarDropdownToggle ) },
             { typeof( Blazorise.Breadcrumb ), typeof( Bulma.Breadcrumb ) },
             { typeof( Blazorise.BreadcrumbLink ), typeof( Bulma.BreadcrumbLink ) },
             { typeof( Blazorise.CardImage ), typeof( Bulma.CardImage ) },

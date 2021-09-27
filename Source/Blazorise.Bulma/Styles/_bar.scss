@@ -12,3 +12,27 @@
     animation-fill-mode: both;
     animation-name: fadeIn;
 }
+
+.b-bar-horizontal {
+    .nav-item.dropdown.has-dropdown {
+        .navbar-dropdown {
+            border: 0;
+
+            .dropdown {
+                > .dropdown-item {
+                    width: 100%;
+                }
+
+                > div {
+                    > .navbar-dropdown {
+                        display: none;
+                        top: 0;
+                        left: 100%;
+                        margin-left: 0rem;
+                        margin-right: .1rem;
+                    }
+                }
+            }
+        }
+    }
+}
