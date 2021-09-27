@@ -101,10 +101,12 @@ namespace Blazorise
         /// Handles the <see cref="Modal"/> closing event.
         /// </summary>
         /// <param name="eventArgs">Provides the data for the modal closing event.</param>
-        protected virtual void OnModalClosing( ModalClosingEventArgs eventArgs )
+        protected virtual Task OnModalClosing( ModalClosingEventArgs eventArgs )
         {
             eventArgs.Cancel = BackgroundCancel && ( eventArgs.CloseReason == CloseReason.EscapeClosing
                 || eventArgs.CloseReason == CloseReason.FocusLostClosing );
+
+            return Task.CompletedTask;
         }
 
         #endregion

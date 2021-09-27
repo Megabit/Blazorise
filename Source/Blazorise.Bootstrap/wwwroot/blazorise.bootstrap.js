@@ -28,7 +28,11 @@ window.blazoriseBootstrap = {
             document.body.setAttribute("data-modals", modals.toString());
 
             if (scrollToTop) {
-                element.querySelector('.modal-body').scrollTop = 0;
+                const modalBody = element.querySelector('.modal-body');
+
+                if (modalBody) {
+                    modalBody.scrollTop = 0;
+                }
             }
         },
         close: (element) => {

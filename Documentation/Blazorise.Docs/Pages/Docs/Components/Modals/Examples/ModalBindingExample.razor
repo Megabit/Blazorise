@@ -2,7 +2,9 @@
 
 <Button Color="Color.Primary" Clicked="@ShowModal">Show Modal</Button>
 
-<Modal @ref="modalRef">
+<Span Margin="Margin.Is3.FromLeft">Modal is visible: @modalVisible</Span>
+
+<Modal @bind-Visible="@modalVisible">
     <ModalContent Centered="true">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
@@ -26,16 +28,19 @@
 </Modal>
 
 @code{
-    // reference to the modal component
-    private Modal modalRef;
+    private bool modalVisible;
 
     private Task ShowModal()
     {
-        return modalRef.Show();
+        modalVisible = true;
+
+        return Task.CompletedTask;
     }
 
     private Task HideModal()
     {
-        return modalRef.Hide();
+        modalVisible = false;
+
+        return Task.CompletedTask;
     }
 }

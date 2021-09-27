@@ -15,7 +15,11 @@ window.antDesign = {
     modal: {
         open: (element, scrollToTop) => {
             if (scrollToTop) {
-                element.querySelector('.ant-modal-body').scrollTop = 0;
+                const modalBody = element.querySelector('.ant-modal-body');
+
+                if (modalBody) {
+                    modalBody.scrollTop = 0;
+                }
             }
         },
         close: (element) => {

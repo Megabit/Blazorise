@@ -62,6 +62,29 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
+            {
+                if ( visibleResult == true && await IsSafeToOpen() )
+                {
+                    SetVisibleState( true );
+                }
+                else if ( visibleResult == false && await IsSafeToClose() )
+                {
+                    SetVisibleState( false );
+                }
+                else
+                {
+                    // skip execution
+                    return;
+                }
+            }
+
+            await base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
         protected override Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
@@ -74,7 +97,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Modal() );
             builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalVisible( Visible ) );
+            builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
             base.BuildClasses( builder );
         }
@@ -82,7 +105,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
-            builder.Append( StyleProvider.ModalShow(), Visible );
+            builder.Append( StyleProvider.ModalShow(), IsVisible );
 
             base.BuildStyles( builder );
         }
@@ -144,14 +167,17 @@ namespace Blazorise
         /// Opens the modal dialog.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Show()
+        public async Task Show()
         {
-            if ( Visible )
-                return Task.CompletedTask;
+            if ( state.Visible )
+                return;
 
-            Visible = true;
+            if ( await IsSafeToOpen() )
+            {
+                SetVisibleState( true );
 
-            return InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         /// <summary>
@@ -168,51 +194,64 @@ namespace Blazorise
         /// </summary>
         /// <param name="closeReason">Reason why modal was closed.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        internal protected Task Hide( CloseReason closeReason )
+        internal protected async Task Hide( CloseReason closeReason )
         {
-            if ( !Visible )
-                return Task.CompletedTask;
+            if ( !state.Visible )
+                return;
 
             this.closeReason = closeReason;
 
-            if ( IsSafeToClose() )
+            if ( await IsSafeToClose() )
             {
-                state = state with { Visible = false };
-
-                HandleVisibilityStyles( false );
-                RaiseEvents( false );
+                SetVisibleState( false );
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
 
-                return InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        /// <summary>
+        /// Determines if modal can be opened.
+        /// </summary>
+        /// <returns>True if modal can be opened.</returns>
+        private async Task<bool> IsSafeToOpen()
+        {
+            var safeToOpen = true;
+
+            if ( Opening != null )
+            {
+                var eventArgs = new ModalOpeningEventArgs( false );
+
+                await Opening.Invoke( eventArgs );
+
+                if ( eventArgs.Cancel )
+                {
+                    safeToOpen = false;
+                }
             }
 
-            return Task.CompletedTask;
+            return safeToOpen;
         }
 
         /// <summary>
         /// Determines if modal can be closed.
         /// </summary>
         /// <returns>True if modal can be closed.</returns>
-        private bool IsSafeToClose()
+        private async Task<bool> IsSafeToClose()
         {
             var safeToClose = true;
 
-            var handler = Closing;
-
-            if ( handler != null )
+            if ( Closing != null )
             {
-                var args = new ModalClosingEventArgs( false, closeReason );
+                var eventArgs = new ModalClosingEventArgs( false, closeReason );
 
-                foreach ( Action<ModalClosingEventArgs> subHandler in handler?.GetInvocationList() )
+                await Closing.Invoke( eventArgs );
+
+                if ( eventArgs.Cancel )
                 {
-                    subHandler( args );
-
-                    if ( args.Cancel )
-                    {
-                        safeToClose = false;
-                    }
+                    safeToClose = false;
                 }
             }
 
@@ -277,7 +316,11 @@ namespace Blazorise
         /// <param name="visible"></param>
         protected virtual void RaiseEvents( bool visible )
         {
-            if ( !visible )
+            if ( visible )
+            {
+                Opened.InvokeAsync();
+            }
+            else
             {
                 Closed.InvokeAsync();
             }
@@ -339,9 +382,26 @@ namespace Blazorise
             return Hide( closeReason );
         }
 
+        /// <summary>
+        /// Handles the internal visibility states.
+        /// </summary>
+        /// <param name="visible">Visible state.</param>
+        private void SetVisibleState( bool visible )
+        {
+            state = state with { Visible = visible };
+
+            HandleVisibilityStyles( visible );
+            RaiseEvents( visible );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Returns true if the modal should be visible.
+        /// </summary>
+        protected internal bool IsVisible => State.Visible == true;
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
@@ -349,7 +409,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the reference to state object for this modal.
         /// </summary>
-        protected ModalState State => state;
+        protected internal ModalState State => state;
 
         /// <summary>
         /// Gets the list of focusable components.
@@ -366,32 +426,8 @@ namespace Blazorise
         /// <summary>
         /// Defines the visibility of modal dialog.
         /// </summary>
-        [Parameter]
-        public bool Visible
-        {
-            get => state.Visible;
-            set
-            {
-                // prevent modal from calling the same code multiple times
-                if ( value == state.Visible )
-                    return;
-
-                if ( value == true )
-                {
-                    state = state with { Visible = true };
-
-                    HandleVisibilityStyles( true );
-                    RaiseEvents( true );
-                }
-                else if ( value == false && IsSafeToClose() )
-                {
-                    state = state with { Visible = false };
-
-                    HandleVisibilityStyles( false );
-                    RaiseEvents( false );
-                }
-            }
-        }
+        /// <remarks>The <see cref="Visible"/> parameter should only be used in .razor code.</remarks>
+        [Parameter] public bool Visible { get; set; }
 
         /// <summary>
         /// Occurs when the modal visibility state changes.
@@ -404,9 +440,19 @@ namespace Blazorise
         [Parameter] public bool ScrollToTop { get; set; } = true;
 
         /// <summary>
+        /// Occurs before the modal is opened.
+        /// </summary>
+        [Parameter] public Func<ModalOpeningEventArgs, Task> Opening { get; set; }
+
+        /// <summary>
         /// Occurs before the modal is closed.
         /// </summary>
-        [Parameter] public Action<ModalClosingEventArgs> Closing { get; set; }
+        [Parameter] public Func<ModalClosingEventArgs, Task> Closing { get; set; }
+
+        /// <summary>
+        /// Occurs after the modal has opened.
+        /// </summary>
+        [Parameter] public EventCallback Opened { get; set; }
 
         /// <summary>
         /// Occurs after the modal has closed.
