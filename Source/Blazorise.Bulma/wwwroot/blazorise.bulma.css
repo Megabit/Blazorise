@@ -3797,7 +3797,7 @@ body::-webkit-scrollbar {
         max-width: 16.66667%; } }
 
 .b-layout-header {
-    z-index: 1; }
+    z-index: 30; }
 
 .list-group {
     display: flex;
