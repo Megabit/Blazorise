@@ -25,11 +25,12 @@ namespace Blazorise.Tests.Components
 
             // Act
             var tableRow = cut.Find( "tr.table-row-selectable" );
-            tableRow.Click();
+            tableRow.Click( detail: 1 );
 
             // Assert
-            var detailRow = cut.FindAll( "span.detail-row" );
-            Assert.True( detailRow.Count == 1 );
+            var detailRow = cut.Find( "span.detail-row" );
+            Assert.NotNull( detailRow );
+            Assert.NotNull( cut.Instance.SelectedRow );
         }
 
     }

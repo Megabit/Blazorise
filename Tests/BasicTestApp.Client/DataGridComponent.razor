@@ -3,7 +3,7 @@
 
 <DataGrid TItem="WeatherForecast"
           Data="@forecasts"
-          @bind-SelectedRow="@selectedForecast"
+          @bind-SelectedRow="@SelectedRow"
           DetailRowTrigger="@DetailRowTrigger">
     <DataGridColumns>
         <DataGridColumn TItem="WeatherForecast" Field="@nameof(WeatherForecast.Date)" />
@@ -16,7 +16,7 @@
 
 @code {
     private WeatherForecast[] forecasts;
-    private WeatherForecast selectedForecast;
+    public WeatherForecast SelectedRow;
 
     public int TriggerCount { get; set; }
 
@@ -28,7 +28,7 @@
     public bool DetailRowTrigger( WeatherForecast item )
     {
         TriggerCount++;
-        return item.Date == selectedForecast?.Date;
+        return item.Date == SelectedRow?.Date;
     }
 
 
