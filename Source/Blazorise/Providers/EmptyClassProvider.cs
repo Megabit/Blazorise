@@ -87,6 +87,38 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region DatePicker
+
+        public string DatePicker( bool plaintext ) => null;
+
+        public string DatePickerSize( Size size ) => null;
+
+        public string DatePickerColor( Color color ) => null;
+
+        public string DatePickerValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region TimePicker
+
+        public string TimePicker( bool plaintext ) => null;
+
+        public string TimePickerSize( Size size ) => null;
+
+        public string TimePickerColor( Color color ) => null;
+
+        public string TimePickerValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region ColorPicker
+
+        public string ColorPicker() => null;
+
+        public string ColorPickerSize( Size size ) => null;
+
+        #endregion
+
         #region Check
 
         public string Check() => null;

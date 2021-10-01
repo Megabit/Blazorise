@@ -86,6 +86,38 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region DatePicker
+
+        public override string DatePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+
+        public override string DatePickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string DatePickerColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+
+        public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region TimePicker
+
+        public override string TimePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+
+        public override string TimePickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string TimePickerColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+
+        public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region ColorPicker
+
+        public override string ColorPicker() => "ant-input b-input-color-picker";
+
+        public override string ColorPickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "ant-checkbox-input";

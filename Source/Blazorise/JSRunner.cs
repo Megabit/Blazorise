@@ -275,6 +275,25 @@ namespace Blazorise
 
         #endregion
 
+        #region ColorPicker
+
+        public virtual ValueTask InitializeColorPicker( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.initialize", dotNetObjectRef, elementRef, elementId, options );
+        }
+
+        public virtual ValueTask DestroyColorPicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.destroy", elementRef, elementId );
+        }
+
+        public virtual ValueTask UpdateColorPickerValue( ElementReference elementRef, string elementId, object value )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.updateValue", elementRef, elementId, value );
+        }
+
+        #endregion
+
         #region Select
 
         public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )
