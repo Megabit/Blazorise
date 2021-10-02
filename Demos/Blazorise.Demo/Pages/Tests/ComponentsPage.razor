@@ -30,7 +30,7 @@
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is4.FromBottom">
+        <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Dropdown List</CardTitle>
             </CardHeader>
@@ -60,7 +60,7 @@
     </Column>
 </Row>
 <Row>
-            <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Autocomplete</CardTitle>
@@ -96,7 +96,7 @@
             </CardBody>
         </Card>
     </Column>
-            <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Autocomplete Multiple Selection</CardTitle>
@@ -128,7 +128,7 @@
 </Row>
 <Row>
 
-    
+
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
@@ -171,7 +171,7 @@
     </Column>
 </Row>
 
-@code{
+@code {
     public class MySelectModel
     {
         public int MyValueField { get; set; }
@@ -192,7 +192,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        multipleSelectionData = new List<string>() { myDdlData.ElementAt(1).MyTextField, myDdlData.ElementAt(3).MyTextField};
+        multipleSelectionData = new List<string>() { myDdlData.ElementAt( 1 ).MyTextField, myDdlData.ElementAt( 3 ).MyTextField };
         return base.OnInitializedAsync();
     }
 
@@ -232,7 +232,7 @@
 
         for ( var i = 0; i < 6; i++ )
         {
-            color += letters[(3 * number + i) % letters.Length];
+            color += letters[( 3 * number + i ) % letters.Length];
         }
 
         return $"color: #{color}";
