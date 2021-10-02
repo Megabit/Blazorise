@@ -745,16 +745,19 @@ window.blazorise = {
         };
         this.truncate = function () {
             let value = (this.element.value || "").replace(this.separator, ".");
-            let number = Number(value);
 
-            number = Math.trunc(number * Math.pow(10, this.decimals)) / Math.pow(10, this.decimals);
+            if (value) {
+                let number = Number(value);
 
-            let newValue = number.toString().replace(".", this.separator);
+                number = Math.trunc(number * Math.pow(10, this.decimals)) / Math.pow(10, this.decimals);
 
-            this.element.value = newValue;
+                let newValue = number.toString().replace(".", this.separator);
 
-            if (this.dotnetAdapter) {
-                this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+                this.element.value = newValue;
+
+                if (this.dotnetAdapter) {
+                    this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+                }
             }
         };
     },
