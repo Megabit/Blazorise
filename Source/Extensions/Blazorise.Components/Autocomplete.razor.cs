@@ -176,9 +176,9 @@ namespace Blazorise.Components
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
 
-            if ( MultipleSelection )
+            if ( Multiple )
             {
-                await AddMultipleSelectValue( selectedValue );
+                await AddMultipleValue( selectedValue );
                 SelectedText = string.Empty;
             }
             else
@@ -191,7 +191,7 @@ namespace Blazorise.Components
             await textEditRef?.Revalidate();
         }
 
-        private Task AddMultipleSelectValue( TValue value )
+        private Task AddMultipleValue( TValue value )
         {
             SelectedValues ??= new();
             if ( !SelectedValues.Contains( value ) )
@@ -202,7 +202,7 @@ namespace Blazorise.Components
             return Task.CompletedTask;
         }
 
-        private Task RemoveMultipleSelectValue( TValue value )
+        private Task RemoveMultipleValue( TValue value )
         {
             SelectedValues.Remove( value );
             return SelectedValuesChanged.InvokeAsync( SelectedValues );
@@ -424,7 +424,7 @@ namespace Blazorise.Components
         /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownClassNames
-            => $"{Class} b-is-autocomplete {(MultipleSelection ? "b-is-autocomplete-multipleselection" : string.Empty)} {( TextFocused ? "focus" : string.Empty )}";
+            => $"{Class} b-is-autocomplete {(Multiple ? "b-is-autocomplete-multipleselection" : string.Empty)} {( TextFocused ? "focus" : string.Empty )}";
 
         /// <summary>
         /// Gets or set the JavaScript runner.
@@ -619,30 +619,35 @@ namespace Blazorise.Components
         /// <summary>
         /// Allows for multiple selection.
         /// </summary>
-        [Parameter] public bool MultipleSelection { get; set; }
+        [Parameter] public bool Multiple { get; set; }
 
         /// <summary>
         /// Sets the Badge color for the multiple selection values.
+        /// Used when <see cref="Multiple"/> is true.
         /// </summary>
-        [Parameter] public Color MultipleSelectionBadgeColor { get; set; } = Color.Primary;
+        [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
 
         /// <summary>
         /// Currently selected items values.
+        /// Used when <see cref="Multiple"/> is true.
         /// </summary>
         [Parameter] public List<TValue> SelectedValues { get; set; }
 
         /// <summary>
         /// Occurs after the selected values have changed.
+        /// Used when <see cref="Multiple"/> is true.
         /// </summary>
         [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
 
         /// <summary>
         /// Currently selected items texts.
+        /// Used when <see cref="Multiple"/> is true.
         /// </summary>
         [Parameter] public List<string> SelectedTexts { get; set; }
 
         /// <summary>
         /// Occurs after the selected texts have changed.
+        /// Used when <see cref="Multiple"/> is true.
         /// </summary>
         [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 

@@ -5,11 +5,11 @@
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
 
-        @if ( MultipleSelection )
+        @if ( Multiple )
         {
             @foreach ( var selectedValue in SelectedValues )
             {
-                <Badge Color="@MultipleSelectionBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleSelectValue(selectedValue)">@GetDisplayValue(selectedValue)</Badge>
+                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleValue(selectedValue)">@GetDisplayValue(selectedValue)</Badge>
             }
         }
 
