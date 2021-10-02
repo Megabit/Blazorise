@@ -123,6 +123,27 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll; }
 
+.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    max-width: 100%;
+    width: 100%;
+    cursor: text;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem; }
+    .b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control {
+        display: inline-block;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        max-width: inherit;
+        width: auto; }
+    .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
+
 .dropdown > .dropdown-menu > .dropdown {
     position: relative; }
     .dropdown > .dropdown-menu > .dropdown::after {

@@ -353,6 +353,8 @@ namespace Blazorise.Components
             }
         }
 
+
+
         /// <summary>
         /// Gets or sets the current search value.
         /// </summary>
@@ -396,7 +398,7 @@ namespace Blazorise.Components
         /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownClassNames
-            => $"{Class} b-is-autocomplete";
+            => $"{Class} b-is-autocomplete {(MultipleSelection ? "b-is-autocomplete-multipleselection" : string.Empty)} {( TextFocused ? "focus" : string.Empty )}";
 
         /// <summary>
         /// Gets or set the JavaScript runner.
