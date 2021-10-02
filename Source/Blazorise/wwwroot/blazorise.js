@@ -715,6 +715,8 @@ window.blazorise = {
         this.step = options.step || 1;
         this.min = options.min;
         this.max = options.max;
+        this.typeMin = options.typeMin;
+        this.typeMax = options.typeMax;
 
         this.regex = function () {
             var sep = "\\" + this.separator,
@@ -727,11 +729,47 @@ window.blazorise = {
             return [this.element.selectionStart, this.element.selectionEnd];
         };
         this.isValid = function (currentValue) {
-            var value = this.element.value,
+            let value = this.element.value,
                 selection = this.carret();
 
+            function toFixed(x) {
+                var result = '';
+                var xStr = x.toString(10);
+                var digitCount = xStr.indexOf('e') === -1 ? xStr.length : (parseInt(xStr.substr(xStr.indexOf('e') + 1)) + 1);
+
+                for (var i = 1; i <= digitCount; i++) {
+                    var mod = (x % Math.pow(10, i)).toString(10);
+                    var exponent = (mod.indexOf('e') === -1) ? 0 : parseInt(mod.substr(mod.indexOf('e') + 1));
+                    if ((exponent === 0 && mod.length !== i) || (exponent > 0 && exponent !== i - 1)) {
+                        result = '0' + result;
+                    }
+                    else {
+                        result = mod.charAt(0) + result;
+                    }
+                }
+                return result;
+            };
+
             if (value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value)) {
-                return value = (value || "").replace(this.separator, ".");
+                value = (value || "").replace(this.separator, ".");
+                let number = Number(value);
+
+                if (number > this.typeMax) {
+                    number = this.typeMax;
+                    value = toFixed(number);
+                    this.element.value = value;
+                    this.dotnetAdapter.invokeMethodAsync('SetValue', this.element.value);
+                    return false;
+                }
+                else if (number < this.typeMin) {
+                    number = this.typeMin;
+                    value = toFixed(number);
+                    this.element.value = value;
+                    this.dotnetAdapter.invokeMethodAsync('SetValue', this.element.value);
+                    return false;
+                }
+
+                return true;
             }
 
             return false;

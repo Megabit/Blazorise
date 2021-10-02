@@ -92,7 +92,9 @@ namespace Blazorise
                 Separator = DecimalsSeparator,
                 Step,
                 Min = Min.IsEqual( default ) ? minFromType : Min,
-                Max = Max.IsEqual( default ) ? maxFromType : Max
+                Max = Max.IsEqual( default ) ? maxFromType : Max,
+                TypeMin = minFromType,
+                TypeMax = maxFromType
             } );
 
             await base.OnFirstAfterRenderAsync();
