@@ -1,8 +1,18 @@
 ﻿@inherits BaseAfterRenderComponent
 @typeparam TItem
 @typeparam TValue
+
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
+
+        @if ( MultipleSelection )
+        {
+            @foreach ( var selectedValue in SelectedValues )
+            {
+                <Badge Color="@MultipleSelectionBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedValues.Remove(selectedValue)">@GetDisplayValue(selectedValue)</Badge>
+            }
+        }
+
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"
                   Text="@SelectedText"

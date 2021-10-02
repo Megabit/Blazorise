@@ -324,6 +324,12 @@ namespace Blazorise.Components
             await base.DisposeAsync( disposing );
         }
 
+        private string GetDisplayValue( TValue value )
+        {
+            var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
+            return TextField.Invoke( item ) ?? String.Empty;
+        }
+
         #endregion
 
         #region Properties
@@ -581,7 +587,30 @@ namespace Blazorise.Components
         /// Handler for custom filtering on Autocomplete's data source.
         /// </summary>
         [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
+
+        /// <summary>
+        /// Allows for multiple selection.
+        /// </summary>
+        [Parameter] public bool MultipleSelection { get; set; }
+
+        /// <summary>
+        /// Sets the Badge color for the multiple selection values.
+        /// </summary>
+        [Parameter] public Color MultipleSelectionBadgeColor { get; set; } = Color.Primary;
+
+        /// <summary>
+        /// Currently selected item value.
+        /// </summary>
+        [Parameter] public List<TValue> SelectedValues { get; set; }
+
+        /// <summary>
+        /// Occurs after the selected values have changed.
+        /// </summary>
+        [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
+
+
         public ElementReference ElementRef { get; }
+
 
         #endregion
     }

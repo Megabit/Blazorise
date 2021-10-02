@@ -30,44 +30,6 @@
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Autocomplete</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="MySelectModel"
-                                      TValue="string"
-                                      Data="@myDdlData"
-                                      TextField="@(( item ) => item.MyTextField)"
-                                      ValueField="@(( item ) => item.MyTextField)"
-                                      SelectedValue="@selectedSearchValue"
-                                      SelectedValueChanged="@MySearchHandler"
-                                      @bind-SelectedText="selectedAutoCompleteText"
-                                      Placeholder="Search..."
-                                      Filter="AutocompleteFilter.StartsWith"
-                                      FreeTyping="true"
-                                      CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
-                        </Autocomplete>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected search value: @selectedSearchValue
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected text value: @selectedAutoCompleteText
-                    </FieldBody>
-                </Field>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-<Row>
-    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Dropdown List</CardTitle>
@@ -96,6 +58,77 @@
             </CardBody>
         </Card>
     </Column>
+</Row>
+<Row>
+            <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="MySelectModel"
+                                      TValue="string"
+                                      Data="@myDdlData"
+                                      TextField="@(( item ) => item.MyTextField)"
+                                      ValueField="@(( item ) => item.MyTextField)"
+                                      SelectedValue="@selectedSearchValue"
+                                      SelectedValueChanged="@MySearchHandler"
+                                      @bind-SelectedText="selectedAutoCompleteText"
+                                      Placeholder="Search..."
+                                      Filter="AutocompleteFilter.StartsWith"
+                                      FreeTyping
+                                      CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected search value: @selectedSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteText
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+            <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Multiple Selection</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="MySelectModel"
+                                      TValue="string"
+                                      Data="@myDdlData"
+                                      TextField="@(( item ) => item.MyTextField)"
+                                      ValueField="@(( item ) => item.MyTextField)"
+                                      SelectedValue="@selectedSearchValue"
+                                      SelectedValueChanged="@MySearchHandler"
+                                      @bind-SelectedText="selectedAutoCompleteText"
+                                      Placeholder="Search..."
+                                      Filter="AutocompleteFilter.StartsWith"
+                                      CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
+                                      MultipleSelection
+                                      @bind-SelectedValues="multipleSelectionData">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+
+    
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
@@ -148,12 +181,20 @@
     static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
+    List<string> multipleSelectionData;
+
     int selectedListValue { get; set; }
     int selectedDropValue { get; set; } = 2;
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
     ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     Random random = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        multipleSelectionData = new List<string>() { myDdlData.ElementAt(1).MyTextField, myDdlData.ElementAt(3).MyTextField};
+        return base.OnInitializedAsync();
+    }
 
     void MyListValueChangedHandler( int newValue )
     {
