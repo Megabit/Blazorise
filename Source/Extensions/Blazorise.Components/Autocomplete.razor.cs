@@ -627,7 +627,7 @@ namespace Blazorise.Components
         [Parameter] public Color MultipleSelectionBadgeColor { get; set; } = Color.Primary;
 
         /// <summary>
-        /// Currently selected item value.
+        /// Currently selected items values.
         /// </summary>
         [Parameter] public List<TValue> SelectedValues { get; set; }
 
@@ -635,6 +635,16 @@ namespace Blazorise.Components
         /// Occurs after the selected values have changed.
         /// </summary>
         [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
+
+        /// <summary>
+        /// Currently selected items texts.
+        /// </summary>
+        [Parameter] public List<string> SelectedTexts { get; set; }
+
+        /// <summary>
+        /// Occurs after the selected texts have changed.
+        /// </summary>
+        [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 
 
         public ElementReference ElementRef { get; }
