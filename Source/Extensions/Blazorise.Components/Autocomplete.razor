@@ -9,7 +9,7 @@
         {
             @foreach ( var selectedValue in SelectedValues )
             {
-                <Badge Color="@MultipleSelectionBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedValues.Remove(selectedValue)">@GetDisplayValue(selectedValue)</Badge>
+                <Badge Color="@MultipleSelectionBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleSelectValue(selectedValue)">@GetDisplayValue(selectedValue)</Badge>
             }
         }
 

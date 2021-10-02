@@ -106,20 +106,23 @@
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Autocomplete TItem="MySelectModel"
-                                      TValue="string"
+                                      TValue="int"
                                       Data="@myDdlData"
                                       TextField="@(( item ) => item.MyTextField)"
-                                      ValueField="@(( item ) => item.MyTextField)"
-                                      SelectedValue="@selectedSearchValue"
-                                      SelectedValueChanged="@MySearchHandler"
-                                      @bind-SelectedText="selectedAutoCompleteText"
+                                      ValueField="@(( item ) => item.MyValueField)"
                                       Placeholder="Search..."
-                                      Filter="AutocompleteFilter.StartsWith"
-                                      CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
                                       MultipleSelection
                                       @bind-SelectedValues="multipleSelectionData">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                         </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Values: @string.Join(',', multipleSelectionData)
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteText
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -181,7 +184,7 @@
     static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
-    List<string> multipleSelectionData;
+    List<int> multipleSelectionData;
 
     int selectedListValue { get; set; }
     int selectedDropValue { get; set; } = 2;
@@ -192,7 +195,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        multipleSelectionData = new List<string>() { myDdlData.ElementAt( 1 ).MyTextField, myDdlData.ElementAt( 3 ).MyTextField };
+        multipleSelectionData = new List<int>() { myDdlData.ElementAt( 1 ).MyValueField, myDdlData.ElementAt( 3 ).MyValueField };
         return base.OnInitializedAsync();
     }
 

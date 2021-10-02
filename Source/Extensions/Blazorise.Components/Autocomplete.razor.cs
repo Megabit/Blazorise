@@ -171,15 +171,41 @@ namespace Blazorise.Components
 
             var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
-            SelectedText = TextField?.Invoke( item ) ?? string.Empty;
             SelectedValue = Converters.ChangeType<TValue>( value );
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
+
+            if ( MultipleSelection )
+            {
+                await AddMultipleSelectValue( selectedValue );
+                SelectedText = string.Empty;
+            }
+            else
+            {
+                SelectedText = TextField?.Invoke( item ) ?? string.Empty;
+            }
+
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
-
             await textEditRef?.Revalidate();
+        }
+
+        private Task AddMultipleSelectValue( TValue value )
+        {
+            SelectedValues ??= new();
+            if ( !SelectedValues.Contains( value ) )
+            {
+                SelectedValues.Add( value );
+                return SelectedValuesChanged.InvokeAsync( SelectedValues ); 
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task RemoveMultipleSelectValue( TValue value )
+        {
+            SelectedValues.Remove( value );
+            return SelectedValuesChanged.InvokeAsync( SelectedValues );
         }
 
         private void FilterData()
