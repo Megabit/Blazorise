@@ -319,6 +319,13 @@ window.blazorise = {
                 ...alwaysActiveOptions
             });
 
+            if (options.text) {
+                instance.enable();
+            }
+            else {
+                instance.disable();
+            }
+
             window.blazorise.tooltip._instances[elementId] = instance;
         },
         destroy: (element, elementId) => {
@@ -337,6 +344,13 @@ window.blazorise = {
 
             if (instance) {
                 instance.setContent(content);
+
+                if (content) {
+                    instance.enable();
+                }
+                else {
+                    instance.disable();
+                }
             }
         }
     },
@@ -347,7 +361,7 @@ window.blazorise = {
             var instances = window.blazorise.textEdit._instances = window.blazorise.textEdit._instances || {};
 
             if (maskType === "numeric") {
-                instances[elementId] = new window.blazorise.NumericMaskValidator(element, elementId);
+                instances[elementId] = new window.blazorise.NumericMaskValidator(null, element, elementId);
             }
             else if (maskType === "datetime") {
                 instances[elementId] = new window.blazorise.DateTimeMaskValidator(element, elementId);
@@ -691,6 +705,8 @@ window.blazorise = {
         };
     },
     NumericMaskValidator: function (dotnetAdapter, element, elementId, options) {
+        options = options || {};
+
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
@@ -729,14 +745,20 @@ window.blazorise = {
         };
         this.truncate = function () {
             let value = (this.element.value || "").replace(this.separator, ".");
-            let number = Number(value);
 
-            number = Math.trunc(number * Math.pow(10, this.decimals)) / Math.pow(10, this.decimals);
+            if (value) {
+                let number = Number(value);
 
-            let newValue = number.toString().replace(".", this.separator);
+                number = Math.trunc(number * Math.pow(10, this.decimals)) / Math.pow(10, this.decimals);
 
-            this.element.value = newValue;
-            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+                let newValue = number.toString().replace(".", this.separator);
+
+                this.element.value = newValue;
+
+                if (this.dotnetAdapter) {
+                    this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+                }
+            }
         };
     },
     DateTimeMaskValidator: function (element, elementId) {
