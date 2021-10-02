@@ -9,10 +9,21 @@ const _ChartLabelCallback = function (item, data) {
     return label + ': ' + value;
 };
 
-Chart.defaults.pie.tooltips.callbacks.title = _ChartTitleCallbacks;
-Chart.defaults.pie.tooltips.callbacks.label = _ChartLabelCallback;
-Chart.defaults.doughnut.tooltips.callbacks.title = _ChartTitleCallbacks;
-Chart.defaults.doughnut.tooltips.callbacks.label = _ChartLabelCallback;
+if (!Chart.defaults.pie.tooltips.callbacks.title) {
+    Chart.defaults.pie.tooltips.callbacks.title = _ChartTitleCallbacks;
+}
+
+if (!Chart.defaults.pie.tooltips.callbacks.label) {
+    Chart.defaults.pie.tooltips.callbacks.label = _ChartLabelCallback;
+}
+
+if (!Chart.defaults.doughnut.tooltips.callbacks.title) {
+    Chart.defaults.doughnut.tooltips.callbacks.title = _ChartTitleCallbacks;
+}
+
+if (!Chart.defaults.doughnut.tooltips.callbacks.label) {
+    Chart.defaults.doughnut.tooltips.callbacks.label = _ChartLabelCallback;
+}
 
 window.blazoriseCharts = {
     _instances: [],
