@@ -319,6 +319,13 @@ window.blazorise = {
                 ...alwaysActiveOptions
             });
 
+            if (options.text) {
+                instance.enable();
+            }
+            else {
+                instance.disable();
+            }
+
             window.blazorise.tooltip._instances[elementId] = instance;
         },
         destroy: (element, elementId) => {
@@ -337,6 +344,13 @@ window.blazorise = {
 
             if (instance) {
                 instance.setContent(content);
+
+                if (content) {
+                    instance.enable();
+                }
+                else {
+                    instance.disable();
+                }
             }
         }
     },
