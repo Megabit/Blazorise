@@ -156,10 +156,15 @@ namespace Blazorise.Components
             await Task.Delay( 250 );
             await UnregisterClosableComponent();
 
-            if ( !FreeTyping && SelectedValue == null )
+            if ( !FreeTyping && ( SelectedValue == null || Multiple ) )
             {
                 SelectedText = string.Empty;
                 await SelectedTextChanged.InvokeAsync( string.Empty );
+            }
+
+            if ( FreeTyping && Multiple )
+            {
+                await AddMultipleText( SelectedText );
             }
 
             TextFocused = false;
@@ -191,21 +196,39 @@ namespace Blazorise.Components
             await textEditRef?.Revalidate();
         }
 
-        private Task AddMultipleValue( TValue value )
+        private async Task AddMultipleValue( TValue value )
         {
             SelectedValues ??= new();
             if ( !SelectedValues.Contains( value ) )
             {
+                await AddMultipleText( GetDisplayValue( value ) );
                 SelectedValues.Add( value );
-                return SelectedValuesChanged.InvokeAsync( SelectedValues ); 
+                await SelectedValuesChanged.InvokeAsync( SelectedValues );
+            }
+        }
+
+        private async Task RemoveMultipleValue( TValue value )
+        {
+            await RemoveMultipleText( GetDisplayValue( value ) );
+            SelectedValues.Remove( value );
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
+        }
+
+        private Task AddMultipleText( string text )
+        {
+            SelectedTexts ??= new();
+            if ( !SelectedTexts.Contains( text ) )
+            {
+                SelectedTexts.Add( text );
+                return SelectedTextsChanged.InvokeAsync( SelectedTexts );
             }
             return Task.CompletedTask;
         }
 
-        private Task RemoveMultipleValue( TValue value )
+        private Task RemoveMultipleText( string text )
         {
-            SelectedValues.Remove( value );
-            return SelectedValuesChanged.InvokeAsync( SelectedValues );
+            SelectedTexts.Remove( text );
+            return SelectedTextsChanged.InvokeAsync( SelectedTexts );
         }
 
         private void FilterData()
@@ -424,7 +447,7 @@ namespace Blazorise.Components
         /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownClassNames
-            => $"{Class} b-is-autocomplete {(Multiple ? "b-is-autocomplete-multipleselection" : string.Empty)} {( TextFocused ? "focus" : string.Empty )}";
+            => $"{Class} b-is-autocomplete {( Multiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
 
         /// <summary>
         /// Gets or set the JavaScript runner.

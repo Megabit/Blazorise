@@ -111,8 +111,9 @@
                                       TextField="@(( item ) => item.MyTextField)"
                                       ValueField="@(( item ) => item.MyValueField)"
                                       Placeholder="Search..."
-                                      MultipleSelection
-                                      @bind-SelectedValues="multipleSelectionData">
+                                      Multiple
+                                      @bind-SelectedValues="multipleSelectionData"
+                                      @bind-SelectedTexts="multipleSelectionTexts">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                         </Autocomplete>
                     </FieldBody>
@@ -122,7 +123,7 @@
                         Selected Values: @string.Join(',', multipleSelectionData)
                     </FieldBody>
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected text value: @selectedAutoCompleteText
+                        Selected Texts: @string.Join(',', multipleSelectionTexts)
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -185,6 +186,7 @@
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
     List<int> multipleSelectionData;
+    List<string> multipleSelectionTexts = new();
 
     int selectedListValue { get; set; }
     int selectedDropValue { get; set; } = 2;
