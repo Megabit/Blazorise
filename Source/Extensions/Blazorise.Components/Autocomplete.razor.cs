@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Components
@@ -61,6 +62,27 @@ namespace Blazorise.Components
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override async Task OnParametersSetAsync()
+        {
+            await SyncMultipleValuesAndTexts();
+            await base.OnParametersSetAsync();
+        }
+
+        private async Task SyncMultipleValuesAndTexts()
+        {
+            List<string> textsToAdd = new();
+            foreach ( var selectedValue in SelectedValues )
+                textsToAdd.Add( GetDisplayValue( selectedValue ) );
+
+            if ( SelectedTexts != null )
+                foreach ( var selectedText in SelectedTexts )
+                    await AddMultipleValue( GetValueByMultipleText( selectedText ) );
+
+            foreach ( var textToAdd in textsToAdd )
+                await AddMultipleText( textToAdd );
+        }
 
         /// <inheritdoc/>
         protected override Task OnAfterRenderAsync( bool firstRender )
@@ -183,6 +205,7 @@ namespace Blazorise.Components
 
             if ( Multiple )
             {
+                await AddMultipleText( selectedValue );
                 await AddMultipleValue( selectedValue );
                 SelectedText = string.Empty;
             }
@@ -201,7 +224,6 @@ namespace Blazorise.Components
             SelectedValues ??= new();
             if ( !SelectedValues.Contains( value ) )
             {
-                await AddMultipleText( GetDisplayValue( value ) );
                 SelectedValues.Add( value );
                 await SelectedValuesChanged.InvokeAsync( SelectedValues );
             }
@@ -209,15 +231,19 @@ namespace Blazorise.Components
 
         private async Task RemoveMultipleValue( TValue value )
         {
-            await RemoveMultipleText( GetDisplayValue( value ) );
             SelectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
         }
 
+
+        private Task AddMultipleText( TValue value )
+            => AddMultipleText( GetDisplayValue( value ) );
+
+
         private Task AddMultipleText( string text )
         {
             SelectedTexts ??= new();
-            if ( !SelectedTexts.Contains( text ) )
+            if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
                 SelectedTexts.Add( text );
                 return SelectedTextsChanged.InvokeAsync( SelectedTexts );
@@ -225,11 +251,28 @@ namespace Blazorise.Components
             return Task.CompletedTask;
         }
 
-        private Task RemoveMultipleText( string text )
+        private Task AddMultipleText( List<string> texts )
         {
-            SelectedTexts.Remove( text );
+            SelectedTexts ??= new();
+
+            foreach ( var text in texts )
+            {
+                if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+                    SelectedTexts.Add( text );
+            }
+
             return SelectedTextsChanged.InvokeAsync( SelectedTexts );
         }
+
+        private async Task RemoveMultipleText( string text )
+        {
+            SelectedTexts.Remove( text );
+            await RemoveMultipleValue( GetValueByMultipleText( text ) );
+            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+        }
+
+        private TValue GetValueByMultipleText( string text )
+            => SelectedValues.FirstOrDefault( x => GetDisplayValue( x ) == text );
 
         private void FilterData()
         {
@@ -258,14 +301,14 @@ namespace Blazorise.Components
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                        let text = TextField.Invoke( q ) ?? string.Empty
+                        let text = GetDisplayValue( q )
                         where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
-                        let text = TextField.Invoke( q ) ?? string.Empty
+                        let text = GetDisplayValue( q )
                         where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
@@ -275,6 +318,8 @@ namespace Blazorise.Components
 
             dirtyFilter = false;
         }
+
+
 
         /// <summary>
         /// Clears the selected value and the search field.
@@ -376,8 +421,13 @@ namespace Blazorise.Components
         private string GetDisplayValue( TValue value )
         {
             var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
-            return TextField.Invoke( item ) ?? String.Empty;
+            return item is null
+                ? string.Empty
+                : GetDisplayValue( item );
         }
+
+        private string GetDisplayValue( TItem item )
+            => TextField.Invoke( item ) ?? string.Empty;
 
         #endregion
 
