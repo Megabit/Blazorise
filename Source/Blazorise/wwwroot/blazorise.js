@@ -732,44 +732,33 @@ window.blazorise = {
             let value = this.element.value,
                 selection = this.carret();
 
-            function toFixed(x) {
-                var result = '';
-                var xStr = x.toString(10);
-                var digitCount = xStr.indexOf('e') === -1 ? xStr.length : (parseInt(xStr.substr(xStr.indexOf('e') + 1)) + 1);
-
-                for (var i = 1; i <= digitCount; i++) {
-                    var mod = (x % Math.pow(10, i)).toString(10);
-                    var exponent = (mod.indexOf('e') === -1) ? 0 : parseInt(mod.substr(mod.indexOf('e') + 1));
-                    if ((exponent === 0 && mod.length !== i) || (exponent > 0 && exponent !== i - 1)) {
-                        result = '0' + result;
-                    }
-                    else {
-                        result = mod.charAt(0) + result;
-                    }
-                }
-                return result;
-            };
-
             if (value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value)) {
+
                 value = (value || "").replace(this.separator, ".");
+
+                // Now that we know the number is valid we also need to make sure it can fit in the min-max range ot the TValue type.
                 let number = Number(value);
 
                 if (number > this.typeMax) {
-                    number = this.typeMax;
-                    value = toFixed(number);
+                    value = this.toFixed(this.typeMax);
+
+                    // Update input with new value and also make sure that Blazor knows it is changed.
                     this.element.value = value;
                     this.dotnetAdapter.invokeMethodAsync('SetValue', this.element.value);
-                    return false;
+
+                    return false; // This will make it fail the validation and do the preventDefault().
                 }
                 else if (number < this.typeMin) {
-                    number = this.typeMin;
-                    value = toFixed(number);
+                    value = this.toFixed(this.typeMin);
+
+                    // Update input with new value and also make sure that Blazor knows it is changed.
                     this.element.value = value;
                     this.dotnetAdapter.invokeMethodAsync('SetValue', this.element.value);
-                    return false;
+
+                    return false; // This will make it fail the validation and do the preventDefault().
                 }
 
-                return true;
+                return value;
             }
 
             return false;
@@ -780,6 +769,24 @@ window.blazorise = {
 
                 this.truncate();
             }
+        };
+        this.toFixed = function (number) {
+            var result = '';
+            var xStr = number.toString(10);
+            var digitCount = xStr.indexOf('e') === -1 ? xStr.length : (parseInt(xStr.substr(xStr.indexOf('e') + 1)) + 1);
+
+            for (var i = 1; i <= digitCount; i++) {
+                var mod = (number % Math.pow(10, i)).toString(10);
+                var exponent = (mod.indexOf('e') === -1) ? 0 : parseInt(mod.substr(mod.indexOf('e') + 1));
+                if ((exponent === 0 && mod.length !== i) || (exponent > 0 && exponent !== i - 1)) {
+                    result = '0' + result;
+                }
+                else {
+                    result = mod.charAt(0) + result;
+                }
+            }
+
+            return result;
         };
         this.truncate = function () {
             let value = (this.element.value || "").replace(this.separator, ".");
