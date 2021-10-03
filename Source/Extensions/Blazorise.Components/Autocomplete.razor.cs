@@ -486,8 +486,6 @@ namespace Blazorise.Components
             }
         }
 
-
-
         /// <summary>
         /// Gets or sets the current search value.
         /// </summary>
