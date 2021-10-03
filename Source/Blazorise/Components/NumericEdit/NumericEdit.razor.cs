@@ -91,8 +91,8 @@ namespace Blazorise
                 Decimals,
                 Separator = DecimalsSeparator,
                 Step,
-                Min = Min.IsEqual( default ) ? minFromType : Min,
-                Max = Max.IsEqual( default ) ? maxFromType : Max,
+                Min = MinDefined ? (object)Min : null,
+                Max = MaxDefined ? (object)Max : null,
                 TypeMin = minFromType,
                 TypeMax = maxFromType
             } );
