@@ -443,6 +443,15 @@ namespace Blazorise.Components
             await base.DisposeAsync( disposing );
         }
 
+        private string GetValidationValue()
+        {
+            return FreeTyping
+                    ? Multiple
+                        ? string.Join( ';', SelectedTexts )
+                        : SelectedText?.ToString()
+                    : SelectedValue?.ToString();
+        }
+
         private string GetDisplayValue( TValue value )
         {
             var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
