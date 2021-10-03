@@ -128,6 +128,14 @@ namespace Blazorise.Components
         {
             if ( !DropdownVisible )
             {
+                if ( ConfirmKey( eventArgs ) )
+                {
+                    if ( FreeTyping && Multiple )
+                    {
+                        await AddMultipleText( SelectedText );
+                        await ResetSelectedText();
+                    }
+                }
                 await UnregisterClosableComponent();
                 return;
             }
@@ -137,12 +145,18 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab" )
+            if ( ConfirmKey( eventArgs ) )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
+                else if ( FreeTyping && Multiple )
+                {
+                    await AddMultipleText( SelectedText );
+                    await ResetSelectedText();
+                }
+
             }
             else if ( eventArgs.Code == "ArrowUp" )
             {
@@ -153,6 +167,7 @@ namespace Blazorise.Components
                 await UpdateActiveFilterIndex( ++activeItemIndex );
             }
         }
+
 
         /// <summary>
         /// Handles the search field onfocusin event.
@@ -180,13 +195,13 @@ namespace Blazorise.Components
 
             if ( !FreeTyping && ( SelectedValue == null || Multiple ) )
             {
-                SelectedText = string.Empty;
-                await SelectedTextChanged.InvokeAsync( string.Empty );
+                await ResetSelectedText();
             }
 
             if ( FreeTyping && Multiple )
             {
                 await AddMultipleText( SelectedText );
+                await ResetSelectedText();
             }
 
             TextFocused = false;
@@ -207,18 +222,28 @@ namespace Blazorise.Components
             {
                 await AddMultipleText( selectedValue );
                 await AddMultipleValue( selectedValue );
-                SelectedText = string.Empty;
+                await ResetSelectedText();
             }
             else
             {
                 SelectedText = TextField?.Invoke( item ) ?? string.Empty;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
-
-            await SelectedTextChanged.InvokeAsync( SelectedText );
 
             await textEditRef?.Revalidate();
         }
 
+        private static bool ConfirmKey( KeyboardEventArgs eventArgs )
+        {
+            return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
+        }
+
+
+        private Task ResetSelectedText()
+        {
+            SelectedText = string.Empty;
+            return SelectedTextChanged.InvokeAsync( string.Empty );
+        }
         private async Task AddMultipleValue( TValue value )
         {
             SelectedValues ??= new();
