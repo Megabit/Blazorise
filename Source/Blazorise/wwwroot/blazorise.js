@@ -765,6 +765,7 @@ window.blazorise = {
         this.max = options.max;
         this.typeMin = options.typeMin;
         this.typeMax = options.typeMax;
+        this.changeTextOnKeyPress = options.changeTextOnKeyPress || true;
 
         this.regex = function () {
             var sep = "\\" + this.separator,
@@ -786,24 +787,36 @@ window.blazorise = {
 
                 // Now that we know the number is valid we also need to make sure it can fit in the min-max range ot the TValue type.
                 let number = Number(value);
+                let numberOverflow = false;
 
                 if (number > this.typeMax) {
                     number = Number(this.typeMax);
-                    value = this.fromExponential(number);
 
-                    // Update input with new value and also make sure that Blazor knows it is changed.
-                    this.element.value = value;
-                    this.dotnetAdapter.invokeMethodAsync('SetValue', this.element.value);
-
-                    return false; // This will make it fail the validation and do the preventDefault().
+                    numberOverflow = true;
                 }
                 else if (number < this.typeMin) {
                     number = Number(this.typeMin);
+
+                    numberOverflow = true;
+                }
+
+                if (numberOverflow) {
                     value = this.fromExponential(number);
 
                     // Update input with new value and also make sure that Blazor knows it is changed.
                     this.element.value = value;
-                    this.dotnetAdapter.invokeMethodAsync('SetValue', this.element.value);
+
+                    // Trigger event so that Blazor can pick it up.
+                    let eventName = this.changeTextOnKeyPress ? 'input' : 'change';
+
+                    if ("createEvent" in document) {
+                        let event = document.createEvent("HTMLEvents");
+                        event.initEvent(eventName, false, true);
+                        this.element.dispatchEvent(event);
+                    }
+                    else {
+                        this.element.fireEvent("on" + eventName);
+                    }
 
                     return false; // This will make it fail the validation and do the preventDefault().
                 }
