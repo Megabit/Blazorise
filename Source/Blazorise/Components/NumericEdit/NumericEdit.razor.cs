@@ -94,7 +94,8 @@ namespace Blazorise
                 Min = MinDefined ? (object)Min : null,
                 Max = MaxDefined ? (object)Max : null,
                 TypeMin = minFromType,
-                TypeMax = maxFromType
+                TypeMax = maxFromType,
+                ChangeTextOnKeyPress = IsChangeTextOnKeyPress,
             } );
 
             await base.OnFirstAfterRenderAsync();
