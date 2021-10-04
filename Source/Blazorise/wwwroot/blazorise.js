@@ -740,7 +740,8 @@ window.blazorise = {
                 let number = Number(value);
 
                 if (number > this.typeMax) {
-                    value = this.toFixed(this.typeMax);
+                    number = Number(this.typeMax);
+                    value = this.fromExponential(number);
 
                     // Update input with new value and also make sure that Blazor knows it is changed.
                     this.element.value = value;
@@ -749,7 +750,8 @@ window.blazorise = {
                     return false; // This will make it fail the validation and do the preventDefault().
                 }
                 else if (number < this.typeMin) {
-                    value = this.toFixed(this.typeMin);
+                    number = Number(this.typeMin);
+                    value = this.fromExponential(number);
 
                     // Update input with new value and also make sure that Blazor knows it is changed.
                     this.element.value = value;
@@ -770,23 +772,68 @@ window.blazorise = {
                 this.truncate();
             }
         };
-        this.toFixed = function (number) {
-            var result = '';
-            var xStr = number.toString(10);
-            var digitCount = xStr.indexOf('e') === -1 ? xStr.length : (parseInt(xStr.substr(xStr.indexOf('e') + 1)) + 1);
-
-            for (var i = 1; i <= digitCount; i++) {
-                var mod = (number % Math.pow(10, i)).toString(10);
-                var exponent = (mod.indexOf('e') === -1) ? 0 : parseInt(mod.substr(mod.indexOf('e') + 1));
-                if ((exponent === 0 && mod.length !== i) || (exponent > 0 && exponent !== i - 1)) {
-                    result = '0' + result;
-                }
-                else {
-                    result = mod.charAt(0) + result;
-                }
+        this.getExponentialParts = function (num) {
+            return Array.isArray(num) ? num : String(num).split(/[eE]/);
+        };
+        this.isExponential = function (num) {
+            const eParts = this.getExponentialParts(num);
+            return !Number.isNaN(Number(eParts[1]));
+        };
+        this.fromExponential = function (num) {
+            const eParts = this.getExponentialParts(num);
+            if (!this.isExponential(eParts)) {
+                return eParts[0];
             }
 
-            return result;
+            const sign = eParts[0][0] === '-' ? '-' : '';
+            const digits = eParts[0].replace(/^-/, '');
+            const digitsParts = digits.split('.');
+            const wholeDigits = digitsParts[0];
+            const fractionDigits = digitsParts[1] || '';
+            let e = Number(eParts[1]);
+
+            if (e === 0) {
+                return `${sign + wholeDigits}.${fractionDigits}`;
+            } else if (e < 0) {
+                // move dot to the left
+                const countWholeAfterTransform = wholeDigits.length + e;
+                if (countWholeAfterTransform > 0) {
+                    // transform whole to fraction
+                    const wholeDigitsAfterTransform = wholeDigits.substr(0, countWholeAfterTransform);
+                    const wholeDigitsTransformedToFraction = wholeDigits.substr(countWholeAfterTransform);
+                    return `${sign + wholeDigitsAfterTransform}.${wholeDigitsTransformedToFraction}${fractionDigits}`;
+                } else {
+                    // not enough whole digits: prepend with fractional zeros
+
+                    // first e goes to dotted zero
+                    let zeros = '0.';
+                    e = countWholeAfterTransform;
+                    while (e) {
+                        zeros += '0';
+                        e += 1;
+                    }
+                    return sign + zeros + wholeDigits + fractionDigits;
+                }
+            } else {
+                // move dot to the right
+                const countFractionAfterTransform = fractionDigits.length - e;
+                if (countFractionAfterTransform > 0) {
+                    // transform fraction to whole
+                    // countTransformedFractionToWhole = e
+                    const fractionDigitsAfterTransform = fractionDigits.substr(e);
+                    const fractionDigitsTransformedToWhole = fractionDigits.substr(0, e);
+                    return `${sign + wholeDigits + fractionDigitsTransformedToWhole}.${fractionDigitsAfterTransform}`;
+                } else {
+                    // not enough fractions: append whole zeros
+                    let zerosCount = -countFractionAfterTransform;
+                    let zeros = '';
+                    while (zerosCount) {
+                        zeros += '0';
+                        zerosCount -= 1;
+                    }
+                    return sign + wholeDigits + fractionDigits + zeros;
+                }
+            }
         };
         this.truncate = function () {
             let value = (this.element.value || "").replace(this.separator, ".");
