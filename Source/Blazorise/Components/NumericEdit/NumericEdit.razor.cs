@@ -91,8 +91,10 @@ namespace Blazorise
                 Decimals,
                 Separator = DecimalsSeparator,
                 Step,
-                Min = Min.IsEqual( default ) ? minFromType : Min,
-                Max = Max.IsEqual( default ) ? maxFromType : Max
+                Min = MinDefined ? (object)Min : null,
+                Max = MaxDefined ? (object)Max : null,
+                TypeMin = minFromType,
+                TypeMax = maxFromType
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -238,7 +240,9 @@ namespace Blazorise
             // make sure that null values also starts from zero
             value ??= Converters.ChangeType<TValue>( 0 );
 
-            return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
+            return sign > 0
+                ? MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) )
+                : MathUtils<TValue>.Subtract( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) );
         }
 
         /// <summary>
