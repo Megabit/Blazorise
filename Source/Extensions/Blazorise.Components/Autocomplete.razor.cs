@@ -66,7 +66,7 @@ namespace Blazorise.Components
         /// <inheritdoc/>
         protected override async Task OnParametersSetAsync()
         {
-            await SyncMultipleValuesAndTexts();
+            ExecuteAfterRender( SyncMultipleValuesAndTexts );
             await base.OnParametersSetAsync();
         }
 
