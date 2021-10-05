@@ -247,7 +247,7 @@ namespace Blazorise.Components
         private async Task AddMultipleValue( TValue value )
         {
             SelectedValues ??= new();
-            if ( !SelectedValues.Contains( value ) )
+            if ( !SelectedValues.Contains( value ) && value != null )
             {
                 SelectedValues.Add( value );
                 await SelectedValuesChanged.InvokeAsync( SelectedValues );
