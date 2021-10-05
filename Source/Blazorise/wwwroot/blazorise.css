@@ -73,6 +73,8 @@ hr.divider.divider-text {
             display: inline-block;
             width: 100%;
             height: 100%; }
+    .b-input-color-picker[aria-disabled='true'] {
+        opacity: .65; }
 
 .progress.progress-xs {
     height: .25rem; }

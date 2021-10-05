@@ -846,6 +846,10 @@ window.blazorise = {
 
             let hexColorShow = picker.getColor() ? picker.getColor().toHEXA().toString() : null;
 
+            if (options.disabled) {
+                picker.disable();
+            }
+
             picker
                 .on('show', (color, instance) => {
                     hexColorShow = color ? color.toHEXA().toString() : null;
@@ -913,11 +917,11 @@ window.blazorise = {
                     instanceInfo.showButtons = options.showButtons.value;
                 }
 
-                if (options.disabled.changed) {
-                    if (options.disabled.value) {
-                        instanceInfo.picker.enable();
-                    } else {
+                if (options.disabled.changed || options.readOnly.changed) {
+                    if (options.disabled.value || options.readOnly.value) {
                         instanceInfo.picker.disable();
+                    } else {
+                        instanceInfo.picker.enable();
                     }
                 }
             }

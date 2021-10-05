@@ -30,4 +30,8 @@
             height: 100%;
         }
     }
+
+    &[aria-disabled='true'] {
+        opacity: .65;
+    }
 }
