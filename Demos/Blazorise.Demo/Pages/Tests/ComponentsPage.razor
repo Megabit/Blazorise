@@ -42,13 +42,12 @@
                                       TValue="string"
                                       Data="@myDdlData"
                                       TextField="@(( item ) => item.MyTextField)"
-                                      ValueField="@(( item ) => item.MyTextField)"
-                                      SelectedValue="@selectedSearchValue"
-                                      SelectedValueChanged="@MySearchHandler"
+                                      ValueField="@(( item ) => item.MyValueField.ToString())"
+                                      @bind-SelectedValue="selectedSearchValue"
                                       @bind-SelectedText="selectedAutoCompleteText"
                                       Placeholder="Search..."
                                       Filter="AutocompleteFilter.StartsWith"
-                                      FreeTyping="true"
+                                      FreeTyping
                                       CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                         </Autocomplete>
@@ -163,11 +162,6 @@
     void MyDropValueChangedHandler( int newValue )
     {
         selectedDropValue = newValue;
-    }
-
-    void MySearchHandler( string newValue )
-    {
-        selectedSearchValue = newValue;
     }
 
     private void ShuffleList()
