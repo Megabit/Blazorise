@@ -35,6 +35,10 @@ namespace Blazorise
             var colorChanged = parameters.TryGetValue<string>( nameof( Color ), out var color ) && !Color.IsEqual( color );
             var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] palette ) && !Palette.AreEqual( palette );
             var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool showPalette ) && ShowPalette != showPalette;
+            var hideAfterPaletteSelectChanged = parameters.TryGetValue( nameof( HideAfterPaletteSelect ), out bool hideAfterPaletteSelect ) && HideAfterPaletteSelect != hideAfterPaletteSelect;
+            var showButtonsChanged = parameters.TryGetValue( nameof( ShowButtons ), out bool showButtons ) && ShowButtons != showButtons;
+            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
+            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
 
             if ( colorChanged )
             {
@@ -47,12 +51,20 @@ namespace Blazorise
             }
 
             if ( Rendered && ( paletteChanged
-                || showPaletteChanged ) )
+                || showPaletteChanged
+                || hideAfterPaletteSelectChanged
+                || showButtonsChanged
+                || disabledChanged
+                || readOnlyChanged ) )
             {
                 ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerOptions( ElementRef, ElementId, new
                 {
                     Palette = new { Changed = paletteChanged, Value = palette },
                     ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
+                    HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = hideAfterPaletteSelect },
+                    ShowButtons = new { Changed = showButtonsChanged, Value = showButtons },
+                    Disabled = new { Changed = disabledChanged, Value = disabled },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 } ) );
             }
 
@@ -77,6 +89,10 @@ namespace Blazorise
                 Default = Color,
                 Palette,
                 ShowPalette,
+                HideAfterPaletteSelect,
+                ShowButtons,
+                Disabled,
+                ReadOnly,
                 Localization = new
                 {
                 }
@@ -220,6 +236,16 @@ namespace Blazorise
         /// choose from frequently or recently used colors.
         /// </summary>
         [Parameter] public bool ShowPalette { get; set; } = true;
+
+        /// <summary>
+        /// Automatically hides the dropdown menu after a palette color is selected.
+        /// </summary>
+        [Parameter] public bool HideAfterPaletteSelect { get; set; } = true;
+
+        /// <summary>
+        /// Controls the visibility of the buttons.
+        /// </summary>
+        [Parameter] public bool ShowButtons { get; set; } = true;
 
         #endregion
     }

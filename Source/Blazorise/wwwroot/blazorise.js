@@ -836,7 +836,10 @@ window.blazorise = {
                 elementId: elementId,
                 previewElement: previewElement,
                 hexColor: hexColor,
-                palette: options.palette || []
+                palette: options.palette || [],
+                showPalette: options.showPalette || true,
+                hideAfterPaletteSelect: options.hideAfterPaletteSelect || true,
+                showButtons: options.showButtons || true
             };
 
             window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor, true);
@@ -858,13 +861,15 @@ window.blazorise = {
                 })
                 .on("changestop", (source, instance) => {
                     const hexColor = instance.getColor() ? instance.getColor().toHEXA().toString() : null;
-
                     window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor);
                 })
                 .on("swatchselect", (color, instance) => {
                     const hexColor = color ? color.toHEXA().toString() : null;
-
                     window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor);
+
+                    if (instanceInfo.hideAfterPaletteSelect) {
+                        instanceInfo.picker.hide();
+                    }
                 });
 
             window.blazorise.colorPicker._instancesInfos[elementId] = instanceInfo;
@@ -897,6 +902,22 @@ window.blazorise = {
                         instanceInfo.picker.setSwatches(instanceInfo.palette);
                     } else {
                         instanceInfo.picker.setSwatches([]);
+                    }
+                }
+
+                if (options.hideAfterPaletteSelect.changed) {
+                    instanceInfo.hideAfterPaletteSelect = options.hideAfterPaletteSelect.value;
+                }
+
+                if (options.showButtons.changed) {
+                    instanceInfo.showButtons = options.showButtons.value;
+                }
+
+                if (options.disabled.changed) {
+                    if (options.disabled.value) {
+                        instanceInfo.picker.enable();
+                    } else {
+                        instanceInfo.picker.disable();
                     }
                 }
             }
