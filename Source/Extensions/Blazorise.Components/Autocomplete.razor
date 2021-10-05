@@ -9,7 +9,7 @@
         {
             @foreach ( var selectedText in SelectedTexts )
             {
-                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleText(selectedText)">@selectedText</Badge>
+                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleText( selectedText )">@selectedText</Badge>
             }
         }
 

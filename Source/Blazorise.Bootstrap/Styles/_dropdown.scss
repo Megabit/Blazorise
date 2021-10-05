@@ -26,6 +26,7 @@
     max-width: 100%;
     width: 100%;
     cursor: text;
+    height: calc(1.5em + .75rem + 2px);
     border: $input-border-width solid $input-border-color;
     border-radius: $input-border-radius;
 
@@ -39,13 +40,14 @@
         width: auto;
     }
 
-    &.focus {
+    @include form-control-focus
+/*    &.focus {
         color: $input-focus-color;
         background-color: $input-focus-bg;
         border-color: $input-focus-border-color;
         outline: 0;
         box-shadow: $input-focus-box-shadow;
-    }
+    }*/
 }
 
 .dropdown {
