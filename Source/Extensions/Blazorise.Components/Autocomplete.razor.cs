@@ -73,8 +73,9 @@ namespace Blazorise.Components
         private async Task SyncMultipleValuesAndTexts()
         {
             List<string> textsToAdd = new();
-            foreach ( var selectedValue in SelectedValues )
-                textsToAdd.Add( GetDisplayValue( selectedValue ) );
+            if ( SelectedValues is not null)
+                foreach ( var selectedValue in SelectedValues )
+                    textsToAdd.Add( GetDisplayValue( selectedValue ) );
 
             if ( SelectedTexts != null )
                 foreach ( var selectedText in SelectedTexts )
