@@ -791,15 +791,15 @@ window.blazorise = {
 
                     // Input / output Options
                     interaction: {
-                        hex: options.showHex || true,
-                        rgba: options.showRgba || true,
-                        hsla: options.showHsla || false,
-                        hsva: options.showHsva || false,
-                        cmyk: options.showCmyk || false,
-                        input: options.showInput || true,
-                        clear: options.showClear || true,
-                        save: options.showSave || false,
-                        cancel: options.showCancel || true
+                        hex: true,
+                        rgba: true,
+                        hsla: false,
+                        hsva: false,
+                        cmyk: false,
+                        input: true,
+                        save: false,
+                        clear: options.showClearButton || true,
+                        cancel: options.showCancelButton || true
                     }
                 },
 
@@ -911,10 +911,6 @@ window.blazorise = {
 
                 if (options.hideAfterPaletteSelect.changed) {
                     instanceInfo.hideAfterPaletteSelect = options.hideAfterPaletteSelect.value;
-                }
-
-                if (options.showButtons.changed) {
-                    instanceInfo.showButtons = options.showButtons.value;
                 }
 
                 if (options.disabled.changed || options.readOnly.changed) {

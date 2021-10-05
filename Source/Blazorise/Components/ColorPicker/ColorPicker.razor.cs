@@ -36,7 +36,6 @@ namespace Blazorise
             var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] palette ) && !Palette.AreEqual( palette );
             var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool showPalette ) && ShowPalette != showPalette;
             var hideAfterPaletteSelectChanged = parameters.TryGetValue( nameof( HideAfterPaletteSelect ), out bool hideAfterPaletteSelect ) && HideAfterPaletteSelect != hideAfterPaletteSelect;
-            var showButtonsChanged = parameters.TryGetValue( nameof( ShowButtons ), out bool showButtons ) && ShowButtons != showButtons;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
 
@@ -53,7 +52,6 @@ namespace Blazorise
             if ( Rendered && ( paletteChanged
                 || showPaletteChanged
                 || hideAfterPaletteSelectChanged
-                || showButtonsChanged
                 || disabledChanged
                 || readOnlyChanged ) )
             {
@@ -62,7 +60,6 @@ namespace Blazorise
                     Palette = new { Changed = paletteChanged, Value = palette },
                     ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
                     HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = hideAfterPaletteSelect },
-                    ShowButtons = new { Changed = showButtonsChanged, Value = showButtons },
                     Disabled = new { Changed = disabledChanged, Value = disabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 } ) );
@@ -90,7 +87,8 @@ namespace Blazorise
                 Palette,
                 ShowPalette,
                 HideAfterPaletteSelect,
-                ShowButtons,
+                ShowClearButton,
+                ShowCancelButton,
                 Disabled,
                 ReadOnly,
                 Localization = new
@@ -243,9 +241,14 @@ namespace Blazorise
         [Parameter] public bool HideAfterPaletteSelect { get; set; } = true;
 
         /// <summary>
-        /// Controls the visibility of the buttons.
+        /// Controls the visibility of the clear buttons.
         /// </summary>
-        [Parameter] public bool ShowButtons { get; set; } = true;
+        [Parameter] public bool ShowClearButton { get; set; } = true;
+
+        /// <summary>
+        /// Controls the visibility of the cancel buttons.
+        /// </summary>
+        [Parameter] public bool ShowCancelButton { get; set; } = true;
 
         #endregion
     }
