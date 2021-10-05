@@ -60,7 +60,10 @@ namespace Blazorise
             await JSRunner.InitializeColorPicker( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Default = Color,
-                Swatches,
+                Palette,
+                Localization = new
+                {
+                }
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -156,17 +159,34 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the input color value.
         /// </summary>
-        [Parameter] public string Color { get; set; }
-
-        /// <summary>
-        /// Optional color swatches. When null, swatches are disabled.
-        /// </summary>
-        [Parameter] public string[] Swatches { get; set; }
+        [Parameter] public string Color { get; set; } = "#000000";
 
         /// <summary>
         /// Occurs when the color has changed.
         /// </summary>
         [Parameter] public EventCallback<string> ColorChanged { get; set; }
+
+        /// <summary>
+        /// Optional color swatches. When null, swatches are disabled.
+        /// </summary>
+        [Parameter]
+        public string[] Palette { get; set; } = new string[]
+        {
+            "rgba(244, 67, 54, 1)",
+            "rgba(233, 30, 99, 0.95)",
+            "rgba(156, 39, 176, 0.9)",
+            "rgba(103, 58, 183, 0.85)",
+            "rgba(63, 81, 181, 0.8)",
+            "rgba(33, 150, 243, 0.75)",
+            "rgba(3, 169, 244, 0.7)",
+            "rgba(0, 188, 212, 0.7)",
+            "rgba(0, 150, 136, 0.75)",
+            "rgba(76, 175, 80, 0.8)",
+            "rgba(139, 195, 74, 0.85)",
+            "rgba(205, 220, 57, 0.9)",
+            "rgba(255, 235, 59, 0.95)",
+            "rgba(255, 193, 7, 1)"
+        };
 
         /// <summary>
         /// Gets or sets an expression that identifies the color value.

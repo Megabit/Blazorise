@@ -763,23 +763,9 @@ window.blazorise = {
                 position: 'bottom-start',
                 silent: true,
 
-                swatches: /*options.swatches ||*/[
-                    'rgba(244, 67, 54, 1)',
-                    'rgba(233, 30, 99, 0.95)',
-                    'rgba(156, 39, 176, 0.9)',
-                    'rgba(103, 58, 183, 0.85)',
-                    'rgba(63, 81, 181, 0.8)',
-                    'rgba(33, 150, 243, 0.75)',
-                    'rgba(3, 169, 244, 0.7)',
-                    'rgba(0, 188, 212, 0.7)',
-                    'rgba(0, 150, 136, 0.75)',
-                    'rgba(76, 175, 80, 0.8)',
-                    'rgba(139, 195, 74, 0.85)',
-                    'rgba(205, 220, 57, 0.9)',
-                    'rgba(255, 235, 59, 0.95)',
-                    'rgba(255, 193, 7, 1)'
-                ],
+                swatches: options.palette,
                 components: {
+                    //palette: false,
 
                     // Main components
                     preview: true,
@@ -798,6 +784,27 @@ window.blazorise = {
                         save: options.showSave || false,
                         cancel: options.showCancel || true
                     }
+                },
+
+                // Translations, these are the default values.
+                i18n: {
+                    // Strings visible in the UI
+                    'ui:dialog': options.localization.uiDialog || 'color picker dialog',
+                    'btn:toggle': options.localization.btnToggle || 'toggle color picker dialog',
+                    'btn:swatch': options.localization.btnPalette || 'color swatch',
+                    'btn:last-color': options.localization.btnLastColor || 'use previous color',
+                    'btn:save': options.localization.btnSave || 'Save',
+                    'btn:cancel': options.localization.btnCancel || 'Cancel',
+                    'btn:clear': options.localization.btnClear || 'Clear',
+
+                    // Strings used for aria-labels
+                    'aria:btn:save': options.localization.ariaBtnSave || 'save and close',
+                    'aria:btn:cancel': options.localization.ariaBtnCancel || 'cancel and close',
+                    'aria:btn:clear': options.localization.ariaBtnClear || 'clear and close',
+                    'aria:input': options.localization.ariaInput || 'color input field',
+                    'aria:palette': options.localization.ariaMixer || 'color selection area',
+                    'aria:hue': options.localization.ariaHue || 'hue selection slider',
+                    'aria:opacity': options.localization.ariaOpacity || 'selection slider'
                 }
             });
 
@@ -816,21 +823,20 @@ window.blazorise = {
 
             window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor, true);
 
+            let hexColorShow = picker.getColor() ? picker.getColor().toHEXA().toString() : null;
+
             picker
-                .on("clear", (instance) => {
-                    window.blazorise.colorPicker.applyHexColor(instanceInfo, null);
+                .on('show', (color, instance) => {
+                    hexColorShow = color ? color.toHEXA().toString() : null;
                 })
                 .on("cancel", (instance) => {
-                    const color = instance.getSelectedColor();
-
-                    if (color) {
-                        const hexColor = color ? color.toHEXA().toString() : null;
-
-                        window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor);
-                    }
-                    else {
-                        window.blazorise.colorPicker.applyHexColor(instanceInfo, null);
-                    }
+                    window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColorShow);
+                    instanceInfo.picker.setColor(hexColorShow, true);
+                    instanceInfo.picker.hide()
+                })
+                .on("clear", (instance) => {
+                    hexColorShow = null;
+                    window.blazorise.colorPicker.applyHexColor(instanceInfo, null);
                 })
                 .on("changestop", (source, instance) => {
                     const hexColor = instance.getColor() ? instance.getColor().toHEXA().toString() : null;
@@ -842,11 +848,6 @@ window.blazorise = {
 
                     window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor);
                 });
-            //.on("change", (color, instance) => {
-            //    const hexColor = color.toHEXA().toString();
-
-            //    window.blazorise.colorPicker.applyHexColor(instanceInfo, hexColor);
-            //});
 
             window.blazorise.colorPicker._instancesInfos[elementId] = instanceInfo;
         },
