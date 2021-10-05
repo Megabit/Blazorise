@@ -17,7 +17,7 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : ComponentBase
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent
     {
         #region Members
 
@@ -50,24 +50,34 @@ namespace Blazorise.Components
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) 
+            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
                 && !paramSelectedValue.IsEqual( SelectedValue );
-            
+
             await base.SetParametersAsync( parameters );
 
             // Override after parameters have already been set.
             // Avoids property setters running out of order
             if ( selectedValueHasChanged )
             {
-                var item = GetItemByValue( paramSelectedValue );
-                SelectedText = item != null
-                    ? TextField?.Invoke( item )
-                    : string.Empty;
-                await SelectedTextChanged.InvokeAsync( SelectedText );
-            }
+                ExecuteAfterRender( async () =>
+                {
+                    var item = GetItemByValue( paramSelectedValue );
 
+                    SelectedText = item != null
+                        ? TextField?.Invoke( item )
+                        : string.Empty;
+
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
+
+                    if ( textEditRef != null )
+                    {
+                        await textEditRef.Revalidate();
+                    }
+                } );
+            }
         }
 
         /// <summary>
@@ -174,8 +184,10 @@ namespace Blazorise.Components
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
-
-            await textEditRef?.Revalidate();
+            if ( textEditRef != null )
+            {
+                await textEditRef.Revalidate();
+            }
         }
 
         private void FilterData()

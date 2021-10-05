@@ -1,5 +1,6 @@
 ﻿@typeparam TItem
 @typeparam TValue
+@inherits BaseAfterRenderComponent
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
         <TextEdit @ref="@textEditRef"
