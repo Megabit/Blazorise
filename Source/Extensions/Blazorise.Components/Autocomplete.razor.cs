@@ -50,6 +50,26 @@ namespace Blazorise.Components
 
         #region Methods
 
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) 
+                && !paramSelectedValue.IsEqual( SelectedValue );
+            
+            await base.SetParametersAsync( parameters );
+
+            // Override after parameters have already been set.
+            // Avoids property setters running out of order
+            if ( selectedValueHasChanged )
+            {
+                var item = GetItemByValue( paramSelectedValue );
+                SelectedText = item != null
+                    ? TextField?.Invoke( item )
+                    : string.Empty;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
+            }
+
+        }
+
         /// <summary>
         /// Handles the search field onchange or oninput event.
         /// </summary>
@@ -247,6 +267,11 @@ namespace Blazorise.Components
             textEditRef.Focus( scrollToElement );
         }
 
+        private TItem GetItemByValue( TValue value )
+            => Data != null
+                   ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+                   : default;
+
         #endregion
 
         #region Properties
@@ -419,10 +444,6 @@ namespace Blazorise.Components
                     return;
 
                 selectedValue = value;
-
-                var item = Data != null
-                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-                    : default;
             }
         }
 

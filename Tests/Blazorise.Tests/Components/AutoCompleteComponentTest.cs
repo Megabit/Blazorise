@@ -3,6 +3,7 @@ using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
+using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components
@@ -25,29 +26,28 @@ namespace Blazorise.Tests.Components
 
             // test
             var input = comp.Find( ".b-is-autocomplete input" );
-            var inputText = input.InnerHtml;
-
+            var inputText = input.GetAttribute( "value" );
             // validate
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }
 
         [Theory]
-        [InlineData(2,"Andorra")]
+        [InlineData( 2, "Andorra" )]
         [InlineData( 1, "Albania" )]
-        [InlineData(8, "Bosnia & Herzegovina" )]
-        public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText(int selectedValue, string expectedSelectedText )
+        [InlineData( 8, "Bosnia & Herzegovina" )]
+        public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( int selectedValue, string expectedSelectedText )
         {
             // setup
             var comp = RenderComponent<AutocompleteComponent>(
-                 parameters  =>
-                    parameters.Add(x=> x.selectedSearchValue, selectedValue) );
+                 parameters =>
+                    parameters.Add( x => x.selectedSearchValue, selectedValue ) );
 
             var selectedText = comp.Instance.selectedAutoCompleteText;
 
             // test
             var input = comp.Find( ".b-is-autocomplete input" );
-            var inputText = input.InnerHtml;
+            var inputText = input.GetAttribute( "value" );
 
             // validate
             Assert.Equal( expectedSelectedText, selectedText );
