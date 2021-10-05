@@ -24,6 +24,33 @@
     overflow-y: scroll;
 }
 
+.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    max-width: 100%;
+    width: 100%;
+    cursor: text;
+
+    input {
+        display: inline-block;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        max-width: inherit;
+        width: auto;
+    }
+
+    .tag {
+        align-self: center;
+    }
+
+    &.focus {
+        outline: 0;
+        border: 1px solid transparent;
+        border-color: #3273dc;
+        box-shadow: 0 0 0 0.125em rgba(50,115,220, 0.25);
+    }
+}
+
 .dropdown.is-active {
     .dropdown-menu > .dropdown-content {
         > .dropdown {

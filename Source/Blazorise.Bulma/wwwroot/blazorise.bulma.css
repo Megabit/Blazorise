@@ -3510,6 +3510,26 @@ ol.is-ordered-list-upper-roman {
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll; }
 
+.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    max-width: 100%;
+    width: 100%;
+    cursor: text; }
+    .b-is-autocomplete.b-is-autocomplete-multipleselection input {
+        display: inline-block;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        max-width: inherit;
+        width: auto; }
+    .b-is-autocomplete.b-is-autocomplete-multipleselection .tag {
+        align-self: center; }
+    .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
+        outline: 0;
+        border: 1px solid transparent;
+        border-color: #3273dc;
+        box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25); }
+
 .dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown {
     width: 100%; }
     .dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown::after {
