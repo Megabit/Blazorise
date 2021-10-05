@@ -120,15 +120,20 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    var task = JSRunner.UnregisterClosableComponent( this );
+                    var unregisterClosableTask = JSRunner.UnregisterClosableComponent( this );
 
                     try
                     {
-                        await task;
+                        await unregisterClosableTask;
                     }
-                    catch when ( task.IsCanceled )
+                    catch when ( unregisterClosableTask.IsCanceled )
                     {
                     }
+#if NET6_0_OR_GREATER
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+#endif
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
@@ -145,13 +150,14 @@ namespace Blazorise
                 {
                     await closeModalTask;
                 }
-                catch
+                catch when ( closeModalTask.IsCanceled )
                 {
-                    if ( !closeModalTask.IsCanceled )
-                    {
-                        throw;
-                    }
                 }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
 
                 if ( focusableComponents != null )
                 {

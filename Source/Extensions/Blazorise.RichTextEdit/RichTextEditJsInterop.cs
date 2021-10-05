@@ -68,13 +68,14 @@ namespace Blazorise.RichTextEdit
                 {
                     await task;
                 }
-                catch
+                catch when ( task.IsCanceled )
                 {
-                    if ( !task.IsCanceled )
-                    {
-                        throw;
-                    }
                 }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
 
                 dotNetRef.Dispose();
             } );

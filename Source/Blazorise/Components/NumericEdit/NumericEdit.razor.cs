@@ -91,8 +91,11 @@ namespace Blazorise
                 Decimals,
                 Separator = DecimalsSeparator,
                 Step,
-                Min = Min.IsEqual( default ) ? minFromType : Min,
-                Max = Max.IsEqual( default ) ? maxFromType : Max
+                Min = MinDefined ? (object)Min : null,
+                Max = MaxDefined ? (object)Max : null,
+                TypeMin = minFromType,
+                TypeMax = maxFromType,
+                ChangeTextOnKeyPress = IsChangeTextOnKeyPress,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -112,6 +115,11 @@ namespace Blazorise
                 catch when ( task.IsCanceled )
                 {
                 }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
@@ -238,7 +246,9 @@ namespace Blazorise
             // make sure that null values also starts from zero
             value ??= Converters.ChangeType<TValue>( 0 );
 
-            return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
+            return sign > 0
+                ? MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) )
+                : MathUtils<TValue>.Subtract( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) );
         }
 
         /// <summary>
