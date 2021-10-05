@@ -292,6 +292,21 @@ namespace Blazorise
             return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.updateValue", elementRef, elementId, value );
         }
 
+        public virtual ValueTask UpdateColorPickerOptions( ElementReference elementRef, string elementId, object options )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.updateOptions", elementRef, elementId, options );
+        }
+
+        public virtual ValueTask FocusColorPicker( ElementReference elementRef, string elementId, bool scrollToElement )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.focus", elementRef, elementId, scrollToElement );
+        }
+
+        public virtual ValueTask SelectColorPicker( ElementReference elementRef, string elementId, bool focus )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.select", elementRef, elementId, focus );
+        }
+
         #endregion
 
         #region Select

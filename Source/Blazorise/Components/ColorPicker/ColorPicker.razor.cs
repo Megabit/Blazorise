@@ -13,6 +13,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The editor that allows you to select a color from a dropdown menu.
+    /// </summary>
     public partial class ColorPicker : BaseInputComponent<string>, ISelectableComponent
     {
         #region Members
@@ -30,6 +33,8 @@ namespace Blazorise
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             var colorChanged = parameters.TryGetValue<string>( nameof( Color ), out var color ) && !Color.IsEqual( color );
+            var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] palette ) && !Palette.AreEqual( palette );
+            var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool showPalette ) && ShowPalette != showPalette;
 
             if ( colorChanged )
             {
@@ -39,6 +44,16 @@ namespace Blazorise
                 {
                     ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerValue( ElementRef, ElementId, color ) );
                 }
+            }
+
+            if ( Rendered && ( paletteChanged
+                || showPaletteChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerOptions( ElementRef, ElementId, new
+                {
+                    Palette = new { Changed = paletteChanged, Value = palette },
+                    ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
+                } ) );
             }
 
             await base.SetParametersAsync( parameters );
@@ -61,6 +76,7 @@ namespace Blazorise
             {
                 Default = Color,
                 Palette,
+                ShowPalette,
                 Localization = new
                 {
                 }
@@ -85,6 +101,11 @@ namespace Blazorise
                     catch when ( task.IsCanceled )
                     {
                     }
+#if NET6_0_OR_GREATER
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+#endif
                 }
             }
 
@@ -167,7 +188,13 @@ namespace Blazorise
         [Parameter] public EventCallback<string> ColorChanged { get; set; }
 
         /// <summary>
-        /// Optional color swatches. When null, swatches are disabled.
+        /// Gets or sets an expression that identifies the color value.
+        /// </summary>
+        [Parameter] public Expression<Func<string>> ColorExpression { get; set; }
+
+        /// <summary>
+        /// List a colors below the colorpicker to make it convenient for users to choose from
+        /// frequently or recently used colors.
         /// </summary>
         [Parameter]
         public string[] Palette { get; set; } = new string[]
@@ -189,9 +216,10 @@ namespace Blazorise
         };
 
         /// <summary>
-        /// Gets or sets an expression that identifies the color value.
+        /// Controls the visibility of the palette below the colorpicker to make it convenient for users to
+        /// choose from frequently or recently used colors.
         /// </summary>
-        [Parameter] public Expression<Func<string>> ColorExpression { get; set; }
+        [Parameter] public bool ShowPalette { get; set; } = true;
 
         #endregion
     }
