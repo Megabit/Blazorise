@@ -17,7 +17,7 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : ComponentBase
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent
     {
         #region Members
 
@@ -49,6 +49,36 @@ namespace Blazorise.Components
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
+                && !paramSelectedValue.IsEqual( SelectedValue );
+
+            await base.SetParametersAsync( parameters );
+
+            // Override after parameters have already been set.
+            // Avoids property setters running out of order
+            if ( selectedValueHasChanged )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    var item = GetItemByValue( paramSelectedValue );
+
+                    SelectedText = item != null
+                        ? TextField?.Invoke( item )
+                        : string.Empty;
+
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
+
+                    if ( textEditRef != null )
+                    {
+                        await textEditRef.Revalidate();
+                    }
+                } );
+            }
+        }
 
         /// <summary>
         /// Handles the search field onchange or oninput event.
@@ -154,8 +184,10 @@ namespace Blazorise.Components
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
-
-            await textEditRef?.Revalidate();
+            if ( textEditRef != null )
+            {
+                await textEditRef.Revalidate();
+            }
         }
 
         private void FilterData()
@@ -246,6 +278,11 @@ namespace Blazorise.Components
         {
             textEditRef.Focus( scrollToElement );
         }
+
+        private TItem GetItemByValue( TValue value )
+            => Data != null
+                   ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+                   : default;
 
         #endregion
 
@@ -419,10 +456,6 @@ namespace Blazorise.Components
                     return;
 
                 selectedValue = value;
-
-                var item = Data != null
-                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-                    : default;
             }
         }
 
