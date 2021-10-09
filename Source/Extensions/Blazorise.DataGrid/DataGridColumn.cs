@@ -19,6 +19,7 @@ namespace Blazorise.DataGrid
         private readonly Lazy<Func<object>> defaultValueByType;
         private readonly Lazy<Func<TItem, object>> valueGetter;
         private readonly Lazy<Action<TItem, object>> valueSetter;
+        private readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
         private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
@@ -33,6 +34,7 @@ namespace Blazorise.DataGrid
             defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
             valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
             valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
+            sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
         }
 
         #endregion
@@ -106,7 +108,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the current value for the field in the supplied model.
         /// </summary>
-        /// <param name="item">Item for which ro set the value.</param>
+        /// <param name="item">Item for which to get the value.</param>
         /// <returns></returns>
         internal object GetValue( TItem item )
             => valueGetter.Value( item );
@@ -114,10 +116,18 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Sets the value for the field in the supplied model.
         /// </summary>
-        /// <param name="item">Item for which ro set the value.</param>
+        /// <param name="item">Item for which to set the value.</param>
         /// <param name="value">Value to set.</param>
         internal void SetValue( TItem item, object value )
             => valueSetter.Value( item, value );
+
+        /// <summary>
+        /// Gets the current value for the sort field in the supplied model.
+        /// </summary>
+        /// <param name="item">Item for which to get the value.</param>
+        /// <returns></returns>
+        internal object GetSortValue( TItem item )
+            => sortFieldGetter.Value( item );
 
         public string FormatDisplayValue( TItem item )
         {
@@ -424,9 +434,9 @@ namespace Blazorise.DataGrid
         [Parameter] public string ValidationPattern { get; set; }
 
         /// <summary>
-        /// Provides a Sort Expression to be used instead by the Sorting mechanism
+        /// Provides a Sort Field to be used instead by the Sorting mechanism
         /// </summary>
-        [Parameter] public Expression<Func<TItem, object>> SortExpression { get; set; }
+        [Parameter] public string SortField { get; set; }
 
         #endregion
     }

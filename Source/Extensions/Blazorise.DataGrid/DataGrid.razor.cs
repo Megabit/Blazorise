@@ -1019,34 +1019,22 @@ namespace Blazorise.DataGrid
 
                 foreach ( var sortByColumn in SortByColumns )
                 {
-                    var sortExpression = sortByColumn.SortExpression;
+                    Func<TItem, object> sortFunction = string.IsNullOrWhiteSpace( sortByColumn.SortField ) ? sortByColumn.GetValue : sortByColumn.GetSortValue;
                     if ( firstSort )
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            if ( sortExpression is not null )
-                                query = query.OrderBy( sortByColumn.SortExpression );
-                            else
-                                query = query.OrderBy( x => sortByColumn.GetValue( x ) );
+                            query = query.OrderBy( x => sortFunction( x ) );
                         else
-                            if ( sortExpression is not null )
-                            query = query.OrderByDescending( sortExpression );
-                        else
-                            query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
+                            query = query.OrderByDescending( x => sortFunction( x ) );
 
                         firstSort = false;
                     }
                     else
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            if ( sortExpression is not null )
-                                query = ( query as IOrderedQueryable<TItem> ).ThenBy( sortExpression );
-                            else
-                                query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) );
                         else
-                            if ( sortExpression is not null )
-                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( sortExpression );
-                        else
-                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) );
                     }
                 }
 
