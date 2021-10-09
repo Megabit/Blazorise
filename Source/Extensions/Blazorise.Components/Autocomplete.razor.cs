@@ -74,7 +74,7 @@ namespace Blazorise.Components
         private async Task SyncMultipleValuesAndTexts()
         {
             List<string> textsToAdd = new();
-            if ( SelectedValues is not null)
+            if ( SelectedValues is not null )
                 foreach ( var selectedValue in SelectedValues )
                     textsToAdd.Add( GetDisplayValue( selectedValue ) );
 
@@ -629,7 +629,7 @@ namespace Blazorise.Components
 #if NET6_0_OR_GREATER
         [EditorRequired]
 #endif
-        [Parameter]  
+        [Parameter]
         public Func<TItem, string> TextField { get; set; }
 
         /// <summary>
