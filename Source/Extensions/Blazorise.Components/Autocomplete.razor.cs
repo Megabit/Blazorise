@@ -63,14 +63,33 @@ namespace Blazorise.Components
         #region Methods
 
         /// <inheritdoc/>
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( firstRender )
-            {
-                dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
-            }
+            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
+                && !paramSelectedValue.IsEqual( SelectedValue );
 
-            return base.OnAfterRenderAsync( firstRender );
+            await base.SetParametersAsync( parameters );
+
+            // Override after parameters have already been set.
+            // Avoids property setters running out of order
+            if ( selectedValueHasChanged )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    var item = GetItemByValue( paramSelectedValue );
+
+                    SelectedText = item != null
+                        ? TextField?.Invoke( item )
+                        : string.Empty;
+
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
+
+                    if ( textEditRef != null )
+                    {
+                        await textEditRef.Revalidate();
+                    }
+                } );
+            }
         }
 
         /// <summary>
@@ -178,8 +197,10 @@ namespace Blazorise.Components
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
-
-            await textEditRef?.Revalidate();
+            if ( textEditRef != null )
+            {
+                await textEditRef.Revalidate();
+            }
         }
 
         private void FilterData()
@@ -323,6 +344,11 @@ namespace Blazorise.Components
 
             await base.DisposeAsync( disposing );
         }
+
+        private TItem GetItemByValue( TValue value )
+            => Data != null
+                   ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+                   : default;
 
         #endregion
 
@@ -501,10 +527,6 @@ namespace Blazorise.Components
                     return;
 
                 selectedValue = value;
-
-                var item = Data != null
-                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-                    : default;
             }
         }
 
