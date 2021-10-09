@@ -79,7 +79,7 @@ namespace Blazorise.Components
 
             if ( SelectedTexts != null )
                 foreach ( var selectedText in SelectedTexts )
-                    await AddMultipleValue( GetValueByMultipleText( selectedText ) );
+                    await AddMultipleValue( GetValueByText( selectedText ) );
 
             foreach ( var textToAdd in textsToAdd )
                 await AddMultipleText( textToAdd );
@@ -293,11 +293,11 @@ namespace Blazorise.Components
         private async Task RemoveMultipleText( string text )
         {
             SelectedTexts.Remove( text );
-            await RemoveMultipleValue( GetValueByMultipleText( text ) );
+            await RemoveMultipleValue( GetValueByText( text ) );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
         }
 
-        private TValue GetValueByMultipleText( string text )
+        private TValue GetValueByText( string text )
             => SelectedValues.FirstOrDefault( x => GetDisplayValue( x ) == text );
 
         private void FilterData()
@@ -315,6 +315,9 @@ namespace Blazorise.Components
 
             if ( TextField == null )
                 return;
+
+            if ( Multiple )
+                query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
             if ( CustomFilter != null )
