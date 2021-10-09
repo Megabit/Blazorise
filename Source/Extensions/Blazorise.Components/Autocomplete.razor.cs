@@ -64,6 +64,7 @@ namespace Blazorise.Components
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
@@ -95,21 +96,6 @@ namespace Blazorise.Components
         {
             ExecuteAfterRender( SyncMultipleValuesAndTexts );
             await base.OnParametersSetAsync();
-        }
-
-        private async Task SyncMultipleValuesAndTexts()
-        {
-            List<string> textsToAdd = new();
-            if ( SelectedValues is not null )
-                foreach ( var selectedValue in SelectedValues )
-                    textsToAdd.Add( GetDisplayText( selectedValue ) );
-
-            if ( SelectedTexts != null )
-                foreach ( var selectedText in SelectedTexts )
-                    await AddMultipleValue( GetValueByText( selectedText ) );
-
-            foreach ( var textToAdd in textsToAdd )
-                await AddMultipleText( textToAdd );
         }
 
         /// <inheritdoc/>
@@ -263,11 +249,25 @@ namespace Blazorise.Components
             }
         }
 
+        private async Task SyncMultipleValuesAndTexts()
+        {
+            List<string> textsToAdd = new();
+            if ( SelectedValues is not null )
+                foreach ( var selectedValue in SelectedValues )
+                    textsToAdd.Add( GetDisplayText( selectedValue ) );
+
+            if ( SelectedTexts != null )
+                foreach ( var selectedText in SelectedTexts )
+                    await AddMultipleValue( GetValueByText( selectedText ) );
+
+            foreach ( var textToAdd in textsToAdd )
+                await AddMultipleText( textToAdd );
+        }
+
         private static bool ConfirmKey( KeyboardEventArgs eventArgs )
         {
             return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
         }
-
 
         private Task ResetSelectedText()
         {
@@ -290,10 +290,8 @@ namespace Blazorise.Components
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
         }
 
-
         private Task AddMultipleText( TValue value )
             => AddMultipleText( GetDisplayText( value ) );
-
 
         private Task AddMultipleText( string text )
         {
@@ -373,8 +371,6 @@ namespace Blazorise.Components
 
             dirtyFilter = false;
         }
-
-
 
         /// <summary>
         /// Clears the selected value and the search field.
