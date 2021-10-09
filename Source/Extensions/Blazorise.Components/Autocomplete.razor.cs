@@ -465,7 +465,7 @@ namespace Blazorise.Components
         }
 
         private string GetDisplayValue( TItem item )
-            => TextField.Invoke( item ) ?? string.Empty;
+            => TextField?.Invoke( item ) ?? string.Empty;
 
         #endregion
 
@@ -624,11 +624,18 @@ namespace Blazorise.Components
         /// <summary>
         /// Method used to get the display field from the supplied data source.
         /// </summary>
-        [Parameter] public Func<TItem, string> TextField { get; set; }
+#if NET6_0_OR_GREATER
+        [EditorRequired]
+#endif
+        [Parameter]  
+        public Func<TItem, string> TextField { get; set; }
 
         /// <summary>
         /// Method used to get the value field from the supplied data source.
         /// </summary>
+#if NET6_0_OR_GREATER
+        [EditorRequired]
+#endif
         [Parameter] public Func<TItem, TValue> ValueField { get; set; }
 
         /// <summary>
