@@ -65,7 +65,7 @@
                 var text = GetDisplayValue( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
+                <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
             }
         }
     </DropdownMenu>

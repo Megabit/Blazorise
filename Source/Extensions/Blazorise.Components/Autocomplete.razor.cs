@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -374,13 +375,12 @@ namespace Blazorise.Components
                 activeItemIndex = FilteredData.Count - 1;
 
             ActiveItemIndex = activeItemIndex;
-
             // update search text with the currently focused item text
             if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
             {
                 var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = TextField?.Invoke( item ) ?? string.Empty;
+                SelectedText = GetDisplayValue( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
@@ -584,6 +584,8 @@ namespace Blazorise.Components
             get { return data; }
             set
             {
+                if ( data.IsEqual( value ) )
+                    return;
                 data = value;
 
                 // make sure everything is recalculated
