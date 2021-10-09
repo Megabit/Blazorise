@@ -17,19 +17,25 @@ namespace Blazorise.DataGrid
         /// <param name="sortDirection">Current sort direction.</param>
         /// <param name="sortIndex">Sort index.</param>
         /// <param name="columnType">Current column type.</param>
-        public DataGridColumnInfo( string field, object searchValue, SortDirection sortDirection, int sortIndex, DataGridColumnType columnType )
+        public DataGridColumnInfo( string field, object searchValue, SortDirection sortDirection, int sortIndex, DataGridColumnType columnType, string sortField )
         {
             Field = field;
             SearchValue = searchValue;
             SortDirection = sortDirection;
             SortIndex = sortIndex;
             ColumnType = columnType;
+            SortField = sortField;
         }
 
         /// <summary>
         /// Gets the column or datasource field name.
         /// </summary>
         public string Field { get; }
+
+        /// <summary>
+        /// Gets the column or datasource field name that should be considered to sort.
+        /// </summary>
+        public string SortField { get; }
 
         /// <summary>
         /// Gets the column search value.

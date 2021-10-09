@@ -159,7 +159,8 @@ namespace Blazorise.DataGrid
                 x.Filter?.SearchValue,
                 x.CurrentSortDirection,
                 sortByColumns?.IndexOf( x ) ?? -1,
-                x.ColumnType ) );
+                x.ColumnType,
+                string.IsNullOrWhiteSpace(x.SortField) ? x.Field : x.SortField ) );
             CancellationToken = cancellationToken;
             VirtualizeOffset = virtualizeOffset;
             VirtualizeCount = virtualizeCount;
