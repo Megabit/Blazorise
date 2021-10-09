@@ -72,7 +72,6 @@
 </Row>
 
 @code {
-
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private IEnumerable<Employee> inMemoryData;
@@ -80,6 +79,7 @@
     protected override async Task OnInitializedAsync()
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+
         await base.OnInitializedAsync();
     }
 }

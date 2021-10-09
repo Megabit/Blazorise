@@ -1019,7 +1019,10 @@ namespace Blazorise.DataGrid
 
                 foreach ( var sortByColumn in SortByColumns )
                 {
-                    Func<TItem, object> sortFunction = string.IsNullOrWhiteSpace( sortByColumn.SortField ) ? sortByColumn.GetValue : sortByColumn.GetSortValue;
+                    Func<TItem, object> sortFunction = string.IsNullOrWhiteSpace( sortByColumn.SortField )
+                        ? sortByColumn.GetValue
+                        : sortByColumn.GetSortValue;
+
                     if ( firstSort )
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
