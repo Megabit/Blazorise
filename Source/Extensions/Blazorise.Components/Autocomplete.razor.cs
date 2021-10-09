@@ -79,10 +79,7 @@ namespace Blazorise.Components
                 {
                     var item = GetItemByValue( paramSelectedValue );
 
-                    SelectedText = item != null
-                        ? TextField?.Invoke( item )
-                        : string.Empty;
-
+                    SelectedText = GetDisplayText( item );
                     await SelectedTextChanged.InvokeAsync( SelectedText );
 
                     if ( textEditRef != null )
@@ -105,7 +102,7 @@ namespace Blazorise.Components
             List<string> textsToAdd = new();
             if ( SelectedValues is not null )
                 foreach ( var selectedValue in SelectedValues )
-                    textsToAdd.Add( GetDisplayValue( selectedValue ) );
+                    textsToAdd.Add( GetDisplayText( selectedValue ) );
 
             if ( SelectedTexts != null )
                 foreach ( var selectedText in SelectedTexts )
@@ -122,6 +119,7 @@ namespace Blazorise.Components
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
             }
+            return base.OnAfterRenderAsync( firstRender );
         }
 
         /// <summary>
@@ -255,7 +253,7 @@ namespace Blazorise.Components
             }
             else
             {
-                SelectedText = TextField?.Invoke( item ) ?? string.Empty;
+                SelectedText = GetDisplayText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
 
@@ -294,7 +292,7 @@ namespace Blazorise.Components
 
 
         private Task AddMultipleText( TValue value )
-            => AddMultipleText( GetDisplayValue( value ) );
+            => AddMultipleText( GetDisplayText( value ) );
 
 
         private Task AddMultipleText( string text )
@@ -328,9 +326,6 @@ namespace Blazorise.Components
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
         }
 
-        private TValue GetValueByText( string text )
-            => SelectedValues.FirstOrDefault( x => GetDisplayValue( x ) == text );
-
         private void FilterData()
         {
             FilterData( Data?.AsQueryable() );
@@ -361,14 +356,14 @@ namespace Blazorise.Components
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                        let text = GetDisplayValue( q )
+                        let text = GetDisplayText( q )
                         where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
-                        let text = GetDisplayValue( q )
+                        let text = GetDisplayText( q )
                         where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
@@ -410,7 +405,7 @@ namespace Blazorise.Components
             {
                 var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = GetDisplayValue( item );
+                SelectedText = GetDisplayText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
@@ -486,21 +481,24 @@ namespace Blazorise.Components
                     : SelectedValue?.ToString();
         }
 
-        private string GetDisplayValue( TValue value )
+        private string GetDisplayText( TValue value )
         {
             var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
             return item is null
                 ? string.Empty
-                : GetDisplayValue( item );
+                : GetDisplayText( item );
         }
 
-        private string GetDisplayValue( TItem item )
+        private string GetDisplayText( TItem item )
             => TextField?.Invoke( item ) ?? string.Empty;
 
         private TItem GetItemByValue( TValue value )
             => Data != null
                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
                    : default;
+
+        private TValue GetValueByText( string text )
+            => SelectedValues.FirstOrDefault( x => GetDisplayText( x ) == text );
 
         #endregion
 

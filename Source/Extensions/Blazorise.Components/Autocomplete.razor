@@ -62,7 +62,7 @@
             {
                 var item = FilteredData[i];
 
-                var text = GetDisplayValue( item );
+                var text = GetDisplayText( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
                 <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
