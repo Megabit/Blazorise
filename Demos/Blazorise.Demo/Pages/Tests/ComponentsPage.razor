@@ -78,9 +78,8 @@
                                       TValue="string"
                                       Data="@myDdlData"
                                       TextField="@(( item ) => item.MyTextField)"
-                                      ValueField="@(( item ) => item.MyTextField)"
-                                      SelectedValue="@selectedSearchValue"
-                                      SelectedValueChanged="@MySearchHandler"
+                                      ValueField="@(( item ) => item.MyValueField.ToString())"
+                                      @bind-SelectedValue="selectedSearchValue"
                                       @bind-SelectedText="selectedAutoCompleteText"
                                       Placeholder="Search..."
                                       Filter="AutocompleteFilter.StartsWith"
@@ -222,11 +221,6 @@
     void MyDropValueChangedHandler( int newValue )
     {
         selectedDropValue = newValue;
-    }
-
-    void MySearchHandler( string newValue )
-    {
-        selectedSearchValue = newValue;
     }
 
     private void ShuffleList()

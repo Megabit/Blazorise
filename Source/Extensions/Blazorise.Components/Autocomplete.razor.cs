@@ -64,6 +64,35 @@ namespace Blazorise.Components
 
         #region Methods
 
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
+                && !paramSelectedValue.IsEqual( SelectedValue );
+
+            await base.SetParametersAsync( parameters );
+
+            // Override after parameters have already been set.
+            // Avoids property setters running out of order
+            if ( selectedValueHasChanged )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    var item = GetItemByValue( paramSelectedValue );
+
+                    SelectedText = item != null
+                        ? TextField?.Invoke( item )
+                        : string.Empty;
+
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
+
+                    if ( textEditRef != null )
+                    {
+                        await textEditRef.Revalidate();
+                    }
+                } );
+            }
+        }
+
         /// <inheritdoc/>
         protected override async Task OnParametersSetAsync()
         {
@@ -93,8 +122,6 @@ namespace Blazorise.Components
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
             }
-
-            return base.OnAfterRenderAsync( firstRender );
         }
 
         /// <summary>
@@ -232,7 +259,10 @@ namespace Blazorise.Components
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
 
-            await textEditRef?.Revalidate();
+            if ( textEditRef != null )
+            {
+                await textEditRef.Revalidate();
+            }
         }
 
         private static bool ConfirmKey( KeyboardEventArgs eventArgs )
@@ -467,6 +497,11 @@ namespace Blazorise.Components
         private string GetDisplayValue( TItem item )
             => TextField?.Invoke( item ) ?? string.Empty;
 
+        private TItem GetItemByValue( TValue value )
+            => Data != null
+                   ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+                   : default;
+
         #endregion
 
         #region Properties
@@ -653,10 +688,6 @@ namespace Blazorise.Components
                     return;
 
                 selectedValue = value;
-
-                var item = Data != null
-                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-                    : default;
             }
         }
 
