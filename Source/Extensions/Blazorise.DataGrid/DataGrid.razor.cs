@@ -1019,10 +1019,17 @@ namespace Blazorise.DataGrid
 
                 foreach ( var sortByColumn in SortByColumns )
                 {
+                    var sortExpression = sortByColumn.SortExpression;
                     if ( firstSort )
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            query = query.OrderBy( x => sortByColumn.GetValue( x ) );
+                            if ( sortExpression is not null )
+                                query = query.OrderBy( sortByColumn.SortExpression );
+                            else
+                                query = query.OrderBy( x => sortByColumn.GetValue( x ) );
+                        else
+                            if ( sortExpression is not null )
+                            query = query.OrderByDescending( sortExpression );
                         else
                             query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
 
@@ -1031,7 +1038,13 @@ namespace Blazorise.DataGrid
                     else
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
+                            if ( sortExpression is not null )
+                                query = ( query as IOrderedQueryable<TItem> ).ThenBy( sortExpression );
+                            else
+                                query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
+                        else
+                            if ( sortExpression is not null )
+                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( sortExpression );
                         else
                             query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
                     }

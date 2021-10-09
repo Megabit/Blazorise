@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -421,6 +422,11 @@ namespace Blazorise.DataGrid
         /// Forces validation to use regex pattern matching instead of default validator handler.
         /// </summary>
         [Parameter] public string ValidationPattern { get; set; }
+
+        /// <summary>
+        /// Provides a Sort Expression to be used instead by the Sorting mechanism
+        /// </summary>
+        [Parameter] public Expression<Func<TItem, object>> SortExpression { get; set; }
 
         #endregion
     }
