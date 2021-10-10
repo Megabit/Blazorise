@@ -3519,7 +3519,8 @@ ol.is-ordered-list-upper-roman {
     flex-wrap: wrap;
     border-color: #dbdbdb;
     border-style: solid;
-    border-width: 1px; }
+    border-width: 1px;
+    border-radius: .25rem; }
     .b-is-autocomplete.b-is-autocomplete-multipleselection input {
         display: inline-block;
         border: none;

@@ -186,6 +186,10 @@ namespace Blazorise.Bulma
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
+            sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+
             if ( !string.IsNullOrEmpty( options?.CheckColor ) )
             {
                 GenerateInputCheckEditStyles( sb, theme, options );
