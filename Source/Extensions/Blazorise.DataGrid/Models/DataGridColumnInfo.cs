@@ -17,6 +17,7 @@ namespace Blazorise.DataGrid
         /// <param name="sortDirection">Current sort direction.</param>
         /// <param name="sortIndex">Sort index.</param>
         /// <param name="columnType">Current column type.</param>
+        /// <param name="sortField">Sort field name.</param>
         public DataGridColumnInfo( string field, object searchValue, SortDirection sortDirection, int sortIndex, DataGridColumnType columnType, string sortField )
         {
             Field = field;
