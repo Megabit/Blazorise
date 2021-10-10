@@ -1019,21 +1019,25 @@ namespace Blazorise.DataGrid
 
                 foreach ( var sortByColumn in SortByColumns )
                 {
+                    Func<TItem, object> sortFunction = string.IsNullOrWhiteSpace( sortByColumn.SortField )
+                        ? sortByColumn.GetValue
+                        : sortByColumn.GetSortValue;
+
                     if ( firstSort )
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            query = query.OrderBy( x => sortByColumn.GetValue( x ) );
+                            query = query.OrderBy( x => sortFunction( x ) );
                         else
-                            query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
+                            query = query.OrderByDescending( x => sortFunction( x ) );
 
                         firstSort = false;
                     }
                     else
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) );
                         else
-                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) );
                     }
                 }
 

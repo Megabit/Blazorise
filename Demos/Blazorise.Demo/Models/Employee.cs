@@ -27,5 +27,7 @@ namespace Blazorise.Demo.Models
         public bool IsActive { get; set; }
 
         public List<Salary> Salaries { get; set; } = new();
+
+        public decimal ChildrensPerSalary => ((Childrens is null || Childrens == 0) ?  1 : Childrens.Value) / Salary;
     }
 }
