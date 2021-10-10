@@ -28,6 +28,12 @@
     max-width: 100%;
     width: 100%;
     cursor: text;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-color: $grey-lighter;
+    border-style: solid;
+    border-width: 1px;
 
     input {
         display: inline-block;

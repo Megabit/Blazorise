@@ -3513,7 +3513,13 @@ ol.is-ordered-list-upper-roman {
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
     max-width: 100%;
     width: 100%;
-    cursor: text; }
+    cursor: text;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-color: #dbdbdb;
+    border-style: solid;
+    border-width: 1px; }
     .b-is-autocomplete.b-is-autocomplete-multipleselection input {
         display: inline-block;
         border: none;
