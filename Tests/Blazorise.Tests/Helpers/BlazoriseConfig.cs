@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using Blazorise.Bootstrap;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,8 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<PatternValidationHandler>();
             services.AddSingleton<DataAnnotationValidationHandler>();
             services.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+            services.AddScoped<ITextLocalizerService, TextLocalizerService>();
+            services.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
 
             Action<BlazoriseOptions> configureOptions = ( options ) =>
             {
