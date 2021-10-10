@@ -1209,7 +1209,12 @@
     max-width: 100%;
     width: 100%;
     cursor: text;
-    display: block; }
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: .25rem; }
     .b-is-autocomplete.b-is-autocomplete-multipleselection > input.ant-input {
         display: inline-block;
         border: none;
