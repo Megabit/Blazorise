@@ -57,10 +57,9 @@ namespace Blazorise.Tests.Components
             // setup
             var updatedName = "RaulFromEdit";
             var comp = RenderComponent<DataGridComponent>();
-            var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.Find( "#btnEdit" ).Click(detail:1);
+            comp.Find( "#btnEdit" ).Click( detail: 1 );
             var firstInput = comp.Find( "input" );
             firstInput.SetAttribute( "value", updatedName );
             firstInput.Input( updatedName );
@@ -85,7 +84,7 @@ namespace Blazorise.Tests.Components
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
-            Assert.Equal( startingDataCount -1, currentDataCount );
+            Assert.Equal( startingDataCount - 1, currentDataCount );
         }
     }
 }
