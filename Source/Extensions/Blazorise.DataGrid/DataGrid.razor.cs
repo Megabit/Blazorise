@@ -1930,6 +1930,10 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public bool SubmitFormOnEnter { get; set; } = true;
 
+        /// <summary>
+        /// Controls whether DetailRow will start visible if <see cref="DetailRowTemplate"/> is set
+        /// </summary>
+        [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
         #endregion
     }
 }

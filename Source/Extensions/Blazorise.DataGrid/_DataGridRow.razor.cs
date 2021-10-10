@@ -159,12 +159,14 @@ namespace Blazorise.DataGrid
         protected Cursor GetHoverCursor()
             => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             this.Columns = ParentDataGrid.DisplayableColumns;
             this.RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
             ParentDataGrid.AddRow( RowInfo );
-            return base.OnInitializedAsync();
+            if ( ParentDataGrid.DetailRowStartsVisible )
+                await ParentDataGrid.ToggleDetailRow( Item );
+            await base.OnInitializedAsync();
         }
 
         protected override void Dispose( bool disposing )

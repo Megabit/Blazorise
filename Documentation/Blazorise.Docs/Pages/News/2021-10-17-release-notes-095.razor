@@ -173,3 +173,17 @@
 <Paragraph>
     <Code>DataGrid</Code> <Code>Field</Code> now supports null coalescing, meaning you can now provide objects with null data, and <Code>DataGrid</Code> will set the <Code>Default</Code> Value for the respective <Code>Field</Code> <Code>Type</Code>.
 </Paragraph>
+
+
+<Paragraph>
+    <Code>DataGrid</Code> <Code>DetailRowTemplate</Code> feature has been slightly reworked. Now it will evaluate <Code>DetailRowTrigger</Code> on click, avoiding multiple calls to this on datagrid re-renders.
+</Paragraph>
+<Paragraph>
+    We've also introduced a new public API <Code>ToggleDetailRow</Code> so you can programatically toggle the row. By default, it evaluates <Code>DetailRowTrigger</Code>, but you may use the provided flag <Code>forceDetailRow</Code> to just force the row to show the <Code>DetailRowTemplate</Code>
+</Paragraph>
+<Paragraph>
+    We've still maintained the old behaviour, if <Code>DetailRowTemplate</Code> is defined, every row will display <Code>DetailRowTemplate</Code>, if <Code>DetailRowTrigger</Code> is defined, this will still be evaluated for every row, but now only once the row is first initialized and no longer on every re-render.
+</Paragraph>
+<Paragraph>
+    To disable this behaviour you may use the new <Code>Parameter</Code> <Code>DetailRowStartsVisible</Code> and <Code>DetailRowTemplate</Code> will only be evaluated on click and if programatically called.
+</Paragraph>

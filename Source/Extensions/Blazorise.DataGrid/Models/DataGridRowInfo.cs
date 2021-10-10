@@ -31,7 +31,7 @@ namespace Blazorise.DataGrid.Models
         public void SetRowDetail( bool rowDetail )
             => showDetail = !showDetail & rowDetail;
 
-        public void ToggleRowDetail(  )
+        public void ToggleRowDetail()
             => showDetail = !showDetail;
     }
 }
