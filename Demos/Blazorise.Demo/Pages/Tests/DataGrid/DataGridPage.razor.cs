@@ -191,7 +191,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
                 IOrderedEnumerable<Employee> sortedCols = null;
                 foreach ( var sortByColumn in sortByColumns )
                 {
-                    var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.Field );
+                    var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.SortField );
 
                     if ( firstSort )
                     {
