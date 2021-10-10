@@ -6,12 +6,32 @@
                 <CardTitle>Datagrid: Row Detail</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph>
+                    Employees who have Salaries defined are eligible to Display a DetailRowTemplate. Here we defined a new DataGrid with the Salaries.
+                    Try clicking some employees and taking a look at their Salaries.
+                </Paragraph>
+                <Paragraph>
+                    You may also use the ToggleDetailRow API to programatically toggle a row.
+                </Paragraph>
+                <Paragraph>
+                    <Select TValue="int" @bind-SelectedValue="@selectedEmployeeIdForDetailRow">
+                        <SelectItem TValue="int" Value="0"></SelectItem>
+                        @foreach ( var item in inMemoryData )
+                        {
+                            <SelectItem TValue="int" Value="item.Id">@item.FirstName</SelectItem>
+                        }
+                    </Select>
+                    <Button Clicked="ToggleDetailRow"> Toggle Detail Row</Button>
+                </Paragraph>
+            </CardBody>
+            <CardBody>
                 <DataGrid TItem="Employee"
+                          @ref="dataGridRef"
                           Data="inMemoryData"
-                          ShowPager="true"
-                          ShowPageSizes="true"
+                          ShowPager
+                          ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
+                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0)">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
@@ -60,10 +80,10 @@
                             var salaries = ( context as Employee ).Salaries;
 
                             <DataGrid TItem="Salary"
-                                      Data="salaries"
-                                      Sortable="false"
-                                      ShowCaptions="false"
-                                      RowSelectable="(x) => false">
+                                  Data="salaries"
+                                  Sortable="false"
+                                  ShowCaptions="false"
+                                  RowSelectable="(x) => false">
                                 <DataGridCommandColumn TItem="Salary" />
                                 <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
                                 <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
@@ -81,6 +101,9 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
+    private DataGrid<Employee> dataGridRef;
+    private int selectedEmployeeIdForDetailRow;
+
     private IEnumerable<Employee> inMemoryData;
     private Employee selectedEmployee;
 
@@ -88,5 +111,11 @@
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
         await base.OnInitializedAsync();
+    }
+
+    private Task ToggleDetailRow()
+    {
+        var employee = inMemoryData.FirstOrDefault( x => x.Id == selectedEmployeeIdForDetailRow );
+        return dataGridRef.ToggleDetailRow( employee );
     }
 }
