@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -33,6 +34,11 @@ namespace Blazorise.DataGrid
         /// Funnels the selection logic into HandleClick.
         /// </summary>
         protected bool clickFromCheck;
+
+        /// <summary>
+        /// Holds information about the current Row.
+        /// </summary>
+        protected DataGridRowInfo<TItem> RowInfo;
 
         #endregion
 
@@ -131,6 +137,7 @@ namespace Blazorise.DataGrid
             {
                 await ParentDataGrid.Select( Item );
             }
+            await ParentDataGrid.ToggleDetailRow( Item );
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -155,9 +162,26 @@ namespace Blazorise.DataGrid
         protected override Task OnInitializedAsync()
         {
             this.Columns = ParentDataGrid.DisplayableColumns;
+            this.RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
+            ParentDataGrid.AddRow( RowInfo );
             return base.OnInitializedAsync();
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+                ParentDataGrid.RemoveRow( this.RowInfo );
+
+            base.Dispose( disposing );
+        }
+
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+                ParentDataGrid.RemoveRow( this.RowInfo );
+
+            return base.DisposeAsync( disposing );
+        }
         #endregion
 
         #region Properties

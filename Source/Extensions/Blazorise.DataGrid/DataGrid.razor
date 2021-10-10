@@ -2,6 +2,7 @@
 @inherits BaseDataGridComponent
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Blazorise.Extensions
+@using Blazorise.DataGrid.Models
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value="@this" IsFixed="true">
@@ -139,7 +140,7 @@
                     }
                     else if ( Virtualize )
                     {
-                        <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
+                        <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                             <ChildContent>
                                 @rowFragment( item )
                             </ChildContent>
@@ -192,14 +193,14 @@
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
         <_DataGridModal TItem="TItem"
-                        TitleTemplate="@PopupTitleTemplate"
-                        EditItem="@editItem"
-                        ValidationItem="@validationItem"
-                        EditItemCellValues="@editItemCellValues"
-                        Columns="@Columns"
-                        PopupVisible="@PopupVisible"
-                        PopupSize="@PopupSize"
-                        EditState="@editState" />
+                    TitleTemplate="@PopupTitleTemplate"
+                    EditItem="@editItem"
+                    ValidationItem="@validationItem"
+                    EditItemCellValues="@editItemCellValues"
+                    Columns="@Columns"
+                    PopupVisible="@PopupVisible"
+                    PopupSize="@PopupSize"
+                    EditState="@editState" />
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
@@ -212,29 +213,24 @@
 @code {
 
     private RenderFragment paginationFragment => __builder =>
-    {
-    <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
-    };
+                        {
+                        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
+                        };
 
     protected RenderFragment<TItem> rowFragment => item => __builder =>
     {
         if ( IsEditItemInGrid( item ) )
         {
-        <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
+            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
         }
         else
         {
-        <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
-            if ( DetailRowTemplate != null )
+            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
+            if ( DetailRowTemplate != null && ( GetRowInfo( item )?.ShowDetail ?? false ) )
             {
-                var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                if ( canShow )
-                {
                 <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
                     @DetailRowTemplate( item )
                 </_DataGridDetailRow>
-                }
             }
         }
     };
