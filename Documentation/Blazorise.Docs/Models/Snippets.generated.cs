@@ -2433,6 +2433,13 @@ namespace Blazorise.Docs.Models
               FreeTyping
               CustomFilter=""@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <ItemContent>
+        <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
+            <Heading Class=""mb-1"">@context.Value</Heading>
+            <Small>Country Flag</Small>
+        </Div>
+        <Paragraph Class=""mb-1"">@context.Text</Paragraph>
+    </ItemContent>
 </Autocomplete>
 
 <Field Horizontal=""true"">
@@ -2444,7 +2451,7 @@ namespace Blazorise.Docs.Models
     </FieldBody>
 </Field>
 
-@code{
+@code {
     public class MySelectModel
     {
         public int MyValueField { get; set; }
