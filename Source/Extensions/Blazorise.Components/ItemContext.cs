@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazorise.Components.AutoComplete
+namespace Blazorise.Components.Autocomplete
 {
     public class ItemContext<TItem, TValue>
     {
