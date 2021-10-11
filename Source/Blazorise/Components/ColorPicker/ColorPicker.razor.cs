@@ -179,9 +179,7 @@ namespace Blazorise
             if ( Color.IsEqual( value ) )
                 return Task.CompletedTask;
 
-            Color = value;
-
-            return ColorChanged.InvokeAsync( Color );
+            return CurrentValueHandler( value );
         }
 
         #endregion
