@@ -133,6 +133,12 @@ namespace Blazorise.Material
                     .Append( $"box-shadow: inset 0 -2px 0 -1px {focusColor};" )
                     .AppendLine( "}" );
 
+                sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection.focus" )
+                    .Append( "{" )
+                    .Append( "border:none;" )
+                    .Append( "box-shadow: none;" )
+                    .AppendLine( "}" );
+
                 sb
                     .Append( "select.custom-select:focus[multiple], select.custom-select:focus[size]:not([size=\"1\"]), select.form-control:focus[multiple], select.form-control:focus[size]:not([size=\"1\"]), textarea.form-control:focus:not([rows=\"1\"])" )
                     .Append( "{" )

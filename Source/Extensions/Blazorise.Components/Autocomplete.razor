@@ -1,8 +1,18 @@
 ﻿@inherits BaseAfterRenderComponent
 @typeparam TItem
 @typeparam TValue
+
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)">
+
+        @if ( Multiple )
+        {
+            @foreach ( var selectedText in SelectedTexts )
+            {
+                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleText( selectedText )">@selectedText</Badge>
+            }
+        }
+
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"
                   Text="@SelectedText"
@@ -17,7 +27,7 @@
                   ChangeTextOnKeyPress="@ChangeTextOnKeyPress"
                   DelayTextOnKeyPress="@DelayTextOnKeyPress"
                   DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval"
-                  CustomValidationValue="@(( ) => FreeTyping ? SelectedText?.ToString() : SelectedValue?.ToString())">
+                  CustomValidationValue="@GetValidationValue">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess />
@@ -52,10 +62,10 @@
             {
                 var item = FilteredData[i];
 
-                var text = TextField?.Invoke( item );
+                var text = GetDisplayText( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
+                <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
             }
         }
     </DropdownMenu>
