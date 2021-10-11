@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Components.AutoComplete;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -799,6 +800,11 @@ namespace Blazorise.Components
 
 
         public ElementReference ElementRef { get; }
+
+        /// <summary>
+        /// Specifies the item content to be rendered inside each dropdown item.
+        /// </summary>
+        [Parameter] public RenderFragment<ItemContext<TItem,TValue>> ItemContent { get; set; }
 
 
         #endregion
