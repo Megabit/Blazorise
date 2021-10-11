@@ -22,6 +22,27 @@
     overflow-y: scroll;
 }
 
+.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    max-width: 100%;
+    width: 100%;
+    cursor: text;
+    line-height: 1.5;
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+
+    > input.form-control {
+        display: inline-block;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        max-width: inherit;
+        width: auto;
+    }
+
+    @include form-control-focus
+}
+
 .dropdown {
     > .dropdown-menu {
         > .dropdown {

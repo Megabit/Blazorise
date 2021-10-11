@@ -34,6 +34,15 @@
     <DocsPageSectionSource Code="AutocompleteExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteMultipleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteMultipleExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -104,5 +113,23 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CustomFilter" Type="Func<TItem, string, bool>">
         Handler for custom filtering on Autocomplete’s data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
+        Allows for multiple selection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MultipleBadgeColor" Type="Color" Default="Color.Primary">
+        Sets the Badge color for the multiple selection values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValues" Type="List<TValue>">
+        Currently selected items values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<List<TValue>>">
+        Occurs after the selected values have changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTexts" Type="List<string>">
+        Currently selected items texts.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTextsChanged" Type="EventCallback<List<string>>">
+        Occurs after the selected texts have changed.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -2427,13 +2427,12 @@ namespace Blazorise.Docs.Models
               TValue=""string""
               Data=""@myDdlData""
               TextField=""@(( item ) => item.MyTextField)""
-              ValueField=""@(( item ) => item.MyTextField)""
-              SelectedValue=""@selectedSearchValue""
-              SelectedValueChanged=""@MySearchHandler""
+              ValueField=""@(( item ) => item.MyValueField.ToString())""
+              @bind-SelectedValue=""@selectedSearchValue""
               @bind-SelectedText=""selectedAutoCompleteText""
               Placeholder=""Search...""
               Filter=""AutocompleteFilter.StartsWith""
-              FreeTyping=""true""
+              FreeTyping
               CustomFilter=""@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
@@ -2459,10 +2458,46 @@ namespace Blazorise.Docs.Models
 
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
+}";
 
-    void MySearchHandler( string newValue )
+        public const string AutocompleteMultipleExample = @"<Autocomplete TItem=""MySelectModel""
+              TValue=""string""
+              Data=""@myDdlData""
+              TextField=""@(( item ) => item.MyTextField)""
+              ValueField=""@(( item ) => item.MyValueField.ToString())""
+              Placeholder=""Search...""
+              Multiple
+              FreeTyping
+              @bind-SelectedValues=""multipleSelectionData""
+              @bind-SelectedTexts=""multipleSelectionTexts"">
+</Autocomplete>
+
+<Field Horizontal=""true"">
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Values: @string.Join(',', multipleSelectionData)
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Texts: @string.Join(',', multipleSelectionTexts)
+    </FieldBody>
+</Field>
+
+@code {
+    public class MySelectModel
     {
-        selectedSearchValue = newValue;
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+
+    List<string> multipleSelectionData;
+    List<string> multipleSelectionTexts = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        multipleSelectionData = new List<string>() { myDdlData.ElementAt( 1 ).MyValueField.ToString(), myDdlData.ElementAt( 3 ).MyValueField.ToString() };
+        return base.OnInitializedAsync();
     }
 }";
 

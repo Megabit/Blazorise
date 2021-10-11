@@ -41,17 +41,14 @@ namespace Blazorise.DataGrid.Utils
             if ( field == null )
                 throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
 
+            field = Expression.Condition( Expression.Equal( item, Expression.Constant( null ) ),
+                        IsNullable( field.Type ) ? Expression.Constant( null, field.Type ) : Expression.Default( field.Type ), 
+                        field );
+
             if ( parts.Length > 1 )
                 field = GetSafePropertyOrField( field, parts[1] );
 
-            // if the value type cannot be null there's no reason to check it for null
-            if ( !IsNullable( field.Type ) )
-                return field;
-
-            // check if field is null
-            return Expression.Condition( Expression.Equal( item, Expression.Constant( null ) ),
-                Expression.Constant( null, field.Type ),
-                field );
+            return field;
         }
 
         private static MemberExpression GetPropertyOrField( Expression item, string propertyOrFieldName )

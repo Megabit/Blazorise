@@ -24,7 +24,7 @@
                                     <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
-                                            <_DataGridNewCommand TItem="TItem" />
+                                            <_DataGridNewCommand TItem="TItem" New="@New" />
                                         }
                                     </TableHeaderCell>
                                 }
