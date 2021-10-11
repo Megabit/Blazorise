@@ -297,7 +297,8 @@ namespace Blazorise.Bootstrap
 
                 sb
                     .Append( ".form-control:focus," )
-                    .Append( ".custom-select:focus" )
+                    .Append( ".custom-select:focus," )
+                    .Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection.focus" )
                     .Append( "{" )
                     .Append( $"border-color: {focusColor};" )
                     .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusColor};" )
