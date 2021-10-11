@@ -15,7 +15,7 @@ namespace Blazorise.Components.AutoComplete
             Value = value;
             Text = text;
         }
-        public TItem Item { get;  }
+        public TItem Item { get; }
 
         public TValue Value { get; }
 

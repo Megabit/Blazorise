@@ -804,7 +804,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Specifies the item content to be rendered inside each dropdown item.
         /// </summary>
-        [Parameter] public RenderFragment<ItemContext<TItem,TValue>> ItemContent { get; set; }
+        [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
 
 
         #endregion
