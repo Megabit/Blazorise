@@ -670,6 +670,8 @@ namespace Blazorise.DataGrid
                     rowInfo.ToggleRowDetail();
                 else if ( DetailRowTrigger is not null )
                     rowInfo.SetRowDetail( DetailRowTrigger( item ) );
+                else
+                    rowInfo.ToggleRowDetail();
                 return InvokeAsync( StateHasChanged );
             }
 

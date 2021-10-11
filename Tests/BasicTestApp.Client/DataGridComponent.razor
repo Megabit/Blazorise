@@ -38,6 +38,11 @@
                         Caption="Name"
                         Editable />
     </DataGridColumns>
+    <DetailRowTemplate>
+    @{
+        <Label ElementId="lblFraction">@context.Fraction</Label>
+    }
+    </DetailRowTemplate>
 </DataGrid>
 
 @code {
