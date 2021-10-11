@@ -34,8 +34,8 @@ namespace Blazorise.Tests.Components
         public void DetailRow_DetailRowStartsVisible_False_ShouldNotRender()
         {
             // setup
-            var comp = RenderComponent<DataGridDetailRowComponent>( 
-                parameters => parameters.Add(x=> x.DetailRowStartsVisible, false));
+            var comp = RenderComponent<DataGridDetailRowComponent>(
+                parameters => parameters.Add( x => x.DetailRowStartsVisible, false ) );
 
             // test
             var rows = comp.FindAll( "#lblFraction" );

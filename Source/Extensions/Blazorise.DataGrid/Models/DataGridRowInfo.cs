@@ -22,7 +22,7 @@ namespace Blazorise.DataGrid.Models
             Columns = columns;
         }
 
-        public IEnumerable<DataGridColumn<TItem>> Columns {get;}
+        public IEnumerable<DataGridColumn<TItem>> Columns { get; }
 
         public TItem Item { get; }
 
