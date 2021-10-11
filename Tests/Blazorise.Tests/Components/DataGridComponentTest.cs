@@ -86,5 +86,39 @@ namespace Blazorise.Tests.Components
             // validate
             Assert.Equal( startingDataCount - 1, currentDataCount );
         }
+
+        [Fact]
+        public void DetailRow_ShouldRender()
+        {
+            // setup
+            var comp = RenderComponent<DataGridComponent>();
+
+            // test
+            var rows = comp.FindAll( "#lblFraction" );
+            var rowsFraction = comp.FindAll( "tbody tr td:nth-child(2)" );
+
+            // validate
+            for ( int i = 0; i < comp.Instance.InMemoryData.Count; i++ )
+                Assert.Equal( rowsFraction[i].TextContent, rows[i].TextContent );
+        }
+
+        [Fact]
+        public void DetailRow_ShouldHideOnClick()
+        {
+            // setup
+            var comp = RenderComponent<DataGridComponent>();
+
+            // test
+            var rowsFraction = comp.FindAll( "tbody tr.table-row-selectable" );
+            foreach ( var row in rowsFraction )
+            {
+                row.Click( detail: 1 );
+            }
+
+            var rows = comp.FindAll( "#lblFraction" );
+
+            // validate
+            Assert.Equal( 0, rows.Count );
+        }
     }
 }
