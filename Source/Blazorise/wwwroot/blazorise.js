@@ -928,6 +928,10 @@ window.blazorise = {
 
             if (instanceInfo) {
                 instanceInfo.picker.options.i18n = localization;
+
+                instanceInfo.picker._root.interaction.save.value = localization["btn:save"];
+                instanceInfo.picker._root.interaction.cancel.value = localization["btn:cancel"];
+                instanceInfo.picker._root.interaction.clear.value = localization["btn:clear"];
             }
         },
 
