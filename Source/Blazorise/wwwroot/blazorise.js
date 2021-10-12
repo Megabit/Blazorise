@@ -804,24 +804,24 @@ window.blazorise = {
                 },
 
                 // Translations, these are the default values.
-                i18n: {
+                i18n: options.localization || {
                     // Strings visible in the UI
-                    'ui:dialog': options.localization.uiDialog || 'color picker dialog',
-                    'btn:toggle': options.localization.btnToggle || 'toggle color picker dialog',
-                    'btn:swatch': options.localization.btnPalette || 'color swatch',
-                    'btn:last-color': options.localization.btnLastColor || 'use previous color',
-                    'btn:save': options.localization.btnSave || 'Save',
-                    'btn:cancel': options.localization.btnCancel || 'Cancel',
-                    'btn:clear': options.localization.btnClear || 'Clear',
+                    'ui:dialog': 'color picker dialog',
+                    'btn:toggle': 'toggle color picker dialog',
+                    'btn:swatch': 'color swatch',
+                    'btn:last-color': 'use previous color',
+                    'btn:save': 'Save',
+                    'btn:cancel': 'Cancel',
+                    'btn:clear': 'Clear',
 
                     // Strings used for aria-labels
-                    'aria:btn:save': options.localization.ariaBtnSave || 'save and close',
-                    'aria:btn:cancel': options.localization.ariaBtnCancel || 'cancel and close',
-                    'aria:btn:clear': options.localization.ariaBtnClear || 'clear and close',
-                    'aria:input': options.localization.ariaInput || 'color input field',
-                    'aria:palette': options.localization.ariaMixer || 'color selection area',
-                    'aria:hue': options.localization.ariaHue || 'hue selection slider',
-                    'aria:opacity': options.localization.ariaOpacity || 'selection slider'
+                    'aria:btn:save': 'save and close',
+                    'aria:btn:cancel': 'cancel and close',
+                    'aria:btn:clear': 'clear and close',
+                    'aria:input': 'color input field',
+                    'aria:palette': 'color selection area',
+                    'aria:hue': 'hue selection slider',
+                    'aria:opacity': 'selection slider'
                 }
             });
 
@@ -920,6 +920,14 @@ window.blazorise = {
                         instanceInfo.picker.enable();
                     }
                 }
+            }
+        },
+
+        updateLocalization: (element, elementId, localization) => {
+            const instanceInfo = window.blazorise.colorPicker._instancesInfos[elementId];
+
+            if (instanceInfo) {
+                instanceInfo.picker.options.i18n = localization;
             }
         },
 

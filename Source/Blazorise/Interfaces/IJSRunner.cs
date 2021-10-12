@@ -149,6 +149,8 @@ namespace Blazorise
 
         ValueTask UpdateColorPickerOptions( ElementReference elementRef, string elementId, object options );
 
+        ValueTask UpdateColorPickerLocalization( ElementReference elementRef, string elementId, object localization );
+
         ValueTask FocusColorPicker( ElementReference elementRef, string elementId, bool scrollToElement );
 
         ValueTask SelectColorPicker( ElementReference elementRef, string elementId, bool focus );

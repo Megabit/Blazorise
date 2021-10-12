@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -77,6 +78,30 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+        {
+            // no need to refresh if we're using custom localization
+            if ( PickerLocalizer != null )
+                return;
+
+            ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );
+
+            await InvokeAsync( StateHasChanged );
+        }
+
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( this );
@@ -91,9 +116,7 @@ namespace Blazorise
                 ShowCancelButton,
                 Disabled,
                 ReadOnly,
-                Localization = new
-                {
-                }
+                Localization = Localizer.GetStrings(),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -102,25 +125,27 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
-                {
-                    var task = JSRunner.DestroyColorPicker( ElementRef, ElementId );
+                var task = JSRunner.DestroyColorPicker( ElementRef, ElementId );
 
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
-#if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
-#endif
+                try
+                {
+                    await task;
                 }
+                catch when ( task.IsCanceled )
+                {
+                }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
+
+                DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             await base.DisposeAsync( disposing );
@@ -190,6 +215,16 @@ namespace Blazorise
         protected override string InternalValue { get => Color; set => Color = value; }
 
         /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{ColorPicker}"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizer<ColorPicker> Localizer { get; set; }
+
+        /// <summary>
         /// Gets or sets the input color value.
         /// </summary>
         [Parameter] public string Color { get; set; } = "#000000";
@@ -247,6 +282,11 @@ namespace Blazorise
         /// Controls the visibility of the cancel buttons.
         /// </summary>
         [Parameter] public bool ShowCancelButton { get; set; } = true;
+
+        /// <summary>
+        /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler PickerLocalizer { get; set; }
 
         #endregion
     }

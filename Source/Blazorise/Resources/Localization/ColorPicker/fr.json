@@ -1,0 +1,19 @@
+{
+  "culture": "fr",
+  "translations": {
+    "ui:dialog": "boîte de dialogue du sélecteur de couleurs",
+    "btn:toggle": "activer la boîte de dialogue du sélecteur de couleurs",
+    "btn:swatch": "échantillon de couleur",
+    "btn:last-color": "utiliser la couleur précédente",
+    "btn:save": "Enregistrer",
+    "btn:cancel": "Annuler",
+    "btn:clear": "Dégager",
+    "aria:btn:save": "enregistrer et fermer",
+    "aria:btn:cancel": "annuler et fermer",
+    "aria:btn:clear": "effacer et fermer",
+    "aria:input": "champ de saisie de couleur",
+    "aria:palette": "zone de sélection des couleurs",
+    "aria:hue": "curseur de sélection de teinte",
+    "aria:opacity": "curseur de sélection"
+  }
+}
