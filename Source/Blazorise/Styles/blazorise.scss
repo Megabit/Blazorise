@@ -4,6 +4,7 @@
 @import "mixins";
 
 @import "divider";
+@import "form";
 @import "progress";
 @import "tooltip";
 @import "layout";
@@ -28,3 +29,4 @@
 }
 
 @import "vendor/flatpickr";
+@import "vendor/colorpicker";

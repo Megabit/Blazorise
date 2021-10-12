@@ -535,6 +535,11 @@ input[readonly="readonly"][type=range] {
         .form-inline .form-check-label {
             margin-bottom: 0; } }
 
+.b-input-color-picker {
+    padding: .5rem .6rem; }
+    .b-input-color-picker > .b-input-color-picker-preview {
+        height: .55rem; }
+
 .jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 2rem;

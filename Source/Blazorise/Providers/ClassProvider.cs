@@ -86,6 +86,38 @@ namespace Blazorise
 
         #endregion
 
+        #region DatePicker
+
+        public abstract string DatePicker( bool plaintext );
+
+        public abstract string DatePickerSize( Size size );
+
+        public abstract string DatePickerColor( Color color );
+
+        public abstract string DatePickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region TimePicker
+
+        public abstract string TimePicker( bool plaintext );
+
+        public abstract string TimePickerSize( Size size );
+
+        public abstract string TimePickerColor( Color color );
+
+        public abstract string TimePickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region ColorPicker
+
+        public abstract string ColorPicker();
+
+        public abstract string ColorPickerSize( Size size );
+
+        #endregion
+
         #region Check
 
         public abstract string Check();

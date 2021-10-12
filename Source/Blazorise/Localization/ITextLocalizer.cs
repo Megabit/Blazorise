@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 #endregion
 
 namespace Blazorise.Localization
@@ -28,6 +29,21 @@ namespace Blazorise.Localization
         /// </summary>
         /// <param name="localizationResource">Custom resource model.</param>
         void AddLanguageResource( TextLocalizationResource localizationResource );
+
+        /// <summary>
+        /// Gets the localized string by the name with the optional list object for formatting.
+        /// </summary>
+        /// <param name="name">A name to localize.</param>
+        /// <param name="arguments">An object array that contains zero or more objects to format.</param>
+        /// <returns>Localized string.</returns>
+        string GetString( string name, params object[] arguments );
+
+        /// <summary>
+        /// Gets the localized string for each key in the localization object.
+        /// </summary>
+        /// <param name="arguments">An object array that contains zero or more objects to format.</param>
+        /// <returns>Localized key/value pairs.</returns>
+        IReadOnlyDictionary<string, string> GetStrings( params object[] arguments );
     }
 
     /// <summary>
