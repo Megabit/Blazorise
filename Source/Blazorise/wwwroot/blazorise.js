@@ -423,6 +423,112 @@ window.blazorise = {
             return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
         }
     },
+    memoEdit: {
+        _instances: [],
+
+        initialize: (element, elementId, options) => {
+            let instances = window.blazorise.memoEdit._instances = window.blazorise.memoEdit._instances || {};
+
+            const overrideTab = options.tabSize && options.tabSize >= 2;
+            const tabSize = overrideTab ? options.tabSize : null;
+            const tabOffset = overrideTab ? tabSize - 1 : null;
+
+            instances[elementId] = {
+                element: element,
+                elementId: elementId,
+                overrideTab: overrideTab,
+                tabSize: tabSize,
+                tabOffset: tabOffset,
+                tabString: (options.tabCharacter || " ").repeat(tabSize)
+            };
+
+            element.onkeydown = function (event) {
+                const instance = window.blazorise.memoEdit._instances[event.target.id];
+
+                if (!instance || !instance.overrideTab)
+                    return;
+
+                const textarea = instance.element;
+                const tabSize = instance.tabSize;
+                const tabOffset = instance.tabOffset;
+                const tabString = instance.tabString;
+
+                if (event.keyCode === 9 && !event.shiftKey) { //tab was pressed
+                    let newCaretPosition;
+                    newCaretPosition = textarea.selectionStart + tabString.length;
+                    textarea.value = textarea.value.substring(0, textarea.selectionStart) + tabString + textarea.value.substring(textarea.selectionStart, textarea.value.length);
+
+                    textarea.selectionStart = newCaretPosition;
+                    textarea.selectionEnd = newCaretPosition;
+                    textarea.focus();
+
+                    return false;
+                }
+                if (event.keyCode === 9 && event.shiftKey) { //shift+tab was pressed
+                    if (textarea.value.substring(textarea.selectionStart - tabSize, textarea.selectionStart) === tabString) { //it's a tab space
+                        event.preventDefault();
+                        let newCaretPosition;
+                        newCaretPosition = textarea.selectionStart - tabSize;
+                        textarea.value = textarea.value.substring(0, textarea.selectionStart - tabSize) + textarea.value.substring(textarea.selectionStart, textarea.value.length);
+
+                        textarea.selectionStart = newCaretPosition;
+                        textarea.selectionEnd = newCaretPosition;
+                        textarea.focus();
+                    }
+                }
+                if (event.keyCode === 8) { //backspace
+                    if (textarea.value.substring(textarea.selectionStart - tabSize, textarea.selectionStart) === tabString) { //it's a tab space
+                        let newCaretPosition;
+                        newCaretPosition = textarea.selectionStart - tabOffset;
+                        textarea.value = textarea.value.substring(0, textarea.selectionStart - tabOffset) + textarea.value.substring(textarea.selectionStart, textarea.value.length);
+
+                        textarea.selectionStart = newCaretPosition;
+                        textarea.selectionEnd = newCaretPosition;
+                        textarea.focus();
+                    }
+                }
+                if (event.keyCode === 37) { //left arrow
+                    let newCaretPosition;
+                    if (textarea.value.substring(textarea.selectionStart - tabSize, textarea.selectionStart) === tabString) { //it's a tab space
+                        newCaretPosition = textarea.selectionStart - tabOffset;
+
+                        textarea.selectionStart = newCaretPosition;
+                        textarea.selectionEnd = newCaretPosition;
+                        textarea.focus();
+                    }
+                }
+                if (event.keyCode === 39) { //right arrow
+                    let newCaretPosition;
+                    if (textarea.value.substring(textarea.selectionStart + tabSize, textarea.selectionStart) === tabString) { //it's a tab space
+                        newCaretPosition = textarea.selectionStart + tabOffset;
+
+                        textarea.selectionStart = newCaretPosition;
+                        textarea.selectionEnd = newCaretPosition;
+                        textarea.focus();
+                    }
+                }
+            }
+        },
+        destroy: (element, elementId) => {
+            let instances = window.blazorise.memoEdit._instances || {};
+            delete instances[elementId];
+        },
+        updateOptions: (element, elementId, options) => {
+            let instances = window.blazorise.memoEdit._instances || {};
+            const instance = instances[elementId];
+
+            if (instance) {
+                const overrideTab = options.tabSize && options.tabSize >= 2;
+                const tabSize = overrideTab ? options.tabSize : null;
+                const tabOffset = overrideTab ? tabSize - 1 : null;
+
+                instance.overrideTab = overrideTab;
+                instance.tabSize = tabSize;
+                instance.tabOffset = tabOffset;
+                instance.tabString = (options.tabCharacter || " ").repeat(tabSize);
+            };
+        }
+    },
     numericEdit: {
         _instances: [],
 

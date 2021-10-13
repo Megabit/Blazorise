@@ -119,6 +119,20 @@ namespace Blazorise
 
         #endregion
 
+        #region MemoEdit
+
+        public ValueTask InitializeMemoEdit( ElementReference elementRef, string elementId, object options )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.memoEdit.initialize", elementRef, elementId, options );
+        }
+
+        public ValueTask DestroyMemoEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.memoEdit.destroy", elementRef, elementId );
+        }
+
+        #endregion
+
         #region NumericEdit
 
         public ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )

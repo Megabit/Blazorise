@@ -49,6 +49,42 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected async override Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeMemoEdit( ElementRef, ElementId, new
+            {
+                TabSize,
+                TabCharacter,
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing && Rendered )
+            {
+                var task = JSRunner.DestroyMemoEdit( ElementRef, ElementId );
+
+                try
+                {
+                    await task;
+                }
+                catch when ( task.IsCanceled )
+                {
+                }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.MemoEdit() );
@@ -223,6 +259,16 @@ namespace Blazorise
         /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
         /// </summary>
         [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
+
+        /// <summary>
+        /// Defines the number of characters that tab key will override.
+        /// </summary>
+        [Parameter] public int? TabSize { get; set; }
+
+        /// <summary>
+        /// Defines the character to be used as a placeholder for tab.
+        /// </summary>
+        [Parameter] public char TabCharacter { get; set; } = ' ';
 
         #endregion
     }
