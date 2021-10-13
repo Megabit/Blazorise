@@ -399,3 +399,11 @@ input[readonly="readonly"][type=range] {
         }
     }
 }
+
+.b-input-color-picker {
+    padding: .5rem .6rem;
+
+    > .b-input-color-picker-preview {
+        height: .55rem;
+    }
+}

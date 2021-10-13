@@ -1,0 +1,19 @@
+{
+  "culture": "de",
+  "translations": {
+    "ui:dialog": "Farbauswahldialog",
+    "btn:toggle": "Farbauswahldialog umschalten",
+    "btn:swatch": "Farbmuster",
+    "btn:last-color": "vorherige Farbe verwenden",
+    "btn:save": "Speichern",
+    "btn:cancel": "Abbrechen",
+    "btn:clear": "Clear",
+    "aria:btn:save": "speichern und schließen",
+    "aria:btn:cancel": "abbrechen und schließen",
+    "aria:btn:clear": "löschen und schließen",
+    "aria:input": "Farbeingabefeld",
+    "aria:palette": "Farbauswahlbereich",
+    "aria:hue": "Farbtonauswahl-Schieberegler",
+    "aria:opacity": "Auswahlschieberegler"
+  }
+}

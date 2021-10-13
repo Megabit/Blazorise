@@ -86,6 +86,38 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region DatePicker
+
+        public override string DatePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
+
+        public override string DatePickerSize( Size size ) => $"is-{ToSize( size )}";
+
+        public override string DatePickerColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region TimePicker
+
+        public override string TimePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
+
+        public override string TimePickerSize( Size size ) => $"is-{ToSize( size )}";
+
+        public override string TimePickerColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region ColorPicker
+
+        public override string ColorPicker() => "input b-input-color-picker";
+
+        public override string ColorPickerSize( Size size ) => $"is-{ToSize( size )}";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "is-checkradio";

@@ -86,6 +86,38 @@ namespace Blazorise.Bootstrap5
 
         #endregion
 
+        #region DatePicker
+
+        public override string DatePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string DatePickerColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region TimePicker
+
+        public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string TimePickerColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region ColorPicker
+
+        public override string ColorPicker() => "form-control b-input-color-picker";
+
+        public override string ColorPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "form-check-input";
