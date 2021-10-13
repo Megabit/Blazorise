@@ -1,0 +1,19 @@
+{
+  "culture": "hr",
+  "translations": {
+    "ui:dialog": "dijalog za odabir boje",
+    "btn:toggle": "prebaci dijalog za odabir boje",
+    "btn:swatch": "uzorak u boji",
+    "btn:last-color": "koristi prethodnu boju",
+    "btn:save": "Spremi",
+    "btn:cancel": "Otkaži",
+    "btn:clear": "Očisti",
+    "aria:btn:save": "spremi i zatvori",
+    "aria:btn:cancel": "otkaži i zatvori",
+    "aria:btn:clear": "očisti i zatvori",
+    "aria:input": "polje za unos boje",
+    "aria:palette": "područje odabira boje",
+    "aria:hue": "klizač za odabir nijanse",
+    "aria:opacity": "klizač za odabir"
+  }
+}

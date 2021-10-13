@@ -1,0 +1,19 @@
+{
+  "culture": "nl",
+  "translations": {
+    "ui:dialog": "dialoogvenster kleurkiezer",
+    "btn:toggle": "dialoogvenster kleurkiezer in-/uitschakelen",
+    "btn:swatch": "kleurstaal",
+    "btn:last-color": "vorige kleur gebruiken",
+    "btn:save": "Opslaan",
+    "btn:cancel": "Annuleren",
+    "btn:clear": "Duidelijk",
+    "aria:btn:save": "opslaan en sluiten",
+    "aria:btn:cancel": "annuleren en sluiten",
+    "aria:btn:clear": "duidelijk en dichtbij",
+    "aria:input": "kleur invoerveld",
+    "aria:palette": "kleurselectiegebied",
+    "aria:hue": "schuifregelaar voor tintselectie",
+    "aria:opacity": "selectieschuifregelaar"
+  }
+}

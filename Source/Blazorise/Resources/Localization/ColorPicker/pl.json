@@ -1,0 +1,19 @@
+{
+  "culture": "pl",
+  "translations": {
+    "ui:dialog": "okno wyboru koloru",
+    "btn:toggle": "przełącz okno dialogowe wyboru koloru",
+    "btn:swatch": "próbka koloru",
+    "btn:last-color": "użyj poprzedniego koloru",
+    "btn:save": "Zapisz",
+    "btn:cancel": "Anuluj",
+    "btn:clear": "Wyczyść",
+    "aria:btn:save": "zapisz i zamknij",
+    "aria:btn:cancel": "anuluj i zamknij",
+    "aria:btn:clear": "wyczyść i zamknij",
+    "aria:input": "kolorowe pole wejściowe",
+    "aria:palette": "obszar wyboru koloru",
+    "aria:hue": "suwak wyboru odcienia",
+    "aria:opacity": "suwak wyboru"
+  }
+}

@@ -275,6 +275,45 @@ namespace Blazorise
 
         #endregion
 
+        #region ColorPicker
+
+        public virtual ValueTask InitializeColorPicker( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.initialize", dotNetObjectRef, elementRef, elementId, options );
+        }
+
+        public virtual ValueTask DestroyColorPicker( ElementReference elementRef, string elementId )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.destroy", elementRef, elementId );
+        }
+
+        public virtual ValueTask UpdateColorPickerValue( ElementReference elementRef, string elementId, object value )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.updateValue", elementRef, elementId, value );
+        }
+
+        public virtual ValueTask UpdateColorPickerOptions( ElementReference elementRef, string elementId, object options )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.updateOptions", elementRef, elementId, options );
+        }
+
+        public virtual ValueTask UpdateColorPickerLocalization( ElementReference elementRef, string elementId, object localization )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.updateLocalization", elementRef, elementId, localization );
+        }
+
+        public virtual ValueTask FocusColorPicker( ElementReference elementRef, string elementId, bool scrollToElement )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.focus", elementRef, elementId, scrollToElement );
+        }
+
+        public virtual ValueTask SelectColorPicker( ElementReference elementRef, string elementId, bool focus )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.colorPicker.select", elementRef, elementId, focus );
+        }
+
+        #endregion
+
         #region Select
 
         public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )

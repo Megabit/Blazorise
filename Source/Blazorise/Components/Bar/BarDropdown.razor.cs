@@ -171,7 +171,7 @@ namespace Blazorise
         /// <summary>
         /// Notifies the <see cref="BarDropdown"/> that it has a child BarDropdown component.
         /// </summary>
-        /// <param name="dropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
+        /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
         internal void NotifyChildDropdownInitialized( BarDropdown barDropdown )
         {
             if ( childBarDropdown == null )
@@ -181,7 +181,7 @@ namespace Blazorise
         /// <summary>
         /// Notifies the <see cref="BarDropdown"/> that it's a child BarDropdown component should be removed.
         /// </summary>
-        /// <param name="dropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
+        /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
         internal void NotifyChildDropdownRemoved( BarDropdown barDropdown )
         {
             childBarDropdown = null;

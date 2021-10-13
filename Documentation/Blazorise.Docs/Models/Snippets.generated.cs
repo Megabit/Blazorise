@@ -637,7 +637,9 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string BasicColorExample = @"<ColorEdit Color=""#ff0000"" />";
+        public const string BasicColorEditExample = @"<ColorEdit Color=""#ff0000"" />";
+
+        public const string BasicColorPickerExample = @"<ColorPicker Color=""#ff0000"" />";
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
