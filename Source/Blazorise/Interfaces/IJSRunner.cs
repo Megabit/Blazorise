@@ -73,6 +73,8 @@ namespace Blazorise
 
         ValueTask DestroyMemoEdit( ElementReference elementRef, string elementId );
 
+        ValueTask UpdateMemoEditOptions( ElementReference elementRef, string elementId, object options );
+
         #endregion
 
         #region NumericEdit

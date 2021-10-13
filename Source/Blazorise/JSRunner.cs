@@ -131,6 +131,11 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.memoEdit.destroy", elementRef, elementId );
         }
 
+        public virtual ValueTask UpdateMemoEditOptions( ElementReference elementRef, string elementId, object options )
+        {
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.memoEdit.updateOptions", elementRef, elementId, options );
+        }
+
         #endregion
 
         #region NumericEdit

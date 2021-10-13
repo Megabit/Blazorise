@@ -25,6 +25,22 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var replaceTabChanged = parameters.TryGetValue( nameof( ReplaceTab ), out bool paramReplaceTab ) && ReplaceTab != paramReplaceTab;
+            var tabSizeChanged = parameters.TryGetValue( nameof( TabSize ), out int paramTabSize ) && TabSize != paramTabSize;
+            var softTabsChanged = parameters.TryGetValue( nameof( SoftTabs ), out bool paramSoftTabs ) && SoftTabs != paramSoftTabs;
+
+            if ( Rendered && ( replaceTabChanged
+                || tabSizeChanged
+                || softTabsChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateMemoEditOptions( ElementRef, ElementId, new
+                {
+                    ReplaceTab = new { Changed = replaceTabChanged, Value = paramReplaceTab },
+                    TabSize = new { Changed = tabSizeChanged, Value = paramTabSize },
+                    SoftTabs = new { Changed = softTabsChanged, Value = paramSoftTabs },
+                } ) );
+            }
+
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -53,8 +69,9 @@ namespace Blazorise
         {
             await JSRunner.InitializeMemoEdit( ElementRef, ElementId, new
             {
+                ReplaceTab,
                 TabSize,
-                TabCharacter,
+                SoftTabs,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -261,14 +278,19 @@ namespace Blazorise
         [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
 
         /// <summary>
-        /// Defines the number of characters that tab key will override.
+        /// If set to true, <see cref="ReplaceTab"/> will insert a tab instead of cycle input focus.
         /// </summary>
-        [Parameter] public int? TabSize { get; set; }
+        [Parameter] public bool ReplaceTab { get; set; } = false;
 
         /// <summary>
-        /// Defines the character to be used as a placeholder for tab.
+        /// Defines the number of characters that tab key will override.
         /// </summary>
-        [Parameter] public char TabCharacter { get; set; } = ' ';
+        [Parameter] public int TabSize { get; set; } = 4;
+
+        /// <summary>
+        /// If set to true, spaces will be used instead of a tab character
+        /// </summary>
+        [Parameter] public bool SoftTabs { get; set; } = true;
 
         #endregion
     }

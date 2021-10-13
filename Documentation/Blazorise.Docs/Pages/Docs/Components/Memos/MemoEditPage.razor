@@ -129,10 +129,13 @@
     <DocsAttributesItem Name="DelayTextOnKeyPressInterval" Type="bool?" Default="null">
         Interval in milliseconds that entered text will be delayed from submitting to the internal value.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="TabSize" Type="int?" Default="null">
+    <DocsAttributesItem Name="ReplaceTab" Type="bool" Default="false">
+        If set to true, ReplaceTab will insert a tab instead of cycle input focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabSize" Type="int" Default="4">
         Defines the number of characters that tab key will override.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="TabCharacter" Type="char" Default="space">
-        Defines the character to be used as a placeholder for tab.
+    <DocsAttributesItem Name="SoftTabs" Type="bool" Default="true">
+        If set to true, spaces will be used instead of a tab character
     </DocsAttributesItem>
 </DocsAttributes>
