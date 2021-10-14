@@ -24,6 +24,8 @@ namespace Blazorise.Bulma
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
 
+            serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
+
             return serviceCollection;
         }
 

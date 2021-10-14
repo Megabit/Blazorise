@@ -12,17 +12,6 @@ namespace Blazorise.Providers
         public EmptyJSRunner( IJSRuntime runtime )
             : base( runtime )
         {
-
-        }
-
-        public override ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
-        {
-            throw new NotImplementedException();
-        }
-
-        public override ValueTask CloseModal( ElementReference elementRef )
-        {
-            throw new NotImplementedException();
         }
     }
 }

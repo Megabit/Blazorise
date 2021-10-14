@@ -7,9 +7,9 @@ using Microsoft.JSInterop;
 namespace Blazorise
 {
     /// <summary>
-    /// Default implementation of the button JS module.
+    /// Default implementation of the modal JS module.
     /// </summary>
-    public class JSButtonModule : BaseJSModule, IJSButtonModule
+    public abstract class JSModalModule : BaseJSModule, IJSModalModule
     {
         #region Constructors
 
@@ -17,7 +17,7 @@ namespace Blazorise
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public JSButtonModule( IJSRuntime jsRuntime )
+        public JSModalModule( IJSRuntime jsRuntime )
             : base( jsRuntime )
         {
         }
@@ -27,30 +27,23 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, options );
+            await moduleInstance.InvokeVoidAsync( "open", elementRef, scrollToTop );
         }
 
         /// <inheritdoc/>
-        public virtual async ValueTask Destroy( string elementId )
+        public virtual async ValueTask CloseModal( ElementReference elementRef )
         {
             if ( moduleTask != null )
             {
                 var moduleInstance = await moduleTask;
 
-                await moduleInstance.InvokeVoidAsync( "destroy", elementId );
+                await moduleInstance.InvokeVoidAsync( "close", elementRef );
             }
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise/button.js";
 
         #endregion
     }

@@ -16,22 +16,5 @@ window.blazoriseMaterial = {
                 element.classList.add("b-tooltip-inline");
             }
         }
-    },
-
-    modal: {
-        open: (element, scrollToTop) => {
-            window.blazorise.addClassToBody("modal-open");
-
-            if (scrollToTop) {
-                const modalBody = element.querySelector('.modal-body');
-
-                if (modalBody) {
-                    modalBody.scrollTop = 0;
-                }
-            }
-        },
-        close: (element) => {
-            window.blazorise.removeClassFromBody("modal-open");
-        }
     }
 };

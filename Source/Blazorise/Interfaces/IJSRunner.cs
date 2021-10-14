@@ -167,14 +167,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Modal
-
-        ValueTask OpenModal( ElementReference elementRef, bool scrollToTop );
-
-        ValueTask CloseModal( ElementReference elementRef );
-
-        #endregion
-
         #region Table
 
         ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId );

@@ -29,6 +29,8 @@ namespace Blazorise.AntDesign
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
 
+            serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
+
             return serviceCollection;
         }
 

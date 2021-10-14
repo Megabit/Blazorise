@@ -24,6 +24,8 @@ namespace Blazorise.Material
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
 
+            serviceCollection.AddScoped<IJSModalModule, Modules.MaterialJSModalModule>();
+
             return serviceCollection;
         }
 

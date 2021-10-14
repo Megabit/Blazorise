@@ -26,6 +26,8 @@ namespace Blazorise.Bootstrap5
 
             serviceCollection.AddBootstrap5Components();
 
+            serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
+
             return serviceCollection;
         }
 

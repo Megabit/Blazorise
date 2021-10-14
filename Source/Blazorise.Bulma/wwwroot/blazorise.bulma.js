@@ -20,18 +20,5 @@ window.blazoriseBulma = {
     },
     activateDatePicker: (elementId) => {
         return true;
-    },
-    modal: {
-        open: (element, scrollToTop) => {
-            if (scrollToTop) {
-                const modalBody = element.querySelector('.modal-card-body');
-
-                if (modalBody) {
-                    modalBody.scrollTop = 0;
-                }
-            }
-        },
-        close: (element) => {
-        }
     }
 };

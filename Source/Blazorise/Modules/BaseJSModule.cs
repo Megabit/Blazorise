@@ -84,12 +84,9 @@ namespace Blazorise
         /// </summary>
         protected bool AsyncDisposed { get; private set; }
 
-        private string ModuleFilePath
-            => Path.Combine( $"./_content/Blazorise/{ModuleFileName}.js" );
-
         /// <inheritdoc/>
         public Task<IJSObjectReference> Module
-            => moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFilePath ).AsTask();
+            => moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
 
         /// <inheritdoc/>
         public abstract string ModuleFileName { get; }

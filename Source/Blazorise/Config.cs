@@ -52,7 +52,7 @@ namespace Blazorise
             serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 
             serviceCollection.AddScoped<IJSButtonModule, JSButtonModule>();
-
+            
             return serviceCollection;
         }
 
