@@ -655,7 +655,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Toggles DetailRow while evaluating the <see cref="DetailRowTrigger"/>  
+        /// Toggles DetailRow while evaluating the <see cref="DetailRowTrigger"/> if provided.
         /// Use <paramref name="forceDetailRow"/> to ignore <see cref="DetailRowTrigger"/> and toggle the DetailRow.
         /// </summary>
         /// <param name="item">Row item.</param>
@@ -667,11 +667,11 @@ namespace Blazorise.DataGrid
             if ( rowInfo is not null )
             {
                 if ( forceDetailRow )
-                    rowInfo.ToggleRowDetail();
+                    rowInfo.ToggleDetailRow();
                 else if ( DetailRowTrigger is not null )
                     rowInfo.SetRowDetail( DetailRowTrigger( item ) );
                 else
-                    rowInfo.ToggleRowDetail();
+                    rowInfo.ToggleDetailRow();
                 return InvokeAsync( StateHasChanged );
             }
 

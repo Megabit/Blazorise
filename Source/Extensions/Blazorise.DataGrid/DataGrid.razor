@@ -226,7 +226,7 @@
         else
         {
             <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
-            if ( DetailRowTemplate != null && ( GetRowInfo( item )?.ShowDetail ?? false ) )
+            if ( DetailRowTemplate != null && ( GetRowInfo( item )?.HasDetailRow ?? false ) )
             {
                 <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
                     @DetailRowTemplate( item )
