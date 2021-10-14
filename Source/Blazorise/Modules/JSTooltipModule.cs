@@ -7,9 +7,9 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules
 {
     /// <summary>
-    /// Default implementation of the button JS module.
+    /// Default implementation of the tooltip JS module.
     /// </summary>
-    public class JSButtonModule : BaseJSModule, IJSButtonModule
+    public abstract class JSTooltipModule : BaseJSModule, IJSTooltipModule
     {
         #region Constructors
 
@@ -17,7 +17,7 @@ namespace Blazorise.Modules
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public JSButtonModule( IJSRuntime jsRuntime )
+        public JSTooltipModule( IJSRuntime jsRuntime )
             : base( jsRuntime )
         {
         }
@@ -35,22 +35,26 @@ namespace Blazorise.Modules
         }
 
         /// <inheritdoc/>
-        public virtual async ValueTask Destroy( string elementId )
+        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
         {
             if ( moduleTask != null )
             {
                 var moduleInstance = await moduleTask;
 
-                await moduleInstance.InvokeVoidAsync( "destroy", elementId );
+                await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
             }
         }
 
-        #endregion
-
-        #region Properties
-
         /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise/button.js";
+        public virtual async ValueTask UpdateContent( ElementReference elementRef, string elementId, string content )
+        {
+            if ( moduleTask != null )
+            {
+                var moduleInstance = await moduleTask;
+
+                await moduleInstance.InvokeVoidAsync( "updateContent", elementId );
+            }
+        }
 
         #endregion
     }

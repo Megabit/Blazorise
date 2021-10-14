@@ -51,7 +51,7 @@ namespace Blazorise
         {
             if ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateTooltipContent( ElementRef, ElementId, text ) );
+                ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, text ) );
             }
 
             return base.SetParametersAsync( parameters );
@@ -63,7 +63,7 @@ namespace Blazorise
             // try to detect if inline is needed
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeTooltip( ElementRef, ElementId, new
+                await JSModule.Initialize( ElementRef, ElementId, new
                 {
                     Text,
                     Placement = ClassProvider.ToTooltipPlacement( Placement ),
@@ -87,7 +87,7 @@ namespace Blazorise
             {
                 if ( Rendered )
                 {
-                    var task = JSRunner.DestroyTooltip( ElementRef, ElementId );
+                    var task = JSModule.Destroy( ElementRef, ElementId );
 
                     try
                     {
@@ -124,6 +124,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSButtonModule"/> instance.
+        /// </summary>
+        [Inject] public IJSTooltipModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets a regular tooltip's content. 

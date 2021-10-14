@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Blazorise.Modules;
+using Microsoft.JSInterop;
 
 namespace Blazorise.Bulma.Modules
 {

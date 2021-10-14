@@ -16,7 +16,6 @@ namespace Blazorise.Bulma
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )
@@ -25,6 +24,7 @@ namespace Blazorise.Bulma
             }
 
             serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
 
             return serviceCollection;
         }

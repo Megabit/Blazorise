@@ -29,6 +29,7 @@ namespace Blazorise.AntDesign
             }
 
             serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.AntDesignJSTooltipModule>();
 
             return serviceCollection;
         }

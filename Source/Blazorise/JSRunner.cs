@@ -11,7 +11,7 @@ using Microsoft.JSInterop;
 namespace Blazorise
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public abstract class JSRunner : IJSRunner
+    public class JSRunner : IJSRunner
     {
         #region Members
 
@@ -358,25 +358,6 @@ namespace Blazorise
         public virtual ValueTask AddThemeVariable( string name, string value )
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.theme.addVariable", name, value );
-        }
-
-        #endregion
-
-        #region Tooltip
-
-        public virtual ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
-        }
-
-        public virtual ValueTask DestroyTooltip( ElementReference elementRef, string elementId )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.tooltip.destroy", elementRef, elementId );
-        }
-
-        public virtual ValueTask UpdateTooltipContent( ElementReference elementRef, string elementId, string content )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.tooltip.updateContent", elementRef, elementId, content );
         }
 
         #endregion

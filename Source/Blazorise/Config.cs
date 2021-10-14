@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.Providers;
 using Blazorise.Themes;
 using Blazorise.Utilities;
@@ -51,8 +52,10 @@ namespace Blazorise
 
             serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 
+            serviceCollection.AddScoped<IJSRunner, JSRunner>();
+
             serviceCollection.AddScoped<IJSButtonModule, JSButtonModule>();
-            
+
             return serviceCollection;
         }
 

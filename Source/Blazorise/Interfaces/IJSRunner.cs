@@ -157,16 +157,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Tooltip
-
-        ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options );
-
-        ValueTask DestroyTooltip( ElementReference elementRef, string elementId );
-
-        ValueTask UpdateTooltipContent( ElementReference elementRef, string elementId, string content );
-
-        #endregion
-
         #region Table
 
         ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId );

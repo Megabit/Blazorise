@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.Modules
 {
     /// <inheritdoc/>
     public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable

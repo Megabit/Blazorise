@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.Modules
 {
     /// <summary>
     /// Default implementation of the modal JS module.

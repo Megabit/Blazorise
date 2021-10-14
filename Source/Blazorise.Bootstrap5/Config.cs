@@ -21,12 +21,12 @@ namespace Blazorise.Bootstrap5
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, Bootstrap5StyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, BootstrapJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
 
             serviceCollection.AddBootstrap5Components();
 
             serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
             return serviceCollection;
         }

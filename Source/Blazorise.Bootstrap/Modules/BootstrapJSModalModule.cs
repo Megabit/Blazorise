@@ -1,8 +1,9 @@
-﻿using Microsoft.JSInterop;
+﻿using Blazorise.Modules;
+using Microsoft.JSInterop;
 
 namespace Blazorise.Bootstrap.Modules
 {
-    internal class BootstrapJSModalModule : JSModalModule
+    public class BootstrapJSModalModule : JSModalModule
     {
         public BootstrapJSModalModule( IJSRuntime jsRuntime ) : base( jsRuntime )
         {

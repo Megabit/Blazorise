@@ -16,7 +16,6 @@ namespace Blazorise.Material
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )
@@ -25,6 +24,7 @@ namespace Blazorise.Material
             }
 
             serviceCollection.AddScoped<IJSModalModule, Modules.MaterialJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.MaterialJSTooltipModule>();
 
             return serviceCollection;
         }
