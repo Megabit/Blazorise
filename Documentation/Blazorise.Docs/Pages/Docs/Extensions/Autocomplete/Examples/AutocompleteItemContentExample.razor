@@ -12,6 +12,13 @@
               FreeTyping
               CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <ItemContent>
+        <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+            <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+            <Small>Country Flag</Small>
+        </Div>
+        <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+    </ItemContent>
 </Autocomplete>
 
 <Field Horizontal="true">
