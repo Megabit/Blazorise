@@ -70,7 +70,10 @@ namespace Blazorise
 
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
+                await JSModule.Initialize( ElementRef, ElementId, new
+                {
+                    PreventDefaultOnSubmit
+                } );
             } );
 
             LoadingTemplate ??= ProvideDefaultLoadingTemplate();
@@ -100,7 +103,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    var task = JSRunner.DestroyButton( ElementId );
+                    var task = JSModule.Destroy( ElementId );
 
                     try
                     {
@@ -283,6 +286,11 @@ namespace Blazorise
         /// Gets the size based on the theme settings.
         /// </summary>
         protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSButtonModule"/> instance.
+        /// </summary>
+        [Inject] public IJSButtonModule JSModule { get; set; }
 
         /// <summary>
         /// Occurs when the button is clicked.

@@ -51,14 +51,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Button
-
-        ValueTask InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit );
-
-        ValueTask DestroyButton( string elementId );
-
-        #endregion
-
         #region TextEdit
 
         ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask );

@@ -91,20 +91,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Button
-
-        public virtual ValueTask InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
-        }
-
-        public ValueTask DestroyButton( string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );
-        }
-
-        #endregion
-
         #region TextEdit
 
         public ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
