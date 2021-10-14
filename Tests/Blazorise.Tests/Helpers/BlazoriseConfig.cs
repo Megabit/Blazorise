@@ -2,6 +2,7 @@
 using System;
 using Blazorise.Bootstrap;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,6 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IEditContextValidator>( new EditContextValidator( new ValidationMessageLocalizerAttributeFinder() ) );
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
-            services.AddSingleton<IJSRunner>( new BootstrapJSRunner( new Mock<IJSRuntime>().Object ) );
             services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator( new Mock<IThemeCache>().Object ) );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
             services.AddSingleton<IValidationHandlerFactory, ValidationHandlerFactory>();
@@ -36,6 +36,10 @@ namespace Blazorise.Tests.Helpers
 
             services.AddSingleton( configureOptions );
             services.AddSingleton<BlazoriseOptions>();
+
+            services.AddScoped<IJSButtonModule, JSButtonModule>();
+            services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
+            services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
         }
     }
 }
