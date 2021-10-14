@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.Modules
 {
     /// <summary>
     /// Base contract for all JS modules.

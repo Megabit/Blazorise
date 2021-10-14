@@ -341,11 +341,6 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.select", elementRef, elementId, focus );
         }
 
-        public ValueTask<string> GetBreakpoint()
-        {
-            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.breakpoint.getBreakpoint" );
-        }
-
         public ValueTask ScrollIntoView( string anchorTarget )
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
@@ -381,30 +376,6 @@ namespace Blazorise
 
         public ValueTask DestroyTableResizable( ElementReference elementRef, string elementId )
             => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyResizable", elementRef, elementId );
-
-        #endregion
-
-        #region Closables
-
-        public ValueTask RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementRef, dotNetObjectRef );
-        }
-
-        public ValueTask UnregisterClosableComponent( ICloseActivator component )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementRef );
-        }
-
-        public ValueTask RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.breakpoint.registerBreakpointComponent", elementId, dotNetObjectRef );
-        }
-
-        public ValueTask UnregisterBreakpointComponent( IBreakpointActivator component )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.breakpoint.unregisterBreakpointComponent", component.ElementId );
-        }
 
         #endregion
 

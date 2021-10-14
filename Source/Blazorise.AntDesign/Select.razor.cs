@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -56,7 +57,7 @@ namespace Blazorise.AntDesign
             if ( disposing && Rendered )
             {
                 // TODO: switch to IAsyncDisposable
-                _ = JSRunner.UnregisterClosableComponent( this );
+                _ = JSClosableModule.Unregister( this );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
@@ -94,7 +95,7 @@ namespace Blazorise.AntDesign
             // when validation is triggered the input can be pushed down by the error messages.
             elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
 
-            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+            await JSClosableModule.Register( dotNetObjectRef, ElementRef );
 
             Expanded = true;
 
@@ -104,7 +105,7 @@ namespace Blazorise.AntDesign
 
         private async Task Collapse()
         {
-            await JSRunner.UnregisterClosableComponent( this );
+            await JSClosableModule.Unregister( this );
 
             Expanded = false;
         }
@@ -318,6 +319,11 @@ namespace Blazorise.AntDesign
 
         string DropdownInnerStyleNames
             => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
         #endregion
     }

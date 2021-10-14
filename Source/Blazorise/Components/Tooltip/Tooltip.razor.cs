@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -126,7 +127,7 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
-        /// Gets or sets the <see cref="IJSButtonModule"/> instance.
+        /// Gets or sets the <see cref="IJSTooltipModule"/> instance.
         /// </summary>
         [Inject] public IJSTooltipModule JSModule { get; set; }
 

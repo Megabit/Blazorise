@@ -191,73 +191,6 @@ window.blazorise = {
         }
     },
 
-    // holds the list of components that are triggers to close other components
-    closableComponents: [],
-
-    addClosableComponent: (elementId, dotnetAdapter) => {
-        window.blazorise.closableComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
-    },
-
-    findClosableComponent: (elementId) => {
-        for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
-            if (window.blazorise.closableComponents[index].elementId === elementId)
-                return window.blazorise.closableComponents[index];
-        }
-        return null;
-    },
-
-    findClosableComponentIndex: (elementId) => {
-        for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
-            if (window.blazorise.closableComponents[index].elementId === elementId)
-                return index;
-        }
-        return -1;
-    },
-
-    isClosableComponent: (elementId) => {
-        for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
-            if (window.blazorise.closableComponents[index].elementId === elementId)
-                return true;
-        }
-        return false;
-    },
-
-    registerClosableComponent: (element, dotnetAdapter) => {
-        if (element) {
-            if (window.blazorise.isClosableComponent(element.id) !== true) {
-                window.blazorise.addClosableComponent(element.id, dotnetAdapter);
-            }
-        }
-    },
-
-    unregisterClosableComponent: (element) => {
-        if (element) {
-            const index = window.blazorise.findClosableComponentIndex(element.id);
-            if (index !== -1) {
-                window.blazorise.closableComponents.splice(index, 1);
-            }
-        }
-    },
-
-    tryClose: (closable, targetElementId, isEscapeKey, isChildClicked) => {
-        let request = new Promise((resolve, reject) => {
-            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey ? 'escape' : 'leave', isChildClicked)
-                .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
-                .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
-        });
-
-        if (request) {
-            request
-                .then((response) => {
-                    if (response.status === 'ok') {
-                        response.dotnetAdapter.invokeMethodAsync('Close', isEscapeKey ? 'escape' : 'leave')
-                            // If the user navigates to another page then it will raise exception because the reference to the component cannot be found.
-                            // In that case just remove the elementId from the list.
-                            .catch(() => window.blazorise.unregisterClosableComponent(response.elementId));
-                    }
-                });
-        }
-    },
     focus: (element, elementId, scrollToElement) => {
         element = window.blazorise.utils.getRequiredElement(element, elementId);
 
@@ -1283,54 +1216,6 @@ window.blazorise = {
         this.elementId = elementId;
     },
 
-    breakpoint: {
-        // Get the current breakpoint
-        getBreakpoint: function () {
-            return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
-        },
-
-        // holds the list of components that are triggers to breakpoint
-        breakpointComponents: [],
-
-        lastBreakpoint: null,
-
-        addBreakpointComponent: (elementId, dotnetAdapter) => {
-            window.blazorise.breakpoint.breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
-        },
-
-        findBreakpointComponentIndex: (elementId) => {
-            for (index = 0; index < window.blazorise.breakpoint.breakpointComponents.length; ++index) {
-                if (window.blazorise.breakpoint.breakpointComponents[index].elementId === elementId)
-                    return index;
-            }
-            return -1;
-        },
-
-        isBreakpointComponent: (elementId) => {
-            for (index = 0; index < window.blazorise.breakpoint.breakpointComponents.length; ++index) {
-                if (window.blazorise.breakpoint.breakpointComponents[index].elementId === elementId)
-                    return true;
-            }
-            return false;
-        },
-
-        registerBreakpointComponent: (elementId, dotnetAdapter) => {
-            if (window.blazorise.breakpoint.isBreakpointComponent(elementId) !== true) {
-                window.blazorise.breakpoint.addBreakpointComponent(elementId, dotnetAdapter);
-            }
-        },
-
-        unregisterBreakpointComponent: (elementId) => {
-            const index = window.blazorise.breakpoint.findBreakpointComponentIndex(elementId);
-            if (index !== -1) {
-                window.blazorise.breakpoint.breakpointComponents.splice(index, 1);
-            }
-        },
-
-        onBreakpoint: (dotnetAdapter, currentBreakpoint) => {
-            dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
-        }
-    },
     table: {
         initializeTableFixedHeader: function (element, elementId) {
             let resizeTimeout = null
@@ -1551,24 +1436,6 @@ document.addEventListener('keyup', function handler(evt) {
         }
     }
 });
-
-// Recalculate breakpoint on resize
-window.addEventListener('resize', function () {
-    if (window.blazorise.breakpoint.breakpointComponents && window.blazorise.breakpoint.breakpointComponents.length > 0) {
-        var currentBreakpoint = window.blazorise.breakpoint.getBreakpoint();
-
-        if (window.blazorise.breakpoint.lastBreakpoint !== currentBreakpoint) {
-            window.blazorise.breakpoint.lastBreakpoint = currentBreakpoint;
-
-            for (index = 0; index < window.blazorise.breakpoint.breakpointComponents.length; ++index) {
-                window.blazorise.breakpoint.onBreakpoint(window.blazorise.breakpoint.breakpointComponents[index].dotnetAdapter, currentBreakpoint);
-            }
-        }
-    }
-});
-
-// Set initial breakpoint
-window.blazorise.breakpoint.lastBreakpoint = window.blazorise.breakpoint.getBreakpoint();
 
 function getFileById(elem, fileId) {
     var file = elem._blazorFilesById[fileId];

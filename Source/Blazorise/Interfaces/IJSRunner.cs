@@ -39,8 +39,6 @@ namespace Blazorise
 
         ValueTask Select( ElementReference elementRef, string elementId, bool focus );
 
-        ValueTask<string> GetBreakpoint();
-
         ValueTask ScrollIntoView( string anchorTarget );
 
         #endregion
@@ -170,18 +168,6 @@ namespace Blazorise
         ValueTask InitializeTableResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode );
 
         ValueTask DestroyTableResizable( ElementReference elementRef, string elementId );
-
-        #endregion
-
-        #region Closables
-
-        ValueTask RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef );
-
-        ValueTask UnregisterClosableComponent( ICloseActivator component );
-
-        ValueTask RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId );
-
-        ValueTask UnregisterBreakpointComponent( IBreakpointActivator component );
 
         #endregion
     }

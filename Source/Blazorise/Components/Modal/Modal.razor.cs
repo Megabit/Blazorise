@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -120,7 +121,7 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    var unregisterClosableTask = JSRunner.UnregisterClosableComponent( this );
+                    var unregisterClosableTask = JSClosableModule.Unregister( this );
 
                     try
                     {
@@ -144,7 +145,7 @@ namespace Blazorise
                 // Sometimes user can navigates to another page based on the action runned on modal. The problem is
                 // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
                 // we need to close modal and dispose of any claassnames in case there is any left.
-                var closeModalTask = JSModule.CloseModal( ElementRef );
+                var closeModalTask = JSModalModule.CloseModal( ElementRef );
 
                 try
                 {
@@ -276,9 +277,9 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSModule.OpenModal( ElementRef, ScrollToTop );
+                    await JSModalModule.OpenModal( ElementRef, ScrollToTop );
 
-                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
                 } );
 
                 // only one component can be focused
@@ -306,9 +307,9 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSModule.CloseModal( ElementRef );
+                    await JSModalModule.CloseModal( ElementRef );
 
-                    await JSRunner.UnregisterClosableComponent( this );
+                    await JSClosableModule.Unregister( this );
                 } );
             }
 
@@ -432,7 +433,12 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the <see cref="IJSModalModule"/> instance.
         /// </summary>
-        [Inject] public IJSModalModule JSModule { get; set; }
+        [Inject] public IJSModalModule JSModalModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
         /// <summary>
         /// Defines the visibility of modal dialog.
