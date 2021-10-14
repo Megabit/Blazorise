@@ -37,6 +37,7 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton( configureOptions );
             services.AddSingleton<BlazoriseOptions>();
 
+            services.AddScoped<IJSRunner, JSRunner>();
             services.AddScoped<IJSButtonModule, JSButtonModule>();
             services.AddScoped<IJSClosableModule, JSClosableModule>();
             services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
