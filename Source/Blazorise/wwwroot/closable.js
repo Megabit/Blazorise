@@ -75,6 +75,12 @@ export function unregisterClosableComponent(element) {
     }
 }
 
+function hasParentInTree(element, parentElementId) {
+    if (!element.parentElement) return false;
+    if (element.parentElement.id === parentElementId) return true;
+    return hasParentInTree(element.parentElement, parentElementId);
+}
+
 document.addEventListener('mousedown', function handler(evt) {
     lastClickedDocumentElement = evt.target;
 });
