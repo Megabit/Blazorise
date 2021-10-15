@@ -191,7 +191,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public virtual Task Select( bool focus = true )
         {
-            return JSRunner.Select( ElementRef, ElementId, focus ).AsTask();
+            return JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
         }
 
         /// <summary>

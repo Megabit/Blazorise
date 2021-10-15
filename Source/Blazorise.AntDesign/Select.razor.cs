@@ -93,7 +93,7 @@ namespace Blazorise.AntDesign
             // An element location must be known every time we need to show the dropdown. The reason is mainly
             // because sometimes input can have different offset based on the changes on the page. For example
             // when validation is triggered the input can be pushed down by the error messages.
-            elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
+            elementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
             await JSClosableModule.Register( dotNetObjectRef, ElementRef );
 
@@ -320,10 +320,9 @@ namespace Blazorise.AntDesign
         string DropdownInnerStyleNames
             => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
 
-        /// <summary>
-        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
-        /// </summary>
         [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         #endregion
     }

@@ -11,32 +11,6 @@ namespace Blazorise
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IJSRunner
     {
-        #region Utilities
-
-        ValueTask SetProperty( ElementReference elementRef, string property, object value );
-
-        ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
-
-        ValueTask SetTextValue( ElementReference elementRef, object value );
-
-        ValueTask SetCaret( ElementReference elementRef, int caret );
-
-        ValueTask<int> GetCaret( ElementReference elementRef );
-
-        ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement );
-
-        ValueTask Select( ElementReference elementRef, string elementId, bool focus );
-
-        ValueTask ScrollIntoView( string anchorTarget );
-
-        #endregion
-
-        #region Theme
-
-        ValueTask AddThemeVariable( string name, string value );
-
-        #endregion
-
         #region DatePicker
 
         ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options );

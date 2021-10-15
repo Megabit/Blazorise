@@ -74,6 +74,70 @@ namespace Blazorise.Modules
             return await moduleInstance.InvokeAsync<bool>( "parentHasClass", elementRef, classname );
         }
 
+        /// <inheritdoc/>
+        public virtual async ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "focus", elementRef, elementId, scrollToElement );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask Select( ElementReference elementRef, string elementId, bool focus )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "select", elementRef, elementId, focus );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask ScrollAnchorIntoView( string anchorTarget )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "scrollAnchorIntoView", anchorTarget );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask SetCaret( ElementReference elementRef, int caret )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "setCaret", elementRef, caret );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask<int> GetCaret( ElementReference elementRef )
+        {
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<int>( "getCaret", elementRef );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask SetTextValue( ElementReference elementRef, object value )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeAsync<int>( "setTextValue", elementRef, value );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask SetProperty( ElementReference elementRef, string property, object value )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "setProperty", elementRef, property, value );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<DomElement>( "getElementInfo", elementRef, elementId );
+        }
+
         #endregion
 
         #region Properties

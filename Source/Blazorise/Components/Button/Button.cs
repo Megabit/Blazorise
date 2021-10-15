@@ -156,7 +156,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Focus( bool scrollToElement = true )
         {
-            return JSRunner.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
+            return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <inheritdoc/>
@@ -292,6 +292,11 @@ namespace Blazorise
         /// Gets or sets the <see cref="IJSButtonModule"/> instance.
         /// </summary>
         [Inject] public IJSButtonModule JSModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Occurs when the button is clicked.

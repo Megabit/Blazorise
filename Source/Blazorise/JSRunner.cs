@@ -32,35 +32,6 @@ namespace Blazorise
 
         #region Methods
 
-        #region Utilities
-
-        public ValueTask SetProperty( ElementReference elementRef, string property, object value )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setProperty", elementRef, property, value );
-        }
-
-        public ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
-        }
-
-        public ValueTask SetTextValue( ElementReference elementRef, object value )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
-        }
-
-        public ValueTask SetCaret( ElementReference elementRef, int caret )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setCaret", elementRef, caret );
-        }
-
-        public ValueTask<int> GetCaret( ElementReference elementRef )
-        {
-            return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
-        }
-
-        #endregion
-
         #region DatePicker
 
         public virtual ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )
@@ -183,30 +154,6 @@ namespace Blazorise
         public ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values )
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setSelectedOptions", elementId, values );
-        }
-
-        public ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
-        }
-
-        public ValueTask Select( ElementReference elementRef, string elementId, bool focus )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.select", elementRef, elementId, focus );
-        }
-
-        public ValueTask ScrollIntoView( string anchorTarget )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
-        }
-
-        #endregion
-
-        #region Theme
-
-        public virtual ValueTask AddThemeVariable( string name, string value )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.theme.addVariable", name, value );
         }
 
         #endregion

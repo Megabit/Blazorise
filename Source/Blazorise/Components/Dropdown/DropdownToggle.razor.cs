@@ -154,7 +154,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Focus( bool scrollToElement = true )
         {
-            return JSRunner.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
+            return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <summary>
@@ -236,6 +236,11 @@ namespace Blazorise
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
         /// </summary>
         [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Gets or sets the dropdown color.

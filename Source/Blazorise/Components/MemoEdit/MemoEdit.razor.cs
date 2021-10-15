@@ -92,11 +92,11 @@ namespace Blazorise
                 }
                 else
                 {
-                    var caret = await JSRunner.GetCaret( ElementRef );
+                    var caret = await JSUtilitiesModule.GetCaret( ElementRef );
 
                     await CurrentValueHandler( e?.Value?.ToString() );
 
-                    await JSRunner.SetCaret( ElementRef, caret );
+                    await JSUtilitiesModule.SetCaret( ElementRef, caret );
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public virtual async Task Select( bool focus = true )
         {
-            await JSRunner.Select( ElementRef, ElementId, focus );
+            await JSUtilitiesModule.Select( ElementRef, ElementId, focus );
         }
 
         #endregion
