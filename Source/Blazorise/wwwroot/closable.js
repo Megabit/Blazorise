@@ -1,4 +1,5 @@
-﻿const closableComponents = [];
+﻿let closableComponents = [];
+let lastClickedDocumentElement = null;
 
 function addClosableComponent(elementId, dotnetAdapter) {
     closableComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
@@ -73,3 +74,26 @@ export function unregisterClosableComponent(element) {
         }
     }
 }
+
+document.addEventListener('mousedown', function handler(evt) {
+    lastClickedDocumentElement = evt.target;
+});
+
+document.addEventListener('mouseup', function handler(evt) {
+    if (evt.button === 0 && evt.target === lastClickedDocumentElement && closableComponents && closableComponents.length > 0) {
+        const lastClosable = closableComponents[closableComponents.length - 1];
+        if (lastClosable) {
+            tryClose(lastClosable, evt.target.id, false, hasParentInTree(evt.target, lastClosable.elementId));
+        }
+    }
+});
+
+document.addEventListener('keyup', function handler(evt) {
+    if (evt.keyCode === 27 && closableComponents && closableComponents.length > 0) {
+        const lastClosable = closableComponents[closableComponents.length - 1];
+
+        if (lastClosable) {
+            tryClose(lastClosable, lastClosable.elementId, true, hasParentInTree(evt.target, lastClosable.elementId));
+        }
+    }
+});

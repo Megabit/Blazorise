@@ -54,6 +54,7 @@ namespace Blazorise
 
             serviceCollection.AddScoped<IJSRunner, JSRunner>();
 
+            serviceCollection.AddScoped<IJSUtilitiesModule, JSUtilitiesModule>();
             serviceCollection.AddScoped<IJSButtonModule, JSButtonModule>();
             serviceCollection.AddScoped<IJSClosableModule, JSClosableModule>();
             serviceCollection.AddScoped<IJSBreakpointModule, JSBreakpointModule>();

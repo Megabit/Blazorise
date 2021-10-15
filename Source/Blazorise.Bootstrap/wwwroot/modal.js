@@ -1,4 +1,4 @@
-﻿import { addClassToBody, removeClassFromBody } from "/_content/Blazorise/base.js";
+﻿import { addClassToBody, removeClassFromBody } from "/_content/Blazorise/utilities.js";
 
 export function open(element, scrollToTop) {
     // adjust modal and page padding BEFORE modal is shown
@@ -32,7 +32,8 @@ export function close(element) {
         modals = 0;
     }
 
-    if (modals === 0) {          removeClassFromBody("modal-open");
+    if (modals === 0) {
+        removeClassFromBody("modal-open");
     }
 
     document.body.setAttribute("data-modals", modals.toString());

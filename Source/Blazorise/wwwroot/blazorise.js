@@ -26,8 +26,6 @@ if (!window.blazorise) {
 }
 
 window.blazorise = {
-    lastClickedDocumentElement: null,
-
     utils: {
         getRequiredElement: (element, elementId) => {
             if (element)
@@ -1370,31 +1368,6 @@ window.blazorise = {
         }
     }
 };
-
-
-
-document.addEventListener('mousedown', function handler(evt) {
-    window.blazorise.lastClickedDocumentElement = evt.target;
-});
-
-document.addEventListener('mouseup', function handler(evt) {
-    if (evt.button === 0 && evt.target === window.blazorise.lastClickedDocumentElement && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
-        const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
-        if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, evt.target.id, false, hasParentInTree(evt.target, lastClosable.elementId));
-        }
-    }
-});
-
-document.addEventListener('keyup', function handler(evt) {
-    if (evt.keyCode === 27 && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
-        const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
-
-        if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true, hasParentInTree(evt.target, lastClosable.elementId));
-        }
-    }
-});
 
 function getFileById(elem, fileId) {
     var file = elem._blazorFilesById[fileId];
