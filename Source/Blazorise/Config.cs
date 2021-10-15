@@ -58,6 +58,8 @@ namespace Blazorise
             serviceCollection.AddScoped<IJSButtonModule, JSButtonModule>();
             serviceCollection.AddScoped<IJSClosableModule, JSClosableModule>();
             serviceCollection.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
+            serviceCollection.AddScoped<IJSTextEditModule, JSTextEditModule>();
+            serviceCollection.AddScoped<IJSNumericEditModule, JSNumericEditModule>();
 
             return serviceCollection;
         }

@@ -37,24 +37,6 @@ namespace Blazorise
 
         #endregion
 
-        #region TextEdit
-
-        ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask );
-
-        ValueTask DestroyTextEdit( ElementReference elementRef, string elementId );
-
-        #endregion
-
-        #region NumericEdit
-
-        ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
-
-        ValueTask UpdateNumericEdit( ElementReference elementRef, string elementId, object options );
-
-        ValueTask DestroyNumericEdit( ElementReference elementRef, string elementId );
-
-        #endregion
-
         #region FileEdit
 
         ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );

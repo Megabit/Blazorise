@@ -42,6 +42,9 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSButtonModule, JSButtonModule>();
             services.AddScoped<IJSClosableModule, JSClosableModule>();
             services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
+            services.AddScoped<IJSTextEditModule, JSTextEditModule>();
+            services.AddScoped<IJSNumericEditModule, JSNumericEditModule>();
+
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
         }

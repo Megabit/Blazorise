@@ -1,0 +1,31 @@
+﻿#region Using directives
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
+
+namespace Blazorise.Modules
+{
+    /// <summary>
+    /// Contracts for the <see cref="TextEdit"/> JS module.
+    /// </summary>
+    public interface IJSTextEditModule : IBaseJSModule
+    {
+        /// <summary>
+        /// Initializes the new <see cref="TextEdit"/> withing the JS module.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <param name="maskType">Type of the edit mask.</param>
+        /// <param name="editMask">Edit mask value.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask Initialize( ElementReference elementRef, string elementId, string maskType, string editMask );
+
+        /// <summary>
+        /// Removes the <see cref="TextEdit"/> from the JS module.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask Destroy( ElementReference elementRef, string elementId );
+    }
+}

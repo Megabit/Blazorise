@@ -61,39 +61,6 @@ namespace Blazorise
 
         #endregion
 
-        #region TextEdit
-
-        public ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
-        }
-
-        public ValueTask DestroyTextEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
-        }
-
-        #endregion
-
-        #region NumericEdit
-
-        public ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, options );
-        }
-
-        public ValueTask UpdateNumericEdit( ElementReference elementRef, string elementId, object options )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.update", elementRef, elementId, options );
-        }
-
-        public ValueTask DestroyNumericEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
-        }
-
-        #endregion
-
         #region FileEdit
 
         public ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
