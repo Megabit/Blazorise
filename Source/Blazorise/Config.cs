@@ -52,8 +52,6 @@ namespace Blazorise
 
             serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 
-            serviceCollection.AddScoped<IJSRunner, JSRunner>();
-
             serviceCollection.AddScoped<IJSUtilitiesModule, JSUtilitiesModule>();
             serviceCollection.AddScoped<IJSButtonModule, JSButtonModule>();
             serviceCollection.AddScoped<IJSClosableModule, JSClosableModule>();
@@ -83,8 +81,6 @@ namespace Blazorise
             serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
 
-            serviceCollection.AddScoped<IJSRunner, EmptyJSRunner>();
-
             return serviceCollection;
         }
 
@@ -110,19 +106,6 @@ namespace Blazorise
         public static IServiceCollection AddStyleProvider( this IServiceCollection serviceCollection, Func<IStyleProvider> styleProviderFactory )
         {
             serviceCollection.AddSingleton( ( p ) => styleProviderFactory() );
-
-            return serviceCollection;
-        }
-
-        /// <summary>
-        /// Registers a custom js runner.
-        /// </summary>
-        /// <param name="serviceCollection"></param>
-        /// <param name="jsRunnerFactory"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddJSRunner( this IServiceCollection serviceCollection, Func<IJSRunner> jsRunnerFactory )
-        {
-            serviceCollection.AddScoped( ( p ) => jsRunnerFactory() );
 
             return serviceCollection;
         }

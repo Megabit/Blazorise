@@ -10,10 +10,6 @@ namespace Blazorise.Tests.Mocks
     {
         public MockDateEdit( Validation validation = null, Expression<Func<T>> dateExpression = null )
         {
-            var mockRunner = new Mock<IJSRunner>();
-
-            base.JSRunner = mockRunner.Object;
-
             var mockIdGenerator = new Mock<IIdGenerator>();
 
             mockIdGenerator

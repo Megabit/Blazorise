@@ -314,11 +314,6 @@ namespace Blazorise
         [Inject] protected IIdGenerator IdGenerator { get; set; }
 
         /// <summary>
-        /// Gets or set the javascript runner.
-        /// </summary>
-        [Inject] protected IJSRunner JSRunner { get; set; }
-
-        /// <summary>
         /// Gets or sets the classname provider.
         /// </summary>
         [Inject]
