@@ -3,19 +3,31 @@ const breakpointComponents = [];
 let lastBreakpoint = null;
 
 // Recalculate breakpoint on resize
-window.addEventListener('resize', function () {
+if (window.attachEvent) {
+    window.attachEvent('onresize', windowResized);
+}
+else if (window.addEventListener) {
+    window.addEventListener('resize', windowResized, true);
+}
+else {
+    //The browser does not support Javascript event binding
+}
+
+function windowResized() {
     if (breakpointComponents && breakpointComponents.length > 0) {
         var currentBreakpoint = getBreakpoint();
 
         if (lastBreakpoint !== currentBreakpoint) {
             lastBreakpoint = currentBreakpoint;
 
+            let index = 0;
+
             for (index = 0; index < breakpointComponents.length; ++index) {
                 onBreakpoint(breakpointComponents[index].dotnetAdapter, currentBreakpoint);
             }
         }
     }
-});
+}
 
 // Set initial breakpoint
 lastBreakpoint = getBreakpoint();
