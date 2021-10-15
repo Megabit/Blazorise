@@ -75,24 +75,6 @@ namespace Blazorise
 
         #endregion
 
-        #region ColorPicker
-
-        ValueTask InitializeColorPicker( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
-
-        ValueTask DestroyColorPicker( ElementReference elementRef, string elementId );
-
-        ValueTask UpdateColorPickerValue( ElementReference elementRef, string elementId, object value );
-
-        ValueTask UpdateColorPickerOptions( ElementReference elementRef, string elementId, object options );
-
-        ValueTask UpdateColorPickerLocalization( ElementReference elementRef, string elementId, object localization );
-
-        ValueTask FocusColorPicker( ElementReference elementRef, string elementId, bool scrollToElement );
-
-        ValueTask SelectColorPicker( ElementReference elementRef, string elementId, bool focus );
-
-        #endregion
-
         #region Select
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
