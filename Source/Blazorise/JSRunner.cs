@@ -61,35 +61,6 @@ namespace Blazorise
 
         #endregion
 
-        #region FileEdit
-
-        public ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
-        }
-
-        public ValueTask DestroyFileEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
-        }
-
-        public ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
-        {
-            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", elementRef, fileEntryId, position, length );
-        }
-
-        public ValueTask ResetFileEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
-        }
-
-        public ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
-        }
-
-        #endregion
-
         #region DatePicker
 
         public virtual ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )

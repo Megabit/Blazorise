@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -91,7 +92,7 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new FileEditAdapter( this ) );
 
-            await JSRunner.InitializeFileEdit( dotNetObjectRef, ElementRef, ElementId );
+            await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -101,7 +102,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSRunner.DestroyFileEdit( ElementRef, ElementId );
+                var task = JSModule.Destroy( ElementRef, ElementId );
 
                 try
                 {
@@ -240,7 +241,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         internal Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            return new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
+            return new RemoteFileEntryStreamReader( JSModule, ElementRef, fileEntry, this, MaxMessageSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
@@ -252,7 +253,7 @@ namespace Blazorise
         /// <returns>Returns the stream for the uploaded file entry.</returns>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSRunner, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
+            return new RemoteFileEntryStream( JSModule, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
         }
 
         /// <summary>
@@ -261,7 +262,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask Reset()
         {
-            return JSRunner.ResetFileEdit( ElementRef, ElementId );
+            return JSModule.Reset( ElementRef, ElementId );
         }
 
         #endregion
@@ -288,6 +289,11 @@ namespace Blazorise
         /// Percentage of the current file-read status.
         /// </summary>
         protected double Progress;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSFileEditModule"/> instance.
+        /// </summary>
+        [Inject] public IJSFileEditModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.

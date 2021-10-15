@@ -37,20 +37,6 @@ namespace Blazorise
 
         #endregion
 
-        #region FileEdit
-
-        ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );
-
-        ValueTask DestroyFileEdit( ElementReference elementRef, string elementId );
-
-        ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default );
-
-        ValueTask ResetFileEdit( ElementReference elementRef, string elementId );
-
-        ValueTask OpenFileDialog( ElementReference elementRef, string elementId );
-
-        #endregion
-
         #region DatePicker
 
         ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options );
