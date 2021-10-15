@@ -211,28 +211,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Table
-
-        public ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeTableFixedHeader", elementRef, elementId );
-
-        public ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyTableFixedHeader", elementRef, elementId );
-
-        public ValueTask FixedHeaderScrollTableToPixels( ElementReference elementRef, string elementId, int pixels )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.fixedHeaderScrollTableToPixels", elementRef, elementId, pixels );
-
-        public ValueTask FixedHeaderScrollTableToRow( ElementReference elementRef, string elementId, int row )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.fixedHeaderScrollTableToRow", elementRef, elementId, row );
-
-        public ValueTask InitializeTableResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeResizable", elementRef, elementId, resizeMode );
-
-        public ValueTask DestroyTableResizable( ElementReference elementRef, string elementId )
-            => runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.destroyResizable", elementRef, elementId );
-
-        #endregion
-
         #endregion
 
         #region Properties

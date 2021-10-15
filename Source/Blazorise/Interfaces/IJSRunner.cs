@@ -68,22 +68,6 @@ namespace Blazorise
         ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values );
 
         #endregion
-
-        #region Table
-
-        ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId );
-
-        ValueTask DestroyTableFixedHeader( ElementReference elementRef, string elementId );
-
-        ValueTask FixedHeaderScrollTableToPixels( ElementReference elementRef, string elementId, int pixels );
-
-        ValueTask FixedHeaderScrollTableToRow( ElementReference elementRef, string elementId, int row );
-
-        ValueTask InitializeTableResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode );
-
-        ValueTask DestroyTableResizable( ElementReference elementRef, string elementId );
-
-        #endregion
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
