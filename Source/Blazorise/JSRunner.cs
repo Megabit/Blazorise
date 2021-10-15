@@ -34,35 +34,7 @@ namespace Blazorise
 
         #region Select
 
-        public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )
-        {
-            // All of this is because Blazor is not serializing types as it should! In this case nullable types
-            // are not working (enum?, int?, etc.) so we need to do it manually.
-
-            // get the selected values for JS as strings
-            var stringValues = await runtime.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
-
-            return stringValues?.Select( value =>
-            {
-                try
-                {
-                    if ( string.IsNullOrEmpty( value ) )
-                        return default;
-
-                    return Converters.ChangeType<TValue>( value );
-                }
-                catch
-                {
-                    return default;
-                }
-            } ).ToArray();
-        }
-
-        public ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setSelectedOptions", elementId, values );
-        }
-
+       
         #endregion
 
         #endregion

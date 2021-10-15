@@ -65,6 +65,7 @@ namespace Blazorise
             serviceCollection.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
             serviceCollection.AddScoped<IJSFileEditModule, JSFileEditModule>();
             serviceCollection.AddScoped<IJSTableModule, JSTableModule>();
+            serviceCollection.AddScoped<IJSSelectModule, JSSelectModule>();
 
             return serviceCollection;
         }

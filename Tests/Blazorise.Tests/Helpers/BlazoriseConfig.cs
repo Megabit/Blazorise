@@ -49,6 +49,7 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
             services.AddScoped<IJSFileEditModule, JSFileEditModule>();
             services.AddScoped<IJSTableModule, JSTableModule>();
+            services.AddScoped<IJSSelectModule, JSSelectModule>();
 
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();

@@ -13,9 +13,6 @@ namespace Blazorise
     {
         #region Select
 
-        ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
-
-        ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values );
 
         #endregion
     }
