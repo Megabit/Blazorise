@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -41,7 +42,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerValue( ElementRef, ElementId, dateString ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, dateString ) );
                 }
             }
 
@@ -54,7 +55,7 @@ namespace Blazorise
                 || readOnlyChanged
                 || disabledDatesChanged ) )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
                     DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
@@ -92,7 +93,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
+            await JSModule.Initialize( ElementRef, ElementId, new
             {
                 InputMode,
                 FirstDayOfWeek,
@@ -116,7 +117,7 @@ namespace Blazorise
             {
                 if ( Rendered )
                 {
-                    var task = JSRunner.DestroyDatePicker( ElementRef, ElementId );
+                    var task = JSModule.Destroy( ElementRef, ElementId );
 
                     try
                     {
@@ -159,7 +160,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateDatePicker( ElementRef, ElementId, DateFormat );
+            await JSModule.Activate( ElementRef, ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -213,7 +214,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask OpenAsync()
         {
-            return JSRunner.OpenDatePicker( ElementRef, ElementId );
+            return JSModule.Open( ElementRef, ElementId );
         }
 
         /// <summary>
@@ -222,7 +223,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask CloseAsync()
         {
-            return JSRunner.CloseDatePicker( ElementRef, ElementId );
+            return JSModule.Close( ElementRef, ElementId );
         }
 
         /// <summary>
@@ -231,19 +232,19 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask ToggleAsync()
         {
-            return JSRunner.ToggleDatePicker( ElementRef, ElementId );
+            return JSModule.Toggle( ElementRef, ElementId );
         }
 
         /// <inheritdoc/>
         public override async Task Focus( bool scrollToElement = true )
         {
-            await JSRunner.FocusDatePicker( ElementRef, ElementId, scrollToElement );
+            await JSModule.Focus( ElementRef, ElementId, scrollToElement );
         }
 
         /// <inheritdoc/>
         public override async Task Select( bool focus = true )
         {
-            await JSRunner.SelectDatePicker( ElementRef, ElementId, focus );
+            await JSModule.Select( ElementRef, ElementId, focus );
         }
 
         #endregion
@@ -265,6 +266,11 @@ namespace Blazorise
         /// Gets the date format based on the current <see cref="InputMode"/> settings.
         /// </summary>
         protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSDatePickerModule"/> instance.
+        /// </summary>
+        [Inject] public IJSDatePickerModule JSModule { get; set; }
 
         /// <summary>
         /// Converts the supplied date format into the internal date format.

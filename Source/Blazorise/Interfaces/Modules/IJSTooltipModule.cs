@@ -11,7 +11,7 @@ namespace Blazorise.Modules
     public interface IJSTooltipModule : IBaseJSModule
     {
         /// <summary>
-        /// Initializes the new tooltip withing the JS module.
+        /// Initializes the new tooltip within the JS module.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>

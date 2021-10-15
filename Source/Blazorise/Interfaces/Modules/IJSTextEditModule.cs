@@ -11,7 +11,7 @@ namespace Blazorise.Modules
     public interface IJSTextEditModule : IBaseJSModule
     {
         /// <summary>
-        /// Initializes the new <see cref="TextEdit"/> withing the JS module.
+        /// Initializes the new <see cref="TextEdit"/> within the JS module.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>

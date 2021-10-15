@@ -11,7 +11,7 @@ namespace Blazorise.Modules
     public interface IJSButtonModule : IBaseJSModule
     {
         /// <summary>
-        /// Initializes the new button withing the JS module.
+        /// Initializes the new button within the JS module.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>

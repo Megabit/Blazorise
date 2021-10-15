@@ -12,7 +12,7 @@ namespace Blazorise.Modules
     public interface IJSNumericEditModule
     {
         /// <summary>
-        /// Initializes the new <see cref="TextEdit"/> withing the JS module.
+        /// Initializes the new <see cref="TextEdit"/> within the JS module.
         /// </summary>
         /// <param name="dotNetObjectRef">Reference to the numeric adapter.</param>
         /// <param name="elementRef">Reference to the rendered element.</param>

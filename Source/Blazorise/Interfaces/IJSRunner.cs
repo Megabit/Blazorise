@@ -75,30 +75,6 @@ namespace Blazorise
 
         #endregion
 
-        #region TimePicker
-
-        ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options );
-
-        ValueTask DestroyTimePicker( ElementReference elementRef, string elementId );
-
-        ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options );
-
-        ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value );
-
-        ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options );
-
-        ValueTask OpenTimePicker( ElementReference elementRef, string elementId );
-
-        ValueTask CloseTimePicker( ElementReference elementRef, string elementId );
-
-        ValueTask ToggleTimePicker( ElementReference elementRef, string elementId );
-
-        ValueTask FocusTimePicker( ElementReference elementRef, string elementId, bool scrollToElement );
-
-        ValueTask SelectTimePicker( ElementReference elementRef, string elementId, bool focus );
-
-        #endregion
-
         #region ColorPicker
 
         ValueTask InitializeColorPicker( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options );

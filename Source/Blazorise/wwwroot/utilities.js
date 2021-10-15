@@ -30,3 +30,34 @@ export function addClassToBody(classname) {
 export function removeClassFromBody(classname) {
     removeClass(document.body, classname);
 }
+
+// sets the input focuses to the given element
+export function focus(element, elementId, scrollToElement) {
+    element = getRequiredElement(element, elementId);
+
+    if (element) {
+        element.focus({
+            preventScroll: !scrollToElement
+        });
+    }
+}
+
+// selects the given element
+export function select(element, elementId, focus) {
+    if (focus) {
+        focus(element, elementId, true);
+    }
+
+    element = getRequiredElement(element, elementId);
+
+    if (element) {
+        element.select();
+    }
+}
+
+function getRequiredElement(element, elementId) {
+    if (element)
+        return element;
+
+    return document.getElementById(elementId);
+}

@@ -144,60 +144,6 @@ namespace Blazorise
 
         #endregion
 
-        #region TimePicker
-
-        public virtual ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.initialize", elementRef, elementId, options );
-        }
-
-        public virtual ValueTask DestroyTimePicker( ElementReference elementRef, string elementId )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.destroy", elementRef, elementId );
-        }
-
-        public virtual ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options )
-        {
-            return ValueTask.CompletedTask;
-        }
-
-        public virtual ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.updateOptions", elementRef, elementId, options );
-        }
-
-        public virtual ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.updateValue", elementRef, elementId, value );
-        }
-
-        public virtual ValueTask OpenTimePicker( ElementReference elementRef, string elementId )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.open", elementRef, elementId );
-        }
-
-        public virtual ValueTask CloseTimePicker( ElementReference elementRef, string elementId )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.close", elementRef, elementId );
-        }
-
-        public virtual ValueTask ToggleTimePicker( ElementReference elementRef, string elementId )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.toggle", elementRef, elementId );
-        }
-
-        public virtual ValueTask FocusTimePicker( ElementReference elementRef, string elementId, bool scrollToElement )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.focus", elementRef, elementId, scrollToElement );
-        }
-
-        public virtual ValueTask SelectTimePicker( ElementReference elementRef, string elementId, bool focus )
-        {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.select", elementRef, elementId, focus );
-        }
-
-        #endregion
-
         #region ColorPicker
 
         public virtual ValueTask InitializeColorPicker( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
