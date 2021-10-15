@@ -37,47 +37,6 @@ window.blazorise = {
         }
     },
 
-    // adds a classname to the specified element
-    addClass: (element, classname) => {
-        element.classList.add(classname);
-    },
-
-    // removes a classname from the specified element
-    removeClass: (element, classname) => {
-        if (element.classList.contains(classname)) {
-            element.classList.remove(classname);
-        }
-    },
-
-    // toggles a classname on the given element id
-    toggleClass: (element, classname) => {
-        if (element) {
-            if (element.classList.contains(classname)) {
-                element.classList.remove(classname);
-            } else {
-                element.classList.add(classname);
-            }
-        }
-    },
-
-    // adds a classname to the body element
-    addClassToBody: (classname) => {
-        blazorise.addClass(document.body, classname);
-    },
-
-    // removes a classname from the body element
-    removeClassFromBody: (classname) => {
-        blazorise.removeClass(document.body, classname);
-    },
-
-    // indicates if parent node has a specified classname
-    parentHasClass: (element, classname) => {
-        if (element && element.parentElement) {
-            return element.parentElement.classList.contains(classname);
-        }
-        return false;
-    },
-
     // sets the value to the element property
     setProperty: (element, property, value) => {
         if (element && property) {

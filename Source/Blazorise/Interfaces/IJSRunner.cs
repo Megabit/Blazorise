@@ -13,18 +13,6 @@ namespace Blazorise
     {
         #region Utilities
 
-        ValueTask AddClass( ElementReference elementRef, string classname );
-
-        ValueTask RemoveClass( ElementReference elementRef, string classname );
-
-        ValueTask ToggleClass( ElementReference elementId, string classname );
-
-        ValueTask AddClassToBody( string classname );
-
-        ValueTask RemoveClassFromBody( string classname );
-
-        ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname );
-
         ValueTask SetProperty( ElementReference elementRef, string property, object value );
 
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );

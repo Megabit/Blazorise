@@ -34,36 +34,6 @@ namespace Blazorise
 
         #region Utilities
 
-        public ValueTask AddClass( ElementReference elementRef, string classname )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
-        }
-
-        public ValueTask RemoveClass( ElementReference elementRef, string classname )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.removeClass", elementRef, classname );
-        }
-
-        public ValueTask ToggleClass( ElementReference elementId, string classname )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.toggleClass", elementId, classname );
-        }
-
-        public ValueTask AddClassToBody( string classname )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.addClassToBody", classname );
-        }
-
-        public ValueTask RemoveClassFromBody( string classname )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.removeClassFromBody", classname );
-        }
-
-        public ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname )
-        {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
-        }
-
         public ValueTask SetProperty( ElementReference elementRef, string property, object value )
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setProperty", elementRef, property, value );
