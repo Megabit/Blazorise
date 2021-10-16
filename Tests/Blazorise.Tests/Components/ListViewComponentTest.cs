@@ -48,7 +48,6 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void ProvidedData_ShouldRender_ListItems()
         {
-
             // test
             var comp = RenderComponent<ListViewComponent>();
             var htmlLists = comp.FindAll( "li" );

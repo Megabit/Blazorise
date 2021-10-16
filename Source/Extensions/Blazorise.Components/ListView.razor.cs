@@ -41,9 +41,9 @@ namespace Blazorise.Components
         protected string BuildStyles()
         {
             StringBuilder sb = new();
-            if ( ! string.IsNullOrWhiteSpace( Height )) 
+            if ( !string.IsNullOrWhiteSpace( Height ) )
                 sb.Append( $"height:{Height};" );
-            if ( ! string.IsNullOrWhiteSpace( MaxHeight ) )
+            if ( !string.IsNullOrWhiteSpace( MaxHeight ) )
                 sb.Append( $"max-height:{MaxHeight};" );
             if ( !string.IsNullOrWhiteSpace( Style ) )
                 sb.Append( Style );
@@ -110,7 +110,7 @@ namespace Blazorise.Components
         /// Sets the ListView Height. 
         /// Defaults to empty.
         /// </summary>
-        [Parameter] public string Height { get; set; }  
+        [Parameter] public string Height { get; set; }
 
         /// <summary>
         /// Sets the ListView MaxHeight. 
