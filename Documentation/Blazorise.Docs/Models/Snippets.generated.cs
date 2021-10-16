@@ -2565,9 +2565,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
-        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-
-<script src=""_content/Blazorise.Charts/blazorise.charts.js""></script>";
+        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -2673,10 +2671,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>
-
-<script src=""_content/Blazorise.Charts/blazorise.charts.js""></script>
-<script src=""_content/Blazorise.Charts.Streaming/blazorise.charts.streaming.js""></script>";
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>";
 
         public const string DataGridAggregatesExample = @"@using Blazorise.Docs.Models
 
@@ -3289,8 +3284,6 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
-
-        public const string DataGridResourcesExample = @"<script src=""_content/Blazorise.DataGrid/blazorise.datagrid.js""></script>";
 
         public const string DataGridSelectingExample = @"@using Blazorise.Docs.Models
 
