@@ -65,8 +65,9 @@ namespace Blazorise.Tests.Helpers
 
             public static void AddTextEdit( BunitJSInterop jsInterop )
             {
-                jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime ).ModuleFileName )
-                         .SetupVoid( "initialize", _ => true );
+                var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true );
+                module.SetupVoid( "destroy", _ => true );
             }
 
             public static void AddDatePicker( BunitJSInterop jsInterop )
