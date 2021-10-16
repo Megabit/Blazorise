@@ -12,6 +12,7 @@ namespace Blazorise.Tests.Components
         public ButtonOnlyComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
         }
 
         [Fact]
@@ -27,6 +28,7 @@ namespace Blazorise.Tests.Components
             var comp = RenderComponent<ButtonOnlyComponent>();
 
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Contains( buttonOpen, comp.Markup );
             Assert.Contains( buttonClose, comp.Markup );
             Assert.Contains( buttonType, comp.Markup );

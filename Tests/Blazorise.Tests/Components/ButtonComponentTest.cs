@@ -13,9 +13,7 @@ namespace Blazorise.Tests.Components
         public ButtonComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
-            
-            this.JSInterop.SetupModule( new JSButtonModule( this.JSInterop.JSRuntime ).ModuleFileName )
-                .SetupVoid( "initialize", _ => true );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
         }
 
         [Fact]

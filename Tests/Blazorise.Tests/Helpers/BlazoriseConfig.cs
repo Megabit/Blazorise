@@ -53,5 +53,47 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
         }
+
+        public static class JSInterop
+        {
+            public static void AddButton( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true );
+                module.SetupVoid( "destroy", _ => true );
+            }
+
+            public static void AddTextEdit( BunitJSInterop jsInterop )
+            {
+                jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime ).ModuleFileName )
+                         .SetupVoid( "initialize", _ => true );
+            }
+
+            public static void AddDatePicker( BunitJSInterop jsInterop )
+            {
+                jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime ).ModuleFileName )
+                         .SetupVoid( "initialize", _ => true );
+            }
+
+            public static void AddCloseable( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSClosableModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.SetupVoid( "registerClosableComponent", _ => true );
+                module.SetupVoid( "unregisterClosableComponent", _ => true );
+            }
+
+            public static void AddNumericEdit( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSNumericEditModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true );
+                module.SetupVoid( "destroy", _ => true );
+            }
+
+            public static void AddSelect( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.Setup<String[]>( "getSelectedOptions", _ => true );
+            }
+        }
     }
 }

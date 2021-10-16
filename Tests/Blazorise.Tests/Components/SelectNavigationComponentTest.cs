@@ -13,6 +13,7 @@ namespace Blazorise.Tests.Components
         public SelectNavigationComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
             Services.AddSingleton<NavigationManager>( new Mock<NavigationManager>().Object );
         }
 

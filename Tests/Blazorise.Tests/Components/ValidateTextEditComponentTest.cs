@@ -10,6 +10,7 @@ namespace Blazorise.Tests.Components
         public ValidateTextEditComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
         }
 
         [Fact]

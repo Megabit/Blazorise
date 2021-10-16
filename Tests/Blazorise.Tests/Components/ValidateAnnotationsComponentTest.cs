@@ -16,6 +16,8 @@ namespace Blazorise.Tests.Components
         public ValidateAnnotationsComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
         }
 
         [Fact]
