@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -14,22 +15,68 @@ namespace Blazorise.Charts
     {
         #region Methods
 
+        protected override Task OnInitializedAsync()
+        {
+            if ( JSModule == null )
+            {
+                JSModule = new JSChartModule( JSRuntime );
+            }
+
+            return base.OnInitializedAsync();
+        }
+
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var jsModuleDestroyTask = JSModule.Destroy( ElementId );
+
+                    try
+                    {
+                        await jsModuleDestroyTask;
+                    }
+                    catch when ( jsModuleDestroyTask.IsCanceled )
+                    {
+                    }
+#if NET6_0_OR_GREATER
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+#endif
+
+                    var jsModuleDisposeTask = JSModule.DisposeAsync();
+
+                    try
+                    {
+                        await jsModuleDisposeTask;
+                    }
+                    catch when ( jsModuleDisposeTask.IsCanceled )
+                    {
+                    }
+#if NET6_0_OR_GREATER
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+#endif
+
+                    if ( DotNetObjectRef != null )
+                    {
+                        DotNetObjectRef.Dispose();
+                        DotNetObjectRef = null;
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Chart() );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                _ = JS.Destroy( JSRuntime, ElementId );
-                JS.DisposeDotNetObjectRef( DotNetObjectRef );
-            }
-
-            base.Dispose( disposing );
         }
 
         #endregion
@@ -40,6 +87,8 @@ namespace Blazorise.Charts
         protected override bool ShouldAutoGenerateId => true;
 
         protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
+
+        protected JSChartModule JSModule { get; private set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 

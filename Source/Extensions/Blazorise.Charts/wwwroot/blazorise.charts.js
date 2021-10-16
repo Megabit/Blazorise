@@ -25,227 +25,243 @@ if (!Chart.defaults.doughnut.tooltips.callbacks.label) {
     Chart.defaults.doughnut.tooltips.callbacks.label = _ChartLabelCallback;
 }
 
-window.blazoriseCharts = {
-    _instances: [],
+const _instances = [];
 
-    initialize: (dotnetAdapter, eventOptions, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) => {
-        if (dataJsonString) {
-            data = JSON.parse(dataJsonString);
-        }
+export function initialize(dotnetAdapter, eventOptions, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) {
+    if (dataJsonString) {
+        data = JSON.parse(dataJsonString);
+    }
 
-        if (optionsJsonString) {
-            options = JSON.parse(optionsJsonString);
-        }
-        else if (optionsObject) {
-            options = optionsObject;
-        }
+    if (optionsJsonString) {
+        options = JSON.parse(optionsJsonString);
+    }
+    else if (optionsObject) {
+        options = optionsObject;
+    }
 
-        function processTicksCallback(scales, axis) {
-            if (scales && Array.isArray(scales[axis])) {
-                scales[axis].forEach(a => {
-                    if (a.ticks && a.ticks.callback) {
-                        if (typeof a.ticks.callback === 'string') {
-                            const callback = a.ticks.callback;
-                            a.ticks.callback = function (value, index, ticks) {
-                                return eval(callback);
-                            }
+    function processTicksCallback(scales, axis) {
+        if (scales && Array.isArray(scales[axis])) {
+            scales[axis].forEach(a => {
+                if (a.ticks && a.ticks.callback) {
+                    if (typeof a.ticks.callback === 'string') {
+                        const callback = a.ticks.callback;
+                        a.ticks.callback = function (value, index, ticks) {
+                            return eval(callback);
                         }
                     }
-                });
+                }
+            });
+        }
+    }
+
+    if (options && options.scales) {
+        processTicksCallback(options.scales, 'xAxes');
+        processTicksCallback(options.scales, 'yAxes');
+    }
+
+    // search for canvas element
+    const canvas = document.getElementById(canvasId);
+
+    if (canvas) {
+        let chart = new Chart(canvas, {
+            type: type,
+            data: data,
+            options: options
+        });
+
+        // save references to all elements
+        _instances[canvasId] = {
+            dotNetRef: dotnetAdapter,
+            canvas: canvas,
+            chart: chart
+        };
+
+        wireEvents(dotnetAdapter, eventOptions, canvas, chart);
+    }
+}
+
+export function destroy(canvasId) {
+    var instances = _instances || {};
+
+    const chart = instances[canvasId].chart;
+
+    if (chart) {
+        chart.destroy();
+    }
+
+    delete instances[canvasId];
+}
+
+export function setOptions(canvasId, options, optionsJsonString, optionsObject) {
+    if (optionsJsonString) {
+        options = JSON.parse(optionsJsonString);
+    }
+    else if (optionsObject) {
+        options = optionsObject;
+    }
+
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.options = options;
+
+        // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
+        // instead of through the options.
+        if (options.aspectRatio) {
+            chart.aspectRatio = options.aspectRatio;
+        }
+    }
+}
+
+export function resize(canvasId) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.resize();
+    }
+}
+
+export function update(canvasId) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.update();
+    }
+}
+
+export function clear(canvasId) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.data.labels = [];
+        chart.data.datasets = [];
+        chart.update();
+    }
+}
+
+export function addLabel(canvasId, newLabels) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        newLabels.forEach((label, index) => {
+            chart.data.labels.push(label);
+        });
+    }
+}
+
+export function addDataset(canvasId, newDatasets) {
+    const chart = getChart(canvasId);
+    if (chart) {
+        newDatasets.forEach((dataset, index) => {
+            chart.data.datasets.push(dataset);
+        });
+    }
+}
+
+export function removeDataset(canvasId, datasetIndex) {
+    const chart = getChart(canvasId);
+
+    if (chart && datasetIndex >= 0) {
+        chart.data.datasets.splice(datasetIndex, 1);
+    }
+}
+
+export function addData(canvasId, datasetIndex, newData) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        newData.forEach((data, index) => {
+            chart.data.datasets[datasetIndex].data.push(data);
+        });
+    }
+}
+
+export function setData(canvasId, datasetIndex, newData) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.data.datasets[datasetIndex].data = newData;
+    }
+}
+
+export function addDatasetsAndUpdate(canvasId, newDatasets) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        newDatasets.forEach((dataset, index) => {
+            chart.data.datasets.push(dataset);
+        });
+
+        chart.update();
+    }
+}
+
+export function addLabelsDatasetsAndUpdate(canvasId, newLabels, newDatasets) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        newLabels.forEach((label, index) => {
+            chart.data.labels.push(label);
+        });
+
+        newDatasets.forEach((dataset, index) => {
+            chart.data.datasets.push(dataset);
+        });
+
+        chart.update();
+    }
+}
+
+export function shiftLabel(canvasId) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.data.labels.shift();
+    }
+}
+
+export function shiftData(canvasId, datasetIndex) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.data.datasets[datasetIndex].data.shift();
+    }
+}
+
+export function popLabel(canvasId) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.data.labels.pop();
+    }
+}
+
+export function popData(canvasId, datasetIndex) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.data.datasets[datasetIndex].data.pop();
+    }
+}
+
+export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
+    if (eventOptions.hasClickEvent) {
+        canvas.onclick = function (evt) {
+            const activePoint = chart.getElementAtEvent(evt);
+
+            if (activePoint && activePoint.length > 0) {
+                const datasetIndex = activePoint[0]._datasetIndex;
+                const index = activePoint[0]._index;
+                const model = activePoint[0]._model;
+
+                dotnetAdapter.invokeMethodAsync("Event", "click", datasetIndex, index, JSON.stringify(model));
             }
-        }
+        };
+    }
 
-        if (options && options.scales) {
-            processTicksCallback(options.scales, 'xAxes');
-            processTicksCallback(options.scales, 'yAxes');
-        }
-
-        // search for canvas element
-        const canvas = document.getElementById(canvasId);
-
-        if (canvas) {
-            let chart = new Chart(canvas, {
-                type: type,
-                data: data,
-                options: options
-            });
-
-            // save references to all elements
-            window.blazoriseCharts._instances[canvasId] = {
-                dotNetRef: dotnetAdapter,
-                canvas: canvas,
-                chart: chart
-            };
-
-            window.blazoriseCharts.wireEvents(dotnetAdapter, eventOptions, canvas, chart);
-        }
-    },
-
-    destroy: (canvasId) => {
-        var instances = window.blazoriseCharts._instances || {};
-
-        const chart = instances[canvasId].chart;
-
-        if (chart) {
-            chart.destroy();
-        }
-
-        delete instances[canvasId];
-    },
-
-    setOptions: (canvasId, options, optionsJsonString, optionsObject) => {
-        if (optionsJsonString) {
-            options = JSON.parse(optionsJsonString);
-        }
-        else if (optionsObject) {
-            options = optionsObject;
-        }
-
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.options = options;
-
-            // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
-            // instead of through the options.
-            if (options.aspectRatio) {
-                chart.aspectRatio = options.aspectRatio;
-            }
-        }
-    },
-    resize: (canvasId) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.resize();
-        }
-    },
-    update: (canvasId) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.update();
-        }
-    },
-
-    clear: (canvasId) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.data.labels = [];
-            chart.data.datasets = [];
-            chart.update();
-        }
-    },
-
-    addLabel: (canvasId, newLabels) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            newLabels.forEach((label, index) => {
-                chart.data.labels.push(label);
-            });
-        }
-    },
-
-    addDataset: (canvasId, newDatasets) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-        if (chart) {
-            newDatasets.forEach((dataset, index) => {
-                chart.data.datasets.push(dataset);
-            });
-        }
-    },
-
-    removeDataset: (canvasId, datasetIndex) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart && datasetIndex >= 0) {
-            chart.data.datasets.splice(datasetIndex, 1);
-        }
-    },
-
-    addData: (canvasId, datasetIndex, newData) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            newData.forEach((data, index) => {
-                chart.data.datasets[datasetIndex].data.push(data);
-            });
-        }
-    },
-
-    setData: (canvasId, datasetIndex, newData) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.data.datasets[datasetIndex].data = newData;
-        }
-    },
-
-    addDatasetsAndUpdate: (canvasId, newDatasets) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            newDatasets.forEach((dataset, index) => {
-                chart.data.datasets.push(dataset);
-            });
-
-            chart.update();
-        }
-    },
-
-    addLabelsDatasetsAndUpdate: (canvasId, newLabels, newDatasets) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            newLabels.forEach((label, index) => {
-                chart.data.labels.push(label);
-            });
-
-            newDatasets.forEach((dataset, index) => {
-                chart.data.datasets.push(dataset);
-            });
-
-            chart.update();
-        }
-    },
-
-    shiftLabel: (canvasId) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.data.labels.shift();
-        }
-    },
-
-    shiftData: (canvasId, datasetIndex) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.data.datasets[datasetIndex].data.shift();
-        }
-    },
-
-    popLabel: (canvasId) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.data.labels.pop();
-        }
-    },
-
-    popData: (canvasId, datasetIndex) => {
-        const chart = window.blazoriseCharts.getChart(canvasId);
-
-        if (chart) {
-            chart.data.datasets[datasetIndex].data.pop();
-        }
-    },
-
-    wireEvents: (dotnetAdapter, eventOptions, canvas, chart) => {
-        if (eventOptions.hasClickEvent) {
-            canvas.onclick = function (evt) {
+    if (eventOptions.hasHoverEvent) {
+        chart.config.options.onHover = function (evt) {
+            if (evt.type === "mousemove") {
                 const activePoint = chart.getElementAtEvent(evt);
 
                 if (activePoint && activePoint.length > 0) {
@@ -253,40 +269,24 @@ window.blazoriseCharts = {
                     const index = activePoint[0]._index;
                     const model = activePoint[0]._model;
 
-                    dotnetAdapter.invokeMethodAsync("Event", "click", datasetIndex, index, JSON.stringify(model));
+                    dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
                 }
-            };
-        }
-
-        if (eventOptions.hasHoverEvent) {
-            chart.config.options.onHover = function (evt) {
-                if (evt.type === "mousemove") {
-                    const activePoint = chart.getElementAtEvent(evt);
-
-                    if (activePoint && activePoint.length > 0) {
-                        const datasetIndex = activePoint[0]._datasetIndex;
-                        const index = activePoint[0]._index;
-                        const model = activePoint[0]._model;
-
-                        dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
-                    }
-                }
-                else if (evt.type === "mouseout") {
-                    dotnetAdapter.invokeMethodAsync("Event", "mouseout", -1, -1, "{}");
-                }
-            };
-        }
-    },
-
-    getChart: (canvasId) => {
-        let chart = null;
-
-        Chart.helpers.each(Chart.instances, function (instance) {
-            if (instance.chart.canvas.id === canvasId) {
-                chart = instance.chart;
             }
-        });
-
-        return chart;
+            else if (evt.type === "mouseout") {
+                dotnetAdapter.invokeMethodAsync("Event", "mouseout", -1, -1, "{}");
+            }
+        };
     }
-};
+}
+
+export function getChart(canvasId) {
+    let chart = null;
+
+    Chart.helpers.each(Chart.instances, function (instance) {
+        if (instance.chart.canvas.id === canvasId) {
+            chart = instance.chart;
+        }
+    });
+
+    return chart;
+}

@@ -20,38 +20,67 @@ namespace Blazorise.Charts.Streaming
     /// <typeparam name="TItem">Data point type.</typeparam>
     public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming
     {
-        #region Members
-
-        private DotNetObjectReference<ChartStreamingAdapter> dotNetObjectReference;
-
-        #endregion
-
         #region Methods
+
+        protected override Task OnInitializedAsync()
+        {
+            if ( JSModule == null )
+            {
+                JSModule = new JSChartStreamingModule( JSRuntime );
+            }
+
+            return base.OnInitializedAsync();
+        }
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender && ParentChart != null )
             {
-                dotNetObjectReference ??= JS.CreateDotNetObjectRef( new ChartStreamingAdapter( this ) );
+                DotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
 
-                await JS.Initialize( JSRuntime, dotNetObjectReference, ParentChart.ElementId, Vertical, Options );
+                await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementId, Vertical, Options );
             }
 
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                JS.DisposeDotNetObjectRef( dotNetObjectReference );
+                if ( Rendered )
+                {
+                    var jsModuleDisposeTask = JSModule.DisposeAsync();
+
+                    try
+                    {
+                        await jsModuleDisposeTask;
+                    }
+                    catch when ( jsModuleDisposeTask.IsCanceled )
+                    {
+                    }
+#if NET6_0_OR_GREATER
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+#endif
+
+                    if ( DotNetObjectRef != null )
+                    {
+                        DotNetObjectRef.Dispose();
+                        DotNetObjectRef = null;
+                    }
+                }
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         public async Task Refresh()
         {
+            if ( !Rendered )
+                return;
+
             foreach ( var dataset in ParentChart?.Data?.Datasets ?? Enumerable.Empty<ChartDataset<TItem>>() )
             {
                 var datasetIndex = ParentChart.Data.Datasets.IndexOf( dataset );
@@ -60,10 +89,7 @@ namespace Blazorise.Charts.Streaming
 
                 await Refreshed.InvokeAsync( newData );
 
-                await JS.AddData( JSRuntime,
-                    ParentChart.ElementId,
-                    newData.DatasetIndex,
-                    newData.Value );
+                await JSModule.AddData( ParentChart.ElementId, newData.DatasetIndex, newData.Value );
             }
         }
 
@@ -73,6 +99,10 @@ namespace Blazorise.Charts.Streaming
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
+
+        protected DotNetObjectReference<ChartStreamingAdapter> DotNetObjectRef { get; set; }
+
+        protected JSChartStreamingModule JSModule { get; private set; }
 
         [Inject] IJSRuntime JSRuntime { get; set; }
 
