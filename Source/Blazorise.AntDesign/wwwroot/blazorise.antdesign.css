@@ -1868,6 +1868,9 @@ li.ant-list-item-actionable {
         background-color: #3273dc;
         border-color: #3273dc; }
 
+.b-list-view {
+    overflow-y: scroll; }
+
 .ant-modal {
     width: 520px; }
     @media (min-width: 576px) {
