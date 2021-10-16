@@ -59,11 +59,6 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
-        /// Gets or sets the select element id.
-        /// </summary>
-        [Parameter] public string ElementId { get; set; }
-
-        /// <summary>
         /// Defines the list-group behavior mode.
         /// </summary>
         [Parameter]
@@ -76,7 +71,7 @@ namespace Blazorise.Components
         public bool Flush { get; set; }
 
         /// <summary>
-        /// Gets or sets the select data-source.
+        /// Gets or sets the items data-source.
         /// </summary>
 #if NET6_0_OR_GREATER
         [EditorRequired]

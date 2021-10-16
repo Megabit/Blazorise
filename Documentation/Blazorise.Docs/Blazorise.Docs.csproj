@@ -66,6 +66,7 @@
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages\Docs\Extensions\ListView\Code\" />
     <Folder Include="Pages\Docs\Extensions\Chart\Code\" />
     <Folder Include="Pages\Docs\Extensions\RichTextEdit\Code\" />
     <Folder Include="Pages\Docs\Extensions\SelectList\Code\" />
