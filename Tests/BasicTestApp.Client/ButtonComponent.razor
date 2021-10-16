@@ -1,10 +1,9 @@
 ﻿<h2>Button</h2>
 <p id="basic-button-event">
-    <Button @ref="buttonRef" id="basic-button" Clicked="@RaiseBasicCounter">Count</Button>
+    <Button id="basic-button" Clicked="@RaiseBasicCounter">Count</Button>
     <span id="basic-button-event-result">@basicEventCounter</span>
 </p>
 @code{
-    public Button buttonRef;
     int basicEventCounter = 0;
 
     void RaiseBasicCounter()
