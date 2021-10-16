@@ -19,6 +19,16 @@ namespace Blazorise.Markdown
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            if ( JSModule == null )
+            {
+                JSModule = new JSMarkdownModule( JSRuntime );
+            }
+
+            base.OnInitialized();
+        }
+
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
@@ -39,7 +49,7 @@ namespace Blazorise.Markdown
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-                await JSRuntime.InvokeVoidAsync( "blazoriseMarkdown.initialize", dotNetObjectRef, ElementId, Value );
+                await JSModule.Initialize( dotNetObjectRef, ElementId, Value );
 
                 Initialized = true;
             }
@@ -48,9 +58,37 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                await JSRuntime.InvokeVoidAsync( "blazoriseMarkdown.destroy", ElementId );
+                var jsModuleDestroyTask = JSModule.Destroy( ElementId );
+
+                try
+                {
+                    await jsModuleDestroyTask;
+                }
+                catch when ( jsModuleDestroyTask.IsCanceled )
+                {
+                }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
+
+                var jsModuleDisposeTask = JSModule.DisposeAsync();
+
+                try
+                {
+                    await jsModuleDisposeTask;
+                }
+                catch when ( jsModuleDisposeTask.IsCanceled )
+                {
+                }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
 
                 dotNetObjectRef?.Dispose();
                 dotNetObjectRef = null;
@@ -68,7 +106,7 @@ namespace Blazorise.Markdown
             if ( !Initialized )
                 return null;
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseMarkdown.getValue", ElementId );
+            return await JSModule.GetValue( ElementId );
         }
 
         /// <summary>
@@ -81,7 +119,7 @@ namespace Blazorise.Markdown
             if ( !Initialized )
                 return;
 
-            await JSRuntime.InvokeAsync<string>( "blazoriseMarkdown.setValue", ElementId, value );
+            await JSModule.SetValue( ElementId, value );
         }
 
         /// <summary>
@@ -103,6 +141,8 @@ namespace Blazorise.Markdown
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
+
+        protected JSMarkdownModule JSModule { get; private set; }
 
         /// <summary>
         /// Indicates if markdown editor is properly initialized.

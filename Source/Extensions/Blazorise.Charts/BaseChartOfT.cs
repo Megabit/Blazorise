@@ -27,45 +27,42 @@ namespace Blazorise.Charts
 
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
+                var jsModuleDestroyTask = JSModule.Destroy( ElementId );
+
+                try
                 {
-                    var jsModuleDestroyTask = JSModule.Destroy( ElementId );
-
-                    try
-                    {
-                        await jsModuleDestroyTask;
-                    }
-                    catch when ( jsModuleDestroyTask.IsCanceled )
-                    {
-                    }
+                    await jsModuleDestroyTask;
+                }
+                catch when ( jsModuleDestroyTask.IsCanceled )
+                {
+                }
 #if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
 #endif
 
-                    var jsModuleDisposeTask = JSModule.DisposeAsync();
+                var jsModuleDisposeTask = JSModule.DisposeAsync();
 
-                    try
-                    {
-                        await jsModuleDisposeTask;
-                    }
-                    catch when ( jsModuleDisposeTask.IsCanceled )
-                    {
-                    }
+                try
+                {
+                    await jsModuleDisposeTask;
+                }
+                catch when ( jsModuleDisposeTask.IsCanceled )
+                {
+                }
 #if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
 #endif
 
-                    if ( DotNetObjectRef != null )
-                    {
-                        DotNetObjectRef.Dispose();
-                        DotNetObjectRef = null;
-                    }
+                if ( DotNetObjectRef != null )
+                {
+                    DotNetObjectRef.Dispose();
+                    DotNetObjectRef = null;
                 }
             }
 

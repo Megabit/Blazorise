@@ -3470,9 +3470,7 @@ namespace Blazorise.Docs.Models
 
         public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>
-        
-<script src=""_content/Blazorise.Markdown/blazorise.markdown.js""></script>";
+<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 

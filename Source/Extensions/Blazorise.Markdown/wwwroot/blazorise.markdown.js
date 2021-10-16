@@ -1,52 +1,50 @@
-window.blazoriseMarkdown = {
-    _instances: [],
+const _instances = [];
 
-    initialize: (dotNetObjectRef, elementId, value) => {
-        const instances = window.blazoriseMarkdown._instances = window.blazoriseMarkdown._instances || {};
+export function initialize(dotNetObjectRef, elementId, value) {
+    const instances = _instances;
 
-        const easyMDE = new EasyMDE({
-            element: document.getElementById(elementId),
-            showIcons: ["code", "table"],
-            renderingConfig: {
-                singleLineBreaks: false,
-                codeSyntaxHighlighting: true
-            },
-            initialValue: value,
-            sideBySideFullscreen: false,
-            hideIcons: ["side-by-side", "fullscreen"]
-        });
+    const easyMDE = new EasyMDE({
+        element: document.getElementById(elementId),
+        showIcons: ["code", "table"],
+        renderingConfig: {
+            singleLineBreaks: false,
+            codeSyntaxHighlighting: true
+        },
+        initialValue: value,
+        sideBySideFullscreen: false,
+        hideIcons: ["side-by-side", "fullscreen"]
+    });
 
-        easyMDE.codemirror.on("change", function () {
-            dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
-        });
+    easyMDE.codemirror.on("change", function () {
+        dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
+    });
 
-        instances[elementId] = {
-            dotNetObjectRef: dotNetObjectRef,
-            elementId: elementId,
-            editor: easyMDE
-        };
-    },
+    instances[elementId] = {
+        dotNetObjectRef: dotNetObjectRef,
+        elementId: elementId,
+        editor: easyMDE
+    };
+}
 
-    destroy: (elementId) => {
-        var instances = window.blazoriseMarkdown._instances || {};
-        delete instances[elementId];
-    },
+export function destroy(elementId) {
+    const instances = _instances || {};
+    delete instances[elementId];
+}
 
-    getValue: (elementId) => {
-        const instance = window.blazoriseMarkdown._instances[elementId];
+export function setValue(elementId, value) {
+    const instance = _instances[elementId];
 
-        if (instance) {
-            return instance.editor.value();
-        }
+    if (instance) {
+        instance.editor.value(value);
+    }
+}
 
-        return null;
-    },
+export function getValue(elementId) {
+    const instance = _instances[elementId];
 
-    setValue: (elementId, value) => {
-        const instance = window.blazoriseMarkdown._instances[elementId];
+    if (instance) {
+        return instance.editor.value();
+    }
 
-        if (instance) {
-            instance.editor.value(value);
-        }
-    },
-};
+    return null;
+}
