@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -35,6 +37,22 @@ namespace Blazorise.Components
             }
             return default;
         }
+
+        protected string BuildStyles()
+        {
+            StringBuilder sb = new();
+            if ( ! string.IsNullOrWhiteSpace( Height )) 
+                sb.Append( $"height:{Height};" );
+            if ( ! string.IsNullOrWhiteSpace( MaxHeight ) )
+                sb.Append( $"max-height:{MaxHeight};" );
+            if ( !string.IsNullOrWhiteSpace( Style ) )
+                sb.Append( Style );
+            return sb.ToString();
+        }
+
+
+        protected string BuildClasses()
+            => ( $"b-list-view {Class}" );
 
         #endregion
 
@@ -92,6 +110,18 @@ namespace Blazorise.Components
         /// Custom styles.
         /// </summary>
         [Parameter] public string Style { get; set; }
+
+        /// <summary>
+        /// Sets the ListView Height. 
+        /// Defaults to empty.
+        /// </summary>
+        [Parameter] public string Height { get; set; }  
+
+        /// <summary>
+        /// Sets the ListView MaxHeight. 
+        /// Defaults to 250px.
+        /// </summary>
+        [Parameter] public string MaxHeight { get; set; } = "250px";
 
         /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.

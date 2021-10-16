@@ -609,6 +609,9 @@ input[readonly="readonly"][type=range] {
 li.list-group-item-action {
     cursor: pointer; }
 
+.b-list-view {
+    overflow-y: scroll; }
+
 .modal.show {
     animation-duration: 0.25s;
     animation-fill-mode: both;

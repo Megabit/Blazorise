@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<ListGroup Flush="@Flush" Mode="@Mode" Class="@Class" Style="@Style" Attributes="@Attributes" SelectedItemChanged="@SelectedListGroupItemChanged">
+<ListGroup Flush="@Flush" Mode="@Mode" Class="@BuildClasses()" Style="@BuildStyles()" Attributes="@Attributes" SelectedItemChanged="@SelectedListGroupItemChanged">
     @if ( Data != null )
     {
         @foreach ( var item in Data )
