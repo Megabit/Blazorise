@@ -34,6 +34,13 @@ namespace Blazorise.Charts.Streaming
                 options );
         }
 
+        public virtual async ValueTask Destroy( string canvasId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "destroy", canvasId );
+        }
+
         public virtual async ValueTask<bool> AddData( string canvasId, int datasetIndex, object data )
         {
             var moduleInstance = await Module;

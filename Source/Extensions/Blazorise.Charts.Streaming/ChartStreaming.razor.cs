@@ -46,30 +46,42 @@ namespace Blazorise.Charts.Streaming
 
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
-                {
-                    var jsModuleDisposeTask = JSModule.DisposeAsync();
+                var jsModuleDestroyTask = JSModule.Destroy( ParentChart.ElementId );
 
-                    try
-                    {
-                        await jsModuleDisposeTask;
-                    }
-                    catch when ( jsModuleDisposeTask.IsCanceled )
-                    {
-                    }
+                try
+                {
+                    await jsModuleDestroyTask;
+                }
+                catch when ( jsModuleDestroyTask.IsCanceled )
+                {
+                }
 #if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
 #endif
 
-                    if ( DotNetObjectRef != null )
-                    {
-                        DotNetObjectRef.Dispose();
-                        DotNetObjectRef = null;
-                    }
+                var jsModuleDisposeTask = JSModule.DisposeAsync();
+
+                try
+                {
+                    await jsModuleDisposeTask;
+                }
+                catch when ( jsModuleDisposeTask.IsCanceled )
+                {
+                }
+#if NET6_0_OR_GREATER
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+#endif
+
+                if ( DotNetObjectRef != null )
+                {
+                    DotNetObjectRef.Dispose();
+                    DotNetObjectRef = null;
                 }
             }
 

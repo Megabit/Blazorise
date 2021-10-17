@@ -15,6 +15,31 @@ export function initialize(dotNetAdapter, canvasId, vertical, streamOptions) {
     return true;
 }
 
+export function destroy(canvasId) {
+    const chart = getChart(canvasId);
+
+    if (chart && chart.options && chart.options.scales) {
+        const scales = chart.options.scales;
+
+        // unsubscribe events
+        if (scales.xAxes) {
+            scales.xAxes.forEach(function (axe) {
+                if (axe.realtime) {
+                    axe.realtime.onRefresh = null;
+                }
+            });
+        }
+
+        if (scales.yAxes) {
+            scales.yAxes.forEach(function (axe) {
+                if (axe.realtime) {
+                    axe.realtime.onRefresh = null;
+                }
+            });
+        }
+    }
+}
+
 export function addData(canvasId, datasetIndex, newData) {
     const chart = getChart(canvasId);
 
