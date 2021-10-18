@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -63,14 +64,14 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            await JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+            await JSBreakpointModule.RegisterBreakpoint( dotNetObjectRef, ElementId );
 
             if ( Mode != BarMode.Horizontal )
             {
                 // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
                 // This needs to be run to set the initial state, RegisterBreakpointComponent and OnBreakpoint will handle
                 // additional changes to responsive breakpoints from there.
-                isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
+                isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSBreakpointModule.GetBreakpoint() );
 
                 if ( isBroken )
                 {
@@ -136,7 +137,7 @@ namespace Blazorise
                 // make sure to unregister listener
                 if ( Rendered )
                 {
-                    var task = JSRunner.UnregisterBreakpointComponent( this );
+                    var task = JSBreakpointModule.UnregisterBreakpoint( this );
 
                     try
                     {
@@ -170,7 +171,7 @@ namespace Blazorise
         private async void OnLocationChanged( object sender, LocationChangedEventArgs args )
         {
             // Collapse the bar automatically
-            if ( Visible && BreakpointActivatorAdapter.IsBroken( NavigationBreakpoint, await JSRunner.GetBreakpoint() ) )
+            if ( Visible && BreakpointActivatorAdapter.IsBroken( NavigationBreakpoint, await JSBreakpointModule.GetBreakpoint() ) )
                 await Toggle();
         }
 
@@ -204,6 +205,11 @@ namespace Blazorise
                 return ClassProvider.ToBarCollapsedMode( CollapseMode );
             }
         }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSBreakpointModule"/> instance.
+        /// </summary>
+        [Inject] public IJSBreakpointModule JSBreakpointModule { get; set; }
 
         /// <summary>
         /// Injects the navigation manager.

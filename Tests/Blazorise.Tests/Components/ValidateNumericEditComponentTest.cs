@@ -11,6 +11,7 @@ namespace Blazorise.Tests.Components
         public ValidateNumericEditComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddNumericEdit( this.JSInterop );
         }
 
         [Fact]

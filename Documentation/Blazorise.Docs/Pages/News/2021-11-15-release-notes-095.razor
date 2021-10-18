@@ -1,0 +1,223 @@
+﻿@page "/news/release-notes/095"
+
+<NewsPageTitle>
+    v0.9.5 - release notes
+</NewsPageTitle>
+
+<NewsPageSubtitle>
+    Breaking changes
+</NewsPageSubtitle>
+
+<NewsPageSubtitle>
+    Migration
+</NewsPageSubtitle>
+
+<Paragraph>
+    1. We changed all the following methods to be awaited. You will need to adjust your code accordingly.
+</Paragraph>
+
+<Table FullWidth Narrow Striped Bordered>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Before</TableHeaderCell>
+            <TableHeaderCell>After</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell>Modal</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>Action&lt;ModalClosingEventArgs&gt;</Code></TableRowCell>
+            <TableRowCell><Code>Func&lt;ModalClosingEventArgs, Task&gt;</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Alert</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Dropdown</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>BarDropdown</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Button</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Collapse</TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>DropdownList</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>DropdownToggle</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>ListGroup</TableRowCell>
+            <TableRowCell><Code>void SelectItem()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectItem()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>ProgressBar</TableRowCell>
+            <TableRowCell><Code>void Animate()</Code></TableRowCell>
+            <TableRowCell><Code>Task Animate()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Steps</TableRowCell>
+            <TableRowCell><Code>void SelectStep()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectStep()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>StepsContent</TableRowCell>
+            <TableRowCell><Code>void SelectPanel()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectPanel()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Tabs</TableRowCell>
+            <TableRowCell><Code>void SelectTab()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectTab()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>TabsContent</TableRowCell>
+            <TableRowCell><Code>void SelectPanel()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectPanel()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Validations</TableRowCell>
+            <TableRowCell><Code>void ValidateAll()</Code></TableRowCell>
+            <TableRowCell><Code>Task ValidateAll()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void ClearAll()</Code></TableRowCell>
+            <TableRowCell><Code>Task ClearAll()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>SelectList</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Autocomplete</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>ALL input components</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void FocusAsync()</Code></TableRowCell>
+            <TableRowCell><strong>removed</strong></TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Paragraph>
+    2. Remove <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameters from the <Code Tag>NotificationAlert</Code>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Highlights 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    JavaScript modules
+</Heading>
+
+<Paragraph>
+    First and foremost. With the new version we have refactored major parts of Blazorise internals to make use of
+    <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</Anchor>. As a result of all
+    the hard work we have made it easier to setup Blazorise projects and manually importing Javascript static files is now not needed.
+    They can be safely removed from all your <Code>index.html</Code> and <Code>_Host.cshtml</Code> files.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete Multiple Selection Support
+</Heading>
+
+<Paragraph>
+    <Code>Autocomplete</Code> now has support for multiple selection by setting the new <Code>Multiple</Code> Parameter to true. You have two extra Parameters at your disposal to handle the multiple values.
+    <Code>SelectedValues</Code> and <Code>SelectedTexts</Code>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid Null Coalescing
+</Heading>
+
+<Paragraph>
+    <Code>DataGrid</Code> <Code>Field</Code> now supports null coalescing, meaning you can now provide objects with null data, and <Code>DataGrid</Code> will set the <Code>Default</Code> Value for the respective <Code>Field</Code> <Code>Type</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid Sort Field
+</Heading>
+
+<Paragraph>
+    Introduced a new <Code>SortField</Code> Parameter, that allows you to define a different Property or Field of a column to be considered by the sorting mechanism.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    ColorPicker component
+</Heading>
+
+<Paragraph>
+    In many cases a native color input is not good enough. For instance, native color input doesn't support opacity value, or localization. With the introduction of
+    <Code>ColorPicker</Code> component all of this limitations are now history. You can define any colors, including alpha value. You can localize the buttons,
+    define custom pallette for quick coloring, show or hide certain buttons, and many new fatures.
+</Paragraph>

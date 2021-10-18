@@ -2567,9 +2567,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
-        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-
-<script src=""_content/Blazorise.Charts/blazorise.charts.js""></script>";
+        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -2675,10 +2673,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>
-
-<script src=""_content/Blazorise.Charts/blazorise.charts.js""></script>
-<script src=""_content/Blazorise.Charts.Streaming/blazorise.charts.streaming.js""></script>";
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>";
 
         public const string DataGridAggregatesExample = @"@using Blazorise.Docs.Models
 
@@ -3292,8 +3287,6 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
 
-        public const string DataGridResourcesExample = @"<script src=""_content/Blazorise.DataGrid/blazorise.datagrid.js""></script>";
-
         public const string DataGridSelectingExample = @"@using Blazorise.Docs.Models
 
 <DataGrid TItem=""Employee""
@@ -3479,9 +3472,7 @@ namespace Blazorise.Docs.Models
 
         public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>
-        
-<script src=""_content/Blazorise.Markdown/blazorise.markdown.js""></script>";
+<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
@@ -3563,8 +3554,6 @@ namespace Blazorise.Docs.Models
         public const string RichTextEditImportsExample = @"@using Blazorise.RichTextEdit";
 
         public const string RichTextEditNugetInstallExample = @"Install-Package Blazorise.RichTextEdit";
-
-        public const string RichTextEditResourcesExample = @"<script src=""_content/Blazorise.RichTextEdit/blazorise.richtextedit.js""></script>";
 
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
@@ -3871,10 +3860,7 @@ public class Startup
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
 <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
 
-<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-
-<script src=""_content/Blazorise/blazorise.js""></script>
-<script src=""_content/Blazorise.AntDesign/blazorise.antdesign.js""></script>";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -3964,9 +3950,6 @@ public class Startup
   <script src=""https://code.jquery.com/jquery-3.5.1.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
   <script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
   <script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"" integrity=""sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"" crossorigin=""anonymous""></script>
-
-  <script src=""_content/Blazorise/blazorise.js""></script>
-  <script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js""></script>
 </body>
 </html>";
 
@@ -4056,9 +4039,6 @@ public class Startup
 
   <!-- inside of body section and after the div/app tag  -->
   <script src=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"" integrity=""sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"" crossorigin=""anonymous""></script>
-
-  <script src=""_content/Blazorise/blazorise.js""></script>
-  <script src=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.js""></script>
 </body>
 </html>";
 
@@ -4138,9 +4118,7 @@ public class Startup
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Bulma/blazorise.bulma.css"" rel=""stylesheet"" />
 
-<script defer src=""https://use.fontawesome.com/releases/v5.3.1/js/all.js""></script>
-<script src=""_content/Blazorise/blazorise.js""></script>
-<script src=""_content/Blazorise.Bulma/blazorise.bulma.js""></script>";
+<script defer src=""https://use.fontawesome.com/releases/v5.3.1/js/all.js""></script>";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -4232,7 +4210,6 @@ public class Startup
 <script src=""https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js""></script>
 <script src=""js/material.min.js""></script>
 
-<script src=""_content/Blazorise/blazorise.js""></script>
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";

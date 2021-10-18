@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -16,13 +17,15 @@ namespace Blazorise.Material
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.MaterialJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.MaterialJSTooltipModule>();
 
             return serviceCollection;
         }
