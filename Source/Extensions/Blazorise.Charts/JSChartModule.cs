@@ -9,7 +9,8 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts
 {
-    public class JSChartModule : BaseJSModule
+    public class JSChartModule : BaseJSModule,
+        IJSDestroyableModule
     {
         #region Constructors
 

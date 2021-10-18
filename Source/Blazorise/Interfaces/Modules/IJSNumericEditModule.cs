@@ -9,7 +9,8 @@ namespace Blazorise.Modules
     /// <summary>
     /// Contracts for the <see cref="NumericEdit{TValue}"/> JS module.
     /// </summary>
-    public interface IJSNumericEditModule
+    public interface IJSNumericEditModule : IBaseJSModule,
+        IJSDestroyableModule
     {
         /// <summary>
         /// Initializes the new <see cref="TextEdit"/> within the JS module.
@@ -20,14 +21,6 @@ namespace Blazorise.Modules
         /// <param name="options">Options for numeric edit.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
-
-        /// <summary>
-        /// Removes the <see cref="NumericEdit{TValue}"/> from the JS module.
-        /// </summary>
-        /// <param name="elementRef">Reference to the rendered element.</param>
-        /// <param name="elementId">ID of the rendered element.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Destroy( ElementReference elementRef, string elementId );
 
         /// <summary>
         /// Updates the <see cref="NumericEdit{TValue}"/> options.

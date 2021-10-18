@@ -8,7 +8,8 @@ namespace Blazorise.Modules
     /// <summary>
     /// Contracts for the <see cref="TimePicker{TValue}"/> JS module.
     /// </summary>
-    public interface IJSTimePickerModule : IBaseJSModule
+    public interface IJSTimePickerModule : IBaseJSModule,
+        IJSDestroyableModule
     {
         /// <summary>
         /// Initializes the new <see cref="TimePicker{TValue}"/> within the JS module.
@@ -18,14 +19,6 @@ namespace Blazorise.Modules
         /// <param name="options">Additional options for the tooltip initialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( ElementReference elementRef, string elementId, object options );
-
-        /// <summary>
-        /// Removes the <see cref="TimePicker{TValue}"/> from the JS module.
-        /// </summary>
-        /// <param name="elementRef">Reference to the rendered element.</param>
-        /// <param name="elementId">ID of the rendered element.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Destroy( ElementReference elementRef, string elementId );
 
         /// <summary>
         /// Activates the <see cref="TimePicker{TValue}"/>.

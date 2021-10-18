@@ -7,7 +7,8 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Markdown
 {
-    public class JSMarkdownModule : BaseJSModule
+    public class JSMarkdownModule : BaseJSModule,
+        IJSDestroyableModule
     {
         #region Constructors
 

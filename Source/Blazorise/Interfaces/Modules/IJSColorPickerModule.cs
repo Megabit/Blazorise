@@ -9,7 +9,8 @@ namespace Blazorise.Modules
     /// <summary>
     /// Contracts for the <see cref="ColorPicker"/> JS module.
     /// </summary>
-    public interface IJSColorPickerModule : IBaseJSModule
+    public interface IJSColorPickerModule : IBaseJSModule,
+        IJSDestroyableModule
     {
         /// <summary>
         /// Initializes the new <see cref="ColorPicker"/> within the JS module.
@@ -20,14 +21,6 @@ namespace Blazorise.Modules
         /// <param name="options">Additional options for the tooltip initialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
-
-        /// <summary>
-        /// Removes the <see cref="ColorPicker"/> from the JS module.
-        /// </summary>
-        /// <param name="elementRef">Reference to the rendered element.</param>
-        /// <param name="elementId">ID of the rendered element.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Destroy( ElementReference elementRef, string elementId );
 
         /// <summary>
         /// Updates the <see cref="ColorPicker"/> value.

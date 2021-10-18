@@ -10,7 +10,8 @@ namespace Blazorise.Modules
     /// <summary>
     /// Contracts for the <see cref="FileEdit"/> JS module.
     /// </summary>
-    public interface IJSFileEditModule : IBaseJSModule
+    public interface IJSFileEditModule : IBaseJSModule,
+        IJSDestroyableModule
     {
         /// <summary>
         /// Initializes the new <see cref="FileEdit"/> within the JS module.
@@ -20,14 +21,6 @@ namespace Blazorise.Modules
         /// <param name="elementId">ID of the rendered element.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );
-
-        /// <summary>
-        /// Removes the <see cref="FileEdit"/> from the JS module.
-        /// </summary>
-        /// <param name="elementRef">Reference to the rendered element.</param>
-        /// <param name="elementId">ID of the rendered element.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Destroy( ElementReference elementRef, string elementId );
 
         /// <summary>
         /// Reads the batch of data for the specified position and offset.

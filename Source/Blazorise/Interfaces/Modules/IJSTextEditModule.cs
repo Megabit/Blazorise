@@ -8,7 +8,8 @@ namespace Blazorise.Modules
     /// <summary>
     /// Contracts for the <see cref="TextEdit"/> JS module.
     /// </summary>
-    public interface IJSTextEditModule : IBaseJSModule
+    public interface IJSTextEditModule : IBaseJSModule,
+        IJSDestroyableModule
     {
         /// <summary>
         /// Initializes the new <see cref="TextEdit"/> within the JS module.
@@ -19,13 +20,5 @@ namespace Blazorise.Modules
         /// <param name="editMask">Edit mask value.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( ElementReference elementRef, string elementId, string maskType, string editMask );
-
-        /// <summary>
-        /// Removes the <see cref="TextEdit"/> from the JS module.
-        /// </summary>
-        /// <param name="elementRef">Reference to the rendered element.</param>
-        /// <param name="elementId">ID of the rendered element.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Destroy( ElementReference elementRef, string elementId );
     }
 }

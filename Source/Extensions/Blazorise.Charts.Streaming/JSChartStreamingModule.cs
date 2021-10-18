@@ -7,7 +7,8 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Streaming
 {
-    public class JSChartStreamingModule : BaseJSModule
+    public class JSChartStreamingModule : BaseJSModule,
+        IJSDestroyableModule
     {
         #region Constructors
 
