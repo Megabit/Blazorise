@@ -805,8 +805,6 @@ namespace Blazorise.Docs.Models
 <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
 
 @code{
-    string fileContent;
-
     const int OneMb = 1024 * 1024;
 
     async Task OnChanged( FileChangedEventArgs e )
@@ -2700,9 +2698,7 @@ namespace Blazorise.Docs.Models
     </DataGridColumns>
 </DataGrid>
 
-@code{
-    Employee selectedEmployee;
-    int totalEmployees;
+@code {
     List<Employee> employeeList = EmployeeData.EmployeeList;
 }";
 
@@ -2737,7 +2733,6 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
     int totalEmployees;
     List<Employee> employeeList = EmployeeData.EmployeeList;
     List<Employee> employeeSummary;
