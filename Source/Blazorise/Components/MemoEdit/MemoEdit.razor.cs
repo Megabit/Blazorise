@@ -2,6 +2,8 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -33,7 +35,7 @@ namespace Blazorise
                 || tabSizeChanged
                 || softTabsChanged ) )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateMemoEditOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     ReplaceTab = new { Changed = replaceTabChanged, Value = paramReplaceTab },
                     TabSize = new { Changed = tabSizeChanged, Value = paramTabSize },
@@ -67,7 +69,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected async override Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeMemoEdit( ElementRef, ElementId, new
+            await JSModule.Initialize( ElementRef, ElementId, new
             {
                 ReplaceTab,
                 TabSize,
@@ -82,20 +84,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSRunner.DestroyMemoEdit( ElementRef, ElementId );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );
@@ -228,6 +217,11 @@ namespace Blazorise
         /// </summary>
         protected string BindValueEventName
             => IsChangeTextOnKeyPress ? "oninput" : "onchange";
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSMemoEditModule"/> instance.
+        /// </summary>
+        [Inject] public IJSMemoEditModule JSModule { get; set; }
 
         /// <summary>
         /// Sets the placeholder for the empty text.
