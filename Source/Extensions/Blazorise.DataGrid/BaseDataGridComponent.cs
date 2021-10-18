@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -29,20 +30,7 @@ namespace Blazorise.DataGrid
         {
             if ( disposing && Rendered )
             {
-                var jsModuleDisposeTask = JSModule.DisposeAsync();
-
-                try
-                {
-                    await jsModuleDisposeTask;
-                }
-                catch when ( jsModuleDisposeTask.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDisposeAsync();
             }
 
             await base.DisposeAsync( disposing );

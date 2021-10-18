@@ -51,20 +51,7 @@ namespace Blazorise.Charts.Streaming
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
 
-                var jsModuleDisposeTask = JSModule.DisposeAsync();
-
-                try
-                {
-                    await jsModuleDisposeTask;
-                }
-                catch when ( jsModuleDisposeTask.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDisposeAsync();
 
                 if ( DotNetObjectRef != null )
                 {
