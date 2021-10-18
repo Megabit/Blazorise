@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -24,7 +25,7 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
-            elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
+            elementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
             await base.OnAfterRenderAsync( firstRender );
         }
@@ -34,6 +35,8 @@ namespace Blazorise.AntDesign
         #region Properties
 
         public DomElement ElementInfo => elementInfo;
+
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         [CascadingParameter] public AntDesign.Addon ParentAddon { get; set; }
 

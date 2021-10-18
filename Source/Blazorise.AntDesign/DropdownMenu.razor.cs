@@ -1,4 +1,7 @@
-﻿namespace Blazorise.AntDesign
+﻿using Blazorise.Modules;
+using Microsoft.AspNetCore.Components;
+
+namespace Blazorise.AntDesign
 {
     public partial class DropdownMenu : Blazorise.DropdownMenu
     {
@@ -10,7 +13,7 @@
             {
                 if ( ParentDropdown != null && ParentDropdown is AntDesign.Dropdown dropdown )
                 {
-                    var dropdownMenuElementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
+                    var dropdownMenuElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
                     MenuStyleNames = GetMenuStyleNames( dropdown.ElementInfo, dropdownMenuElementInfo, dropdown.Direction );
 
@@ -47,6 +50,8 @@
         #region Properties
 
         protected string MenuStyleNames { get; set; }
+
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         #endregion
     }

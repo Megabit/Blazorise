@@ -53,8 +53,7 @@
 
                 ExecuteAfterRender( async () =>
                 {
-
-                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
                 } );
             }
 

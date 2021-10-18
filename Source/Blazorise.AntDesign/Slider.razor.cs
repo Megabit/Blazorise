@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System.Globalization;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -46,7 +48,7 @@ namespace Blazorise.AntDesign
 
             mouseDown = true;
 
-            sliderElementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
+            sliderElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
             sliderStart = sliderElementInfo.BoundingClientRect.Left;
             sliderWidth = sliderElementInfo.BoundingClientRect.Width;
@@ -124,6 +126,8 @@ namespace Blazorise.AntDesign
 
         string HandleStyle
             => $"left: {Percentage}%; right: auto; transform: translateX(-50%);";
+
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         #endregion
     }

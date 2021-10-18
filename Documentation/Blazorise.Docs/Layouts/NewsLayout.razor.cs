@@ -12,8 +12,6 @@ namespace Blazorise.Docs.Layouts
     {
         #region Members
 
-        private Bar topBar;
-
         private bool topBarVisible;
 
         private bool disposed;

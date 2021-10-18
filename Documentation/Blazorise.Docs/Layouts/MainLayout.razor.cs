@@ -9,8 +9,6 @@ namespace Blazorise.Docs.Layouts
     {
         #region Members
 
-        private Bar topBar;
-
         private bool topbarVisible = false;
 
         #endregion

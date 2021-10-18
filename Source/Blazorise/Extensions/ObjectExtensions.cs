@@ -1,5 +1,7 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Extensions
@@ -19,6 +21,29 @@ namespace Blazorise.Extensions
         public static bool IsEqual<T>( this T x, T y )
         {
             return EqualityComparer<T>.Default.Equals( x, y );
+        }
+
+        /// <summary>
+        /// Safely disposes the object.
+        /// </summary>
+        /// <param name="disposable">Instance of the object to dispose.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public static async Task SafeDisposeAsync( this IAsyncDisposable disposable )
+        {
+            var disposableTask = disposable.DisposeAsync();
+
+            try
+            {
+                await disposableTask;
+            }
+            catch when ( disposableTask.IsCanceled )
+            {
+            }
+#if NET6_0_OR_GREATER
+            catch ( Microsoft.JSInterop.JSDisconnectedException )
+            {
+            }
+#endif
         }
     }
 }

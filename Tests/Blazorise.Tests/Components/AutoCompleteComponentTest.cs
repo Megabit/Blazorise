@@ -13,6 +13,7 @@ namespace Blazorise.Tests.Components
         public AutoCompleteComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddTextEdit(this.JSInterop);
         }
 
 
@@ -28,6 +29,7 @@ namespace Blazorise.Tests.Components
             var input = comp.Find( ".b-is-autocomplete input" );
             var inputText = input.GetAttribute( "value" );
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }
@@ -50,6 +52,7 @@ namespace Blazorise.Tests.Components
             var inputText = input.GetAttribute( "value" );
 
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }

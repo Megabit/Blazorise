@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -51,7 +53,7 @@ namespace Blazorise
         {
             if ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateTooltipContent( ElementRef, ElementId, text ) );
+                ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, text ) );
             }
 
             return base.SetParametersAsync( parameters );
@@ -63,7 +65,7 @@ namespace Blazorise
             // try to detect if inline is needed
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeTooltip( ElementRef, ElementId, new
+                await JSModule.Initialize( ElementRef, ElementId, new
                 {
                     Text,
                     Placement = ClassProvider.ToTooltipPlacement( Placement ),
@@ -83,25 +85,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
-                {
-                    var task = JSRunner.DestroyTooltip( ElementRef, ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
-#if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
-#endif
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );
@@ -124,6 +110,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSTooltipModule"/> instance.
+        /// </summary>
+        [Inject] public IJSTooltipModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets a regular tooltip's content. 
