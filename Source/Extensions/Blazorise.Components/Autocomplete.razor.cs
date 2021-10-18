@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.RenderTree;
@@ -444,7 +445,7 @@ namespace Blazorise.Components
             {
                 jsRegistered = false;
 
-                await JSRunner.UnregisterClosableComponent( this );
+                await JSClosableModule.Unregister( this );
             }
         }
 
@@ -566,9 +567,9 @@ namespace Blazorise.Components
             => $"{Class} b-is-autocomplete {( Multiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
 
         /// <summary>
-        /// Gets or set the JavaScript runner.
+        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
         /// </summary>
-        [Inject] protected IJSRunner JSRunner { get; set; }
+        [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
         /// <summary>
         /// Gets or sets the dropdown element id.

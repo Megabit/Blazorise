@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -59,7 +60,7 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    var task = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSClosableModule.Unregister( this );
 
                     try
                     {
@@ -122,7 +123,7 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
                 } );
             }
             else
@@ -131,7 +132,7 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.UnregisterClosableComponent( this );
+                    await JSClosableModule.Unregister( this );
                 } );
             }
 
@@ -145,6 +146,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
         /// <summary>
         /// Determines how much left padding will be applied to the dropdown toggle. (in rem unit)

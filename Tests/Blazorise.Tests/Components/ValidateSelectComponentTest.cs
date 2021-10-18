@@ -10,6 +10,7 @@ namespace Blazorise.Tests.Components
         public ValidateSelectComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddSelect( this.JSInterop );
         }
 
         [Fact]
@@ -245,6 +246,6 @@ namespace Blazorise.Tests.Components
             // test 3
             select.Change( "Oliver" );
             Assert.Contains( "custom-select", select.GetAttribute( "class" ) );
-        } 
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Moq;
 
@@ -10,13 +11,13 @@ namespace Blazorise.Tests.Mocks
     {
         public MockDatePicker( Validation validation = null, Expression<Func<T>> dateExpression = null )
         {
-            var mockRunner = new Mock<IJSRunner>();
+            var mockRunner = new Mock<IJSDatePickerModule>();
 
             mockRunner
-                .Setup( r => r.ActivateDatePicker( It.IsAny<ElementReference>(), It.IsAny<string>(), It.IsAny<object>() ) )
+                .Setup( r => r.Activate( It.IsAny<ElementReference>(), It.IsAny<string>(), It.IsAny<object>() ) )
                 .Callback( ( ElementReference reference, string id, object o ) => this.OnActivateDatePicker( reference, id, o ) );
 
-            base.JSRunner = mockRunner.Object;
+            base.JSModule = mockRunner.Object;
 
             var mockIdGenerator = new Mock<IIdGenerator>();
 
