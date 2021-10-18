@@ -1,4 +1,4 @@
-﻿import "./vendors/Behave.js";
+﻿import { Behave } from "./vendors/Behave.js";
 
 const _instances = [];
 
