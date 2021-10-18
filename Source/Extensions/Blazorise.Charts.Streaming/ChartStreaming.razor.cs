@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -48,20 +49,7 @@ namespace Blazorise.Charts.Streaming
         {
             if ( disposing && Rendered )
             {
-                var jsModuleDestroyTask = JSModule.Destroy( ParentChart.ElementRef, ParentChart.ElementId );
-
-                try
-                {
-                    await jsModuleDestroyTask;
-                }
-                catch when ( jsModuleDestroyTask.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
                 var jsModuleDisposeTask = JSModule.DisposeAsync();
 

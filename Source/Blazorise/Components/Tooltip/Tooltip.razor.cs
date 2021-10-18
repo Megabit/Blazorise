@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -84,25 +85,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
-                {
-                    var task = JSModule.Destroy( ElementRef, ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
-#if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
-#endif
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );

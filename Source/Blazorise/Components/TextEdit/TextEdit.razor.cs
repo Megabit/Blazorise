@@ -54,20 +54,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSModule.Destroy( ElementRef, ElementId );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );

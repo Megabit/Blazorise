@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -60,20 +61,7 @@ namespace Blazorise.Markdown
         {
             if ( disposing && Rendered )
             {
-                var jsModuleDestroyTask = JSModule.Destroy( ElementRef, ElementId );
-
-                try
-                {
-                    await jsModuleDestroyTask;
-                }
-                catch when ( jsModuleDestroyTask.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
                 var jsModuleDisposeTask = JSModule.DisposeAsync();
 
