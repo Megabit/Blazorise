@@ -8,7 +8,8 @@ namespace Blazorise.Modules
     /// <summary>
     /// Contracts for the button JS module.
     /// </summary>
-    public interface IJSButtonModule : IBaseJSModule
+    public interface IJSButtonModule : IBaseJSModule,
+        IJSDestroyableModule
     {
         /// <summary>
         /// Initializes the new button within the JS module.
@@ -18,12 +19,5 @@ namespace Blazorise.Modules
         /// <param name="options">Additional options for the button initialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( ElementReference elementRef, string elementId, object options );
-
-        /// <summary>
-        /// Removes the button from the JS module.
-        /// </summary>
-        /// <param name="elementId">ID of the rendered element.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Destroy( string elementId );
     }
 }

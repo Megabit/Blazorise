@@ -1,6 +1,6 @@
 import { getChart } from "/_content/Blazorise.Charts/blazorise.charts.js";
 
-export function initialize(dotNetAdapter, canvasId, vertical, streamOptions) {
+export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOptions) {
     const chart = getChart(canvasId);
 
     if (chart) {
@@ -15,7 +15,7 @@ export function initialize(dotNetAdapter, canvasId, vertical, streamOptions) {
     return true;
 }
 
-export function destroy(canvasId) {
+export function destroy(canvas, canvasId) {
     const chart = getChart(canvasId);
 
     if (chart && chart.options && chart.options.scales) {

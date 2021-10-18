@@ -10,7 +10,7 @@ export function initialize(element, elementId, options) {
     }
 }
 
-export function destroy(elementId) {
+export function destroy(element, elementId) {
     var instances = _instances || {};
     delete instances[elementId];
 }

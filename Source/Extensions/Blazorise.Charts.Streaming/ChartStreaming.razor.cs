@@ -38,7 +38,7 @@ namespace Blazorise.Charts.Streaming
             {
                 DotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
 
-                await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementId, Vertical, Options );
+                await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementRef, ParentChart.ElementId, Vertical, Options );
             }
 
             await base.OnAfterRenderAsync( firstRender );
@@ -48,7 +48,7 @@ namespace Blazorise.Charts.Streaming
         {
             if ( disposing && Rendered )
             {
-                var jsModuleDestroyTask = JSModule.Destroy( ParentChart.ElementId );
+                var jsModuleDestroyTask = JSModule.Destroy( ParentChart.ElementRef, ParentChart.ElementId );
 
                 try
                 {

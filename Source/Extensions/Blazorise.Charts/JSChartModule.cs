@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
@@ -25,13 +26,14 @@ namespace Blazorise.Charts
 
         #region Methods
 
-        public virtual async ValueTask Initialize<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
+        public virtual async ValueTask Initialize<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, ElementReference canvasRef, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
         {
             var moduleInstance = await Module;
 
             await moduleInstance.InvokeVoidAsync( "initialize",
                 dotNetObjectReference,
                 eventOptions,
+                canvasRef,
                 canvasId,
                 ToChartTypeString( type ),
                 ToChartData( data ),
@@ -41,11 +43,11 @@ namespace Blazorise.Charts
                 optionsObject );
         }
 
-        public virtual async ValueTask Destroy( string canvasId )
+        public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "destroy", canvasId );
+            await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
         }
 
         public virtual async ValueTask SetOptions<TOptions>( string canvasId, TOptions options, string optionsJsonString, object optionsObject )

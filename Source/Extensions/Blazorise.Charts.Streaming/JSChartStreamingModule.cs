@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Modules;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
@@ -23,22 +24,23 @@ namespace Blazorise.Charts.Streaming
 
         #region Methods
 
-        public virtual async ValueTask<bool> Initialize( DotNetObjectReference<ChartStreamingAdapter> dotNetObjectReference, string canvasId, bool vertical, ChartStreamingOptions options )
+        public virtual async ValueTask<bool> Initialize( DotNetObjectReference<ChartStreamingAdapter> dotNetObjectReference, ElementReference canvasRef, string canvasId, bool vertical, ChartStreamingOptions options )
         {
             var moduleInstance = await Module;
 
             return await moduleInstance.InvokeAsync<bool>( "initialize",
                 dotNetObjectReference,
+                canvasRef,
                 canvasId,
                 vertical,
                 options );
         }
 
-        public virtual async ValueTask Destroy( string canvasId )
+        public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "destroy", canvasId );
+            await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
         }
 
         public virtual async ValueTask<bool> AddData( string canvasId, int datasetIndex, object data )

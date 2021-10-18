@@ -271,7 +271,7 @@ namespace Blazorise.Charts
                 HasHoverEvent = Hovered.HasDelegate,
             };
 
-            return JSModule.Initialize( DotNetObjectRef, eventOptions, ElementId, Type,
+            return JSModule.Initialize( DotNetObjectRef, eventOptions, ElementRef, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,

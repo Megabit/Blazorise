@@ -27,7 +27,7 @@ if (!Chart.defaults.doughnut.tooltips.callbacks.label) {
 
 const _instances = [];
 
-export function initialize(dotnetAdapter, eventOptions, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) {
+export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) {
     if (dataJsonString) {
         data = JSON.parse(dataJsonString);
     }
@@ -60,7 +60,7 @@ export function initialize(dotnetAdapter, eventOptions, canvasId, type, data, op
     }
 
     // search for canvas element
-    const canvas = document.getElementById(canvasId);
+    canvas = canvas || document.getElementById(canvasId);
 
     if (canvas) {
         let chart = new Chart(canvas, {
@@ -80,7 +80,7 @@ export function initialize(dotnetAdapter, eventOptions, canvasId, type, data, op
     }
 }
 
-export function destroy(canvasId) {
+export function destroy(canvas, canvasId) {
     var instances = _instances || {};
 
     const chart = instances[canvasId].chart;

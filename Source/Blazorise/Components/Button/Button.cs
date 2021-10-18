@@ -104,7 +104,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    var task = JSModule.Destroy( ElementId );
+                    var task = JSModule.Destroy( ElementRef, ElementId );
 
                     try
                     {

@@ -49,7 +49,7 @@ namespace Blazorise.Markdown
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-                await JSModule.Initialize( dotNetObjectRef, ElementId, Value );
+                await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, Value );
 
                 Initialized = true;
             }
@@ -60,7 +60,7 @@ namespace Blazorise.Markdown
         {
             if ( disposing && Rendered )
             {
-                var jsModuleDestroyTask = JSModule.Destroy( ElementId );
+                var jsModuleDestroyTask = JSModule.Destroy( ElementRef, ElementId );
 
                 try
                 {

@@ -1,6 +1,6 @@
 const _instances = [];
 
-export function initialize(dotNetObjectRef, elementId, value) {
+export function initialize(dotNetObjectRef, element, elementId, value) {
     const instances = _instances;
 
     const easyMDE = new EasyMDE({
@@ -26,7 +26,7 @@ export function initialize(dotNetObjectRef, elementId, value) {
     };
 }
 
-export function destroy(elementId) {
+export function destroy(element, elementId) {
     const instances = _instances || {};
     delete instances[elementId];
 }

@@ -29,7 +29,7 @@ namespace Blazorise.Charts
         {
             if ( disposing && Rendered )
             {
-                var jsModuleDestroyTask = JSModule.Destroy( ElementId );
+                var jsModuleDestroyTask = JSModule.Destroy( ElementRef, ElementId );
 
                 try
                 {
