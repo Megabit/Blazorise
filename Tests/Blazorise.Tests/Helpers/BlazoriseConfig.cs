@@ -36,6 +36,24 @@ namespace Blazorise.Tests.Helpers
 
             services.AddSingleton( configureOptions );
             services.AddSingleton<BlazoriseOptions>();
+
+
+            services.AddScoped<IJSUtilitiesModule, JSUtilitiesModule>();
+            services.AddScoped<IJSButtonModule, JSButtonModule>();
+            services.AddScoped<IJSClosableModule, JSClosableModule>();
+            services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
+            services.AddScoped<IJSTextEditModule, JSTextEditModule>();
+            services.AddScoped<IJSMemoEditModule, JSMemoEditModule>();
+            services.AddScoped<IJSNumericEditModule, JSNumericEditModule>();
+            services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();
+            services.AddScoped<IJSTimePickerModule, JSTimePickerModule>();
+            services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
+            services.AddScoped<IJSFileEditModule, JSFileEditModule>();
+            services.AddScoped<IJSTableModule, JSTableModule>();
+            services.AddScoped<IJSSelectModule, JSSelectModule>();
+
+            services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
+            services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
         }
 
         public static class JSInterop
@@ -78,6 +96,12 @@ namespace Blazorise.Tests.Helpers
             {
                 var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime ).ModuleFileName );
                 module.Setup<String[]>( "getSelectedOptions", _ => true );
+            }
+
+            public static void AddUtilities( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.SetupVoid( "setProperty", _ => true );
             }
         }
     }

@@ -13,13 +13,10 @@ namespace Blazorise.Tests.Components
     {
         public DataGridMultiSelectComponentTest()
         {
-            AddProviders( Services );
-
-        }
-
-        protected virtual void AddProviders( TestServiceProvider services )
-        {
-            BlazoriseConfig.AddBootstrapProviders( services );
+            BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
         }
 
         [Fact]
