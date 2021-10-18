@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -38,7 +39,7 @@ namespace Blazorise
             {
                 // For Multiple mode we need to update select options DOM through the javascript or otherwise
                 // the newly selected values would not be re-rendered and not visible on the UI.
-                ExecuteAfterRender( async () => await JSRunner.SetSelectedOptions( ElementId, selectedValues ) );
+                ExecuteAfterRender( async () => await JSModule.SetSelectedOptions( ElementId, selectedValues ) );
             }
 
             if ( ParentValidation != null )
@@ -106,7 +107,7 @@ namespace Blazorise
             if ( Multiple )
             {
                 // when multiple selection is enabled we need to use javascript to get the list of selected items
-                var multipleValues = await JSRunner.GetSelectedOptions<TValue>( ElementId );
+                var multipleValues = await JSModule.GetSelectedOptions<TValue>( ElementId );
 
                 return new( true, multipleValues, null );
             }
@@ -231,6 +232,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSSelectModule"/> instance.
+        /// </summary>
+        [Inject] public IJSSelectModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets the selected item value.

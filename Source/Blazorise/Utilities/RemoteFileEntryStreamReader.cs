@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,8 +13,8 @@ namespace Blazorise.Utilities
     {
         private readonly int maxMessageSize;
 
-        public RemoteFileEntryStreamReader( IJSRunner jsRunner, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize )
-            : base( jsRunner, elementRef, fileEntry, fileEdit )
+        public RemoteFileEntryStreamReader( IJSFileEditModule jsModule, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize )
+            : base( jsModule, elementRef, fileEntry, fileEdit )
         {
             this.maxMessageSize = maxMessageSize;
         }
@@ -32,7 +33,7 @@ namespace Blazorise.Utilities
 
                     var length = Math.Min( maxMessageSize, FileEntry.Size - position );
 
-                    var base64 = await JSRunner.ReadDataAsync( ElementRef, FileEntry.Id, position, length, cancellationToken );
+                    var base64 = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, position, length, cancellationToken );
                     var buffer = Convert.FromBase64String( base64 );
 
                     if ( length != buffer.Length )
