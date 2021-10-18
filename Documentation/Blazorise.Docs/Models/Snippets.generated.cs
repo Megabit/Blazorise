@@ -3553,8 +3553,6 @@ namespace Blazorise.Docs.Models
 
         public const string RichTextEditNugetInstallExample = @"Install-Package Blazorise.RichTextEdit";
 
-        public const string RichTextEditResourcesExample = @"<script src=""_content/Blazorise.RichTextEdit/blazorise.richtextedit.js""></script>";
-
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 

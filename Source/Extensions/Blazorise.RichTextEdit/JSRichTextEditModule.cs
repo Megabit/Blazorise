@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -12,13 +14,11 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.RichTextEdit
 {
-    internal sealed class RichTextEditJsInterop
+    internal sealed class JSRichTextEditModule : BaseJSModule,
+        IJSDestroyableModule
     {
         #region Members
 
-        private const string JsRoot = @"blazoriseRichTextEdit";
-
-        private readonly IJSRuntime jsRuntime;
         private readonly RichTextEditOptions options;
         private bool isLoaded;
         private int loadStarted;
@@ -30,9 +30,9 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// Creates a new RichTextEditJsInterop
         /// </summary>
-        public RichTextEditJsInterop( IJSRuntime jsRuntime, RichTextEditOptions options )
+        public JSRichTextEditModule( IJSRuntime jsRuntime, RichTextEditOptions options )
+            : base( jsRuntime )
         {
-            this.jsRuntime = jsRuntime;
             this.options = options;
         }
 
@@ -44,14 +44,15 @@ namespace Blazorise.RichTextEdit
         /// Initializes given editor
         /// </summary>
         /// <returns>the cleanup routine</returns>
-        public async ValueTask<IAsyncDisposable> InitializeEditor( RichTextEdit richTextEdit )
+        public async ValueTask<IAsyncDisposable> Initialize( RichTextEdit richTextEdit )
         {
             await InitializeJsInterop();
 
-            var dotNetRef = DotNetObjectReference
-                .Create( richTextEdit );
+            var dotNetRef = DotNetObjectReference.Create( richTextEdit );
 
-            await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "initialize",
                 dotNetRef,
                 richTextEdit.ElementRef,
                 richTextEdit.ReadOnly,
@@ -62,28 +63,17 @@ namespace Blazorise.RichTextEdit
 
             return AsyncDisposable.Create( async () =>
             {
-                var task = DestroyEditor( richTextEdit.EditorRef );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await this.SafeDestroy( richTextEdit.EditorRef, richTextEdit.ElementId );
 
                 dotNetRef.Dispose();
             } );
         }
 
-        private async ValueTask DestroyEditor( ElementReference editorRef )
+        public async ValueTask Destroy( ElementReference editorRef, string elementId )
         {
-            await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", editorRef );
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "destroy", editorRef, elementId );
         }
 
         /// <summary>
@@ -91,7 +81,9 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetHtmlAsync( ElementReference editorRef, string html )
         {
-            await jsRuntime.InvokeVoidAsync( $"{JsRoot}.setHtml", editorRef, html );
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "setHtml", editorRef, html );
         }
 
         /// <summary>
@@ -99,7 +91,9 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask<string> GetHtmlAsync( ElementReference editorRef )
         {
-            return await jsRuntime.InvokeAsync<string>( $"{JsRoot}.getHtml", editorRef );
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<string>( "getHtml", editorRef );
         }
 
         /// <summary>
@@ -108,7 +102,9 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask SetDeltaAsync( ElementReference editorRef, string deltaJson )
         {
-            await jsRuntime.InvokeVoidAsync( $"{JsRoot}.setDelta", editorRef, deltaJson );
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "setDelta", editorRef, deltaJson );
         }
 
         /// <summary>
@@ -117,7 +113,9 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask<string> GetDeltaAsync( ElementReference editorRef )
         {
-            return await jsRuntime.InvokeAsync<string>( $"{JsRoot}.getDelta", editorRef );
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<string>( "getDelta", editorRef );
         }
 
         /// <summary>
@@ -125,7 +123,9 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetTextAsync( ElementReference editorRef, string text )
         {
-            await jsRuntime.InvokeVoidAsync( $"{JsRoot}.setText", editorRef, text );
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "setText", editorRef, text );
         }
 
         /// <summary>
@@ -134,7 +134,9 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask<string> GetTextAsync( ElementReference editorRef )
         {
-            return await jsRuntime.InvokeAsync<string>( $"{JsRoot}.getText", editorRef );
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<string>( "getText", editorRef );
         }
 
         /// <summary>
@@ -142,7 +144,9 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask ClearAsync( ElementReference editorRef )
         {
-            await jsRuntime.InvokeVoidAsync( $"{JsRoot}.clearContent", editorRef );
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "clearContent", editorRef );
         }
 
         /// <summary>
@@ -150,7 +154,9 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetReadOnly( ElementReference editorRef, bool value )
         {
-            await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setReadOnly", editorRef, value );
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "setReadOnly", editorRef, value );
         }
 
         private async ValueTask InitializeJsInterop()
@@ -193,9 +199,8 @@ namespace Blazorise.RichTextEdit
 
         private async ValueTask<bool> IsLoaded()
         {
-            // Make sure both QuillJs and the blazorise javascript are loaded
-            var quillLoaded = await jsRuntime.InvokeAsync<bool>( "eval", "(function(){ return typeof Quill !== 'undefined' })()" );
-            return quillLoaded && await jsRuntime.InvokeAsync<bool>( "window.hasOwnProperty", JsRoot );
+            // Make sure both QuillJs is loaded
+            return await JSRuntime.InvokeAsync<bool>( "eval", "(function(){ return typeof Quill !== 'undefined' })()" );
         }
 
         /// <summary>
@@ -226,8 +231,15 @@ namespace Blazorise.RichTextEdit
 
             bootStrapScript.AppendLine( "} )();" );
 
-            await jsRuntime.InvokeVoidAsync( "eval", bootStrapScript.ToString() );
+            await JSRuntime.InvokeVoidAsync( "eval", bootStrapScript.ToString() );
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <inheritdoc/>
+        public override string ModuleFileName => "./_content/Blazorise.RichTextEdit/blazorise.richtextedit.js";
 
         #endregion
     }

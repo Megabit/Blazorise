@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.RichTextEdit
 {
-    public static class RichTextEditComponent
+    public static class Config
     {
         /// <summary>
         /// Adds the Blazorise RichTextEdit extension related services
@@ -20,7 +20,7 @@ namespace Blazorise.RichTextEdit
             options?.Invoke( rteOptions );
 
             services.AddSingleton( rteOptions );
-            services.AddScoped<RichTextEditJsInterop>();
+            services.AddScoped<JSRichTextEditModule>();
 
             return services;
         }

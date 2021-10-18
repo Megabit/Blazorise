@@ -91,6 +91,11 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public abstract string ModuleFileName { get; }
 
+        /// <summary>
+        /// Gets the JavaScript runtime instance.
+        /// </summary>
+        public IJSRuntime JSRuntime => jsRuntime;
+
         #endregion
     }
 }
