@@ -9,19 +9,6 @@ using Xunit;
 namespace Blazorise.Tests.Components
 {
 
-    public class DataGridMultiSelectComponentTestBs5 : DataGridMultiSelectComponentTest
-    {
-        public DataGridMultiSelectComponentTestBs5() : base()
-        {
-
-        }
-
-        protected override void AddProviders( TestServiceProvider services )
-        {
-            BlazoriseConfig.AddBootstrap5Providers( services );
-        }
-    }
-
     public class DataGridMultiSelectComponentTest : TestContext
     {
         public DataGridMultiSelectComponentTest()
