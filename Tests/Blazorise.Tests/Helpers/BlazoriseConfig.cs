@@ -42,6 +42,7 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSClosableModule, JSClosableModule>();
             services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
             services.AddScoped<IJSTextEditModule, JSTextEditModule>();
+            services.AddScoped<IJSMemoEditModule, JSMemoEditModule>();
             services.AddScoped<IJSNumericEditModule, JSNumericEditModule>();
             services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();
             services.AddScoped<IJSTimePickerModule, JSTimePickerModule>();
