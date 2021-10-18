@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -46,7 +47,7 @@ namespace Blazorise
 
             if ( Rendered && decimalsChanged )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateNumericEdit( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     Decimals = new { Changed = decimalsChanged, Value = decimals },
                 } ) );
@@ -86,7 +87,7 @@ namespace Blazorise
             // find the min and max possible value based on the supplied value type
             var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
 
-            await JSRunner.InitializeNumericEdit<TValue>( dotNetObjectRef, ElementRef, ElementId, new
+            await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Decimals,
                 Separator = DecimalsSeparator,
@@ -106,20 +107,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSRunner.DestroyNumericEdit( ElementRef, ElementId );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
@@ -319,6 +307,11 @@ namespace Blazorise
                 return CultureInfo.InvariantCulture;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSNumericEditModule"/> instance.
+        /// </summary>
+        [Inject] public IJSNumericEditModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets the value inside the input field.

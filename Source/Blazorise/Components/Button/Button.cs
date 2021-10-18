@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -70,7 +71,10 @@ namespace Blazorise
 
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
+                await JSModule.Initialize( ElementRef, ElementId, new
+                {
+                    PreventDefaultOnSubmit
+                } );
             } );
 
             LoadingTemplate ??= ProvideDefaultLoadingTemplate();
@@ -100,20 +104,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    var task = JSRunner.DestroyButton( ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
-#if NET6_0_OR_GREATER
-                    catch ( Microsoft.JSInterop.JSDisconnectedException )
-                    {
-                    }
-#endif
+                    await JSModule.SafeDestroy( ElementRef, ElementId );
                 }
 
                 if ( command != null )
@@ -152,7 +143,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Focus( bool scrollToElement = true )
         {
-            return JSRunner.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
+            return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <inheritdoc/>
@@ -283,6 +274,16 @@ namespace Blazorise
         /// Gets the size based on the theme settings.
         /// </summary>
         protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSButtonModule"/> instance.
+        /// </summary>
+        [Inject] public IJSButtonModule JSModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Occurs when the button is clicked.

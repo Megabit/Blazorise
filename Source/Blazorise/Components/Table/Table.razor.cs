@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -126,7 +127,7 @@ namespace Blazorise
         protected virtual ValueTask InitializeTableFixedHeader()
         {
             if ( FixedHeader )
-                return JSRunner.InitializeTableFixedHeader( ElementRef, ElementId );
+                return JSModule.InitializeFixedHeader( ElementRef, ElementId );
 
             return ValueTask.CompletedTask;
         }
@@ -141,7 +142,7 @@ namespace Blazorise
             if ( resizable )
             {
                 await DestroyResizable();
-                await InitResizable();
+                await InitializeResizable();
             }
         }
 
@@ -154,7 +155,7 @@ namespace Blazorise
         {
             if ( FixedHeader )
             {
-                return JSRunner.FixedHeaderScrollTableToPixels( ElementRef, ElementId, pixels );
+                return JSModule.ScrollTableToPixels( ElementRef, ElementId, pixels );
             }
 
             return ValueTask.CompletedTask;
@@ -169,20 +170,20 @@ namespace Blazorise
         {
             if ( FixedHeader )
             {
-                return JSRunner.FixedHeaderScrollTableToRow( ElementRef, ElementId, row );
+                return JSModule.ScrollTableToRow( ElementRef, ElementId, row );
             }
 
             return ValueTask.CompletedTask;
         }
 
-        private ValueTask InitResizable()
-            => JSRunner.InitializeTableResizable( ElementRef, ElementId, ResizeMode );
+        private ValueTask InitializeResizable()
+            => JSModule.InitializeResizable( ElementRef, ElementId, ResizeMode );
 
         private ValueTask DestroyResizable()
-            => JSRunner.DestroyTableResizable( ElementRef, ElementId );
+            => JSModule.DestroyResizable( ElementRef, ElementId );
 
-        private ValueTask DestroyTableFixedHeader()
-            => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );
+        private ValueTask DestroyFixedHeader()
+            => JSModule.DestroyFixedHeader( ElementRef, ElementId );
 
         #endregion
 
@@ -212,6 +213,11 @@ namespace Blazorise
         /// True if table needs to be placed inside of container element.
         /// </summary>
         protected bool HasContainer => Responsive || FixedHeader || Resizable;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSTableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSTableModule JSModule { get; set; }
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -340,7 +346,7 @@ namespace Blazorise
                 DirtyClasses();
 
                 if ( !fixedHeader )
-                    ExecuteAfterRender( () => DestroyTableFixedHeader().AsTask() );
+                    ExecuteAfterRender( () => DestroyFixedHeader().AsTask() );
             }
         }
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,7 +15,7 @@ namespace Blazorise
     {
         #region Members
 
-        private readonly IJSRunner jsRunner;
+        private readonly IJSFileEditModule jsModule;
         private readonly ElementReference elementRef;
         private readonly FileEntry fileEntry;
         private readonly FileEdit fileEdit;
@@ -30,9 +31,9 @@ namespace Blazorise
 
         #region Constructors
 
-        public RemoteFileEntryStream( IJSRunner jsRunner, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
+        public RemoteFileEntryStream( IJSFileEditModule jsModule, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
         {
-            this.jsRunner = jsRunner;
+            this.jsModule = jsModule;
             this.elementRef = elementRef;
             this.fileEntry = fileEntry;
             this.fileEdit = fileEdit;
@@ -65,7 +66,7 @@ namespace Blazorise
                         readSegmentCts.CancelAfter( segmentFetchTimeout );
 
                         var length = (int)Math.Min( maxMessageSize, fileEntry.Size - offset );
-                        var base64 = await jsRunner.ReadDataAsync( elementRef, fileEntry.Id, offset, length, cancellationToken );
+                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, offset, length, cancellationToken );
                         var bytes = Convert.FromBase64String( base64 );
 
                         if ( bytes is null || bytes.Length != length )

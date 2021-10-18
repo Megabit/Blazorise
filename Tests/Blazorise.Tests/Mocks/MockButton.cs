@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Moq;
 #endregion
@@ -11,13 +12,13 @@ namespace Blazorise.Tests.Mocks
     {
         public MockButton( Dropdown parentDropdown = null, Addons parentAddons = null, Buttons parentButtons = null )
         {
-            var mockRunner = new Mock<IJSRunner>();
+            var mockRunner = new Mock<IJSUtilitiesModule>();
 
             mockRunner
                 .Setup( r => r.Focus( It.IsAny<ElementReference>(), It.IsAny<string>(), It.IsAny<bool>() ) )
                  .Callback( ( ElementReference r, string i, bool s ) => this.OnFocusCalled( r, i, s ) );
 
-            this.JSRunner = mockRunner.Object;
+            this.JSUtilitiesModule = mockRunner.Object;
 
             var mockIdGenerator = new Mock<IIdGenerator>();
 

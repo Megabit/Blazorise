@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -46,7 +47,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerValue( ElementRef, ElementId, color ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, color ) );
                 }
             }
 
@@ -56,7 +57,7 @@ namespace Blazorise
                 || disabledChanged
                 || readOnlyChanged ) )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     Palette = new { Changed = paletteChanged, Value = palette },
                     ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
@@ -96,7 +97,7 @@ namespace Blazorise
             if ( PickerLocalizer != null )
                 return;
 
-            ExecuteAfterRender( async () => await JSRunner.UpdateColorPickerLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );
+            ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );
 
             await InvokeAsync( StateHasChanged );
         }
@@ -106,7 +107,7 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( this );
 
-            await JSRunner.InitializeColorPicker( dotNetObjectRef, ElementRef, ElementId, new
+            await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Default = Color,
                 Palette,
@@ -127,20 +128,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSRunner.DestroyColorPicker( ElementRef, ElementId );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-#if NET6_0_OR_GREATER
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-#endif
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
@@ -190,7 +178,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public virtual Task Select( bool focus = true )
         {
-            return JSRunner.Select( ElementRef, ElementId, focus ).AsTask();
+            return JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
         }
 
         /// <summary>
@@ -213,6 +201,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override string InternalValue { get => Color; set => Color = value; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSColorPickerModule"/> instance.
+        /// </summary>
+        [Inject] public IJSColorPickerModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
