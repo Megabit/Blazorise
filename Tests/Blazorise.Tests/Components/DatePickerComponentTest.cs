@@ -11,6 +11,7 @@ namespace Blazorise.Tests.Components
         public DatePickerComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddDatePicker( this.JSInterop );
         }
 
         [Fact]

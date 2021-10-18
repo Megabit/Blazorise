@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -192,7 +193,7 @@ namespace Blazorise
             // workaround from: https://github.com/dotnet/aspnetcore/issues/30070#issuecomment-823938686
             await Task.Yield();
 
-            await JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+            await JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement );
         }
 
         /// <summary>
@@ -365,6 +366,11 @@ namespace Blazorise
         /// Gets the size based on the theme settings.
         /// </summary>
         protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Holds the information about the Blazorise global options.

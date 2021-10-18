@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+using System.Collections.Generic;
 using static Blazorise.RichTextEdit.DynamicReferenceType;
+#endregion
 
 namespace Blazorise.RichTextEdit
 {
@@ -44,7 +46,6 @@ namespace Blazorise.RichTextEdit
             List<DynamicReference> references = new()
             {
                 new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.js", Script ),
-                new( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.js", Script ),
                 new( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.bundle.scp.css", Stylesheet )
             };
 

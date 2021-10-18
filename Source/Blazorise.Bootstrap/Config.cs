@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -21,10 +22,12 @@ namespace Blazorise.Bootstrap
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, BootstrapJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
 
             serviceCollection.AddBootstrapComponents();
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
             return serviceCollection;
         }

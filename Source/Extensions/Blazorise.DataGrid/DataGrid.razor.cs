@@ -80,11 +80,6 @@ namespace Blazorise.DataGrid
         private bool virtualizeFilterChanged;
 
         /// <summary>
-        /// Keeps track of whether the object has already been disposed.
-        /// </summary>
-        private bool disposed;
-
-        /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
         protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new()
@@ -251,17 +246,18 @@ namespace Blazorise.DataGrid
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        protected override void Dispose( bool disposing )
+        protected override ValueTask DisposeAsync( bool disposing )
         {
-            if ( !disposed )
+            if ( disposing )
             {
-                disposed = true;
-
-                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
-
-                base.Dispose( disposing );
+                if ( paginationContext != null )
+                {
+                    paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                    paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                }
             }
+
+            return base.DisposeAsync( disposing );
         }
 
         private async Task HandleSelectionModeChanged()
@@ -298,7 +294,7 @@ namespace Blazorise.DataGrid
                 VirtualizeOptions ??= new();
 
                 if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup )
-                    virtualizeState.EditLastKnownScroll = await JSRuntime.InvokeAsync<int>( JSInteropFunction.Virtualize.ON_EDIT_SET_SCROLL, tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
+                    virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
             }
             else
             {
@@ -1189,8 +1185,6 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
-
-        [Inject] private IJSRuntime JSRuntime { get; set; }
 
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
