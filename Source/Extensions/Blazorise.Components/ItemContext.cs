@@ -1,9 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Components.Autocomplete
@@ -15,7 +10,6 @@ namespace Blazorise.Components.Autocomplete
     /// <typeparam name="TValue">Type of a SelectedValue field by the autocomplete component.</typeparam>
     public class ItemContext<TItem, TValue>
     {
-
         /// <summary>
         /// Initializes ItemContext.
         /// </summary>
@@ -43,6 +37,5 @@ namespace Blazorise.Components.Autocomplete
         /// Holds current Autocomplete Item Text.
         /// </summary>
         public string Text { get; }
-
     }
 }
