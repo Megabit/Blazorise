@@ -3090,9 +3090,9 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    int totalEmployees;
-    List<Employee> employeeList;
+    protected Employee selectedEmployee;
+    protected int totalEmployees;
+    protected List<Employee> employeeList;
 
     public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
@@ -3166,7 +3166,6 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
     int totalEmployees;
     List<Employee> employeeList;
 
@@ -3229,12 +3228,12 @@ namespace Blazorise.Docs.Models
 <Button Background=""Background.Primary"" Color=""Color.Light"" Clicked=""() => datagridRef.Reload()"">Load</Button>
 
 @code{
-    DataGrid.DataGrid<Employee> datagridRef;
-    Progress progressRef;
-    int progress;
-    Employee selectedEmployee;
-    int totalEmployees = 0;
-    List<Employee> employeeList;
+    protected DataGrid.DataGrid<Employee> datagridRef;
+    protected Progress progressRef;
+    protected int progress;
+    protected Employee selectedEmployee;
+    protected int totalEmployees = 0;
+    protected List<Employee> employeeList;
 
     public async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
@@ -3569,12 +3568,12 @@ namespace Blazorise.Docs.Models
 </RichTextEdit>
 
 @code{
-    private RichTextEdit richTextEditRef;
-    private bool readOnly;
-    private string contentAsHtml;
-    private string contentAsDeltaJson;
-    private string contentAsText;
-    private string savedContent;
+    protected RichTextEdit richTextEditRef;
+    protected bool readOnly;
+    protected string contentAsHtml;
+    protected string contentAsDeltaJson;
+    protected string contentAsText;
+    protected string savedContent;
 
     public async Task OnContentChanged()
     {

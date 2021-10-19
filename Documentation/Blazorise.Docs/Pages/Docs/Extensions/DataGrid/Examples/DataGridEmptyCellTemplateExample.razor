@@ -35,9 +35,9 @@
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    int totalEmployees;
-    List<Employee> employeeList;
+    protected Employee selectedEmployee;
+    protected int totalEmployees;
+    protected List<Employee> employeeList;
 
     public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
