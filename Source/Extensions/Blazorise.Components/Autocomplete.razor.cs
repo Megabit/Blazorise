@@ -503,6 +503,11 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets the element reference.
+        /// </summary>
+        public ElementReference ElementRef { get; }
+
+        /// <summary>
         /// Gets the dropdown CSS styles.
         /// </summary>
         protected string CssStyle
@@ -799,14 +804,10 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 
-
-        public ElementReference ElementRef { get; }
-
         /// <summary>
         /// Specifies the item content to be rendered inside each dropdown item.
         /// </summary>
         [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
-
 
         #endregion
     }
