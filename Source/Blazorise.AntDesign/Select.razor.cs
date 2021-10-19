@@ -322,8 +322,6 @@ namespace Blazorise.AntDesign
 
         [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
-        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
-
         #endregion
     }
 }

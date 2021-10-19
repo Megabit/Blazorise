@@ -35,12 +35,12 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    DataGrid.DataGrid&lt;Employee&gt; datagridRef;
-    Progress progressRef;
-    <span class="keyword">int</span> progress;
-    Employee selectedEmployee;
-    <span class="keyword">int</span> totalEmployees = <span class="number">0</span>;
-    List&lt;Employee&gt; employeeList;
+    <span class="keyword">protected</span> DataGrid.DataGrid&lt;Employee&gt; datagridRef;
+    <span class="keyword">protected</span> Progress progressRef;
+    <span class="keyword">protected</span> <span class="keyword">int</span> progress;
+    <span class="keyword">protected</span> Employee selectedEmployee;
+    <span class="keyword">protected</span> <span class="keyword">int</span> totalEmployees = <span class="number">0</span>;
+    <span class="keyword">protected</span> List&lt;Employee&gt; employeeList;
 
     <span class="keyword">public</span> <span class="keyword">async</span> Task LoadEmployeesFromService( DataGridReadDataEventArgs&lt;Employee&gt; e )
     {
