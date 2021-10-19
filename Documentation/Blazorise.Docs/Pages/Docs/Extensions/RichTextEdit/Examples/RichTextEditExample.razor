@@ -31,12 +31,12 @@
 </RichTextEdit>
 
 @code{
-    private RichTextEdit richTextEditRef;
-    private bool readOnly;
-    private string contentAsHtml;
-    private string contentAsDeltaJson;
-    private string contentAsText;
-    private string savedContent;
+    protected RichTextEdit richTextEditRef;
+    protected bool readOnly;
+    protected string contentAsHtml;
+    protected string contentAsDeltaJson;
+    protected string contentAsText;
+    protected string savedContent;
 
     public async Task OnContentChanged()
     {

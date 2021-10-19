@@ -127,8 +127,6 @@ namespace Blazorise.AntDesign
         string HandleStyle
             => $"left: {Percentage}%; right: auto; transform: translateX(-50%);";
 
-        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
-
         #endregion
     }
 }

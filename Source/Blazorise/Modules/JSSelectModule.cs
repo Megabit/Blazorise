@@ -10,7 +10,7 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules
 {
     /// <summary>
-    /// Default implementation of the <see cref="Select{TValue}{TValue}"/> JS module.
+    /// Default implementation of the <see cref="Select{TValue}"/> JS module.
     /// </summary>
     public class JSSelectModule : BaseJSModule, IJSSelectModule
     {
