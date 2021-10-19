@@ -602,6 +602,9 @@ input[readonly="readonly"][type=range] {
 li.list-group-item-action {
     cursor: pointer; }
 
+.b-list-view {
+    overflow-y: scroll; }
+
 .media {
     display: flex;
     align-items: flex-start; }

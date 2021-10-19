@@ -1,4 +1,8 @@
-﻿@if ( Title != null )
+﻿<CascadingValue Value="this" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@if ( Title != null )
 {
     <Heading Class="docs-page-attributes-title" Size="HeadingSize.Is3">
         @Title
@@ -15,6 +19,27 @@
         </TableRow>
     </TableHeader>
     <TableBody>
-        @ChildContent
+        @foreach ( var DocsAttributesItem in DocsAttributesItems )
+        {
+            <TableRow>
+                <TableRowCell>
+                    <Code>@DocsAttributesItem.Name</Code>
+                </TableRowCell>
+                <TableRowCell>
+                    @DocsAttributesItem.ChildContent
+                </TableRowCell>
+                <TableRowCell>
+                    <Code Tag="@DocsAttributesItem.TypeTag">@DocsAttributesItem.Type</Code>
+                </TableRowCell>
+                <TableRowCell Class="@DocsAttributesItem.DefaultClassNames">
+                    @if ( @DocsAttributesItem.Default != null )
+                    {
+                        <Code>@DocsAttributesItem.Default</Code>
+                    }
+                </TableRowCell>
+            </TableRow>
+        }
     </TableBody>
 </Table>
+
+
