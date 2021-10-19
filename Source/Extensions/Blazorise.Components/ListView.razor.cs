@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -16,43 +14,44 @@ namespace Blazorise.Components
     /// </summary>
     public partial class ListView<TItem> : ComponentBase
     {
-        #region Members
-
-
-        #endregion
-
         #region Methods
 
         protected Task SelectedListGroupItemChanged( string text )
         {
             SelectedItem = GetItemBySelectedText( text );
+
             return SelectedItemChanged.InvokeAsync( SelectedItem );
         }
 
         private TItem GetItemBySelectedText( string selectedText )
         {
-            if ( TextField is not null )
+            if ( Data is not null && TextField is not null )
             {
                 return Data.FirstOrDefault( x => TextField.Invoke( x ) == selectedText );
             }
+
             return default;
         }
 
-        protected string BuildStyles()
+        protected string ListGroupClassNames
+            => $"b-list-view {Class}";
+
+        protected string ListGroupStyleNames
         {
-            StringBuilder sb = new();
-            if ( !string.IsNullOrWhiteSpace( Height ) )
-                sb.Append( $"height:{Height};" );
-            if ( !string.IsNullOrWhiteSpace( MaxHeight ) )
-                sb.Append( $"max-height:{MaxHeight};" );
-            if ( !string.IsNullOrWhiteSpace( Style ) )
-                sb.Append( Style );
-            return sb.ToString();
+            get
+            {
+                var sb = new StringBuilder();
+
+                if ( !string.IsNullOrWhiteSpace( Height ) )
+                    sb.Append( $"height:{Height};" );
+                if ( !string.IsNullOrWhiteSpace( MaxHeight ) )
+                    sb.Append( $"max-height:{MaxHeight};" );
+                if ( !string.IsNullOrWhiteSpace( Style ) )
+                    sb.Append( Style );
+
+                return sb.ToString();
+            }
         }
-
-
-        protected string BuildClasses()
-            => ( $"b-list-view {Class}" );
 
         #endregion
 

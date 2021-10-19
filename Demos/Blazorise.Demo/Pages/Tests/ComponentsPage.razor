@@ -188,21 +188,15 @@
                 <CardTitle>ListView</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal="true">
-                    <FieldBody>
-                        <ListView TItem="MySelectModel"
-                                  Data="myDdlData"
-                                  @bind-SelectedItem="selectedListViewItem"
-                                  TextField="(item) => item.MyTextField"
-                                  Mode="ListGroupMode.Selectable">
-                        </ListView>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldBody>
-                        Selected Item Text: @selectedListViewItem?.MyTextField
-                    </FieldBody>
-                </Field>
+                <ListView TItem="MySelectModel"
+                          Data="@myDdlData"
+                          @bind-SelectedItem="@selectedListViewItem"
+                          TextField="@((item) => item.MyTextField)"
+                          Mode="ListGroupMode.Selectable">
+                </ListView>
+                <Paragraph Margin="Margin.Is3.FromTop">
+                    Selected Item Text: @selectedListViewItem?.MyTextField
+                </Paragraph>
             </CardBody>
         </Card>
     </Column>
