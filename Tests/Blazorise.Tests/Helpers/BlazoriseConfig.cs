@@ -37,6 +37,7 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton( configureOptions );
             services.AddSingleton<BlazoriseOptions>();
 
+
             services.AddScoped<IJSUtilitiesModule, JSUtilitiesModule>();
             services.AddScoped<IJSButtonModule, JSButtonModule>();
             services.AddScoped<IJSClosableModule, JSClosableModule>();
@@ -95,6 +96,12 @@ namespace Blazorise.Tests.Helpers
             {
                 var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime ).ModuleFileName );
                 module.Setup<String[]>( "getSelectedOptions", _ => true );
+            }
+
+            public static void AddUtilities( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime ).ModuleFileName );
+                module.SetupVoid( "setProperty", _ => true );
             }
         }
     }
