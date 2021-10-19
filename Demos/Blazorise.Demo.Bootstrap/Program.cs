@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
 using Blazorise.Demo.Data;
@@ -35,9 +37,9 @@ namespace Blazorise.Demo.Bootstrap
 
             builder.RootComponents.Add<App>( "#app" );
 
-            var host = builder.Build();
+            builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
 
-            await host.RunAsync();
+            await builder.Build().RunAsync();
         }
     }
 }
