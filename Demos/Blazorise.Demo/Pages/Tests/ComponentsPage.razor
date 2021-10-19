@@ -182,6 +182,24 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>ListView</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <ListView TItem="MySelectModel"
+                          Data="@myDdlData"
+                          @bind-SelectedItem="@selectedListViewItem"
+                          TextField="@((item) => item.MyTextField)"
+                          Mode="ListGroupMode.Selectable">
+                </ListView>
+                <Paragraph Margin="Margin.Is3.FromTop">
+                    Selected Item Text: @selectedListViewItem?.MyTextField
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 
 @code {
@@ -204,6 +222,7 @@
     int selectedDropValue { get; set; } = 2;
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
+    MySelectModel selectedListViewItem { get; set; }
     ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     Random random = new();
 

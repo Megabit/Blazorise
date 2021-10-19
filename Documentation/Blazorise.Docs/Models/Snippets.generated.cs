@@ -3436,6 +3436,51 @@ namespace Blazorise.Docs.Models
 	.AddBootstrapProviders()
 +   .AddFontAwesomeIcons();";
 
+        public const string BasicListViewExample = @"<ListView TItem=""MySelectModel""
+            Data=""myDdlData""
+            TextField=""(item) => item.MyTextField""
+            Mode=""ListGroupMode.Static""
+            MaxHeight=""300px"">
+</ListView>
+
+@code{
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+}";
+
+        public const string ListViewSelectableExample = @"<ListView TItem=""MySelectModel""
+            Data=""myDdlData""
+            TextField=""(item) => item.MyTextField""
+            Mode=""ListGroupMode.Selectable""
+            MaxHeight=""300px""
+            @bind-SelectedItem=""@selectedListViewItem"">
+</ListView>
+
+<Field Horizontal=""true"">
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Item Text: @selectedListViewItem?.MyTextField
+    </FieldBody>
+</Field>
+
+
+@code{
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+    MySelectModel selectedListViewItem { get; set; }
+
+    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+}";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
