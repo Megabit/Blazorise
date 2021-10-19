@@ -37,9 +37,9 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    Employee selectedEmployee;
-    <span class="keyword">int</span> totalEmployees;
-    List&lt;Employee&gt; employeeList;
+    <span class="keyword">protected</span> Employee selectedEmployee;
+    <span class="keyword">protected</span> <span class="keyword">int</span> totalEmployees;
+    <span class="keyword">protected</span> List&lt;Employee&gt; employeeList;
 
     <span class="keyword">public</span> Task LoadEmployeesFromService( DataGridReadDataEventArgs&lt;Employee&gt; e )
     {
