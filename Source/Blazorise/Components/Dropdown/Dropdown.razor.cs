@@ -269,9 +269,12 @@ namespace Blazorise
         private void HandleVisibilityEvents( bool visible )
         {
             VisibleChanged.InvokeAsync( visible );
-            foreach ( var dropdownMenu in childrenDropdownMenus )
-            {
-                dropdownMenu.OnVisibleChanged( visible );
+            if ( childrenDropdownMenus is not null )
+            { 
+                foreach ( var dropdownMenu in childrenDropdownMenus )
+                {
+                    dropdownMenu.OnVisibleChanged( visible );
+                }
             }
         }
 
