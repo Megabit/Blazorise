@@ -186,6 +186,14 @@
     3. Remove <Code>Title</Code> component and replace it with the <Code>Heading</Code> component.
 </Paragraph>
 
+<Paragraph>
+    4. We've found that on <Code>Dropdown</Code> we had both a <Code>VisibleChanged</Code> and <Code>Toggled</Code> event, which served the same purpose. We've removed <Code>Toggled</Code> and changed <Code>VisibleChanged</Code> to a regular Blazor <Code>EventCallback</Code>.
+   
+    Replace any <Code>Toggled</Code> Parameter with the <Code>VisibleChanged</Code> Parameter. 
+    
+    Change any <Code>VisibleChanged</Code> event you might've bound to be compliant with a regular Blazor <Code>EventCallback</Code>.
+</Paragraph>
+
 <NewsPageSubtitle>
     Highlights 🚀
 </NewsPageSubtitle>

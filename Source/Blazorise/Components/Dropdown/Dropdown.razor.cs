@@ -391,7 +391,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// An event raised after the <see cref="Visible"/> parameter has changed.
+        /// Occurs after the dropdown menu visibility has changed.
         /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
