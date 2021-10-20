@@ -97,6 +97,7 @@ namespace Blazorise
                 TypeMin = minFromType,
                 TypeMax = maxFromType,
                 ChangeTextOnKeyPress = IsChangeTextOnKeyPress,
+                SelectAllOnFocus,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -378,6 +379,11 @@ namespace Blazorise
         /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
         /// </summary>
         [Parameter] public bool? EnableStep { get; set; }
+
+        /// <summary>
+        /// If true, selects all the text entered in the input field once it receives the focus.
+        /// </summary>
+        [Parameter] public bool SelectAllOnFocus { get; set; }
 
         #endregion
     }

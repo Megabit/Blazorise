@@ -27,7 +27,7 @@ namespace Blazorise.Charts.Streaming
         {
             if ( JSModule == null )
             {
-                JSModule = new JSChartStreamingModule( JSRuntime );
+                JSModule = new JSChartStreamingModule( JSRuntime, VersionProvider );
             }
 
             return base.OnInitializedAsync();
@@ -91,7 +91,9 @@ namespace Blazorise.Charts.Streaming
 
         protected JSChartStreamingModule JSModule { get; private set; }
 
-        [Inject] IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        [Inject] private IVersionProvider VersionProvider { get; set; }
 
         [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 

@@ -18,8 +18,9 @@ namespace Blazorise.Modules
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public JSFileEditModule( IJSRuntime jsRuntime )
-            : base( jsRuntime )
+        /// <param name="versionProvider">Version provider.</param>
+        public JSFileEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+            : base( jsRuntime, versionProvider )
         {
         }
 
@@ -72,7 +73,7 @@ namespace Blazorise.Modules
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise/fileEdit.js";
+        public override string ModuleFileName => $"./_content/Blazorise/fileEdit.js?v={VersionProvider.Version}";
 
 
         #endregion

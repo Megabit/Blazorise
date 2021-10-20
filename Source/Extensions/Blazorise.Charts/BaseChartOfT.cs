@@ -20,7 +20,7 @@ namespace Blazorise.Charts
         {
             if ( JSModule == null )
             {
-                JSModule = new JSChartModule( JSRuntime );
+                JSModule = new JSChartModule( JSRuntime, VersionProvider );
             }
 
             return base.OnInitializedAsync();
@@ -63,6 +63,8 @@ namespace Blazorise.Charts
         protected JSChartModule JSModule { get; private set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
+
+        [Inject] protected IVersionProvider VersionProvider { get; set; }
 
         /// <summary>
         /// Defines the chart data.

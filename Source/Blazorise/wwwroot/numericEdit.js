@@ -15,6 +15,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         paste(_instances[elementId], e);
     });
 
+    element.addEventListener("focus", (e) => {
+        selectAll(_instances[elementId], e);
+    });
+
     if (instance.decimals && instance.decimals !== 2) {
         instance.truncate();
     }
@@ -43,4 +47,14 @@ function keyPress(validator, e) {
 
 function paste(validator, e) {
     return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
+}
+
+function selectAll(validator, e) {
+    if (validator.selectAllOnFocus && validator.element) {
+        const element = validator.element;
+
+        if (element.value && element.value.length > 0) {
+            element.setSelectionRange(0, element.value.length);
+        }
+    }
 }

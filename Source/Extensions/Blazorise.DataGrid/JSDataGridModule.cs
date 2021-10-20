@@ -15,8 +15,9 @@ namespace Blazorise.DataGrid
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public JSDataGridModule( IJSRuntime jsRuntime )
-            : base( jsRuntime )
+        /// <param name="versionProvider">Version provider.</param>
+        public JSDataGridModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+            : base( jsRuntime, versionProvider )
         {
         }
 
@@ -36,7 +37,7 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise.DataGrid/blazorise.datagrid.js";
+        public override string ModuleFileName => $"./_content/Blazorise.DataGrid/blazorise.datagrid.js?v={VersionProvider.Version}";
 
         #endregion
     }

@@ -165,11 +165,25 @@
             <TableRowCell><Code>void FocusAsync()</Code></TableRowCell>
             <TableRowCell><strong>removed</strong></TableRowCell>
         </TableRow>
+        <TableRow>
+            <TableRowCell>Snackbar</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
     </TableBody>
 </Table>
 
 <Paragraph>
     2. Remove <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameters from the <Code Tag>NotificationAlert</Code>.
+</Paragraph>
+
+<Paragraph>
+    3. Remove <Code>Title</Code> component and replace it with the <Code>Heading</Code> component.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -181,7 +195,7 @@
 </Heading>
 
 <Paragraph>
-    Introduced the new <Code>ListView</Code> component. 
+    Introduced the new <Code>ListView</Code> component.
 </Paragraph>
 <Paragraph>
     List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.

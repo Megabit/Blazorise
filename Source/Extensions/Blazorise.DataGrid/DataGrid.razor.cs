@@ -1315,6 +1315,11 @@ namespace Blazorise.DataGrid
         [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
 
         /// <summary>
+        /// Occurs before the popup dialog is closed.
+        /// </summary>
+        [Parameter] public Func<ModalClosingEventArgs, Task> PopupClosing { get; set; }
+
+        /// <summary>
         /// Gets the reference to the associated command column.
         /// </summary>
         public DataGridCommandColumn<TItem> CommandColumn { get; private set; }

@@ -18,7 +18,7 @@ namespace Blazorise.DataGrid
         {
             if ( JSModule == null )
             {
-                JSModule = new JSDataGridModule( JSRuntime );
+                JSModule = new JSDataGridModule( JSRuntime, VersionProvider );
             }
 
             base.OnInitialized();
@@ -46,6 +46,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets the JS runtime.
         /// </summary>
         [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version provider.
+        /// </summary>
+        [Inject] private IVersionProvider VersionProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the classname provider.
