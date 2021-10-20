@@ -888,14 +888,6 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region Title
-
-        public override string Title() => "title";
-
-        public override string TitleSize( int size ) => $"is-{size}";
-
-        #endregion
-
         #region Table
 
         public override string Table() => "table";

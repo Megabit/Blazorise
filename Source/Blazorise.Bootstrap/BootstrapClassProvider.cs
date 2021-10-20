@@ -869,14 +869,6 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Title
-
-        public override string Title() => null;
-
-        public override string TitleSize( int size ) => $"h{size}";
-
-        #endregion
-
         #region Table
 
         public override string Table() => "table";
