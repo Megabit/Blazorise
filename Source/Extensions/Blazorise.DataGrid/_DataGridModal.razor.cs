@@ -105,6 +105,8 @@ namespace Blazorise.DataGrid
 
         [Parameter] public ModalSize PopupSize { get; set; }
 
+        [Parameter] public Func<ModalClosingEventArgs, Task> PopupClosing { get; set; }
+
         [Parameter] public DataGridEditState EditState { get; set; }
 
         /// <summary>

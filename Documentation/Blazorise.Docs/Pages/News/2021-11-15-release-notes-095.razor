@@ -165,6 +165,16 @@
             <TableRowCell><Code>void FocusAsync()</Code></TableRowCell>
             <TableRowCell><strong>removed</strong></TableRowCell>
         </TableRow>
+        <TableRow>
+            <TableRowCell>Snackbar</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
     </TableBody>
 </Table>
 
@@ -172,9 +182,27 @@
     2. Remove <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameters from the <Code Tag>NotificationAlert</Code>.
 </Paragraph>
 
+<Paragraph>
+    3. Remove <Code>Title</Code> component and replace it with the <Code>Heading</Code> component.
+</Paragraph>
+
 <NewsPageSubtitle>
     Highlights 🚀
 </NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    ListView
+</Heading>
+
+<Paragraph>
+    Introduced the new <Code>ListView</Code> component.
+</Paragraph>
+<Paragraph>
+    List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.
+</Paragraph>
+<Paragraph>
+    List views use <Code>ListGroup</Code> behind the covers, so you may make use of the <Code>ListGroup</Code> underlying APIs.
+</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     JavaScript modules

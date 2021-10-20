@@ -3973,6 +3973,9 @@ body::-webkit-scrollbar {
 li.list-group-item-action {
     cursor: pointer; }
 
+.b-list-view {
+    overflow-y: scroll; }
+
 @media (min-width: 576px) {
     .modal-sm {
         width: 300px; } }

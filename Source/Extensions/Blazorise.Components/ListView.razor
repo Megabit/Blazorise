@@ -1,0 +1,11 @@
+﻿@typeparam TItem
+<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Mode="@Mode" SelectedItemChanged="@SelectedListGroupItemChanged" Attributes="@Attributes">
+    @if ( Data != null )
+    {
+        @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
+        {
+            var text = TextField?.Invoke( item ) ?? string.Empty;
+            <ListGroupItem Name="@text">@text</ListGroupItem>
+        }
+    }
+</ListGroup>

@@ -3,6 +3,7 @@ using System;
 using Blazorise.Bootstrap;
 using Blazorise.Localization;
 using Blazorise.Modules;
+using Blazorise.Providers;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<PatternValidationHandler>();
             services.AddSingleton<DataAnnotationValidationHandler>();
             services.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+            services.AddSingleton<IVersionProvider, VersionProvider>();
             services.AddScoped<ITextLocalizerService, TextLocalizerService>();
             services.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
 
@@ -36,6 +38,7 @@ namespace Blazorise.Tests.Helpers
 
             services.AddSingleton( configureOptions );
             services.AddSingleton<BlazoriseOptions>();
+
 
             services.AddScoped<IJSUtilitiesModule, JSUtilitiesModule>();
             services.AddScoped<IJSButtonModule, JSButtonModule>();
@@ -55,46 +58,59 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
         }
 
+        internal class VersionProvider : IVersionProvider
+        {
+            public string Version => "";
+
+            public string MilestoneVersion => "";
+        }
+
         public static class JSInterop
         {
             public static void AddButton( BunitJSInterop jsInterop )
             {
-                var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime ).ModuleFileName );
+                var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "initialize", _ => true );
                 module.SetupVoid( "destroy", _ => true );
             }
 
             public static void AddTextEdit( BunitJSInterop jsInterop )
             {
-                var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime ).ModuleFileName );
+                var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "initialize", _ => true );
                 module.SetupVoid( "destroy", _ => true );
             }
 
             public static void AddDatePicker( BunitJSInterop jsInterop )
             {
-                jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime ).ModuleFileName )
+                jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName )
                          .SetupVoid( "initialize", _ => true );
             }
 
             public static void AddCloseable( BunitJSInterop jsInterop )
             {
-                var module = jsInterop.SetupModule( new JSClosableModule( jsInterop.JSRuntime ).ModuleFileName );
+                var module = jsInterop.SetupModule( new JSClosableModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "registerClosableComponent", _ => true );
                 module.SetupVoid( "unregisterClosableComponent", _ => true );
             }
 
             public static void AddNumericEdit( BunitJSInterop jsInterop )
             {
-                var module = jsInterop.SetupModule( new JSNumericEditModule( jsInterop.JSRuntime ).ModuleFileName );
+                var module = jsInterop.SetupModule( new JSNumericEditModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "initialize", _ => true );
                 module.SetupVoid( "destroy", _ => true );
             }
 
             public static void AddSelect( BunitJSInterop jsInterop )
             {
-                var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime ).ModuleFileName );
+                var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.Setup<String[]>( "getSelectedOptions", _ => true );
+            }
+
+            public static void AddUtilities( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "setProperty", _ => true );
             }
         }
     }

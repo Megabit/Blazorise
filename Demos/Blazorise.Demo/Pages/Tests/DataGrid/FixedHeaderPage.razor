@@ -62,14 +62,11 @@
         </Card>
     </Column>
 </Row>
-
 @code {
-
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private List<Employee> inMemoryData;
     private Employee selectedEmployee;
-    private TableResizeMode resizeMode = TableResizeMode.Header;
 
     protected override async Task OnInitializedAsync()
     {

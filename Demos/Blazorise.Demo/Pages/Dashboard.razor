@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IVersionProvider VersionProvider
 <Heading Size="HeadingSize.Is1" Margin="Margin.Is3.FromBottom">Blazorise</Heading>
 
 <Paragraph>
@@ -25,5 +26,5 @@
 </Paragraph>
 <br />
 <Paragraph>
-    <Strong> Demo application for</Strong>: Blazorise @($"v{typeof( Blazorise.BaseComponent ).Assembly.GetName().Version.ToString( 3 )}")
+    <Strong> Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
 </Paragraph>

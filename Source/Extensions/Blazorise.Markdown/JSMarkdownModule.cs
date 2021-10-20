@@ -16,8 +16,9 @@ namespace Blazorise.Markdown
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public JSMarkdownModule( IJSRuntime jsRuntime )
-            : base( jsRuntime )
+        /// <param name="versionProvider">Version provider.</param>
+        public JSMarkdownModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+            : base( jsRuntime, versionProvider )
         {
         }
 
@@ -58,7 +59,7 @@ namespace Blazorise.Markdown
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise.Markdown/blazorise.markdown.js";
+        public override string ModuleFileName => $"./_content/Blazorise.Markdown/blazorise.markdown.js?v={VersionProvider.Version}";
 
         #endregion
     }

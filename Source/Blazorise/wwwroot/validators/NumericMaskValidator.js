@@ -12,6 +12,7 @@
     this.typeMin = options.typeMin;
     this.typeMax = options.typeMax;
     this.changeTextOnKeyPress = options.changeTextOnKeyPress || true;
+    this.selectAllOnFocus = options.selectAllOnFocus || false;
 
     this.regex = function () {
         var sep = "\\" + this.separator,

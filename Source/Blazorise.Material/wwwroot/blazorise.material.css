@@ -499,6 +499,9 @@ select[readonly] {
 .b-layout-sider-content {
     z-index: 161; }
 
+.b-list-view {
+    overflow-y: scroll; }
+
 .modal.show {
     animation-duration: 0.25s;
     animation-fill-mode: both;

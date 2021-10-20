@@ -193,14 +193,15 @@
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
         <_DataGridModal TItem="TItem"
-                    TitleTemplate="@PopupTitleTemplate"
-                    EditItem="@editItem"
-                    ValidationItem="@validationItem"
-                    EditItemCellValues="@editItemCellValues"
-                    Columns="@Columns"
-                    PopupVisible="@PopupVisible"
-                    PopupSize="@PopupSize"
-                    EditState="@editState" />
+                        TitleTemplate="@PopupTitleTemplate"
+                        EditItem="@editItem"
+                        ValidationItem="@validationItem"
+                        EditItemCellValues="@editItemCellValues"
+                        Columns="@Columns"
+                        PopupVisible="@PopupVisible"
+                        PopupClosing="@PopupClosing"
+                        PopupSize="@PopupSize"
+                        EditState="@editState" />
     }
 </CascadingValue>
 @* This one is to hold information about columns *@

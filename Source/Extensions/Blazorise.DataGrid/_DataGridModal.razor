@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridModal<TItem>
-<Modal Visible="@PopupVisible" Closed="@Cancel">
+<Modal Visible="@PopupVisible" Closing="@PopupClosing" Closed="@Cancel">
     <Form>
         <ModalContent Size="@PopupSize">
             <ModalHeader>
