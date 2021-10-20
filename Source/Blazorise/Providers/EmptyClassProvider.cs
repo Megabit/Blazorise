@@ -825,14 +825,6 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Title
-
-        public string Title() => null;
-
-        public string TitleSize( int size ) => null;
-
-        #endregion
-
         #region Table
 
         public string Table() => null;

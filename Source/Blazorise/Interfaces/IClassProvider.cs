@@ -817,14 +817,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Title
-
-        string Title();
-
-        string TitleSize( int size );
-
-        #endregion
-
         #region Table
 
         string Table();
