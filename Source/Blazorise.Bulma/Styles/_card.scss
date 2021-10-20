@@ -1,4 +1,8 @@
-﻿.card-group {
+﻿.card {
+    overflow: initial
+}
+
+.card-group {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
