@@ -1,5 +1,8 @@
 #region Using directives
+using Blazorise.Bootstrap;
 using Blazorise.Demo.Data;
+using Blazorise.Icons.FontAwesome;
+using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +18,27 @@ namespace Blazorise.Demo.Bootstrap.Server
         public void ConfigureServices( IServiceCollection services )
         {
             services
-                .AddMvc()
-                .AddNewtonsoftJson();
+                .AddBlazorise( options =>
+                {
+                    options.ChangeTextOnKeyPress = true;
+                    //options.DelayTextOnKeyPress = true;
+                    //options.DelayTextOnKeyPressInterval = 800;
+                } )
+                .AddBlazoriseRichTextEdit( options =>
+                {
+                    options.UseBubbleTheme = true;
+                    options.UseShowTheme = true;
+                } )
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
+
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+
+            services.AddServerSideBlazor().AddHubOptions( ( o ) =>
+            {
+                o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } );
 
             services.AddHttpClient();
             services.AddScoped<EmployeeData>();
@@ -28,18 +50,30 @@ namespace Blazorise.Demo.Bootstrap.Server
             if ( env.IsDevelopment() )
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
+            }
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseBlazorFrameworkFiles();
 
             app.UseRouting();
 
+            // this is required to be here or otherwise the messages between server and client will be too large and
+            // the connection will be lost.
+            //app.UseSignalR( route => route.MapHub<ComponentHub>( ComponentHub.DefaultPath, o =>
+            //{
+            //    o.ApplicationMaxBufferSize = 1024 * 1024 * 100; // larger size
+            //    o.TransportMaxBufferSize = 1024 * 1024 * 100; // larger size
+            //} ) );
+
             app.UseEndpoints( endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToFile( "index.html" );
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage( "/_Host" );
             } );
         }
     }
