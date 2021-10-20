@@ -2297,9 +2297,6 @@ ol.is-ordered-list-upper-roman {
 .button.is-extra-large, .field.has-addons.are-extra-large > .control > .button {
     font-size: 2rem; }
 
-.card {
-    overflow: initial; }
-
 .card-group {
     display: -ms-flexbox;
     display: flex;
@@ -2363,9 +2360,6 @@ ol.is-ordered-list-upper-roman {
     .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-header,
     .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-footer {
         border-radius: 0; } }
-
-.card {
-    overflow: initial; }
 
 .card-group {
     display: -ms-flexbox;
