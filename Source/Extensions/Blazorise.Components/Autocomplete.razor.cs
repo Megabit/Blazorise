@@ -500,9 +500,14 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
-        /// Gets the element reference.
+        /// Gets the DropdownMenu reference.
         /// </summary>
-        public ElementReference ElementRef { get; }
+        public DropdownMenu DropdownMenuRef { get; set; }
+
+        /// <summary>
+        /// Gets the Element Reference
+        /// </summary>
+        public ElementReference ElementRef => DropdownMenuRef.ElementRef;
 
         /// <summary>
         /// Gets the dropdown CSS styles.
