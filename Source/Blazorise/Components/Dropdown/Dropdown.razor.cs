@@ -25,20 +25,40 @@ namespace Blazorise
         };
 
         /// <summary>
-        /// An event raised after the <see cref="Visible"/> parameter has changed.
-        /// </summary>
-        public event EventHandler<bool> VisibleChanged;
-
-        /// <summary>
         /// A list of all buttons placed inside of this dropdown.
         /// </summary>
         private List<Button> buttonList;
 
+        /// <summary>
+        /// The direct Dropdown child of this dropdown.
+        /// </summary>
         private Dropdown childDropdown;
+
+        /// <summary>
+        /// A list of all DropdownMenu placed inside of this dropdown.
+        /// </summary>
+        private List<DropdownMenu> childrenDropdownMenus;
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Adds child DropdownMenu to internal collection.
+        /// </summary>
+        /// <param name="dropdownMenu"></param>
+        internal protected void AddDropdownMenu(DropdownMenu dropdownMenu)
+        {
+            childrenDropdownMenus ??= new();
+            childrenDropdownMenus.Add( dropdownMenu );
+        }
+
+        /// <summary>
+        /// Removes child DropdownMenu from internal collection.
+        /// </summary>
+        /// <param name="dropdownMenu"></param>
+        internal protected bool RemoveDropdownMenu( DropdownMenu dropdownMenu )
+            => childrenDropdownMenus.Remove( dropdownMenu );
 
         /// <inheritdoc/>
         protected override void OnInitialized()
@@ -248,9 +268,11 @@ namespace Blazorise
         /// <param name="visible">Dropdown menu visibility flag.</param>
         private void HandleVisibilityEvents( bool visible )
         {
-            VisibleChanged?.Invoke( this, visible );
-
-            Toggled.InvokeAsync( visible );
+            VisibleChanged.InvokeAsync( visible );
+            foreach ( var dropdownMenu in childrenDropdownMenus )
+            {
+                dropdownMenu.OnVisibleChanged( visible );
+            }
         }
 
         #endregion
@@ -366,9 +388,9 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Occurs after the dropdown menu visibility has changed.
+        /// An event raised after the <see cref="Visible"/> parameter has changed.
         /// </summary>
-        [Parameter] public EventCallback<bool> Toggled { get; set; }
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the cascaded parent buttons component.
