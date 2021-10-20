@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 #endregion
@@ -18,6 +17,11 @@ namespace Blazorise.Modules
         private readonly IJSRuntime jsRuntime;
 
         /// <summary>
+        /// Version provider instance.
+        /// </summary>
+        private readonly IVersionProvider versionProvider;
+
+        /// <summary>
         /// Awaitable module instance.
         /// </summary>
         protected Task<IJSObjectReference> moduleTask;
@@ -30,9 +34,11 @@ namespace Blazorise.Modules
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public BaseJSModule( IJSRuntime jsRuntime )
+        /// <param name="versionProvider">Version provider.</param>
+        public BaseJSModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
         {
             this.jsRuntime = jsRuntime;
+            this.versionProvider = versionProvider;
         }
 
         #endregion
@@ -95,6 +101,11 @@ namespace Blazorise.Modules
         /// Gets the JavaScript runtime instance.
         /// </summary>
         public IJSRuntime JSRuntime => jsRuntime;
+
+        /// <summary>
+        /// Gets the version provider instance.
+        /// </summary>
+        protected IVersionProvider VersionProvider => versionProvider;
 
         #endregion
     }

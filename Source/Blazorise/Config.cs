@@ -33,6 +33,7 @@ namespace Blazorise
 
             serviceCollection.AddSingleton( configureOptions );
             serviceCollection.AddSingleton<BlazoriseOptions>();
+            serviceCollection.AddSingleton<IVersionProvider, VersionProvider>();
 
             serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
             serviceCollection.AddSingleton<IThemeCache, ThemeCache>();

@@ -24,7 +24,7 @@ namespace Blazorise.Markdown
         {
             if ( JSModule == null )
             {
-                JSModule = new JSMarkdownModule( JSRuntime );
+                JSModule = new JSMarkdownModule( JSRuntime, VersionProvider );
             }
 
             base.OnInitialized();
@@ -127,7 +127,12 @@ namespace Blazorise.Markdown
         /// <summary>
         /// Gets or set the javascript runtime.
         /// </summary>
-        [Inject] public IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version provider.
+        /// </summary>
+        [Inject] private IVersionProvider VersionProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the markdown value.
