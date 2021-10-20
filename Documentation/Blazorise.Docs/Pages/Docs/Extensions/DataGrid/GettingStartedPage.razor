@@ -191,13 +191,16 @@
     <DocsAttributesItem Name="PopupSize" Type="ModalSize" Default="Default">
         Defines the size of popup modal.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PopupTitleTemplate" Type="	RenderFragment<PopupTitleContext<TItem>>">
+    <DocsAttributesItem Name="PopupClosing" Type="Func<ModalClosingEventArgs, Task>">
+        Occurs before the popup dialog is closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
         Template for custom title of edit popup dialog
     </DocsAttributesItem>
-    <DocsAttributesItem Name="NewItemDefaultSetter" Type="	Action<TItem>">
+    <DocsAttributesItem Name="NewItemDefaultSetter" Type="Action<TItem>">
         Action will be called for setting default values of property, when create new entry
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PageButtonTemplate" Type="	RenderTemplate<PageButtonContext>">
+    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderTemplate<PageButtonContext>">
         Define the format a pagination button
     </DocsAttributesItem>
     <DocsAttributesItem Name="UseValidation" Type="bool" Default="false">
@@ -227,7 +230,7 @@
     <DocsAttributesItem Name="CommandMode" Type="DataGridCommandMode" Default="Default">
         Defines whether the datagrid renders both commands and button row or just either one of them.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PagerPosition" Type="DataGridPagerPosition" Default="Bottom	">
+    <DocsAttributesItem Name="PagerPosition" Type="DataGridPagerPosition" Default="Bottom">
         Defines the position of the pager.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ShowPageSizes" Type="bool" Default="false">
@@ -272,7 +275,7 @@
     <DocsAttributesItem Name="Editable" Type="bool" Default="false">
         Whether users can edit cell values under this column.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Displayable" Type="bool" Default="false	">
+    <DocsAttributesItem Name="Displayable" Type="bool" Default="false">
         Whether column can be displayed on a grid.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DisplayOrder" Type="int" Default="0">
@@ -329,7 +332,7 @@
     <DocsAttributesItem Name="EditTemplate" Type="RenderFragment<CellEditContext>">
         Template for custom cell editing.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="FilterTemplate" Type="RenderFragment<FilterContext>	">
+    <DocsAttributesItem Name="FilterTemplate" Type="RenderFragment<FilterContext>">
         Template for custom column filter rendering.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PopupFieldColumnSize" Type="IFluentColumn" Default="IsHalf.OnDesktop">
