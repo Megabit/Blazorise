@@ -30,8 +30,8 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// Creates a new RichTextEditJsInterop
         /// </summary>
-        public JSRichTextEditModule( IJSRuntime jsRuntime, RichTextEditOptions options )
-            : base( jsRuntime )
+        public JSRichTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, RichTextEditOptions options )
+            : base( jsRuntime, versionProvider )
         {
             this.options = options;
         }
@@ -239,7 +239,7 @@ namespace Blazorise.RichTextEdit
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise.RichTextEdit/blazorise.richtextedit.js";
+        public override string ModuleFileName => $"./_content/Blazorise.RichTextEdit/blazorise.richtextedit.js?v={VersionProvider.Version}";
 
         #endregion
     }

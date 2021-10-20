@@ -20,8 +20,9 @@ namespace Blazorise.Modules
         /// Default module constructor.
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        public JSSelectModule( IJSRuntime jsRuntime )
-            : base( jsRuntime )
+        /// <param name="versionProvider">Version provider.</param>
+        public JSSelectModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+            : base( jsRuntime, versionProvider )
         {
         }
 
@@ -69,7 +70,7 @@ namespace Blazorise.Modules
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => "./_content/Blazorise/select.js";
+        public override string ModuleFileName => $"./_content/Blazorise/select.js?v={VersionProvider.Version}";
 
         #endregion
     }
