@@ -22,9 +22,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( ParentDropdown != null )
+            if ( ParentDropdown is not null )
             {
-                ParentDropdown.VisibleChanged += OnVisibleChanged;
+                ParentDropdown.AddDropdownMenu( this );
             }
 
             base.OnInitialized();
@@ -35,9 +35,9 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentDropdown != null )
+                if ( ParentDropdown is not null )
                 {
-                    ParentDropdown.VisibleChanged -= OnVisibleChanged;
+                    ParentDropdown.RemoveDropdownMenu( this );
                 }
             }
 
@@ -57,9 +57,8 @@ namespace Blazorise
         /// <summary>
         /// Handles the dropdown visibility state change.
         /// </summary>
-        /// <param name="sender">Object that raised the event.</param>
         /// <param name="visible">Visibility flag.</param>
-        protected virtual void OnVisibleChanged( object sender, bool visible )
+        internal protected virtual void OnVisibleChanged( bool visible )
         {
         }
 
