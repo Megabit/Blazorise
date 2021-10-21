@@ -1,6 +1,5 @@
 #region Using directives
 using Blazorise.Bootstrap;
-using Blazorise.Demo.Data;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Builder;
@@ -41,7 +40,8 @@ namespace Blazorise.Demo.Bootstrap.Server
             } );
 
             services.AddHttpClient();
-            services.AddScoped<EmployeeData>();
+            services.AddScoped<Data.EmployeeData>();
+            services.AddScoped<Data.CountryData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
