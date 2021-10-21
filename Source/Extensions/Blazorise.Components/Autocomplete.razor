@@ -35,7 +35,7 @@
             </Feedback>
         </TextEdit>
     </Validation>
-    <DropdownMenu>
+    <DropdownMenu @ref="DropdownMenuRef">
         @if ( NotFoundVisible )
         {
             <DropdownItem Disabled="true">
@@ -64,7 +64,14 @@
                 var text = GetDisplayText( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-                <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
+                @if ( ItemContent is not null )
+                {
+                    <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@ItemContent(new (item, value, text))</DropdownItem>
+                }
+                else
+                {
+                    <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
+                }
             }
         }
     </DropdownMenu>

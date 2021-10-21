@@ -186,6 +186,14 @@
     3. Remove <Code>Title</Code> component and replace it with the <Code>Heading</Code> component.
 </Paragraph>
 
+<Paragraph>
+    4. We've found that on <Code>Dropdown</Code> we had both a <Code>VisibleChanged</Code> and <Code>Toggled</Code> event, which served the same purpose. We've removed <Code>Toggled</Code> and changed <Code>VisibleChanged</Code> to a regular Blazor <Code>EventCallback</Code>.
+   
+    Replace any <Code>Toggled</Code> Parameter with the <Code>VisibleChanged</Code> Parameter. 
+    
+    Change any <Code>VisibleChanged</Code> event you might've bound to be compliant with a regular Blazor <Code>EventCallback</Code>.
+</Paragraph>
+
 <NewsPageSubtitle>
     Highlights 🚀
 </NewsPageSubtitle>
@@ -225,7 +233,15 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    DataGrid Null Coalescing
+    Autocomplete: ItemContent
+</Heading>
+
+<Paragraph>
+    <Code>Autocomplete</Code> now has the ability to optionally enrinch each value presented to the user with your custom html, by providing a <Code>RenderFragment</Code>, called <Code>ItemContent</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Null Coalescing
 </Heading>
 
 <Paragraph>
@@ -233,7 +249,7 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    DataGrid Sort Field
+    DataGrid: Sort Field
 </Heading>
 
 <Paragraph>

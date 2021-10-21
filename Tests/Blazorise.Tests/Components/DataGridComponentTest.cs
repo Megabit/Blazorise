@@ -44,22 +44,9 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            var btnNew = comp.Find( "#btnNew" );
-            try
-            {
-                btnNew.Click();
-            }
-            catch ( System.Exception )
-            {
-            }
-            var btnSave = comp.Find( "#btnSave" );
-            try
-            {
-                btnSave.Click();
-            }
-            catch ( System.Exception )
-            {
-            }
+            comp.Find( "#btnNew" ).Click();
+            comp.Find( "#btnSave" ).Click();
+
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
@@ -75,14 +62,7 @@ namespace Blazorise.Tests.Components
             var comp = RenderComponent<DataGridComponent>();
 
             // test
-            var btnEdit = comp.Find( "#btnEdit" );
-            try
-            {
-                btnEdit.Click();
-            }
-            catch ( System.Exception )
-            {
-            }
+            comp.Find( "#btnEdit" ).Click();
 
             var firstInput = comp.Find( "input" );
             firstInput.SetAttribute( "value", updatedName );
@@ -111,15 +91,7 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            var btnDelete = comp.Find( "#btnDelete" );
-            try
-            {
-                btnDelete.Click();
-            }
-            catch ( System.Exception )
-            {
-
-            }
+            comp.Find( "#btnDelete" ).Click();
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
