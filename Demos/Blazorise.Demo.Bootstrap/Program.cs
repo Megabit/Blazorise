@@ -19,24 +19,11 @@ namespace Blazorise.Demo.Bootstrap
             var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
             builder.Services
-                .AddBlazorise( options =>
-                {
-                    options.ChangeTextOnKeyPress = true;
-                } )
-                .AddBlazoriseRichTextEdit( options =>
-                {
-                    options.UseBubbleTheme = true;
-                    options.UseShowTheme = true;
-                } )
+                .SetupDemoServices()
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
-            builder.Services.AddMemoryCache();
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<EmployeeData>();
-
             builder.RootComponents.Add<App>( "#app" );
-
             builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
 
             await builder.Build().RunAsync();

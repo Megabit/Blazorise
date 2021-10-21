@@ -17,17 +17,7 @@ namespace Blazorise.Demo.Bootstrap.Server
         public void ConfigureServices( IServiceCollection services )
         {
             services
-                .AddBlazorise( options =>
-                {
-                    options.ChangeTextOnKeyPress = true;
-                    //options.DelayTextOnKeyPress = true;
-                    //options.DelayTextOnKeyPressInterval = 800;
-                } )
-                .AddBlazoriseRichTextEdit( options =>
-                {
-                    options.UseBubbleTheme = true;
-                    options.UseShowTheme = true;
-                } )
+                .SetupDemoServices()
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
@@ -38,10 +28,6 @@ namespace Blazorise.Demo.Bootstrap.Server
             {
                 o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
             } );
-
-            services.AddHttpClient();
-            services.AddScoped<Data.EmployeeData>();
-            services.AddScoped<Data.CountryData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
