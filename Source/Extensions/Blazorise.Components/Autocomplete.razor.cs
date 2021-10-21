@@ -1,18 +1,16 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Components
@@ -502,6 +500,16 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets the DropdownMenu reference.
+        /// </summary>
+        public DropdownMenu DropdownMenuRef { get; set; }
+
+        /// <summary>
+        /// Gets the Element Reference
+        /// </summary>
+        public ElementReference ElementRef => DropdownMenuRef.ElementRef;
+
+        /// <summary>
         /// Gets the dropdown CSS styles.
         /// </summary>
         protected string CssStyle
@@ -798,9 +806,10 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 
-
-        public ElementReference ElementRef { get; }
-
+        /// <summary>
+        /// Specifies the item content to be rendered inside each dropdown item.
+        /// </summary>
+        [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
 
         #endregion
     }

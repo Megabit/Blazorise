@@ -43,6 +43,16 @@
     <DocsPageSectionSource Code="AutocompleteMultipleExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ItemContent">
+        Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteItemContentExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteItemContentExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -131,5 +141,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedTextsChanged" Type="EventCallback<List<string>>">
         Occurs after the selected texts have changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemContent" Type="RenderFragment<ItemContext<TItem,TValue>>">
+        Specifies the item content to be rendered inside each dropdown item.
     </DocsAttributesItem>
 </DocsAttributes>
