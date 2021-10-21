@@ -3527,6 +3527,27 @@ namespace Blazorise.Docs.Models
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
+        public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
+    <Toolbar>
+        <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
+    </Toolbar>
+</Markdown>
+
+@code {
+    [Inject] private INotificationService NotificationService { get; set; }
+
+    string markdownValue = ""## Custom Toolbar\nCustom functions, icons and buttons can be defined for the toolbar."";
+
+    Task OnCustomButtonClicked( MarkdownButtonEventArgs eventArgs )
+    {
+        NotificationService.Info( $""Name: {eventArgs.Name} Value: {eventArgs.Value}"" );
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string MarkdownExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
 
 @code{

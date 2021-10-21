@@ -3,6 +3,42 @@ const _instances = [];
 export function initialize(dotNetObjectRef, element, elementId, options) {
     const instances = _instances;
 
+    if (!options.toolbar) {
+        // remove empty toolbar so that we can fallback to the default items
+        delete options.toolbar;
+    }
+    else if (options.toolbar && options.toolbar.length > 0) {
+        // map any named action with a real action from EasyMDE
+        options.toolbar.forEach(button => {
+            // make sure we don't operate on separators
+            if (button !== "|") {
+                if (button.action) {
+                    if (!button.action.startsWith("http")) {
+                        button.action = EasyMDE[button.action];
+                    }
+                }
+                else {
+                    if (button.name && button.name.startsWith("http")) {
+                        button.action = button.name;
+                    }
+                    else {
+                        // custom action is used so we need to trigger custom event on click
+                        button.action = (editor) => {
+                            dotNetObjectRef.invokeMethodAsync('NotifyCustomButtonClicked', button.name, button.value).then(null, function (err) {
+                                throw new Error(err);
+                            });
+                        }
+                    }
+                }
+
+                // button without icon is not allowed
+                if (!button.className) {
+                    button.className = "fa fa-question";
+                }
+            }
+        });
+    }
+
     const easyMDE = new EasyMDE({
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
@@ -22,7 +58,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         tabSize: options.tabSize,
         theme: options.theme,
         direction: options.direction,
-        //toolbar: options.toolbar,
+        toolbar: options.toolbar,
         toolbarTips: options.toolbarTips
     });
 

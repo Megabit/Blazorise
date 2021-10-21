@@ -1,6 +1,9 @@
 ﻿#region Using directives
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Markdown.Providers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -15,6 +18,8 @@ namespace Blazorise.Markdown
         #region Members
 
         private DotNetObjectReference<Markdown> dotNetObjectRef;
+
+        private List<MarkdownToolbarButton> toolbarButtons;
 
         #endregion
 
@@ -48,6 +53,8 @@ namespace Blazorise.Markdown
 
             if ( firstRender )
             {
+                Console.WriteLine( $"OnAfterRenderAsync" );
+
                 dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
                 await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
@@ -64,7 +71,9 @@ namespace Blazorise.Markdown
                     TabSize,
                     Theme,
                     Direction,
-                    Toolbar,
+                    Toolbar = Toolbar != null && toolbarButtons?.Count > 0
+                        ? MarkdownActionProvider.Serialize( toolbarButtons )
+                        : null,
                     ToolbarTips,
                 } );
 
@@ -124,6 +133,34 @@ namespace Blazorise.Markdown
             Value = value;
 
             return ValueChanged.InvokeAsync( Value );
+        }
+
+        /// <summary>
+        /// Adds the custom toolbar button.
+        /// </summary>
+        /// <param name="toolbarButton">Button instance.</param>
+        internal protected void AddMarkdownToolbarButton( MarkdownToolbarButton toolbarButton )
+        {
+            Console.WriteLine( $"AddMarkdownToolbarButton" );
+            toolbarButtons ??= new();
+            toolbarButtons.Add( toolbarButton );
+        }
+
+        /// <summary>
+        /// Removes the custom toolbar button.
+        /// </summary>
+        /// <param name="toolbarButton">Button instance.</param>
+        internal protected void RemoveMarkdownToolbarButton( MarkdownToolbarButton toolbarButton )
+        {
+            Console.WriteLine( $"RemoveMarkdownToolbarButton" );
+            toolbarButtons.Remove( toolbarButton );
+        }
+
+        [JSInvokable]
+        public Task NotifyCustomButtonClicked( string name, object value )
+        {
+            Console.WriteLine( "ButtonClicked" + name + value );
+            return CustomButtonClicked.InvokeAsync( new MarkdownButtonEventArgs( name, value ) );
         }
 
         #endregion
@@ -220,14 +257,19 @@ namespace Blazorise.Markdown
         [Parameter] public string[] ShowIcons { get; set; } = new[] { "code", "table" };
 
         /// <summary>
-        /// If set to false, hide the toolbar. Defaults to the array of icons.
+        /// [Optional] Gets or sets the content of the toolbar.
         /// </summary>
-        [Parameter] public object Toolbar { get; set; }
+        [Parameter] public RenderFragment Toolbar { get; set; }
 
         /// <summary>
         /// If set to false, disable toolbar button tips. Defaults to true.
         /// </summary>
         [Parameter] public bool ToolbarTips { get; set; } = true;
+
+        /// <summary>
+        /// Occurs after the custom toolbar button is clicked.
+        /// </summary>
+        [Parameter] public EventCallback<MarkdownButtonEventArgs> CustomButtonClicked { get; set; }
 
         #endregion
     }

@@ -47,6 +47,16 @@
     </AlertDescription>
 </Alert>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom toolbar functions">
+        You can write your own functions to use in the toolbar
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MarkdownCustomButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownCustomButtonsExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -57,5 +67,52 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ValueChanged" Type="EventCallback<string>" Default="Solid">
         An event that occurs after the markdown value has changed.
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="AutoDownloadFontAwesome" Type="bool?" Default="null">
+        If set to true, force downloads Font Awesome (used for icons). If set to false, prevents downloading.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LineNumbers" Type="bool" Default="false">
+        If set to true, enables line numbers in the editor.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LineWrapping" Type="bool" Default="false">
+        If set to false, disable line wrapping. Defaults to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinHeight" Type="string" Default="300px">
+        Sets the minimum height for the composition area, before it starts auto-growing.
+        Should be a string containing a valid CSS value like "500px". Defaults to "300px".
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxHeight" Type="string" Default="">
+        Sets fixed height for the composition area. minHeight option will be ignored.
+        Should be a string containing a valid CSS value like "500px". Defaults to undefined.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        If set, displays a custom placeholder message.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabSize" Type="int" Default="2">
+        If set, customize the tab size. Defaults to 2.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Theme" Type="string" Default="easymde">
+        Override the theme. Defaults to easymde.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="string" Default="ltr">
+        rtl or ltr. Changes text direction to support right-to-left languages. Defaults to ltr.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HideIcons" Type="string[]" Default="'side-by-side', 'fullscreen'">
+        An array of icon names to hide. Can be used to hide specific icons shown by default without
+        completely customizing the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowIcons" Type="string[]" Default="'code', 'table'">
+        An array of icon names to show. Can be used to show specific icons hidden by default without
+        completely customizing the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Toolbar" Type="RenderFragment" Default="">
+        [Optional] Gets or sets the content of the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ToolbarTips" Type="bool" Default="true">
+        If set to false, disable toolbar button tips. Defaults to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomButtonClicked" Type="EventCallback<MarkdownButtonEventArgs>" Default="">
+        Occurs after the custom toolbar button is clicked.
     </DocsAttributesItem>
 </DocsAttributes>
