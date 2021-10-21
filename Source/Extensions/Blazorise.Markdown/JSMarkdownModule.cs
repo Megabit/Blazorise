@@ -26,11 +26,11 @@ namespace Blazorise.Markdown
 
         #region Methods        
 
-        public async ValueTask Initialize( DotNetObjectReference<Markdown> dotNetObjectRef, ElementReference elementRef, string elementId, string initialValue )
+        public async ValueTask Initialize( DotNetObjectReference<Markdown> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, initialValue );
+            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
         }
 
         public async ValueTask Destroy( ElementReference elementRef, string elementId )

@@ -50,7 +50,23 @@ namespace Blazorise.Markdown
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-                await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, Value );
+                await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
+                {
+                    Value,
+                    AutoDownloadFontAwesome,
+                    HideIcons,
+                    ShowIcons,
+                    LineNumbers,
+                    LineWrapping,
+                    MinHeight,
+                    MaxHeight,
+                    Placeholder,
+                    TabSize,
+                    Theme,
+                    Direction,
+                    Toolbar,
+                    ToolbarTips,
+                } );
 
                 Initialized = true;
             }
@@ -143,6 +159,75 @@ namespace Blazorise.Markdown
         /// An event that occurs after the markdown value has changed.
         /// </summary>
         [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+        /// <summary>
+        /// If set to true, force downloads Font Awesome (used for icons). If set to false, prevents downloading.
+        /// </summary>
+        [Parameter] public bool? AutoDownloadFontAwesome { get; set; }
+
+        /// <summary>
+        /// If set to true, enables line numbers in the editor.
+        /// </summary>
+        [Parameter] public bool LineNumbers { get; set; }
+
+        /// <summary>
+        /// If set to false, disable line wrapping. Defaults to true.
+        /// </summary>
+        [Parameter] public bool LineWrapping { get; set; } = true;
+
+        /// <summary>
+        /// Sets the minimum height for the composition area, before it starts auto-growing.
+        /// Should be a string containing a valid CSS value like "500px". Defaults to "300px".
+        /// </summary>
+        [Parameter] public string MinHeight { get; set; } = "300px";
+
+        /// <summary>
+        /// Sets fixed height for the composition area. minHeight option will be ignored.
+        /// Should be a string containing a valid CSS value like "500px". Defaults to undefined.
+        /// </summary>
+        [Parameter] public string MaxHeight { get; set; }
+
+        /// <summary>
+        /// If set, displays a custom placeholder message.
+        /// </summary>
+        [Parameter] public string Placeholder { get; set; }
+
+        /// <summary>
+        /// If set, customize the tab size. Defaults to 2.
+        /// </summary>
+        [Parameter] public int TabSize { get; set; } = 2;
+
+        /// <summary>
+        /// Override the theme. Defaults to easymde.
+        /// </summary>
+        [Parameter] public string Theme { get; set; } = "easymde";
+
+        /// <summary>
+        /// rtl or ltr. Changes text direction to support right-to-left languages. Defaults to ltr.
+        /// </summary>
+        [Parameter] public string Direction { get; set; } = "ltr";
+
+        /// <summary>
+        /// An array of icon names to hide. Can be used to hide specific icons shown by default without
+        /// completely customizing the toolbar.
+        /// </summary>
+        [Parameter] public string[] HideIcons { get; set; } = new[] { "side-by-side", "fullscreen" };
+
+        /// <summary>
+        /// An array of icon names to show. Can be used to show specific icons hidden by default without
+        /// completely customizing the toolbar.
+        /// </summary>
+        [Parameter] public string[] ShowIcons { get; set; } = new[] { "code", "table" };
+
+        /// <summary>
+        /// If set to false, hide the toolbar. Defaults to the array of icons.
+        /// </summary>
+        [Parameter] public object Toolbar { get; set; }
+
+        /// <summary>
+        /// If set to false, disable toolbar button tips. Defaults to true.
+        /// </summary>
+        [Parameter] public bool ToolbarTips { get; set; } = true;
 
         #endregion
     }
