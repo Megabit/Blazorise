@@ -7,7 +7,7 @@ namespace Blazorise.AntDesign
     {
         #region Methods
 
-        protected override void OnVisibleChanged( object sender, bool e )
+        internal protected override void OnVisibleChanged( bool e )
         {
             ExecuteAfterRender( async () =>
             {
@@ -21,7 +21,7 @@ namespace Blazorise.AntDesign
                 }
             } );
 
-            base.OnVisibleChanged( sender, e );
+            base.OnVisibleChanged( e );
         }
 
         private string GetMenuStyleNames( DomElement dropdownElementInfo, DomElement dropdownMenuElementInfo, Direction direction )
