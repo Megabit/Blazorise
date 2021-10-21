@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -47,7 +46,7 @@ namespace Blazorise
         /// Adds child DropdownMenu to internal collection.
         /// </summary>
         /// <param name="dropdownMenu"></param>
-        internal protected void AddDropdownMenu(DropdownMenu dropdownMenu)
+        internal protected void AddDropdownMenu( DropdownMenu dropdownMenu )
         {
             childrenDropdownMenus ??= new();
             childrenDropdownMenus.Add( dropdownMenu );
@@ -187,6 +186,7 @@ namespace Blazorise
         internal void SetWasJustToggled( bool wasToggled )
         {
             WasJustToggled = wasToggled;
+
             ParentDropdown?.SetWasJustToggled( wasToggled );
         }
 
@@ -197,6 +197,7 @@ namespace Blazorise
         internal void SetSelectedDropdownElementId( string dropdownToggleElementId )
         {
             SelectedDropdownElementId = dropdownToggleElementId;
+
             if ( ParentDropdown is not null )
                 ParentDropdown.SetSelectedDropdownElementId( dropdownToggleElementId );
         }
@@ -269,8 +270,9 @@ namespace Blazorise
         private void HandleVisibilityEvents( bool visible )
         {
             VisibleChanged.InvokeAsync( visible );
+
             if ( childrenDropdownMenus is not null )
-            { 
+            {
                 foreach ( var dropdownMenu in childrenDropdownMenus )
                 {
                     dropdownMenu.OnVisibleChanged( visible );
