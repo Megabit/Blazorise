@@ -1,18 +1,29 @@
 const _instances = [];
 
-export function initialize(dotNetObjectRef, element, elementId, value) {
+export function initialize(dotNetObjectRef, element, elementId, options) {
     const instances = _instances;
 
     const easyMDE = new EasyMDE({
         element: document.getElementById(elementId),
-        showIcons: ["code", "table"],
+        hideIcons: options.hideIcons,
+        showIcons: options.showIcons,
         renderingConfig: {
             singleLineBreaks: false,
             codeSyntaxHighlighting: true
         },
-        initialValue: value,
+        initialValue: options.value,
         sideBySideFullscreen: false,
-        hideIcons: ["side-by-side", "fullscreen"]
+        autoDownloadFontAwesome: options.autoDownloadFontAwesome,
+        lineNumbers: options.lineNumbers,
+        lineWrapping: options.lineWrapping,
+        minHeight: options.minHeight,
+        maxHeight: options.maxHeight,
+        placeholder: options.placeholder,
+        tabSize: options.tabSize,
+        theme: options.theme,
+        direction: options.direction,
+        //toolbar: options.toolbar,
+        toolbarTips: options.toolbarTips
     });
 
     easyMDE.codemirror.on("change", function () {

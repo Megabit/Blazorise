@@ -59,7 +59,7 @@ namespace Blazorise.Markdown
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.Markdown/blazorise.markdown.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Markdown/markdown.js?v={VersionProvider.Version}";
 
         #endregion
     }
