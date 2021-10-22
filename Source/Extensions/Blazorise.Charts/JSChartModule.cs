@@ -190,7 +190,7 @@ namespace Blazorise.Charts
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.Charts/blazorise.charts.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Charts/charts.js?v={VersionProvider.Version}";
 
         #endregion
     }
