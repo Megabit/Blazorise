@@ -45,6 +45,16 @@ namespace Blazorise.Charts
                 optionsObject );
         }
 
+        public virtual async ValueTask ChangeType( ElementReference canvasRef, string canvasId, ChartType type )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "changeChartType",
+                canvasRef,
+                canvasId,
+                ToChartTypeString( type ) );
+        }
+
         public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
         {
             var moduleInstance = await Module;
@@ -190,7 +200,7 @@ namespace Blazorise.Charts
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.Charts/blazorise.charts.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Charts/charts.js?v={VersionProvider.Version}";
 
         #endregion
     }
