@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -22,12 +23,12 @@ namespace Blazorise.Demo.Data
             this.cache = memoryCache;
         }
 
-        public Task<IReadOnlyList<ICountryInfo>> GetDataAsync()
-            => cache.GetOrCreateAsync<IReadOnlyList<ICountryInfo>>( cacheKey, LoadData );
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => cache.GetOrCreateAsync( cacheKey, LoadData );
 
-        private Task<IReadOnlyList<ICountryInfo>> LoadData( ICacheEntry cacheEntry )
-            => Task.FromResult(CountryLoader.CountryInfo);
-
+        private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
+            => Task.FromResult(CountryLoader.CountryInfo.Take(100).Select(x=> new Country(x.Name, x.Iso, x.Capital) ));
+            
     }
 
 }

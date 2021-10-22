@@ -12,7 +12,7 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectList TItem="ICountryInfo"
+                        <SelectList TItem="Country"
                                     TValue="string"
                                     Data="@Countries"
                                     TextField="@(( item ) => item.Name)"
@@ -38,7 +38,7 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <DropdownList TItem="ICountryInfo"
+                        <DropdownList TItem="Country"
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
@@ -73,7 +73,7 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="ICountryInfo"
+                        <Autocomplete TItem="Country"
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
@@ -88,7 +88,7 @@
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-                                    <Small>Country Flag</Small>
+                                    <Small>@context.Item.Capital</Small>
                                 </Div>
                                 <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
                             </ItemContent>
@@ -120,7 +120,7 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="ICountryInfo"
+                        <Autocomplete TItem="Country"
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
@@ -194,7 +194,7 @@
                 <CardTitle>ListView</CardTitle>
             </CardHeader>
             <CardBody>
-                <ListView TItem="ICountryInfo"
+                <ListView TItem="Country"
                           Data="@Countries"
                           @bind-SelectedItem="@selectedListViewItem"
                           TextField="@((item) => item.Name)"
@@ -211,7 +211,7 @@
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
-    public IReadOnlyList<ICountryInfo> Countries;
+    public IEnumerable<Country> Countries;
 
     private string selectedAutoCompleteSearchValue { get; set; }
     private string selectedAutoCompleteText { get; set; }
@@ -225,7 +225,7 @@
     private string selectedListValue { get; set; }
     private string selectedDropValue { get; set; } = "2";
 
-    private ICountryInfo selectedListViewItem { get; set; }
+    private Country selectedListViewItem { get; set; }
 
     private ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     private Random random = new();
