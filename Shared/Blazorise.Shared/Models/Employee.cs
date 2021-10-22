@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Blazorise.Demo.Models
+namespace Blazorise.Shared.Models
 {
     public class Employee
     {
@@ -28,6 +28,6 @@ namespace Blazorise.Demo.Models
 
         public List<Salary> Salaries { get; set; } = new();
 
-        public decimal ChildrensPerSalary => ((Childrens is null || Childrens == 0) ?  1 : Childrens.Value) / Salary;
+        public decimal ChildrensPerSalary => ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
     }
 }

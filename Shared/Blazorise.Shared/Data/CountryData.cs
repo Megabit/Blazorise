@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Blazorise.Demo.Models;
+using Blazorise.Shared.Models;
 using CountryData;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Blazorise.Demo.Data
+namespace Blazorise.Shared.Data
 {
     public class CountryData
     {
@@ -20,15 +17,15 @@ namespace Blazorise.Demo.Data
         /// </summary>
         public CountryData( IMemoryCache memoryCache )
         {
-            this.cache = memoryCache;
+            cache = memoryCache;
         }
 
         public Task<IEnumerable<Country>> GetDataAsync()
             => cache.GetOrCreateAsync( cacheKey, LoadData );
 
         private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
-            => Task.FromResult(CountryLoader.CountryInfo.Take(100).Select(x=> new Country(x.Name, x.Iso, x.Capital) ));
-            
+            => Task.FromResult( CountryLoader.CountryInfo.Take( 100 ).Select( x => new Country( x.Name, x.Iso, x.Capital ) ) );
+
     }
 
 }

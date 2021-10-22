@@ -3,7 +3,6 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
-using Blazorise.Demo.Data;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

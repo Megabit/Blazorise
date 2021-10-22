@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System.Net.Http;
 using System.Threading.Tasks;
-using Blazorise.Demo.Data;
 using Blazorise.Icons.Material;
 using Blazorise.Material;
 using Blazorise.RichTextEdit;

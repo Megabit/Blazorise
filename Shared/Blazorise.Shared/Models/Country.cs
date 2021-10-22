@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using CountryData;
-
-namespace Blazorise.Demo.Data
+﻿namespace Blazorise.Shared.Models
 {
-    public class Country 
+    public class Country
     {
 
         public Country( string name, string iso, string capital )
@@ -12,7 +9,7 @@ namespace Blazorise.Demo.Data
             Iso = iso;
             Capital = capital;
         }
-        public string Name { get;  }
+        public string Name { get; }
         public string Iso { get; }
         public string Capital { get; }
 

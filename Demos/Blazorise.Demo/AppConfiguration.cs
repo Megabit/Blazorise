@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blazorise.RichTextEdit;
+﻿using Blazorise.RichTextEdit;
+using Blazorise.Shared;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.Demo
@@ -24,8 +20,8 @@ namespace Blazorise.Demo
                 } );
             services.AddMemoryCache();
             services.AddHttpClient();
-            services.AddScoped<Data.EmployeeData>();
-            services.AddScoped<Data.CountryData>();
+            services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
+            services.AddScoped< Blazorise.Shared.Data.CountryData >();
             return services;
         }
     }
