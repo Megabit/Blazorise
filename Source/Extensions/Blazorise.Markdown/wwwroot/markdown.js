@@ -39,7 +39,11 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         });
     }
 
-    var nextFileId = 0;
+    let nextFileId = 0;
+    let imageUploadNotifier = {
+        onSuccess: (e) => { },
+        onError: (e) => { }
+    };
 
     const easyMDE = new EasyMDE({
         element: document.getElementById(elementId),
@@ -71,6 +75,10 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         imageCSRFToken: options.imageCSRFToken,
         imageTexts: options.imageTexts,
         imageUploadFunction: (file, onSuccess, onError) => {
+            // hack to save the reference to the callback functions
+            imageUploadNotifier.onSuccess = onSuccess;
+            imageUploadNotifier.onError = onError;
+
             // Reduce to purely serializable data, plus build an index by ID
             element._blazorFilesById = {};
 
@@ -105,7 +113,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
     instances[elementId] = {
         dotNetObjectRef: dotNetObjectRef,
         elementId: elementId,
-        editor: easyMDE
+        editor: easyMDE,
+        imageUploadNotifier: imageUploadNotifier
     };
 }
 
@@ -130,4 +139,20 @@ export function getValue(elementId) {
     }
 
     return null;
+}
+
+export function notifyImageUploadSuccess(elementId, imageUrl) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        return instance.imageUploadNotifier.onSuccess(imageUrl);
+    }
+}
+
+export function notifyImageUploadError(elementId, errorMessage) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        return instance.imageUploadNotifier.onError(errorMessage);
+    }
 }

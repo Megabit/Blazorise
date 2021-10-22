@@ -66,6 +66,12 @@ namespace Blazorise
         /// <inheritdoc/>
         public string Type { get; set; }
 
+        /// <inheritdoc/>
+        public string UploadUrl { get; set; }
+
+        /// <inheritdoc/>
+        public string ErrorMessage { get; set; }
+
         #endregion
     }
 }

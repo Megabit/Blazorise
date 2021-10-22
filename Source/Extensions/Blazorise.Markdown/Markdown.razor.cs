@@ -212,12 +212,15 @@ namespace Blazorise.Markdown
         }
 
         /// <inheritdoc/>
-        public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
         {
             if ( ImageUploadEnded is not null )
-                return ImageUploadEnded.Invoke( new( fileEntry, success ) );
+                await ImageUploadEnded.Invoke( new( fileEntry, success ) );
 
-            return Task.CompletedTask;
+            if ( success )
+                await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl );
+            else
+                await JSModule.NotifyImageUploadError( ElementId, fileEntry.ErrorMessage );
         }
 
         /// <inheritdoc/>

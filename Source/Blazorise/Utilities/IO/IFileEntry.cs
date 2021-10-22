@@ -38,6 +38,16 @@ namespace Blazorise
         string Type { get; }
 
         /// <summary>
+        /// Provides a way to tell the location of the uploaded file or image.
+        /// </summary>
+        string UploadUrl { get; set; }
+
+        /// <summary>
+        /// Provides a way to tell if any error happened.
+        /// </summary>
+        string ErrorMessage { get; set; }
+
+        /// <summary>
         /// Provides the access to the underline file through the stream.
         /// </summary>
         /// <param name="stream">Stream to which the upload process if writing.</param>

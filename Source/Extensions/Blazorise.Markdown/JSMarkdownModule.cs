@@ -54,6 +54,20 @@ namespace Blazorise.Markdown
             return await moduleInstance.InvokeAsync<string>( "getValue", elementId );
         }
 
+        public async ValueTask NotifyImageUploadSuccess( string elementId, string imageUrl )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "notifyImageUploadSuccess", elementId, imageUrl );
+        }
+
+        public async ValueTask NotifyImageUploadError( string elementId, string errorMessage )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "notifyImageUploadError", elementId, errorMessage );
+        }
+
         #endregion
 
         #region Properties
