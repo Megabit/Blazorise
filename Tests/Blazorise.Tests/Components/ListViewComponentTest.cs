@@ -55,7 +55,7 @@ namespace Blazorise.Tests.Components
             // validate
             for ( int i = 0; i < htmlLists.Count; i++ )
             {
-                Assert.Equal( comp.Instance.Data.ElementAt( i ).MyTextField, HttpUtility.HtmlDecode( htmlLists[i].InnerHtml ) );
+                Assert.Equal( comp.Instance.Countries.ElementAt( i ).Name, HttpUtility.HtmlDecode( htmlLists[i].InnerHtml ) );
             }
         }
 

@@ -1,8 +1,8 @@
-﻿<Autocomplete TItem="MySelectModel"
-                TValue="int"
-                Data="@myDdlData"
-                TextField="@(( item ) => item.MyTextField)"
-                ValueField="@(( item ) => item.MyValueField)"
+﻿<Autocomplete TItem="Country"
+                TValue="string"
+                Data="@Countries"
+                TextField="@(( item ) => item.Name)"
+                ValueField="@(( item ) => item.Iso)"
                 @bind-SelectedValue="selectedSearchValue"
                 @bind-SelectedText="selectedAutoCompleteText"
                 Placeholder="Search..."
@@ -11,17 +11,18 @@
 </Autocomplete>
 
 @code{
-    public class MySelectModel
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
     }
 
-    static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
-
     [Parameter]
-    public int selectedSearchValue { get; set; } = 2;
+    public string selectedSearchValue { get; set; } = "CN";
 
     [Parameter]
     public string selectedAutoCompleteText { get; set; }

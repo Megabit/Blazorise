@@ -18,8 +18,8 @@ namespace Blazorise.Demo
                     options.UseBubbleTheme = true;
                     options.UseShowTheme = true;
                 } );
+            
             services.AddMemoryCache();
-            services.AddHttpClient();
             services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
             services.AddScoped< Blazorise.Shared.Data.CountryData >();
             return services;
