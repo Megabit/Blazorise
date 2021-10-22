@@ -13,7 +13,7 @@ namespace Blazorise
         /// A default <see cref="FileChangedEventArgs"/> constructor.
         /// </summary>
         /// <param name="files">List of files.</param>
-        public FileChangedEventArgs( IFileEntry[] files )
+        public FileChangedEventArgs( params IFileEntry[] files )
         {
             Files = files;
         }

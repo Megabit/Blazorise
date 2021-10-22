@@ -17,10 +17,10 @@ namespace Blazorise
         /// <summary>
         /// Initialized the <see cref="FileEntry"/> object.
         /// </summary>
-        /// <param name="fileEdit"></param>
-        public void Init( FileEdit fileEdit )
+        /// <param name="owner">File-entry parent component.</param>
+        public void Init( IFileEntryOwner owner )
         {
-            Owner = fileEdit;
+            Owner = owner;
         }
 
         /// <inheritdoc/>
@@ -47,7 +47,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the file-entry parent component.
         /// </summary>
-        internal FileEdit Owner { get; set; }
+        public IFileEntryOwner Owner { get; set; }
 
         /// <summary>
         /// Gets or sets the file-entry id.

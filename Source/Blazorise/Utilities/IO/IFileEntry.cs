@@ -13,6 +13,11 @@ namespace Blazorise
     public interface IFileEntry
     {
         /// <summary>
+        /// Gets the file-entry id.
+        /// </summary>
+        public int Id { get; }
+
+        /// <summary>
         /// Returns the last modified time of the file.
         /// </summary>
         DateTime LastModified { get; }

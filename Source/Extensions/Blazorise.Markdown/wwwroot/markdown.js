@@ -39,6 +39,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         });
     }
 
+    var nextFileId = 0;
+
     const easyMDE = new EasyMDE({
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
@@ -59,7 +61,41 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         theme: options.theme,
         direction: options.direction,
         toolbar: options.toolbar,
-        toolbarTips: options.toolbarTips
+        toolbarTips: options.toolbarTips,
+
+        uploadImage: true,
+        imageMaxSize: options.imageMaxSize,
+        imageAccept: options.imageAccept,
+        imageUploadEndpoint: options.imageUploadEndpoint,
+        imagePathAbsolute: options.imagePathAbsolute,
+        imageCSRFToken: options.imageCSRFToken,
+        imageTexts: options.imageTexts,
+        imageUploadFunction: (file, onSuccess, onError) => {
+            // Reduce to purely serializable data, plus build an index by ID
+            element._blazorFilesById = {};
+
+            var fileEntry = {
+                id: ++nextFileId,
+                lastModified: new Date(file.lastModified).toISOString(),
+                name: file.name,
+                size: file.size,
+                type: file.type
+            };
+
+            element._blazorFilesById[fileEntry.id] = fileEntry;
+
+            // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
+            Object.defineProperty(fileEntry, 'blob', { value: file });
+
+            dotNetObjectRef.invokeMethodAsync('NotifyImageUpload', fileEntry).then(null, function (err) {
+                throw new Error(err);
+            });
+        },
+
+        errorMessages: options.errorMessages,
+        errorCallback: (errorMessage) => {
+            dotNetObjectRef.invokeMethodAsync("NotifyErrorMessage", errorMessage);
+        }
     });
 
     easyMDE.codemirror.on("change", function () {

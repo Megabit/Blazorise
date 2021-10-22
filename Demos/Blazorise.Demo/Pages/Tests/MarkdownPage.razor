@@ -8,7 +8,10 @@
             <CardBody>
                 <Row>
                     <Column>
-                        <Markdown Value="@markdownValue" ValueChanged="@OnMarkdownValueChanged" />
+                        <Markdown Value="@markdownValue" ValueChanged="@OnMarkdownValueChanged"
+                                  ImageUploadChanged="@OnImageUploadChanged"
+                                  ImageUploadStarted="@OnImageUploadStarted"
+                                  ImageUploadProgressed="@OnImageUploadProgressed" />
                     </Column>
                     <Column>
                         @((MarkupString)markdownHtml)
@@ -18,7 +21,7 @@
         </Card>
     </Column>
 </Row>
-@code{
+@code {
     string markdownValue = "# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.";
 
     string markdownHtml;
@@ -35,6 +38,68 @@
         markdownValue = value;
 
         markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? string.Empty );
+
+        return Task.CompletedTask;
+    }
+
+    //string fileContent;
+    int fileProgress;
+
+    async Task OnImageUploadChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                using ( var stream = new System.IO.MemoryStream() )
+                {
+                    await file.WriteToStreamAsync( stream );
+
+                    //stream.Seek( 0, SeekOrigin.Begin );
+
+                    //using ( var reader = new StreamReader( stream ) )
+                    //{
+                    //    fileContent = await reader.ReadToEndAsync();
+                    //}
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    Task OnImageUploadStarted( FileStartedEventArgs e )
+    {
+        fileProgress = 0;
+        Console.WriteLine( $"Started Image: {e.File.Name}" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadEnded( FileEndedEventArgs e )
+    {
+        Console.WriteLine( $"Finished Image: {e.File.Name}, Success: {e.Success}" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadProgressed( FileProgressedEventArgs e )
+    {
+        fileProgress = (int)e.Percentage;
+        Console.WriteLine( $"Image: {e.File.Name} Progress: {e.Percentage}" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $"Image: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}" );
 
         return Task.CompletedTask;
     }

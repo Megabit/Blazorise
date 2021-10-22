@@ -1,9 +1,13 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Markdown.Providers;
+using Blazorise.Modules;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -13,7 +17,9 @@ namespace Blazorise.Markdown
     /// <summary>
     /// Component for acts as a wrapper around the EasyMDE, a markdown editor.
     /// </summary>
-    public partial class Markdown : BaseComponent
+    public partial class Markdown : BaseComponent,
+        IFileEntryOwner,
+        IFileEntryNotifier
     {
         #region Members
 
@@ -53,8 +59,6 @@ namespace Blazorise.Markdown
 
             if ( firstRender )
             {
-                Console.WriteLine( $"OnAfterRenderAsync" );
-
                 dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
                 await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
@@ -75,6 +79,22 @@ namespace Blazorise.Markdown
                         ? MarkdownActionProvider.Serialize( toolbarButtons )
                         : null,
                     ToolbarTips,
+                    UploadImage,
+                    ImageMaxSize,
+                    ImageAccept,
+                    ImageUploadEndpoint,
+                    ImagePathAbsolute,
+                    ImageCSRFToken,
+                    ImageTexts = ImageTexts == null ? null : new
+                    {
+                        SbInit = ImageTexts.Init,
+                        SbOnDragEnter = ImageTexts.OnDragEnter,
+                        SbOnDrop = ImageTexts.OnDrop,
+                        SbProgress = ImageTexts.Progress,
+                        SbOnUploaded = ImageTexts.OnUploaded,
+                        ImageTexts.SizeUnits,
+                    },
+                    ErrorMessages,
                 } );
 
                 Initialized = true;
@@ -141,7 +161,6 @@ namespace Blazorise.Markdown
         /// <param name="toolbarButton">Button instance.</param>
         internal protected void AddMarkdownToolbarButton( MarkdownToolbarButton toolbarButton )
         {
-            Console.WriteLine( $"AddMarkdownToolbarButton" );
             toolbarButtons ??= new();
             toolbarButtons.Add( toolbarButton );
         }
@@ -152,25 +171,135 @@ namespace Blazorise.Markdown
         /// <param name="toolbarButton">Button instance.</param>
         internal protected void RemoveMarkdownToolbarButton( MarkdownToolbarButton toolbarButton )
         {
-            Console.WriteLine( $"RemoveMarkdownToolbarButton" );
             toolbarButtons.Remove( toolbarButton );
         }
 
         [JSInvokable]
         public Task NotifyCustomButtonClicked( string name, object value )
         {
-            Console.WriteLine( "ButtonClicked" + name + value );
             return CustomButtonClicked.InvokeAsync( new MarkdownButtonEventArgs( name, value ) );
+        }
+
+        /// <summary>
+        /// Notifies the component that file input value has changed.
+        /// </summary>
+        /// <param name="file">Changed file.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [JSInvokable]
+        public async Task NotifyImageUpload( FileEntry file )
+        {
+            // So that method invocations on the file can be dispatched back here
+            file.Owner = (IFileEntryOwner)(object)this;
+
+            if ( ImageUploadChanged is not null )
+                await ImageUploadChanged.Invoke( new( file ) );
+
+            await InvokeAsync( StateHasChanged );
+        }
+
+        /// <inheritdoc/>
+        public Task UpdateFileStartedAsync( IFileEntry fileEntry )
+        {
+            // reset all
+            ProgressProgress = 0;
+            ProgressTotal = fileEntry.Size;
+            Progress = 0;
+
+            if ( ImageUploadStarted is not null )
+                return ImageUploadStarted.Invoke( new( fileEntry ) );
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        {
+            if ( ImageUploadEnded is not null )
+                return ImageUploadEnded.Invoke( new( fileEntry, success ) );
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
+        {
+            if ( ImageUploadWritten is not null )
+                return ImageUploadWritten.Invoke( new( fileEntry, position, data ) );
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
+        {
+            ProgressProgress += progressProgress;
+
+            var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
+
+            if ( Math.Abs( progress - Progress ) > double.Epsilon )
+            {
+                Progress = progress;
+
+                if ( ImageUploadProgressed is not null )
+                    return ImageUploadProgressed.Invoke( new( fileEntry, Progress ) );
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        {
+            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageMessageSize )
+                .WriteToStreamAsync( stream, CancellationToken.None );
+        }
+
+        /// <inheritdoc/>
+        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
+        {
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageMessageSize, SegmentFetchTimeout, cancellationToken );
+        }
+
+        [JSInvokable]
+        public Task NotifyErrorMessage( string errorMessage )
+        {
+            if ( ErrorCallback is not null )
+                return ErrorCallback.Invoke( errorMessage );
+
+            return Task.CompletedTask;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Number of processed bytes in current file.
+        /// </summary>
+        protected long ProgressProgress;
+
+        /// <summary>
+        /// Total number of bytes in currently processed file.
+        /// </summary>
+        protected long ProgressTotal;
+
+        /// <summary>
+        /// Percentage of the current file-read status.
+        /// </summary>
+        protected double Progress;
+
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <summary>
+        /// Gets or sets the <see cref="JSMarkdownModule"/> instance.
+        /// </summary>
         protected JSMarkdownModule JSModule { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSFileModule"/> instance.
+        /// </summary>
+        [Inject] public IJSFileModule JSFileModule { get; set; }
 
         /// <summary>
         /// Indicates if markdown editor is properly initialized.
@@ -270,6 +399,96 @@ namespace Blazorise.Markdown
         /// Occurs after the custom toolbar button is clicked.
         /// </summary>
         [Parameter] public EventCallback<MarkdownButtonEventArgs> CustomButtonClicked { get; set; }
+
+        /// <summary>
+        /// If set to true, enables the image upload functionality, which can be triggered by drag-drop,
+        /// copy-paste and through the browse-file window (opened when the user click on the upload-image icon).
+        /// Defaults to false.
+        /// </summary>
+        [Parameter] public bool UploadImage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the max message size when uploading the file.
+        /// </summary>
+        [Parameter] public int MaxUploadImageMessageSize { get; set; } = 20 * 1024;
+
+        /// <summary>
+        /// Gets or sets the Segment Fetch Timeout when uploading the file.
+        /// </summary>
+        [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
+
+        /// <summary>
+        /// Maximum image size in bytes, checked before upload (note: never trust client, always check image
+        /// size at server-side). Defaults to 1024*1024*2 (2Mb).
+        /// </summary>
+        [Parameter] public long ImageMaxSize { get; set; } = 1024 * 1024 * 2;
+
+        /// <summary>
+        /// A comma-separated list of mime-types used to check image type before upload (note: never trust client, always
+        /// check file types at server-side). Defaults to image/png, image/jpeg.
+        /// </summary>
+        [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg";
+
+        /// <summary>
+        /// The endpoint where the images data will be sent, via an asynchronous POST request. The server is supposed to
+        /// save this image, and return a json response.
+        /// </summary>
+        [Parameter] public string ImageUploadEndpoint { get; set; }
+
+        /// <summary>
+        /// If set to true, will treat imageUrl from imageUploadFunction and filePath returned from imageUploadEndpoint as
+        /// an absolute rather than relative path, i.e. not prepend window.location.origin to it.
+        /// </summary>
+        [Parameter] public string ImagePathAbsolute { get; set; }
+
+        /// <summary>
+        /// CSRF token to include with AJAX call to upload image. For instance used with Django backend.
+        /// </summary>
+        [Parameter] public string ImageCSRFToken { get; set; }
+
+        /// <summary>
+        /// Texts displayed to the user (mainly on the status bar) for the import image feature, where
+        /// #image_name#, #image_size# and #image_max_size# will replaced by their respective values, that
+        /// can be used for customization or internationalization.
+        /// </summary>
+        [Parameter] public MarkdownImageTexts ImageTexts { get; set; }
+
+        /// <summary>
+        /// Occurs every time the selected image has changed.
+        /// </summary>
+        [Parameter] public Func<FileChangedEventArgs, Task> ImageUploadChanged { get; set; }
+
+        /// <summary>
+        /// Occurs when an individual image upload has started.
+        /// </summary>
+        [Parameter] public Func<FileStartedEventArgs, Task> ImageUploadStarted { get; set; }
+
+        /// <summary>
+        /// Occurs when an individual image upload has ended.
+        /// </summary>
+        [Parameter] public Func<FileEndedEventArgs, Task> ImageUploadEnded { get; set; }
+
+        /// <summary>
+        /// Occurs every time the part of image has being written to the destination stream.
+        /// </summary>
+        [Parameter] public Func<FileWrittenEventArgs, Task> ImageUploadWritten { get; set; }
+
+        /// <summary>
+        /// Notifies the progress of image being written to the destination stream.
+        /// </summary>
+        [Parameter] public Func<FileProgressedEventArgs, Task> ImageUploadProgressed { get; set; }
+
+        /// <summary>
+        /// Errors displayed to the user, using the errorCallback option, where #image_name#, #image_size#
+        /// and #image_max_size# will replaced by their respective values, that can be used for customization
+        /// or internationalization.
+        /// </summary>
+        [Parameter] public MarkdownErrorMessages ErrorMessages { get; set; }
+
+        /// <summary>
+        /// A callback function used to define how to display an error message. Defaults to (errorMessage) => alert(errorMessage).
+        /// </summary>
+        [Parameter] public Func<string, Task> ErrorCallback { get; set; }
 
         #endregion
     }
