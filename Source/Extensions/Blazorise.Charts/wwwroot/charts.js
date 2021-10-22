@@ -63,21 +63,49 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     canvas = canvas || document.getElementById(canvasId);
 
     if (canvas) {
-        let chart = new Chart(canvas, {
-            type: type,
-            data: data,
-            options: options
-        });
+        const chart = createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options);
 
         // save references to all elements
         _instances[canvasId] = {
             dotNetRef: dotnetAdapter,
+            eventOptions: eventOptions,
             canvas: canvas,
             chart: chart
         };
-
-        wireEvents(dotnetAdapter, eventOptions, canvas, chart);
     }
+}
+
+export function changeChartType(canvas, canvasId, type) {
+    let chart = getChart(canvasId);
+
+    if (chart) {
+        const data = chart.data;
+        const options = chart.options;
+
+        if (data && data.datasets) {
+            data.datasets.forEach((ds) => {
+                ds.type = type;
+            });
+        }
+
+        chart.destroy();
+
+        chart = createChart(_instances[canvasId].dotnetAdapter, _instances[canvasId].eventOptions, canvas, canvas, type, data, options);
+
+        _instances[canvasId].chart = chart;
+    }
+}
+
+function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options) {
+    const chart = new Chart(canvas, {
+        type: type,
+        data: data,
+        options: options
+    });
+
+    wireEvents(dotnetAdapter, eventOptions, canvas, chart);
+
+    return chart;
 }
 
 export function destroy(canvas, canvasId) {

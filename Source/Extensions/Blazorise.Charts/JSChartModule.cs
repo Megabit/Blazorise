@@ -45,6 +45,16 @@ namespace Blazorise.Charts
                 optionsObject );
         }
 
+        public virtual async ValueTask ChangeType( ElementReference canvasRef, string canvasId, ChartType type )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "changeChartType",
+                canvasRef,
+                canvasId,
+                ToChartTypeString( type ) );
+        }
+
         public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
         {
             var moduleInstance = await Module;
