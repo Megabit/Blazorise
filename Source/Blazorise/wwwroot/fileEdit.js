@@ -11,19 +11,19 @@ export function initialize(adapter, element, elementId) {
         element._blazorFilesById = {};
 
         var fileList = Array.prototype.map.call(element.files, function (file) {
-            var result = {
+            var fileEntry = {
                 id: ++nextFileId,
                 lastModified: new Date(file.lastModified).toISOString(),
                 name: file.name,
                 size: file.size,
                 type: file.type
             };
-            element._blazorFilesById[result.id] = result;
+            element._blazorFilesById[fileEntry.id] = fileEntry;
 
             // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
-            Object.defineProperty(result, 'blob', { value: file });
+            Object.defineProperty(fileEntry, 'blob', { value: file });
 
-            return result;
+            return fileEntry;
         });
 
         adapter.invokeMethodAsync('NotifyChange', fileList).then(null, function (err) {
