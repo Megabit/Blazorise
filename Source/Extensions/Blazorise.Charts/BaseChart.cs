@@ -261,6 +261,27 @@ namespace Blazorise.Charts
                 await JSModule.Resize( ElementId );
         }
 
+        /// <summary>
+        /// Destroy the current chart instance and recreates it by using the same data and options.
+        /// </summary>
+        /// <param name="type">New chart type.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task ChangeType( ChartType type )
+        {
+            if ( initialized )
+                await JSModule.ChangeType( ElementRef, ElementId, type );
+        }
+
+        /// <summary>
+        /// Destroys the chart instance. Calling this method should generally.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Destroy()
+        {
+            if ( initialized )
+                await JSModule.Destroy( ElementRef, ElementId );
+        }
+
         private ValueTask Initialize()
         {
             DotNetObjectRef ??= DotNetObjectReference.Create<ChartAdapter>( new( this ) );
