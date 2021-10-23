@@ -3605,7 +3605,7 @@ namespace Blazorise.Docs.Models
             <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""bullet"" />
         </RichTextEditToolbarGroup>
         <!-- Custom toolbar content -->
-        <RichTextEditToolbarGroup Float=""Float.Right"">
+        <RichTextEditToolbarGroup Float=""Float.End"">
             <Button onClick=""window.open('https://www.quilljs.com/','quilljs')""><Icon Name=""IconName.InfoCircle"" /></Button>
             <Button Clicked=""@OnSave""><Icon Name=""IconName.Save"" /></Button>
         </RichTextEditToolbarGroup>
@@ -4433,47 +4433,47 @@ public class Startup
 <Div Position=""Position.Sticky"">...</Div>";
 
         public const string PositionArrangeElementsExample = @"<Div Position=""Position.Relative"">
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Right.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is50""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is50.Right.Is50""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Right.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.End.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is50""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is50.End.Is50""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.End.Is0""></Div>
 </Div>";
 
         public const string PositionCenterElements1Example = @"<Div Position=""Position.Relative"">
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is0.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is0.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is100.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is100.Left.Is0.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is100.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is100.Left.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Start.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Start.Is100.Translate.Middle""></Div>
 </Div>";
 
         public const string PositionCenterElements2Example = @"<Div Position=""Position.Relative"">
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is50.Translate.MiddleX""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Right.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is0.Translate.MiddleY""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Right.Is0.Translate.MiddleY""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is50.Translate.MiddleX""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Right.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is50.Translate.MiddleX""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.End.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is0.Translate.MiddleY""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.End.Is0.Translate.MiddleY""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Start.Is50.Translate.MiddleX""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.End.Is0""></Div>
 </Div>";
 
         public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"">
     Mails
-    <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle"">
+    <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"">
         +99
     </Badge>
 </Button>
 <Button Color=""Color.Primary"" Position=""Position.Relative"">
     Alerts
-    <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
+    <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
         <Span Visibility=""Visibility.Invisible"" Position=""Position.Absolute"">unread messages</Span>
     </Badge>
 </Button>";

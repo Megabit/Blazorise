@@ -428,22 +428,13 @@ namespace Blazorise.AntDesign
 
         public override string DropdownToggleIcon( bool visible ) => null;
 
-        public override string DropdownDirection( Direction direction )
+        public override string DropdownDirection( Direction direction ) => direction switch
         {
-            switch ( direction )
-            {
-                case Direction.Up:
-                    return "dropup";
-                case Direction.Right:
-                    return "dropright";
-                case Direction.Left:
-                    return "dropleft";
-                case Direction.Down:
-                case Direction.None:
-                default:
-                    return null;
-            }
-        }
+            Direction.Up => "dropup",
+            Direction.Right or Direction.End => "dropright",
+            Direction.Left or Direction.Start => "dropleft",
+            _ => null,
+        };
 
         public override string DropdownTableResponsive() => null;
 
