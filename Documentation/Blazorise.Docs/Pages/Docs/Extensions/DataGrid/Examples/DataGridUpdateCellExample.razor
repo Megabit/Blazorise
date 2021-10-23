@@ -1,5 +1,4 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
@@ -13,13 +12,21 @@
                          Value="@((decimal)context.CellValue)"
                          ValueChanged="@( v => {
                             context.CellValue = v;
-                            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+                            context.UpdateCell( nameof( Employee.Salary ), v * .25m );
                          })" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Tax )" Caption="Tax" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Tax" Editable="true" />
 </DataGrid>
 
 @code{
-    private List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }

@@ -33,6 +33,10 @@ namespace Blazorise.Docs.Server
               .AddBootstrapProviders()
               .AddFontAwesomeIcons()
               .AddBlazoriseRichTextEdit();
+
+            services.AddMemoryCache();
+            services.AddScoped<Shared.Data.EmployeeData>();
+            services.AddScoped<Shared.Data.CountryData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

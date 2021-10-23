@@ -2,6 +2,7 @@
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
+using Blazorise.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

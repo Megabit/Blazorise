@@ -1,7 +1,5 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="atSign">&#64;</span>using Blazorise.Docs.Models
-
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Editable</span>
@@ -16,7 +14,15 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    List&lt;Employee&gt; employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    {
+        employeeList = <span class="keyword">await</span> EmployeeData.GetDataAsync();
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
 }
 </pre></div>
 </div>

@@ -1,5 +1,4 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
@@ -20,16 +19,24 @@
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
 
-    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private void OnRowStyling( Employee employee, DataGridRowStyling styling )
     {
         if ( !employee.IsActive )
             styling.Style = "color: red;";
     }
 
-    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    private void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
     {
         styling.Background = Background.Info;
     }

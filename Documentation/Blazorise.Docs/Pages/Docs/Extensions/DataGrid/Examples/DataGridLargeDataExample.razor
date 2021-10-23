@@ -1,5 +1,4 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
@@ -20,10 +19,19 @@
 </DataGrid>
 
 @code{
-    int totalEmployees;
-    List<Employee> employeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
 
-    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private int totalEmployees;
+
+    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
         if ( !e.CancellationToken.IsCancellationRequested )
         {
@@ -32,18 +40,17 @@
             // this can be call to anything, in this case we're calling a fictional api
             //var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                response = EmployeeData.EmployeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+                response = (await EmployeeData.GetDataAsync()).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = EmployeeData.EmployeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = (await EmployeeData.GetDataAsync()).Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
             else
                 throw new Exception( "Unhandled ReadDataMode" );
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = EmployeeData.EmployeeList.Count;
+                totalEmployees = (await EmployeeData.GetDataAsync()).Count;
                 employeeList = new List<Employee>( response ); // an actual data for the current page
             }
         }
-        return Task.CompletedTask;
     }
 }

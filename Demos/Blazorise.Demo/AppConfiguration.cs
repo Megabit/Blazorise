@@ -1,5 +1,4 @@
 ﻿using Blazorise.RichTextEdit;
-using Blazorise.Shared;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.Demo
@@ -20,8 +19,8 @@ namespace Blazorise.Demo
                 } );
             
             services.AddMemoryCache();
-            services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
-            services.AddScoped< Blazorise.Shared.Data.CountryData >();
+            services.AddScoped<Shared.Data.EmployeeData>();
+            services.AddScoped<Shared.Data.CountryData >();
             return services;
         }
     }

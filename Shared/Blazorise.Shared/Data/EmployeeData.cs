@@ -27,7 +27,7 @@ namespace Blazorise.Shared.Data
         private Task<List<Employee>> LoadData( ICacheEntry cacheEntry )
         {
             Assembly assembly = typeof( EmployeeData ).Assembly;
-            using var stream = assembly.GetManifestResourceStream( "Blazorise.Shared.demoData.json" );
+            using var stream = assembly.GetManifestResourceStream( "Blazorise.Shared.Resources.EmployeeData.json" );
             return Task.FromResult( JsonSerializer.Deserialize<List<Employee>>( new StreamReader( stream ).ReadToEnd() ) );
         }
     }
