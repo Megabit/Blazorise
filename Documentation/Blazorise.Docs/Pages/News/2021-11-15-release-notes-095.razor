@@ -194,6 +194,13 @@
     Change any <Code>VisibleChanged</Code> event you might've bound to be compliant with a regular Blazor <Code>EventCallback</Code>.
 </Paragraph>
 
+<Paragraph>
+    5. While not strictly a breaking changes, it is advised to also rename all <Code>Left</Code> and <Code>Right</Code> values,
+    eg. for <Code>TextAlignment</Code> and <Code>Direction</Code>. We have marked them as obsolete and they will be replaced with
+    <Code>Start</Code> and <Code>End</Code> values. The purpose of the new values is the better naming support for the RTL layouts
+    that should take place in the next Blazorise version.
+</Paragraph>
+
 <NewsPageSubtitle>
     Highlights 🚀
 </NewsPageSubtitle>

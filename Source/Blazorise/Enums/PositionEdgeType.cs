@@ -16,9 +16,9 @@
         Top,
 
         /// <summary>
-        /// For the horizontal left position.
+        /// For the horizontal start position.
         /// </summary>
-        Left,
+        Start,
 
         /// <summary>
         /// For the vertical bottom position.
@@ -26,8 +26,8 @@
         Bottom,
 
         /// <summary>
-        /// For the horizontal right position.
+        /// For the horizontal end position.
         /// </summary>
-        Right,
+        End,
     }
 }

@@ -33,11 +33,11 @@ namespace Blazorise.AntDesign
             {
                 return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)dropdownElementInfo.OffsetLeft}px; top: {(int)( dropdownElementInfo.OffsetTop - dropdownMenuBoundingClientRect.Height )}px;";
             }
-            else if ( direction == Direction.Left )
+            else if ( direction == Direction.Left || direction == Direction.Start )
             {
                 return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)( dropdownElementInfo.OffsetLeft - dropdownMenuBoundingClientRect.Width )}px; top: {(int)dropdownElementInfo.OffsetTop}px;";
             }
-            else if ( direction == Direction.Right )
+            else if ( direction == Direction.Right || direction == Direction.End )
             {
                 return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)( dropdownElementInfo.OffsetLeft + dropdownMenuBoundingClientRect.Width )}px; top: {(int)dropdownElementInfo.OffsetTop}px;";
             }

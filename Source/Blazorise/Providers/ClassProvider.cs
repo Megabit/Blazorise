@@ -1211,8 +1211,8 @@ namespace Blazorise
         {
             return @float switch
             {
-                Blazorise.Float.Left => "left",
-                Blazorise.Float.Right => "right",
+                Blazorise.Float.Left or Blazorise.Float.Start => "left",
+                Blazorise.Float.Right or Blazorise.Float.End => "right",
                 _ => null,
             };
         }
@@ -1249,8 +1249,8 @@ namespace Blazorise
             {
                 Blazorise.Side.Top => "t",
                 Blazorise.Side.Bottom => "b",
-                Blazorise.Side.Left => "l",
-                Blazorise.Side.Right => "r",
+                Blazorise.Side.Left or Blazorise.Side.Start => "l",
+                Blazorise.Side.Right or Blazorise.Side.End => "r",
                 Blazorise.Side.X => "x",
                 Blazorise.Side.Y => "y",
                 _ => null,
@@ -1272,9 +1272,9 @@ namespace Blazorise
         {
             return textAlignment switch
             {
-                Blazorise.TextAlignment.Left => "left",
+                Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "left",
                 Blazorise.TextAlignment.Center => "center",
-                Blazorise.TextAlignment.Right => "right",
+                Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "right",
                 Blazorise.TextAlignment.Justified => "justify",
                 _ => null,
             };
@@ -1479,8 +1479,8 @@ namespace Blazorise
             return placement switch
             {
                 Blazorise.Placement.Bottom => "bottom",
-                Blazorise.Placement.Left => "left",
-                Blazorise.Placement.Right => "right",
+                Blazorise.Placement.Left or Blazorise.Placement.Start => "left",
+                Blazorise.Placement.Right or Blazorise.Placement.End => "right",
                 _ => "top",
             };
         }
@@ -1820,9 +1820,9 @@ namespace Blazorise
             return positionEdgeType switch
             {
                 Blazorise.PositionEdgeType.Top => "top",
-                Blazorise.PositionEdgeType.Left => "left",
+                Blazorise.PositionEdgeType.Start => "left",
                 Blazorise.PositionEdgeType.Bottom => "bottom",
-                Blazorise.PositionEdgeType.Right => "right",
+                Blazorise.PositionEdgeType.End => "right",
                 _ => null,
             };
         }

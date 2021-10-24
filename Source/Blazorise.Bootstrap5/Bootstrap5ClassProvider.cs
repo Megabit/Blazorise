@@ -424,8 +424,8 @@ namespace Blazorise.Bootstrap5
             return direction switch
             {
                 Direction.Up => "dropup",
-                Direction.Right => "dropend",
-                Direction.Left => "dropstart",
+                Direction.Right or Direction.End => "dropend",
+                Direction.Left or Direction.Start => "dropstart",
                 _ => null,
             };
         }
@@ -607,7 +607,7 @@ namespace Blazorise.Bootstrap5
 
         public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
-        public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal 
+        public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
             ? hasDropdown
                 ? "nav-item dropdown"
                 : "nav-item"
@@ -1260,8 +1260,8 @@ namespace Blazorise.Bootstrap5
         {
             return @float switch
             {
-                Blazorise.Float.Left => "start",
-                Blazorise.Float.Right => "end",
+                Blazorise.Float.Left or Blazorise.Float.Start => "start",
+                Blazorise.Float.Right or Blazorise.Float.End => "end",
                 _ => null,
             };
         }
@@ -1286,9 +1286,9 @@ namespace Blazorise.Bootstrap5
         {
             return textAlignment switch
             {
-                Blazorise.TextAlignment.Left => "start",
+                Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "start",
                 Blazorise.TextAlignment.Center => "center",
-                Blazorise.TextAlignment.Right => "end",
+                Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "end",
                 Blazorise.TextAlignment.Justified => "justify",
                 _ => null,
             };
@@ -1299,8 +1299,8 @@ namespace Blazorise.Bootstrap5
             return placement switch
             {
                 Blazorise.Placement.Bottom => "bottom",
-                Blazorise.Placement.Left => "start",
-                Blazorise.Placement.Right => "end",
+                Blazorise.Placement.Left or Blazorise.Placement.Start => "start",
+                Blazorise.Placement.Right or Blazorise.Placement.End => "end",
                 _ => "top",
             };
         }
@@ -1322,8 +1322,8 @@ namespace Blazorise.Bootstrap5
             {
                 Blazorise.Side.Top => "t",
                 Blazorise.Side.Bottom => "b",
-                Blazorise.Side.Left => "s",
-                Blazorise.Side.Right => "e",
+                Blazorise.Side.Left or Blazorise.Side.Start => "s",
+                Blazorise.Side.Right or Blazorise.Side.End => "e",
                 Blazorise.Side.X => "x",
                 Blazorise.Side.Y => "y",
                 _ => null,
@@ -1335,9 +1335,9 @@ namespace Blazorise.Bootstrap5
             return positionEdgeType switch
             {
                 Blazorise.PositionEdgeType.Top => "top",
-                Blazorise.PositionEdgeType.Left => "start",
+                Blazorise.PositionEdgeType.Start => "start",
                 Blazorise.PositionEdgeType.Bottom => "bottom",
-                Blazorise.PositionEdgeType.Right => "end",
+                Blazorise.PositionEdgeType.End => "end",
                 _ => null,
             };
         }
