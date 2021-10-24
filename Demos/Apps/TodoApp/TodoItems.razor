@@ -47,7 +47,7 @@
                             </Buttons>
                         </FieldBody>
                         <FieldBody ColumnSize="ColumnSize.Is2">
-                            <Button Color="Color.Warning" Float="Float.Right" Clicked="@OnClearCompleted" Display="@(todos.Any(x=>x.Completed) ? Display.Always : Display.None)">Clear Completed</Button>
+                            <Button Color="Color.Warning" Float="Float.End" Clicked="@OnClearCompleted" Display="@(todos.Any(x=>x.Completed) ? Display.Always : Display.None)">Clear Completed</Button>
                         </FieldBody>
                     </Field>
                 </CardFooter>

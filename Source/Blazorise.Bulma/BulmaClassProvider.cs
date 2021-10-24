@@ -431,22 +431,13 @@ namespace Blazorise.Bulma
 
         public override string DropdownToggleIcon( bool visible ) => null;
 
-        public override string DropdownDirection( Direction direction )
+        public override string DropdownDirection( Direction direction ) => direction switch
         {
-            switch ( direction )
-            {
-                case Direction.Up:
-                    return "is-up";
-                case Direction.Right:
-                    return "is-right";
-                case Direction.Left:
-                    return "is-left";
-                case Direction.Down:
-                case Direction.None:
-                default:
-                    return null;
-            }
-        }
+            Direction.Up => "is-up",
+            Direction.Right or Direction.End => "is-right",
+            Direction.Left or Direction.Start => "is-left",
+            _ => null,
+        };
 
         public override string DropdownTableResponsive() => null;
 
@@ -1446,35 +1437,24 @@ namespace Blazorise.Bulma
             }
         }
 
-        public override string ToTextAlignment( TextAlignment textAlignment )
+        public override string ToTextAlignment( TextAlignment textAlignment ) => textAlignment switch
         {
-            switch ( textAlignment )
-            {
-                case Blazorise.TextAlignment.Left:
-                    return "left";
-                case Blazorise.TextAlignment.Center:
-                    return "centered";
-                case Blazorise.TextAlignment.Right:
-                    return "right";
-                case Blazorise.TextAlignment.Justified:
-                    return "justified";
-                default:
-                    return null;
-            }
-        }
+            Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "left",
+            Blazorise.TextAlignment.Center => "centered",
+            Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "right",
+            Blazorise.TextAlignment.Justified => "justified",
+            _ => null,
+        };
 
-        public override string ToJustifyContent( FlexJustifyContent justifyContent )
+        public override string ToJustifyContent( FlexJustifyContent justifyContent ) => justifyContent switch
         {
-            return justifyContent switch
-            {
-                Blazorise.FlexJustifyContent.Start => "flex-start",
-                Blazorise.FlexJustifyContent.End => "flex-end",
-                Blazorise.FlexJustifyContent.Center => "center",
-                Blazorise.FlexJustifyContent.Between => "space-between",
-                Blazorise.FlexJustifyContent.Around => "space-around",
-                _ => null,
-            };
-        }
+            Blazorise.FlexJustifyContent.Start => "flex-start",
+            Blazorise.FlexJustifyContent.End => "flex-end",
+            Blazorise.FlexJustifyContent.Center => "center",
+            Blazorise.FlexJustifyContent.Between => "space-between",
+            Blazorise.FlexJustifyContent.Around => "space-around",
+            _ => null,
+        };
 
         public override string ToAlignItems( FlexAlignItems alignItems )
         {
