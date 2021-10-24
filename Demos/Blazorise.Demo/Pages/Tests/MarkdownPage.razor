@@ -85,8 +85,8 @@
 
     Task OnImageUploadEnded( FileEndedEventArgs e )
     {
-        // since we're fakinf the upload in this demo we will just insert some dummy imageUrl
-        e.File.UploadUrl = "https://images.pexels.com/photos/4966601/pexels-photo-4966601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260";
+        // since we're faking the upload in this demo we will just insert some dummy imageUrl
+        e.File.UploadUrl = "https://images.pexels.com/photos/4966601/pexels-photo-4966601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=200";
 
         Console.WriteLine( $"Finished Image: {e.File.Name}, Success: {e.Success}" );
 
