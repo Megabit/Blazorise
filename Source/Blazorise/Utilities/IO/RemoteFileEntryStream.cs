@@ -15,10 +15,10 @@ namespace Blazorise
     {
         #region Members
 
-        private readonly IJSFileEditModule jsModule;
+        private readonly IJSFileModule jsModule;
         private readonly ElementReference elementRef;
-        private readonly FileEntry fileEntry;
-        private readonly FileEdit fileEdit;
+        private readonly IFileEntry fileEntry;
+        private readonly IFileEntryNotifier fileEntryNotifier;
         private readonly int maxMessageSize;
         private readonly TimeSpan segmentFetchTimeout;
         private readonly PipeReader pipeReader;
@@ -31,12 +31,12 @@ namespace Blazorise
 
         #region Constructors
 
-        public RemoteFileEntryStream( IJSFileEditModule jsModule, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
+        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
         {
             this.jsModule = jsModule;
             this.elementRef = elementRef;
             this.fileEntry = fileEntry;
-            this.fileEdit = fileEdit;
+            this.fileEntryNotifier = fileEntryNotifier;
             this.maxMessageSize = maxMessageSize;
             this.segmentFetchTimeout = segmentFetchTimeout;
             fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
@@ -82,8 +82,8 @@ namespace Blazorise
                         var result = await writer.FlushAsync( cancellationToken );
 
                         await Task.WhenAll(
-                            fileEdit.UpdateFileWrittenAsync( fileEntry, offset, bytes ),
-                            fileEdit.UpdateFileProgressAsync( fileEntry, bytes.Length ) );
+                            fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, offset, bytes ),
+                            fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytes.Length ) );
 
                         if ( result.IsCompleted )
                         {
@@ -99,7 +99,7 @@ namespace Blazorise
             }
             finally
             {
-                await fileEdit.UpdateFileEndedAsync( fileEntry, offset == fileEntry.Size );
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, offset == fileEntry.Size );
             }
 
             await writer.CompleteAsync();

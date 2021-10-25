@@ -26,11 +26,11 @@ namespace Blazorise.Markdown
 
         #region Methods        
 
-        public async ValueTask Initialize( DotNetObjectReference<Markdown> dotNetObjectRef, ElementReference elementRef, string elementId, string initialValue )
+        public async ValueTask Initialize( DotNetObjectReference<Markdown> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, initialValue );
+            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
         }
 
         public async ValueTask Destroy( ElementReference elementRef, string elementId )
@@ -54,12 +54,26 @@ namespace Blazorise.Markdown
             return await moduleInstance.InvokeAsync<string>( "getValue", elementId );
         }
 
+        public async ValueTask NotifyImageUploadSuccess( string elementId, string imageUrl )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "notifyImageUploadSuccess", elementId, imageUrl );
+        }
+
+        public async ValueTask NotifyImageUploadError( string elementId, string errorMessage )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "notifyImageUploadError", elementId, errorMessage );
+        }
+
         #endregion
 
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.Markdown/blazorise.markdown.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Markdown/markdown.js?v={VersionProvider.Version}";
 
         #endregion
     }

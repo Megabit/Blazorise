@@ -70,7 +70,7 @@ namespace Blazorise
         /// <summary>
         /// The left property affects the horizontal position of a positioned element.
         /// </summary>
-        IFluentPositionEdgeOffset Left { get; }
+        IFluentPositionEdgeOffset Start { get; }
 
         /// <summary>
         /// The top property affects the vertical position of a positioned element.
@@ -80,7 +80,7 @@ namespace Blazorise
         /// <summary>
         /// The right property affects the horizontal position of a positioned element.
         /// </summary>
-        IFluentPositionEdgeOffset Right { get; }
+        IFluentPositionEdgeOffset End { get; }
     }
 
     /// <summary>
@@ -332,13 +332,13 @@ namespace Blazorise
         public IFluentPositionEdgeOffset Top => WithEdge( PositionEdgeType.Top );
 
         /// <inheritdoc/>
-        public IFluentPositionEdgeOffset Left => WithEdge( PositionEdgeType.Left );
+        public IFluentPositionEdgeOffset Start => WithEdge( PositionEdgeType.Start );
 
         /// <inheritdoc/>
         public IFluentPositionEdgeOffset Bottom => WithEdge( PositionEdgeType.Bottom );
 
         /// <inheritdoc/>
-        public IFluentPositionEdgeOffset Right => WithEdge( PositionEdgeType.Right );
+        public IFluentPositionEdgeOffset End => WithEdge( PositionEdgeType.End );
 
         /// <inheritdoc/>
         public IFluentPositionWithAll Is0 => WithEdgeOffset( 0 );
