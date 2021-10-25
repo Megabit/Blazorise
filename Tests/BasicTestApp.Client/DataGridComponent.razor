@@ -4,7 +4,8 @@
           ShowPageSizes
           Sortable
           SortMode="DataGridSortMode.Single"
-          Editable>
+          Editable
+          EditMode="@DataGridEditMode">
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee">
             <NewCommandTemplate>
@@ -41,6 +42,9 @@
 </DataGrid>
 
 @code {
+    [Parameter]
+    public DataGridEditMode DataGridEditMode { get; set; }        
+
     public class Employee
     {
         public string Name { get; set; }

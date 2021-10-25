@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Linq;
 using BasicTestApp.Client;
+using Blazorise.DataGrid;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -15,6 +16,7 @@ namespace Blazorise.Tests.Components
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
             BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddModal( this.JSInterop );
         }
 
         [Fact]
@@ -36,11 +38,15 @@ namespace Blazorise.Tests.Components
             }
         }
 
-        [Fact]
-        public void New_Should_AddNewItem()
+        [Theory]
+        [InlineData( DataGridEditMode.Form )]
+        [InlineData( DataGridEditMode.Inline )]
+        [InlineData( DataGridEditMode.Popup )]
+        public void New_Should_AddNewItem( DataGridEditMode editMode )
         {
             // setup
-            var comp = RenderComponent<DataGridComponent>();
+            var comp = RenderComponent<DataGridComponent>( parameters =>
+                parameters.Add( x => x.DataGridEditMode, editMode ) );
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
@@ -54,12 +60,16 @@ namespace Blazorise.Tests.Components
             Assert.Equal( startingDataCount + 1, currentDataCount );
         }
 
-        [Fact]
-        public void Edit_Should_UpdateItem()
+        [Theory]
+        [InlineData( DataGridEditMode.Form )]
+        [InlineData( DataGridEditMode.Inline )]
+        [InlineData( DataGridEditMode.Popup )]
+        public void Edit_Should_UpdateItem( DataGridEditMode editMode )
         {
             // setup
             var updatedName = "RaulFromEdit";
-            var comp = RenderComponent<DataGridComponent>();
+            var comp = RenderComponent<DataGridComponent>( parameters =>
+                parameters.Add( x => x.DataGridEditMode, editMode ) );
 
             // test
             comp.Find( "#btnEdit" ).Click();
@@ -77,11 +87,15 @@ namespace Blazorise.Tests.Components
             Assert.Contains( comp.Instance.InMemoryData, x => x.Name == updatedName );
         }
 
-        [Fact]
-        public void Delete_Should_DeleteItem()
+        [Theory]
+        [InlineData( DataGridEditMode.Form )]
+        [InlineData( DataGridEditMode.Inline )]
+        [InlineData( DataGridEditMode.Popup )]
+        public void Delete_Should_DeleteItem( DataGridEditMode editMode )
         {
             // setup
-            var comp = RenderComponent<DataGridComponent>();
+            var comp = RenderComponent<DataGridComponent>( parameters =>
+                parameters.Add( x => x.DataGridEditMode, editMode ) );
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
