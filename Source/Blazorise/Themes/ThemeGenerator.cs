@@ -111,7 +111,7 @@ namespace Blazorise
         /// <param name="value">Color value.</param>
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
         {
-            Variables[ThemeVariables.Color( variant )] = value;
+            AddColorVariable( ThemeVariables.Color( variant ), value, true );
 
             GenerateButtonColorVariables( theme, variant, value, value, theme.ButtonOptions );
             GenerateOutlineButtonColorVariables( theme, variant, value, theme.ButtonOptions );
@@ -1024,6 +1024,27 @@ namespace Blazorise
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Handles the adding of color into the list of CSS variables.
+        /// </summary>
+        /// <param name="name">Variable name.</param>
+        /// <param name="hexColor">Color in hex format.</param>
+        /// <param name="addRgbParts">If true, rgb parts will also be defined in the variables.</param>
+        protected virtual void AddColorVariable( string name, string hexColor, bool addRgbParts = false )
+        {
+            Variables[name] = hexColor;
+
+            if ( addRgbParts )
+            {
+                var color = ParseColor( hexColor );
+
+                Variables[$"{name}-r"] = color.R.ToString( CultureInfo.InvariantCulture );
+                Variables[$"{name}-g"] = color.G.ToString( CultureInfo.InvariantCulture );
+                Variables[$"{name}-b"] = color.B.ToString( CultureInfo.InvariantCulture );
+                Variables[$"{name}-a"] = ( color.A / 255f ).ToString( "n2", CultureInfo.InvariantCulture );
+            }
+        }
 
         /// <summary>
         /// Determines the border radius from the supplied parameters.
