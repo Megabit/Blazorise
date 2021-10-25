@@ -239,7 +239,7 @@ namespace Blazorise.RichTextEdit
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.RichTextEdit/blazorise.richtextedit.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.RichTextEdit/richtextedit.js?v={VersionProvider.Version}";
 
         #endregion
     }

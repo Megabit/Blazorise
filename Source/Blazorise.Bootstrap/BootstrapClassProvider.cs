@@ -427,16 +427,13 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
 
-        public override string DropdownDirection( Direction direction )
+        public override string DropdownDirection( Direction direction ) => direction switch
         {
-            return direction switch
-            {
-                Direction.Up => "dropup",
-                Direction.Right => "dropright",
-                Direction.Left => "dropleft",
-                _ => null,
-            };
-        }
+            Direction.Up => "dropup",
+            Direction.Right or Direction.End => "dropright",
+            Direction.Left or Direction.Start => "dropleft",
+            _ => null,
+        };
 
         public override string DropdownTableResponsive() => "position-static";
 

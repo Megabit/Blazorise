@@ -62,9 +62,19 @@ namespace Blazorise
         IFluentSpacingOnBreakpointWithSideAndSize FromLeft { get; }
 
         /// <summary>
+        /// For classes that set margin-left or padding-left.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize FromStart { get; }
+
+        /// <summary>
         /// For classes that set margin-right or padding-right.
         /// </summary>
         IFluentSpacingOnBreakpointWithSideAndSize FromRight { get; }
+
+        /// <summary>
+        /// For classes that set margin-right or padding-right.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize FromEnd { get; }
 
         /// <summary>
         /// For classes that set both *-left and *-right.
@@ -358,12 +368,22 @@ namespace Blazorise
         /// <summary>
         /// For classes that set margin-left or padding-left.
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize FromLeft => WithSide( Side.Left );
+        public IFluentSpacingOnBreakpointWithSideAndSize FromLeft => WithSide( Side.Start );
 
         /// <summary>
         /// For classes that set margin-right or padding-right.
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize FromRight => WithSide( Side.Right );
+        public IFluentSpacingOnBreakpointWithSideAndSize FromRight => WithSide( Side.End );
+
+        /// <summary>
+        /// For classes that set margin-left or padding-left.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize FromStart => WithSide( Side.Start );
+
+        /// <summary>
+        /// For classes that set margin-right or padding-right.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize FromEnd => WithSide( Side.End );
 
         /// <summary>
         /// For classes that set both *-left and *-right.

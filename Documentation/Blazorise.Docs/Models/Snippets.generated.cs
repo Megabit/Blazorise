@@ -3527,6 +3527,27 @@ namespace Blazorise.Docs.Models
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
+        public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
+    <Toolbar>
+        <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
+    </Toolbar>
+</Markdown>
+
+@code {
+    [Inject] private INotificationService NotificationService { get; set; }
+
+    string markdownValue = ""## Custom Toolbar\nCustom functions, icons and buttons can be defined for the toolbar."";
+
+    Task OnCustomButtonClicked( MarkdownButtonEventArgs eventArgs )
+    {
+        NotificationService.Info( $""Name: {eventArgs.Name} Value: {eventArgs.Value}"" );
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string MarkdownExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
 
 @code{
@@ -3552,6 +3573,62 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+
+        public const string MarkdownUploadImageExample = @"<Markdown ImageUploadChanged=""@OnImageUploadChanged""
+          ImageUploadStarted=""@OnImageUploadStarted""
+          ImageUploadProgressed=""@OnImageUploadProgressed""
+          ImageUploadEnded=""@OnImageUploadEnded"" />
+
+@code {
+    async Task OnImageUploadChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                using ( var stream = new System.IO.MemoryStream() )
+                {
+                    await file.WriteToStreamAsync( stream );
+
+                    // do something with the stream
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    Task OnImageUploadStarted( FileStartedEventArgs e )
+    {
+        Console.WriteLine( $""Started Image: {e.File.Name}"" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""Image: {e.File.Name} Progress: {(int)e.Percentage}"" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadEnded( FileEndedEventArgs e )
+    {
+        // We need to report back to Markdown that upload is done. We do this by setting the UploadUrl.
+        // NOTE: Since we're faking the upload in this demo we will just set some dummy UploadUrl.
+        e.File.UploadUrl = ""https://images.pexels.com/photos/4966601/pexels-photo-4966601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=200"";
+
+        Console.WriteLine( $""Finished Image: {e.File.Name}, Success: {e.Success}"" );
+
+        return Task.CompletedTask;
+    }
+}";
 
         public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
@@ -3605,7 +3682,7 @@ namespace Blazorise.Docs.Models
             <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""bullet"" />
         </RichTextEditToolbarGroup>
         <!-- Custom toolbar content -->
-        <RichTextEditToolbarGroup Float=""Float.Right"">
+        <RichTextEditToolbarGroup Float=""Float.End"">
             <Button onClick=""window.open('https://www.quilljs.com/','quilljs')""><Icon Name=""IconName.InfoCircle"" /></Button>
             <Button Clicked=""@OnSave""><Icon Name=""IconName.Save"" /></Button>
         </RichTextEditToolbarGroup>
@@ -4433,47 +4510,47 @@ public class Startup
 <Div Position=""Position.Sticky"">...</Div>";
 
         public const string PositionArrangeElementsExample = @"<Div Position=""Position.Relative"">
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Right.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is50""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is50.Right.Is50""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Right.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.End.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is50""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is50.End.Is50""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.End.Is0""></Div>
 </Div>";
 
         public const string PositionCenterElements1Example = @"<Div Position=""Position.Relative"">
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is0.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is0.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is100.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is100.Left.Is0.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is100.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is100.Left.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is100.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Start.Is0.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is100.Start.Is100.Translate.Middle""></Div>
 </Div>";
 
         public const string PositionCenterElements2Example = @"<Div Position=""Position.Relative"">
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Left.Is50.Translate.MiddleX""></Div>
-    <Div Position=""Position.Absolute.Top.Is0.Right.Is0""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is0.Translate.MiddleY""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Left.Is50.Translate.Middle""></Div>
-    <Div Position=""Position.Absolute.Top.Is50.Right.Is0.Translate.MiddleY""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is0""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Left.Is50.Translate.MiddleX""></Div>
-    <Div Position=""Position.Absolute.Bottom.Is0.Right.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is50.Translate.MiddleX""></Div>
+    <Div Position=""Position.Absolute.Top.Is0.End.Is0""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is0.Translate.MiddleY""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.Start.Is50.Translate.Middle""></Div>
+    <Div Position=""Position.Absolute.Top.Is50.End.Is0.Translate.MiddleY""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Start.Is0""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.Start.Is50.Translate.MiddleX""></Div>
+    <Div Position=""Position.Absolute.Bottom.Is0.End.Is0""></Div>
 </Div>";
 
         public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"">
     Mails
-    <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle"">
+    <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"">
         +99
     </Badge>
 </Button>
 <Button Color=""Color.Primary"" Position=""Position.Relative"">
     Alerts
-    <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Left.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
+    <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
         <Span Visibility=""Visibility.Invisible"" Position=""Position.Absolute"">unread messages</Span>
     </Badge>
 </Button>";
