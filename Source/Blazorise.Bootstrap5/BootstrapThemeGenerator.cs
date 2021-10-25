@@ -739,13 +739,15 @@ namespace Blazorise.Bootstrap5
 
         protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
         {
-            var textColor = ParseColor( inTextColor );
+            var textColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
+                ? ParseColor( theme.BodyOptions.TextColor )
+                : ParseColor( inTextColor );
 
-            var textColorHex = ToHex( textColor );
+            var hexTextColor = ToHex( textColor );
 
             sb.Append( $".text-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {textColorHex} !important;" )
+                .Append( $"color: {hexTextColor} !important;" )
                 .AppendLine( "}" );
         }
 

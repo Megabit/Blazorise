@@ -85,6 +85,11 @@ namespace Blazorise
             => TextColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
+        /// Defined the body options.
+        /// </summary>
+        public ThemeBodyOptions BodyOptions { get; set; }
+
+        /// <summary>
         /// Global options for media breakpoints.
         /// </summary>
         public ThemeBreakpointOptions BreakpointOptions { get; set; }

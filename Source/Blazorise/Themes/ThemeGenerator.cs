@@ -49,6 +49,8 @@ namespace Blazorise
             Variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
             Variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
 
+            GenerateBodyVariables( theme );
+
             foreach ( var (name, size) in theme.ValidBreakpoints )
                 GenerateBreakpointVariables( theme, name, size );
 
@@ -90,6 +92,23 @@ namespace Blazorise
             ThemeCache.CacheVariables( theme, generatedVariables );
 
             return generatedVariables;
+        }
+
+        /// <summary>
+        /// Generates the body CSS variables.
+        /// </summary>
+        /// <param name="theme">Currently used theme options.</param>
+        protected virtual void GenerateBodyVariables( Theme theme )
+        {
+            if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
+            {
+                Variables[ThemeVariables.BodyBackgroundColor] = ToHex( ParseColor( theme.BodyOptions.BackgroundColor ) );
+            }
+
+            if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+            {
+                Variables[ThemeVariables.BodyTextColor] = ToHex( ParseColor( theme.BodyOptions.TextColor ) );
+            }
         }
 
         /// <summary>
@@ -309,7 +328,10 @@ namespace Blazorise
         /// <param name="inColor">Text color.</param>
         protected virtual void GenerateTextColorVariables( Theme theme, string variant, string inColor )
         {
-            var color = ParseColor( inColor );
+            // override body color if defined
+            var color = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
+                ? ParseColor( theme.BodyOptions.TextColor )
+                : ParseColor( inColor );
 
             if ( color.IsEmpty )
                 return;
@@ -613,6 +635,8 @@ namespace Blazorise
 
             var sb = new StringBuilder();
 
+            GenerateBodyStyles( sb, theme );
+
             foreach ( var (name, size) in theme.ValidBreakpoints )
             {
                 GenerateBreakpointStyles( sb, theme, name, size );
@@ -668,6 +692,31 @@ namespace Blazorise
             ThemeCache.CacheStyles( theme, generatedStyles );
 
             return generatedStyles;
+        }
+
+        /// <summary>
+        /// Generates the body styles.
+        /// </summary>
+        /// <param name="sb">Result of the generator.</param>
+        /// <param name="theme">Currently used theme options.</param>
+        protected virtual void GenerateBodyStyles( StringBuilder sb, Theme theme )
+        {
+            var backgroundColor = Var( ThemeVariables.BodyBackgroundColor );
+            var textColor = Var( ThemeVariables.BodyTextColor );
+
+            if ( !string.IsNullOrEmpty( backgroundColor )
+                || !string.IsNullOrEmpty( textColor ) )
+            {
+                sb.Append( $"body" ).Append( "{" );
+
+                if ( !string.IsNullOrEmpty( backgroundColor ) )
+                    sb.Append( $"background-color: var({ThemeVariables.BodyBackgroundColor});" );
+
+                if ( !string.IsNullOrEmpty( textColor ) )
+                    sb.Append( $"color: var({ThemeVariables.BodyTextColor});" );
+
+                sb.AppendLine( "}" );
+            }
         }
 
         /// <summary>

@@ -841,13 +841,17 @@ namespace Blazorise.AntDesign
             }
         }
 
-        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
         {
-            var color = ToHex( ParseColor( inColor ) );
+            var textColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
+                ? ParseColor( theme.BodyOptions.TextColor )
+                : ParseColor( inTextColor );
+
+            var hexTextColor = ToHex( textColor );
 
             sb.Append( $".ant-typography-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {color};" )
+                .Append( $"color: {hexTextColor};" )
                 .AppendLine( "}" );
         }
 
