@@ -61,16 +61,16 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the spacing for the default sizes.
         /// </summary>
-        public string Is3 { get; set; } = "2rem";
+        public string Is3 { get; set; } = "1rem";
 
         /// <summary>
         /// Gets or sets the spacing for the large sizes.
         /// </summary>
-        public string Is4 { get; set; } = "4.5rem";
+        public string Is4 { get; set; } = "1.5rem";
 
         /// <summary>
         /// Gets or sets the spacing for the extra large sizes.
         /// </summary>
-        public string Is5 { get; set; } = "6rem";
+        public string Is5 { get; set; } = "3rem";
     }
 }
