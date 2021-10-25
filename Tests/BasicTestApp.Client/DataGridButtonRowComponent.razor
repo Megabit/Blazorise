@@ -5,7 +5,7 @@
           Sortable
           SortMode="DataGridSortMode.Single"
           Editable
-          EditMode="DataGridEditMode.Inline"
+          EditMode="@DataGridEditMode"
           @bind-SelectedRow="selectedEmployee">
     <ButtonRowTemplate>
         <Button ElementId="btnNew" Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
@@ -30,6 +30,9 @@
 
 @code {
     private Employee selectedEmployee;
+
+    [Parameter]
+    public DataGridEditMode DataGridEditMode { get; set; }        
 
     public class Employee
     {
