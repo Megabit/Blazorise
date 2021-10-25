@@ -3,31 +3,31 @@ using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Utilities
+namespace Blazorise
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class FileEntryStreamReader
     {
-        private readonly IJSFileEditModule jsModule;
+        private readonly IJSFileModule jsModule;
         private readonly ElementReference elementRef;
         private readonly FileEntry fileEntry;
-        private readonly FileEdit fileEdit;
+        private readonly IFileEntryNotifier fileEntryNotifier;
 
-        public FileEntryStreamReader( IJSFileEditModule jsModule, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit )
+        public FileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier )
         {
             this.jsModule = jsModule;
             this.elementRef = elementRef;
             this.fileEntry = fileEntry;
-            this.fileEdit = fileEdit;
+            this.fileEntryNotifier = fileEntryNotifier;
         }
 
-        protected IJSFileEditModule JSModule => jsModule;
+        protected IJSFileModule JSModule => jsModule;
 
         protected ElementReference ElementRef => elementRef;
 
         protected FileEntry FileEntry => fileEntry;
 
-        protected FileEdit FileEdit => fileEdit;
+        protected IFileEntryNotifier FileEntryNotifier => fileEntryNotifier;
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

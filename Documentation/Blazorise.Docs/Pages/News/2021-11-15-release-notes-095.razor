@@ -188,9 +188,9 @@
 
 <Paragraph>
     4. We've found that on <Code>Dropdown</Code> we had both a <Code>VisibleChanged</Code> and <Code>Toggled</Code> event, which served the same purpose. We've removed <Code>Toggled</Code> and changed <Code>VisibleChanged</Code> to a regular Blazor <Code>EventCallback</Code>.
-   
-    Replace any <Code>Toggled</Code> Parameter with the <Code>VisibleChanged</Code> Parameter. 
-    
+
+    Replace any <Code>Toggled</Code> Parameter with the <Code>VisibleChanged</Code> Parameter.
+
     Change any <Code>VisibleChanged</Code> event you might've bound to be compliant with a regular Blazor <Code>EventCallback</Code>.
 </Paragraph>
 
@@ -271,4 +271,15 @@
     In many cases a native color input is not good enough. For instance, native color input doesn't support opacity value, or localization. With the introduction of
     <Code>ColorPicker</Code> component all of this limitations are now history. You can define any colors, including alpha value. You can localize the buttons,
     define custom pallette for quick coloring, show or hide certain buttons, and many new fatures.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Markdown improvements
+</Heading>
+
+<Paragraph>
+    We did a lot of improvements and new APIs on our Markdown component. It can now support toolbar customization, image uploading, theming, and many more.
+</Paragraph>
+<Paragraph>
+    You can see examples at the <Anchor To="docs/extensions/markdown">Markdown page</Anchor>.
 </Paragraph>

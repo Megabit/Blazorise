@@ -7,21 +7,21 @@ using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Utilities
+namespace Blazorise
 {
     internal class RemoteFileEntryStreamReader : FileEntryStreamReader
     {
         private readonly int maxMessageSize;
 
-        public RemoteFileEntryStreamReader( IJSFileEditModule jsModule, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize )
-            : base( jsModule, elementRef, fileEntry, fileEdit )
+        public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize )
+            : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
         {
             this.maxMessageSize = maxMessageSize;
         }
 
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
         {
-            await FileEdit.UpdateFileStartedAsync( FileEntry );
+            await FileEntryNotifier.UpdateFileStartedAsync( FileEntry );
 
             long position = 0;
 
@@ -49,8 +49,8 @@ namespace Blazorise.Utilities
 
                     // notify of all the changes
                     await Task.WhenAll(
-                        FileEdit.UpdateFileWrittenAsync( FileEntry, position, buffer ),
-                        FileEdit.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
+                        FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer ),
+                        FileEntryNotifier.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
                 }
             }
             catch
@@ -59,7 +59,7 @@ namespace Blazorise.Utilities
             }
             finally
             {
-                await FileEdit.UpdateFileEndedAsync( FileEntry, position == FileEntry.Size );
+                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, position == FileEntry.Size );
             }
         }
     }

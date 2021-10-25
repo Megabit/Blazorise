@@ -3527,6 +3527,27 @@ namespace Blazorise.Docs.Models
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
+        public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
+    <Toolbar>
+        <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
+    </Toolbar>
+</Markdown>
+
+@code {
+    [Inject] private INotificationService NotificationService { get; set; }
+
+    string markdownValue = ""## Custom Toolbar\nCustom functions, icons and buttons can be defined for the toolbar."";
+
+    Task OnCustomButtonClicked( MarkdownButtonEventArgs eventArgs )
+    {
+        NotificationService.Info( $""Name: {eventArgs.Name} Value: {eventArgs.Value}"" );
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string MarkdownExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" />
 
 @code{
@@ -3552,6 +3573,62 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+
+        public const string MarkdownUploadImageExample = @"<Markdown ImageUploadChanged=""@OnImageUploadChanged""
+          ImageUploadStarted=""@OnImageUploadStarted""
+          ImageUploadProgressed=""@OnImageUploadProgressed""
+          ImageUploadEnded=""@OnImageUploadEnded"" />
+
+@code {
+    async Task OnImageUploadChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                using ( var stream = new System.IO.MemoryStream() )
+                {
+                    await file.WriteToStreamAsync( stream );
+
+                    // do something with the stream
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    Task OnImageUploadStarted( FileStartedEventArgs e )
+    {
+        Console.WriteLine( $""Started Image: {e.File.Name}"" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""Image: {e.File.Name} Progress: {(int)e.Percentage}"" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnImageUploadEnded( FileEndedEventArgs e )
+    {
+        // We need to report back to Markdown that upload is done. We do this by setting the UploadUrl.
+        // NOTE: Since we're faking the upload in this demo we will just set some dummy UploadUrl.
+        e.File.UploadUrl = ""https://images.pexels.com/photos/4966601/pexels-photo-4966601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=200"";
+
+        Console.WriteLine( $""Finished Image: {e.File.Name}, Success: {e.Success}"" );
+
+        return Task.CompletedTask;
+    }
+}";
 
         public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
