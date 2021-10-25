@@ -145,27 +145,27 @@ namespace Blazorise
             var yiqHoverBackgroundColor = Contrast( theme, hoverBackgroundColor );
             var yiqActiveBackgroundColor = Contrast( theme, activeBackgroundColor );
 
-            var background = ToHex( backgroundColor );
-            var border = ToHex( borderColor );
-            var hoverBackground = ToHex( hoverBackgroundColor );
-            var hoverBorder = ToHex( hoverBorderColor );
-            var activeBackground = ToHex( activeBackgroundColor );
-            var activeBorder = ToHex( activeBorderColor );
-            var yiqBackground = ToHex( yiqBackgroundColor );
-            var yiqHoverBackground = ToHex( yiqHoverBackgroundColor );
-            var yiqActiveBackground = ToHex( yiqActiveBackgroundColor );
+            var hexBackground = ToHex( backgroundColor );
+            var hexBorder = ToHex( borderColor );
+            var hexHoverBackground = ToHex( hoverBackgroundColor );
+            var hexHoverBorder = ToHex( hoverBorderColor );
+            var hexActiveBackground = ToHex( activeBackgroundColor );
+            var hexActiveBorder = ToHex( activeBorderColor );
+            var hexYiqBackground = ToHex( yiqBackgroundColor );
+            var hexYiqHoverBackground = ToHex( yiqHoverBackgroundColor );
+            var hexYiqActiveBackground = ToHex( yiqActiveBackgroundColor );
 
             var boxShadow = ToHexRGBA( Transparency( Blend( yiqBackgroundColor, backgroundColor, 15f ), options?.BoxShadowTransparency ?? 127 ) );
 
-            Variables[ThemeVariables.ButtonBackground( variant )] = background;
-            Variables[ThemeVariables.ButtonBorder( variant )] = border;
-            Variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
-            Variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
-            Variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
-            Variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
-            Variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
-            Variables[ThemeVariables.ButtonYiqHoverBackground( variant )] = yiqHoverBackground;
-            Variables[ThemeVariables.ButtonYiqActiveBackground( variant )] = yiqActiveBackground;
+            Variables[ThemeVariables.ButtonBackground( variant )] = hexBackground;
+            Variables[ThemeVariables.ButtonBorder( variant )] = hexBorder;
+            Variables[ThemeVariables.ButtonHoverBackground( variant )] = hexHoverBackground;
+            Variables[ThemeVariables.ButtonHoverBorder( variant )] = hexHoverBorder;
+            Variables[ThemeVariables.ButtonActiveBackground( variant )] = hexActiveBackground;
+            Variables[ThemeVariables.ButtonActiveBorder( variant )] = hexActiveBorder;
+            Variables[ThemeVariables.ButtonYiqBackground( variant )] = hexYiqBackground;
+            Variables[ThemeVariables.ButtonYiqHoverBackground( variant )] = hexYiqHoverBackground;
+            Variables[ThemeVariables.ButtonYiqActiveBackground( variant )] = hexYiqActiveBackground;
             Variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
         }
 
@@ -183,17 +183,17 @@ namespace Blazorise
             if ( borderColor.IsEmpty )
                 return;
 
-            var color = ToHex( borderColor );
-            var yiqColor = ToHex( Contrast( theme, borderColor ) );
-            var boxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
-            var hoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
-            var activeColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
+            var hexColor = ToHex( borderColor );
+            var hexYiqColor = ToHex( Contrast( theme, borderColor ) );
+            var hexBoxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
+            var hexHoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
+            var hexActiveColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
 
-            Variables[ThemeVariables.OutlineButtonColor( variant )] = color;
-            Variables[ThemeVariables.OutlineButtonYiqColor( variant )] = yiqColor;
-            Variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
-            Variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hoverColor;
-            Variables[ThemeVariables.OutlineButtonActiveColor( variant )] = activeColor;
+            Variables[ThemeVariables.OutlineButtonColor( variant )] = hexColor;
+            Variables[ThemeVariables.OutlineButtonYiqColor( variant )] = hexYiqColor;
+            Variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = hexBoxShadow;
+            Variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hexHoverColor;
+            Variables[ThemeVariables.OutlineButtonActiveColor( variant )] = hexActiveColor;
         }
 
         /// <summary>
@@ -237,11 +237,11 @@ namespace Blazorise
             if ( argbColor.IsEmpty )
                 return;
 
-            var color = ToHex( argbColor );
+            var hexColor = ToHex( argbColor );
 
-            Variables[ThemeVariables.VariantStepsItemIcon( variant )] = color;
-            Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, color ) );
-            Variables[ThemeVariables.VariantStepsItemText( variant )] = color;
+            Variables[ThemeVariables.VariantStepsItemIcon( variant )] = hexColor;
+            Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, hexColor ) );
+            Variables[ThemeVariables.VariantStepsItemText( variant )] = hexColor;
         }
 
         /// <summary>
@@ -258,9 +258,9 @@ namespace Blazorise
             if ( inArgbColor.IsEmpty )
                 return;
 
-            var color = ToHex( inArgbColor );
+            var hexColor = ToHex( inArgbColor );
 
-            Variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
+            Variables[ThemeVariables.VariantPageProgressIndicator( variant )] = hexColor;
         }
 
         /// <summary>
@@ -277,9 +277,9 @@ namespace Blazorise
             if ( inArgbColor.IsEmpty )
                 return;
 
-            var color = ToHex( inArgbColor );
+            var hexColor = ToHex( inArgbColor );
 
-            Variables[ThemeVariables.VariantRatingColor( variant )] = color;
+            Variables[ThemeVariables.VariantRatingColor( variant )] = hexColor;
         }
 
         /// <summary>
