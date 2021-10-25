@@ -44,7 +44,7 @@
                 </Validations>
             </ModalBody>
             <ModalFooter>
-                @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true || ParentDataGrid.CommandColumn is null && ParentDataGrid.IsButtonRowVisible )
+                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
                 {
                     var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
@@ -73,7 +73,7 @@
                         }
                     }
                 }
-                @if ( ParentDataGrid.CommandColumn?.CancelCommandAllowed == true || ParentDataGrid.CommandColumn is null && ParentDataGrid.IsButtonRowVisible )
+                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
                 {
                     var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
 
