@@ -612,6 +612,10 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options )
+        {
+        }
+
         #endregion
     }
 }

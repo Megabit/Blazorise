@@ -228,5 +228,10 @@ namespace Blazorise
         /// Theme options to override the <see cref="ListGroupItem"/> component styles.
         /// </summary>
         public ThemeListGroupItemOptions ListGroupItemOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the spacing utilities.
+        /// </summary>
+        public ThemeSpacingOptions SpacingOptions { get; set; }
     }
 }

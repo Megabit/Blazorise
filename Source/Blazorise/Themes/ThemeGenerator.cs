@@ -27,7 +27,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods
+        #region Variables
 
         /// <inheritdoc/>
         public virtual string GenerateVariables( Theme theme )
@@ -687,6 +687,8 @@ namespace Blazorise
 
             GenerateListGroupItemStyles( sb, theme, theme.ListGroupItemOptions );
 
+            GenerateSpacingStyles( sb, theme, theme.SpacingOptions );
+
             var generatedStyles = sb.ToString();
 
             ThemeCache.CacheStyles( theme, generatedStyles );
@@ -1069,6 +1071,14 @@ namespace Blazorise
         /// <param name="inColor">ListGroupItem text color value.</param>
         /// <param name="options">ListGroupItem options.</param>
         protected abstract void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options );
+
+        /// <summary>
+        /// Generates the spacing utilities bases on the breakpoint and spacing sizes.
+        /// </summary>
+        /// <param name="sb">Target string builder.</param>
+        /// <param name="theme">Theme settings.</param>
+        /// <param name="options">Spacing options.</param>
+        protected abstract void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options );
 
         #endregion
 
