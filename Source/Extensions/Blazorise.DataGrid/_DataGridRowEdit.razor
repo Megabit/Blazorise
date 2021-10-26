@@ -28,56 +28,62 @@
                         </Fields>
                     </Column>
                 </Row>
-                <Row>
-                    <Column>
-                        @{
-                            var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
+                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed || ParentDataGrid.CommandColumn.CancelCommandAllowed )
+                {
+                    <Row>
+                        <Column>
+                                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
+                                {
+                                    var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                            @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
-                            {
-                                @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
-                                {
-                                    Clicked = callbackFactory.Create( this, SaveWithValidation ),
-                                    LocalizationString = saveButtonString,
-                                    Item = Item,
-                                } );
-                            }
-                            else
-                            {
-                                @if ( ParentDataGrid.SubmitFormOnEnter )
-                                {
-                                    <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
-                                        @saveButtonString
-                                    </Button>
+                                    @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
+                                    {
+                                        @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
+                                        {
+                                            Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                                            LocalizationString = saveButtonString,
+                                            Item = Item,
+                                        });
+                                    }
+                                    else
+                                    {
+                                        @if ( ParentDataGrid.SubmitFormOnEnter )
+                                        {
+                                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
+                                                @saveButtonString
+                                            </Button>
+                                        }
+                                        else
+                                        {
+                                            <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                                                @saveButtonString
+                                            </Button>
+                                        }
+                                    }
                                 }
-                                else
+                                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
                                 {
-                                    <Button Color="Color.Link" Clicked="@SaveWithValidation">
-                                        @saveButtonString
-                                    </Button>
+                                    var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
+
+                                    @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                                    {
+                                        @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
+                                        {
+                                            Clicked = Cancel,
+                                            LocalizationString = cancelButtonString,
+                                            Item = Item,
+                                        });
+                                    }
+                                    else
+                                    {
+                                        <Button Color="Color.Link" Clicked="@Cancel">
+                                            @cancelButtonString
+                                        </Button>
+                                    }
                                 }
-                            }
-
-                            var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
-
-                            @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
-                            {
-                                @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                                {
-                                    Clicked = Cancel,
-                                    LocalizationString = cancelButtonString,
-                                    Item = Item,
-                                } );
-                            }
-                            else
-                            {
-                                <Button Color="Color.Link" Clicked="@Cancel">
-                                    @cancelButtonString
-                                </Button>
-                            }
-                        }
-                    </Column>
-                </Row>
+                        </Column>
+                    </Row>
+                }
             </TableRowCell>
         </TableRow>
     </Validations>
