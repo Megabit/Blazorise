@@ -78,7 +78,6 @@ namespace Blazorise
         {
             if ( ParentValidations != null )
             {
-                ParentValidations.ValidatingAll += OnValidatingAll;
                 ParentValidations.ClearingAll += OnClearingAll;
 
                 ParentValidations.NotifyValidationInitialized( this );
@@ -93,7 +92,6 @@ namespace Blazorise
             if ( ParentValidations != null )
             {
                 // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-                ParentValidations.ValidatingAll -= OnValidatingAll;
                 ParentValidations.ClearingAll -= OnClearingAll;
                 ParentValidations.NotifyValidationRemoved( this );
             }
@@ -180,21 +178,12 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private async void OnValidatingAll( ValidatingAllEventArgs e )
-        {
-            var status = await ValidateAsync( inputComponent.ValidationValue );
-
-            e.Cancel = status == ValidationStatus.Error;
-        }
-
         private void OnClearingAll()
         {
             Clear();
         }
 
-        /// <summary>
-        /// Runs the validation process based on the last available value.
-        /// </summary>
+        /// <inheritdoc/>
         public ValidationStatus Validate()
         {
             return Validate( inputComponent.ValidationValue );
@@ -222,9 +211,7 @@ namespace Blazorise
             return Status;
         }
 
-        /// <summary>
-        /// Runs the asynchronous validation process based on the last available value.
-        /// </summary>
+        /// <inheritdoc/>
         public Task<ValidationStatus> ValidateAsync()
         {
             return ValidateAsync( inputComponent.ValidationValue );

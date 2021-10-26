@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -33,16 +34,21 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1 ) }rem", ParentDropdownState.IsInlineDisplay );
+            builder.Append( FormattableString.Invariant( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1d ) }rem" ), ParentDropdownState.IsInlineDisplay );
         }
 
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            return Clicked.InvokeAsync( null );
+            if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+            {
+                if ( !ParentBarDropdown.WasJustToggled )
+                    await ParentBarDropdown.Hide( true );
+            }
+            await Clicked.InvokeAsync();
         }
 
         #endregion
@@ -102,6 +108,11 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent BarDropdown.
+        /// </summary>
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         #endregion
     }

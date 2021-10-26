@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +19,7 @@ namespace Blazorise.DataGrid
         private readonly Lazy<Func<object>> defaultValueByType;
         private readonly Lazy<Func<TItem, object>> valueGetter;
         private readonly Lazy<Action<TItem, object>> valueSetter;
+        private readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
         private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
@@ -31,6 +34,7 @@ namespace Blazorise.DataGrid
             defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
             valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
             valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
+            sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
         }
 
         #endregion
@@ -104,7 +108,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the current value for the field in the supplied model.
         /// </summary>
-        /// <param name="item">Item for which ro set the value.</param>
+        /// <param name="item">Item for which to get the value.</param>
         /// <returns></returns>
         internal object GetValue( TItem item )
             => valueGetter.Value( item );
@@ -112,10 +116,18 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Sets the value for the field in the supplied model.
         /// </summary>
-        /// <param name="item">Item for which ro set the value.</param>
+        /// <param name="item">Item for which to set the value.</param>
         /// <param name="value">Value to set.</param>
         internal void SetValue( TItem item, object value )
             => valueSetter.Value( item, value );
+
+        /// <summary>
+        /// Gets the current value for the sort field in the supplied model.
+        /// </summary>
+        /// <param name="item">Item for which to get the value.</param>
+        /// <returns></returns>
+        internal object GetSortValue( TItem item )
+            => sortFieldGetter.Value( item );
 
         public string FormatDisplayValue( TItem item )
         {
@@ -272,6 +284,11 @@ namespace Blazorise.DataGrid
         [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
         /// <summary>
+        /// Specifies the display behavior of a cell.
+        /// </summary>
+        [Parameter] public IFluentDisplay Display { get; set; }
+
+        /// <summary>
         /// Defines the alignment for column header cell.
         /// </summary>
         [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
@@ -280,6 +297,11 @@ namespace Blazorise.DataGrid
         /// Defines the vertical alignment for column header cell.
         /// </summary>
         [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
+
+        /// <summary>
+        /// Specifies the display behavior of a header cell.
+        /// </summary>
+        [Parameter] public IFluentDisplay HeaderDisplay { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
@@ -399,13 +421,22 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Validates the input value after trying to save.
         /// </summary>
-        [Parameter]
-        public Action<ValidatorEventArgs> Validator { get; set; }
+        [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Asynchronously validates the input value after trying to save.
+        /// </summary>
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.
         /// </summary>
         [Parameter] public string ValidationPattern { get; set; }
+
+        /// <summary>
+        /// Provides a Sort Field to be used instead by the Sorting mechanism
+        /// </summary>
+        [Parameter] public string SortField { get; set; }
 
         #endregion
     }

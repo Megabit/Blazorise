@@ -147,6 +147,9 @@ $border-hover: $grey-light !default;
 $border-light: $grey-lightest !default;
 $border-light-hover: $grey-light !default;
 
+$caret-width: .3em !default;
+$caret-vertical-align: $caret-width * .85 !default;
+$caret-spacing: $caret-width * .85 !default;
 // Components
 
 $border-radius: .25rem !default;
@@ -210,3 +213,15 @@ $list-group-action-hover-color: $list-group-action-color !default;
 
 $list-group-action-active-color: $body-color !default;
 $list-group-action-active-bg: $gray-200 !default;
+
+// Blockquote
+
+$blockquote-small-color: $gray-600 !default;
+$blockquote-small-font-size: $size-small !default;
+$blockquote-font-size: $size-normal * 1.25 !default;
+
+// Position
+
+$position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+
+$overflows: auto, hidden, visible, scroll !default;

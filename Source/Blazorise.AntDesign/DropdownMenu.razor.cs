@@ -1,16 +1,19 @@
-﻿namespace Blazorise.AntDesign
+﻿using Blazorise.Modules;
+using Microsoft.AspNetCore.Components;
+
+namespace Blazorise.AntDesign
 {
     public partial class DropdownMenu : Blazorise.DropdownMenu
     {
         #region Methods
 
-        protected override void OnVisibleChanged( object sender, bool e )
+        internal protected override void OnVisibleChanged( bool e )
         {
             ExecuteAfterRender( async () =>
             {
                 if ( ParentDropdown != null && ParentDropdown is AntDesign.Dropdown dropdown )
                 {
-                    var dropdownMenuElementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
+                    var dropdownMenuElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
                     MenuStyleNames = GetMenuStyleNames( dropdown.ElementInfo, dropdownMenuElementInfo, dropdown.Direction );
 
@@ -18,7 +21,7 @@
                 }
             } );
 
-            base.OnVisibleChanged( sender, e );
+            base.OnVisibleChanged( e );
         }
 
         private string GetMenuStyleNames( DomElement dropdownElementInfo, DomElement dropdownMenuElementInfo, Direction direction )
@@ -30,11 +33,11 @@
             {
                 return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)dropdownElementInfo.OffsetLeft}px; top: {(int)( dropdownElementInfo.OffsetTop - dropdownMenuBoundingClientRect.Height )}px;";
             }
-            else if ( direction == Direction.Left )
+            else if ( direction == Direction.Left || direction == Direction.Start )
             {
                 return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)( dropdownElementInfo.OffsetLeft - dropdownMenuBoundingClientRect.Width )}px; top: {(int)dropdownElementInfo.OffsetTop}px;";
             }
-            else if ( direction == Direction.Right )
+            else if ( direction == Direction.Right || direction == Direction.End )
             {
                 return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)( dropdownElementInfo.OffsetLeft + dropdownMenuBoundingClientRect.Width )}px; top: {(int)dropdownElementInfo.OffsetTop}px;";
             }
@@ -47,6 +50,8 @@
         #region Properties
 
         protected string MenuStyleNames { get; set; }
+
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         #endregion
     }

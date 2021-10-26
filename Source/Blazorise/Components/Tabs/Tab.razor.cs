@@ -87,7 +87,8 @@ namespace Blazorise
         {
             await Clicked.InvokeAsync();
 
-            ParentTabs?.SelectTab( Name );
+            if ( ParentTabs != null )
+                await ParentTabs.SelectTab( Name );
         }
 
         #endregion

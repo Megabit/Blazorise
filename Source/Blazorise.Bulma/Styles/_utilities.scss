@@ -414,20 +414,16 @@
     box-shadow: none !important;
 }
 
-.is-overflow-visible {
-    overflow: visible !important;
-}
+@each $value1 in $overflows {
+    .is-overflow-#{$value1} {
+        overflow: $value1 !important;
+    }
 
-.is-overflow-hidden {
-    overflow: hidden !important;
-}
-
-.is-overflow-scroll {
-    overflow: scroll !important;
-}
-
-.is-overflow-auto {
-    overflow: auto !important;
+    @each $value2 in $overflows {
+        .is-overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
 }
 
 .has-text-wrap {
@@ -442,4 +438,93 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.is-unordered-list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+ol.is-ordered-list {
+    &:not(.is-ordered-list-unstyled) {
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}
+
+
+// Position
+
+.is-position {
+    &-static {
+        position: static !important;
+    }
+
+    &-relative {
+        position: relative !important;
+    }
+
+    &-absolute {
+        position: absolute !important;
+    }
+
+    &-fixed {
+        position: fixed !important;
+    }
+
+    &-sticky {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+    }
+}
+
+@each $name, $value in $position-values {
+    .is-top-#{$name} {
+        top: #{$value} !important;
+    }
+
+    .is-bottom-#{$name} {
+        bottom: #{$value} !important;
+    }
+
+    .is-left-#{$name} {
+        left: #{$value} !important;
+    }
+
+    .is-right-#{$name} {
+        right: #{$value} !important;
+    }
+}
+
+.is-translate-middle {
+    transform: translate(-50%, -50%) !important;
+}
+
+.is-translate-middle-x {
+    transform: translateX(-50%) !important;
+}
+
+.is-translate-middle-y {
+    transform: translateY(-50%) !important;
 }

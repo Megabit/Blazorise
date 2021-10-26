@@ -79,11 +79,6 @@ namespace Blazorise.DataGrid
         private bool virtualizeFilterChanged;
 
         /// <summary>
-        /// Keeps track of whether the object has already been disposed.
-        /// </summary>
-        private bool disposed;
-
-        /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
         protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new()
@@ -165,6 +160,18 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Sets the max height for the FixedHeader table feature.
+        /// </summary>
+        /// <returns></returns>
+        private string GetFixedTableHeaderMaxHeight()
+        {
+            if ( Virtualize )
+                return VirtualizeOptions?.DataGridMaxHeight ?? "500px";
+            else
+                return FixedHeaderDataGridMaxHeight;
+        }
+
+        /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
@@ -222,17 +229,18 @@ namespace Blazorise.DataGrid
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        protected override void Dispose( bool disposing )
+        protected override ValueTask DisposeAsync( bool disposing )
         {
-            if ( !disposed )
+            if ( disposing )
             {
-                disposed = true;
-
-                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
-
-                base.Dispose( disposing );
+                if ( paginationContext != null )
+                {
+                    paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                    paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                }
             }
+
+            return base.DisposeAsync( disposing );
         }
 
         private async Task HandleSelectionModeChanged()
@@ -269,7 +277,7 @@ namespace Blazorise.DataGrid
                 VirtualizeOptions ??= new();
 
                 if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup )
-                    virtualizeState.EditLastKnownScroll = await JSRuntime.InvokeAsync<int>( JSInteropFunction.Virtualize.ON_EDIT_SET_SCROLL, tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
+                    virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
             }
             else
             {
@@ -352,7 +360,9 @@ namespace Blazorise.DataGrid
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Edit( TItem item )
         {
-            InitEditItem( item );
+            TItem editingItem = EditItemCreator != null ? EditItemCreator.Invoke( item ) : item;
+
+            InitEditItem( editingItem );
 
             editState = DataGridEditState.Edit;
 
@@ -1005,21 +1015,25 @@ namespace Blazorise.DataGrid
 
                 foreach ( var sortByColumn in SortByColumns )
                 {
+                    Func<TItem, object> sortFunction = string.IsNullOrWhiteSpace( sortByColumn.SortField )
+                        ? sortByColumn.GetValue
+                        : sortByColumn.GetSortValue;
+
                     if ( firstSort )
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            query = query.OrderBy( x => sortByColumn.GetValue( x ) );
+                            query = query.OrderBy( x => sortFunction( x ) );
                         else
-                            query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
+                            query = query.OrderByDescending( x => sortFunction( x ) );
 
                         firstSort = false;
                     }
                     else
                     {
                         if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) );
                         else
-                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) );
                     }
                 }
 
@@ -1127,8 +1141,6 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
-
-        [Inject] private IJSRuntime JSRuntime { get; set; }
 
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
@@ -1301,6 +1313,11 @@ namespace Blazorise.DataGrid
         /// Defines the size of popup dialog.
         /// </summary>
         [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
+
+        /// <summary>
+        /// Occurs before the popup dialog is closed.
+        /// </summary>
+        [Parameter] public Func<ModalClosingEventArgs, Task> PopupClosing { get; set; }
 
         /// <summary>
         /// Gets the reference to the associated command column.
@@ -1705,6 +1722,11 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem> NewItemCreator { get; set; }
 
         /// <summary>
+        /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
+        /// </summary>
+        [Parameter] public Func<TItem, TItem> EditItemCreator { get; set; }
+
+        /// <summary>
         /// Adds stripes to the table.
         /// </summary>
         [Parameter] public bool Striped { get; set; }
@@ -1843,6 +1865,21 @@ namespace Blazorise.DataGrid
         /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
         /// </summary>
         [Parameter] public string FixedHeaderDataGridHeight { get; set; } = "500px";
+
+        /// <summary>
+        /// Sets the Datagrid max height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
+        /// </summary>
+        [Parameter] public string FixedHeaderDataGridMaxHeight { get; set; } = "500px";
+
+        /// <summary>
+        /// Sets the Datagrid's table header <see cref="ThemeContrast"/>.
+        /// </summary>
+        [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
+
+        /// <summary>
+        /// If true, the edit form will have the Save button as <c>type="submit"</c>, and it will react to Enter keys being pressed.
+        /// </summary>
+        [Parameter] public bool SubmitFormOnEnter { get; set; } = true;
 
         #endregion
     }

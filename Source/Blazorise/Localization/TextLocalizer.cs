@@ -171,13 +171,8 @@ namespace Blazorise.Localization
             return null;
         }
 
-        /// <summary>
-        /// Gets the localized string by the name with the optional list object for formatting.
-        /// </summary>
-        /// <param name="name">A name to localize.</param>
-        /// <param name="arguments">An object array that contains zero or more objects to format.</param>
-        /// <returns></returns>
-        protected virtual string GetString( string name, params object[] arguments )
+        /// <inheritdoc/>
+        public virtual string GetString( string name, params object[] arguments )
         {
             var translations = GetTranslations();
 
@@ -188,6 +183,21 @@ namespace Blazorise.Localization
                 value = string.Format( localizerService.SelectedCulture, value, arguments );
 
             return value;
+        }
+
+        /// <inheritdoc/>
+        public virtual IReadOnlyDictionary<string, string> GetStrings( params object[] arguments )
+        {
+            var translations = GetTranslations();
+
+            return ( from t in translations
+                     select new
+                     {
+                         t.Key,
+                         Value = arguments.Length > 0
+                            ? string.Format( localizerService.SelectedCulture, t.Value, arguments )
+                            : t.Value
+                     } ).ToDictionary( x => x.Key, x => x.Value );
         }
 
         #endregion

@@ -32,10 +32,10 @@
                 </ul>
             }
         }
-        else if ( TabPosition == TabPosition.Left )
+        else if ( TabPosition == TabPosition.Left || TabPosition == TabPosition.Start )
         {
             <Row>
-                <Column ColumnSize="ColumnSize.IsAuto">
+                <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items != null )
                     {
                         <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
@@ -53,7 +53,7 @@
                 </Column>
             </Row>
         }
-        else if ( TabPosition == TabPosition.Right )
+        else if ( TabPosition == TabPosition.Right || TabPosition == TabPosition.End )
         {
             <Row>
                 <Column>
@@ -64,7 +64,7 @@
                         </div>
                     }
                 </Column>
-                <Column ColumnSize="ColumnSize.IsAuto">
+                <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items != null )
                     {
                         <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">

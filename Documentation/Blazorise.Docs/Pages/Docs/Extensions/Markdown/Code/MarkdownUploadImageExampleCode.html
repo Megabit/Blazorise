@@ -1,0 +1,60 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Markdown</span> <span class="htmlAttributeName">ImageUploadChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnImageUploadChanged</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ImageUploadStarted</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnImageUploadStarted</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ImageUploadProgressed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnImageUploadProgressed</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ImageUploadEnded</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnImageUploadEnded</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">async</span> Task OnImageUploadChanged( FileChangedEventArgs e )
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">foreach</span> ( <span class="keyword">var</span> file <span class="keyword">in</span> e.Files )
+            {
+                <span class="keyword">using</span> ( <span class="keyword">var</span> stream = <span class="keyword">new</span> System.IO.MemoryStream() )
+                {
+                    <span class="keyword">await</span> file.WriteToStreamAsync( stream );
+
+                    <span class="comment">// do something with the stream</span>
+                }
+            }
+        }
+        <span class="keyword">catch</span> ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        <span class="keyword">finally</span>
+        {
+            <span class="keyword">this</span>.StateHasChanged();
+        }
+    }
+
+    Task OnImageUploadStarted( FileStartedEventArgs e )
+    {
+        Console.WriteLine( $<span class="string">&quot;Started Image: {e.File.Name}&quot;</span> );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    Task OnImageUploadProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $<span class="string">&quot;Image: {e.File.Name} Progress: {(int)e.Percentage}&quot;</span> );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    Task OnImageUploadEnded( FileEndedEventArgs e )
+    {
+        <span class="comment">// We need to report back to Markdown that upload is done. We do this by setting the UploadUrl.</span>
+        <span class="comment">// NOTE: Since we&#39;re faking the upload in this demo we will just set some dummy UploadUrl.</span>
+        e.File.UploadUrl = <span class="string">&quot;https://images.pexels.com/photos/4966601/pexels-photo-4966601.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=200&quot;</span>;
+
+        Console.WriteLine( $<span class="string">&quot;Finished Image: {e.File.Name}, Success: {e.Success}&quot;</span> );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+}
+</pre></div>
+</div>

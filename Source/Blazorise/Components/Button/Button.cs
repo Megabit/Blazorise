@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -70,7 +71,10 @@ namespace Blazorise
 
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
+                await JSModule.Initialize( ElementRef, ElementId, new
+                {
+                    PreventDefaultOnSubmit
+                } );
             } );
 
             LoadingTemplate ??= ProvideDefaultLoadingTemplate();
@@ -100,15 +104,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    var task = JSRunner.DestroyButton( ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
+                    await JSModule.SafeDestroy( ElementRef, ElementId );
                 }
 
                 if ( command != null )
@@ -133,7 +129,7 @@ namespace Blazorise
         {
             if ( !Disabled )
             {
-                await Clicked.InvokeAsync( null );
+                await Clicked.InvokeAsync();
 
                 // Don't need to check CanExecute again is already part of Disabled check
                 Command?.Execute( CommandParameter );
@@ -144,9 +140,10 @@ namespace Blazorise
         /// Sets focus on the button element, if it can be focused.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        public void Focus( bool scrollToElement = true )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
         {
-            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+            return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <inheritdoc/>
@@ -277,6 +274,16 @@ namespace Blazorise
         /// Gets the size based on the theme settings.
         /// </summary>
         protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.None;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSButtonModule"/> instance.
+        /// </summary>
+        [Inject] public IJSButtonModule JSModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Occurs when the button is clicked.

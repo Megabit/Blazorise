@@ -4,7 +4,7 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>)</CardTitle>
+                <CardTitle>Rich Text Editor (based on <Anchor To="https://quilljs.com/">QuillJs</Anchor>)</CardTitle>
             </CardHeader>
             <CardBody>
                 <CardBody>
@@ -80,7 +80,7 @@
                                 <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
                                 <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
                             </RichTextEditToolbarGroup>
-                            <RichTextEditToolbarGroup Float="Float.Right">
+                            <RichTextEditToolbarGroup Float="Float.End">
                                 <Button Class="btn-icon" Size="Size.ExtraSmall" onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
                                 <Button Class="btn-icon" Size="Size.ExtraSmall" Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
                             </RichTextEditToolbarGroup>
@@ -205,7 +205,7 @@
     public async Task OnSave()
     {
         savedContent = await richTextEditRef.GetHtmlAsync();
-        modalRef.Show();
+        await modalRef.Show();
         await richTextEditRef.ClearAsync();
     }
 }

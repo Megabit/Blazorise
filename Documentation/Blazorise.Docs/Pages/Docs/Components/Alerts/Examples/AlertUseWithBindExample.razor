@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Alert Color="Color.Success" @bind-Visible="@visible">
+    <AlertMessage>
+        Alert test.
+    </AlertMessage>
+</Alert>
+
+<Button Clicked="@OnButtonClick" Color="Color.Primary">Toggle alert</Button>
+
+@code {
+    bool visible = true;
+
+    Task OnButtonClick()
+    {
+        visible = !visible;
+
+        return Task.CompletedTask;
+    }
+}

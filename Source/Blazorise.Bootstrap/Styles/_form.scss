@@ -65,19 +65,16 @@
 }
 
 .input-group {
-    > .b-numeric > input {
-        &:not(:last-child) {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+    > .b-numeric:not(:last-child) > input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 
-        &:not(:first-child) {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
+    > .b-numeric:not(:first-child) > input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 }
-
 
 .input-group-xs > .form-control:not(textarea),
 .input-group-xs > .custom-select,
@@ -174,6 +171,7 @@
 
 .input-group > .input-group-prepend > .btn,
 .input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-prepend:first-child > .dropdown > .btn:not(:last-child).dropdown-toggle,
 .input-group > .input-group-append:not(:last-child) > .btn,
 .input-group > .input-group-append:not(:last-child) > .input-group-text,
 .input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
@@ -184,6 +182,8 @@
 
 .input-group > .input-group-append > .btn,
 .input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-append:last-child > .dropdown > .btn:not(:last-child).dropdown-toggle,
+.input-group > .input-group-append:last-child > .dropdown > .btn:not(:last-child):not(.dropdown-toggle),
 .input-group > .input-group-prepend:not(:first-child) > .btn,
 .input-group > .input-group-prepend:not(:first-child) > .input-group-text,
 .input-group > .input-group-prepend:first-child > .btn:not(:first-child),
@@ -300,14 +300,12 @@ select[readonly] {
 }
 
 .form-control + .b-numeric-handler-wrap {
-    height: $input-height;
     font-size: $input-font-size;
     border-top-right-radius: $input-border-radius;
     border-bottom-right-radius: $input-border-radius;
 }
 
 .form-control-xs + .b-numeric-handler-wrap {
-    height: $input-height-xs;
     font-size: $input-font-size-xs;
     border-top-right-radius: $input-border-radius-xs;
     border-bottom-right-radius: $input-border-radius-xs;
@@ -318,7 +316,6 @@ select[readonly] {
 }
 
 .form-control-sm + .b-numeric-handler-wrap {
-    height: $input-height-sm;
     font-size: $input-font-size-sm;
     border-top-right-radius: $input-border-radius-sm;
     border-bottom-right-radius: $input-border-radius-sm;
@@ -329,7 +326,6 @@ select[readonly] {
 }
 
 .form-control-md + .b-numeric-handler-wrap {
-    height: $input-height-md;
     font-size: $input-font-size-md;
     border-top-right-radius: $input-border-radius-md;
     border-bottom-right-radius: $input-border-radius-md;
@@ -340,7 +336,6 @@ select[readonly] {
 }
 
 .form-control-lg + .b-numeric-handler-wrap {
-    height: $input-height-lg;
     font-size: $input-font-size-lg;
     border-top-right-radius: $input-border-radius-lg;
     border-bottom-right-radius: $input-border-radius-lg;
@@ -351,7 +346,6 @@ select[readonly] {
 }
 
 .form-control-xl + .b-numeric-handler-wrap {
-    height: $input-height-xl;
     font-size: $input-font-size-xl;
     border-top-right-radius: $input-border-radius-xl;
     border-bottom-right-radius: $input-border-radius-xl;
@@ -363,4 +357,21 @@ select[readonly] {
 
 .custom-file-label {
     overflow: hidden;
+}
+
+input[readonly][type=range],
+input[readonly="readonly"][type=range] {
+    pointer-events: none;
+
+    &::-webkit-slider-thumb {
+        pointer-events: none;
+    }
+
+    &::-moz-range-thumb {
+        pointer-events: none;
+    }
+
+    &::-ms-thumb {
+        pointer-events: none;
+    }
 }

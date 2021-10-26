@@ -1,8 +1,11 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -27,6 +30,9 @@ namespace Blazorise
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
             var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
+            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
+            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
+            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> disabledDates ) && !DisabledDates.AreEqual( disabledDates );
 
             if ( dateChanged )
             {
@@ -36,19 +42,29 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerValue( ElementRef, ElementId, dateString ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, dateString ) );
                 }
             }
 
-            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged || displayFormatChanged || timeAs24hrChanged ) )
+            if ( Rendered && ( minChanged
+                || maxChanged
+                || firstDayOfWeekChanged
+                || displayFormatChanged
+                || timeAs24hrChanged
+                || disabledChanged
+                || readOnlyChanged
+                || disabledDatesChanged ) )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
                     DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                     Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
                     Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
+                    Disabled = new { Changed = disabledChanged, Value = disabled },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
+                    DisabledDates = new { Changed = disabledDatesChanged, Value = disabledDates?.Select( x => FormatValueAsString( x ) ) },
                 } ) );
             }
 
@@ -77,7 +93,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
+            await JSModule.Initialize( ElementRef, ElementId, new
             {
                 InputMode,
                 FirstDayOfWeek,
@@ -86,6 +102,9 @@ namespace Blazorise
                 Default = FormatValueAsString( Date ),
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
+                Disabled,
+                ReadOnly,
+                DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -94,20 +113,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
-                {
-                    var task = JSRunner.DestroyDatePicker( ElementRef, ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );
@@ -116,10 +124,10 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.DateEdit( Plaintext ) );
-            builder.Append( ClassProvider.DateEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
-            builder.Append( ClassProvider.DateEditColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.DatePicker( Plaintext ) );
+            builder.Append( ClassProvider.DatePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.DatePickerColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
@@ -136,7 +144,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateDatePicker( ElementRef, ElementId, DateFormat );
+            await JSModule.Activate( ElementRef, ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -190,7 +198,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask OpenAsync()
         {
-            return JSRunner.OpenDatePicker( ElementRef, ElementId );
+            return JSModule.Open( ElementRef, ElementId );
         }
 
         /// <summary>
@@ -199,7 +207,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask CloseAsync()
         {
-            return JSRunner.CloseDatePicker( ElementRef, ElementId );
+            return JSModule.Close( ElementRef, ElementId );
         }
 
         /// <summary>
@@ -208,7 +216,19 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask ToggleAsync()
         {
-            return JSRunner.ToggleDatePicker( ElementRef, ElementId );
+            return JSModule.Toggle( ElementRef, ElementId );
+        }
+
+        /// <inheritdoc/>
+        public override async Task Focus( bool scrollToElement = true )
+        {
+            await JSModule.Focus( ElementRef, ElementId, scrollToElement );
+        }
+
+        /// <inheritdoc/>
+        public override async Task Select( bool focus = true )
+        {
+            await JSModule.Select( ElementRef, ElementId, focus );
         }
 
         #endregion
@@ -230,6 +250,11 @@ namespace Blazorise
         /// Gets the date format based on the current <see cref="InputMode"/> settings.
         /// </summary>
         protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSDatePickerModule"/> instance.
+        /// </summary>
+        [Inject] public IJSDatePickerModule JSModule { get; set; }
 
         /// <summary>
         /// Converts the supplied date format into the internal date format.
@@ -280,6 +305,11 @@ namespace Blazorise
         /// Displays time picker in 24 hour mode without AM/PM selection when enabled.
         /// </summary>
         [Parameter] public bool TimeAs24hr { get; set; }
+
+        /// <summary>
+        /// List of disabled dates that the user should not be able to pick.
+        /// </summary>
+        [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
         #endregion
     }

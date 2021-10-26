@@ -1,0 +1,36 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          Filterable
+          Responsive>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+        <FilterTemplate>
+            <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                <SelectItem TValue="string" Value="@("*")">All</SelectItem>
+                <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+            </Select>
+        </FilterTemplate>
+    </DataGridSelectColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { FirstName = "David", Gender = "M" }, new() { FirstName = "Mladen", Gender = "M" }, new() { FirstName = "John", Gender = "M" }, new() { FirstName = "Ana", Gender = "F" }, new() { FirstName = "Jessica", Gender = "F" } };
+
+    string selectedGenderFilter;
+
+    private bool OnGenderCustomFilter( object itemValue, object searchValue )
+    {
+        if ( searchValue is string genderFilter )
+        {
+            return genderFilter == "*" || genderFilter == itemValue?.ToString();
+        }
+
+        return true;
+    }
+
+}

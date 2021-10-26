@@ -41,7 +41,7 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.SetProperty( ElementRef, "indeterminate", indeterminate );
+                    await JSUtilitiesModule.SetProperty( ElementRef, "indeterminate", indeterminate );
                 } );
             }
         }

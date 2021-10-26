@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
@@ -110,10 +111,10 @@ namespace Blazorise
         {
             if ( !string.IsNullOrEmpty( anchorTarget ) )
             {
-                await JSRunner.ScrollIntoView( anchorTarget );
+                await JSUtilitiesModule.ScrollAnchorIntoView( anchorTarget );
             }
 
-            await Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         private bool ShouldMatch( string currentUriAbsolute )
@@ -219,6 +220,16 @@ namespace Blazorise
         protected string TargetName => Target.ToTargetString();
 
         /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the navigation manager instance.
+        /// </summary>
+        [Inject] private NavigationManager NavigationManager { get; set; }
+
+        /// <summary>
         /// Denotes the target route of the link.
         /// </summary>
         [Parameter] public string To { get; set; }
@@ -242,8 +253,6 @@ namespace Blazorise
         /// Occurs when the link is clicked.
         /// </summary>
         [Parameter] public EventCallback Clicked { get; set; }
-
-        [Inject] private NavigationManager NavigationManager { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Link"/>.

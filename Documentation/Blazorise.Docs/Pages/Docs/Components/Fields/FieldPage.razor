@@ -1,0 +1,126 @@
+﻿@page "/docs/components/field"
+
+<DocsPageTitle>
+    Field component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The Field is a container for <Code>TextEdit</Code>, <Code>Select</Code>, <Code>DateEdit</Code>,
+    <Code>Check</Code>, <Code>MemoEdit</Code>, and optionally for <Code>Button</Code>. Structure is very simple:
+</DocsPageParagraph>
+
+<ul>
+    <li>
+        <Code>Field</Code> the main container
+        <ul>
+            <li><Code>FieldLabel</Code> a field label</li>
+            <li><Code>FieldBody</Code> used only for horizontal fields</li>
+            <li><Code>FieldHelp</Code> small text bellow the field</li>
+        </ul>
+    </li>
+    <li>
+        <Code>Fields</Code> container used to group several <Code>Field</Code> components
+    </li>
+</ul>
+
+<DocsPageParagraph>
+    It is recommended to always place input components inside of a field. That way you will keep the right spacing
+    and arrangement between input controls.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        To properly structure your form you just need to place an input inside of a Field.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicFieldExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicFieldExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With label">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldWithLabelExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldWithLabelExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With help">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldWithHelpExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldWithHelpExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal field">
+        When using horizontal field you must place input controls inside of the <Code>FieldBody</Code> tag.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <HorizontalFieldExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="HorizontalFieldExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Visibility">
+        Use <Code>Visibility</Code> attribute to hide a field while still preserving it’s space.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldHiddenExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldHiddenExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fields">
+        <Code>Fields</Code> component is used to group multiple <Code>Field</Code> components. For example if you need to group
+        fields into columns you must use fields component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicFieldsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicFieldsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Field">
+    <DocsAttributesItem Name="Horizontal" Type="boolean" Default="false">
+        Aligns the controls for horizontal form.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnSize" Type="ColumnSize" Default="null">
+        Determines how much space will be used by the field inside of the grid row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="JustifyContent" Type="JustifyContent" Default="None">
+        Aligns the flexible container’s items when the items do not use all available space on the main-axis (horizontally).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="FieldLabel">
+    <DocsAttributesItem Name="Screenreader" Type="Screenreader" Default="Always">
+        Defines the visibility for screen readers.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Fields">
+    <DocsAttributesItem Name="Label" Type="string" Default="null">
+        Aligns the controls for horizontal form.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Help" Type="string" Default="null">
+        Determines how much space will be used by the field inside of the grid row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnSize" Type="ColumnSize" Default="null">
+        Determines how much space will be used by the field inside of the grid row.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -1,0 +1,8 @@
+﻿<Paragraph Margin="Margin.Is3.FromBottom">
+    <Image Source="@Source" Text="@Text" Width="Width.Max100" Height="Height.Auto" VerticalAlignment="VerticalAlignment.Middle" />
+</Paragraph>
+@code {
+    [Parameter] public string Source { get; set; }
+
+    [Parameter] public string Text { get; set; }
+}

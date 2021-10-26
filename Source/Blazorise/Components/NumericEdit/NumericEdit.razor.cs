@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -46,7 +47,7 @@ namespace Blazorise
 
             if ( Rendered && decimalsChanged )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateNumericEdit( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     Decimals = new { Changed = decimalsChanged, Value = decimals },
                 } ) );
@@ -86,13 +87,17 @@ namespace Blazorise
             // find the min and max possible value based on the supplied value type
             var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
 
-            await JSRunner.InitializeNumericEdit<TValue>( dotNetObjectRef, ElementRef, ElementId, new
+            await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Decimals,
                 Separator = DecimalsSeparator,
                 Step,
-                Min = Min.IsEqual( default ) ? minFromType : Min,
-                Max = Max.IsEqual( default ) ? maxFromType : Max
+                Min = MinDefined ? (object)Min : null,
+                Max = MaxDefined ? (object)Max : null,
+                TypeMin = minFromType,
+                TypeMax = maxFromType,
+                ChangeTextOnKeyPress = IsChangeTextOnKeyPress,
+                SelectAllOnFocus,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -103,15 +108,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSRunner.DestroyNumericEdit( ElementRef, ElementId );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
@@ -166,9 +163,9 @@ namespace Blazorise
                 short @short => Converters.FormatValue( @short, CurrentCultureInfo ),
                 int @int => Converters.FormatValue( @int, CurrentCultureInfo ),
                 long @long => Converters.FormatValue( @long, CurrentCultureInfo ),
-                float @float => Converters.FormatValue( @float, CurrentCultureInfo ),
-                double @double => Converters.FormatValue( @double, CurrentCultureInfo ),
-                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo ),
+                float @float => Converters.FormatValue( @float, CurrentCultureInfo, Decimals ),
+                double @double => Converters.FormatValue( @double, CurrentCultureInfo, Decimals ),
+                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo, Decimals ),
                 sbyte @sbyte => Converters.FormatValue( @sbyte, CurrentCultureInfo ),
                 ushort @ushort => Converters.FormatValue( @ushort, CurrentCultureInfo ),
                 uint @uint => Converters.FormatValue( @uint, CurrentCultureInfo ),
@@ -238,7 +235,9 @@ namespace Blazorise
             // make sure that null values also starts from zero
             value ??= Converters.ChangeType<TValue>( 0 );
 
-            return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
+            return sign > 0
+                ? MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) )
+                : MathUtils<TValue>.Subtract( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) ) );
         }
 
         /// <summary>
@@ -311,6 +310,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="IJSNumericEditModule"/> instance.
+        /// </summary>
+        [Inject] public IJSNumericEditModule JSModule { get; set; }
+
+        /// <summary>
         /// Gets or sets the value inside the input field.
         /// </summary>
         [Parameter] public TValue Value { get; set; }
@@ -375,6 +379,11 @@ namespace Blazorise
         /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
         /// </summary>
         [Parameter] public bool? EnableStep { get; set; }
+
+        /// <summary>
+        /// If true, selects all the text entered in the input field once it receives the focus.
+        /// </summary>
+        [Parameter] public bool SelectAllOnFocus { get; set; }
 
         #endregion
     }

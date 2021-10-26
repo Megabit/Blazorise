@@ -52,14 +52,12 @@ namespace Blazorise.DataGrid
             InvokeAsync( StateHasChanged );
         }
 
-        protected Task SaveWithValidation()
+        protected async Task SaveWithValidation()
         {
-            var isValid = validations.ValidateAll();
-
-            if ( isValid )
-                return ParentDataGrid.Save();
-
-            return Task.CompletedTask;
+            if ( await validations.ValidateAll() )
+            {
+                await ParentDataGrid.Save();
+            }
         }
 
         #endregion
@@ -106,6 +104,8 @@ namespace Blazorise.DataGrid
         }
 
         [Parameter] public ModalSize PopupSize { get; set; }
+
+        [Parameter] public Func<ModalClosingEventArgs, Task> PopupClosing { get; set; }
 
         [Parameter] public DataGridEditState EditState { get; set; }
 

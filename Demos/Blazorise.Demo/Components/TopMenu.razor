@@ -32,6 +32,56 @@
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>Layout</BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("fixed-header"))">
+                            @if ( LayoutType == "fixed-header" )
+                            {
+                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                            }
+                            Fixed Header
+                        </BarDropdownItem>
+                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("fixed-header-footer-only"))">
+                            @if ( LayoutType == "fixed-header-footer-only" )
+                            {
+                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                            }
+                            Fixed Header and Footer only
+                        </BarDropdownItem>
+                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("sider-with-header-on-top"))">
+                            @if ( LayoutType == "sider-with-header-on-top" )
+                            {
+                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                            }
+                            Sider with Header on top
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>Level1</BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem>Level1.1</BarDropdownItem>
+                        <BarDropdown>
+                            <BarDropdownToggle>Level2</BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem>Level2.1</BarDropdownItem>
+                                <BarDropdown>
+                                    <BarDropdownToggle>Level3</BarDropdownToggle>
+                                    <BarDropdownMenu>
+                                        <BarDropdownItem>Level3.1</BarDropdownItem>
+                                    </BarDropdownMenu>
+                                </BarDropdown>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+
         </BarStart>
         <BarEnd>
             <BarItem>
@@ -43,11 +93,11 @@
                             <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(()=>SelectCulture(cultureInfo.Name))">
                                 @if ( cultureInfo.IsNeutralCulture )
                                 {
-                                    @cultureInfo.EnglishName;
+                                    @cultureInfo.EnglishName
                                 }
                                 else
                                 {
-                                    @cultureInfo.Parent.EnglishName;
+                                    @cultureInfo.Parent.EnglishName
                                 }
                             </BarDropdownItem>
                         }
@@ -91,7 +141,7 @@
         </BarEnd>
     </BarMenu>
 </Bar>
-@code{
+@code {
     protected override async Task OnInitializedAsync()
     {
         await SelectCulture( "en-US" );
@@ -108,6 +158,13 @@
 
     private bool topbarVisible = false;
 
+    Task OnLayoutTypeChecked( string layoutType )
+    {
+        LayoutType = layoutType;
+
+        return LayoutTypeChanged.InvokeAsync( layoutType );
+    }
+
     [Parameter] public EventCallback<bool> ThemeEnabledChanged { get; set; }
 
     [Parameter] public EventCallback<bool> ThemeGradientChanged { get; set; }
@@ -115,6 +172,10 @@
     [Parameter] public EventCallback<bool> ThemeRoundedChanged { get; set; }
 
     [Parameter] public EventCallback<string> ThemeColorChanged { get; set; }
+
+    [Parameter] public string LayoutType { get; set; }
+
+    [Parameter] public EventCallback<string> LayoutTypeChanged { get; set; }
 
     [Inject] protected ITextLocalizerService LocalizationService { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Globalization;
 using System.Text;
 #endregion
@@ -297,7 +298,8 @@ namespace Blazorise.Bootstrap
 
                 sb
                     .Append( ".form-control:focus," )
-                    .Append( ".custom-select:focus" )
+                    .Append( ".custom-select:focus," )
+                    .Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection.focus" )
                     .Append( "{" )
                     .Append( $"border-color: {focusColor};" )
                     .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusColor};" )
@@ -744,13 +746,15 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
         {
-            var textColor = ParseColor( inTextColor );
+            var textColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
+                ? ParseColor( theme.BodyOptions.TextColor )
+                : ParseColor( inTextColor );
 
-            var textColorHex = ToHex( textColor );
+            var hexTextColor = ToHex( textColor );
 
             sb.Append( $".text-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {textColorHex} !important;" )
+                .Append( $"color: {hexTextColor} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -816,6 +820,132 @@ namespace Blazorise.Bootstrap
                 .Append( GetGradientBg( theme, color, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
+        }
+
+        private static string GetValidBreakpointName( string name ) => name switch
+        {
+            "mobile" => "xs",
+            "tablet" => "sm",
+            "desktop" => "md",
+            "widescreen" => "lg",
+            "fullhd" => "xl",
+            _ => "",
+        };
+
+        protected override void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options )
+        {
+            if ( theme.BreakpointOptions == null || options == null )
+                return;
+
+            foreach ( var breakpoint in theme.BreakpointOptions )
+            {
+                var breakpointName = GetValidBreakpointName( breakpoint.Key );
+                var breakpointMin = breakpoint.Value();
+
+                var hasMinMedia = !string.IsNullOrEmpty( breakpointMin ) && breakpointMin != "0";
+
+                if ( hasMinMedia )
+                {
+                    sb.Append( $"@media (min-width: {breakpointMin})" ).Append( "{" );
+                }
+
+                var infix = string.IsNullOrEmpty( breakpointMin ) || breakpointMin == "0"
+                    ? ""
+                    : $"-{breakpointName}";
+
+                foreach ( (string prop, string abbrev) in new[] { ("margin", "m"), ("padding", "p") } )
+                {
+                    foreach ( (string size, Func<string> lenghtFunc) in options )
+                    {
+                        var length = lenghtFunc.Invoke();
+
+                        sb
+                            .Append( $".{abbrev}{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".{abbrev}t{infix}-{size}," )
+                            .Append( $".{abbrev}y{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-top: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".{abbrev}r{infix}-{size}," )
+                            .Append( $".{abbrev}x{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-right: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".{abbrev}b{infix}-{size}," )
+                            .Append( $".{abbrev}y{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-bottom: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".{abbrev}l{infix}-{size}," )
+                            .Append( $".{abbrev}x{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-left: {length} !important;" ).Append( "}" );
+                    }
+                }
+
+                foreach ( (string size, Func<string> lenghtFunc) in options )
+                {
+                    if ( string.IsNullOrEmpty( size ) || size == "0" )
+                        continue;
+
+                    var length = lenghtFunc.Invoke();
+
+                    sb
+                        .Append( $".m{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".mt{infix}-n{size}," )
+                        .Append( $".my{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-top: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".mr{infix}-n{size}," )
+                        .Append( $".mx{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-right: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".mb{infix}-n{size}," )
+                        .Append( $".my{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-bottom: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".ml{infix}-n{size}," )
+                        .Append( $".mx{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-left: -{length} !important;" ).Append( "}" );
+                }
+
+                //sb
+                //    .Append( $".m{infix}-auto" )
+                //    .Append( "{" ).Append( $"margin: auto !important;" ).Append( "}" );
+
+                //sb
+                //    .Append( $".mt{infix}-auto," )
+                //    .Append( $".my{infix}-auto" )
+                //    .Append( "{" ).Append( $"margin-top: auto !important;" ).Append( "}" );
+
+                //sb
+                //    .Append( $".mr{infix}-auto," )
+                //    .Append( $".mx{infix}-auto" )
+                //    .Append( "{" ).Append( $"margin-right: auto !important;" ).Append( "}" );
+
+                //sb
+                //    .Append( $".mb{infix}-auto," )
+                //    .Append( $".my{infix}-auto" )
+                //    .Append( "{" ).Append( $"margin-bottom: auto !important;" ).Append( "}" );
+
+                //sb
+                //    .Append( $".ml{infix}-auto," )
+                //    .Append( $".mx{infix}-auto" )
+                //    .Append( "{" ).Append( $"margin-left: auto !important;" ).Append( "}" );
+
+                if ( hasMinMedia )
+                {
+                    sb.Append( "}" );
+                }
+            }
         }
 
         #endregion

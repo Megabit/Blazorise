@@ -1,0 +1,17 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Blazorise.ThemeProvider Theme="@theme">
+    <Router AppAssembly="typeof(App).Assembly" />
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        ColorOptions = new ThemeColorOptions
+        {
+            Primary = "#45B1E8",
+            Secondary = "#A65529",
+            // other
+        }
+    };
+}

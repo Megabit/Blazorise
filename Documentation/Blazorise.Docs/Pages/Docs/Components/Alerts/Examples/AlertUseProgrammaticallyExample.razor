@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Alert @ref="myAlert" Color="Color.Success">
+    <AlertMessage>
+        Alert test.
+    </AlertMessage>
+</Alert>
+
+<Button Clicked="@OnButtonClick" Color="Color.Primary">Show alert</Button>
+
+@code{
+    Alert myAlert;
+
+    Task OnButtonClick()
+    {
+        return myAlert.Show();
+    }
+}

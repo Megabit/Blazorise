@@ -10,6 +10,7 @@ namespace Blazorise.Tests.Components
         public NumericEditComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddNumericEdit( this.JSInterop );
         }
 
         [Fact]
@@ -18,17 +19,17 @@ namespace Blazorise.Tests.Components
             // setup
             var comp = RenderComponent<NumericEditComponent>();
             var paragraph = comp.Find( "#int-event-initially-undefined" );
-            var numeric = comp.Find ( "#int-undefined-numeric" );
+            var numeric = comp.Find( "#int-undefined-numeric" );
             var result = comp.Find( "#int-event-initially-undefined-result" );
 
             Assert.Equal( "0", result.InnerHtml );
 
             // test 1
-            numeric.Input("100");
+            numeric.Input( "100" );
             Assert.Equal( "100", result.InnerHtml );
 
             // test 2
-            numeric.Input("10");
+            numeric.Input( "10" );
             Assert.Equal( "10", result.InnerHtml );
         }
 

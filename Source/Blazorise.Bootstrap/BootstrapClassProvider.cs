@@ -86,6 +86,38 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region DatePicker
+
+        public override string DatePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string DatePickerColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region TimePicker
+
+        public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string TimePickerColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region ColorPicker
+
+        public override string ColorPicker() => "form-control b-input-color-picker";
+
+        public override string ColorPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        #endregion
+
         #region Check
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
@@ -252,9 +284,7 @@ namespace Blazorise.Bootstrap
 
         #region FieldLabel
 
-        public override string FieldLabel() => null;
-
-        public override string FieldLabelHorizontal() => "col-form-label";
+        public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
 
         #endregion
 
@@ -359,7 +389,7 @@ namespace Blazorise.Bootstrap
 
         #region Dropdown
 
-        public override string Dropdown() => "dropdown";
+        public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
         public override string DropdownGroup() => "btn-group";
 
@@ -385,7 +415,7 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 
-        public override string DropdownToggle() => "btn dropdown-toggle";
+        public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
@@ -397,16 +427,13 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
 
-        public override string DropdownDirection( Direction direction )
+        public override string DropdownDirection( Direction direction ) => direction switch
         {
-            return direction switch
-            {
-                Direction.Up => "dropup",
-                Direction.Right => "dropright",
-                Direction.Left => "dropleft",
-                _ => null,
-            };
-        }
+            Direction.Up => "dropup",
+            Direction.Right or Direction.End => "dropright",
+            Direction.Left or Direction.Start => "dropleft",
+            _ => null,
+        };
 
         public override string DropdownTableResponsive() => "position-static";
 
@@ -564,7 +591,8 @@ namespace Blazorise.Bootstrap
 
         #region Container
 
-        public override string Container() => "container";
+        public override string Container( Breakpoint breakpoint )
+            => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"container-{ToBreakpoint( breakpoint )}" : "container";
 
         public override string ContainerFluid() => "container-fluid";
 
@@ -574,6 +602,8 @@ namespace Blazorise.Bootstrap
 
         public override string Bar() => "navbar";
 
+        public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
@@ -582,7 +612,11 @@ namespace Blazorise.Bootstrap
 
         public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
-        public override string BarItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-item" : "b-bar-item";
+        public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
+            ? hasDropdown
+                ? "nav-item dropdown"
+                : "nav-item"
+            : "b-bar-item";
 
         public override string BarItemActive( BarMode mode ) => Active();
 
@@ -611,11 +645,17 @@ namespace Blazorise.Bootstrap
 
         public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav ml-auto" : "b-bar-end";
 
-        public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
+        public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
+            ? "dropdown"
+            : "b-bar-dropdown";
 
         public override string BarDropdownShow( BarMode mode ) => Show();
 
-        public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link dropdown-toggle" : "b-bar-link b-bar-dropdown-toggle";
+        public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
+            ? isBarDropDownSubmenu
+                ? "dropdown-item"
+                : "nav-link dropdown-toggle"
+            : "b-bar-link b-bar-dropdown-toggle";
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
@@ -645,17 +685,17 @@ namespace Blazorise.Bootstrap
 
         #region Collapse
 
-        public override string Collapse() => "card";
+        public override string Collapse( bool accordion ) => "card";
 
-        public override string CollapseActive( bool active ) => null;
+        public override string CollapseActive( bool accordion, bool active ) => null;
 
-        public override string CollapseHeader() => "card-header";
+        public override string CollapseHeader( bool accordion ) => "card-header";
 
-        public override string CollapseBody() => "collapse";
+        public override string CollapseBody( bool accordion ) => "collapse";
 
-        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
+        public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
 
-        public override string CollapseBodyContent() => "card-body";
+        public override string CollapseBodyContent( bool accordion ) => "card-body";
 
         #endregion
 
@@ -826,14 +866,6 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Title
-
-        public override string Title() => null;
-
-        public override string TitleSize( int size ) => $"h{size}";
-
-        #endregion
-
         #region Table
 
         public override string Table() => "table";
@@ -937,6 +969,14 @@ namespace Blazorise.Bootstrap
         public override string Paragraph() => null;
 
         public override string ParagraphColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+
+        #endregion
+
+        #region Blockquote
+
+        public override string Blockquote() => "blockquote";
+
+        public override string BlockquoteFooter() => "blockquote-footer";
 
         #endregion
 
@@ -1173,7 +1213,51 @@ namespace Blazorise.Bootstrap
 
         #region Overflow
 
-        public override string Overflow( Overflow overflow ) => $"overflow-{ToOverflow( overflow )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
+                ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+                : $"overflow-{ToOverflowType( overflowType )}";
+
+        #endregion
+
+        #region Position
+
+        public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
+        {
+            return $"{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        }
+
+        public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
+        {
+            var sb = new StringBuilder( $"position-{ToPositionType( positionType )}" );
+
+            if ( edges != null && edges.Count() > 0 )
+                sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
+
+            if ( translateType != PositionTranslateType.None )
+                sb.Append( " translate-" ).Append( ToPositionTranslateType( translateType ) );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Elements
+
+        public override string UnorderedList() => "unordered-list";
+
+        public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+
+        public override string OrderedList() => "ordered-list";
+
+        public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+
+        public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
+
+        public override string DescriptionList() => null;
+
+        public override string DescriptionListTerm() => null;
+
+        public override string DescriptionListDefinition() => null;
 
         #endregion
 

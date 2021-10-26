@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -19,13 +21,16 @@ namespace Blazorise.DataGrid
             => ParentDataGrid.UseValidation;
 
         protected bool HasValidator
-            => Column.Validator != null;
+            => Column.Validator != null || Column.AsyncValidator != null;
 
         protected bool HasValidationPattern
             => !string.IsNullOrWhiteSpace( Column.ValidationPattern );
 
         protected Action<ValidatorEventArgs> Validator
             => Column.Validator ?? EmptyValidator;
+
+        protected Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator
+            => Column.AsyncValidator; // AsyncValidator must be defined explicitelly. We don't want to have an EmptyAsyncValidator.
 
         protected string ValidationPattern
             => string.IsNullOrWhiteSpace( Column.ValidationPattern ) ? null : Column.ValidationPattern;

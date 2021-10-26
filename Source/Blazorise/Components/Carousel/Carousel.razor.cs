@@ -64,14 +64,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnParametersSet()
         {
-            if ( Interval != 0 )
-                TimerEnabled = true;
-
-            if ( Autoplay /*&& SelectedSlideIndex == 0*/ )
-            {
-                if ( TimerEnabled )
-                    Timer.Start();
-            }
+            SetTimer();
 
             base.OnParametersSet();
         }
@@ -79,15 +72,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if ( Interval == 0 )
-                TimerEnabled = false;
-
-            if ( Timer == null && TimerEnabled )
-            {
-                InitializeTimer();
-
-                Timer.Start();
-            }
+            SetTimer();
 
             if ( TransitionTimer == null )
             {
@@ -167,12 +152,12 @@ namespace Blazorise
         /// <returns>Next slide in a sequence or first if not found.</returns>
         private CarouselSlide FindNextSlide( string slideName )
         {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) + 1;
+            var slideIndex = FindCarouselSlideIdxByName( slideName ) + 1;
 
             if ( slideIndex >= carouselSlides.Count )
                 slideIndex = 0;
 
-            return carouselSlides[slideIndex];
+            return GetCarouselSlide( slideIndex );
         }
 
         /// <summary>
@@ -182,13 +167,35 @@ namespace Blazorise
         /// <returns>Previous slide in a sequence or last if not found.</returns>
         private CarouselSlide FindPreviousSlide( string slideName )
         {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) - 1;
+            var slideIndex = FindCarouselSlideIdxByName( slideName ) - 1;
 
             if ( slideIndex < 0 )
                 slideIndex = carouselSlides.Count - 1;
 
-            return carouselSlides[slideIndex];
+            return GetCarouselSlide( slideIndex );
         }
+
+        /// <summary>
+        /// Gets the slide by name. Returns -1 if the slide does not exist. 
+        /// </summary>
+        /// <param name="slideName"></param>
+        private int FindCarouselSlideIdxByName( string slideName ) => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => string.Compare( x.Name, slideName ) == 0 ) );
+
+        /// <summary>
+        /// Gets the slide by index. Returns null if no slide has been found.
+        /// </summary>
+        /// <param name="slideIndex"></param>
+        private CarouselSlide GetCarouselSlide( int slideIndex ) => carouselSlides.ElementAtOrDefault( slideIndex );
+
+        /// <summary>
+        /// Gets the currently selected slide by index.
+        /// </summary>
+        private CarouselSlide GetSelectedCarouselSlide() => GetCarouselSlide( SelectedSlideIndex );
+
+        /// <summary>
+        /// Gets the slide by index.
+        /// </summary>
+        private CarouselSlide GetPreviouslySelectedCarouselSlide() => GetCarouselSlide( PreviouslySelectedSlideIndex );
 
         /// <summary>
         /// Adds the slide to the list of running slides.
@@ -273,15 +280,30 @@ namespace Blazorise
             TransitionTimer.AutoReset = false;
         }
 
+        private void SetTimer()
+        {
+            TimerEnabled = ( Interval > 0 );
+
+            if ( Timer == null && TimerEnabled )
+            {
+                InitializeTimer();
+            }
+
+            if ( AutoPlayEnabled )
+            {
+                Timer.Start();
+            }
+        }
+
         private void ResetTimer()
         {
             if ( Timer != null )
             {
                 Timer.Stop();
 
-                if ( TimerEnabled )
+                if ( AutoPlayEnabled )
                 {
-                    Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
+                    Timer.Interval = GetSelectedCarouselSlide()?.Interval ?? Interval;
                     Timer.Start();
                 }
             }
@@ -319,11 +341,12 @@ namespace Blazorise
                 return;
 
             // If the active index is not "active" by the time the timer is elapsed something is very wrong, reset the animation
-            if ( !carouselSlides[SelectedSlideIndex].Active )
+            var selectedSlide = GetSelectedCarouselSlide();
+            if ( !selectedSlide?.Active ?? false )
             {
                 await InvokeAsync( async () =>
                 {
-                    await AnimationEnd( carouselSlides[SelectedSlideIndex] );
+                    await AnimationEnd( selectedSlide );
                 } );
             }
         }
@@ -335,20 +358,25 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual async Task AnimationEnd( CarouselSlide slide )
         {
-            if ( slide.Name == carouselSlides[SelectedSlideIndex].Name )
+            var selectedSlide = GetSelectedCarouselSlide();
+
+            if ( slide.Name == selectedSlide.Name )
             {
                 AnimationRunning = false;
 
-                carouselSlides[PreviouslySelectedSlideIndex].Clean();
-                carouselSlides[SelectedSlideIndex].Clean();
-                carouselSlides[SelectedSlideIndex].Active = true;
+                GetPreviouslySelectedCarouselSlide()?.Clean();
+
+                if ( selectedSlide is not null )
+                {
+                    selectedSlide.Clean();
+                    selectedSlide.Active = true;
+                }
 
                 await InvokeAsync( StateHasChanged );
 
                 if ( TimerEnabled )
                 {
-                    InitializeTimer();
-                    Timer.Start();
+                    ResetTimer();
                 }
 
                 await SelectedSlideChanged.InvokeAsync( SelectedSlide );
@@ -364,35 +392,47 @@ namespace Blazorise
             if ( NumberOfSlides == 0 )
                 return;
 
+            var selectedSlide = GetSelectedCarouselSlide();
+            var previouslySelectedSlide = GetPreviouslySelectedCarouselSlide();
+
             if ( TimerEnabled )
             {
                 Timer.Stop();
-                Timer.Interval = carouselSlides[SelectedSlideIndex].Interval ?? Interval;
+                Timer.Interval = selectedSlide?.Interval ?? Interval;
             }
 
             AnimationRunning = true;
-            carouselSlides[SelectedSlideIndex].Clean();
-
             Direction = DetermineDirection();
 
+
             //Add new item to DOM on appropriate side
-            carouselSlides[SelectedSlideIndex].Next = Direction == CarouselDirection.Previous;
-            carouselSlides[SelectedSlideIndex].Prev = Direction == CarouselDirection.Next;
+            if ( selectedSlide is not null )
+            {
+                selectedSlide.Clean();
+                selectedSlide.Next = Direction == CarouselDirection.Previous;
+                selectedSlide.Prev = Direction == CarouselDirection.Next;
+            }
 
             await InvokeAsync( StateHasChanged );
 
             await Task.Delay( 300 ); //Ensure new item is rendered on DOM before continuing
 
             //Trigger Animation
-            carouselSlides[SelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
-            carouselSlides[PreviouslySelectedSlideIndex].Left = Direction == CarouselDirection.Previous;
-
-            carouselSlides[SelectedSlideIndex].Right = Direction == CarouselDirection.Next;
-            carouselSlides[PreviouslySelectedSlideIndex].Right = Direction == CarouselDirection.Next;
+            SetSlideDirection( selectedSlide );
+            SetSlideDirection( previouslySelectedSlide );
 
             await InvokeAsync( StateHasChanged );
 
             ResetTransitionTimer();
+        }
+
+        private void SetSlideDirection( CarouselSlide slide )
+        {
+            if ( slide is not null )
+            {
+                slide.Left = Direction == CarouselDirection.Previous;
+                slide.Right = Direction == CarouselDirection.Next;
+            }
         }
 
         private CarouselDirection DetermineDirection()
@@ -449,6 +489,12 @@ namespace Blazorise
         /// Gets or sets the flag that indicates if the timer is running.
         /// </summary>
         private bool TimerEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the flag that indicates if the timer is running and AutoPlay is enabled.
+        /// </summary>
+        private bool AutoPlayEnabled
+            => ( Autoplay && TimerEnabled );
 
         /// <summary>
         /// Gets the carousel state.
@@ -608,7 +654,7 @@ namespace Blazorise
 
                 state = state with
                 {
-                    PreviouslySelectedSlide = SelectedSlide,
+                    PreviouslySelectedSlide = state.SelectedSlide,
                     SelectedSlide = value
                 };
 

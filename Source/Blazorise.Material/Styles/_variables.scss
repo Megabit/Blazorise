@@ -63,6 +63,10 @@ $border-radius-lg: $border-radius * 4 !default;
 $border-radius-xl: $border-radius * 5 !default;
 $border-width: 1px !default;
 
+$caret-width: .3em !default;
+$caret-vertical-align: $caret-width * .85 !default;
+$caret-spacing: $caret-width * .85 !default;
+
 $sizes: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
@@ -426,9 +430,7 @@ $popover-padding-y: 0.875rem !default;
 // Utilities
 
 $displays: none, inline, inline-block, block, table, table-row, table-cell, flex, inline-flex !default;
-
-$overflows: auto, hidden !default;
-
+$overflows: auto, hidden, visible, scroll !default;
 $positions: static, relative, absolute, fixed, sticky !default;
 
 $user-selects: all, auto, none !default;
@@ -437,3 +439,7 @@ $user-selects: all, auto, none !default;
 
 $print-page-size: a3 !default;
 $print-body-min-width: map-get($grid-breakpoints, 'lg') !default;
+
+// Position
+
+$position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;

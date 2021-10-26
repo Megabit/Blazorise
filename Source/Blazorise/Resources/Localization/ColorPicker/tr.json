@@ -1,0 +1,19 @@
+{
+  "culture": "tr",
+  "translations": {
+    "ui:dialog": "renk seçici iletişim kutusu",
+    "btn:toggle": "renk seçici iletişim kutusunu aç/kapat",
+    "btn:swatch": "renk örneği",
+    "btn:last-color": "önceki rengi kullan",
+    "btn:save": "Kaydet",
+    "btn:cancel": "İptal",
+    "btn:clear": "Temizle",
+    "aria:btn:save": "kaydet ve kapat",
+    "aria:btn:cancel": "iptal et ve kapat",
+    "aria:btn:clear": "temizle ve kapat",
+    "aria:input": "renk giriş alanı",
+    "aria:palette": "renk seçim alanı",
+    "aria:hue": "ton seçim kaydırıcısı",
+    "aria:opacity": "seçim kaydırıcısı"
+  }
+}

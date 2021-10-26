@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -21,13 +22,15 @@ namespace Blazorise.AntDesign
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, AntDesignStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, AntDesignJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.AntDesignJSTooltipModule>();
 
             return serviceCollection;
         }

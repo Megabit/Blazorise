@@ -1,0 +1,141 @@
+﻿@page "/docs/components/memo"
+
+<DocsPageTitle>
+    MemoEdit component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    MemoEdit is used to create multiline text input (<Code Tag>textarea</Code>).
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicMemoEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicMemoEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Tab override">
+        By default a <Code Tag>textarea</Code> will lose focus when you press the tab key. If you want to allow tabs to be entered
+        you just need to enable it with <Code>ReplaceTab</Code>, and optionally a <Code>TabSize</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MemoEditTabExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MemoEditTabExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Binding
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        By using <Code>bind-*</Code> attribute the text will be automatically assigned to the member variable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MemoEditWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MemoEditWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Mannual event binding">
+        When using the event <Code>TextChanged</Code>, you also must define the <Code>Text</Code> value attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MemoEditWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MemoEditWithEventExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Settings
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text Changed mode">
+        By default the <Code>TextChanged</Code> event will be raised on every keypress.
+        To override default behavior of <Code>TextChanged</Code> event and to disable the change on every
+        keypress you must set the <Code>ChangeTextOnKeyPress</Code> to <Code>false</Code> on application start.
+        After setting it to <Code>false</Code> the event will be raised only after the input loses focus.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MemoEditTextChangedModeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text Delay mode">
+        Because of some limitations in Blazor, sometimes there can be problems when <Code>ChangeTextOnKeyPress</Code> is enabled.
+        Basically if you try to type too fast into the text field the caret can jump randomly from current selection
+        to the end of the text. To prevent that behaviour you need to enable <Code>DelayTextOnKeyPress</Code>. Once enabled it will
+        slightly delay every value entered into the field to allow the Blazor engine to do it’s thing.
+        By default this option is disabled.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MemoEditTextDelayModeExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> All of the options above can also be defined on each <Code>MemoEdit</Code> individually.
+        Defining them on <Code>MemoEdit</Code> will override any global settings.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Text" Type="string" Default="null">
+        Input value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextChanged" Type="@("EventCallback<string>")">
+        Occurs after text has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Plaintext" Type="bool" Default="false">
+        Remove the default form field styling and preserve the correct margin and padding.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Prevents modification of the input’s value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Prevents user interactions and make it appear lighter.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxLength" Type="int?" Default="null">
+        Specifies the maximum number of characters allowed in the input element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        Sets the placeholder for the empty text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Rows" Type="int?" Default="null">
+        Specifies the number lines in the input element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="Size" Default="">
+        Component size variations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChangeTextOnKeyPress" Type="bool?" Default="null">
+        If true the text in will be changed after each key press (overrides global settings).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DelayTextOnKeyPress" Type="bool?" Default="null">
+        If true the entered text will be slightly delayed before submitting it to the internal value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DelayTextOnKeyPressInterval" Type="bool?" Default="null">
+        Interval in milliseconds that entered text will be delayed from submitting to the internal value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReplaceTab" Type="bool" Default="false">
+        If set to true, ReplaceTab will insert a tab instead of cycle input focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabSize" Type="int" Default="4">
+        Defines the number of characters that tab key will override.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SoftTabs" Type="bool" Default="true">
+        If set to true, spaces will be used instead of a tab character
+    </DocsAttributesItem>
+</DocsAttributes>

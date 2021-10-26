@@ -3,6 +3,7 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -26,6 +27,8 @@ namespace Blazorise
             var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
             var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
+            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
+            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
 
             if ( timeChanged )
             {
@@ -35,18 +38,25 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerValue( ElementRef, ElementId, timeString ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, timeString ) );
                 }
             }
 
-            if ( Rendered && ( minChanged || maxChanged || displayFormatChanged || timeAs24hrChanged ) )
+            if ( Rendered && ( minChanged
+                || maxChanged
+                || displayFormatChanged
+                || timeAs24hrChanged
+                || disabledChanged
+                || readOnlyChanged ) )
             {
-                ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                     Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
                     Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
+                    Disabled = new { Changed = disabledChanged, Value = disabled },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 } ) );
             }
 
@@ -75,13 +85,15 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
+            await JSModule.Initialize( ElementRef, ElementId, new
             {
                 DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
                 TimeAs24hr,
                 Default = FormatValueAsString( Time ),
                 Min = Min?.ToString( Parsers.InternalTimeFormat ),
                 Max = Max?.ToString( Parsers.InternalTimeFormat ),
+                Disabled,
+                ReadOnly,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -90,20 +102,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
-                if ( Rendered )
-                {
-                    var task = JSRunner.DestroyTimePicker( ElementRef, ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch when ( task.IsCanceled )
-                    {
-                    }
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );
@@ -135,7 +136,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateTimePicker( ElementRef, ElementId, Parsers.InternalTimeFormat );
+            await JSModule.Activate( ElementRef, ElementId, Parsers.InternalTimeFormat );
         }
 
         /// <inheritdoc/>
@@ -189,7 +190,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask OpenAsync()
         {
-            return JSRunner.OpenTimePicker( ElementRef, ElementId );
+            return JSModule.Open( ElementRef, ElementId );
         }
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask CloseAsync()
         {
-            return JSRunner.CloseTimePicker( ElementRef, ElementId );
+            return JSModule.Close( ElementRef, ElementId );
         }
 
         /// <summary>
@@ -207,7 +208,19 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask ToggleAsync()
         {
-            return JSRunner.ToggleTimePicker( ElementRef, ElementId );
+            return JSModule.Toggle( ElementRef, ElementId );
+        }
+
+        /// <inheritdoc/>
+        public override async Task Focus( bool scrollToElement = true )
+        {
+            await JSModule.Focus( ElementRef, ElementId, scrollToElement );
+        }
+
+        /// <inheritdoc/>
+        public override async Task Select( bool focus = true )
+        {
+            await JSModule.Select( ElementRef, ElementId, focus );
         }
 
         #endregion
@@ -219,6 +232,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override TValue InternalValue { get => Time; set => Time = value; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSTimePickerModule"/> instance.
+        /// </summary>
+        [Inject] public IJSTimePickerModule JSModule { get; set; }
 
         /// <summary>
         /// Converts the supplied time format into the internal time format.

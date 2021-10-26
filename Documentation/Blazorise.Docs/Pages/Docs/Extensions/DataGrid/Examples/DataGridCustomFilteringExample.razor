@@ -1,0 +1,28 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
+
+ Custom Filter: <TextEdit @bind-Text="@customFilterValue" ></TextEdit>
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          CustomFilter="@OnCustomFilter"
+          Responsive>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "MLaden" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
+
+    string customFilterValue;
+
+    bool OnCustomFilter( Employee model )
+    {
+        // We want to accept empty value as valid or otherwise
+        // datagrid will not show anything.
+        if ( string.IsNullOrEmpty( customFilterValue ) )
+            return true;
+
+        return model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+    }
+
+}

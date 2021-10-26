@@ -1,0 +1,323 @@
+﻿@page "/news/release-notes/095"
+
+<NewsPageTitle>
+    v0.9.5 - release notes
+</NewsPageTitle>
+
+<NewsPageSubtitle>
+    Breaking changes
+</NewsPageSubtitle>
+
+<NewsPageSubtitle>
+    Migration
+</NewsPageSubtitle>
+
+<Paragraph>
+    1. We changed all the following methods to be awaited. You will need to adjust your code accordingly.
+</Paragraph>
+
+<Table FullWidth Narrow Striped Bordered>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Before</TableHeaderCell>
+            <TableHeaderCell>After</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell>Modal</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>Action&lt;ModalClosingEventArgs&gt;</Code></TableRowCell>
+            <TableRowCell><Code>Func&lt;ModalClosingEventArgs, Task&gt;</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Alert</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Dropdown</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>BarDropdown</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Button</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Collapse</TableRowCell>
+            <TableRowCell><Code>void Toggle()</Code></TableRowCell>
+            <TableRowCell><Code>Task Toggle()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>DropdownList</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>DropdownToggle</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>ListGroup</TableRowCell>
+            <TableRowCell><Code>void SelectItem()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectItem()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>ProgressBar</TableRowCell>
+            <TableRowCell><Code>void Animate()</Code></TableRowCell>
+            <TableRowCell><Code>Task Animate()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Steps</TableRowCell>
+            <TableRowCell><Code>void SelectStep()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectStep()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>StepsContent</TableRowCell>
+            <TableRowCell><Code>void SelectPanel()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectPanel()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Tabs</TableRowCell>
+            <TableRowCell><Code>void SelectTab()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectTab()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>TabsContent</TableRowCell>
+            <TableRowCell><Code>void SelectPanel()</Code></TableRowCell>
+            <TableRowCell><Code>Task SelectPanel()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Validations</TableRowCell>
+            <TableRowCell><Code>void ValidateAll()</Code></TableRowCell>
+            <TableRowCell><Code>Task ValidateAll()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void ClearAll()</Code></TableRowCell>
+            <TableRowCell><Code>Task ClearAll()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>SelectList</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Autocomplete</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>ALL input components</TableRowCell>
+            <TableRowCell><Code>void Focus()</Code></TableRowCell>
+            <TableRowCell><Code>Task Focus()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void FocusAsync()</Code></TableRowCell>
+            <TableRowCell><strong>removed</strong></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Snackbar</TableRowCell>
+            <TableRowCell><Code>void Show()</Code></TableRowCell>
+            <TableRowCell><Code>Task Show()</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell></TableRowCell>
+            <TableRowCell><Code>void Hide()</Code></TableRowCell>
+            <TableRowCell><Code>Task Hide()</Code></TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Paragraph>
+    2. Remove <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameters from the <Code Tag>NotificationAlert</Code>.
+</Paragraph>
+
+<Paragraph>
+    3. Remove <Code>Title</Code> component and replace it with the <Code>Heading</Code> component.
+</Paragraph>
+
+<Paragraph>
+    4. We've found that on <Code>Dropdown</Code> we had both a <Code>VisibleChanged</Code> and <Code>Toggled</Code> event, which served the same purpose. We've removed <Code>Toggled</Code> and changed <Code>VisibleChanged</Code> to a regular Blazor <Code>EventCallback</Code>.
+
+    Replace any <Code>Toggled</Code> Parameter with the <Code>VisibleChanged</Code> Parameter.
+
+    Change any <Code>VisibleChanged</Code> event you might've bound to be compliant with a regular Blazor <Code>EventCallback</Code>.
+</Paragraph>
+
+<Paragraph>
+    5. While not strictly a breaking changes, it is advised to also rename all <Code>Left</Code> and <Code>Right</Code> values,
+    eg. for <Code>TextAlignment</Code> and <Code>Direction</Code>. We have marked them as obsolete and they will be replaced with
+    <Code>Start</Code> and <Code>End</Code> values. The purpose of the new values is the better naming support for the RTL layouts
+    that should take place in the next Blazorise version.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Highlights 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    ListView
+</Heading>
+
+<Paragraph>
+    Introduced the new <Code>ListView</Code> component.
+</Paragraph>
+<Paragraph>
+    List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.
+</Paragraph>
+<Paragraph>
+    List views use <Code>ListGroup</Code> behind the covers, so you may make use of the <Code>ListGroup</Code> underlying APIs.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    JavaScript modules
+</Heading>
+
+<Paragraph>
+    First and foremost. With the new version we have refactored major parts of Blazorise internals to make use of
+    <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</Anchor>. As a result of all
+    the hard work we have made it easier to setup Blazorise projects and manually importing Javascript static files is now not needed.
+    They can be safely removed from all your <Code>index.html</Code> and <Code>_Host.cshtml</Code> files.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete Multiple Selection Support
+</Heading>
+
+<Paragraph>
+    <Code>Autocomplete</Code> now has support for multiple selection by setting the new <Code>Multiple</Code> Parameter to true. You have two extra Parameters at your disposal to handle the multiple values.
+    <Code>SelectedValues</Code> and <Code>SelectedTexts</Code>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete: ItemContent
+</Heading>
+
+<Paragraph>
+    <Code>Autocomplete</Code> now has the ability to optionally enrinch each value presented to the user with your custom html, by providing a <Code>RenderFragment</Code>, called <Code>ItemContent</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Null Coalescing
+</Heading>
+
+<Paragraph>
+    <Code>DataGrid</Code> <Code>Field</Code> now supports null coalescing, meaning you can now provide objects with null data, and <Code>DataGrid</Code> will set the <Code>Default</Code> Value for the respective <Code>Field</Code> <Code>Type</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Sort Field
+</Heading>
+
+<Paragraph>
+    Introduced a new <Code>SortField</Code> Parameter, that allows you to define a different Property or Field of a column to be considered by the sorting mechanism.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    ColorPicker component
+</Heading>
+
+<Paragraph>
+    In many cases a native color input is not good enough. For instance, native color input doesn't support opacity value, or localization. With the introduction of
+    <Code>ColorPicker</Code> component all of this limitations are now history. You can define any colors, including alpha value. You can localize the buttons,
+    define custom pallette for quick coloring, show or hide certain buttons, and many new fatures.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Markdown improvements
+</Heading>
+
+<Paragraph>
+    We did a lot of improvements and new APIs on our Markdown component. It can now support toolbar customization, image uploading, theming, and many more.
+</Paragraph>
+<Paragraph>
+    You can see examples at the <Anchor To="docs/extensions/markdown">Markdown page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Theming improvements
+</Heading>
+
+<Paragraph>
+    Theming also recieved some much needed changes.
+
+    <DescriptionList>
+        <DescriptionListTerm>Color variables for RGB(A) values</DescriptionListTerm>
+        <DescriptionListDefinition>
+            Along with the <Code>--b-theme-primary</Code> CSS variable we are now generating additional RGB(A) variables,
+            namelly, <Code>--b-theme-primary-r</Code>, <Code>--b-theme-primary-g</Code>, <Code>--b-theme-primary-b</Code>,
+            and <Code>--b-theme-primary-a</Code>.
+        </DescriptionListDefinition>
+
+        <DescriptionListTerm>Nullable options</DescriptionListTerm>
+        <DescriptionListDefinition>
+            Not so much big of a change but nevertheless, is needed. When defining theme options in some cases it is hard to tell
+            when the CSS override should be applied. This small change will give us that ability.
+        </DescriptionListDefinition>
+
+        <DescriptionListTerm>Body options</DescriptionListTerm>
+        <DescriptionListDefinition>
+            It is now possible to define the <Code Tag>body</Code> background and text color. Once defined it will also properly assign the
+            color for the <Code>TextColor.Body</Code> typography color value, where needed.
+        </DescriptionListDefinition>
+
+        <DescriptionListTerm>Spacing options</DescriptionListTerm>
+        <DescriptionListDefinition>
+            So far if you wanted to change the margin and padding sizes you would need to re-compile Bootstrap(or any other) CSS. With
+            the new theming options it is now possible with just a few lines of code. And Blazorise will do all the magic for you. eg.
+            <br />
+            <br />
+            <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
+        </DescriptionListDefinition>
+    </DescriptionList>
+</Paragraph>

@@ -1,0 +1,14 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise.Docs.Models
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          Filterable
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Responsive>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "Mladen" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
+}

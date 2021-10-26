@@ -307,3 +307,17 @@
     animation-fill-mode: both;
     animation-name: fadeIn;
 }
+
+.ant-menu-submenu.ant-menu-submenu-horizontal {
+    .ant-menu-submenu-open {
+        position: relative;
+
+        .ant-menu-submenu.ant-menu-submenu-popup {
+            display: block;
+            top: 0;
+            left: 100%;
+            margin-left: .1rem;
+            margin-right: .1rem;
+        }
+    }
+}

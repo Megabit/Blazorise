@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+<Layout>
+    <LayoutHeader>
+        <Bar Class="b-top-bar" @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
+            <Container>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink Class="top-bar-brand-link" To="">
+                            Blazorise
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                    </BarStart>
+                    <BarEnd>
+                        <TopMenuEnd />
+                    </BarEnd>
+                </BarMenu>
+            </Container>
+        </Bar>
+    </LayoutHeader>
+    <LayoutContent>
+        <Container Fluid="true" Padding="Padding.Is0.OnX">
+            @Body
+        </Container>
+    </LayoutContent>
+    <LayoutFooter Padding="Padding.Is4.FromTop.Is5.FromTop.OnDesktop" Margin="Margin.Is5.OnY.OnDesktop" Border="Border.OnTop">
+        <Footer />
+    </LayoutFooter>
+</Layout>

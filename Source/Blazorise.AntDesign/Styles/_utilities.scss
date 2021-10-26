@@ -529,20 +529,16 @@
     box-shadow: none !important;
 }
 
-.ant-overflow-visible {
-    overflow: visible !important;
-}
+@each $value1 in $overflows {
+    .ant-overflow-#{$value1} {
+        overflow: $value1 !important;
+    }
 
-.ant-overflow-hidden {
-    overflow: hidden !important;
-}
-
-.ant-overflow-scroll {
-    overflow: scroll !important;
-}
-
-.ant-overflow-auto {
-    overflow: auto !important;
+    @each $value2 in $overflows {
+        .ant-overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
 }
 
 .ant-typography-wrap {
@@ -557,4 +553,89 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.ant-unordered-list {
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+}
+
+ol.ant-ordered-list {
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}
+
+// Position
+
+.ant-position {
+    &-static {
+        position: static !important;
+    }
+
+    &-relative {
+        position: relative !important;
+    }
+
+    &-absolute {
+        position: absolute !important;
+    }
+
+    &-fixed {
+        position: fixed !important;
+    }
+
+    &-sticky {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+    }
+}
+
+@each $name, $value in $position-values {
+    .ant-top-#{$name} {
+        top: #{$value} !important;
+    }
+
+    .ant-bottom-#{$name} {
+        bottom: #{$value} !important;
+    }
+
+    .ant-left-#{$name} {
+        left: #{$value} !important;
+    }
+
+    .ant-right-#{$name} {
+        right: #{$value} !important;
+    }
+}
+
+.ant-translate-middle {
+    transform: translate(-50%, -50%) !important;
+}
+
+.ant-translate-middle-x {
+    transform: translateX(-50%) !important;
+}
+
+.ant-translate-middle-y {
+    transform: translateY(-50%) !important;
 }

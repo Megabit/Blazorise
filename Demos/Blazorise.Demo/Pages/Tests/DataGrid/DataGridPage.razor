@@ -1,0 +1,515 @@
+﻿@page "/tests/datagrid"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Data Grid</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Combine diferent datagrid options</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be editable.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@editable">Editable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid has a Fixed Header">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check TValue="bool" @bind-Checked="@fixedHeader">Fixed Header</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid is in Virtualize mode">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@OnVirtualizeChanged">Virtualize</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be resizable.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@resizable">Resizable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be sorted by clicking the column headers.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@sortable">Sortable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be filtered through the column headers.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@filterable">Filterable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if paginator buttons are visible.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@showPager">Show Pager</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if pagesize dropdown will be visible.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if Datagrid shows a button row on the pager.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@largeDataMode">Large Data</Check>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Selection mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@selectionMode">
+                                        <SelectItem Value="@DataGridSelectionMode.Single">Single</SelectItem>
+                                        <SelectItem Value="@DataGridSelectionMode.Multiple">Multiple</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Edit Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@editMode">
+                                        <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
+                                        <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
+                                        <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Resizable Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@resizableMode">
+                                        <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
+                                        <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Command Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@commandsMode">
+                                        <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
+                                        <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
+                                        <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Sort mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@sortMode">
+                                        <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
+                                        <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Custom Search
+                                </FieldLabel>
+                                <FieldBody>
+                                    <TextEdit Text="@customFilterValue" TextChanged="@OnCustomFilterValueChanged" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <DataGrid @ref="dataGrid"
+                          TItem="Employee"
+                          ReadData="@(largeDataMode ? OnReadData : null)"
+                          Data="@(largeDataMode ? employeeList : dataModels)"
+                          TotalItems="@(largeDataMode ? totalEmployees : null)"
+                          EditMode="@editMode"
+                          Editable="@editable"
+                          FixedHeader="@fixedHeader"
+                          FixedHeaderDataGridHeight="400px"
+                          Virtualize="@virtualize"
+                          Resizable="@resizable"
+                          ResizeMode="@resizableMode"
+                          Sortable="@sortable"
+                          SortMode="@sortMode"
+                          SelectionMode="@selectionMode"
+                          CommandMode="@commandsMode"
+                          Filterable="@filterable"
+                          ShowPager="@showPager"
+                          PagerPosition="DataGridPagerPosition.TopAndBottom"
+                          ShowPageSizes="@showPageSizes"
+                          RowInserted="@OnRowInserted"
+                          RowUpdated="@OnRowUpdated"
+                          RowRemoved="@OnRowRemoved"
+                          UseInternalEditing="true"
+                          @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRows="@selectedEmployees"
+                          NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
+                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+                          Striped="true"
+                          Bordered="true"
+                          Hoverable="true"
+                          Responsive="true"
+                          ValidationsSummaryLabel="Following error occurs..."
+                          CustomFilter="@OnCustomFilter"
+                          CurrentPage="currentPage"
+                          PageChanged="(e) => currentPage = e.Page"
+                          FilteredDataChanged="@OnFilteredDataChanged"
+                          UseValidation="true"
+                          SortChanged="@OnSortChanged"
+                          HeaderThemeContrast="@ThemeContrast.Light">
+                    <EmptyTemplate>
+                        <Span>
+                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
+                            No records...
+                        </Span>
+                    </EmptyTemplate>
+                    <EmptyFilterTemplate>
+                        <Span>
+                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromRight" />
+                            Empty filter template
+                        </Span>
+                    </EmptyFilterTemplate>
+                    <DataGridAggregates>
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
+                            <DisplayTemplate>
+                                @($"Total Emails: {context.Value}")
+                            </DisplayTemplate>
+                        </DataGridAggregate>
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )"
+                                           AggregationFunction=@((values,col)=>values?.Where(v=>v.IsActive)?.Sum(v=>v.Salary) ?? 0m)
+                                           DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+                        </DataGridAggregate>
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )"
+                                           AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
+                    </DataGridAggregates>
+                    <DataGridColumns>
+                        <DataGridMultiSelectColumn TItem="Employee" Width="30px">
+                            <FilterTemplate>
+                                <Button Clicked="@Reset" title="Reload">
+                                    <Icon Name="IconName.Sync" />
+                                </Button>
+                            </FilterTemplate>
+                            <MultiSelectTemplate>
+                                <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
+                            </MultiSelectTemplate>
+                        </DataGridMultiSelectColumn>
+                        <DataGridCommandColumn TItem="Employee" Width="170px">
+                            <NewCommandTemplate>
+                                <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                            </NewCommandTemplate>
+                            <EditCommandTemplate>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                            </EditCommandTemplate>
+                            <SaveCommandTemplate>
+                                <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                            </SaveCommandTemplate>
+                            <DeleteCommandTemplate>
+                                <Button Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                            </DeleteCommandTemplate>
+                            <CancelCommandTemplate>
+                                <Button Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                            </CancelCommandTemplate>
+                            <ClearFilterCommandTemplate>
+                                <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                            </ClearFilterCommandTemplate>
+                        </DataGridCommandColumn>
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
+                            <FilterTemplate>
+                                <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
+                            </FilterTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
+                            <FilterTemplate>
+                                @{
+                                    selectedCityFilter = @context.SearchValue?.ToString() ?? "";
+                                    <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
+                                        <SelectItem Value="@("")">All</SelectItem>
+                                        @foreach ( var item in dataModels )
+                                        {
+                                            <SelectItem Value="@item.City">@item.City</SelectItem>
+                                        }
+                                    </Select>
+                                }
+                            </FilterTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true">
+                            <SortDirectionTemplate>
+                                <Icon Name="@( context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp )" />
+                            </SortDirectionTemplate>
+                        </DataGridColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
+                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                            <FilterTemplate>
+                                @{
+                                    selectedGenderFilter = @context.SearchValue?.ToString() ?? "";
+                                    <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                                        <SelectItem TValue="string" Value="@("")">All</SelectItem>
+                                        <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                                        <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                        <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                    </Select>
+                                }
+                            </FilterTemplate>
+                            <DisplayTemplate>
+                                @{
+                                    var gender = ( context as Employee )?.Gender;
+
+                                    @if ( gender == "M" )
+                                    {
+                                        @("Male")
+                                    }
+                                    else if ( gender == "F" )
+                                    {
+                                        @("Female")
+                                    }
+                                    else if ( gender == "D" )
+                                    {
+                                        @("Diverse")
+                                    }
+                                }
+                            </DisplayTemplate>
+                            <EditTemplate>
+                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
+                                    <SelectItem TValue="string" Value="null"></SelectItem>
+                                    <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                                    <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                </Select>
+                            </EditTemplate>
+                        </DataGridSelectColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                            <EditTemplate>
+                                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+                            </EditTemplate>
+                        </DataGridColumn>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
+                    <DetailRowTemplate>
+                        @{
+                            var salaries = ( context as Employee ).Salaries;
+
+                            <DataGrid TItem="Salary"
+                                      Data="salaries"
+                                      Sortable="false"
+                                      ShowCaptions="false">
+                                <DataGridCommandColumn TItem="Salary" />
+                                <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
+                                <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
+                            </DataGrid>
+                        }
+                    </DetailRowTemplate>
+                    <PopupTitleTemplate>
+                        @if ( context.EditState == DataGridEditState.Edit )
+                        {
+                            @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
+                        }
+                        else
+                        {
+                            @($"{context.LocalizationString} Employee")
+                        }
+                    </PopupTitleTemplate>
+                    <EmptyCellTemplate>
+                        <Text Style="opacity: .5;">--</Text>
+                    </EmptyCellTemplate>
+                    <LoadingTemplate>
+                        Loading...
+                    </LoadingTemplate>
+                    <ButtonRowTemplate>
+                        @if ( showButtonRow )
+                        {
+                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+                            <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+                            <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+                            <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
+                        }
+                    </ButtonRowTemplate>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Selected Employee</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>First Name</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Last Name</FieldLabel>
+                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
+                    </Field>
+                </Fields>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Email</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>City</FieldLabel>
+                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@if ( selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0 )
+{
+    <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
+    @if ( selectedEmployees?.Count <= 10 )
+    {
+        @foreach ( var employee in selectedEmployees )
+        {
+            <Row @key="employee" Margin="Margin.Is1.FromTop">
+                <Column>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Selected Employee</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>First Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>Last Name</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
+                                </Field>
+                            </Fields>
+                            <Fields>
+                                <Field>
+                                    <FieldLabel>Email</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit ReadOnly="true" Text="@employee?.Email"></TextEdit>
+                                    </FieldBody>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>City</FieldLabel>
+                                    <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
+                                </Field>
+                            </Fields>
+                        </CardBody>
+                    </Card>
+                </Column>
+            </Row>
+        }
+    }
+    else
+    {
+        <Row Margin="Margin.Is1.FromTop">
+            <Column>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Selected Employees</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>Quantity</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit ReadOnly="true" Text="@selectedEmployees.Count.ToString()"></TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </CardBody>
+                </Card>
+            </Column>
+        </Row>
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 
@@ -46,14 +47,14 @@ namespace TodoApp
             todos.ForEach( x => x.Completed = isChecked );
         }
 
-        protected void OnAddTodo()
+        protected async Task OnAddTodo()
         {
-            if ( validations.ValidateAll() )
+            if ( await validations.ValidateAll() )
             {
                 todos.Add( new() { Description = description } );
                 description = null;
 
-                validations.ClearAll();
+                await validations.ClearAll();
             }
         }
 

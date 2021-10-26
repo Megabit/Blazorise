@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -16,13 +17,15 @@ namespace Blazorise.Bulma
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
 
             return serviceCollection;
         }
@@ -33,6 +36,7 @@ namespace Blazorise.Bulma
             { typeof( Blazorise.Badge ), typeof( Bulma.Badge ) },
             { typeof( Blazorise.BarToggler ), typeof( Bulma.BarToggler ) },
             { typeof( Blazorise.BarDropdown ), typeof( Bulma.BarDropdown ) },
+            { typeof( Blazorise.BarDropdownToggle ), typeof( Bulma.BarDropdownToggle ) },
             { typeof( Blazorise.Breadcrumb ), typeof( Bulma.Breadcrumb ) },
             { typeof( Blazorise.BreadcrumbLink ), typeof( Bulma.BreadcrumbLink ) },
             { typeof( Blazorise.CardImage ), typeof( Bulma.CardImage ) },

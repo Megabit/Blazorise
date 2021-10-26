@@ -13,14 +13,14 @@ namespace Blazorise.Tests
         private readonly EventCallbackFactory callbackFactory = new();
 
         [Fact]
-        public void SetFocus()
+        public async Task SetFocus()
         {
             // setup
             var button = new MockButton();
             var expectedId = button.ElementId;
 
             // test
-            button.Focus();
+            await button.Focus();
 
             // validate
             Assert.Equal( expectedId, button.FocusedId );

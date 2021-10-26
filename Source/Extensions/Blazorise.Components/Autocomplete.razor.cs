@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Components
@@ -17,9 +20,19 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : ComponentBase
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, ICloseActivator
     {
         #region Members
+
+        /// <summary>
+        /// Tells us that modal is tracked by the JS interop.
+        /// </summary>
+        private bool jsRegistered;
+
+        /// <summary>
+        /// A JS interop object reference used to access this modal.
+        /// </summary>
+        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         /// <summary>
         /// Reference to the TextEdit component.
@@ -49,6 +62,50 @@ namespace Blazorise.Components
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
+                && !paramSelectedValue.IsEqual( SelectedValue );
+
+            await base.SetParametersAsync( parameters );
+
+            // Override after parameters have already been set.
+            // Avoids property setters running out of order
+            if ( selectedValueHasChanged )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    var item = GetItemByValue( paramSelectedValue );
+
+                    SelectedText = GetDisplayText( item );
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
+
+                    if ( textEditRef != null )
+                    {
+                        await textEditRef.Revalidate();
+                    }
+                } );
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override async Task OnParametersSetAsync()
+        {
+            ExecuteAfterRender( SyncMultipleValuesAndTexts );
+            await base.OnParametersSetAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
+            {
+                dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+            }
+            return base.OnAfterRenderAsync( firstRender );
+        }
 
         /// <summary>
         /// Handles the search field onchange or oninput event.
@@ -82,23 +139,36 @@ namespace Blazorise.Components
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
             if ( !DropdownVisible )
+            {
+                if ( ConfirmKey( eventArgs ) )
+                {
+                    if ( FreeTyping && Multiple )
+                    {
+                        await AddMultipleText( SelectedText );
+                        await ResetSelectedText();
+                    }
+                }
+                await UnregisterClosableComponent();
                 return;
+            }
 
             if ( dirtyFilter )
                 FilterData();
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab" )
+            if ( ConfirmKey( eventArgs ) )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
-            }
-            else if ( eventArgs.Code == "Escape" )
-            {
-                await Clear();
+                else if ( FreeTyping && Multiple )
+                {
+                    await AddMultipleText( SelectedText );
+                    await ResetSelectedText();
+                }
+
             }
             else if ( eventArgs.Code == "ArrowUp" )
             {
@@ -109,6 +179,7 @@ namespace Blazorise.Components
                 await UpdateActiveFilterIndex( ++activeItemIndex );
             }
         }
+
 
         /// <summary>
         /// Handles the search field onfocusin event.
@@ -126,16 +197,23 @@ namespace Blazorise.Components
         /// Handles the search field onblur event.
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
-        /// <returns>Returns awaitabdle task</returns>
+        /// <returns>Returns awaitable task</returns>
         protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
         {
             // Give enough time for other events to do their stuff before closing
             // the dropdown.
             await Task.Delay( 250 );
-            if ( !FreeTyping && SelectedValue == null )
+            await UnregisterClosableComponent();
+
+            if ( !FreeTyping && ( SelectedValue == null || Multiple ) )
             {
-                SelectedText = string.Empty;
-                await SelectedTextChanged.InvokeAsync( string.Empty );
+                await ResetSelectedText();
+            }
+
+            if ( FreeTyping && Multiple )
+            {
+                await AddMultipleText( SelectedText );
+                await ResetSelectedText();
             }
 
             TextFocused = false;
@@ -147,15 +225,102 @@ namespace Blazorise.Components
 
             var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
-            SelectedText = TextField?.Invoke( item ) ?? string.Empty;
             SelectedValue = Converters.ChangeType<TValue>( value );
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
-            await SelectedTextChanged.InvokeAsync( SelectedText );
 
+            if ( Multiple )
+            {
+                await AddMultipleText( selectedValue );
+                await AddMultipleValue( selectedValue );
+                await ResetSelectedText();
+            }
+            else
+            {
+                SelectedText = GetDisplayText( item );
+                await SelectedTextChanged.InvokeAsync( SelectedText );
+            }
 
-            await textEditRef?.Revalidate();
+            if ( textEditRef != null )
+            {
+                await textEditRef.Revalidate();
+            }
+        }
+
+        private async Task SyncMultipleValuesAndTexts()
+        {
+            List<string> textsToAdd = new();
+            if ( SelectedValues is not null )
+                foreach ( var selectedValue in SelectedValues )
+                    textsToAdd.Add( GetDisplayText( selectedValue ) );
+
+            if ( SelectedTexts != null )
+                foreach ( var selectedText in SelectedTexts )
+                    await AddMultipleValue( GetValueByText( selectedText ) );
+
+            foreach ( var textToAdd in textsToAdd )
+                await AddMultipleText( textToAdd );
+        }
+
+        private static bool ConfirmKey( KeyboardEventArgs eventArgs )
+        {
+            return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
+        }
+
+        private Task ResetSelectedText()
+        {
+            SelectedText = string.Empty;
+            return SelectedTextChanged.InvokeAsync( string.Empty );
+        }
+        private async Task AddMultipleValue( TValue value )
+        {
+            SelectedValues ??= new();
+            if ( !SelectedValues.Contains( value ) && value != null )
+            {
+                SelectedValues.Add( value );
+                await SelectedValuesChanged.InvokeAsync( SelectedValues );
+            }
+        }
+
+        private async Task RemoveMultipleValue( TValue value )
+        {
+            SelectedValues.Remove( value );
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
+        }
+
+        private Task AddMultipleText( TValue value )
+            => AddMultipleText( GetDisplayText( value ) );
+
+        private Task AddMultipleText( string text )
+        {
+            SelectedTexts ??= new();
+            if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+            {
+                SelectedTexts.Add( text );
+                return SelectedTextsChanged.InvokeAsync( SelectedTexts );
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task AddMultipleText( List<string> texts )
+        {
+            SelectedTexts ??= new();
+
+            foreach ( var text in texts )
+            {
+                if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+                    SelectedTexts.Add( text );
+            }
+
+            return SelectedTextsChanged.InvokeAsync( SelectedTexts );
+        }
+
+        private async Task RemoveMultipleText( string text )
+        {
+            SelectedTexts.Remove( text );
+            await RemoveMultipleValue( GetValueByText( text ) );
+            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
         }
 
         private void FilterData()
@@ -174,6 +339,9 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
+            if ( Multiple )
+                query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
+
             var currentSearch = CurrentSearch ?? string.Empty;
             if ( CustomFilter != null )
             {
@@ -185,14 +353,14 @@ namespace Blazorise.Components
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                        let text = TextField.Invoke( q ) ?? string.Empty
+                        let text = GetDisplayText( q )
                         where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
-                        let text = TextField.Invoke( q ) ?? string.Empty
+                        let text = GetDisplayText( q )
                         where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
@@ -227,13 +395,12 @@ namespace Blazorise.Components
                 activeItemIndex = FilteredData.Count - 1;
 
             ActiveItemIndex = activeItemIndex;
-
             // update search text with the currently focused item text
             if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
             {
                 var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = TextField?.Invoke( item ) ?? string.Empty;
+                SelectedText = GetDisplayText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
@@ -242,17 +409,108 @@ namespace Blazorise.Components
         /// Sets focus on the input element, if it can be focused.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        public void Focus( bool scrollToElement = true )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
         {
-            textEditRef.Focus( scrollToElement );
+            return textEditRef.Focus( scrollToElement );
         }
+
+        /// <summary>
+        /// Determines if Autocomplete can be closed
+        /// Only accounts for Escape Key, Lost focus is handled by the component onBlur event.
+        /// </summary>
+        /// <returns>True if Autocomplete can be closed.</returns>
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
+        {
+            return Task.FromResult( ElementId == elementId && closeReason == CloseReason.EscapeClosing );
+        }
+
+        /// <inheritdoc/>
+        public async Task Close( CloseReason closeReason )
+        {
+            await Clear();
+            await UnregisterClosableComponent();
+        }
+
+        /// <summary>
+        /// Unregisters the closable component.
+        /// </summary>
+        /// <returns></returns>
+        protected async Task UnregisterClosableComponent()
+        {
+            if ( jsRegistered )
+            {
+                jsRegistered = false;
+
+                await JSClosableModule.Unregister( this );
+            }
+        }
+
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                var task = UnregisterClosableComponent();
+
+                try
+                {
+                    await task;
+                }
+                catch when ( task.IsCanceled )
+                {
+                }
+
+                dotNetObjectRef?.Dispose();
+                dotNetObjectRef = null;
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
+        private string GetValidationValue()
+        {
+            return FreeTyping
+                    ? Multiple
+                        ? string.Join( ';', SelectedTexts )
+                        : SelectedText?.ToString()
+                    : SelectedValue?.ToString();
+        }
+
+        private string GetDisplayText( TValue value )
+        {
+            var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
+            return item is null
+                ? string.Empty
+                : GetDisplayText( item );
+        }
+
+        private string GetDisplayText( TItem item )
+            => TextField?.Invoke( item ) ?? string.Empty;
+
+        private TItem GetItemByValue( TValue value )
+            => Data != null
+                   ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+                   : default;
+
+        private TValue GetValueByText( string text )
+            => SelectedValues.FirstOrDefault( x => GetDisplayText( x ) == text );
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets the dropdown css styles.
+        /// Gets the DropdownMenu reference.
+        /// </summary>
+        public DropdownMenu DropdownMenuRef { get; set; }
+
+        /// <summary>
+        /// Gets the Element Reference
+        /// </summary>
+        public ElementReference ElementRef => DropdownMenuRef.ElementRef;
+
+        /// <summary>
+        /// Gets the dropdown CSS styles.
         /// </summary>
         protected string CssStyle
         {
@@ -269,11 +527,6 @@ namespace Blazorise.Components
                 return sb.ToString();
             }
         }
-
-        /// <summary>
-        /// Gets or sets the dropdown element id.
-        /// </summary>
-        [Parameter] public string ElementId { get; set; }
 
         /// <summary>
         /// Gets or sets the current search value.
@@ -315,10 +568,20 @@ namespace Blazorise.Components
             => CurrentSearch?.Length >= MinLength;
 
         /// <summary>
-        /// Gets the custom classnames for dropdown element.
+        /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownClassNames
-            => $"{Class} b-is-autocomplete";
+            => $"{Class} b-is-autocomplete {( Multiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dropdown element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
 
         /// <summary>
         /// Defines the method by which the search will be done.
@@ -353,12 +616,17 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the autocomplete data-source.
         /// </summary>
+#if NET6_0_OR_GREATER
+        [EditorRequired]
+#endif
         [Parameter]
         public IEnumerable<TItem> Data
         {
             get { return data; }
             set
             {
+                if ( data.IsEqual( value ) )
+                    return;
                 data = value;
 
                 // make sure everything is recalculated
@@ -399,11 +667,18 @@ namespace Blazorise.Components
         /// <summary>
         /// Method used to get the display field from the supplied data source.
         /// </summary>
-        [Parameter] public Func<TItem, string> TextField { get; set; }
+#if NET6_0_OR_GREATER
+        [EditorRequired]
+#endif
+        [Parameter]
+        public Func<TItem, string> TextField { get; set; }
 
         /// <summary>
         /// Method used to get the value field from the supplied data source.
         /// </summary>
+#if NET6_0_OR_GREATER
+        [EditorRequired]
+#endif
         [Parameter] public Func<TItem, TValue> ValueField { get; set; }
 
         /// <summary>
@@ -419,10 +694,6 @@ namespace Blazorise.Components
                     return;
 
                 selectedValue = value;
-
-                var item = Data != null
-                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-                    : default;
             }
         }
 
@@ -442,7 +713,7 @@ namespace Blazorise.Components
         [Parameter] public EventCallback<string> NotFound { get; set; }
 
         /// <summary>
-        /// Custom classname for dropdown element.
+        /// Custom class-name for dropdown element.
         /// </summary>
         [Parameter] public string Class { get; set; }
 
@@ -499,6 +770,46 @@ namespace Blazorise.Components
         /// Handler for custom filtering on Autocomplete's data source.
         /// </summary>
         [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
+
+        /// <summary>
+        /// Allows for multiple selection.
+        /// </summary>
+        [Parameter] public bool Multiple { get; set; }
+
+        /// <summary>
+        /// Sets the Badge color for the multiple selection values.
+        /// Used when <see cref="Multiple"/> is true.
+        /// </summary>
+        [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
+
+        /// <summary>
+        /// Currently selected items values.
+        /// Used when <see cref="Multiple"/> is true.
+        /// </summary>
+        [Parameter] public List<TValue> SelectedValues { get; set; }
+
+        /// <summary>
+        /// Occurs after the selected values have changed.
+        /// Used when <see cref="Multiple"/> is true.
+        /// </summary>
+        [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
+
+        /// <summary>
+        /// Currently selected items texts.
+        /// Used when <see cref="Multiple"/> is true.
+        /// </summary>
+        [Parameter] public List<string> SelectedTexts { get; set; }
+
+        /// <summary>
+        /// Occurs after the selected texts have changed.
+        /// Used when <see cref="Multiple"/> is true.
+        /// </summary>
+        [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
+
+        /// <summary>
+        /// Specifies the item content to be rendered inside each dropdown item.
+        /// </summary>
+        [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
 
         #endregion
     }

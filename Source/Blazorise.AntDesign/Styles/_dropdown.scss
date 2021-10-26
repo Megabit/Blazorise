@@ -44,3 +44,52 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 }
+
+.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    max-width: 100%;
+    width: 100%;
+    cursor: text;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: .25rem;
+
+    > input.ant-input {
+        display: inline-block;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        max-width: inherit;
+        width: auto;
+    }
+
+    &.focus {
+        border-color: #40a9ff;
+        border-right-width: 1px !important;
+        outline: 0;
+        -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        border-color: #40a9ff;
+    }
+}
+
+.ant-dropdown-menu-submenu.ant-dropdown-menu-submenu-vertical {
+    position: unset;
+
+    > .ant-dropdown-menu-item {
+        width: 100%;
+    }
+
+    > .ant-dropdown {
+        > .ant-dropdown-menu {
+            transform: translate(0, -32px);
+            top: 0;
+            left: 100%;
+            margin-left: .1rem;
+            margin-right: .1rem;
+        }
+    }
+}

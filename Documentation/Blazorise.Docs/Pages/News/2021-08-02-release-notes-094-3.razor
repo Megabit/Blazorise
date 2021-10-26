@@ -1,0 +1,62 @@
+﻿@page "/news/release-notes/094-3"
+
+<NewsPageTitle>
+    v0.9.3 - patch 3 release notes
+</NewsPageTitle>
+
+<NewsPageImage Source="img/news/094/v094-3.png" Text="Blazorise 0.9.4.3" />
+
+<Paragraph>
+    The time for another set of bug fixes is here.
+</Paragraph>
+
+<Paragraph>
+    One of the most critical issues was again connected to the DataGrid validation process which has proven to be very nasty to fix.
+    It took us a little longer than expected but we finally managed to do it. As a result, <Code>RecursiveObjectActivator</Code> is
+    now working quite nicely and we already see some new features that will be possible to do with it in the future :)
+</Paragraph>
+
+<Paragraph>
+    <Blazorise.Link To="https://github.com/David-Moreira">David</Blazorise.Link> was also able to do some optimization with data-annotation validations that we failed to predict before the 0.9.4 release. So all is good now I hope.
+</Paragraph>
+
+<Paragraph>
+    While not critical, the bug fixes for the other issues are still welcome and are making 0.9.4 much more stable. The complete list of all changes in this release can be seen below.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Change Log
+</NewsPageSubtitle>
+
+<NewsPageList>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2768" ToText="#2768">
+        <Code>RecursiveObjectActivator</Code> Cyclic Object Traversal
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2754" ToText="#2754">
+        Problem with Layout After Blazorise Update
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2769" ToText="#2769">
+        Dropdown toggled-event stops working the second time you open the dropdown
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2779" ToText="#2779">
+        Modal Error - Cannot read property 'style' of null at <Code>Object.resetAdjustments</Code>
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2785" ToText="#2785">
+        DataGrid begin edit
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2777" ToText="#2777">
+        Unable to display manually display validation errors using inline editor of DataGrid
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2702" ToText="#2702">
+        Modal dialog moves content
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2795" ToText="#2795">
+        Value is not recognizable for disabled radio buttons
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2784" ToText="#2784">
+        NumericEdit ValidationError doesn´t work
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/pull/2783" ToText="#2783">
+        Remove instruction to include DataGrid CSS (PR)
+    </NewsPageListItem>
+</NewsPageList>

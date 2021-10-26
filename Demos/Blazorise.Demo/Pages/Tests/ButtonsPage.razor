@@ -218,6 +218,46 @@
         </Card>
     </Column>
 </Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown Nesting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Level 1</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1.1</DropdownItem>
+                        <Dropdown>
+                            <DropdownToggle>Level 2</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 2.1</DropdownItem>
+                                <DropdownItem>Item 2.2</DropdownItem>
+                                <Dropdown>
+                                    <DropdownToggle>Level 3</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Item 3.1</DropdownItem>
+                                        <DropdownItem>Item 3.2</DropdownItem>
+                                        <Dropdown>
+                                            <DropdownToggle>Level 4</DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem>Item 4.1</DropdownItem>
+                                                <DropdownItem>Item 4.2</DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 <Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
@@ -287,7 +327,7 @@
                         <DropdownItem>Item 2</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Left" Display="Display.InlineBlock">
+                <Dropdown Direction="Direction.Start" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Secondary">Left</DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
@@ -295,7 +335,7 @@
                         <DropdownItem>Item 2</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Right" Display="Display.InlineBlock">
+                <Dropdown Direction="Direction.End" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Secondary">Right</DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
@@ -307,7 +347,7 @@
         </Card>
     </Column>
 </Row>
-@code{
+@code {
     private bool isLoading;
 
     private async Task ShowLoading()

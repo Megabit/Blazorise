@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -30,6 +31,8 @@ namespace Blazorise
         private bool fixedHeader;
 
         private string fixedHeaderTableHeight = "300px";
+
+        private string fixedHeaderTableMaxHeight = "300px";
 
         private bool resizable;
 
@@ -91,9 +94,13 @@ namespace Blazorise
         /// <param name="builder">Style builder used to append the classnames.</param>
         protected virtual void BuildContainerStyles( StyleBuilder builder )
         {
-            if ( FixedHeader && !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
+            if ( FixedHeader )
             {
-                builder.Append( $"height: {FixedHeaderTableHeight};" );
+                if ( !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
+                    builder.Append( $"height: {FixedHeaderTableHeight};" );
+
+                if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
+                    builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
             }
         }
 
@@ -120,7 +127,7 @@ namespace Blazorise
         protected virtual ValueTask InitializeTableFixedHeader()
         {
             if ( FixedHeader )
-                return JSRunner.InitializeTableFixedHeader( ElementRef, ElementId );
+                return JSModule.InitializeFixedHeader( ElementRef, ElementId );
 
             return ValueTask.CompletedTask;
         }
@@ -135,7 +142,7 @@ namespace Blazorise
             if ( resizable )
             {
                 await DestroyResizable();
-                await InitResizable();
+                await InitializeResizable();
             }
         }
 
@@ -148,7 +155,7 @@ namespace Blazorise
         {
             if ( FixedHeader )
             {
-                return JSRunner.FixedHeaderScrollTableToPixels( ElementRef, ElementId, pixels );
+                return JSModule.ScrollTableToPixels( ElementRef, ElementId, pixels );
             }
 
             return ValueTask.CompletedTask;
@@ -163,20 +170,20 @@ namespace Blazorise
         {
             if ( FixedHeader )
             {
-                return JSRunner.FixedHeaderScrollTableToRow( ElementRef, ElementId, row );
+                return JSModule.ScrollTableToRow( ElementRef, ElementId, row );
             }
 
             return ValueTask.CompletedTask;
         }
 
-        private ValueTask InitResizable()
-            => JSRunner.InitializeTableResizable( ElementRef, ElementId, ResizeMode );
+        private ValueTask InitializeResizable()
+            => JSModule.InitializeResizable( ElementRef, ElementId, ResizeMode );
 
         private ValueTask DestroyResizable()
-            => JSRunner.DestroyTableResizable( ElementRef, ElementId );
+            => JSModule.DestroyResizable( ElementRef, ElementId );
 
-        private ValueTask DestroyTableFixedHeader()
-            => JSRunner.DestroyTableFixedHeader( ElementRef, ElementId );
+        private ValueTask DestroyFixedHeader()
+            => JSModule.DestroyFixedHeader( ElementRef, ElementId );
 
         #endregion
 
@@ -206,6 +213,11 @@ namespace Blazorise
         /// True if table needs to be placed inside of container element.
         /// </summary>
         protected bool HasContainer => Responsive || FixedHeader || Resizable;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSTableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSTableModule JSModule { get; set; }
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -334,7 +346,7 @@ namespace Blazorise
                 DirtyClasses();
 
                 if ( !fixedHeader )
-                    ExecuteAfterRender( () => DestroyTableFixedHeader().AsTask() );
+                    ExecuteAfterRender( () => DestroyFixedHeader().AsTask() );
             }
         }
 
@@ -348,6 +360,22 @@ namespace Blazorise
             set
             {
                 fixedHeaderTableHeight = value;
+
+                DirtyClasses();
+                DirtyStyles();
+            }
+        }
+
+        /// <summary>
+        /// Sets the table max height when <see cref="FixedHeader"/> feature is enabled (defaults to 300px).
+        /// </summary>
+        [Parameter]
+        public string FixedHeaderTableMaxHeight
+        {
+            get => fixedHeaderTableMaxHeight;
+            set
+            {
+                fixedHeaderTableMaxHeight = value;
 
                 DirtyClasses();
                 DirtyStyles();

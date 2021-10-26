@@ -53,9 +53,9 @@ namespace Blazorise
         {
             return InvokeAsync( async () =>
             {
-                await Okayed.InvokeAsync( null );
+                await Okayed.InvokeAsync();
 
-                ModalRef.Hide();
+                await ModalRef.Hide();
             } );
         }
 
@@ -67,14 +67,14 @@ namespace Blazorise
         {
             return InvokeAsync( async () =>
             {
-                ModalRef.Hide();
+                await ModalRef.Hide();
 
                 if ( IsConfirmation && Callback != null )
                 {
                     await InvokeAsync( () => Callback.SetResult( true ) );
                 }
 
-                await Confirmed.InvokeAsync( null );
+                await Confirmed.InvokeAsync();
             } );
         }
 
@@ -86,14 +86,14 @@ namespace Blazorise
         {
             return InvokeAsync( async () =>
             {
-                ModalRef.Hide();
+                await ModalRef.Hide();
 
                 if ( IsConfirmation && Callback != null )
                 {
                     await InvokeAsync( () => Callback.SetResult( false ) );
                 }
 
-                await Canceled.InvokeAsync( null );
+                await Canceled.InvokeAsync();
             } );
         }
 
@@ -101,10 +101,12 @@ namespace Blazorise
         /// Handles the <see cref="Modal"/> closing event.
         /// </summary>
         /// <param name="eventArgs">Provides the data for the modal closing event.</param>
-        protected virtual void OnModalClosing( ModalClosingEventArgs eventArgs )
+        protected virtual Task OnModalClosing( ModalClosingEventArgs eventArgs )
         {
             eventArgs.Cancel = BackgroundCancel && ( eventArgs.CloseReason == CloseReason.EscapeClosing
                 || eventArgs.CloseReason == CloseReason.FocusLostClosing );
+
+            return Task.CompletedTask;
         }
 
         #endregion

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using Blazorise.Extensions;
 #endregion
@@ -59,7 +60,8 @@ namespace Blazorise.Utilities
                     {
                         return value;
                     }
-                    else if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
+
+                    if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
                     {
                         var list = new List<object>();
                         foreach ( var item in (IEnumerable)value )
@@ -69,14 +71,16 @@ namespace Blazorise.Utilities
 
                         return type.IsArray ? (object)list.ToArray() : list;
                     }
-                    else
-                    {
-                        var dict = ToDictionary( value, addEmptyObjects );
 
-                        if ( addEmptyObjects || dict.Count > 0 )
-                        {
-                            return dict;
-                        }
+                    if ( value is LambdaExpression lambdaExpression )
+                    {
+                        return ExpressionConverter.ToTemplatedStringLiteral( lambdaExpression );
+                    }
+
+                    var dict = ToDictionary( value, addEmptyObjects );
+                    if ( addEmptyObjects || dict.Count > 0 )
+                    {
+                        return dict;
                     }
                 }
 
@@ -203,15 +207,53 @@ namespace Blazorise.Utilities
 
         public static string FormatValue( long? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
 
-        public static string FormatValue( float value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+        public static string FormatValue( float value, CultureInfo culture = null, int? decimals = null )
+        {
+            if ( decimals != null )
+                value = (float)Math.Round( (double)value, decimals.Value, MidpointRounding.AwayFromZero );
 
-        public static string FormatValue( float? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+            return value.ToString( culture ?? CultureInfo.CurrentCulture );
+        }
 
-        public static string FormatValue( double value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+        public static string FormatValue( float? value, CultureInfo culture = null, int? decimals = null )
+        {
+            if ( value != null && decimals != null )
+                value = (float)Math.Round( (double)value.Value, decimals.Value, MidpointRounding.AwayFromZero );
 
-        public static string FormatValue( double? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+            return value?.ToString( culture ?? CultureInfo.CurrentCulture );
+        }
 
-        public static string FormatValue( decimal value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+        public static string FormatValue( double value, CultureInfo culture = null, int? decimals = null )
+        {
+            if ( decimals != null )
+                value = Math.Round( value, decimals.Value, MidpointRounding.AwayFromZero );
+
+            return value.ToString( culture ?? CultureInfo.CurrentCulture );
+        }
+
+        public static string FormatValue( double? value, CultureInfo culture = null, int? decimals = null )
+        {
+            if ( value != null && decimals != null )
+                value = Math.Round( value.Value, decimals.Value, MidpointRounding.AwayFromZero );
+
+            return value?.ToString( culture ?? CultureInfo.CurrentCulture );
+        }
+
+        public static string FormatValue( decimal value, CultureInfo culture = null, int? decimals = null )
+        {
+            if ( decimals != null )
+                value = Math.Round( value, decimals.Value, MidpointRounding.AwayFromZero );
+
+            return value.ToString( culture ?? CultureInfo.CurrentCulture );
+        }
+
+        public static string FormatValue( decimal? value, CultureInfo culture = null, int? decimals = null )
+        {
+            if ( value != null && decimals != null )
+                value = Math.Round( value.Value, decimals.Value, MidpointRounding.AwayFromZero );
+
+            return value?.ToString( culture ?? CultureInfo.CurrentCulture );
+        }
 
         public static string FormatValue( decimal? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
 

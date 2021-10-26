@@ -44,9 +44,18 @@
                             }
                             else
                             {
-                                <Button Color="Color.Link" Clicked="@SaveWithValidation">
-                                    @saveButtonString
-                                </Button>
+                                @if ( ParentDataGrid.SubmitFormOnEnter )
+                                {
+                                    <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
+                                        @saveButtonString
+                                    </Button>
+                                }
+                                else
+                                {
+                                    <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                                        @saveButtonString
+                                    </Button>
+                                }
                             }
 
                             var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
@@ -91,11 +100,7 @@ else if ( EditMode == DataGridEditMode.Inline )
                 {
                     @if ( ParentDataGrid.IsCommandVisible )
                     {
-                        <_DataGridRowCommand TItem="TItem"
-                                             Item="@Item"
-                                             EditState="DataGridEditState.Edit"
-                                             Save="@SaveWithValidation"
-                                             Column="column" />
+                        <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="column" Save="@SaveWithValidation" />
                     }
                 }
                 else if ( column.IsMultiSelectColumn )
@@ -104,12 +109,14 @@ else if ( EditMode == DataGridEditMode.Inline )
                     {
                         <TableRowCell Class="@column.CellClass?.Invoke(Item)"
                                       Style="@column.BuildCellStyle(Item)"
-                                      TextAlignment="@column.TextAlignment"></TableRowCell>
+                                      TextAlignment="@column.TextAlignment"
+                                      VerticalAlignment="@column.VerticalAlignment"
+                                      Display="@column.Display"></TableRowCell>
                     }
                 }
                 else if ( column.Displayable )
                 {
-                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment">
+                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display">
                         @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
                         {
                             <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />

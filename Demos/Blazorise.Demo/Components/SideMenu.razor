@@ -107,13 +107,142 @@
             <BarItem>
                 <BarDropdown>
                     <BarDropdownToggle>
+                        <BarIcon IconName="IconName.CompactDisc" />
+                        Datagrid
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="tests/datagrid">
+                            Configurable demo
+                        </BarDropdownItem>
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Data
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/data/in-memory">
+                                    In Memory
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/data/read-data">
+                                    From an External Source
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Virtualize
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/virtualize/in-memory">
+                                    In Memory
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/virtualize/read-data">
+                                    From an External Source
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Selection
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/selection/single">
+                                    Single
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/selection/multiple">
+                                    Multiple
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/selection/row-detail">
+                                    Row Detail
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/selection/styling">
+                                    Styling
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Editing
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/editing/commands">
+                                    Commands
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/editing/button-row">
+                                    Button Row
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/editing/update-cell">
+                                    Update Cell
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Filter
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/filter/standard">
+                                    Standard
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/filter/custom">
+                                    Custom
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/filter/column-filter">
+                                    Column Filter
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Sort
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/sort/single">
+                                    Single
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/sort/multiple">
+                                    Multiple
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/sort/field">
+                                    Custom Field
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdownItem To="tests/datagrid/aggregates">
+                            Aggregates
+                        </BarDropdownItem>
+
+                        <BarDropdownItem To="tests/datagrid/validations">
+                            Validations
+                        </BarDropdownItem>
+
+                        <BarDropdownItem To="tests/datagrid/pager">
+                            Pager
+                        </BarDropdownItem>
+
+                        <BarDropdownItem To="tests/datagrid/resize">
+                            Resize
+                        </BarDropdownItem>
+
+                        <BarDropdownItem To="tests/datagrid/fixed-header">
+                            Fixed Header
+                        </BarDropdownItem>
+
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+            <BarItem>
+                <BarDropdown Visible="true">
+                    <BarDropdownToggle>
                         <BarIcon IconName="IconName.PuzzlePiece" />
                         Extensions
                     </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem To="tests/datagrid">
-                            Data Grid
-                        </BarDropdownItem>
                         <BarDropdownItem To="tests/components">
                             Components
                         </BarDropdownItem>
@@ -159,6 +288,9 @@
                         <BarDropdownItem To="tests/utilities/layout">
                             Layout
                         </BarDropdownItem>
+                        <BarDropdownItem To="tests/utilities/position">
+                            Position
+                        </BarDropdownItem>
                         <BarDropdownItem To="tests/utilities/shadows">
                             Shadows
                         </BarDropdownItem>
@@ -190,7 +322,7 @@
         </BarEnd>
     </BarMenu>
 </Bar>
-@code{
+@code {
     private bool uiElementsVisible = true;
 
     RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;

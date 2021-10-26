@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -52,7 +53,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.DropdownToggle() );
+            builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true ) );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
@@ -75,7 +76,7 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    var task = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSClosableModule.Unregister( this );
 
                     try
                     {
@@ -84,6 +85,11 @@ namespace Blazorise
                     catch when ( task.IsCanceled )
                     {
                     }
+#if NET6_0_OR_GREATER
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+#endif
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
@@ -102,15 +108,19 @@ namespace Blazorise
         /// Handles the item onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            if ( !Disabled )
-            {
-                ParentDropdown?.Toggle();
-            }
+            if ( Disabled )
+                return;
 
-            return Clicked.InvokeAsync( null );
+            if ( ParentDropdown != null )
+                await ParentDropdown.Toggle( ElementId );
+
+            await Clicked.InvokeAsync();
         }
+
+
+
 
         /// <summary>
         /// Returns true of the parent dropdown-menu is safe to be closed.
@@ -121,7 +131,7 @@ namespace Blazorise
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( ParentDropdown?.ShouldClose ?? true && ( elementId != ElementId && ParentDropdown?.SelectedDropdownElementId != ElementId ) ) );
         }
 
         /// <summary>
@@ -131,7 +141,8 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         public Task Close( CloseReason closeReason )
         {
-            ParentDropdown?.Hide();
+            if ( ParentDropdown != null )
+                return ParentDropdown.Hide();
 
             return Task.CompletedTask;
         }
@@ -140,9 +151,10 @@ namespace Blazorise
         /// Sets focus on the input element, if it can be focused.
         /// </summary>
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        public void Focus( bool scrollToElement = true )
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
         {
-            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+            return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <summary>
@@ -157,7 +169,7 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
                 } );
             }
             else
@@ -166,7 +178,7 @@ namespace Blazorise
 
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.UnregisterClosableComponent( this );
+                    await JSClosableModule.Unregister( this );
                 } );
             }
 
@@ -219,6 +231,16 @@ namespace Blazorise
         /// </summary>
         protected string DataBoundary
             => ParentDropdown?.InResponsiveTable == true ? "window" : null;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+        /// </summary>
+        [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Gets or sets the dropdown color.

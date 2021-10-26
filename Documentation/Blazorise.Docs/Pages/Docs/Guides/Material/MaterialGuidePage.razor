@@ -1,0 +1,110 @@
+﻿@page "/docs/usage/material"
+
+<DocsPageTitle>
+    Material
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Since Material CSS is based on a Bootstrap you only need to change the CSS and JS sources. The code in
+    <Strong>Imports.razor</Strong> will stay the same as for the <Blazorise.Link To="docs/usage/bootstrap">Bootstrap provider</Blazorise.Link>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    1. NuGet packages
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        First step is to install a Material provider for Blazorise:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MaterialGuideNuget1Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        You also need to install the icon package:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MaterialGuideNuget2Example" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    2. Download CSS
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Material CSS is not available through the CDN so you must download it yourself from <Blazorise.Link To="https://djibe.github.io/material/" Target="Target.Blank">djibe</Blazorise.Link> web page.
+        After the download is finished you must extract the CSS and JS to the <Strong>wwwroot</Strong> folder inside of you Blazor project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MaterialGuideFileStructureExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    3. Source files
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        The next step is to change your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> Don't forget to remove bootstrap JS and CSS files that comes with the default Blazor project template.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSubtitle>
+    4. Using’s
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        In your main _Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MaterialGuideUsingExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    5. Registrations
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Depending on the hosting model of your Blazor project you only need to apply either step <Strong>5.a</Strong> or <Strong>5.b</Strong>.
+    You should not include both of them as that is generally not supported.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0" Target="Target.Blank">official documentation</Blazorise.Link>.
+</DocsPageParagraph>
+
+<Tabs @bind-SelectedTab="@selectedSection5">
+    <Items>
+        <Tab Name="5a" TextWeight="TextWeight.Bold">5.a Blazor WebAssembly</Tab>
+        <Tab Name="5b" TextWeight="TextWeight.Bold">5.b Blazor Server</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="5a" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="MaterialGuideRegistration1Example" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="5b" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="MaterialGuideRegistration2Example" />
+            </DocsPageSection>
+        </TabPanel>
+    </Content>
+</Tabs>
+@code{
+    string selectedSection5 = "5a";
+}

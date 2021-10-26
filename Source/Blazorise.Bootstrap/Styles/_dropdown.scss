@@ -21,3 +21,57 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 }
+
+.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    max-width: 100%;
+    width: 100%;
+    cursor: text;
+    line-height: 1.5;
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+
+    > input.form-control {
+        display: inline-block;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        max-width: inherit;
+        width: auto;
+    }
+
+    @include form-control-focus
+}
+
+.dropdown {
+    > .dropdown-menu {
+        > .dropdown {
+            position: relative;
+
+            &::after {
+                transform: rotate(-90deg);
+                position: absolute;
+                right: 6px;
+                top: .8em;
+            }
+
+            > .dropdown-toggle {
+                width: 100%;
+
+                &::after {
+                    transform: rotate(-90deg);
+                    position: absolute;
+                    right: 10%;
+                    top: 45%;
+                }
+            }
+
+            > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-left: 0rem;
+                margin-right: .1rem;
+            }
+        }
+    }
+}

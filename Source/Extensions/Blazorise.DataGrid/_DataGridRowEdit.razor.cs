@@ -50,14 +50,12 @@ namespace Blazorise.DataGrid
             InvokeAsync( StateHasChanged );
         }
 
-        protected Task SaveWithValidation()
+        protected async Task SaveWithValidation()
         {
-            validations.ValidateAll();
-
-            if ( !isInvalid )
-                return ParentDataGrid.Save();
-
-            return Task.CompletedTask;
+            if ( await validations.ValidateAll() )
+            {
+                await ParentDataGrid.Save();
+            }
         }
 
         #endregion

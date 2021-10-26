@@ -1,6 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.Providers;
 using Blazorise.Themes;
 using Blazorise.Utilities;
@@ -27,32 +30,80 @@ namespace Blazorise
             serviceCollection.Replace( ServiceDescriptor.Transient<IComponentActivator, ComponentActivator>() );
 
             // If options handler is not defined we will get an exception so
-            // we need to initialize and empty action.
+            // we need to initialize an empty action.
             configureOptions ??= _ => { };
 
             serviceCollection.AddSingleton( configureOptions );
             serviceCollection.AddSingleton<BlazoriseOptions>();
-
+            serviceCollection.AddSingleton<IVersionProvider, VersionProvider>();
             serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
             serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
-            serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
-
-            serviceCollection.AddScoped<ITextLocalizerService, TextLocalizerService>();
-            serviceCollection.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
-
-            serviceCollection.AddScoped<IValidationHandlerFactory, ValidationHandlerFactory>();
-            serviceCollection.AddScoped<ValidatorValidationHandler>();
-            serviceCollection.AddScoped<PatternValidationHandler>();
-            serviceCollection.AddScoped<DataAnnotationValidationHandler>();
-            serviceCollection.AddScoped<IMessageService, MessageService>();
-            serviceCollection.AddScoped<INotificationService, NotificationService>();
-            serviceCollection.AddScoped<IPageProgressService, PageProgressService>();
-
             serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+
+            foreach ( var mapping in LocalizationMap
+                .Concat( ValidationMap )
+                .Concat( ServiceMap )
+                .Concat( JSModuleMap ) )
+            {
+
+                serviceCollection.AddScoped( mapping.Key, mapping.Value );
+            }
 
             return serviceCollection;
         }
+
+        /// <summary>
+        /// Gets the list of localization services that are ready for DI registration.
+        /// </summary>
+        public static IDictionary<Type, Type> LocalizationMap => new Dictionary<Type, Type>
+        {
+            { typeof( ITextLocalizerService ), typeof( TextLocalizerService ) },
+            { typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) },
+        };
+
+        /// <summary>
+        /// Gets the list of validation handlers and services that are ready for DI registration.
+        /// </summary>
+        public static IDictionary<Type, Type> ValidationMap => new Dictionary<Type, Type>
+        {
+            { typeof( IEditContextValidator ), typeof( EditContextValidator ) },
+            { typeof( IValidationHandlerFactory ), typeof( ValidationHandlerFactory ) },
+            { typeof( ValidatorValidationHandler ), typeof( ValidatorValidationHandler ) },
+            { typeof( PatternValidationHandler ), typeof( PatternValidationHandler ) },
+            { typeof( DataAnnotationValidationHandler ), typeof( DataAnnotationValidationHandler ) },
+        };
+
+        /// <summary>
+        /// Gets the list of services that are ready for DI registration.
+        /// </summary>
+        public static IDictionary<Type, Type> ServiceMap => new Dictionary<Type, Type>
+        {
+            { typeof( IMessageService ), typeof( MessageService ) },
+            { typeof( INotificationService ), typeof( NotificationService ) },
+            { typeof( IPageProgressService ), typeof( PageProgressService ) },
+        };
+
+        /// <summary>
+        /// Gets the list of JS modules that are ready for DI registration.
+        /// </summary>
+        public static IDictionary<Type, Type> JSModuleMap => new Dictionary<Type, Type>
+        {
+            { typeof( IJSUtilitiesModule ), typeof( JSUtilitiesModule ) },
+            { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
+            { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
+            { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
+            { typeof( IJSTextEditModule ), typeof( JSTextEditModule ) },
+            { typeof( IJSMemoEditModule ), typeof( JSMemoEditModule ) },
+            { typeof( IJSNumericEditModule ), typeof( JSNumericEditModule ) },
+            { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
+            { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },
+            { typeof( IJSColorPickerModule ), typeof( JSColorPickerModule ) },
+            { typeof( IJSFileEditModule ), typeof( JSFileEditModule ) },
+            { typeof( IJSFileModule ), typeof( JSFileModule ) },
+            { typeof( IJSTableModule ), typeof( JSTableModule ) },
+            { typeof( IJSSelectModule ), typeof( JSSelectModule ) },
+        };
 
         /// <summary>
         /// Registers an empty providers.
@@ -66,8 +117,6 @@ namespace Blazorise
         {
             serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
-
-            serviceCollection.AddScoped<IJSRunner, EmptyJSRunner>();
 
             return serviceCollection;
         }
@@ -94,19 +143,6 @@ namespace Blazorise
         public static IServiceCollection AddStyleProvider( this IServiceCollection serviceCollection, Func<IStyleProvider> styleProviderFactory )
         {
             serviceCollection.AddSingleton( ( p ) => styleProviderFactory() );
-
-            return serviceCollection;
-        }
-
-        /// <summary>
-        /// Registers a custom js runner.
-        /// </summary>
-        /// <param name="serviceCollection"></param>
-        /// <param name="jsRunnerFactory"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddJSRunner( this IServiceCollection serviceCollection, Func<IJSRunner> jsRunnerFactory )
-        {
-            serviceCollection.AddScoped( ( p ) => jsRunnerFactory() );
 
             return serviceCollection;
         }

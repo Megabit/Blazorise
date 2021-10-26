@@ -23,6 +23,8 @@ namespace Blazorise
             NestedIndex = 1
         };
 
+        private BarDropdown childBarDropdown;
+
         #endregion
 
         #region Methods
@@ -30,7 +32,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdown( State.Mode ) );
+            builder.Append( ClassProvider.BarDropdown( State.Mode, IsBarDropdownSubmenu ) );
             builder.Append( ClassProvider.BarDropdownShow( State.Mode ), State.Visible );
 
             base.BuildClasses( builder );
@@ -39,10 +41,18 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
-            // link to the parent component
             ParentBarItem?.NotifyBarDropdownInitialized( this );
+            ParentBarDropdown?.NotifyChildDropdownInitialized( this );
 
             return base.OnInitializedAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnAfterRender( bool firstRender )
+        {
+            WasJustToggled = false;
+
+            base.OnAfterRender( firstRender );
         }
 
         /// <inheritdoc/>
@@ -61,70 +71,134 @@ namespace Blazorise
         /// <summary>
         /// Shows the dropdown menu.
         /// </summary>
-        internal void Show()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Show()
         {
             if ( Visible )
-                return;
+                return Task.CompletedTask;
 
             Visible = true;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Hides the dropdown menu.
         /// </summary>
-        internal void Hide()
+        /// <param name="hideAll">Indicates if we need to hide current dropdown menu and all its parent dropdown menus.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Hide( bool hideAll = false )
         {
             if ( !Visible )
                 return;
 
+            if ( ParentBarDropdown is not null && ( ParentBarDropdown.ShouldClose || hideAll ) )
+                await ParentBarDropdown.Hide( hideAll );
+
             Visible = false;
 
-            InvokeAsync( StateHasChanged );
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
         /// Toggles the visibility of the dropdown menu.
         /// </summary>
-        internal void Toggle()
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Toggle( string dropdownToggleElementId )
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
             // This will be handled by mouse over actions below.
             if ( ParentBarItemState != null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
-                return;
+                return Task.CompletedTask;
+
+            SetWasJustToggled( true );
+            SetSelectedDropdownElementId( dropdownToggleElementId );
 
             Visible = !Visible;
 
-            InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
+        /// Sets the WasToggled Flag on the current Dropdown and every existing ParentDropdown.
+        /// </summary>
+        /// <param name="wasToggled"></param>
+        internal void SetWasJustToggled( bool wasToggled )
+        {
+            WasJustToggled = wasToggled;
+            ParentBarDropdown?.SetWasJustToggled( wasToggled );
+        }
+
+        /// <summary>
+        /// Sets Selected Dropdown Toggle ElementId
+        /// </summary>
+        /// <param name="dropdownToggleElementId"></param>
+        internal void SetSelectedDropdownElementId( string dropdownToggleElementId )
+        {
+            SelectedBarDropdownElementId = dropdownToggleElementId;
+            if ( ParentBarDropdown is not null )
+                ParentBarDropdown.SetSelectedDropdownElementId( dropdownToggleElementId );
         }
 
         /// <summary>
         /// Handles the onmouseenter event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task OnMouseEnter()
+        public Task OnMouseEnterHandler()
         {
+            ShouldClose = false;
+
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return Task.CompletedTask;
 
-            Show();
-
-            return Task.CompletedTask;
+            return Show();
         }
 
         /// <summary>
         /// Handles the onmouseleave event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task OnMouseLeave()
+        public Task OnMouseLeaveHandler()
         {
+            ShouldClose = true;
+
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return Task.CompletedTask;
 
-            Hide();
+            return Hide();
+        }
 
-            return Task.CompletedTask;
+        /// <summary>
+        /// Notifies the <see cref="BarDropdown"/> that it has a child BarDropdown component.
+        /// </summary>
+        /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
+        internal void NotifyChildDropdownInitialized( BarDropdown barDropdown )
+        {
+            if ( childBarDropdown == null )
+                childBarDropdown = barDropdown;
+        }
+
+        /// <summary>
+        /// Notifies the <see cref="BarDropdown"/> that it's a child BarDropdown component should be removed.
+        /// </summary>
+        /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
+        internal void NotifyChildDropdownRemoved( BarDropdown barDropdown )
+        {
+            childBarDropdown = null;
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentBarDropdown != null )
+                {
+                    ParentBarDropdown.NotifyChildDropdownRemoved( this );
+                }
+            }
+
+            base.Dispose( disposing );
         }
 
         #endregion
@@ -135,14 +209,39 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
+        /// Keeps track whether the Dropdown is in a state where it should close.
+        /// </summary>
+        internal bool ShouldClose { get; set; } = false;
+
+        /// <summary>
+        /// Keeps track whether the Dropdown was just toggled, ignoring possible DropdownItem clicks which would otherwise close the dropdown.
+        /// </summary>
+        internal bool WasJustToggled { get; set; } = false;
+
+        /// <summary>
         /// Gets the reference to the state object for this <see cref="BarDropdown"/> component.
         /// </summary>
         protected BarDropdownState State => state;
 
         /// <summary>
+        /// Returns true if the BarDropdown is placed inside of another BarDropdown.
+        /// </summary>
+        protected internal bool IsBarDropdownSubmenu => ParentBarDropdown != null;
+
+        /// <summary>
+        /// Returns true if this BarDropdown contains any child BarDropdown.
+        /// </summary>
+        protected internal bool HasSubmenu => childBarDropdown != null;
+
+        /// <summary>
         /// Gets the <see cref="Visible"/> flag represented as a string.
         /// </summary>
         protected string VisibleString => State.Visible.ToString().ToLower();
+
+        /// <summary>
+        /// Tracks the last BarDropdownToggle Element Id that acted.
+        /// </summary>
+        public string SelectedBarDropdownElementId { get; set; }
 
         /// <summary>
         /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
@@ -217,6 +316,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the cascaded parent BarDropdown component.
+        /// </summary>
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.

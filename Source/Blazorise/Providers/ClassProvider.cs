@@ -86,6 +86,38 @@ namespace Blazorise
 
         #endregion
 
+        #region DatePicker
+
+        public abstract string DatePicker( bool plaintext );
+
+        public abstract string DatePickerSize( Size size );
+
+        public abstract string DatePickerColor( Color color );
+
+        public abstract string DatePickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region TimePicker
+
+        public abstract string TimePicker( bool plaintext );
+
+        public abstract string TimePickerSize( Size size );
+
+        public abstract string TimePickerColor( Color color );
+
+        public abstract string TimePickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region ColorPicker
+
+        public abstract string ColorPicker();
+
+        public abstract string ColorPickerSize( Size size );
+
+        #endregion
+
         #region Check
 
         public abstract string Check();
@@ -238,9 +270,7 @@ namespace Blazorise
 
         #region FieldLabel
 
-        public abstract string FieldLabel();
-
-        public abstract string FieldLabelHorizontal();
+        public abstract string FieldLabel( bool horizontal );
 
         #endregion
 
@@ -328,7 +358,7 @@ namespace Blazorise
 
         #region Dropdown
 
-        public abstract string Dropdown();
+        public abstract string Dropdown( bool isDropdownSubmenu );
 
         public abstract string DropdownGroup();
 
@@ -354,7 +384,7 @@ namespace Blazorise
 
         public abstract string DropdownMenuRight();
 
-        public abstract string DropdownToggle();
+        public abstract string DropdownToggle( bool isDropdownSubmenu );
 
         public abstract string DropdownToggleColor( Color color );
 
@@ -550,7 +580,7 @@ namespace Blazorise
 
         #region Container
 
-        public abstract string Container();
+        public abstract string Container( Breakpoint breakpoint );
 
         public abstract string ContainerFluid();
 
@@ -560,6 +590,8 @@ namespace Blazorise
 
         public abstract string Bar();
 
+        public abstract string BarInitial( bool initial );
+
         public abstract string BarAlignment( Alignment alignment );
 
         public abstract string BarThemeContrast( ThemeContrast themeContrast );
@@ -568,7 +600,7 @@ namespace Blazorise
 
         public abstract string BarMode( BarMode mode );
 
-        public abstract string BarItem( BarMode mode );
+        public abstract string BarItem( BarMode mode, bool hasDropdown );
 
         public abstract string BarItemActive( BarMode mode );
 
@@ -600,11 +632,11 @@ namespace Blazorise
 
         //public abstract string BarHasDropdown();
 
-        public abstract string BarDropdown( BarMode mode );
+        public abstract string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
         public abstract string BarDropdownShow( BarMode mode );
 
-        public abstract string BarDropdownToggle( BarMode mode );
+        public abstract string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
         public abstract string BarDropdownItem( BarMode mode );
 
@@ -634,17 +666,17 @@ namespace Blazorise
 
         #region Collapse
 
-        public abstract string Collapse();
+        public abstract string Collapse( bool accordion );
 
-        public abstract string CollapseActive( bool active );
+        public abstract string CollapseActive( bool accordion, bool active );
 
-        public abstract string CollapseHeader();
+        public abstract string CollapseHeader( bool accordion );
 
-        public abstract string CollapseBody();
+        public abstract string CollapseBody( bool accordion );
 
-        public abstract string CollapseBodyActive( bool active );
+        public abstract string CollapseBodyActive( bool accordion, bool active );
 
-        public abstract string CollapseBodyContent();
+        public abstract string CollapseBodyContent( bool accordion );
 
         #endregion
 
@@ -792,14 +824,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Title
-
-        public abstract string Title();
-
-        public abstract string TitleSize( int size );
-
-        #endregion
-
         #region Table
 
         public abstract string Table();
@@ -903,6 +927,14 @@ namespace Blazorise
         public abstract string Paragraph();
 
         public abstract string ParagraphColor( TextColor textColor );
+
+        #endregion
+
+        #region Blockquote
+
+        public abstract string Blockquote();
+
+        public abstract string BlockquoteFooter();
 
         #endregion
 
@@ -1019,6 +1051,8 @@ namespace Blazorise
 
         public virtual string Float( Float @float ) => $"float-{ToFloat( @float )}";
 
+        public virtual string Clearfix() => "clearfix";
+
         #endregion
 
         #region Visibility
@@ -1041,13 +1075,41 @@ namespace Blazorise
 
         #region Overflow
 
-        public abstract string Overflow( Overflow overflow );
+        public abstract string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
+
+        #endregion
+
+        #region Position
+
+        public abstract string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
+
+        public abstract string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
 
         #endregion
 
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
+
+        #endregion
+
+        #region Elements
+
+        public abstract string UnorderedList();
+
+        public abstract string UnorderedListUnstyled( bool unstyled );
+
+        public abstract string OrderedList();
+
+        public abstract string OrderedListUnstyled( bool unstyled );
+
+        public abstract string OrderedListType( OrderedListType orderedListType );
+
+        public abstract string DescriptionList();
+
+        public abstract string DescriptionListTerm();
+
+        public abstract string DescriptionListDefinition();
 
         #endregion
 
@@ -1149,8 +1211,8 @@ namespace Blazorise
         {
             return @float switch
             {
-                Blazorise.Float.Left => "left",
-                Blazorise.Float.Right => "right",
+                Blazorise.Float.Left or Blazorise.Float.Start => "left",
+                Blazorise.Float.Right or Blazorise.Float.End => "right",
                 _ => null,
             };
         }
@@ -1187,8 +1249,8 @@ namespace Blazorise
             {
                 Blazorise.Side.Top => "t",
                 Blazorise.Side.Bottom => "b",
-                Blazorise.Side.Left => "l",
-                Blazorise.Side.Right => "r",
+                Blazorise.Side.Left or Blazorise.Side.Start => "l",
+                Blazorise.Side.Right or Blazorise.Side.End => "r",
                 Blazorise.Side.X => "x",
                 Blazorise.Side.Y => "y",
                 _ => null,
@@ -1210,9 +1272,9 @@ namespace Blazorise
         {
             return textAlignment switch
             {
-                Blazorise.TextAlignment.Left => "left",
+                Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "left",
                 Blazorise.TextAlignment.Center => "center",
-                Blazorise.TextAlignment.Right => "right",
+                Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "right",
                 Blazorise.TextAlignment.Justified => "justify",
                 _ => null,
             };
@@ -1412,18 +1474,18 @@ namespace Blazorise
             };
         }
 
-        public string ToPlacement( Placement placement )
+        public virtual string ToPlacement( Placement placement )
         {
             return placement switch
             {
                 Blazorise.Placement.Bottom => "bottom",
-                Blazorise.Placement.Left => "left",
-                Blazorise.Placement.Right => "right",
+                Blazorise.Placement.Left or Blazorise.Placement.Start => "left",
+                Blazorise.Placement.Right or Blazorise.Placement.End => "right",
                 _ => "top",
             };
         }
 
-        public string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
+        public virtual string ToTooltipPlacement( TooltipPlacement tooltipPlacement )
         {
             return tooltipPlacement switch
             {
@@ -1716,14 +1778,62 @@ namespace Blazorise
             };
         }
 
-        public virtual string ToOverflow( Overflow overflow )
+        public virtual string ToOrderedListType( OrderedListType orderedListType )
         {
-            return overflow switch
+            return orderedListType switch
             {
-                Blazorise.Overflow.Visible => "visible",
-                Blazorise.Overflow.Hidden => "hidden",
-                Blazorise.Overflow.Scroll => "scroll",
-                Blazorise.Overflow.Auto => "auto",
+                Blazorise.OrderedListType.LowerAlpha => "lower-alpha",
+                Blazorise.OrderedListType.LowerRoman => "lower-roman",
+                Blazorise.OrderedListType.UpperAlpha => "upper-alpha",
+                Blazorise.OrderedListType.UpperRoman => "upper-roman",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOverflowType( OverflowType overflowType )
+        {
+            return overflowType switch
+            {
+                Blazorise.OverflowType.Visible => "visible",
+                Blazorise.OverflowType.Hidden => "hidden",
+                Blazorise.OverflowType.Scroll => "scroll",
+                Blazorise.OverflowType.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToPositionType( PositionType positionType )
+        {
+            return positionType switch
+            {
+                Blazorise.PositionType.Static => "static",
+                Blazorise.PositionType.Relative => "relative",
+                Blazorise.PositionType.Absolute => "absolute",
+                Blazorise.PositionType.Fixed => "fixed",
+                Blazorise.PositionType.Sticky => "sticky",
+                _ => null,
+            };
+        }
+
+        public virtual string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+        {
+            return positionEdgeType switch
+            {
+                Blazorise.PositionEdgeType.Top => "top",
+                Blazorise.PositionEdgeType.Start => "left",
+                Blazorise.PositionEdgeType.Bottom => "bottom",
+                Blazorise.PositionEdgeType.End => "right",
+                _ => null,
+            };
+        }
+
+        public virtual string ToPositionTranslateType( PositionTranslateType positionTranslateType )
+        {
+            return positionTranslateType switch
+            {
+                Blazorise.PositionTranslateType.Middle => "middle",
+                Blazorise.PositionTranslateType.MiddleX => "middle-x",
+                Blazorise.PositionTranslateType.MiddleY => "middle-y",
                 _ => null,
             };
         }

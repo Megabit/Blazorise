@@ -10,7 +10,7 @@ else
 
     @if ( UseValidation )
     {
-        <Validation HandlerType="@ValidationHandlerType" Validator="@Validator" UsePattern="@HasValidationPattern">
+        <Validation HandlerType="@ValidationHandlerType" Validator="@Validator" AsyncValidator="@AsyncValidator" UsePattern="@HasValidationPattern">
             @if ( Column is DataGridNumericColumn<TItem> numericColumn )
             {
                 <_DataGridCellEditValidation Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" ValidationPattern="@ValidationPattern" Step="@numericColumn.Step" Decimals="@numericColumn.Decimals" DecimalsSeparator="@numericColumn.DecimalsSeparator" Culture="@numericColumn.Culture" ShowStepButtons="@numericColumn.ShowStepButtons" EnableStep="@numericColumn.EnableStep" />

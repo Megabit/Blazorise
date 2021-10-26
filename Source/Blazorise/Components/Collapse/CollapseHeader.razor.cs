@@ -20,7 +20,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CollapseHeader() );
+            builder.Append( ClassProvider.CollapseHeader( ParentCollapse?.InsideAccordion == true ) );
 
             base.BuildClasses( builder );
         }
@@ -29,11 +29,12 @@ namespace Blazorise
         /// Handles the header onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected async Task ClickHandler()
         {
-            ParentCollapse.Toggle();
+            if ( ParentCollapse != null )
+                await ParentCollapse.Toggle();
 
-            return Clicked.InvokeAsync( null );
+            await Clicked.InvokeAsync();
         }
 
         #endregion
@@ -53,7 +54,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the reference to the parent <see cref="Collapse"/> component.
         /// </summary>
-        [CascadingParameter] protected Collapse ParentCollapse { get; set; }
+        [CascadingParameter] public Collapse ParentCollapse { get; set; }
 
         #endregion
     }

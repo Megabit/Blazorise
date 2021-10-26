@@ -10,6 +10,8 @@ namespace Blazorise.Tests.Components
         public ComponentRenderingTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
         }
 
         [Fact]
@@ -37,6 +39,7 @@ namespace Blazorise.Tests.Components
             var comp = RenderComponent<ButtonOnlyComponent>();
 
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Contains( buttonOpen, comp.Markup );
             Assert.Contains( buttonClose, comp.Markup );
             Assert.Contains( buttonType, comp.Markup );
@@ -58,6 +61,7 @@ namespace Blazorise.Tests.Components
             button.Click();
 
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Equal( before, date.GetAttribute( "id" ) );
         }
     }

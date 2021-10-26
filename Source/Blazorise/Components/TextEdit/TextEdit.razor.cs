@@ -3,6 +3,7 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -43,7 +44,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected async override Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeTextEdit( ElementRef, ElementId, MaskType.ToMaskTypeString(), EditMask );
+            await JSModule.Initialize( ElementRef, ElementId, MaskType.ToMaskTypeString(), EditMask );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -53,15 +54,7 @@ namespace Blazorise
         {
             if ( disposing && Rendered )
             {
-                var task = JSRunner.DestroyTextEdit( ElementRef, ElementId );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
             await base.DisposeAsync( disposing );
@@ -109,6 +102,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override string DefaultValue => string.Empty;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSTextEditModule"/> instance.
+        /// </summary>
+        [Inject] public IJSTextEditModule JSModule { get; set; }
 
         /// <summary>
         /// Defines the role of the input text.

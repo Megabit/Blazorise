@@ -3,7 +3,7 @@
     /// <summary>
     /// Static names of all supported anchor points.
     /// </summary>
-    public static class Anchor
+    public static class AnchorSide
     {
         public static string TopBottom => "top-bottom";
         public static string TopCenter => "top-center";

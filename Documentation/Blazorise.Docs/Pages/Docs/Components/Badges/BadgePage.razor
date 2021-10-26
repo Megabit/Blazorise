@@ -1,0 +1,62 @@
+﻿@page "/docs/components/badge"
+
+<DocsPageTitle>
+    Badge component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Small and adaptive tag for adding context to just about any content.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Simply set the <Code>Color</Code> attribute and you’re good to go.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicBadgeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicBadgeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Contextual variations">
+        Add any of the following variants via the <Code>Color</Code> parameter to change the appearance of a <Code>Badge</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BadgeColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BadgeColorsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With close button">
+        To enable close button you only need to define the <Code>CloseClicked</Code> event. Blazorise will automatically pickup and show close button.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <CloseBadgeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CloseBadgeExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Pill" Type="bool" Default="false">
+        Makes badges more rounded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Link" Type="bool" Default="null">
+        Create a badge link and provide actionable badges with hover and focus states.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="None">
+        Component visual or contextual style variants.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CloseClicked" Type="EventCallback">
+        Occurs on close button click.
+    </DocsAttributesItem>
+</DocsAttributes>

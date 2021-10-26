@@ -1,0 +1,126 @@
+﻿@page "/tests/utilities/position"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Arrange elements</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Arrange elements easily with the edge positioning utilities. The format is <code>{Property}.Is{Position}</code>.
+                </Paragraph>
+                <Paragraph>
+                    Where property is one of:
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem><code>Top</code> - for the vertical <code>top</code> position</UnorderedListItem>
+                    <UnorderedListItem><code>Left</code> - for the horizontal <code>left</code> position</UnorderedListItem>
+                    <UnorderedListItem><code>Bottom</code> - for the vertical <code>bottom</code> position</UnorderedListItem>
+                    <UnorderedListItem><code>Right</code> - for the horizontal <code>right</code> position</UnorderedListItem>
+                </UnorderedList>
+                <Paragraph>
+                    Where position is one of:
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem><code>0</code> - for the <code>0</code> position</UnorderedListItem>
+                    <UnorderedListItem><code>50</code> - for the <code>50%</code> position</UnorderedListItem>
+                    <UnorderedListItem><code>100</code> - for the <code>100%</code> position</UnorderedListItem>
+                </UnorderedList>
+            </CardBody>
+            <CardBody>
+                <Div Class="b-example b-example-position-utils">
+                    <Div Position="Position.Relative">
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is0"></Div>
+                        <Div Position="Position.Absolute.Top.Is0.End.Is0"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.Start.Is50"></Div>
+                        <Div Position="Position.Absolute.Bottom.Is50.End.Is50"></Div>
+                        <Div Position="Position.Absolute.Bottom.Is0.Start.Is0"></Div>
+                        <Div Position="Position.Absolute.Bottom.Is0.End.Is0"></Div>
+                    </Div>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Center elements</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    In addition, you can also center the elements with the transform utility class <code>Translate.Middle</code>.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Class="b-example b-example-position-utils">
+                    <Div Position="Position.Relative">
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is0.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is50.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.Start.Is0.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.Start.Is100.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is100.Start.Is0.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is100.Start.Is50.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is100.Start.Is100.Translate.Middle"></Div>
+                    </Div>
+                </Div>
+            </CardBody>
+            <CardBody>
+                <Paragraph>
+                    By adding <code>.Translate.MiddleX</code> or <code>.Translate.MiddleY</code> classes,
+                    elements can be positioned only in horizontal or vertical direction.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Class="b-example b-example-position-utils">
+                    <Div Position="Position.Relative">
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is0"></Div>
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is50.Translate.MiddleX"></Div>
+                        <Div Position="Position.Absolute.Top.Is0.End.Is0"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.Start.Is0.Translate.MiddleY"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.Start.Is50.Translate.Middle"></Div>
+                        <Div Position="Position.Absolute.Top.Is50.End.Is0.Translate.MiddleY"></Div>
+                        <Div Position="Position.Absolute.Bottom.Is0.Start.Is0"></Div>
+                        <Div Position="Position.Absolute.Bottom.Is0.Start.Is50.Translate.MiddleX"></Div>
+                        <Div Position="Position.Absolute.Bottom.Is0.End.Is0"></Div>
+                    </Div>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Examples</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Here are some real life examples of these classes:
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Class="b-example" Flex="Flex.JustifyContent.Around">
+                    <Button Color="Color.Primary" Position="Position.Relative">
+                        Mails
+                        <Badge Color="Color.Secondary" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle">
+                            +99
+                        </Badge>
+                    </Button>
+                    <Button Color="Color.Primary" Position="Position.Relative">
+                        Alerts
+                        <Badge Color="Color.Danger" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle" Border="Border.Light.OnAll.RoundedCircle" Padding="Padding.Is2">
+                            <Span Visibility="Visibility.Invisible" Position="Position.Absolute">unread messages</Span>
+                        </Badge>
+                    </Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

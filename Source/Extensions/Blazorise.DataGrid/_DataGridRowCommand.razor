@@ -4,7 +4,7 @@
 {
     @if ( EditState == DataGridEditState.Edit )
     {
-        <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment">
+        <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display">
             @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
             {
                 var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
@@ -20,9 +20,18 @@
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@Save">
-                        @saveButtonString
-                    </Button>
+                    @if ( ParentDataGrid.SubmitFormOnEnter )
+                    {
+                        <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
+                            @saveButtonString
+                        </Button>
+                    }
+                    else
+                    {
+                        <Button Color="Color.Link" Clicked="@Save">
+                            @saveButtonString
+                        </Button>
+                    }
                 }
             }
             @if ( ParentDataGrid.CommandColumn?.CancelCommandAllowed == true )
@@ -49,7 +58,7 @@
     }
     else if ( EditState == DataGridEditState.None )
     {
-        <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment">
+        <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display">
             @if ( ParentDataGrid.CommandColumn?.EditCommandAllowed == true )
             {
                 var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );

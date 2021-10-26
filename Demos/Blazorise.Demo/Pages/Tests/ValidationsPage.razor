@@ -39,7 +39,7 @@
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@password">
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@passwordAuto">
                                     <Feedback>
                                         <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                     </Feedback>
@@ -47,7 +47,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation Validator="@ValidatePassword2">
+                    <Validation Validator="@ValidatePassword2Auto">
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
@@ -165,7 +165,7 @@
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@password">
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@passwordManual">
                                     <Feedback>
                                         <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                     </Feedback>
@@ -173,7 +173,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation Validator="@ValidatePassword2">
+                    <Validation Validator="@ValidatePassword2Manual">
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
@@ -519,7 +519,8 @@
     User user = new();
     User manualUser = new();
 
-    string password;
+    string passwordAuto;
+    string passwordManual;
 
     Random random = new();
 
@@ -539,7 +540,7 @@
         e.Status = Convert.ToString( e.Value )?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidatePassword2( ValidatorEventArgs e )
+    void ValidatePassword2Auto( ValidatorEventArgs e )
     {
         var password2 = Convert.ToString( e.Value );
 
@@ -548,7 +549,26 @@
             e.Status = ValidationStatus.Error;
             e.ErrorText = "Password must be at least 6 characters long!";
         }
-        else if ( password2 != password )
+        else if ( password2 != passwordAuto )
+        {
+            e.Status = ValidationStatus.Error;
+        }
+        else
+        {
+            e.Status = ValidationStatus.Success;
+        }
+    }
+
+    void ValidatePassword2Manual( ValidatorEventArgs e )
+    {
+        var password2 = Convert.ToString( e.Value );
+
+        if ( password2?.Length < 6 )
+        {
+            e.Status = ValidationStatus.Error;
+            e.ErrorText = "Password must be at least 6 characters long!";
+        }
+        else if ( password2 != passwordManual )
         {
             e.Status = ValidationStatus.Error;
         }
@@ -588,38 +608,34 @@
         }
     }
 
-    void Submit()
+    async Task Submit()
     {
-        if ( validations.ValidateAll() )
+        if ( await validations.ValidateAll() )
         {
-            validations.ClearAll();
+            await validations.ClearAll();
         }
     }
 
-    void AnnotationsSubmit()
+    async Task AnnotationsSubmit()
     {
-        if ( annotationsValidations.ValidateAll() )
+        if ( await annotationsValidations.ValidateAll() )
         {
-            annotationsValidations.ClearAll();
+            await annotationsValidations.ClearAll();
         }
     }
 
-    Task OpenUserModal()
+    async Task OpenUserModal()
     {
         // re-initiate model will be act as a "first load" for validations inside of modal dialog
         modalUser = new();
 
-        modalValidations.ClearAll();
+        await modalValidations.ClearAll();
 
-        modalRef.Show();
-
-        return Task.CompletedTask;
+        await modalRef.Show();
     }
 
     Task CloseUserModal()
     {
-        modalRef.Hide();
-
-        return Task.CompletedTask;
+        return modalRef.Hide();
     }
 }

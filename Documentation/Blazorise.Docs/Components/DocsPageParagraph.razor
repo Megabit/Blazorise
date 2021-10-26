@@ -1,0 +1,15 @@
+﻿@if ( Title != null )
+{
+    <Heading Class="docs-page-attributes-title" Size="HeadingSize.Is3">
+        @Title
+    </Heading>
+}
+
+<Paragraph Class="docs-page-paragraph">
+    @ChildContent
+</Paragraph>
+@code {
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

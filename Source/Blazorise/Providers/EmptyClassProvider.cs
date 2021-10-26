@@ -87,6 +87,38 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region DatePicker
+
+        public string DatePicker( bool plaintext ) => null;
+
+        public string DatePickerSize( Size size ) => null;
+
+        public string DatePickerColor( Color color ) => null;
+
+        public string DatePickerValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region TimePicker
+
+        public string TimePicker( bool plaintext ) => null;
+
+        public string TimePickerSize( Size size ) => null;
+
+        public string TimePickerColor( Color color ) => null;
+
+        public string TimePickerValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region ColorPicker
+
+        public string ColorPicker() => null;
+
+        public string ColorPickerSize( Size size ) => null;
+
+        #endregion
+
         #region Check
 
         public string Check() => null;
@@ -239,9 +271,7 @@ namespace Blazorise.Providers
 
         #region FieldLabel
 
-        public string FieldLabel() => null;
-
-        public string FieldLabelHorizontal() => null;
+        public string FieldLabel( bool horizontal ) => null;
 
         #endregion
 
@@ -329,7 +359,7 @@ namespace Blazorise.Providers
 
         #region Dropdown
 
-        public string Dropdown() => null;
+        public string Dropdown( bool isDropdownSubmenu ) => null;
 
         public string DropdownGroup() => null;
 
@@ -355,7 +385,7 @@ namespace Blazorise.Providers
 
         public string DropdownMenuRight() => null;
 
-        public string DropdownToggle() => null;
+        public string DropdownToggle( bool isDropdownSubmenu ) => null;
 
         public string DropdownToggleColor( Color color ) => null;
 
@@ -553,7 +583,7 @@ namespace Blazorise.Providers
 
         #region Container
 
-        public string Container() => null;
+        public string Container( Breakpoint breakpoint ) => null;
 
         public string ContainerFluid() => null;
 
@@ -563,6 +593,8 @@ namespace Blazorise.Providers
 
         public string Bar() => null;
 
+        public string BarInitial( bool initial ) => null;
+
         public string BarAlignment( Alignment alignment ) => null;
 
         public string BarThemeContrast( ThemeContrast themeContrast ) => null;
@@ -571,7 +603,7 @@ namespace Blazorise.Providers
 
         public string BarMode( BarMode mode ) => null;
 
-        public string BarItem( BarMode mode ) => null;
+        public string BarItem( BarMode mode, bool hasDropdown ) => null;
 
         public string BarItemActive( BarMode mode ) => null;
 
@@ -603,11 +635,11 @@ namespace Blazorise.Providers
 
         //public  string BarHasDropdown() => null;
 
-        public string BarDropdown( BarMode mode ) => null;
+        public string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
         public string BarDropdownShow( BarMode mode ) => null;
 
-        public string BarDropdownToggle( BarMode mode ) => null;
+        public string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
         public string BarDropdownItem( BarMode mode ) => null;
 
@@ -637,17 +669,17 @@ namespace Blazorise.Providers
 
         #region Collapse
 
-        public string Collapse() => null;
+        public string Collapse( bool accordion ) => null;
 
-        public string CollapseActive( bool active ) => null;
+        public string CollapseActive( bool accordion, bool active ) => null;
 
-        public string CollapseHeader() => null;
+        public string CollapseHeader( bool accordion ) => null;
 
-        public string CollapseBody() => null;
+        public string CollapseBody( bool accordion ) => null;
 
-        public string CollapseBodyActive( bool active ) => null;
+        public string CollapseBodyActive( bool accordion, bool active ) => null;
 
-        public string CollapseBodyContent() => null;
+        public string CollapseBodyContent( bool accordion ) => null;
 
         #endregion
 
@@ -793,14 +825,6 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Title
-
-        public string Title() => null;
-
-        public string TitleSize( int size ) => null;
-
-        #endregion
-
         #region Table
 
         public string Table() => null;
@@ -904,6 +928,14 @@ namespace Blazorise.Providers
         public string Paragraph() => null;
 
         public string ParagraphColor( TextColor textColor ) => null;
+
+        #endregion
+
+        #region Blockquote
+
+        public string Blockquote() => null;
+
+        public string BlockquoteFooter() => null;
 
         #endregion
 
@@ -1019,6 +1051,8 @@ namespace Blazorise.Providers
 
         public string Float( Float @float ) => null;
 
+        public string Clearfix() => null;
+
         #endregion
 
         #region Visibility
@@ -1041,13 +1075,41 @@ namespace Blazorise.Providers
 
         #region Overflow
 
-        public string Overflow( Overflow overflow ) => null;
+        public string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => null;
+
+        #endregion
+
+        #region Position
+
+        public string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType ) => null;
+
+        public string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType ) => null;
 
         #endregion
 
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
+
+        #endregion
+
+        #region Elements
+
+        public string UnorderedList() => null;
+
+        public string UnorderedListUnstyled( bool unstyled ) => null;
+
+        public string OrderedList() => null;
+
+        public string OrderedListUnstyled( bool unstyled ) => null;
+
+        public string OrderedListType( OrderedListType orderedListType ) => null;
+
+        public string DescriptionList() => null;
+
+        public string DescriptionListTerm() => null;
+
+        public string DescriptionListDefinition() => null;
 
         #endregion
 
@@ -1140,6 +1202,14 @@ namespace Blazorise.Providers
         public string ToVerticalAlignment( VerticalAlignment verticalAlignment ) => null;
 
         public string ToShadow( Shadow shadow ) => null;
+
+        public string ToOrderedListType( OrderedListType orderedListType ) => null;
+
+        public string ToPositionType( PositionType positionType ) => null;
+
+        public string ToPositionEdgeType( PositionEdgeType positionEdgeType ) => null;
+
+        public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
 
         #endregion
 
