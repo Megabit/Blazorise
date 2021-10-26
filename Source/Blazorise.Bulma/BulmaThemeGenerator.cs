@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Globalization;
 using System.Text;
 #endregion
@@ -614,6 +615,94 @@ namespace Blazorise.Bulma
 
         protected override void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options )
         {
+            if ( theme.BreakpointOptions == null || options == null )
+                return;
+
+            foreach ( var breakpoint in theme.BreakpointOptions )
+            {
+                var breakpointName = breakpoint.Key;
+                var breakpointMin = breakpoint.Value();
+
+                var hasMinMedia = !string.IsNullOrEmpty( breakpointMin ) && breakpointMin != "0";
+
+                if ( hasMinMedia )
+                {
+                    sb.Append( $"@media (min-width: {breakpointMin})" ).Append( "{" );
+                }
+
+                var infix = string.IsNullOrEmpty( breakpointMin ) || breakpointMin == "0"
+                    ? ""
+                    : $"-{breakpointName}";
+
+                foreach ( (string prop, string abbrev) in new[] { ("margin", "m"), ("padding", "p") } )
+                {
+                    foreach ( (string size, Func<string> lenghtFunc) in options )
+                    {
+                        var length = lenghtFunc.Invoke();
+
+                        sb
+                            .Append( $".is-{abbrev}{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".is-{abbrev}t{infix}-{size}," )
+                            .Append( $".is-{abbrev}y{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-top: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".is-{abbrev}r{infix}-{size}," )
+                            .Append( $".is-{abbrev}x{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-right: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".is-{abbrev}b{infix}-{size}," )
+                            .Append( $".is-{abbrev}y{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-bottom: {length} !important;" ).Append( "}" );
+
+                        sb
+                            .Append( $".is-{abbrev}l{infix}-{size}," )
+                            .Append( $".is-{abbrev}x{infix}-{size}" )
+                            .Append( "{" ).Append( $"{prop}-left: {length} !important;" ).Append( "}" );
+                    }
+                }
+
+                foreach ( (string size, Func<string> lenghtFunc) in options )
+                {
+                    if ( string.IsNullOrEmpty( size ) || size == "0" )
+                        continue;
+
+                    var length = lenghtFunc.Invoke();
+
+                    sb
+                        .Append( $".is-m{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".is-mt{infix}-n{size}," )
+                        .Append( $".is-my{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-top: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".is-mr{infix}-n{size}," )
+                        .Append( $".is-mx{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-right: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".is-mb{infix}-n{size}," )
+                        .Append( $".is-my{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-bottom: -{length} !important;" ).Append( "}" );
+
+                    sb
+                        .Append( $".is-ml{infix}-n{size}," )
+                        .Append( $".is-mx{infix}-n{size}" )
+                        .Append( "{" ).Append( $"margin-left: -{length} !important;" ).Append( "}" );
+                }
+
+                if ( hasMinMedia )
+                {
+                    sb.Append( "}" );
+                }
+            }
         }
 
         #endregion
