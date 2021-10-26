@@ -165,7 +165,7 @@ namespace Blazorise
         {
             var value = e.Value?.ToString();
 
-            e.Status = value == null || string.IsNullOrEmpty( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
+            e.Status = string.IsNullOrEmpty( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
         }
 
         #endregion
