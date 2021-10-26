@@ -117,7 +117,7 @@ else if ( EditMode == DataGridEditMode.Inline )
                 else if ( column.Displayable )
                 {
                     <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display">
-                        @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
+                        @if ( column.CellValueIsEditable )
                         {
                             <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                         }
