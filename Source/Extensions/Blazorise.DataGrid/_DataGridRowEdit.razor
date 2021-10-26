@@ -104,21 +104,15 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( column.IsCommandColumn )
                 {
-                    @if ( ParentDataGrid.IsCommandVisible )
-                    {
-                        <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="column" Save="@SaveWithValidation" />
-                    }
+                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="column" Save="@SaveWithValidation" />
                 }
-                else if ( column.IsMultiSelectColumn )
+                else if ( column.IsMultiSelectColumn && ParentDataGrid.MultiSelect )
                 {
-                    @if ( ParentDataGrid.MultiSelect )
-                    {
                         <TableRowCell Class="@column.CellClass?.Invoke(Item)"
                                       Style="@column.BuildCellStyle(Item)"
                                       TextAlignment="@column.TextAlignment"
                                       VerticalAlignment="@column.VerticalAlignment"
                                       Display="@column.Display"></TableRowCell>
-                    }
                 }
                 else if ( column.Displayable )
                 {
