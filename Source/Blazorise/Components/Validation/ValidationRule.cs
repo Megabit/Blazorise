@@ -1,6 +1,8 @@
 ﻿#region Using directives
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise
@@ -142,6 +144,17 @@ namespace Blazorise
         /// </summary>
         /// <param name="e"></param>
         public static void None( ValidatorEventArgs e ) => e.Status = ValidationStatus.None;
+
+        /// <summary>
+        /// Checks if the boolean based input is checked.
+        /// </summary>
+        /// <param name="e"></param>
+        public static void IsChecked( ValidatorEventArgs e )
+        {
+            Converters.TryChangeType<bool>( e.Value, out var result );
+
+            e.Status = result ? ValidationStatus.Success : ValidationStatus.Error;
+        }
 
         #endregion
     }

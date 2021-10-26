@@ -103,7 +103,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation Validator="@ValidateCheck">
+                    <Validation Validator="ValidationRule.IsChecked">
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check TValue="bool">
@@ -228,7 +228,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation Validator="@ValidateCheck">
+                    <Validation Validator="ValidationRule.IsChecked">
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check TValue="bool">
@@ -508,7 +508,7 @@
         </Modal>
     </Column>
 </Row>
-@code{
+@code {
     Validations validations;
     Validations annotationsValidations;
 
@@ -576,11 +576,6 @@
         {
             e.Status = ValidationStatus.Success;
         }
-    }
-
-    void ValidateCheck( ValidatorEventArgs e )
-    {
-        e.Status = Convert.ToBoolean( e.Value ) ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     void ValidateSelect( ValidatorEventArgs e )
