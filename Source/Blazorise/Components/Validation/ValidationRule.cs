@@ -156,6 +156,18 @@ namespace Blazorise
             e.Status = result ? ValidationStatus.Success : ValidationStatus.Error;
         }
 
+        /// <summary>
+        /// Checks if the selection based input has a valid value selected. Valid values are
+        /// anything except for <c>null</c>, <c>string.Empty</c>, or <c>0</c>.
+        /// </summary>
+        /// <param name="e"></param>
+        public static void IsSelected( ValidatorEventArgs e )
+        {
+            var value = e.Value?.ToString();
+
+            e.Status = value == null || string.IsNullOrEmpty( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
+        }
+
         #endregion
     }
 }

@@ -60,7 +60,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation Validator="@ValidateSelect">
+                    <Validation Validator="@ValidationRule.IsSelected">
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
@@ -185,7 +185,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation Validator="@ValidateSelect">
+                    <Validation Validator="@ValidationRule.IsSelected">
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
@@ -576,12 +576,6 @@
         {
             e.Status = ValidationStatus.Success;
         }
-    }
-
-    void ValidateSelect( ValidatorEventArgs e )
-    {
-        var selectedValue = e.Value == null ? 0 : Convert.ToInt32( e.Value );
-        e.Status = selectedValue != 0 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     void ValidateDateOfBirth( ValidatorEventArgs e )
