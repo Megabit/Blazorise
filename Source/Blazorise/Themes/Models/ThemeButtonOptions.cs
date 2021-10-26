@@ -23,27 +23,27 @@
         /// <summary>
         /// Gets or sets the box shadow transparency of the button element(range 0-255)
         /// </summary>
-        public byte BoxShadowTransparency { get; set; } = 127;
+        public byte? BoxShadowTransparency { get; set; } = 127;
 
         /// <summary>
         /// Defines how much the color will darken when element is hovered(range 0-100).
         /// </summary>
-        public float HoverDarkenColor { get; set; } = 15f;
+        public float? HoverDarkenColor { get; set; } = 15f;
 
         /// <summary>
         /// Defines how much the color will lighten when element is hovered(range 0-100).
         /// </summary>
-        public float HoverLightenColor { get; set; } = 20f;
+        public float? HoverLightenColor { get; set; } = 20f;
 
         /// <summary>
         /// Defines how much the color will darken when element is active(range 0-100).
         /// </summary>
-        public float ActiveDarkenColor { get; set; } = 20f;
+        public float? ActiveDarkenColor { get; set; } = 20f;
 
         /// <summary>
         /// Defines how much the color will lighten when element is active(range 0-100).
         /// </summary>
-        public float ActiveLightenColor { get; set; } = 25f;
+        public float? ActiveLightenColor { get; set; } = 25f;
 
         /// <summary>
         /// Defines the button border radius when it is <see cref="Size.Large"/>.
@@ -58,7 +58,7 @@
         /// <summary>
         /// Defines the percentage of how much the colors will blend together.
         /// </summary>
-        public float GradientBlendPercentage { get; set; } = 15f;
+        public float? GradientBlendPercentage { get; set; } = 15f;
 
         /// <summary>
         /// Defined the opacity of disabled button(range 0-1).

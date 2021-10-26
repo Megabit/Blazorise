@@ -29,7 +29,7 @@
         /// Defines a level of background color.
         /// </summary>
         /// <remarks>Negative level values will lighten the color, while higher levels will darken.</remarks>
-        public int VariantBackgroundColorLevel { get; set; } = -3;
+        public int? VariantBackgroundColorLevel { get; set; } = -3;
 
         //public int VariantTextColorLevel { get; set; } = 6;
 
