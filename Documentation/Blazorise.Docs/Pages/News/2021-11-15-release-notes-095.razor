@@ -283,3 +283,41 @@
 <Paragraph>
     You can see examples at the <Anchor To="docs/extensions/markdown">Markdown page</Anchor>.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Theming improvements
+</Heading>
+
+<Paragraph>
+    Theming also recieved some much needed changes.
+
+    <DescriptionList>
+        <DescriptionListTerm>Color variables for RGB(A) values</DescriptionListTerm>
+        <DescriptionListDefinition>
+            Along with the <Code>--b-theme-primary</Code> CSS variable we are now generating additional RGB(A) variables,
+            namelly, <Code>--b-theme-primary-r</Code>, <Code>--b-theme-primary-g</Code>, <Code>--b-theme-primary-b</Code>,
+            and <Code>--b-theme-primary-a</Code>.
+        </DescriptionListDefinition>
+
+        <DescriptionListTerm>Nullable options</DescriptionListTerm>
+        <DescriptionListDefinition>
+            Not so much big of a change but nevertheless, is needed. When defining theme options in some cases it is hard to tell
+            when the CSS override should be applied. This small change will give us that ability.
+        </DescriptionListDefinition>
+
+        <DescriptionListTerm>Body options</DescriptionListTerm>
+        <DescriptionListDefinition>
+            It is now possible to define the <Code Tag>body</Code> background and text color. Once defined it will also properly assign the
+            color for the <Code>TextColor.Body</Code> typography color value, where needed.
+        </DescriptionListDefinition>
+
+        <DescriptionListTerm>Spacing options</DescriptionListTerm>
+        <DescriptionListDefinition>
+            So far if you wanted to change the margin and padding sizes you would need to re-compile Bootstrap(or any other) CSS. With
+            the new theming options it is now possible with just a few lines of code. And Blazorise will do all the magic for you. eg.
+            <br />
+            <br />
+            <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
+        </DescriptionListDefinition>
+    </DescriptionList>
+</Paragraph>

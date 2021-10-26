@@ -43,28 +43,28 @@ namespace Blazorise
         public Func<string> this[string key] => BreakpointMap[key];
 
         /// <summary>
-        /// Gets or sets the breakpoint size for mobile screens.
+        /// Gets or sets the breakpoint size for mobile screens. Defaults to 0px.
         /// </summary>
-        public string Mobile { get; set; } = "576px";
+        public string Mobile { get; set; } = "0";
 
         /// <summary>
-        /// Gets or sets the breakpoint size for tablet screens.
+        /// Gets or sets the breakpoint size for tablet screens. Defaults to 576px.
         /// </summary>
-        public string Tablet { get; set; } = "768px";
+        public string Tablet { get; set; } = "576px";
 
         /// <summary>
-        /// Gets or sets the breakpoint size for desktop screens.
+        /// Gets or sets the breakpoint size for desktop screens. Defaults to 768px.
         /// </summary>
-        public string Desktop { get; set; } = "992px";
+        public string Desktop { get; set; } = "768px";
 
         /// <summary>
-        /// Gets or sets the breakpoint size for wide screens.
+        /// Gets or sets the breakpoint size for wide screens. Defaults to 992px.
         /// </summary>
-        public string Widescreen { get; set; } = "1200px";
+        public string Widescreen { get; set; } = "992px";
 
         /// <summary>
-        /// Gets or sets the breakpoint size for largest screens.
+        /// Gets or sets the breakpoint size for largest screens. Defaults to 1200px.
         /// </summary>
-        public string FullHD { get; set; } = "1400px";
+        public string FullHD { get; set; } = "1200px";
     }
 }
