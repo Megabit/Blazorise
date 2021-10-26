@@ -33,8 +33,7 @@ namespace Blazorise.Tests.Components
 
             // test
             comp.Find( "#btnNew" ).Click();
-            var allBtn = comp.FindAll( "button" );
-            allBtn.First( x => x.InnerHtml == "Save" ).Click();
+            comp.Find( "#btnSave" ).Click();
 
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
@@ -63,8 +62,7 @@ namespace Blazorise.Tests.Components
             firstInput.SetAttribute( "value", updatedName );
             firstInput.Input( updatedName );
 
-            var allBtn = comp.FindAll( "button" );
-            allBtn.First( x => x.InnerHtml == "Save" ).Click();
+            comp.Find( "#btnSave" ).Click();
 
             var currentName = comp.Instance.InMemoryData[0].Name;
 

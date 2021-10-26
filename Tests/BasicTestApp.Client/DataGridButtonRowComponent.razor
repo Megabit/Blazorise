@@ -4,6 +4,7 @@
           ShowPageSizes
           Sortable
           SortMode="DataGridSortMode.Single"
+          CommandMode="DataGridCommandMode.Default"
           Editable
           EditMode="@DataGridEditMode"
           @bind-SelectedRow="selectedEmployee">
@@ -14,6 +15,14 @@
         <Button ElementId="btnCancel" Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
     </ButtonRowTemplate>
     <DataGridColumns>
+        <DataGridCommandColumn TItem="Employee" NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false"  >
+            <SaveCommandTemplate>
+                <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <CancelCommandTemplate>
+                <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+        </DataGridCommandColumn>
         <DataGridColumn TextAlignment="TextAlignment.Center"
                         TItem="Employee"
                         Field="@nameof( Employee.Fraction )"
@@ -32,7 +41,7 @@
     private Employee selectedEmployee;
 
     [Parameter]
-    public DataGridEditMode DataGridEditMode { get; set; }        
+    public DataGridEditMode DataGridEditMode { get; set; }
 
     public class Employee
     {
