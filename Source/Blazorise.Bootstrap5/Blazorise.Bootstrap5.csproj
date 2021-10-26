@@ -14,7 +14,16 @@
     <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
+		<Exec Command="dotnet tool restore --tool-manifest ../../.config/dotnet-tools.json" StandardOutputImportance="high" />
+	</Target>
+
+	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bootstrap5.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high" />
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bootstrap5.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
+	</Target>
+
+	<ItemGroup>
     <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
     <None Include="compilerconfig.json" />

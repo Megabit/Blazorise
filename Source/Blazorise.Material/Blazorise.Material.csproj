@@ -23,9 +23,6 @@
   <Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
     <Exec Command="dotnet webcompiler -r Styles/blazorise.material.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high" />
     <Exec Command="dotnet webcompiler -r Styles/blazorise.material.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
-    <Exec Command="dotnet webcompiler -r Styles/blazorise.material.scss -c ../../Build/webcompilerconfig.gzip.json" StandardOutputImportance="high" />
-    <Exec Command="dotnet webcompiler -r wwwroot/blazorise.material.js -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
-    <Exec Command="dotnet webcompiler -r wwwroot/blazorise.material.js -c ../../Build/webcompilerconfig.gzip.json" StandardOutputImportance="high" />
   </Target>
 
   <ItemGroup>
