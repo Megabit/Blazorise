@@ -85,6 +85,11 @@ namespace Blazorise
             => TextColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
+        /// Defined the body options.
+        /// </summary>
+        public ThemeBodyOptions BodyOptions { get; set; }
+
+        /// <summary>
         /// Global options for media breakpoints.
         /// </summary>
         public ThemeBreakpointOptions BreakpointOptions { get; set; }
@@ -223,5 +228,10 @@ namespace Blazorise
         /// Theme options to override the <see cref="ListGroupItem"/> component styles.
         /// </summary>
         public ThemeListGroupItemOptions ListGroupItemOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the spacing utilities.
+        /// </summary>
+        public ThemeSpacingOptions SpacingOptions { get; set; }
     }
 }

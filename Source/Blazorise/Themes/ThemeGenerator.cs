@@ -27,7 +27,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods
+        #region Variables
 
         /// <inheritdoc/>
         public virtual string GenerateVariables( Theme theme )
@@ -48,6 +48,8 @@ namespace Blazorise
             Variables[ThemeVariables.BorderRadius] = ".25rem";
             Variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
             Variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
+
+            GenerateBodyVariables( theme );
 
             foreach ( var (name, size) in theme.ValidBreakpoints )
                 GenerateBreakpointVariables( theme, name, size );
@@ -93,6 +95,23 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Generates the body CSS variables.
+        /// </summary>
+        /// <param name="theme">Currently used theme options.</param>
+        protected virtual void GenerateBodyVariables( Theme theme )
+        {
+            if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
+            {
+                Variables[ThemeVariables.BodyBackgroundColor] = ToHex( ParseColor( theme.BodyOptions.BackgroundColor ) );
+            }
+
+            if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+            {
+                Variables[ThemeVariables.BodyTextColor] = ToHex( ParseColor( theme.BodyOptions.TextColor ) );
+            }
+        }
+
+        /// <summary>
         /// Generates the breakpoint CSS variables.
         /// </summary>
         /// <param name="theme">Currently used theme options.</param>
@@ -111,7 +130,7 @@ namespace Blazorise
         /// <param name="value">Color value.</param>
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
         {
-            Variables[ThemeVariables.Color( variant )] = value;
+            AddColorVariable( ThemeVariables.Color( variant ), value, true );
 
             GenerateButtonColorVariables( theme, variant, value, value, theme.ButtonOptions );
             GenerateOutlineButtonColorVariables( theme, variant, value, theme.ButtonOptions );
@@ -145,27 +164,27 @@ namespace Blazorise
             var yiqHoverBackgroundColor = Contrast( theme, hoverBackgroundColor );
             var yiqActiveBackgroundColor = Contrast( theme, activeBackgroundColor );
 
-            var background = ToHex( backgroundColor );
-            var border = ToHex( borderColor );
-            var hoverBackground = ToHex( hoverBackgroundColor );
-            var hoverBorder = ToHex( hoverBorderColor );
-            var activeBackground = ToHex( activeBackgroundColor );
-            var activeBorder = ToHex( activeBorderColor );
-            var yiqBackground = ToHex( yiqBackgroundColor );
-            var yiqHoverBackground = ToHex( yiqHoverBackgroundColor );
-            var yiqActiveBackground = ToHex( yiqActiveBackgroundColor );
+            var hexBackground = ToHex( backgroundColor );
+            var hexBorder = ToHex( borderColor );
+            var hexHoverBackground = ToHex( hoverBackgroundColor );
+            var hexHoverBorder = ToHex( hoverBorderColor );
+            var hexActiveBackground = ToHex( activeBackgroundColor );
+            var hexActiveBorder = ToHex( activeBorderColor );
+            var hexYiqBackground = ToHex( yiqBackgroundColor );
+            var hexYiqHoverBackground = ToHex( yiqHoverBackgroundColor );
+            var hexYiqActiveBackground = ToHex( yiqActiveBackgroundColor );
 
             var boxShadow = ToHexRGBA( Transparency( Blend( yiqBackgroundColor, backgroundColor, 15f ), options?.BoxShadowTransparency ?? 127 ) );
 
-            Variables[ThemeVariables.ButtonBackground( variant )] = background;
-            Variables[ThemeVariables.ButtonBorder( variant )] = border;
-            Variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
-            Variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
-            Variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
-            Variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
-            Variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
-            Variables[ThemeVariables.ButtonYiqHoverBackground( variant )] = yiqHoverBackground;
-            Variables[ThemeVariables.ButtonYiqActiveBackground( variant )] = yiqActiveBackground;
+            Variables[ThemeVariables.ButtonBackground( variant )] = hexBackground;
+            Variables[ThemeVariables.ButtonBorder( variant )] = hexBorder;
+            Variables[ThemeVariables.ButtonHoverBackground( variant )] = hexHoverBackground;
+            Variables[ThemeVariables.ButtonHoverBorder( variant )] = hexHoverBorder;
+            Variables[ThemeVariables.ButtonActiveBackground( variant )] = hexActiveBackground;
+            Variables[ThemeVariables.ButtonActiveBorder( variant )] = hexActiveBorder;
+            Variables[ThemeVariables.ButtonYiqBackground( variant )] = hexYiqBackground;
+            Variables[ThemeVariables.ButtonYiqHoverBackground( variant )] = hexYiqHoverBackground;
+            Variables[ThemeVariables.ButtonYiqActiveBackground( variant )] = hexYiqActiveBackground;
             Variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
         }
 
@@ -183,17 +202,17 @@ namespace Blazorise
             if ( borderColor.IsEmpty )
                 return;
 
-            var color = ToHex( borderColor );
-            var yiqColor = ToHex( Contrast( theme, borderColor ) );
-            var boxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
-            var hoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
-            var activeColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
+            var hexColor = ToHex( borderColor );
+            var hexYiqColor = ToHex( Contrast( theme, borderColor ) );
+            var hexBoxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
+            var hexHoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
+            var hexActiveColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
 
-            Variables[ThemeVariables.OutlineButtonColor( variant )] = color;
-            Variables[ThemeVariables.OutlineButtonYiqColor( variant )] = yiqColor;
-            Variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
-            Variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hoverColor;
-            Variables[ThemeVariables.OutlineButtonActiveColor( variant )] = activeColor;
+            Variables[ThemeVariables.OutlineButtonColor( variant )] = hexColor;
+            Variables[ThemeVariables.OutlineButtonYiqColor( variant )] = hexYiqColor;
+            Variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = hexBoxShadow;
+            Variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hexHoverColor;
+            Variables[ThemeVariables.OutlineButtonActiveColor( variant )] = hexActiveColor;
         }
 
         /// <summary>
@@ -237,11 +256,11 @@ namespace Blazorise
             if ( argbColor.IsEmpty )
                 return;
 
-            var color = ToHex( argbColor );
+            var hexColor = ToHex( argbColor );
 
-            Variables[ThemeVariables.VariantStepsItemIcon( variant )] = color;
-            Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, color ) );
-            Variables[ThemeVariables.VariantStepsItemText( variant )] = color;
+            Variables[ThemeVariables.VariantStepsItemIcon( variant )] = hexColor;
+            Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, hexColor ) );
+            Variables[ThemeVariables.VariantStepsItemText( variant )] = hexColor;
         }
 
         /// <summary>
@@ -258,9 +277,9 @@ namespace Blazorise
             if ( inArgbColor.IsEmpty )
                 return;
 
-            var color = ToHex( inArgbColor );
+            var hexColor = ToHex( inArgbColor );
 
-            Variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
+            Variables[ThemeVariables.VariantPageProgressIndicator( variant )] = hexColor;
         }
 
         /// <summary>
@@ -277,9 +296,9 @@ namespace Blazorise
             if ( inArgbColor.IsEmpty )
                 return;
 
-            var color = ToHex( inArgbColor );
+            var hexColor = ToHex( inArgbColor );
 
-            Variables[ThemeVariables.VariantRatingColor( variant )] = color;
+            Variables[ThemeVariables.VariantRatingColor( variant )] = hexColor;
         }
 
         /// <summary>
@@ -309,7 +328,10 @@ namespace Blazorise
         /// <param name="inColor">Text color.</param>
         protected virtual void GenerateTextColorVariables( Theme theme, string variant, string inColor )
         {
-            var color = ParseColor( inColor );
+            // override body color if defined
+            var color = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
+                ? ParseColor( theme.BodyOptions.TextColor )
+                : ParseColor( inColor );
 
             if ( color.IsEmpty )
                 return;
@@ -613,6 +635,8 @@ namespace Blazorise
 
             var sb = new StringBuilder();
 
+            GenerateBodyStyles( sb, theme );
+
             foreach ( var (name, size) in theme.ValidBreakpoints )
             {
                 GenerateBreakpointStyles( sb, theme, name, size );
@@ -663,11 +687,38 @@ namespace Blazorise
 
             GenerateListGroupItemStyles( sb, theme, theme.ListGroupItemOptions );
 
+            GenerateSpacingStyles( sb, theme, theme.SpacingOptions );
+
             var generatedStyles = sb.ToString();
 
             ThemeCache.CacheStyles( theme, generatedStyles );
 
             return generatedStyles;
+        }
+
+        /// <summary>
+        /// Generates the body styles.
+        /// </summary>
+        /// <param name="sb">Result of the generator.</param>
+        /// <param name="theme">Currently used theme options.</param>
+        protected virtual void GenerateBodyStyles( StringBuilder sb, Theme theme )
+        {
+            var backgroundColor = Var( ThemeVariables.BodyBackgroundColor );
+            var textColor = Var( ThemeVariables.BodyTextColor );
+
+            if ( !string.IsNullOrEmpty( backgroundColor )
+                || !string.IsNullOrEmpty( textColor ) )
+            {
+                sb.Append( $"body" ).Append( "{" );
+
+                if ( !string.IsNullOrEmpty( backgroundColor ) )
+                    sb.Append( $"background-color: var({ThemeVariables.BodyBackgroundColor});" );
+
+                if ( !string.IsNullOrEmpty( textColor ) )
+                    sb.Append( $"color: var({ThemeVariables.BodyTextColor});" );
+
+                sb.AppendLine( "}" );
+            }
         }
 
         /// <summary>
@@ -1021,9 +1072,38 @@ namespace Blazorise
         /// <param name="options">ListGroupItem options.</param>
         protected abstract void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options );
 
+        /// <summary>
+        /// Generates the spacing utilities bases on the breakpoint and spacing sizes.
+        /// </summary>
+        /// <param name="sb">Target string builder.</param>
+        /// <param name="theme">Theme settings.</param>
+        /// <param name="options">Spacing options.</param>
+        protected abstract void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options );
+
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Handles the adding of color into the list of CSS variables.
+        /// </summary>
+        /// <param name="name">Variable name.</param>
+        /// <param name="hexColor">Color in hex format.</param>
+        /// <param name="addRgbParts">If true, rgb parts will also be defined in the variables.</param>
+        protected virtual void AddColorVariable( string name, string hexColor, bool addRgbParts = false )
+        {
+            Variables[name] = hexColor;
+
+            if ( addRgbParts )
+            {
+                var color = ParseColor( hexColor );
+
+                Variables[$"{name}-r"] = color.R.ToString( CultureInfo.InvariantCulture );
+                Variables[$"{name}-g"] = color.G.ToString( CultureInfo.InvariantCulture );
+                Variables[$"{name}-b"] = color.B.ToString( CultureInfo.InvariantCulture );
+                Variables[$"{name}-a"] = ( color.A / 255f ).ToString( "n2", CultureInfo.InvariantCulture );
+            }
+        }
 
         /// <summary>
         /// Determines the border radius from the supplied parameters.

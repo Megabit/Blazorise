@@ -16,6 +16,16 @@
         public const string Black = "--b-theme-black";
 
         /// <summary>
+        /// Gets the body background color variable name.
+        /// </summary>
+        public const string BodyBackgroundColor = "--b-theme-body-background-color";
+
+        /// <summary>
+        /// Gets the body text color variable name.
+        /// </summary>
+        public const string BodyTextColor = "--b-theme-body-text-color";
+
+        /// <summary>
         /// Gets the theme color variable name.
         /// </summary>
         /// <param name="variant">Color variant name.</param>
