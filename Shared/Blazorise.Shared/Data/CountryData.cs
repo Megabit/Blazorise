@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
 using CountryData;
 using Microsoft.Extensions.Caching.Memory;
+#endregion
 
 namespace Blazorise.Shared.Data
 {
     public class CountryData
     {
-        private IMemoryCache cache;
-        private string cacheKey = "cache_countries";
+        private readonly IMemoryCache cache;
+        private readonly string cacheKey = "cache_countries";
 
         /// <summary>
         /// Simplified code to get & cache data in memory...
@@ -25,7 +27,5 @@ namespace Blazorise.Shared.Data
 
         private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
             => Task.FromResult( CountryLoader.CountryInfo.Take( 100 ).Select( x => new Country( x.Name, x.Iso, x.Capital ) ) );
-
     }
-
 }

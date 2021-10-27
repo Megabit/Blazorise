@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
 using Microsoft.Extensions.Caching.Memory;
+#endregion
 
 namespace Blazorise.Shared.Data
 {
     public class EmployeeData
     {
-        private IMemoryCache cache;
-        private string employeesCacheKey = "cache_employees";
+        private readonly IMemoryCache cache;
+        private readonly string employeesCacheKey = "cache_employees";
 
         /// <summary>
         /// Simplified code to get & cache data in memory...
@@ -31,5 +33,4 @@ namespace Blazorise.Shared.Data
             return Task.FromResult( JsonSerializer.Deserialize<List<Employee>>( new StreamReader( stream ).ReadToEnd() ) );
         }
     }
-
 }
