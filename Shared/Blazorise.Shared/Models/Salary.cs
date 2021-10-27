@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazorise.Demo.Models
+namespace Blazorise.Shared.Models
 {
     public class Salary
     {

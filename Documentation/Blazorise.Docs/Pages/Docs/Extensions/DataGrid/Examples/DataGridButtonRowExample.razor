@@ -1,11 +1,12 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
           Editable
-          Responsive>
+          Responsive
+          ShowPager
+          CommandMode="DataGridCommandMode.ButtonRow">
     <DataGridColumns>
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
         <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
@@ -26,6 +27,14 @@
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }

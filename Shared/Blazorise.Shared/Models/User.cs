@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blazorise.Demo.Models
+namespace Blazorise.Shared.Models
 {
     public class User
     {

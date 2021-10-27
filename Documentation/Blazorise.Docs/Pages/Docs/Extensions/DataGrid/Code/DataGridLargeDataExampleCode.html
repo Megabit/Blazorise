@@ -1,7 +1,5 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="atSign">&#64;</span>using Blazorise.Docs.Models
-
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ReadData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnReadData</span><span class="quot">&quot;</span>
@@ -22,10 +20,19 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    <span class="keyword">int</span> totalEmployees;
-    List&lt;Employee&gt; employeeList;
+    [Inject]
+    <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
 
-    Task OnReadData( DataGridReadDataEventArgs&lt;Employee&gt; e )
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    {
+        employeeList = <span class="keyword">await</span> EmployeeData.GetDataAsync();
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">int</span> totalEmployees;
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task OnReadData( DataGridReadDataEventArgs&lt;Employee&gt; e )
     {
         <span class="keyword">if</span> ( !e.CancellationToken.IsCancellationRequested )
         {
@@ -34,19 +41,18 @@
             <span class="comment">// this can be call to anything, in this case we&#39;re calling a fictional api</span>
             <span class="comment">//var response = await Http.GetJsonAsync&lt;Employee[]&gt;( $&quot;some-api/employees?page={e.Page}&amp;pageSize={e.PageSize}&quot; );</span>
             <span class="keyword">if</span> ( e.ReadDataMode <span class="keyword">is</span> DataGridReadDataMode.Virtualize )
-                response = EmployeeData.EmployeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+                response = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             <span class="keyword">else</span> <span class="keyword">if</span> ( e.ReadDataMode <span class="keyword">is</span> DataGridReadDataMode.Paging )
-                response = EmployeeData.EmployeeList.Skip( ( e.Page - <span class="number">1</span> ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Skip( ( e.Page - <span class="number">1</span> ) * e.PageSize ).Take( e.PageSize ).ToList();
             <span class="keyword">else</span>
                 <span class="keyword">throw</span> <span class="keyword">new</span> Exception( <span class="string">&quot;Unhandled ReadDataMode&quot;</span> );
 
             <span class="keyword">if</span> ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = EmployeeData.EmployeeList.Count;
+                totalEmployees = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Count;
                 employeeList = <span class="keyword">new</span> List&lt;Employee&gt;( response ); <span class="comment">// an actual data for the current page</span>
             }
         }
-        <span class="keyword">return</span> Task.CompletedTask;
     }
 }
 </pre></div>
