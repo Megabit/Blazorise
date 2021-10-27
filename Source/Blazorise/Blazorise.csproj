@@ -39,6 +39,7 @@
 
 	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
 		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high"  />
+		<Exec Command="dotnet webcompiler -r Scripts -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
 	</Target>
 	<Target Name="CompileStaticAssetsMinify" AfterTargets="CompileStaticAssets">
 		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
