@@ -1,5 +1,4 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise.Docs.Models
 
  Custom Filter: <TextEdit @bind-Text="@customFilterValue" ></TextEdit>
 
@@ -13,9 +12,9 @@
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "MLaden" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
 
-    string customFilterValue;
+    private string customFilterValue;
 
-    bool OnCustomFilter( Employee model )
+    private bool OnCustomFilter( Employee model )
     {
         // We want to accept empty value as valid or otherwise
         // datagrid will not show anything.
