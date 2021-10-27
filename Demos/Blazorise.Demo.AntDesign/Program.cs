@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Blazorise.AntDesign;
-using Blazorise.Demo.Data;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,24 +16,11 @@ namespace Blazorise.Demo.AntDesign
             var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
             builder.Services
-                .AddBlazorise( options =>
-                {
-                    options.ChangeTextOnKeyPress = true;
-                } )
-                .AddBlazoriseRichTextEdit( options =>
-                {
-                    options.UseBubbleTheme = true;
-                    options.UseShowTheme = true;
-                } )
+                .SetupDemoServices()
                 .AddAntDesignProviders()
                 .AddFontAwesomeIcons();
 
-            builder.Services.AddMemoryCache();
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<EmployeeData>();
-
             builder.RootComponents.Add<App>( "#app" );
-
             var host = builder.Build();
 
             await host.RunAsync();

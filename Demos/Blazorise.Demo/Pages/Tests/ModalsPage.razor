@@ -94,27 +94,13 @@
         </ModalHeader>
         <ModalBody>
             I am a second modal with some message.
-            <Autocomplete TItem="MySelectModel"
-                          TValue="string"
-                          Data="@myDdlData"
-                          TextField="@(( item ) => item.MyTextField)"
-                          ValueField="@(( item ) => item.MyTextField)"
-                          SelectedValue="@selectedSearchValue"
-                          SelectedValueChanged="@MySearchHandler"
-                          @bind-SelectedText="selectedAutoCompleteText"
-                          Placeholder="Search..."
-                          Filter="AutocompleteFilter.StartsWith"
-                          FreeTyping="true"
-                          CustomFilter="@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
-            </Autocomplete>
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@HideModal2">Close</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>
-@code{
+@code {
     private Modal modalRef;
     private Modal modalRef2;
     private bool centered = false;
@@ -144,64 +130,4 @@
     {
         return modalRef2.Hide();
     }
-
-
-        public class MySelectModel
-        {
-            public int MyValueField { get; set; }
-            public string MyTextField { get; set; }
-        }
-
-        static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
-        IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
-
-        int selectedListValue { get; set; }
-        int selectedDropValue { get; set; } = 2;
-        string selectedSearchValue { get; set; }
-        string selectedAutoCompleteText { get; set; }
-        System.Collections.ObjectModel.ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
-        Random random = new();
-
-        void MyListValueChangedHandler( int newValue )
-        {
-            selectedListValue = newValue;
-        }
-
-        void MyDropValueChangedHandler( int newValue )
-        {
-            selectedDropValue = newValue;
-        }
-
-        void MySearchHandler( string newValue )
-        {
-            selectedSearchValue = newValue;
-        }
-
-        private void ShuffleList()
-        {
-            var maxIndex = items.Count - 1;
-
-            if ( maxIndex == -1 )
-                return;
-
-            var orgPos = random.Next( maxIndex );
-            var newPos = random.Next( maxIndex );
-
-            items.Move( orgPos, newPos );
-        }
-
-        private static string GetColor( int number )
-        {
-            const string letters = "0123456789ABCDEF";
-
-            var color = "";
-
-            for ( var i = 0; i < 6; i++ )
-            {
-                color += letters[( 3 * number + i ) % letters.Length];
-            }
-
-            return $"color: #{color}";
-        }
-
 }

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Blazorise.DataGrid.Utils;
-using Blazorise.Demo.Data;
-using Blazorise.Demo.Models;
+using Blazorise.Shared.Data;
+using Blazorise.Shared.Models;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -219,17 +219,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
             {
                 var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( column.Field );
-                //if ( column.CustomFilter != null )
-                //{
-                //    filteredData = from item in filteredData.Where(x=> column. valueGetter( x))
-                //            let cellRealValue = column.GetValue( item )
-                //            where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
-                //            select item;
-                //}
-                //else
-                //{
                 filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
-                //}
             }
             return Task.FromResult( filteredData );
         }

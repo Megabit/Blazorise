@@ -1,5 +1,4 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise.Docs.Models
 
 <DataGrid TItem="Employee"
           Data="@employeeList"
@@ -19,5 +18,14 @@
 </DataGrid>
 
 @code{
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }
