@@ -1,30 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\Build\Blazorise.props" />
+	<Import Project="..\..\Build\Blazorise.props" />
 
-  <PropertyGroup>
-    <PackageTags>blazorise blazor components bulma</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageTags>blazorise blazor components bulma</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Blazorise\Blazorise.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
 
-  <Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet tool restore --tool-manifest ../../.config/dotnet-tools.json" StandardOutputImportance="high" />
-  </Target>
+	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
+		<Exec Command="dotnet tool restore --tool-manifest ../../.config/dotnet-tools.json" StandardOutputImportance="high" />
+	</Target>
 
-  <Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
-    <Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high" />
-    <Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
-  </Target>
+	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high" />
+	</Target>
+	<Target Name="CompileStaticAssetsMinify" AfterTargets="CompileStaticAssets">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.bulma.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
+	</Target>
 
-  <ItemGroup>
-    <Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
-  </ItemGroup>
+	<ItemGroup>
+		<Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
+	</ItemGroup>
 </Project>

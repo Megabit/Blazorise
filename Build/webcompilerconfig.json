@@ -51,6 +51,6 @@
   },
   "Output": {
     "Directory": "wwwroot",
-    "Preserve": false
+    "Preserve": true
   }
 }

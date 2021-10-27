@@ -1,57 +1,59 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\Build\Blazorise.props" />
+	<Import Project="..\..\Build\Blazorise.props" />
 
-  <PropertyGroup>
-    <PackageTags>blazorise blazor components</PackageTags>
-    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageTags>blazorise blazor components</PackageTags>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-    <None Include="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="bundleconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Localization\**\*.json" />
-    <EmbeddedResource Include="Resources\Localization\**\*.json" />
-    <None Remove="Resources\Localization\*.json" />
-    <EmbeddedResource Include="Resources\Localization\*.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Resources\Localization\**\*.json" />
+		<EmbeddedResource Include="Resources\Localization\**\*.json" />
+		<None Remove="Resources\Localization\*.json" />
+		<EmbeddedResource Include="Resources\Localization\*.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="bundleconfig.json" />
-    <Content Remove="Scripts\*.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="bundleconfig.json" />
+		<Content Remove="Scripts\*.js" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" PrivateAssets="All" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" PrivateAssets="All" />
+	</ItemGroup>
 
-  <Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet tool  restore --tool-manifest ../../.config/dotnet-tools.json" StandardOutputImportance="high" />
-  </Target>
+	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
+		<Exec Command="dotnet tool  restore --tool-manifest ../../.config/dotnet-tools.json" StandardOutputImportance="high" />
+	</Target>
 
-  <Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
-    <Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high" />
-    <Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
-  </Target>
+	<Target Name="CompileStaticAssets" AfterTargets="ToolRestore;Build">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../Build/webcompilerconfig.json" StandardOutputImportance="high"  />
+	</Target>
+	<Target Name="CompileStaticAssetsMinify" AfterTargets="CompileStaticAssets">
+		<Exec Command="dotnet webcompiler -r Styles/blazorise.scss -c ../../Build/webcompilerconfig.min.json" StandardOutputImportance="high" />
+	</Target>
 
-  <ItemGroup>
-    <Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="wwwroot\breakpoint.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Update="wwwroot\closable.js">
-      <SubType>Code</SubType>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Watch Include="**\*.scss;**\*.js" Exclude="wwwroot\**\*" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="wwwroot\breakpoint.js">
+			<SubType>Code</SubType>
+		</Content>
+		<Content Update="wwwroot\closable.js">
+			<SubType>Code</SubType>
+		</Content>
+	</ItemGroup>
 
 </Project>
