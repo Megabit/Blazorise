@@ -56,6 +56,10 @@ namespace Blazorise.Tests.Helpers
 
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
+
+            services.AddMemoryCache();
+            services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
+            services.AddScoped<Blazorise.Shared.Data.CountryData>();
         }
 
         internal class VersionProvider : IVersionProvider
