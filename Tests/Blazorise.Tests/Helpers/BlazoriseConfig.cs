@@ -116,6 +116,22 @@ namespace Blazorise.Tests.Helpers
                 var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "setProperty", _ => true );
             }
+
+            public static void AddModal( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new MockJsModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "open", _ => true );
+                module.SetupVoid( "close", _ => true );
+            }
+        }
+
+        public class MockJsModule : JSModalModule
+        {
+            public MockJsModule( IJSRuntime jsRuntime, IVersionProvider versionProvider ) : base( jsRuntime, versionProvider )
+            {
+            }
+
+            public override string ModuleFileName => $"./_content/Blazorise.Bootstrap/modal.js?v={VersionProvider.Version}";
         }
     }
 }

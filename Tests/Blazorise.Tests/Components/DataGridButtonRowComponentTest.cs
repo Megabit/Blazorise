@@ -9,33 +9,14 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class DataGridComponentTest : TestContext
+    public class DataGridButtonRowComponentTest : TestContext
     {
-        public DataGridComponentTest()
+        public DataGridButtonRowComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
             BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
             BlazoriseConfig.JSInterop.AddModal( this.JSInterop );
-        }
-
-        [Fact]
-        public void SortByField_Should_CorrectlySortRows()
-        {
-            // setup
-            var expectedOrderedValues = new[] { "1/8", "1/4", "1/2", "3/4" };
-
-            // test
-            var comp = RenderComponent<DataGridComponent>();
-            var rows = comp.FindAll( "tbody tr td:nth-child(2)" );
-
-            // validate
-            var count = 0;
-            foreach ( var item in rows )
-            {
-                Assert.Equal( item.TextContent, expectedOrderedValues[count] );
-                count++;
-            }
         }
 
         [Theory]
@@ -45,8 +26,9 @@ namespace Blazorise.Tests.Components
         public void New_Should_AddNewItem( DataGridEditMode editMode )
         {
             // setup
-            var comp = RenderComponent<DataGridComponent>( parameters =>
+            var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
+
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
@@ -68,18 +50,19 @@ namespace Blazorise.Tests.Components
         {
             // setup
             var updatedName = "RaulFromEdit";
-            var comp = RenderComponent<DataGridComponent>( parameters =>
+            var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
 
             // test
+            comp.Find( "tr.table-row-selectable" ).Click();
             comp.Find( "#btnEdit" ).Click();
+
 
             var firstInput = comp.Find( "input" );
             firstInput.SetAttribute( "value", updatedName );
             firstInput.Input( updatedName );
-            
-            var btnSave = comp.Find( "#btnSave" );
-            btnSave.Click();
+
+            comp.Find( "#btnSave" ).Click();
 
             var currentName = comp.Instance.InMemoryData[0].Name;
 
@@ -94,11 +77,12 @@ namespace Blazorise.Tests.Components
         public void Delete_Should_DeleteItem( DataGridEditMode editMode )
         {
             // setup
-            var comp = RenderComponent<DataGridComponent>( parameters =>
+            var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
+            comp.Find( "tr.table-row-selectable" ).Click();
             comp.Find( "#btnDelete" ).Click();
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
@@ -106,6 +90,5 @@ namespace Blazorise.Tests.Components
             // validate
             Assert.Equal( startingDataCount - 1, currentDataCount );
         }
-
     }
 }
