@@ -106,5 +106,6 @@ namespace Blazorise.Tests.Components
             // validate
             Assert.Equal( startingDataCount - 1, currentDataCount );
         }
+
     }
 }

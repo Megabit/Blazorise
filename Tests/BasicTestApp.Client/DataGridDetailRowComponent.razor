@@ -1,0 +1,44 @@
+﻿<DataGrid @ref="DataGridRef"
+          TItem="Employee"
+          Data="InMemoryData"
+          ShowPager
+          ShowPageSizes
+          Sortable
+          SortMode="DataGridSortMode.Single"
+          DetailRowStartsVisible="DetailRowStartsVisible">
+    <DataGridColumns>
+        <DataGridColumn TextAlignment="TextAlignment.Center"
+                        TItem="Employee"
+                        Field="@nameof( Employee.Fraction )"
+                        Caption="Fraction" />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name" />
+    </DataGridColumns>
+    <DetailRowTemplate>
+        @{
+            <Label ElementId="lblFraction">@context.Fraction</Label>
+        }
+    </DetailRowTemplate>
+</DataGrid>
+
+@code {
+    public DataGrid<Employee> DataGridRef;
+    [Parameter]
+    public bool DetailRowStartsVisible { get; set; } = true;
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public string Fraction { get; set; }
+
+    }
+
+    public List<Employee> InMemoryData { get; set; } = new()
+        {
+            new() { Name = "John", Fraction = "1/2" },
+            new() { Name = "Sarah", Fraction = "1/4" },
+            new() { Name = "Paul", Fraction = "1/8" },
+            new() { Name = "Ana", Fraction = "3/4" }
+        };
+}
