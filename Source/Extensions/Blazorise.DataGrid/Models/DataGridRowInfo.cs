@@ -11,7 +11,6 @@ namespace Blazorise.DataGrid.Models
     /// <summary>
     /// Holds the basic information about the datagrid row.
     /// </summary>
-
     public class DataGridRowInfo<TItem>
     {
         private bool hasDetailRow;
@@ -27,6 +26,9 @@ namespace Blazorise.DataGrid.Models
             Columns = columns;
         }
 
+        /// <summary>
+        /// Gets the list of columns.
+        /// </summary>
         public IEnumerable<DataGridColumn<TItem>> Columns { get; }
 
         /// <summary>
