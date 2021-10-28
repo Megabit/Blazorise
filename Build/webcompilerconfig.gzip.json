@@ -7,7 +7,8 @@
       "ColorNames": "Hex",
       "TermSemicolons": true,
       "OutputMode": "SingleLine",
-      "IndentSize": 2
+      "IndentType": "Space",
+      "IndentWidth": 2
     },
     "Javascript": {
       "RenameLocals": true,
@@ -15,7 +16,8 @@
       "EvalTreatment": "Ignore",
       "TermSemicolons": true,
       "OutputMode": "SingleLine",
-      "IndentSize": 2
+      "IndentType": "Space",
+      "IndentWidth": 2
     }
   },
   "Autoprefix": {
