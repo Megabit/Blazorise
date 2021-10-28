@@ -4,28 +4,24 @@
           ShowPageSizes
           Sortable
           SortMode="DataGridSortMode.Single"
+          CommandMode="DataGridCommandMode.ButtonRow"
           Editable
-          EditMode="@DataGridEditMode">
+          EditMode="@DataGridEditMode"
+          @bind-SelectedRow="selectedEmployee">
+    <ButtonRowTemplate>
+        <Button ElementId="btnNew" Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+        <Button ElementId="btnEdit" Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+        <Button ElementId="btnDelete" Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+        <Button ElementId="btnCancel" Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
+    </ButtonRowTemplate>
     <DataGridColumns>
-        <DataGridCommandColumn TItem="Employee">
-            <NewCommandTemplate>
-                <Button ElementId="btnNew" Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
-            </NewCommandTemplate>
-            <EditCommandTemplate>
-                <Button ElementId="btnEdit" Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
-            </EditCommandTemplate>
+        <DataGridCommandColumn TItem="Employee" NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false"  >
             <SaveCommandTemplate>
                 <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </SaveCommandTemplate>
-            <DeleteCommandTemplate>
-                <Button ElementId="btnDelete" Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>
-            </DeleteCommandTemplate>
             <CancelCommandTemplate>
                 <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </CancelCommandTemplate>
-            <ClearFilterCommandTemplate>
-                <Button ElementId="btnClearFilter" Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
-            </ClearFilterCommandTemplate>
         </DataGridCommandColumn>
         <DataGridColumn TextAlignment="TextAlignment.Center"
                         TItem="Employee"
@@ -42,8 +38,10 @@
 </DataGrid>
 
 @code {
+    private Employee selectedEmployee;
+
     [Parameter]
-    public DataGridEditMode DataGridEditMode { get; set; }        
+    public DataGridEditMode DataGridEditMode { get; set; }
 
     public class Employee
     {
