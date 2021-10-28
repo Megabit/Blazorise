@@ -245,3 +245,6 @@ ModelManifest.xml
 # jekyll
 _site
 Gemfile.lock
+
+# Ignore output files from WebCompiler Dll
+**/[Ss]tyles/*.css
