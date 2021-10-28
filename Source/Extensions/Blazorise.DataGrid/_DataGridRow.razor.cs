@@ -63,7 +63,21 @@ namespace Blazorise.DataGrid
                         throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
                 }
             }
+
             return base.SetParametersAsync( ParameterView.Empty );
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Columns = ParentDataGrid.DisplayableColumns;
+            RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
+
+            ParentDataGrid.AddRow( RowInfo );
+
+            if ( ParentDataGrid.DetailRowStartsVisible )
+                await ParentDataGrid.ToggleDetailRow( Item );
+
+            await base.OnInitializedAsync();
         }
 
         protected override Task OnAfterRenderAsync( bool firstRender )
@@ -100,6 +114,7 @@ namespace Blazorise.DataGrid
                 await HandleSingleSelectClick( eventArgs );
 
             await HandleMultiSelectClick( eventArgs );
+
             clickFromCheck = false;
         }
 
@@ -137,6 +152,7 @@ namespace Blazorise.DataGrid
             {
                 await ParentDataGrid.Select( Item );
             }
+
             await ParentDataGrid.ToggleDetailRow( Item );
         }
 
@@ -159,16 +175,6 @@ namespace Blazorise.DataGrid
         protected Cursor GetHoverCursor()
             => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
 
-        protected override async Task OnInitializedAsync()
-        {
-            this.Columns = ParentDataGrid.DisplayableColumns;
-            this.RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
-            ParentDataGrid.AddRow( RowInfo );
-            if ( ParentDataGrid.DetailRowStartsVisible )
-                await ParentDataGrid.ToggleDetailRow( Item );
-            await base.OnInitializedAsync();
-        }
-
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -184,6 +190,7 @@ namespace Blazorise.DataGrid
 
             return base.DisposeAsync( disposing );
         }
+
         #endregion
 
         #region Properties
