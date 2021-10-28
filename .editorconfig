@@ -1,15 +1,14 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
-# C# files
-[*.{cs,cshtml}]
+[*]
 
-#### Core EditorConfig Options ####
-
-# Indentation and spacing
 indent_size = 4
 indent_style = space
 tab_width = 4
+
+# C# files
+[*.{cs,cshtml}]
 
 # New line preferences
 end_of_line = crlf
@@ -203,3 +202,9 @@ dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
 dotnet_naming_style.begins_with_i.word_separator = 
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+
+[{*.scss,*.css}]
+indent_size = 4
+indent_style = space
+tab_width = 4
