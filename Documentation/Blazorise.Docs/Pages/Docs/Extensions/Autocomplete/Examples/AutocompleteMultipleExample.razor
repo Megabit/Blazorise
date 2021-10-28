@@ -1,10 +1,10 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Autocomplete TItem="MySelectModel"
+<Autocomplete TItem="Country"
               TValue="string"
-              Data="@myDdlData"
-              TextField="@(( item ) => item.MyTextField)"
-              ValueField="@(( item ) => item.MyValueField.ToString())"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
               Placeholder="Search..."
               Multiple
               FreeTyping
@@ -22,21 +22,17 @@
 </Field>
 
 @code {
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
-    }
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
 
-    static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        await base.OnInitializedAsync();
+    }
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts = new();
-
-    protected override Task OnInitializedAsync()
-    {
-        multipleSelectionData = new List<string>() { myDdlData.ElementAt( 1 ).MyValueField.ToString(), myDdlData.ElementAt( 3 ).MyValueField.ToString() };
-        return base.OnInitializedAsync();
-    }
 }

@@ -2423,17 +2423,17 @@ namespace Blazorise.Docs.Models
     .AddEmptyProviders();
 }";
 
-        public const string AutocompleteExample = @"<Autocomplete TItem=""MySelectModel""
+        public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
-              Data=""@myDdlData""
-              TextField=""@(( item ) => item.MyTextField)""
-              ValueField=""@(( item ) => item.MyValueField.ToString())""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
               @bind-SelectedValue=""@selectedSearchValue""
               @bind-SelectedText=""selectedAutoCompleteText""
               Placeholder=""Search...""
               Filter=""AutocompleteFilter.StartsWith""
               FreeTyping
-              CustomFilter=""@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
+              CustomFilter=""@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
@@ -2447,35 +2447,36 @@ namespace Blazorise.Docs.Models
 </Field>
 
 @code {
-    public class MySelectModel
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
     }
 
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
-
-    string selectedSearchValue { get; set; }
-    string selectedAutoCompleteText { get; set; }
+    public string selectedSearchValue { get; set; }
+    public string selectedAutoCompleteText { get; set; }
 }";
 
-        public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""MySelectModel""
+        public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
-              Data=""@myDdlData""
-              TextField=""@(( item ) => item.MyTextField)""
-              ValueField=""@(( item ) => item.MyValueField.ToString())""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
               @bind-SelectedValue=""@selectedSearchValue""
               @bind-SelectedText=""selectedAutoCompleteText""
               Placeholder=""Search...""
               Filter=""AutocompleteFilter.StartsWith""
               FreeTyping
-              CustomFilter=""@(( item, searchValue ) => item.MyTextField.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
+              CustomFilter=""@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
     <ItemContent>
         <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
             <Heading Margin=""Margin.Is2.FromBottom"">@context.Value</Heading>
-            <Small>Country Flag</Small>
+            <Small>@context.Item.Capital</Small>
         </Div>
         <Paragraph Margin=""Margin.Is2.FromBottom"">@context.Text</Paragraph>
     </ItemContent>
@@ -2491,24 +2492,24 @@ namespace Blazorise.Docs.Models
 </Field>
 
 @code {
-    public class MySelectModel
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
     }
-
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
-
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
 }";
 
-        public const string AutocompleteMultipleExample = @"<Autocomplete TItem=""MySelectModel""
+        public const string AutocompleteMultipleExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
-              Data=""@myDdlData""
-              TextField=""@(( item ) => item.MyTextField)""
-              ValueField=""@(( item ) => item.MyValueField.ToString())""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
               Placeholder=""Search...""
               Multiple
               FreeTyping
@@ -2526,23 +2527,19 @@ namespace Blazorise.Docs.Models
 </Field>
 
 @code {
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
-    }
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
 
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        await base.OnInitializedAsync();
+    }
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts = new();
-
-    protected override Task OnInitializedAsync()
-    {
-        multipleSelectionData = new List<string>() { myDdlData.ElementAt( 1 ).MyValueField.ToString(), myDdlData.ElementAt( 3 ).MyValueField.ToString() };
-        return base.OnInitializedAsync();
-    }
 }";
 
         public const string ChartEventExample = @"<Chart @ref=""barChart"" Type=""ChartType.Bar"" TItem=""double"" Clicked=""@OnClicked"" />
@@ -2717,9 +2714,7 @@ namespace Blazorise.Docs.Models
 <script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>";
 
-        public const string DataGridAggregatesExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
+        public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
         <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
             <DisplayTemplate>
@@ -2743,12 +2738,18 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code {
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridAggregatesLargeDataExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridAggregatesLargeDataExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
@@ -2777,12 +2778,20 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    int totalEmployees;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
-    List<Employee> employeeSummary;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
 
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 
-    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    private int totalEmployees;
+    private List<Employee> employeeSummary;
+
+    private Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
         if ( !e.CancellationToken.IsCancellationRequested )
         {
@@ -2819,13 +2828,13 @@ namespace Blazorise.Docs.Models
 	public string LastName { get; set; }
 }";
 
-        public const string DataGridButtonRowExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridButtonRowExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Editable
-          Responsive>
+          Responsive
+          ShowPager
+          CommandMode=""DataGridCommandMode.ButtonRow"">
     <DataGridColumns>
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -2846,13 +2855,19 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridCommandTemplatesExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridCommandTemplatesExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Editable
@@ -2877,13 +2892,19 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridCustomColumnFilteringExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridCustomColumnFilteringExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Filterable
           Responsive>
@@ -2917,9 +2938,7 @@ namespace Blazorise.Docs.Models
 
 }";
 
-        public const string DataGridCustomFilteringExample = @"@using Blazorise.Docs.Models
-
- Custom Filter: <TextEdit @bind-Text=""@customFilterValue"" ></TextEdit>
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit @bind-Text=""@customFilterValue"" ></TextEdit>
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
@@ -2931,9 +2950,9 @@ namespace Blazorise.Docs.Models
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 
-    string customFilterValue;
+    private string customFilterValue;
 
-    bool OnCustomFilter( Employee model )
+    private bool OnCustomFilter( Employee model )
     {
         // We want to accept empty value as valid or otherwise
         // datagrid will not show anything.
@@ -2945,9 +2964,7 @@ namespace Blazorise.Docs.Models
 
 }";
 
-        public const string DataGridCustomRowColorsExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridCustomRowColorsExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           RowStyling=""@OnRowStyling""
@@ -2966,24 +2983,30 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
 
-    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private void OnRowStyling( Employee employee, DataGridRowStyling styling )
     {
         if ( !employee.IsActive )
             styling.Style = ""color: red;"";
     }
 
-    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    private void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
     {
         styling.Background = Background.Info;
     }
 }";
 
-        public const string DataGridDetailRowTemplateExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridDetailRowTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           DetailRowTrigger=""@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)""
@@ -3009,13 +3032,19 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
     private Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridDisplayTemplateExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridDisplayTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive>
     <DataGridNumericColumn TItem=""Employee"" Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable=""true"">
@@ -3033,12 +3062,19 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridEditTemplateExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridEditTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Editable
           Responsive>
@@ -3051,12 +3087,18 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridEmptyCellTemplateExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridEmptyCellTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           TotalItems=""@totalEmployees""
@@ -3090,9 +3132,18 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    protected Employee selectedEmployee;
-    protected int totalEmployees;
-    protected List<Employee> employeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private int totalEmployees;
 
     public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
@@ -3106,9 +3157,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DataGridExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive>
@@ -3125,13 +3174,19 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridFilterExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridFilterExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Filterable
           FilterMethod=""DataGridFilterMethod.StartsWith""
@@ -3145,9 +3200,7 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
 
-        public const string DataGridLargeDataExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridLargeDataExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
@@ -3166,10 +3219,19 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    int totalEmployees;
-    List<Employee> employeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
 
-    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private int totalEmployees;
+
+    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
         if ( !e.CancellationToken.IsCancellationRequested )
         {
@@ -3178,25 +3240,22 @@ namespace Blazorise.Docs.Models
             // this can be call to anything, in this case we're calling a fictional api
             //var response = await Http.GetJsonAsync<Employee[]>( $""some-api/employees?page={e.Page}&pageSize={e.PageSize}"" );
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                response = EmployeeData.EmployeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+                response = (await EmployeeData.GetDataAsync()).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = EmployeeData.EmployeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = (await EmployeeData.GetDataAsync()).Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
             else
                 throw new Exception( ""Unhandled ReadDataMode"" );
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = EmployeeData.EmployeeList.Count;
+                totalEmployees = (await EmployeeData.GetDataAsync()).Count;
                 employeeList = new List<Employee>( response ); // an actual data for the current page
             }
         }
-        return Task.CompletedTask;
     }
 }";
 
-        public const string DataGridLoadingEmptyTemplateExample = @"@using Blazorise.Docs.Models
-
-<DataGrid @ref=""datagridRef""
+        public const string DataGridLoadingEmptyTemplateExample = @"<DataGrid @ref=""datagridRef""
           TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -3265,9 +3324,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DataGridMultipleSelectionExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridMultipleSelectionExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           SelectionMode=""DataGridSelectionMode.Multiple""
@@ -3287,14 +3344,20 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> selectedEmployees;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private List<Employee> selectedEmployees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridNewItemDefaultSetterExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridNewItemDefaultSetterExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           NewItemDefaultSetter=""@OnEmployeeNewItemDefaultSetter""
@@ -3313,8 +3376,16 @@ namespace Blazorise.Docs.Models
 </DataGrid>
 
 @code{
-    Employee selectedEmployee;
-    List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 
     void OnEmployeeNewItemDefaultSetter( Employee employee )
     {
@@ -3325,9 +3396,7 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
 
-        public const string DataGridSelectingExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           RowSelectable=@((item)=>item.FirstName != ""John"")
           Responsive>
@@ -3338,9 +3407,7 @@ namespace Blazorise.Docs.Models
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 }";
 
-        public const string DataGridUpdateCellExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridUpdateCellExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Editable
           EditMode=""DataGridEditMode.Inline""
@@ -3352,20 +3419,26 @@ namespace Blazorise.Docs.Models
                          Value=""@((decimal)context.CellValue)""
                          ValueChanged=""@( v => {
                             context.CellValue = v;
-                            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+                            context.UpdateCell( nameof( Employee.Salary ), v * .25m );
                          })"" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Tax"" Editable=""true"" />
 </DataGrid>
 
 @code{
-    private List<Employee> employeeList = EmployeeData.EmployeeList;
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string DataGridValidatorEditTemplateExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridValidatorEditTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           Editable
@@ -3399,9 +3472,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DataGridValidatorExample = @"@using Blazorise.Docs.Models
-
-<DataGrid TItem=""Employee""
+        public const string DataGridValidatorExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           Editable
@@ -3424,12 +3495,11 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DropdownListExample = @"<DropdownList TItem=""MySelectModel"" TValue=""int""
-              Data=""@myDdlData""
-              TextField=""@((item)=>item.MyTextField)""
-              ValueField=""@((item)=>item.MyValueField)""
-              SelectedValue=""@selectedDropValue""
-              SelectedValueChanged=""@MyDropValueChangedHandler""
+        public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
+              Data=""@Countries""
+              TextField=""@((item)=>item.Name)""
+              ValueField=""@((item)=>item.Iso)""
+              @bind-SelectedValue=""@selectedDropValue""
               Color=""Color.Primary"">
     Select item
 </DropdownList>
@@ -3439,26 +3509,23 @@ namespace Blazorise.Docs.Models
         Selected item: @selectedDropValue
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected value: @Countries[selectedDropValue - 1]
+        Selected text: @Countries?.FirstOrDefault(x=> x.Iso == @selectedDropValue)?.Name
     </FieldBody>
 </Field>
 
 @code{
-    public class MySelectModel
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
     }
 
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    string selectedDropValue { get; set; } = ""CN"";
 
-    int selectedDropValue { get; set; } = 2;
-
-    void MyDropValueChangedHandler( int newValue )
-    {
-        selectedDropValue = newValue;
-    }
 }";
 
         public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"" />";
@@ -3480,27 +3547,28 @@ namespace Blazorise.Docs.Models
 	.AddBootstrapProviders()
 +   .AddFontAwesomeIcons();";
 
-        public const string BasicListViewExample = @"<ListView TItem=""MySelectModel""
-            Data=""myDdlData""
-            TextField=""(item) => item.MyTextField""
+        public const string BasicListViewExample = @"<ListView TItem=""Country""
+            Data=""Countries""
+            TextField=""(item) => item.Name""
             Mode=""ListGroupMode.Static""
             MaxHeight=""300px"">
 </ListView>
 
 @code{
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
-    }
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
 
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
-        public const string ListViewSelectableExample = @"<ListView TItem=""MySelectModel""
-            Data=""myDdlData""
-            TextField=""(item) => item.MyTextField""
+        public const string ListViewSelectableExample = @"<ListView TItem=""Country""
+            Data=""Countries""
+            TextField=""(item) => item.Name""
             Mode=""ListGroupMode.Selectable""
             MaxHeight=""300px""
             @bind-SelectedItem=""@selectedListViewItem"">
@@ -3508,21 +3576,23 @@ namespace Blazorise.Docs.Models
 
 <Field Horizontal=""true"">
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Item Text: @selectedListViewItem?.MyTextField
+        Selected Item Text: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 
 
 @code{
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
-    }
-    MySelectModel selectedListViewItem { get; set; }
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
 
-    static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    private Country selectedListViewItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";

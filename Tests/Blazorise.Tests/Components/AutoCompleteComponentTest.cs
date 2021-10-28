@@ -23,7 +23,7 @@ namespace Blazorise.Tests.Components
             // setup
             var comp = RenderComponent<AutocompleteComponent>();
             var selectedText = comp.Instance.selectedAutoCompleteText;
-            var expectedSelectedText = "Andorra";
+            var expectedSelectedText = "China";
 
             // test
             var input = comp.Find( ".b-is-autocomplete input" );
@@ -35,10 +35,10 @@ namespace Blazorise.Tests.Components
         }
 
         [Theory]
-        [InlineData( 2, "Andorra" )]
-        [InlineData( 1, "Albania" )]
-        [InlineData( 8, "Bosnia & Herzegovina" )]
-        public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( int selectedValue, string expectedSelectedText )
+        [InlineData( "CN", "China" )]
+        [InlineData( "PT", "Portugal" )]
+        [InlineData( "GB", "United Kingdom" )]
+        public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
         {
             // setup
             var comp = RenderComponent<AutocompleteComponent>(

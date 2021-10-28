@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -34,6 +35,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected bool clickFromCheck;
 
+        /// <summary>
+        /// Holds information about the current Row.
+        /// </summary>
+        protected DataGridRowInfo<TItem> RowInfo;
+
         #endregion
 
         #region Methods
@@ -57,7 +63,21 @@ namespace Blazorise.DataGrid
                         throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
                 }
             }
+
             return base.SetParametersAsync( ParameterView.Empty );
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Columns = ParentDataGrid.DisplayableColumns;
+            RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
+
+            ParentDataGrid.AddRow( RowInfo );
+
+            if ( ParentDataGrid.DetailRowStartsVisible )
+                await ParentDataGrid.ToggleDetailRow( Item );
+
+            await base.OnInitializedAsync();
         }
 
         protected override Task OnAfterRenderAsync( bool firstRender )
@@ -94,6 +114,7 @@ namespace Blazorise.DataGrid
                 await HandleSingleSelectClick( eventArgs );
 
             await HandleMultiSelectClick( eventArgs );
+
             clickFromCheck = false;
         }
 
@@ -131,6 +152,8 @@ namespace Blazorise.DataGrid
             {
                 await ParentDataGrid.Select( Item );
             }
+
+            await ParentDataGrid.ToggleDetailRow( Item );
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -152,10 +175,20 @@ namespace Blazorise.DataGrid
         protected Cursor GetHoverCursor()
             => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
 
-        protected override Task OnInitializedAsync()
+        protected override void Dispose( bool disposing )
         {
-            this.Columns = ParentDataGrid.DisplayableColumns;
-            return base.OnInitializedAsync();
+            if ( disposing )
+                ParentDataGrid.RemoveRow( this.RowInfo );
+
+            base.Dispose( disposing );
+        }
+
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+                ParentDataGrid.RemoveRow( this.RowInfo );
+
+            return base.DisposeAsync( disposing );
         }
 
         #endregion

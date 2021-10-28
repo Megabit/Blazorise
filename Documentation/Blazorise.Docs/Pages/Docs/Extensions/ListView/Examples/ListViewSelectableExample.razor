@@ -1,8 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<ListView TItem="MySelectModel"
-            Data="myDdlData"
-            TextField="(item) => item.MyTextField"
+<ListView TItem="Country"
+            Data="Countries"
+            TextField="(item) => item.Name"
             Mode="ListGroupMode.Selectable"
             MaxHeight="300px"
             @bind-SelectedItem="@selectedListViewItem">
@@ -10,19 +10,21 @@
 
 <Field Horizontal="true">
     <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected Item Text: @selectedListViewItem?.MyTextField
+        Selected Item Text: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 
 
 @code{
-    public class MySelectModel
-    {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
-    }
-    MySelectModel selectedListViewItem { get; set; }
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
 
-    static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    private Country selectedListViewItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }

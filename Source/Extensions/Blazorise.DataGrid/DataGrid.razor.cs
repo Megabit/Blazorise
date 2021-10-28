@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Configuration;
+using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -195,14 +196,30 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Links the child row with this datagrid.
+        /// </summary>
+        /// <param name="column">Column to link with this datagrid.</param>
+        public void AddRow( DataGridRowInfo<TItem> row )
+        {
+            Rows.Add( row );
+        }
+
+        /// <summary>
         /// Removes an existing link of a child column with this datagrid.
         /// <para>Returns:
         ///     true if item is successfully removed; otherwise, false. 
         /// </para>
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
-        internal bool RemoveColumn( DataGridColumn<TItem> column )
-            => Columns.Remove( column ); // TODO: mark as public in v0.9.5
+        public bool RemoveColumn( DataGridColumn<TItem> column )
+            => Columns.Remove( column );
+
+        /// <summary>
+        /// Links the child row with this datagrid.
+        /// </summary>
+        /// <param name="column">Column to link with this datagrid.</param>
+        public bool RemoveRow( DataGridRowInfo<TItem> row )
+            => Rows.Remove( row );
 
         /// <summary>
         /// Links the child column with this datagrid.
@@ -633,6 +650,30 @@ namespace Blazorise.DataGrid
             return null;
         }
 
+        /// <summary>
+        /// Toggles DetailRow while evaluating the <see cref="DetailRowTrigger"/> if provided.
+        /// Use <paramref name="forceDetailRow"/> to ignore <see cref="DetailRowTrigger"/> and toggle the DetailRow.
+        /// </summary>
+        /// <param name="item">Row item.</param>
+        /// <param name="forceDetailRow">Ignores DetailRowTrigger and toggles the DetailRow.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ToggleDetailRow( TItem item, bool forceDetailRow = false )
+        {
+            var rowInfo = GetRowInfo( item );
+            if ( rowInfo is not null )
+            {
+                if ( forceDetailRow )
+                    rowInfo.ToggleDetailRow();
+                else if ( DetailRowTrigger is not null )
+                    rowInfo.SetRowDetail( DetailRowTrigger( item ) );
+                else
+                    rowInfo.ToggleDetailRow();
+                return InvokeAsync( StateHasChanged );
+            }
+
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         #region Editing
@@ -872,7 +913,7 @@ namespace Blazorise.DataGrid
         /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
         /// </summary>
         /// <returns></returns>
-        protected internal async virtual Task Refresh()
+        public async virtual Task Refresh()
             => await InvokeAsync( StateHasChanged );
 
         protected async Task HandleReadData( CancellationToken cancellationToken )
@@ -918,7 +959,7 @@ namespace Blazorise.DataGrid
             if ( request.CancellationToken.IsCancellationRequested )
                 return new();
             else
-                return new( Data, TotalItems.Value );
+                return new( Data.ToList(), TotalItems.Value );
         }
 
         protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
@@ -1136,6 +1177,9 @@ namespace Blazorise.DataGrid
             return SelectedRowChanged.InvokeAsync( SelectedRow );
         }
 
+        private DataGridRowInfo<TItem> GetRowInfo( TItem item )
+            => Rows.FirstOrDefault( x => x.Item.IsEqual( item ) );
+
         #endregion
 
         #endregion
@@ -1159,6 +1203,12 @@ namespace Blazorise.DataGrid
                 return sb.ToString();
             }
         }
+
+
+        /// <summary>
+        /// Gets the data to show on grid based on the filter and current page.
+        /// </summary>
+        protected List<DataGridRowInfo<TItem>> Rows { get; } = new();
 
         /// <summary>
         /// List of all the columns associated with this datagrid.
@@ -1880,6 +1930,11 @@ namespace Blazorise.DataGrid
         /// If true, the edit form will have the Save button as <c>type="submit"</c>, and it will react to Enter keys being pressed.
         /// </summary>
         [Parameter] public bool SubmitFormOnEnter { get; set; } = true;
+
+        /// <summary>
+        /// Controls whether DetailRow will start visible if <see cref="DetailRowTemplate"/> is set
+        /// </summary>
+        [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
 
         #endregion
     }
