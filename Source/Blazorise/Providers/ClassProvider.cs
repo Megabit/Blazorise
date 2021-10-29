@@ -1172,6 +1172,7 @@ namespace Blazorise
                 Blazorise.Background.Dark => "dark",
                 Blazorise.Background.White => "white",
                 Blazorise.Background.Transparent => "transparent",
+                Blazorise.Background.Body => "body",
                 _ => null,
             };
         }

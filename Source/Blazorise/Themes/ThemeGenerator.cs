@@ -309,7 +309,9 @@ namespace Blazorise
         /// <param name="inColor">Background color.</param>
         protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
         {
-            var backgroundColor = ParseColor( inColor );
+            var backgroundColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor )
+                ? ParseColor( theme.BodyOptions.BackgroundColor )
+                : ParseColor( inColor );
 
             if ( backgroundColor.IsEmpty )
                 return;
