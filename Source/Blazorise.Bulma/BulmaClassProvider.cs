@@ -1350,6 +1350,8 @@ namespace Blazorise.Bulma
                     return "white";
                 case Blazorise.Background.Transparent:
                     return "transparent";
+                case Blazorise.Background.Body:
+                    return "body";
                 default:
                     return null;
             }

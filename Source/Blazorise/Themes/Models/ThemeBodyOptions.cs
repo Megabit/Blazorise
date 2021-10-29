@@ -8,6 +8,9 @@
         /// <summary>
         /// Gets or sets the body background color.
         /// </summary>
+        /// <remarks>
+        /// If defined it will also override any <see cref="Background.Body"/>.
+        /// </remarks>
         public string BackgroundColor { get; set; }
 
         /// <summary>
