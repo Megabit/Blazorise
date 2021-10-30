@@ -67,7 +67,7 @@ namespace Blazorise
                 GenerateSidebarVariables( theme, theme.SidebarOptions );
 
             if ( theme.BarOptions != null )
-                GenerateBarVariables( theme.BarOptions );
+                GenerateBarVariables( theme, theme.BarOptions );
 
             if ( theme.SnackbarOptions != null )
                 GenerateSnackbarVariables( theme, theme.SnackbarOptions );
@@ -362,7 +362,7 @@ namespace Blazorise
         /// Generates the bar component CSS variables.
         /// </summary>
         /// <param name="barOptions">Bar options.</param>
-        protected virtual void GenerateBarVariables( ThemeBarOptions barOptions )
+        protected virtual void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
         {
             if ( !string.IsNullOrEmpty( barOptions.VerticalWidth ) )
                 Variables[ThemeVariables.VerticalBarWidth] = barOptions.VerticalWidth;
@@ -382,7 +382,7 @@ namespace Blazorise
             if ( barOptions?.DarkColors != null )
             {
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.BackgroundColor ) )
-                    Variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );
+                    Variables[ThemeVariables.BarDarkBackground] = GetGradientBgValue( theme, barOptions.DarkColors.BackgroundColor, barOptions.DarkColors.GradientBlendPercentage );
 
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.Color ) )
                     Variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
@@ -412,7 +412,7 @@ namespace Blazorise
             if ( barOptions?.LightColors != null )
             {
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.BackgroundColor ) )
-                    Variables[ThemeVariables.BarLightBackground] = ToHex( ParseColor( barOptions.LightColors.BackgroundColor ) );
+                    Variables[ThemeVariables.BarLightBackground] = GetGradientBgValue( theme, barOptions.LightColors.BackgroundColor, barOptions.LightColors.GradientBlendPercentage );
 
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.Color ) )
                     Variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
@@ -1135,6 +1135,21 @@ namespace Blazorise
             return theme.IsGradient
                 ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x{( important ? " !important" : "" )};"
                 : $"background-color: {color}{( important ? " !important" : "" )};";
+        }
+
+        /// <summary>
+        /// Builds the gradient or background CSS style.
+        /// </summary>
+        /// <param name="theme">Theme settings.</param>
+        /// <param name="color">Background color.</param>
+        /// <param name="percentage">Percentage of blend if gradient is used.</param>
+        /// <param name="important">If true, !important flag will be set.</param>
+        /// <returns>Gradient or background CSS style.</returns>
+        protected virtual string GetGradientBgValue( Theme theme, string color, float? percentage, bool important = false )
+        {
+            return theme.IsGradient
+                ? $"{color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x{( important ? " !important" : "" )}"
+                : $"{color}{( important ? " !important" : "" )}";
         }
 
         /// <summary>

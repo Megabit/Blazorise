@@ -11,6 +11,11 @@
         public string BackgroundColor { get; set; }
 
         /// <summary>
+        /// Defines the percentage of how much the background colors will blend together.
+        /// </summary>
+        public float? GradientBlendPercentage { get; set; } = 15f;
+
+        /// <summary>
         /// Gets or sets the bar text color.
         /// </summary>
         public string Color { get; set; }
