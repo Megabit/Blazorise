@@ -60,7 +60,7 @@ namespace Blazorise.Components
             get
             {
                 var sb = new StringBuilder();
-                
+
                 if ( MaxMenuHeight != null )
                     sb.Append( $"--dropdown-list-menu-max-height: {MaxMenuHeight};" );
 
