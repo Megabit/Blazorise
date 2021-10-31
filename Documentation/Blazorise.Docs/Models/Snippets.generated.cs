@@ -1999,19 +1999,36 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string LazyLoadTabExample = @"<Tabs Mode=""TabsMode.LazyLoad"" SelectedTab=""lazyLoad"">
+        public const string LazyLoadTabExample = @"<Tabs Mode=""TabsMode.LazyLoad"" SelectedTab=""tab1"">
     <Items>
-        <Tab Name=""lazyLoad"">Tab 1</Tab>
-        <Tab Name=""lazyLoad2"">Tab 2</Tab>
+        <Tab Name=""tab1"">Tab 1</Tab>
+        <Tab Name=""tab2"">Tab 2</Tab>
     </Items>
     <Content>
-        <TabPanel Name=""lazyLoad"">
-            This Tabs component is set to <code>LazyLoad</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+        <TabPanel Name=""tab1"">
+            This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
+            This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
+            <TextEdit></TextEdit>
+        </TabPanel>
+        <TabPanel Name=""tab2"">
+            <TextEdit></TextEdit>
+        </TabPanel>
+    </Content>
+</Tabs>";
+
+        public const string LazyReloadTabExample = @"<Tabs Mode=""TabsMode.LazyReload"" SelectedTab=""tab1"">
+    <Items>
+        <Tab Name=""tab1"">Tab 1</Tab>
+        <Tab Name=""tab2"">Tab 2</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name=""tab1"">
+            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
             Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
             therefore re-calculated.
             <TextEdit></TextEdit>
         </TabPanel>
-        <TabPanel Name=""lazyLoad2"">
+        <TabPanel Name=""tab2"">
             <TextEdit></TextEdit>
         </TabPanel>
     </Content>

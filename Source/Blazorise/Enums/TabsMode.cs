@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Defines the Tabs Mode
+    /// Defines the Tabs Mode.
     /// </summary>
     public enum TabsMode
     {
