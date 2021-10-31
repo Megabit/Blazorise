@@ -94,6 +94,11 @@ namespace Blazorise
                 if ( !AsyncDisposed )
                 {
                     AsyncDisposed = true;
+
+                    if ( disposing )
+                    {
+                        executeAfterRenderQueue?.Clear();
+                    }
                 }
 
                 return default;
