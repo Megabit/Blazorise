@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,11 @@ namespace Blazorise
     public partial class TabPanel : BaseComponent
     {
         #region Members
+
+        /// <summary>
+        /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
+        /// </summary>
+        private bool lazyLoaded;
 
         /// <summary>
         /// A reference to the parent tabs state.
@@ -44,6 +50,14 @@ namespace Blazorise
             ParentTabsContent?.NotifyTabPanelInitialized( Name );
 
             base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnParametersSetAsync()
+        {
+            if ( Active )
+                lazyLoaded = (Mode == TabsMode.LazyLoad);
+            return base.OnParametersSetAsync();
         }
 
         /// <inheritdoc/>
