@@ -69,6 +69,11 @@ namespace Blazorise
         protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
 
         /// <summary>
+        /// Gets the current TabsMode.
+        /// </summary>
+        protected TabsMode Mode => ParentTabsState?.Mode ?? TabsMode.Default;
+
+        /// <summary>
         /// Defines the panel name. Must match the corresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }

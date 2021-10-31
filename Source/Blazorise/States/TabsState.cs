@@ -25,9 +25,17 @@
         /// </summary>
         public TabPosition TabPosition { get; init; }
 
+
+        /// <summary>
+        /// Gets or sets the TabsMode.
+        /// </summary>
+        public TabsMode Mode { get; init; }
+
         /// <summary>
         /// Gets or sets currently selected tab name.
         /// </summary>
         public string SelectedTab { get; init; }
+
+        
     }
 }
