@@ -17,8 +17,6 @@ namespace Blazorise
 
         private Validations previousParentValidations;
 
-        private readonly ValidationsStatusChangedEventHandler validationsStatusChangedEventHandler;
-
         private IReadOnlyCollection<string> internalErrorMessages;
 
         #endregion
@@ -31,12 +29,6 @@ namespace Blazorise
         public ValidationSummary()
         {
             ErrorClassBuilder = new( BuildErrorClasses );
-
-            validationsStatusChangedEventHandler += async ( eventArgs ) =>
-            {
-                OnValidationsStatusChanged( eventArgs );
-                await InvokeAsync( StateHasChanged );
-            };
         }
 
         #endregion
@@ -89,7 +81,7 @@ namespace Blazorise
             {
                 DetachAllListener();
 
-                ParentValidations._StatusChanged += validationsStatusChangedEventHandler;
+                ParentValidations._StatusChanged += OnValidationsStatusChanged;
 
                 previousParentValidations = ParentValidations;
             }
@@ -99,13 +91,14 @@ namespace Blazorise
         {
             if ( previousParentValidations != null )
             {
-                previousParentValidations._StatusChanged -= validationsStatusChangedEventHandler;
+                previousParentValidations._StatusChanged -= OnValidationsStatusChanged;
             }
         }
 
-        private void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
+        private async void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
         {
             internalErrorMessages = eventArgs.Messages;
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion

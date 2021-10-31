@@ -15,8 +15,6 @@ namespace Blazorise
 
         private Validation previousParentValidation;
 
-        private readonly EventHandler<ValidationStatusChangedEventArgs> validationStatusChangedHandler;
-
         #endregion
 
         #region Constructors
@@ -26,11 +24,6 @@ namespace Blazorise
         /// </summary>
         public BaseValidationResult()
         {
-            validationStatusChangedHandler += async ( sender, eventArgs ) =>
-            {
-                OnValidationStatusChanged( sender, eventArgs );
-                await InvokeAsync( StateHasChanged );
-            };
         }
 
         #endregion
@@ -64,7 +57,7 @@ namespace Blazorise
             DetachValidationStatusChangedListener();
             if ( ParentValidation is not null )
             {
-                ParentValidation.ValidationStatusChanged -= validationStatusChangedHandler;
+                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
         }
 
@@ -75,7 +68,7 @@ namespace Blazorise
             if ( ParentValidation != previousParentValidation )
             {
                 DetachValidationStatusChangedListener();
-                ParentValidation.ValidationStatusChanged += validationStatusChangedHandler;
+                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
                 previousParentValidation = ParentValidation;
             }
         }
@@ -84,13 +77,14 @@ namespace Blazorise
         {
             if ( previousParentValidation != null )
             {
-                previousParentValidation.ValidationStatusChanged -= validationStatusChangedHandler;
+                previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
         }
 
         /// <inheritdoc/>
-        protected virtual void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion
