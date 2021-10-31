@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -50,6 +51,31 @@ namespace Blazorise.Components
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the dropdown CSS styles.
+        /// </summary>
+        protected string CssStyle
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                
+                if ( MaxMenuHeight != null )
+                    sb.Append( $"--dropdown-list-menu-max-height: {MaxMenuHeight};" );
+
+                if ( Style != null )
+                    sb.Append( Style );
+
+                return sb.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Gets the dropdown CSS classes.
+        /// </summary>
+        protected string CssClass
+            => $"b-dropdown-list {Class}";
 
         /// <summary>
         /// Gets or sets the dropdown element id.
@@ -115,6 +141,11 @@ namespace Blazorise.Components
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Sets the maximum height of the dropdown menu.
+        /// </summary>
+        [Parameter] public string MaxMenuHeight { get; set; }
 
         /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.

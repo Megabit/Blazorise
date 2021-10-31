@@ -3511,6 +3511,10 @@ ol.is-ordered-list-upper-roman {
     color: #b5b5b5;
     white-space: nowrap; }
 
+.b-dropdown-list .dropdown-menu {
+    max-height: var(--dropdown-list-menu-max-height, 200px);
+    overflow-y: scroll; }
+
 .b-is-autocomplete .dropdown-menu {
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);

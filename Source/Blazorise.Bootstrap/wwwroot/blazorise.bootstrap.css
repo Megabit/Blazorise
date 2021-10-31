@@ -118,6 +118,10 @@
 .dropdown-menu a:not([href]).dropdown-item:not(.disabled) {
     cursor: pointer; }
 
+.b-dropdown-list .dropdown-menu {
+    max-height: var(--dropdown-list-menu-max-height, 200px);
+    overflow-y: scroll; }
+
 .b-is-autocomplete .dropdown-menu {
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);
