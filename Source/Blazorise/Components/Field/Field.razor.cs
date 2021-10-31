@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -24,8 +25,6 @@ namespace Blazorise
 
         private Validation previousParentValidation;
 
-        private readonly EventHandler<ValidationStatusChangedEventArgs> validationStatusChangedHandler;
-
         private ValidationStatus previousValidationStatus;
 
         #endregion
@@ -37,10 +36,6 @@ namespace Blazorise
         /// </summary>
         public Field()
         {
-            validationStatusChangedHandler += ( sender, eventArgs ) =>
-            {
-                OnValidationStatusChanged( sender, eventArgs );
-            };
         }
 
         #endregion
@@ -53,7 +48,7 @@ namespace Blazorise
             if ( ParentValidation != previousParentValidation )
             {
                 DetachValidationStatusChangedListener();
-                ParentValidation.ValidationStatusChanged += validationStatusChangedHandler;
+                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
                 previousParentValidation = ParentValidation;
             }
         }
@@ -71,11 +66,33 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DetachValidationStatusChangedListener();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
         }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+
+        private void DisposeResources()
+        {
+            DetachValidationStatusChangedListener();
+            if ( ParentValidation is not null )
+            {
+                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+            }
+        }
+
 
         /// <summary>
         /// Unsubscribe from <see cref="Validation.StatusChanged"/> event.
@@ -84,7 +101,7 @@ namespace Blazorise
         {
             if ( previousParentValidation != null )
             {
-                previousParentValidation.ValidationStatusChanged -= validationStatusChangedHandler;
+                previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
         }
 

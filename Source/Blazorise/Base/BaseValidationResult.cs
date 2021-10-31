@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -41,11 +42,32 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DetachValidationStatusChangedListener();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
         }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            DetachValidationStatusChangedListener();
+            if ( ParentValidation is not null )
+            {
+                ParentValidation.ValidationStatusChanged -= validationStatusChangedHandler;
+            }
+        }
+
 
         /// <inheritdoc/>
         protected override void OnParametersSet()
