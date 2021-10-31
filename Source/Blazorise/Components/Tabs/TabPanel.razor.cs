@@ -56,7 +56,7 @@ namespace Blazorise
         protected override Task OnParametersSetAsync()
         {
             if ( Active )
-                lazyLoaded = (Mode == TabsMode.LazyLoad);
+                lazyLoaded = ( Mode == TabsMode.LazyLoad );
             return base.OnParametersSetAsync();
         }
 
