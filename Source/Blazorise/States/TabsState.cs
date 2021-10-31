@@ -35,7 +35,5 @@
         /// Gets or sets currently selected tab name.
         /// </summary>
         public string SelectedTab { get; init; }
-
-        
     }
 }

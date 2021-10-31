@@ -224,7 +224,8 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the TabsMode.
         /// </summary>
-        [Parameter] public TabsMode Mode
+        [Parameter]
+        public TabsMode Mode
         {
             get => state.Mode;
             set

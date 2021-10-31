@@ -6,12 +6,12 @@
     public enum TabsMode
     {
         /// <summary>
-        /// Always renders tabs as hidden html in the page.
+        /// Always renders the tabs html content to the DOM.
         /// </summary>
         Default,
 
         /// <summary>
-        /// Lazy loads the tab, meaning only the active tab will have it's html rendered on the page.
+        /// Lazy loads tabs, meaning only the active tab will have it's html rendered to the DOM.
         /// </summary>
         LazyLoad,
     }
