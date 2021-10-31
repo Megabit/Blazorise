@@ -79,18 +79,18 @@
                 <CardTitle>Tabs Default Mode</CardTitle>
             </CardHeader>
             <CardBody>
-                <Tabs SelectedTab="lazyLoad">
+                <Tabs SelectedTab="tab1">
                     <Items>
-                        <Tab Name="lazyLoad">Tab 1</Tab>
-                        <Tab Name="lazyLoad2">Tab 2</Tab>
+                        <Tab Name="tab1">Tab 1</Tab>
+                        <Tab Name="tab2">Tab 2</Tab>
                     </Items>
                     <Content>
-                        <TabPanel Name="lazyLoad">
+                        <TabPanel Name="tab1">
                             This Tabs component is set to <code>Default</code> mode, meaning that every tab is always rendered to the DOM and hidden if not active.
                             Try typing some text in the provided Text components and changing between tabs, you will notice that the text will always be kept.
                             <TextEdit></TextEdit>
                         </TabPanel>
-                        <TabPanel Name="lazyLoad2">
+                        <TabPanel Name="tab2">
                             <TextEdit></TextEdit>
                         </TabPanel>
                     </Content>
@@ -104,19 +104,19 @@
                 <CardTitle>Tabs Lazy Load</CardTitle>
             </CardHeader>
             <CardBody>
-                <Tabs Mode="TabsMode.LazyLoad" SelectedTab="lazyLoad">
+                <Tabs Mode="TabsMode.LazyReload" SelectedTab="tab1">
                     <Items>
-                        <Tab Name="lazyLoad">Tab 1</Tab>
-                        <Tab Name="lazyLoad2">Tab 2</Tab>
+                        <Tab Name="tab1">Tab 1</Tab>
+                        <Tab Name="tab2">Tab 2</Tab>
                     </Items>
                     <Content>
-                        <TabPanel Name="lazyLoad">
-                            This Tabs component is set to <code>LazyLoad</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+                        <TabPanel Name="tab1">
+                            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
                             Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
                             therefore re-calculated.
                             <TextEdit></TextEdit>
                         </TabPanel>
-                        <TabPanel Name="lazyLoad2">
+                        <TabPanel Name="tab2">
                             <TextEdit></TextEdit>
                         </TabPanel>
                     </Content>

@@ -1,15 +1,10 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 
-@if ( Mode == TabsMode.Default )
-{
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @if ( Mode == TabsMode.Default || ( Mode == TabsMode.LazyReload && Active ) )
+    {
         @ChildContent
-    </div>
-}
-else if ( ( Mode == TabsMode.LazyLoad && Active ) )
-{
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
-}
+    }
+</div>
+
