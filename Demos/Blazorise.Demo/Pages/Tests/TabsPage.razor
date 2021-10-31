@@ -8,10 +8,7 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName1" SelectedTabChanged="@OnSelectedTabChanged1">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
                         @tabContent
@@ -28,10 +25,7 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName2" SelectedTabChanged="@OnSelectedTabChanged2" Justified="true">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
                         @tabContent
@@ -50,10 +44,7 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName3" SelectedTabChanged="@OnSelectedTabChanged3" TabPosition="TabPosition.Start" Pills="true">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
                         @tabContent
@@ -70,10 +61,7 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName4" SelectedTabChanged="@OnSelectedTabChanged4" TabPosition="TabPosition.End" Pills="true">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
                         @tabContent
@@ -83,9 +71,16 @@
         </Card>
     </Column>
 </Row>
-@code{
+@code {
+    private RenderFragment tabItems => __builder =>
+    {
+        <Tab Name="home">Home</Tab>
+        <Tab Name="profile">Profile</Tab>
+        <Tab Name="messages">Messages</Tab>
+        <Tab Name="settings">Settings</Tab>
+    };
     private RenderFragment tabContent => __builder =>
-        {
+    {
         <TabPanel Name="home">
             Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
         </TabPanel>
