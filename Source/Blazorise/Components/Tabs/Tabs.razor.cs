@@ -231,6 +231,8 @@ namespace Blazorise
             set
             {
                 state = state with { Mode = value };
+
+                DirtyClasses();
             }
         }
 
