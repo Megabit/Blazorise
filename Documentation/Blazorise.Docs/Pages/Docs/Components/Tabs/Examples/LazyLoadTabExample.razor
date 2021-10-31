@@ -1,0 +1,19 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Tabs Mode="TabsMode.LazyLoad" SelectedTab="lazyLoad">
+    <Items>
+        <Tab Name="lazyLoad">Tab 1</Tab>
+        <Tab Name="lazyLoad2">Tab 2</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="lazyLoad">
+            This Tabs component is set to <code>LazyLoad</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
+            therefore re-calculated.
+            <TextEdit></TextEdit>
+        </TabPanel>
+        <TabPanel Name="lazyLoad2">
+            <TextEdit></TextEdit>
+        </TabPanel>
+    </Content>
+</Tabs>
