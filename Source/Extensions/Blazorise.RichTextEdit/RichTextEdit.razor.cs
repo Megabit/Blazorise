@@ -33,11 +33,27 @@ namespace Blazorise.RichTextEdit
         {
             if ( disposing && Rendered )
             {
-                // TODO: should be done in DisposeAsync() but it only works properly in .Net 6
-                _ = cleanup.DisposeAsync();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing && Rendered )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            // TODO: should be done in DisposeAsync() but it only works properly in .Net 6
+            _ = cleanup.DisposeAsync();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -21,15 +22,32 @@ namespace Blazorise.Charts
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
-                _ = JS.Destroy( JSRuntime, ElementId );
-                JS.DisposeDotNetObjectRef( DotNetObjectRef );
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            _ = JS.Destroy( JSRuntime, ElementId );
+            JS.DisposeDotNetObjectRef( DotNetObjectRef );
         }
 
         #endregion

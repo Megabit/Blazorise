@@ -51,13 +51,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentStepsState != null )
-                {
-                    ParentSteps.NotifyStepRemoved( Name );
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( ParentStepsState != null )
+            {
+                ParentSteps.NotifyStepRemoved( Name );
+            }
         }
 
         /// <inheritdoc/>

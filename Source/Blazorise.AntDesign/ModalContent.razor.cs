@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
 
@@ -32,10 +33,26 @@ namespace Blazorise.AntDesign
         {
             if ( disposing )
             {
-                ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
         }
 
         protected internal override void DirtyClasses()

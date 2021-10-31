@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -18,14 +19,31 @@ namespace Blazorise.DataGrid
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
-                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         private async void OnLocalizationChanged( object sender, EventArgs e )
