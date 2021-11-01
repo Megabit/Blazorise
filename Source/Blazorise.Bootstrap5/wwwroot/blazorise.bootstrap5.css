@@ -129,7 +129,7 @@ input[type="button"].btn-block {
 .dropdown-menu a:not([href]).dropdown-item:not(.disabled) {
     cursor: pointer; }
 
-.b-dropdown-list .dropdown-menu {
+.dropdown-menu.dropdown-menu-scrollable {
     max-height: var(--dropdown-list-menu-max-height, 200px);
     overflow-y: scroll; }
 

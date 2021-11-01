@@ -3511,7 +3511,7 @@ ol.is-ordered-list-upper-roman {
     color: #b5b5b5;
     white-space: nowrap; }
 
-.b-dropdown-list .dropdown-menu {
+.dropdown-menu.dropdown-menu-scrollable {
     max-height: var(--dropdown-list-menu-max-height, 200px);
     overflow-y: scroll; }
 

@@ -379,6 +379,8 @@ namespace Blazorise.Providers
 
         public string DropdownMenu() => null;
 
+        public string DropdownMenuScrollable() => null;
+
         //public string DropdownMenuBody() => null;
 
         public string DropdownMenuVisible( bool visible ) => null;

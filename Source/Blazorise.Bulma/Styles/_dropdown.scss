@@ -18,7 +18,7 @@
     white-space: nowrap; // as with > li > a
 }
 
-.b-dropdown-list .dropdown-menu {
+.dropdown-menu.dropdown-menu-scrollable {
     max-height: var(--dropdown-list-menu-max-height, 200px);
     overflow-y: scroll;
 }

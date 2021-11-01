@@ -40,7 +40,7 @@
     white-space: nowrap;
 }
 
-.b-dropdown-list .ant-dropdown-menu {
+.ant-dropdown-menu.ant-dropdown-menu-scrollable {
     max-height: var(--dropdown-list-menu-max-height, 200px);
     overflow-y: scroll;
 }

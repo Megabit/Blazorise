@@ -53,31 +53,6 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
-        /// Gets the dropdown CSS styles.
-        /// </summary>
-        protected string CssStyle
-        {
-            get
-            {
-                var sb = new StringBuilder();
-
-                if ( MaxMenuHeight != null )
-                    sb.Append( $"--dropdown-list-menu-max-height: {MaxMenuHeight};" );
-
-                if ( Style != null )
-                    sb.Append( Style );
-
-                return sb.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Gets the dropdown CSS classes.
-        /// </summary>
-        protected string CssClass
-            => $"b-dropdown-list {Class}";
-
-        /// <summary>
         /// Gets or sets the dropdown element id.
         /// </summary>
         [Parameter] public string ElementId { get; set; }
