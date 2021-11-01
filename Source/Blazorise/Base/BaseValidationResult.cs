@@ -61,7 +61,6 @@ namespace Blazorise
             }
         }
 
-
         /// <inheritdoc/>
         protected override void OnParametersSet()
         {

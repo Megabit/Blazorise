@@ -83,7 +83,6 @@ namespace Blazorise
             return base.DisposeAsync( disposing );
         }
 
-
         private void DisposeResources()
         {
             DetachValidationStatusChangedListener();
@@ -92,7 +91,6 @@ namespace Blazorise
                 ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
         }
-
 
         /// <summary>
         /// Unsubscribe from <see cref="Validation.StatusChanged"/> event.
