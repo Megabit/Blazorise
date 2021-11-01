@@ -33,6 +33,7 @@ namespace Blazorise.DataGrid
             valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
             defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
             valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
+            valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
             sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
         }
 
