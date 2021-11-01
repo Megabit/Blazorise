@@ -33,7 +33,6 @@ namespace Blazorise.DataGrid
             valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
             defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
             valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
-            valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
             sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
         }
 
@@ -111,7 +110,10 @@ namespace Blazorise.DataGrid
         /// <param name="item">Item for which to get the value.</param>
         /// <returns></returns>
         internal object GetValue( TItem item )
-            => valueGetter.Value( item );
+            => !string.IsNullOrEmpty( Field )
+                ? valueGetter.Value( item )
+                : default;
+
 
         /// <summary>
         /// Sets the value for the field in the supplied model.
@@ -119,7 +121,10 @@ namespace Blazorise.DataGrid
         /// <param name="item">Item for which to set the value.</param>
         /// <param name="value">Value to set.</param>
         internal void SetValue( TItem item, object value )
-            => valueSetter.Value( item, value );
+        {
+            if ( !string.IsNullOrEmpty( Field ) )
+                valueSetter.Value( item, value );
+        }
 
         /// <summary>
         /// Gets the current value for the sort field in the supplied model.
@@ -128,6 +133,16 @@ namespace Blazorise.DataGrid
         /// <returns></returns>
         internal object GetSortValue( TItem item )
             => sortFieldGetter.Value( item );
+
+        /// <summary>
+        /// Gets the current value to be used for sorting.
+        /// </summary>
+        /// <param name="item">Item for which to get the value.</param>
+        /// <returns></returns>
+        internal object GetValueForSort( TItem item )
+            => string.IsNullOrWhiteSpace( SortField )
+                ? valueGetter.Value( item )
+                : sortFieldGetter.Value( item );
 
         public string FormatDisplayValue( TItem item )
         {
