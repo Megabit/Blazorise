@@ -21,17 +21,33 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                if ( PageProgressService != null )
-                {
-                    PageProgressService.ProgressChanged -= OnProgressChanged;
-                }
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            if ( PageProgressService != null )
+            {
+                PageProgressService.ProgressChanged -= OnProgressChanged;
+            }
         }
 
         /// <inheritdoc/>

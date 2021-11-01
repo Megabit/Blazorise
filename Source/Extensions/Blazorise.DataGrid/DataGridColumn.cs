@@ -54,12 +54,31 @@ namespace Blazorise.DataGrid
             }
         }
 
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
-                DisposeSubscriptions();
+            {
+                ReleaseResources();
+            }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            DisposeSubscriptions();
         }
 
         private void DisposeSubscriptions()

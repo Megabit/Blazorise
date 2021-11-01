@@ -37,18 +37,34 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                if ( inputValueDebouncer != null )
-                {
-                    inputValueDebouncer.Debounced -= OnInputValueDebounced;
-                    inputValueDebouncer = null;
-                }
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            if ( inputValueDebouncer != null )
+            {
+                inputValueDebouncer.Debounced -= OnInputValueDebounced;
+                inputValueDebouncer = null;
+            }
         }
 
         /// <summary>

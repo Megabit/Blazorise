@@ -20,14 +20,30 @@ namespace Blazorise.DataGrid
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         private async void OnLocalizationChanged( object sender, EventArgs e )

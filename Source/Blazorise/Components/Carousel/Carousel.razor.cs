@@ -96,26 +96,42 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                if ( Timer != null )
-                {
-                    Timer.Stop();
-                    Timer.Dispose();
-                }
-
-                if ( TransitionTimer != null )
-                {
-                    TransitionTimer.Stop();
-                    TransitionTimer.Dispose();
-                }
-
-                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            if ( Timer != null )
+            {
+                Timer.Stop();
+                Timer.Dispose();
+            }
+
+            if ( TransitionTimer != null )
+            {
+                TransitionTimer.Stop();
+                TransitionTimer.Dispose();
+            }
+
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         /// <inheritdoc/>

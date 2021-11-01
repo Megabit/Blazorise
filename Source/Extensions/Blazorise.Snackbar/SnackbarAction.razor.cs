@@ -23,14 +23,30 @@ namespace Blazorise.Snackbar
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                ParentSnackbar?.NotifySnackbarActionRemoved( this );
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            ParentSnackbar?.NotifySnackbarActionRemoved( this );
         }
 
         protected override void BuildClasses( ClassBuilder builder )

@@ -79,11 +79,6 @@ namespace Blazorise.DataGrid
         private bool virtualizeFilterChanged;
 
         /// <summary>
-        /// Keeps track of whether the object has already been disposed.
-        /// </summary>
-        private bool disposed;
-
-        /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
         protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new()
@@ -223,17 +218,31 @@ namespace Blazorise.DataGrid
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
-            if ( !disposed && disposing )
+            if ( disposing )
             {
-                disposed = true;
-
-                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+            paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
         }
 
         private async Task HandleSelectionModeChanged()

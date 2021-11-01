@@ -30,14 +30,30 @@ namespace Blazorise.AntDesign
         }
 
         /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
+                ReleaseResources();
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        private void ReleaseResources()
+        {
+            ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
         }
 
         protected internal override void DirtyClasses()
