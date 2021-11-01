@@ -964,24 +964,24 @@ namespace Blazorise.DataGrid
 
         protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
         {
-            if ( Sortable && column.Sortable && !string.IsNullOrEmpty( column.Field ) )
+            if ( Sortable && column.CanSort() )
             {
                 if ( SortMode == DataGridSortMode.Single )
                 {
                     // in single-mode we need to reset all other columns to default state
-                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
+                    foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
                     {
                         c.CurrentSortDirection = SortDirection.None;
                     }
 
                     // and also remove any column sort info except for current one
-                    SortByColumns.RemoveAll( x => x.Field != column.Field );
+                    SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
                 }
 
                 if ( changeSortDirection )
                     column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection();
 
-                if ( !SortByColumns.Any( c => c.Field == column.Field ) )
+                if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
                 {
                     SortByColumns.Add( column );
                 }
@@ -989,7 +989,7 @@ namespace Blazorise.DataGrid
                     SortByColumns.Remove( column );
 
                 if ( changeSortDirection )
-                    InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.Field, column.CurrentSortDirection ) ) );
+                    InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
             }
         }
 

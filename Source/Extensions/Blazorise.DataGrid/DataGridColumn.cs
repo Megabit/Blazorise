@@ -145,6 +145,17 @@ namespace Blazorise.DataGrid
                 ? GetValue( item )
                 : GetSortValue( item );
 
+        /// <summary>
+        /// Gets wether the column is able to sort.
+        /// </summary>
+        /// <param name="item">Item for which to get the value.</param>
+        /// <returns></returns>
+        internal bool CanSort()
+            => Sortable && ( !string.IsNullOrEmpty( Field ) || !string.IsNullOrEmpty( SortField ) );
+
+        internal string GetFieldToSort()
+            => string.IsNullOrEmpty( SortField ) ? Field : SortField;
+
         public string FormatDisplayValue( TItem item )
         {
             return FormatDisplayValue( GetValue( item ) );
