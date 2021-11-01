@@ -142,8 +142,8 @@ namespace Blazorise.DataGrid
         /// <returns></returns>
         internal object GetValueForSort( TItem item )
             => string.IsNullOrWhiteSpace( SortField )
-                ? valueGetter.Value( item )
-                : sortFieldGetter.Value( item );
+                ? GetValue( item )
+                : GetSortValue( item );
 
         public string FormatDisplayValue( TItem item )
         {
