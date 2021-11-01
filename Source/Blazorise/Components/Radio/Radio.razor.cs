@@ -71,7 +71,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
@@ -81,7 +81,7 @@ namespace Blazorise
                 }
             }
 
-            base.Dispose( disposing );
+            return base.DisposeAsync( disposing );
         }
 
         /// <inheritdoc/>

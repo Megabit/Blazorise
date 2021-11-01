@@ -34,33 +34,17 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
             }
 
             return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( Theme != null )
-            {
-                Theme.Changed -= OnThemeChanged;
-            }
         }
 
         /// <inheritdoc/>

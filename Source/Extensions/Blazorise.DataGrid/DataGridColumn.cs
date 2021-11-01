@@ -54,14 +54,6 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-                DisposeSubscriptions();
-
-            base.Dispose( disposing );
-        }
-
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )

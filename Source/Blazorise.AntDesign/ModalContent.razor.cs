@@ -29,30 +29,15 @@ namespace Blazorise.AntDesign
             ParentModal.NotifyCloseActivatorIdInitialized( WrapperElementId ??= IdGenerator.Generate );
         }
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            base.Dispose( disposing );
-        }
-
         /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
             }
 
             return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
         }
 
         protected internal override void DirtyClasses()

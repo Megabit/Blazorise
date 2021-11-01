@@ -222,33 +222,18 @@ namespace Blazorise.DataGrid
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( !disposed && disposing )
-            {
-                disposed = true;
-                DisposeResources();
-            }
-
-            base.Dispose( disposing );
-        }
-
         /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( !disposed && disposing )
             {
                 disposed = true;
-                DisposeResources();
+
+                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
             }
 
             return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-            paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
         }
 
         private async Task HandleSelectionModeChanged()

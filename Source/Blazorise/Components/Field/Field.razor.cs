@@ -62,34 +62,19 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                DisposeResources();
+                DetachValidationStatusChangedListener();
+
+                if ( ParentValidation is not null )
+                {
+                    ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+                }
             }
 
             return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            DetachValidationStatusChangedListener();
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
         }
 
         /// <summary>

@@ -23,31 +23,15 @@ namespace Blazorise.Charts
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
-                DisposeResources();
+                _ = JS.Destroy( JSRuntime, ElementId );
+                JS.DisposeDotNetObjectRef( DotNetObjectRef );
             }
 
             return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            _ = JS.Destroy( JSRuntime, ElementId );
-            JS.DisposeDotNetObjectRef( DotNetObjectRef );
         }
 
         #endregion
