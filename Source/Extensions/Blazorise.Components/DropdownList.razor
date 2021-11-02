@@ -2,7 +2,7 @@
 @typeparam TValue
 <Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" RightAligned="@RightAligned" Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
     <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
-    <DropdownMenu>
+    <DropdownMenu MaxMenuHeight="@MaxMenuHeight">
         @if ( Data != null )
         {
             foreach ( var item in Data )
