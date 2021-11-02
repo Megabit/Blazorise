@@ -270,20 +270,11 @@ namespace Blazorise.DataGrid
 
         private void DisposeResources()
         {
-            paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-            paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
+            if ( paginationContext != null )
             {
-                if ( paginationContext != null )
-                {
-                    paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-                    paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
-                }
+                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
             }
-
-            return base.DisposeAsync( disposing );
         }
 
         private async Task HandleSelectionModeChanged()

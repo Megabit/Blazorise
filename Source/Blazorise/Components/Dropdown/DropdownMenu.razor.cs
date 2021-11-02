@@ -38,13 +38,6 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentDropdown is not null )
-                {
-                    ParentDropdown.RemoveDropdownMenu( this );
-                }
-            }
-
-            base.Dispose( disposing );
                 DisposeResources();
             }
 
@@ -64,9 +57,9 @@ namespace Blazorise
 
         private void DisposeResources()
         {
-            if ( ParentDropdown != null )
+            if ( ParentDropdown is not null )
             {
-                ParentDropdown.VisibleChanged -= OnVisibleChanged;
+                ParentDropdown.RemoveDropdownMenu( this );
             }
         }
 
