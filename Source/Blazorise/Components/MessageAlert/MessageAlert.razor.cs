@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IMessageService"/> to show the message dialog.
     /// </summary>
-    public partial class MessageAlert : BaseComponent
+    public partial class MessageAlert : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Methods
 

@@ -10,7 +10,7 @@ namespace Blazorise.Components
     /// <summary>
     /// Component that handles the <see cref="INotificationService"/> to show the simple notifications.
     /// </summary>
-    public partial class NotificationAlert : BaseComponent, IDisposable
+    public partial class NotificationAlert : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Methods
 

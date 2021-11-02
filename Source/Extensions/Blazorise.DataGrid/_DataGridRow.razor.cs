@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
+    public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Placeholder for the list of <see cref="Validation"/> error messages.
     /// </summary>
-    public partial class ValidationSummary : BaseComponent
+    public partial class ValidationSummary : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

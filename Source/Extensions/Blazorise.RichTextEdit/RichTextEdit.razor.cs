@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.RichTextEdit
 {
-    public partial class RichTextEdit : BaseRichTextEditComponent
+    public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     {
         #region Members
 

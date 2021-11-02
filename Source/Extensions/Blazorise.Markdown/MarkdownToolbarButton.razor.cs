@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Markdown.Providers;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace Blazorise.Markdown
     /// <summary>
     /// Defines the action button for the <see cref="Markdown"/> toolbar.
     /// </summary>
-    public partial class MarkdownToolbarButton : BaseComponent
+    public partial class MarkdownToolbarButton : BaseComponent, IDisposable
     {
         #region Members
 

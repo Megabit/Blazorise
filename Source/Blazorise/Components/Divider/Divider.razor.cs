@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// A divider is a thin line that groups content in lists and layouts.
     /// </summary>
-    public partial class Divider : BaseComponent
+    public partial class Divider : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members       
 

@@ -20,7 +20,7 @@ namespace Blazorise.DataGrid
     /// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
     /// </summary>
     /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
-    public partial class DataGrid<TItem> : BaseDataGridComponent
+    public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

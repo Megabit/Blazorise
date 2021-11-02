@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Main component for stacked progress bars.
     /// </summary>
-    public partial class Progress : BaseComponent
+    public partial class Progress : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

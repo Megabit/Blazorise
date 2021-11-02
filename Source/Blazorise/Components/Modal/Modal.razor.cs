@@ -15,7 +15,7 @@ namespace Blazorise
     /// <summary>
     /// A classic modal overlay, in which you can include any content you want.
     /// </summary>
-    public partial class Modal : BaseComponent, ICloseActivator
+    public partial class Modal : BaseComponent, ICloseActivator, IAsyncDisposable
     {
         #region Members
 

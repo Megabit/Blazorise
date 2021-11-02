@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -10,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// The dropdown menu, which can include bar items and dividers.
     /// </summary>
-    public partial class BarDropdown : BaseComponent
+    public partial class BarDropdown : BaseComponent, IDisposable
     {
         #region Members
 

@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// A responsive and flexible pagination component.
     /// </summary>
-    public partial class Pagination : BaseComponent
+    public partial class Pagination : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

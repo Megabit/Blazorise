@@ -14,7 +14,7 @@ namespace Blazorise
     /// A component that renders an anchor tag, automatically toggling its 'active'
     /// class based on whether its 'href' matches the current URI.
     /// </summary>
-    public partial class Link : BaseComponent
+    public partial class Link : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

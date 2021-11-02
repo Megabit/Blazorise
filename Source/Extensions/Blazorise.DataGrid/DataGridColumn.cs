@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
+    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>, IDisposable, IAsyncDisposable
     {
         #region Members
 

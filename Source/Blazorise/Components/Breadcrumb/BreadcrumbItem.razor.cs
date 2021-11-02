@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Wrapper for a breadcrumb link.
     /// </summary>
-    public partial class BreadcrumbItem : BaseComponent
+    public partial class BreadcrumbItem : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

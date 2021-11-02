@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Base class for validation result messages.
     /// </summary>
-    public abstract class BaseValidationResult : BaseComponent
+    public abstract class BaseValidationResult : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

@@ -1,11 +1,12 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.AntDesign
 {
-    public partial class ModalContent : Blazorise.ModalContent
+    public partial class ModalContent : Blazorise.ModalContent, IDisposable, IAsyncDisposable
     {
         #region Members
 

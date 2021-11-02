@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Wrapper for form input components like label, text, button, etc.
     /// </summary>
-    public partial class Field : BaseComponent
+    public partial class Field : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

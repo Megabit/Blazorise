@@ -15,7 +15,7 @@ namespace Blazorise
     /// <summary>
     /// A slideshow component for cycling through elements - images or slides of text.
     /// </summary>
-    public partial class Carousel : BaseContainerComponent
+    public partial class Carousel : BaseContainerComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 

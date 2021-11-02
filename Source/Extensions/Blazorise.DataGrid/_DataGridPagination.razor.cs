@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    partial class _DataGridPagination<TItem> : BaseComponent
+    partial class _DataGridPagination<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Methods
 

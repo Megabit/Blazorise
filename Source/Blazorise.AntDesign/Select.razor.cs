@@ -13,7 +13,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.AntDesign
 {
-    public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator
+    public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator, IAsyncDisposable
     {
         #region Members
 

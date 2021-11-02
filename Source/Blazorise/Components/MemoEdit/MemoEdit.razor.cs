@@ -14,7 +14,7 @@ namespace Blazorise
     /// <summary>
     /// Component that allows you to display and edit multi-line text.
     /// </summary>
-    public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
+    public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent, IAsyncDisposable
     {
         #region Members
 

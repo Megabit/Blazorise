@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Clickable item in a <see cref="Steps"/> component.
     /// </summary>
-    public partial class Step : BaseComponent
+    public partial class Step : BaseComponent, IDisposable, IAsyncDisposable
     {
         #region Members
 
