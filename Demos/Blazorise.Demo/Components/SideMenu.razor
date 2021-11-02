@@ -73,7 +73,7 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
-                <BarDropdown>
+                <BarDropdown @bind-Visible="@formsVisible">
                     <BarDropdownToggle>
                         <BarIcon IconName="IconName.Edit" />
                         Forms
@@ -105,7 +105,7 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
-                <BarDropdown>
+                <BarDropdown @bind-Visible="@datagridVisible">
                     <BarDropdownToggle>
                         <BarIcon IconName="IconName.CompactDisc" />
                         Datagrid
@@ -237,7 +237,7 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
-                <BarDropdown Visible="true">
+                <BarDropdown @bind-Visible="@extensionsVisible">
                     <BarDropdownToggle>
                         <BarIcon IconName="IconName.PuzzlePiece" />
                         Extensions
@@ -270,7 +270,7 @@
         </BarStart>
         <BarEnd>
             <BarItem>
-                <BarDropdown>
+                <BarDropdown @bind-Visible="@utilitiesVisible">
                     <BarDropdownToggle>
                         <BarIcon IconName="IconName.Flask" />
                         Utilities
@@ -324,6 +324,10 @@
 </Bar>
 @code {
     private bool uiElementsVisible = true;
+    private bool utilitiesVisible = false;
+    private bool extensionsVisible = false;
+    private bool formsVisible = false;
+    private bool datagridVisible = false;
 
     RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
 }
