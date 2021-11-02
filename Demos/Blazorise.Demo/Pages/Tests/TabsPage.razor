@@ -8,24 +8,10 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName1" SelectedTabChanged="@OnSelectedTabChanged1">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
-                        <TabPanel Name="home">
-                            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
-                        </TabPanel>
-                        <TabPanel Name="profile">
-                            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
-                        </TabPanel>
-                        <TabPanel Name="messages">
-                            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
-                        </TabPanel>
-                        <TabPanel Name="settings">
-                            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
-                        </TabPanel>
+                        @tabContent
                     </Content>
                 </Tabs>
             </CardBody>
@@ -39,24 +25,10 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName2" SelectedTabChanged="@OnSelectedTabChanged2" Justified="true">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
-                        <TabPanel Name="home">
-                            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
-                        </TabPanel>
-                        <TabPanel Name="profile">
-                            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
-                        </TabPanel>
-                        <TabPanel Name="messages">
-                            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
-                        </TabPanel>
-                        <TabPanel Name="settings">
-                            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
-                        </TabPanel>
+                        @tabContent
                     </Content>
                 </Tabs>
             </CardBody>
@@ -72,24 +44,10 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName3" SelectedTabChanged="@OnSelectedTabChanged3" TabPosition="TabPosition.Start" Pills="true">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
-                        <TabPanel Name="home">
-                            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
-                        </TabPanel>
-                        <TabPanel Name="profile">
-                            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
-                        </TabPanel>
-                        <TabPanel Name="messages">
-                            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
-                        </TabPanel>
-                        <TabPanel Name="settings">
-                            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
-                        </TabPanel>
+                        @tabContent
                     </Content>
                 </Tabs>
             </CardBody>
@@ -103,23 +61,63 @@
             <CardBody>
                 <Tabs SelectedTab="@selectedTabName4" SelectedTabChanged="@OnSelectedTabChanged4" TabPosition="TabPosition.End" Pills="true">
                     <Items>
-                        <Tab Name="home">Home</Tab>
-                        <Tab Name="profile">Profile</Tab>
-                        <Tab Name="messages">Messages</Tab>
-                        <Tab Name="settings">Settings</Tab>
+                        @tabItems
                     </Items>
                     <Content>
-                        <TabPanel Name="home">
-                            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
+                        @tabContent
+                    </Content>
+                </Tabs>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Tabs Default Mode</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Tabs SelectedTab="tab1">
+                    <Items>
+                        <Tab Name="tab1">Tab 1</Tab>
+                        <Tab Name="tab2">Tab 2</Tab>
+                    </Items>
+                    <Content>
+                        <TabPanel Name="tab1">
+                            This Tabs component is set to <code>Default</code> mode, meaning that every tab is always rendered to the DOM and hidden if not active.
+                            Try typing some text in the provided Text components and changing between tabs, you will notice that the text will always be kept.
+                            <TextEdit></TextEdit>
                         </TabPanel>
-                        <TabPanel Name="profile">
-                            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
+                        <TabPanel Name="tab2">
+                            <TextEdit></TextEdit>
                         </TabPanel>
-                        <TabPanel Name="messages">
-                            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
+                    </Content>
+                </Tabs>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Tabs Lazy Reload Mode</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Tabs Mode="TabsMode.LazyReload" SelectedTab="tab1">
+                    <Items>
+                        <Tab Name="tab1">Tab 1</Tab>
+                        <Tab Name="tab2">Tab 2</Tab>
+                    </Items>
+                    <Content>
+                        <TabPanel Name="tab1">
+                            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time.
+                            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded,
+                            therefore re-calculated.
+                            <TextEdit></TextEdit>
                         </TabPanel>
-                        <TabPanel Name="settings">
-                            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
+                        <TabPanel Name="tab2">
+                            <TextEdit></TextEdit>
                         </TabPanel>
                     </Content>
                 </Tabs>
@@ -127,7 +125,58 @@
         </Card>
     </Column>
 </Row>
-@code{
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Tabs Lazy Load Mode</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Tabs Mode="TabsMode.LazyLoad" SelectedTab="tab1">
+                    <Items>
+                        <Tab Name="tab1">Tab 1</Tab>
+                        <Tab Name="tab2">Tab 2</Tab>
+                    </Items>
+                    <Content>
+                        <TabPanel Name="tab1">
+                            This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
+                            This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
+                            <TextEdit></TextEdit>
+                        </TabPanel>
+                        <TabPanel Name="tab2">
+                            <TextEdit></TextEdit>
+                        </TabPanel>
+                    </Content>
+                </Tabs>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    private RenderFragment tabItems => __builder =>
+    {
+        <Tab Name="home">Home</Tab>
+        <Tab Name="profile">Profile</Tab>
+        <Tab Name="messages">Messages</Tab>
+        <Tab Name="settings">Settings</Tab>
+    };
+    private RenderFragment tabContent => __builder =>
+    {
+        <TabPanel Name="home">
+            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
+        </TabPanel>
+        <TabPanel Name="profile">
+            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
+        </TabPanel>
+        <TabPanel Name="messages">
+            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
+        </TabPanel>
+        <TabPanel Name="settings">
+            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
+        </TabPanel>
+    };
+
     private string selectedTabName1 = "home";
     private string selectedTabName2 = "profile";
     private string selectedTabName3 = "messages";

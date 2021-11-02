@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Tabs Mode="TabsMode.LazyLoad" SelectedTab="tab1">
+    <Items>
+        <Tab Name="tab1">Tab 1</Tab>
+        <Tab Name="tab2">Tab 2</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="tab1">
+            This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
+            This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
+            <TextEdit></TextEdit>
+        </TabPanel>
+        <TabPanel Name="tab2">
+            <TextEdit></TextEdit>
+        </TabPanel>
+    </Content>
+</Tabs>
