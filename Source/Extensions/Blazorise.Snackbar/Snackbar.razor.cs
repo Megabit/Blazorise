@@ -85,6 +85,7 @@ namespace Blazorise.Snackbar
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -95,6 +96,7 @@ namespace Blazorise.Snackbar
             base.Dispose( disposing );
         }
 
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )

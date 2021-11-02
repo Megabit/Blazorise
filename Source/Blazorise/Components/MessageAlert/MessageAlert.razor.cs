@@ -25,13 +25,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( MessageService != null )
-                {
-                    MessageService.MessageReceived -= OnMessageReceived;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( MessageService != null )
+            {
+                MessageService.MessageReceived -= OnMessageReceived;
+            }
         }
 
         private async void OnMessageReceived( object sender, MessageEventArgs e )

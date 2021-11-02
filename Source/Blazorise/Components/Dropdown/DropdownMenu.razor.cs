@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -35,13 +36,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentDropdown != null )
-                {
-                    ParentDropdown.VisibleChanged -= OnVisibleChanged;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( ParentDropdown != null )
+            {
+                ParentDropdown.VisibleChanged -= OnVisibleChanged;
+            }
         }
 
         /// <inheritdoc/>

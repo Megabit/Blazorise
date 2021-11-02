@@ -44,10 +44,26 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                ParentSelect?.NotifySelectItemRemoved( this );
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            ParentSelect?.NotifySelectItemRemoved( this );
         }
 
         #endregion

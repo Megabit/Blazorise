@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,8 +15,6 @@ namespace Blazorise
 
         private Validation previousParentValidation;
 
-        private readonly EventHandler<ValidationStatusChangedEventArgs> validationStatusChangedHandler;
-
         #endregion
 
         #region Constructors
@@ -25,11 +24,6 @@ namespace Blazorise
         /// </summary>
         public BaseValidationResult()
         {
-            validationStatusChangedHandler += async ( sender, eventArgs ) =>
-            {
-                OnValidationStatusChanged( sender, eventArgs );
-                await InvokeAsync( StateHasChanged );
-            };
         }
 
         #endregion
@@ -41,10 +35,31 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DetachValidationStatusChangedListener();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            DetachValidationStatusChangedListener();
+
+            if ( ParentValidation is not null )
+            {
+                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+            }
         }
 
         /// <inheritdoc/>
@@ -53,7 +68,7 @@ namespace Blazorise
             if ( ParentValidation != previousParentValidation )
             {
                 DetachValidationStatusChangedListener();
-                ParentValidation.ValidationStatusChanged += validationStatusChangedHandler;
+                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
                 previousParentValidation = ParentValidation;
             }
         }
@@ -62,13 +77,14 @@ namespace Blazorise
         {
             if ( previousParentValidation != null )
             {
-                previousParentValidation.ValidationStatusChanged -= validationStatusChangedHandler;
+                previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
         }
 
         /// <inheritdoc/>
-        protected virtual void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion

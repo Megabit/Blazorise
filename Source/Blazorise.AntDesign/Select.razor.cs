@@ -51,7 +51,7 @@ namespace Blazorise.AntDesign
             await InvokeAsync( StateHasChanged );
         }
 
-        protected override void Dispose( bool disposing )
+        protected override ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -62,7 +62,7 @@ namespace Blazorise.AntDesign
                 dotNetObjectRef = null;
             }
 
-            base.Dispose( disposing );
+            return base.DisposeAsync( disposing );
         }
 
         protected Task OnSelectorClickHandler()

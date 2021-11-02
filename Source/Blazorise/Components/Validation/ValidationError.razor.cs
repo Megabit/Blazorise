@@ -41,7 +41,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        protected async override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
             if ( eventArgs.Status == ValidationStatus.Error )
             {
@@ -49,6 +49,7 @@ namespace Blazorise
                     ? string.Join( ";", eventArgs.Messages )
                     : null;
             }
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion
