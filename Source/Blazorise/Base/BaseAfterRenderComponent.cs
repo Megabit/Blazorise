@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// Base render component that implements render-queue logic.
     /// </summary>
-    public abstract class BaseAfterRenderComponent : ComponentBase, IDisposable, IAsyncDisposable
+    public abstract class BaseAfterRenderComponent : ComponentBase
     {
         #region Members
 
