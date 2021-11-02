@@ -51,7 +51,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
@@ -62,13 +62,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             return base.DisposeAsync( disposing );
         }
 
-        private void ReleaseResources()
+        private void DisposeResources()
         {
             ParentSteps?.NotifyStepRemoved( Name );
         }

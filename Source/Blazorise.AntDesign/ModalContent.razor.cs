@@ -34,7 +34,7 @@ namespace Blazorise.AntDesign
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
@@ -45,13 +45,13 @@ namespace Blazorise.AntDesign
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             return base.DisposeAsync( disposing );
         }
 
-        private void ReleaseResources()
+        private void DisposeResources()
         {
             ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
         }

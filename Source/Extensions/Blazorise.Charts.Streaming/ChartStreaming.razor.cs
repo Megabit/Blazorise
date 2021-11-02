@@ -45,7 +45,7 @@ namespace Blazorise.Charts.Streaming
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
@@ -56,13 +56,13 @@ namespace Blazorise.Charts.Streaming
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             return base.DisposeAsync( disposing );
         }
 
-        private void ReleaseResources()
+        private void DisposeResources()
         {
             JS.DisposeDotNetObjectRef( dotNetObjectReference );
         }

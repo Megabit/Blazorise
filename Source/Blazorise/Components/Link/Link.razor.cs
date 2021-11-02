@@ -79,7 +79,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
@@ -90,13 +90,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                ReleaseResources();
+                DisposeResources();
             }
 
             return base.DisposeAsync( disposing );
         }
 
-        private void ReleaseResources()
+        private void DisposeResources()
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
             if ( NavigationManager != null )
