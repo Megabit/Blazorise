@@ -1,8 +1,8 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridModal<TItem>
 <Modal Visible="@PopupVisible" Closing="@PopupClosing" Closed="@Cancel">
-    <Form>
-        <ModalContent Size="@PopupSize">
+    <ModalContent Size="@PopupSize">
+        <Form>
             <ModalHeader>
                 <ModalTitle>
                     @if ( TitleTemplate != null && EditItem != null )
@@ -14,8 +14,8 @@
                     else
                     {
                         @(EditState == DataGridEditState.Edit
-                        ? Localizer.Localize( ParentDataGrid.Localizers?.ModalRowEditLocalizer, "Row Edit" )
-                        : Localizer.Localize( ParentDataGrid.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
+                            ? Localizer.Localize( ParentDataGrid.Localizers?.ModalRowEditLocalizer, "Row Edit" )
+                            : Localizer.Localize( ParentDataGrid.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
                     }
                 </ModalTitle>
                 <CloseButton Clicked="@Cancel" AutoClose="false" />
@@ -94,6 +94,6 @@
                     }
                 }
             </ModalFooter>
-        </ModalContent>
-    </Form>
+        </Form>
+    </ModalContent>
 </Modal>
