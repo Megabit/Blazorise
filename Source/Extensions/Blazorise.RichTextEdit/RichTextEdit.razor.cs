@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -26,15 +27,14 @@ namespace Blazorise.RichTextEdit
         #region Methods
 
         /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
-                // TODO: should be done in DisposeAsync() but it only works properly in .Net 6
-                _ = cleanup.DisposeAsync();
+                await cleanup.SafeDisposeAsync();
             }
 
-            return base.DisposeAsync( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Main container for a <see cref="Dropdown"/> menu that can contain or or more <see cref="DropdownItem"/>'s.
     /// </summary>
-    public partial class DropdownMenu : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class DropdownMenu : BaseComponent, IDisposable
     {
         #region Members
 
@@ -39,29 +39,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( ParentDropdown is not null )
+                {
+                    ParentDropdown.RemoveDropdownMenu( this );
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( ParentDropdown is not null )
-            {
-                ParentDropdown.RemoveDropdownMenu( this );
-            }
         }
 
         /// <inheritdoc/>

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent, IDisposable, IAsyncDisposable
+    public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent, IDisposable
     {
         #region Members
 
@@ -178,17 +178,11 @@ namespace Blazorise.DataGrid
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
-                ParentDataGrid.RemoveRow( this.RowInfo );
+            {
+                ParentDataGrid.RemoveRow( RowInfo );
+            }
 
             base.Dispose( disposing );
-        }
-
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-                ParentDataGrid.RemoveRow( this.RowInfo );
-
-            return base.DisposeAsync( disposing );
         }
 
         #endregion

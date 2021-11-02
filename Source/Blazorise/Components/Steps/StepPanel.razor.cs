@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// <see cref="Step"/> content area that is linked with a <see cref="Step"/> with the same name and that is placed within the <see cref="Steps"/> component.
     /// </summary>
-    public partial class StepPanel : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class StepPanel : BaseComponent, IDisposable
     {
         #region Members
 
@@ -38,28 +38,12 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentSteps?.NotifyStepRemoved( Name );
+
+                ParentStepsContent?.NotifyStepPanelRemoved( Name );
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentSteps?.NotifyStepRemoved( Name );
-
-            ParentStepsContent?.NotifyStepPanelRemoved( Name );
         }
 
         /// <inheritdoc/>

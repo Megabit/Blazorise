@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// A container for each <see cref="Tab"/> inside of <see cref="Tabs"/> component.
     /// </summary>
-    public partial class TabPanel : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class TabPanel : BaseComponent, IDisposable
     {
         #region Members
 
@@ -66,28 +66,12 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentTabs?.NotifyTabPanelRemoved( Name );
+
+                ParentTabsContent?.NotifyTabPanelRemoved( Name );
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentTabs?.NotifyTabPanelRemoved( Name );
-
-            ParentTabsContent?.NotifyTabPanelRemoved( Name );
         }
 
         #endregion

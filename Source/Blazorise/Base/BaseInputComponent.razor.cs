@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput, IFocusableComponent, IDisposable, IAsyncDisposable
+    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput, IFocusableComponent, IDisposable
     {
         #region Members
 
@@ -89,37 +89,21 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( ParentValidation != null )
+                {
+                    // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+                    ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+                }
+
+                ParentModal?.NotifyFocusableComponentRemoved( this );
+
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( ParentValidation != null )
-            {
-                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
-
-            ParentModal?.NotifyFocusableComponentRemoved( this );
-
-            if ( Theme != null )
-            {
-                Theme.Changed -= OnThemeChanged;
-            }
         }
 
         /// <summary>

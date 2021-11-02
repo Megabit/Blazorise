@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Base class for validation result messages.
     /// </summary>
-    public abstract class BaseValidationResult : BaseComponent, IDisposable, IAsyncDisposable
+    public abstract class BaseValidationResult : BaseComponent, IDisposable
     {
         #region Members
 
@@ -35,31 +35,15 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                DetachValidationStatusChangedListener();
+
+                if ( ParentValidation is not null )
+                {
+                    ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            DetachValidationStatusChangedListener();
-
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
         }
 
         /// <inheritdoc/>

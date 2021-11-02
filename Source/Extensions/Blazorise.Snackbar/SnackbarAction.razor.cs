@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar
 {
-    public partial class SnackbarAction : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class SnackbarAction : BaseComponent, IDisposable
     {
         #region Members
 
@@ -28,26 +28,10 @@ namespace Blazorise.Snackbar
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentSnackbar?.NotifySnackbarActionRemoved( this );
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentSnackbar?.NotifySnackbarActionRemoved( this );
         }
 
         protected override void BuildClasses( ClassBuilder builder )

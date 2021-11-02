@@ -27,7 +27,7 @@ namespace Blazorise
     /// Option item in the <see cref="Select{TValue}"/> component.
     /// </summary>
     /// <typeparam name="TValue">The type of the <see cref="Value"/>.</typeparam>
-    public partial class SelectItem<TValue> : BaseComponent, ISelectItem<TValue>, IDisposable, IAsyncDisposable
+    public partial class SelectItem<TValue> : BaseComponent, ISelectItem<TValue>, IDisposable
     {
         #region Methods
 
@@ -44,26 +44,10 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentSelect?.NotifySelectItemRemoved( this );
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentSelect?.NotifySelectItemRemoved( this );
         }
 
         #endregion

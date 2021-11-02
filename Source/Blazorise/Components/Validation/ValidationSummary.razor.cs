@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Placeholder for the list of <see cref="Validation"/> error messages.
     /// </summary>
-    public partial class ValidationSummary : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class ValidationSummary : BaseComponent, IDisposable
     {
         #region Members
 
@@ -58,26 +58,10 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                DetachAllListener();
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            DetachAllListener();
         }
 
         /// <inheritdoc/>

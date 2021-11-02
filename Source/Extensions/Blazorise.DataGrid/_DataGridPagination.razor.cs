@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    partial class _DataGridPagination<TItem> : BaseComponent, IDisposable, IAsyncDisposable
+    partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     {
         #region Methods
 
@@ -24,27 +24,12 @@ namespace Blazorise.DataGrid
         {
             if ( disposing )
             {
-                DisposeResources();
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             base.Dispose( disposing );
         }
 
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
-        }
 
         private async void OnLocalizationChanged( object sender, EventArgs e )
         {

@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// A divider is a thin line that groups content in lists and layouts.
     /// </summary>
-    public partial class Divider : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class Divider : BaseComponent, IDisposable
     {
         #region Members       
 
@@ -39,29 +39,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( Theme != null )
-            {
-                Theme.Changed -= OnThemeChanged;
-            }
         }
 
         /// <inheritdoc/>

@@ -13,7 +13,7 @@ namespace Blazorise
     /// Radio buttons allow the user to select one option from a set.
     /// </summary>
     /// <typeparam name="TValue">Checked value type.</typeparam>
-    public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable, IAsyncDisposable
+    public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     {
         #region Members
 
@@ -75,29 +75,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( ParentRadioGroup != null )
+                {
+                    ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( ParentRadioGroup != null )
-            {
-                ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
-            }
         }
 
         /// <inheritdoc/>

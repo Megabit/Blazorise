@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IPageProgressService"/> to show the page progress.
     /// </summary>
-    public partial class PageProgressAlert : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class PageProgressAlert : BaseComponent, IDisposable
     {
         #region Methods
 
@@ -26,29 +26,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( PageProgressService != null )
+                {
+                    PageProgressService.ProgressChanged -= OnProgressChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( PageProgressService != null )
-            {
-                PageProgressService.ProgressChanged -= OnProgressChanged;
-            }
         }
 
         /// <inheritdoc/>

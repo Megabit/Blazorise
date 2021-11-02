@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// A responsive and flexible pagination component.
     /// </summary>
-    public partial class Pagination : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class Pagination : BaseComponent, IDisposable
     {
         #region Members
 
@@ -38,29 +38,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( Theme != null )
+                {
+                    Theme.Changed -= OnThemeChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( Theme != null )
-            {
-                Theme.Changed -= OnThemeChanged;
-            }
         }
 
         /// <inheritdoc/>

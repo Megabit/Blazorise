@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Wrapper for a breadcrumb link.
     /// </summary>
-    public partial class BreadcrumbItem : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class BreadcrumbItem : BaseComponent, IDisposable
     {
         #region Members
 
@@ -61,27 +61,11 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+                NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            NavigationManager.LocationChanged -= OnLocationChanged;
         }
 
         /// <summary>

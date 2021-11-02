@@ -52,18 +52,18 @@ namespace Blazorise.AntDesign
             await InvokeAsync( StateHasChanged );
         }
 
-        protected override ValueTask DisposeAsync( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
                 // TODO: switch to IAsyncDisposable
-                _ = JSClosableModule.Unregister( this );
+                await JSClosableModule.Unregister( this );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
             }
 
-            return base.DisposeAsync( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         protected Task OnSelectorClickHandler()

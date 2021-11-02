@@ -10,7 +10,7 @@ namespace Blazorise.Components
     /// <summary>
     /// Component that handles the <see cref="INotificationService"/> to show the simple notifications.
     /// </summary>
-    public partial class NotificationAlert : BaseComponent, IDisposable, IAsyncDisposable
+    public partial class NotificationAlert : BaseComponent, IDisposable
     {
         #region Methods
 
@@ -27,29 +27,13 @@ namespace Blazorise.Components
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( NotificationService != null )
+                {
+                    NotificationService.NotificationReceived -= OnNotificationReceived;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( NotificationService != null )
-            {
-                NotificationService.NotificationReceived -= OnNotificationReceived;
-            }
         }
 
         private async void OnNotificationReceived( object sender, NotificationEventArgs e )
