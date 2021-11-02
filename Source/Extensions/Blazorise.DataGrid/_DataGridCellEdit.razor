@@ -76,3 +76,7 @@ else if ( ValueType == typeof( TimeSpan? ) )
 {
     <TimeEdit TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
+else
+{
+    <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+}

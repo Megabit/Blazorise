@@ -63,6 +63,22 @@ namespace Blazorise.Charts.Streaming
             await base.DisposeAsync( disposing );
         }
 
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            JS.DisposeDotNetObjectRef( dotNetObjectReference );
+        }
+
         public async Task Refresh()
         {
             if ( !Rendered )

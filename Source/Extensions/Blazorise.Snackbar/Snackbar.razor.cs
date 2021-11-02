@@ -85,19 +85,36 @@ namespace Blazorise.Snackbar
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
-                if ( countdownTimer != null )
-                {
-                    countdownTimer.Elapsed -= OnCountdownTimerElapsed;
-                    countdownTimer.Dispose();
-                    countdownTimer = null;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( countdownTimer != null )
+            {
+                countdownTimer.Elapsed -= OnCountdownTimerElapsed;
+                countdownTimer.Dispose();
+                countdownTimer = null;
+            }
         }
 
         protected Task OnClickHandler()
