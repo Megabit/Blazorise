@@ -401,6 +401,8 @@ namespace Blazorise.Bootstrap5
 
         public override string DropdownMenu() => "dropdown-menu";
 
+        public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+
         //public override string DropdownMenuBody() => null;
 
         public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;

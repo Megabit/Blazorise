@@ -410,6 +410,8 @@ namespace Blazorise.AntDesign
 
         public override string DropdownMenu() => "ant-dropdown";
 
+        public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";
+
         //public override string DropdownMenuBody() => null;
 
         public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden";

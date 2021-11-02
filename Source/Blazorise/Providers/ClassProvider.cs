@@ -378,6 +378,8 @@ namespace Blazorise
 
         public abstract string DropdownMenu();
 
+        public abstract string DropdownMenuScrollable();
+
         //public abstract string DropdownMenuBody();
 
         public abstract string DropdownMenuVisible( bool visible );

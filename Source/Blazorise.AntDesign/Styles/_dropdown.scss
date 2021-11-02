@@ -40,6 +40,11 @@
     white-space: nowrap;
 }
 
+.ant-dropdown-menu.ant-dropdown-menu-scrollable {
+    max-height: var(--dropdown-list-menu-max-height, 200px);
+    overflow-y: scroll;
+}
+
 .b-is-autocomplete .ant-dropdown-menu {
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
