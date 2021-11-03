@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -9,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// A responsive and flexible pagination component.
     /// </summary>
-    public partial class Pagination : BaseComponent
+    public partial class Pagination : BaseComponent, IDisposable
     {
         #region Members
 
@@ -37,13 +38,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( Theme != null )
-                {
-                    Theme.Changed -= OnThemeChanged;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed -= OnThemeChanged;
+            }
         }
 
         /// <inheritdoc/>

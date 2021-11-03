@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Clickable item in a <see cref="Steps"/> component.
     /// </summary>
-    public partial class Step : BaseComponent
+    public partial class Step : BaseComponent, IDisposable
     {
         #region Members
 
@@ -51,10 +51,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentStepsState != null )
-                {
-                    ParentSteps.NotifyStepRemoved( Name );
-                }
+                ParentSteps?.NotifyStepRemoved( Name );
             }
 
             base.Dispose( disposing );

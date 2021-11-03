@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -12,7 +13,7 @@ namespace Blazorise
     /// <summary>
     /// Toggles the visibility or collapse of <see cref="Bar"/> component.
     /// </summary>
-    public partial class BarDropdownToggle : BaseComponent, ICloseActivator
+    public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncDisposable
     {
         #region Members
 

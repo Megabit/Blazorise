@@ -18,6 +18,11 @@
     white-space: nowrap; // as with > li > a
 }
 
+.dropdown-menu.dropdown-menu-scrollable {
+    max-height: var(--dropdown-list-menu-max-height, 200px);
+    overflow-y: scroll;
+}
+
 .b-is-autocomplete .dropdown-menu {
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);

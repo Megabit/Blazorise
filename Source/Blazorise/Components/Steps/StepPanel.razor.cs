@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// <see cref="Step"/> content area that is linked with a <see cref="Step"/> with the same name and that is placed within the <see cref="Steps"/> component.
     /// </summary>
-    public partial class StepPanel : BaseComponent
+    public partial class StepPanel : BaseComponent, IDisposable
     {
         #region Members
 

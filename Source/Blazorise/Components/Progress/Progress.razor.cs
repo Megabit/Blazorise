@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Main component for stacked progress bars.
     /// </summary>
-    public partial class Progress : BaseComponent
+    public partial class Progress : BaseComponent, IDisposable
     {
         #region Members
 
@@ -62,13 +63,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( Theme != null )
-                {
-                    Theme.Changed -= OnThemeChanged;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed -= OnThemeChanged;
+            }
         }
 
         /// <inheritdoc/>

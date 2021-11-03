@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,9 +11,14 @@ namespace Blazorise
     /// <summary>
     /// A container for each <see cref="Tab"/> inside of <see cref="Tabs"/> component.
     /// </summary>
-    public partial class TabPanel : BaseComponent
+    public partial class TabPanel : BaseComponent, IDisposable
     {
         #region Members
+
+        /// <summary>
+        /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
+        /// </summary>
+        private bool lazyLoaded;
 
         /// <summary>
         /// A reference to the parent tabs state.
@@ -47,16 +54,40 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override Task OnParametersSetAsync()
+        {
+            if ( Active )
+                lazyLoaded = ( Mode == TabsMode.LazyLoad );
+            return base.OnParametersSetAsync();
+        }
+
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
-                ParentTabs?.NotifyTabPanelRemoved( Name );
-
-                ParentTabsContent?.NotifyTabPanelRemoved( Name );
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            ParentTabs?.NotifyTabPanelRemoved( Name );
+
+            ParentTabsContent?.NotifyTabPanelRemoved( Name );
         }
 
         #endregion
@@ -67,6 +98,11 @@ namespace Blazorise
         /// True if this panel is currently set as selected.
         /// </summary>
         protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
+
+        /// <summary>
+        /// Gets the current TabsMode.
+        /// </summary>
+        protected TabsMode Mode => ParentTabsState?.Mode ?? TabsMode.Default;
 
         /// <summary>
         /// Defines the panel name. Must match the corresponding tab name.

@@ -14,7 +14,7 @@ namespace Blazorise
     /// A component that renders an anchor tag, automatically toggling its 'active'
     /// class based on whether its 'href' matches the current URI.
     /// </summary>
-    public partial class Link : BaseComponent
+    public partial class Link : BaseComponent, IDisposable
     {
         #region Members
 
@@ -81,7 +81,10 @@ namespace Blazorise
             if ( disposing )
             {
                 // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-                NavigationManager.LocationChanged -= OnLocationChanged;
+                if ( NavigationManager != null )
+                {
+                    NavigationManager.LocationChanged -= OnLocationChanged;
+                }
             }
 
             base.Dispose( disposing );

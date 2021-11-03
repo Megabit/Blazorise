@@ -222,6 +222,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets or sets the TabsMode.
+        /// </summary>
+        [Parameter]
+        public TabsMode Mode
+        {
+            get => state.Mode;
+            set
+            {
+                state = state with { Mode = value };
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Controls the size of the items bar when in vertical mode. If left undefined it will default to the <c>ColumnSize.IsAuto</c>.
         /// </summary>
         [Parameter] public IFluentColumn VerticalItemsColumnSize { get; set; }

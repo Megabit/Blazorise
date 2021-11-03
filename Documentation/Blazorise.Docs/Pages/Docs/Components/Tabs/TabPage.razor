@@ -72,6 +72,26 @@
     <DocsPageSectionSource Code="BasicTabExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Lazy Load">
+        You are able to set the <Code>Tabs</Code> component to lazy load your tabs.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LazyLoadTabExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LazyLoadTabExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Lazy Reload">
+        You are able to set the <Code>Tabs</Code> component to lazy load your tabs everytime.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LazyReloadTabExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LazyReloadTabExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Functions
 </DocsPageSubtitle>
@@ -116,6 +136,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="VerticalItemsColumnSize" Type="IFluentColumn">
         Controls the size of the items bar when in vertical mode. If left undefined it will default to the <Code>ColumnSize.IsAuto</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mode" Type="TabsMode" Default="TabsMode.Default">
+        Gets or sets the TabsMode.
     </DocsAttributesItem>
 </DocsAttributes>
 

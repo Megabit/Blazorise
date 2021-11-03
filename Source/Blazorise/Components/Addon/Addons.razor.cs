@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Wrapper for text, buttons, or button groups on either side of textual inputs.
     /// </summary>
-    public partial class Addons : BaseComponent
+    public partial class Addons : BaseComponent, IDisposable
     {
         #region Members
 
@@ -54,13 +54,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( Theme != null )
-                {
-                    Theme.Changed -= OnThemeChanged;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( Theme != null )
+            {
+                Theme.Changed -= OnThemeChanged;
+            }
         }
 
         /// <inheritdoc/>

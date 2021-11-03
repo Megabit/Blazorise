@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IMessageService"/> to show the message dialog.
     /// </summary>
-    public partial class MessageAlert : BaseComponent
+    public partial class MessageAlert : BaseComponent, IDisposable
     {
         #region Methods
 
@@ -25,13 +26,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( MessageService != null )
-                {
-                    MessageService.MessageReceived -= OnMessageReceived;
-                }
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( MessageService != null )
+            {
+                MessageService.MessageReceived -= OnMessageReceived;
+            }
         }
 
         private async void OnMessageReceived( object sender, MessageEventArgs e )

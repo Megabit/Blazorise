@@ -15,7 +15,7 @@ namespace Blazorise
     /// <summary>
     /// A slideshow component for cycling through elements - images or slides of text.
     /// </summary>
-    public partial class Carousel : BaseContainerComponent
+    public partial class Carousel : BaseContainerComponent, IDisposable
     {
         #region Members
 
@@ -100,22 +100,38 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( Timer != null )
-                {
-                    Timer.Stop();
-                    Timer.Dispose();
-                }
-
-                if ( TransitionTimer != null )
-                {
-                    TransitionTimer.Stop();
-                    TransitionTimer.Dispose();
-                }
-
-                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            if ( Timer != null )
+            {
+                Timer.Stop();
+                Timer.Dispose();
+            }
+
+            if ( TransitionTimer != null )
+            {
+                TransitionTimer.Stop();
+                TransitionTimer.Dispose();
+            }
+
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         /// <inheritdoc/>

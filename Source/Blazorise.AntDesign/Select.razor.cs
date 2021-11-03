@@ -13,7 +13,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.AntDesign
 {
-    public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator
+    public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator, IAsyncDisposable
     {
         #region Members
 
@@ -52,18 +52,18 @@ namespace Blazorise.AntDesign
             await InvokeAsync( StateHasChanged );
         }
 
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
                 // TODO: switch to IAsyncDisposable
-                _ = JSClosableModule.Unregister( this );
+                await JSClosableModule.Unregister( this );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         protected Task OnSelectorClickHandler()

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -12,7 +13,7 @@ namespace Blazorise.Charts
     /// Base class for all chart types.
     /// </summary>
     /// <typeparam name="TItem">Generic dataset value type.</typeparam>
-    public class BaseChart<TItem> : BaseComponent
+    public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     {
         #region Methods
 

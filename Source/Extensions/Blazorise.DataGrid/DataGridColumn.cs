@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
+    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>, IDisposable
     {
         #region Members
 
@@ -58,20 +58,15 @@ namespace Blazorise.DataGrid
             }
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
+            {
                 DisposeSubscriptions();
+            }
 
             base.Dispose( disposing );
-        }
-
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-                DisposeSubscriptions();
-
-            return base.DisposeAsync( disposing );
         }
 
         private void DisposeSubscriptions()

@@ -1999,6 +1999,41 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string LazyLoadTabExample = @"<Tabs Mode=""TabsMode.LazyLoad"" SelectedTab=""tab1"">
+    <Items>
+        <Tab Name=""tab1"">Tab 1</Tab>
+        <Tab Name=""tab2"">Tab 2</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name=""tab1"">
+            This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
+            This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
+            <TextEdit></TextEdit>
+        </TabPanel>
+        <TabPanel Name=""tab2"">
+            <TextEdit></TextEdit>
+        </TabPanel>
+    </Content>
+</Tabs>";
+
+        public const string LazyReloadTabExample = @"<Tabs Mode=""TabsMode.LazyReload"" SelectedTab=""tab1"">
+    <Items>
+        <Tab Name=""tab1"">Tab 1</Tab>
+        <Tab Name=""tab2"">Tab 2</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name=""tab1"">
+            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
+            therefore re-calculated.
+            <TextEdit></TextEdit>
+        </TabPanel>
+        <TabPanel Name=""tab2"">
+            <TextEdit></TextEdit>
+        </TabPanel>
+    </Content>
+</Tabs>";
+
         public const string BasicTextEditExample = @"<TextEdit />";
 
         public const string TextEditDisabledExample = @"<TextEdit Disabled />";
@@ -2836,6 +2871,14 @@ namespace Blazorise.Docs.Models
           ShowPager
           CommandMode=""DataGridCommandMode.ButtonRow"">
     <DataGridColumns>
+        <DataGridCommandColumn TItem=""Employee"" NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
+            <SaveCommandTemplate>
+                <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <CancelCommandTemplate>
+                <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+        </DataGridCommandColumn>
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />

@@ -377,6 +377,8 @@ namespace Blazorise
 
         string DropdownMenu();
 
+        string DropdownMenuScrollable();
+
         //string DropdownMenuBody();
 
         string DropdownMenuVisible( bool visible );

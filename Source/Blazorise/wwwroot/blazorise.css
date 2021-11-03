@@ -715,6 +715,9 @@ hr.divider.divider-text {
             box-shadow: none; }
             .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
                 padding: .5rem .5rem .5rem 3rem; }
+    .b-bar-vertical-inline:not([data-collapse]) .b-bar-brand .b-bar-link {
+        display: flex;
+        align-items: center; }
 
 .b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-toggle:before {
     content: " ";

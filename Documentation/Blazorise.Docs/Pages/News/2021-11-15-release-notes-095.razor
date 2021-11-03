@@ -260,8 +260,8 @@
 </Heading>
 
 <Paragraph>
-   Introduced a new <Code>SortField</Code> Parameter, that allows you to define a different Property or Field of a column to be considered by the sorting mechanism.
-</Paragraph> 
+    Introduced a new <Code>SortField</Code> Parameter, that allows you to define a different Property or Field of a column to be considered by the sorting mechanism.
+</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     DataGrid DetailRowTemplate
@@ -337,4 +337,38 @@
             <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
         </DescriptionListDefinition>
     </DescriptionList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Tabs
+</Heading>
+
+<Paragraph>
+    Introduced a new Parameter <Code>TabsMode</Code>.
+    <DescriptionList>
+        <DescriptionListTerm><Code>TabsMode.Default</Code></DescriptionListTerm>
+        <DescriptionListDefinition>
+            Will keep the same behaviour, we've had until now. Every tab is always rendered to the DOM and hidden if not active.
+        </DescriptionListDefinition>
+    </DescriptionList>
+    <DescriptionList>
+        <DescriptionListTerm><Code>TabsMode.LazyLoad</Code></DescriptionListTerm>
+        <DescriptionListDefinition>
+            Each tab will only be rendered/loaded the first time it is visited.
+        </DescriptionListDefinition>
+    </DescriptionList>
+        <DescriptionList>
+        <DescriptionListTerm><Code>TabsMode.LazyReload</Code></DescriptionListTerm>
+        <DescriptionListDefinition>
+            Only the active tab will have it's html rendered at a time. This also means that the content will always be re-calculated upon switching tabs.
+        </DescriptionListDefinition>
+    </DescriptionList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DropdownList
+</Heading>
+
+<Paragraph>
+    <Code>DropdownList</Code> now supports Scrolling by default. This will make it so your DropdownLists with a lot of data, no longer keep growing indefinitely in size, going out of the page bounds.
 </Paragraph>

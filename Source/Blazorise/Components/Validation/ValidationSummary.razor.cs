@@ -1,6 +1,8 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,13 +12,11 @@ namespace Blazorise
     /// <summary>
     /// Placeholder for the list of <see cref="Validation"/> error messages.
     /// </summary>
-    public partial class ValidationSummary : BaseComponent
+    public partial class ValidationSummary : BaseComponent, IDisposable
     {
         #region Members
 
         private Validations previousParentValidations;
-
-        private readonly ValidationsStatusChangedEventHandler validationsStatusChangedEventHandler;
 
         private IReadOnlyCollection<string> internalErrorMessages;
 
@@ -30,12 +30,6 @@ namespace Blazorise
         public ValidationSummary()
         {
             ErrorClassBuilder = new( BuildErrorClasses );
-
-            validationsStatusChangedEventHandler += async ( eventArgs ) =>
-            {
-                OnValidationsStatusChanged( eventArgs );
-                await InvokeAsync( StateHasChanged );
-            };
         }
 
         #endregion
@@ -64,10 +58,26 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DetachAllListener();
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            DetachAllListener();
         }
 
         /// <inheritdoc/>
@@ -77,7 +87,7 @@ namespace Blazorise
             {
                 DetachAllListener();
 
-                ParentValidations._StatusChanged += validationsStatusChangedEventHandler;
+                ParentValidations._StatusChanged += OnValidationsStatusChanged;
 
                 previousParentValidations = ParentValidations;
             }
@@ -87,13 +97,14 @@ namespace Blazorise
         {
             if ( previousParentValidations != null )
             {
-                previousParentValidations._StatusChanged -= validationsStatusChangedEventHandler;
+                previousParentValidations._StatusChanged -= OnValidationsStatusChanged;
             }
         }
 
-        private void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
+        private async void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
         {
             internalErrorMessages = eventArgs.Messages;
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion

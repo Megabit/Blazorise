@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,7 +8,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IPageProgressService"/> to show the page progress.
     /// </summary>
-    public partial class PageProgressAlert : BaseComponent
+    public partial class PageProgressAlert : BaseComponent, IDisposable
     {
         #region Methods
 

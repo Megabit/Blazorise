@@ -1,10 +1,12 @@
 ﻿#region Using directives
+using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.AntDesign
 {
-    public partial class ModalContent : Blazorise.ModalContent
+    public partial class ModalContent : Blazorise.ModalContent, IDisposable
     {
         #region Members
 
@@ -28,11 +30,12 @@ namespace Blazorise.AntDesign
             ParentModal.NotifyCloseActivatorIdInitialized( WrapperElementId ??= IdGenerator.Generate );
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
-                ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
+                ParentModal?.NotifyCloseActivatorIdRemoved( WrapperElementId );
             }
 
             base.Dispose( disposing );

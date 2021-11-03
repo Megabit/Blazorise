@@ -413,6 +413,8 @@ namespace Blazorise.Bulma
 
         public override string DropdownMenu() => "dropdown-menu";
 
+        public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+
         //public override string DropdownMenuBody() => "dropdown-content";
 
         public override string DropdownMenuVisible( bool visible ) => null;

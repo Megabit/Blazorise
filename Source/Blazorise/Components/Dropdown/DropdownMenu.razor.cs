@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,11 +10,13 @@ namespace Blazorise
     /// <summary>
     /// Main container for a <see cref="Dropdown"/> menu that can contain or or more <see cref="DropdownItem"/>'s.
     /// </summary>
-    public partial class DropdownMenu : BaseComponent
+    public partial class DropdownMenu : BaseComponent, IDisposable
     {
         #region Members
 
         private DropdownState parentDropdownState;
+
+        private string maxMenuHeight;
 
         #endregion
 
@@ -48,10 +51,20 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
+            builder.Append( ClassProvider.DropdownMenuScrollable(), MaxMenuHeight != null );
             builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownState.Visible ) );
             builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownState.RightAligned );
 
             base.BuildClasses( builder );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            if ( MaxMenuHeight != null )
+                builder.Append( $"--dropdown-list-menu-max-height: {MaxMenuHeight};" );
+
+            base.BuildStyles( builder );
         }
 
         /// <summary>
@@ -84,6 +97,21 @@ namespace Blazorise
                     return;
 
                 parentDropdownState = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Sets the maximum height of the dropdown menu.
+        /// </summary>
+        [Parameter]
+        public string MaxMenuHeight
+        {
+            get => maxMenuHeight;
+            set
+            {
+                maxMenuHeight = value;
 
                 DirtyClasses();
             }

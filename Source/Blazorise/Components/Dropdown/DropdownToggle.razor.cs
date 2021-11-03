@@ -13,7 +13,7 @@ namespace Blazorise
     /// <summary>
     /// Toggles the dropdown menu visibility on or off.
     /// </summary>
-    public partial class DropdownToggle : BaseComponent, ICloseActivator
+    public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisposable
     {
         #region Members
 

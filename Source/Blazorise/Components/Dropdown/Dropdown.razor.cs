@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -11,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Dropdown is toggleable, contextual overlay for displaying lists of links and more.
     /// </summary>
-    public partial class Dropdown : BaseComponent
+    public partial class Dropdown : BaseComponent, IDisposable
     {
         #region Members
 

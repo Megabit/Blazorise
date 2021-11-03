@@ -16,6 +16,19 @@
     cursor: pointer;
 }
 
+.dropdown-menu.dropdown-menu-scrollable {
+    max-height: var(--dropdown-list-menu-max-height, 200px);
+    overflow-y: scroll;
+    border-radius: 4px;
+    background-clip: border-box;
+    background-color: #fff;
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.20);
+}
+
+.b-dropdown-list .dropdown-menu:before {
+    box-shadow: none;
+}
+
 .b-is-autocomplete .dropdown-menu {
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);

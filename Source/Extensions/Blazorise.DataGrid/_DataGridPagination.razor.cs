@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    partial class _DataGridPagination<TItem> : BaseComponent
+    partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     {
         #region Methods
 
@@ -18,6 +19,7 @@ namespace Blazorise.DataGrid
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )

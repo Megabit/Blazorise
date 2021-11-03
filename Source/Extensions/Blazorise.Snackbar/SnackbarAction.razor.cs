@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Snackbar.Utils;
 using Blazorise.Utilities;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar
 {
-    public partial class SnackbarAction : BaseComponent
+    public partial class SnackbarAction : BaseComponent, IDisposable
     {
         #region Members
 
@@ -22,14 +23,31 @@ namespace Blazorise.Snackbar
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
-                ParentSnackbar?.NotifySnackbarActionRemoved( this );
+                DisposeResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                DisposeResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        private void DisposeResources()
+        {
+            ParentSnackbar?.NotifySnackbarActionRemoved( this );
         }
 
         protected override void BuildClasses( ClassBuilder builder )
