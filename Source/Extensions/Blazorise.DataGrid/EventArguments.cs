@@ -160,7 +160,7 @@ namespace Blazorise.DataGrid
                 x.CurrentSortDirection,
                 sortByColumns?.IndexOf( x ) ?? -1,
                 x.ColumnType,
-                string.IsNullOrWhiteSpace( x.SortField ) ? x.Field : x.SortField ) );
+                x.GetFieldToSort()));
             CancellationToken = cancellationToken;
             VirtualizeOffset = virtualizeOffset;
             VirtualizeCount = virtualizeCount;

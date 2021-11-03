@@ -431,7 +431,7 @@ namespace Blazorise.DataGrid
 
             // get the list of edited values
             var editedCellValues = EditableColumns
-                .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
+                .Select( c => new { Field = (string.IsNullOrEmpty(c.Field) ? c.ElementId : c.Field), editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
             var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 

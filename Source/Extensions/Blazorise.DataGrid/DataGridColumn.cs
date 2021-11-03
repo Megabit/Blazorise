@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -45,13 +46,11 @@ namespace Blazorise.DataGrid
         {
             base.OnInitialized();
 
-            // initialize temporary variables
             currentSortDirection[DataGridSortMode.Single] = SortDirection;
             currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
 
             if ( ParentDataGrid != null )
             {
-                // connect column to the parent datagrid
                 ParentDataGrid.AddColumn( this );
 
                 Filter?.Subscribe( OnSearchValueChanged );
@@ -73,7 +72,7 @@ namespace Blazorise.DataGrid
         {
             ParentDataGrid.RemoveColumn( this );
 
-            if ( Filter != null )
+            if ( Filter is not null )
             {
                 Filter.Unsubscribe( OnSearchValueChanged );
 
@@ -91,7 +90,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <returns></returns>
         internal Type GetValueType()
-            => valueTypeGetter.Value();
+            => !string.IsNullOrEmpty( Field ) 
+                ? valueTypeGetter.Value() 
+                : default;
 
         /// <summary>
         /// Gets default value based on the typeof() of the value associated with this column field.
@@ -146,7 +147,7 @@ namespace Blazorise.DataGrid
         /// <param name="item">Item for which to get the value.</param>
         /// <returns></returns>
         internal bool CanSort()
-            => Sortable && ( !string.IsNullOrEmpty( Field ) || !string.IsNullOrEmpty( SortField ) );
+            => Sortable && ( !string.IsNullOrEmpty( GetFieldToSort() ) );
 
         internal string GetFieldToSort()
             => string.IsNullOrEmpty( SortField ) ? Field : SortField;

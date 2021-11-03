@@ -150,44 +150,48 @@ namespace Blazorise
         /// <returns>True if property is found.</returns>
         protected virtual bool TryGetValidatableProperty( in FieldIdentifier fieldIdentifier, out ValidationPropertyInfo validationPropertyInfo, bool forLocalization )
         {
-            var cacheKey = (ModelType: fieldIdentifier.Model.GetType(), fieldIdentifier.FieldName);
-
-            if ( !propertyInfoCache.TryGetValue( cacheKey, out validationPropertyInfo ) )
+            validationPropertyInfo = null;
+            if ( fieldIdentifier.FieldName is not null )
             {
-                // DataAnnotations only validates public properties, so that's all we'll look for
-                // If we can't find it, cache 'null' so we don't have to try again next time
-                var propertyInfo = cacheKey.ModelType.GetProperty( cacheKey.FieldName );
+                var cacheKey = (ModelType: fieldIdentifier.Model.GetType(), fieldIdentifier.FieldName);
 
-                // This is used only for custom localization. We assume that unformatted ErrorMessage will be
-                // used as an localization key, so we need to replace it in case it is undefined with
-                // the internal ErrorMessageString that has unformatted message. eg. "The field {0} is invalid."
-                var validationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
-                var formattedValidationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
-
-                if ( forLocalization )
+                if ( !propertyInfoCache.TryGetValue( cacheKey, out validationPropertyInfo ) )
                 {
-                    foreach ( var validationAttribute in formattedValidationAttributes )
+                    // DataAnnotations only validates public properties, so that's all we'll look for
+                    // If we can't find it, cache 'null' so we don't have to try again next time
+                    var propertyInfo = cacheKey.ModelType.GetProperty( cacheKey.FieldName );
+
+                    // This is used only for custom localization. We assume that unformatted ErrorMessage will be
+                    // used as an localization key, so we need to replace it in case it is undefined with
+                    // the internal ErrorMessageString that has unformatted message. eg. "The field {0} is invalid."
+                    var validationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
+                    var formattedValidationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
+
+                    if ( forLocalization )
                     {
-                        // In case the ErrorMessageResourceName is set, validation will fail if the ErrorMessage
-                        // is also set.
-                        // In case a custom ErrorMessage in the DataAnnotation like [Required(ErrorMessage="{0} is very important"]
-                        // the ErrorMessage is not initialized with null.
-                        if ( validationAttribute.ErrorMessageResourceName == null )
+                        foreach ( var validationAttribute in formattedValidationAttributes )
                         {
-                            ValidationAttributeHelper.SetDefaultErrorMessage( validationAttribute );
+                            // In case the ErrorMessageResourceName is set, validation will fail if the ErrorMessage
+                            // is also set.
+                            // In case a custom ErrorMessage in the DataAnnotation like [Required(ErrorMessage="{0} is very important"]
+                            // the ErrorMessage is not initialized with null.
+                            if ( validationAttribute.ErrorMessageResourceName == null )
+                            {
+                                ValidationAttributeHelper.SetDefaultErrorMessage( validationAttribute );
+                            }
                         }
                     }
+
+                    validationPropertyInfo = new()
+                    {
+                        PropertyInfo = propertyInfo,
+                        ValidationAttributes = validationAttributes,
+                        FormattedValidationAttributes = formattedValidationAttributes,
+                    };
+
+                    // No need to lock, because it doesn't matter if we write the same value twice
+                    propertyInfoCache[cacheKey] = validationPropertyInfo;
                 }
-
-                validationPropertyInfo = new()
-                {
-                    PropertyInfo = propertyInfo,
-                    ValidationAttributes = validationAttributes,
-                    FormattedValidationAttributes = formattedValidationAttributes,
-                };
-
-                // No need to lock, because it doesn't matter if we write the same value twice
-                propertyInfoCache[cacheKey] = validationPropertyInfo;
             }
 
             return validationPropertyInfo != null;
