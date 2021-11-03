@@ -14,6 +14,10 @@ export function initialize(element, elementId, options) {
         placeholder: options.placeholder || "_",
         showMaskOnFocus: options.showMaskOnFocus,
         showMaskOnHover: options.showMaskOnHover,
+        numericInput: options.numericInput || false,
+        rightAlign: options.rightAlign || false,
+        radixPoint: options.decimalSeparator || "",
+        groupSeparator: options.groupSeparator || "",
         nullable: false
     });
 

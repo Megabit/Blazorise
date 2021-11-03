@@ -52,6 +52,10 @@ namespace Blazorise
                 Placeholder,
                 ShowMaskOnFocus,
                 ShowMaskOnHover,
+                NumericInput,
+                RightAlign,
+                DecimalSeparator,
+                GroupSeparator,
                 Disabled,
                 ReadOnly,
             } );
@@ -148,6 +152,30 @@ namespace Blazorise
         /// Shows the mask when hovering the mouse. (default = true)
         /// </summary>
         [Parameter] public bool ShowMaskOnHover { get; set; } = true;
+
+        /// <summary>
+        /// Numeric input direction. Keeps the caret at the end.
+        /// </summary>
+        [Parameter] public bool NumericInput { get; set; }
+
+        /// <summary>
+        /// Align the input to the right.
+        /// </summary>
+        /// <remarks>
+        /// By setting the rightAlign you can specify to right-align an inputmask. This is only applied
+        /// in combination op the numericInput option or the dir-attribute. The default is true.
+        /// </remarks>
+        [Parameter] public bool RightAlign { get; set; }
+
+        /// <summary>
+        /// Define the decimal separator (numeric mode only).
+        /// </summary>
+        [Parameter] public string DecimalSeparator { get; set; }
+
+        /// <summary>
+        /// Define the group separator (numeric mode only).
+        /// </summary>
+        [Parameter] public string GroupSeparator { get; set; }
 
         #endregion
     }
