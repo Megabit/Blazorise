@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -10,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Main container for a <see cref="Dropdown"/> menu that can contain or or more <see cref="DropdownItem"/>'s.
     /// </summary>
-    public partial class DropdownMenu : BaseComponent
+    public partial class DropdownMenu : BaseComponent, IDisposable
     {
         #region Members
 

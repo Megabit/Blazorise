@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -13,7 +14,7 @@ namespace Blazorise
     /// <summary>
     /// The <see cref="Bar"/> component is a wrapper that positions branding, navigation, and other elements into a concise header or sidebar.
     /// </summary>
-    public partial class Bar : BaseComponent, IBreakpointActivator
+    public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     {
         #region Members
 

@@ -19,7 +19,8 @@ namespace Blazorise.Markdown
     /// </summary>
     public partial class Markdown : BaseComponent,
         IFileEntryOwner,
-        IFileEntryNotifier
+        IFileEntryNotifier,
+        IAsyncDisposable
     {
         #region Members
 

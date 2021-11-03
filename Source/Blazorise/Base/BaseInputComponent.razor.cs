@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput, IFocusableComponent
+    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput, IFocusableComponent, IDisposable
     {
         #region Members
 

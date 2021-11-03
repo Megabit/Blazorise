@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Snackbar.Utils;
 using Blazorise.Utilities;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar
 {
-    public partial class SnackbarAction : BaseComponent
+    public partial class SnackbarAction : BaseComponent, IDisposable
     {
         #region Members
 

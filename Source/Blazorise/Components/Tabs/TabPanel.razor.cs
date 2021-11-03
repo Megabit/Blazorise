@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -10,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// A container for each <see cref="Tab"/> inside of <see cref="Tabs"/> component.
     /// </summary>
-    public partial class TabPanel : BaseComponent
+    public partial class TabPanel : BaseComponent, IDisposable
     {
         #region Members
 

@@ -33,7 +33,8 @@ namespace Blazorise
     /// </summary>
     public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         IFileEntryOwner,
-        IFileEntryNotifier
+        IFileEntryNotifier,
+        IAsyncDisposable
     {
         #region Members
 

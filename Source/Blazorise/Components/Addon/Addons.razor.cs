@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Wrapper for text, buttons, or button groups on either side of textual inputs.
     /// </summary>
-    public partial class Addons : BaseComponent
+    public partial class Addons : BaseComponent, IDisposable
     {
         #region Members
 

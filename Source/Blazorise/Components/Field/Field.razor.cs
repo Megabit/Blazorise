@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Wrapper for form input components like label, text, button, etc.
     /// </summary>
-    public partial class Field : BaseComponent
+    public partial class Field : BaseComponent, IDisposable
     {
         #region Members
 
@@ -66,31 +66,15 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                DetachValidationStatusChangedListener();
+
+                if ( ParentValidation is not null )
+                {
+                    ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            DetachValidationStatusChangedListener();
-
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Blazorise
     /// <summary>
     /// Clickable button for actions in forms, dialogs, and more with support for multiple sizes, states, and more.
     /// </summary>
-    public partial class Button : BaseComponent
+    public partial class Button : BaseComponent, IAsyncDisposable
     {
         #region Members
 
