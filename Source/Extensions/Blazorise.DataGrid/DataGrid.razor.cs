@@ -701,13 +701,14 @@ namespace Blazorise.DataGrid
 
             foreach ( var column in EditableColumns )
             {
+                var cellValue = column.GetValue( editItem );
                 editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCellEditValue, ReadCellEditValue )
                 {
-                    CellValue = column.GetValue( editItem ),
+                    CellValue = cellValue,
                 } );
 
-                if ( validationItem != null )
-                    column.SetValue( validationItem, editItemCellValues[column.ElementId].CellValue );
+                if ( validationItem is not null )
+                    column.SetValue( validationItem, cellValue );
             }
         }
 
