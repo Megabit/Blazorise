@@ -118,6 +118,18 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region InputMask
+
+        public override string InputMask( bool plaintext ) => plaintext ? "input is-static" : "input";
+
+        public override string InputMaskSize( Size size ) => $"is-{ToSize( size )}";
+
+        public override string InputMaskColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region Check
 
         public override string Check() => "is-checkradio";

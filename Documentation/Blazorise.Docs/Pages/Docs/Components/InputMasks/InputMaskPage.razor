@@ -1,0 +1,72 @@
+﻿@page "/docs/components/input-mask"
+
+<DocsPageTitle>
+    InputMask component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    An InputMask helps the user with the input by ensuring a predefined format. This can be useful for dates, numerics, phone numbers, ...
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+        To start you only need to define the <Code>Mask</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicInputMaskExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicInputMaskExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Default masking definitions
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Span Padding="Padding.Is2.OnX"><Code>9</Code></Span>: numeric
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Span Padding="Padding.Is2.OnX"><Code>a</Code></Span>: alphabetical
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Span Padding="Padding.Is2.OnX"><Code>*</Code></Span>: alphanumeric
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Value" Type="string" Default="null">
+        Input value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueChanged" Type="@("EventCallback<string>")">
+        Occurs after the value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Plaintext" Type="bool" Default="false">
+        Remove the default form field styling and preserve the correct margin and padding.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Prevents modification of the input’s value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Prevents user interactions and make it appear lighter.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        Sets the placeholder for the empty text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Pattern" Type="string" Default="null">
+        Specifies a regular expression that the input element’s value is checked against on form validation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="None">
+        Component visual or contextual style variants.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="Size" Default="None">
+        Component size variations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Autofocus" Type="bool" Default="false">
+        Set’s the focus to the component after the rendering is done.
+    </DocsAttributesItem>
+</DocsAttributes>

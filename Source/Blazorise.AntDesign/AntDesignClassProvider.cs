@@ -118,6 +118,18 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region InputMask
+
+        public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+
+        public override string InputMaskSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string InputMaskColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+
+        public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region Check
 
         public override string Check() => "ant-checkbox-input";

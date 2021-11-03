@@ -143,7 +143,7 @@ function hasSelectionCapabilities(element) {
     );
 }
 
-function getRequiredElement(element, elementId) {
+export function getRequiredElement(element, elementId) {
     if (element)
         return element;
 
