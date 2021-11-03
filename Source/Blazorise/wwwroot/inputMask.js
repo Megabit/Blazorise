@@ -12,6 +12,8 @@ export function initialize(element, elementId, options) {
         mask: options.mask,
         regex: options.regex,
         placeholder: options.placeholder || "_",
+        showMaskOnFocus: options.showMaskOnFocus,
+        showMaskOnHover: options.showMaskOnHover,
         nullable: false
     });
 

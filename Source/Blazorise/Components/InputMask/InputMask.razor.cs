@@ -50,6 +50,8 @@ namespace Blazorise
                 Mask,
                 Regex,
                 Placeholder,
+                ShowMaskOnFocus,
+                ShowMaskOnHover,
                 Disabled,
                 ReadOnly,
             } );
@@ -136,6 +138,16 @@ namespace Blazorise
         /// Use a regular expression as a mask.
         /// </summary>
         [Parameter] public string Regex { get; set; }
+
+        /// <summary>
+        /// Shows the mask when the input gets focus. (default = true)
+        /// </summary>
+        [Parameter] public bool ShowMaskOnFocus { get; set; } = true;
+
+        /// <summary>
+        /// Shows the mask when hovering the mouse. (default = true)
+        /// </summary>
+        [Parameter] public bool ShowMaskOnHover { get; set; } = true;
 
         #endregion
     }
