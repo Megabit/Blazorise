@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -26,29 +25,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( PageProgressService != null )
+                {
+                    PageProgressService.ProgressChanged -= OnProgressChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( PageProgressService != null )
-            {
-                PageProgressService.ProgressChanged -= OnProgressChanged;
-            }
         }
 
         /// <inheritdoc/>

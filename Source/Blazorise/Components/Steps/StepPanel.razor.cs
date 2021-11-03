@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -38,28 +37,12 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentSteps?.NotifyStepRemoved( Name );
+
+                ParentStepsContent?.NotifyStepPanelRemoved( Name );
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentSteps?.NotifyStepRemoved( Name );
-
-            ParentStepsContent?.NotifyStepPanelRemoved( Name );
         }
 
         /// <inheritdoc/>
