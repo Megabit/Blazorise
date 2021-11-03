@@ -27,29 +27,13 @@ namespace Blazorise.Components
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( NotificationService != null )
+                {
+                    NotificationService.NotificationReceived -= OnNotificationReceived;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( NotificationService != null )
-            {
-                NotificationService.NotificationReceived -= OnNotificationReceived;
-            }
         }
 
         private async void OnNotificationReceived( object sender, NotificationEventArgs e )

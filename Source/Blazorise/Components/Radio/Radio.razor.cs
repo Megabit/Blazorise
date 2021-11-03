@@ -75,29 +75,13 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                if ( ParentRadioGroup != null )
+                {
+                    ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
+                }
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            if ( ParentRadioGroup != null )
-            {
-                ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
-            }
         }
 
         /// <inheritdoc/>

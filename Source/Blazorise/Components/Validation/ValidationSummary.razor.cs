@@ -58,26 +58,10 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                DetachAllListener();
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            DetachAllListener();
         }
 
         /// <inheritdoc/>

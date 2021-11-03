@@ -66,28 +66,12 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                ParentTabs?.NotifyTabPanelRemoved( Name );
+
+                ParentTabsContent?.NotifyTabPanelRemoved( Name );
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            ParentTabs?.NotifyTabPanelRemoved( Name );
-
-            ParentTabsContent?.NotifyTabPanelRemoved( Name );
         }
 
         #endregion

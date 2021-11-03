@@ -61,27 +61,10 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                DisposeResources();
+                NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
             base.Dispose( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                DisposeResources();
-            }
-
-            return base.DisposeAsync( disposing );
-        }
-
-        private void DisposeResources()
-        {
-            // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            NavigationManager.LocationChanged -= OnLocationChanged;
         }
 
         /// <summary>
