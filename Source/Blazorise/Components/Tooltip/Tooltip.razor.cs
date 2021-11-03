@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -11,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Tooltips display informative text when users hover over, focus on, or tap an element.
     /// </summary>
-    public partial class Tooltip : BaseComponent
+    public partial class Tooltip : BaseComponent, IAsyncDisposable
     {
         #region Members
 

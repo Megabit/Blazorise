@@ -12,7 +12,7 @@ namespace Blazorise
     /// Base component for inputs that are text-based.
     /// </summary>
     /// <typeparam name="TValue">Editable value type.</typeparam>
-    public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelectableComponent
+    public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelectableComponent, IDisposable
     {
         #region Members
 
@@ -39,10 +39,13 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
-            if ( inputValueDebouncer != null )
+            if ( disposing )
             {
-                inputValueDebouncer.Debounced -= OnInputValueDebounced;
-                inputValueDebouncer = null;
+                if ( inputValueDebouncer != null )
+                {
+                    inputValueDebouncer.Debounced -= OnInputValueDebounced;
+                    inputValueDebouncer = null;
+                }
             }
 
             base.Dispose( disposing );

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace Blazorise.DataGrid
     /// <summary>
     /// Minimal base class for datagrid components.
     /// </summary>
-    public class BaseDataGridComponent : BaseAfterRenderComponent
+    public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
     {
         #region Methods
 

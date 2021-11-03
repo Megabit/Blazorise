@@ -12,7 +12,7 @@ namespace Blazorise.Snackbar
     /// <summary>
     /// Snackbars provide brief messages about app processes. The component is also known as a toast.
     /// </summary>
-    public partial class Snackbar : BaseComponent
+    public partial class Snackbar : BaseComponent, IDisposable
     {
         #region Members
 
@@ -85,6 +85,7 @@ namespace Blazorise.Snackbar
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
