@@ -53,6 +53,8 @@ namespace Blazorise.DataGrid
 
         protected virtual async Task DisposeResourcesAsync()
         {
+            // Blazor will always run async disposal if it is defined so we need to also make sure
+            // any synchronous disposables are handled.
             DisposeResources();
 
             await JSModule.SafeDisposeAsync();
