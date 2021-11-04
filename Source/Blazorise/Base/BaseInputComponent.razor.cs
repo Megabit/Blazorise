@@ -89,21 +89,37 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentValidation != null )
-                {
-                    // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-                    ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-                }
-
-                ParentModal?.NotifyFocusableComponentRemoved( this );
-
-                if ( Theme != null )
-                {
-                    Theme.Changed -= OnThemeChanged;
-                }
+                ReleaseResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+
+            return base.DisposeAsync( disposing );
+        }
+
+        protected void ReleaseResources()
+        {
+            if ( ParentValidation != null )
+            {
+                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+            }
+
+            ParentModal?.NotifyFocusableComponentRemoved( this );
+
+            if ( Theme != null )
+            {
+                Theme.Changed -= OnThemeChanged;
+            }
         }
 
         /// <summary>
