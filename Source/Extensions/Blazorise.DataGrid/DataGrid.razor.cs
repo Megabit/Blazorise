@@ -429,9 +429,9 @@ namespace Blazorise.DataGrid
             if ( Data == null )
                 return;
 
-            // get the list of edited values
             var editedCellValues = EditableColumns
-                .Select( c => new { Field = (string.IsNullOrEmpty(c.Field) ? c.ElementId : c.Field), editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
+                .Where( x => !string.IsNullOrEmpty( x.Field ) )
+                .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
             var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 

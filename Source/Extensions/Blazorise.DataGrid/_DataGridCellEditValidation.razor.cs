@@ -11,7 +11,6 @@ namespace Blazorise.DataGrid
     public partial class _DataGridCellEditValidation<TItem> : _DataGridCellEdit<TItem>
     {
         #region Members
-        private string _dummyValue;
 
         private Expression<Func<string>> stringExpression;
 
@@ -48,7 +47,6 @@ namespace Blazorise.DataGrid
 
         protected override Task OnInitializedAsync()
         {
-            _dummyValue = CellEditContext.CellValue?.ToString();
             if ( ValueType == typeof( string ) )
                 stringExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, string>( ValidationItem, Field );
             else if ( ValueType == typeof( decimal ) )
