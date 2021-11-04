@@ -41,14 +41,29 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( inputValueDebouncer != null )
-                {
-                    inputValueDebouncer.Debounced -= OnInputValueDebounced;
-                    inputValueDebouncer = null;
-                }
+                ReleaseResources();
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                ReleaseResources();
+            }
+            return base.DisposeAsync( disposing );
+        }
+
+        protected void ReleaseResources()
+        {
+            if ( inputValueDebouncer != null )
+            {
+                inputValueDebouncer.Debounced -= OnInputValueDebounced;
+                inputValueDebouncer = null;
+            }
         }
 
         /// <summary>
