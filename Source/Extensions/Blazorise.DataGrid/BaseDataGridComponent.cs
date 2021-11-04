@@ -27,14 +27,35 @@ namespace Blazorise.DataGrid
             ElementId ??= IdGenerator.Generate;
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing && Rendered )
+            {
+                DisposeResources();
+            }
+
+            base.Dispose( disposing );
+        }
+
         protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
-                await JSModule.SafeDisposeAsync();
+                await DisposeResourcesAsync();
             }
 
             await base.DisposeAsync( disposing );
+        }
+
+        protected virtual void DisposeResources()
+        {
+        }
+
+        protected virtual async Task DisposeResourcesAsync()
+        {
+            DisposeResources();
+
+            await JSModule.SafeDisposeAsync();
         }
 
         #endregion

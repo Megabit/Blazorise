@@ -175,14 +175,11 @@ namespace Blazorise.DataGrid
         protected Cursor GetHoverCursor()
             => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
 
-        protected override void Dispose( bool disposing )
+        protected override void DisposeResources()
         {
-            if ( disposing )
-            {
-                ParentDataGrid.RemoveRow( RowInfo );
-            }
+            ParentDataGrid.RemoveRow( RowInfo );
 
-            base.Dispose( disposing );
+            base.DisposeResources();
         }
 
         #endregion
