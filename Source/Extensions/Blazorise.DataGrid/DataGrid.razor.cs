@@ -20,7 +20,7 @@ namespace Blazorise.DataGrid
     /// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
     /// </summary>
     /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
-    public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable
+    public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -247,15 +247,18 @@ namespace Blazorise.DataGrid
         }
 
         /// <inheritdoc/>
-        protected override void DisposeResources()
+        protected override ValueTask DisposeAsync( bool disposing )
         {
-            if ( paginationContext != null )
+            if ( disposing )
             {
-                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
-                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                if ( paginationContext != null )
+                {
+                    paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                    paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                }
             }
 
-            base.DisposeResources();
+            return base.DisposeAsync( disposing );
         }
 
         private async Task HandleSelectionModeChanged()

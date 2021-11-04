@@ -27,37 +27,14 @@ namespace Blazorise.DataGrid
             ElementId ??= IdGenerator.Generate;
         }
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing && Rendered )
-            {
-                DisposeResources();
-            }
-
-            base.Dispose( disposing );
-        }
-
         protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
-                await DisposeResourcesAsync();
+                await JSModule.SafeDisposeAsync();
             }
 
             await base.DisposeAsync( disposing );
-        }
-
-        protected virtual void DisposeResources()
-        {
-        }
-
-        protected virtual async Task DisposeResourcesAsync()
-        {
-            // Blazor will always run async disposal if it is defined so we need to also make sure
-            // any synchronous disposables are handled.
-            DisposeResources();
-
-            await JSModule.SafeDisposeAsync();
         }
 
         #endregion
