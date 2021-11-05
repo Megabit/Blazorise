@@ -90,8 +90,8 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <returns></returns>
         internal Type GetValueType()
-            => !string.IsNullOrEmpty( Field ) 
-                ? valueTypeGetter.Value() 
+            => !string.IsNullOrEmpty( Field )
+                ? valueTypeGetter.Value()
                 : default;
 
         /// <summary>
@@ -110,7 +110,6 @@ namespace Blazorise.DataGrid
             => !string.IsNullOrEmpty( Field )
                 ? valueGetter.Value( item )
                 : default;
-
 
         /// <summary>
         /// Sets the value for the field in the supplied model.
