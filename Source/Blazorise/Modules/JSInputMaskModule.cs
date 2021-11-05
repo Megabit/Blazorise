@@ -43,6 +43,14 @@ namespace Blazorise.Modules
             await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
         }
 
+        /// <inheritdoc/>
+        public virtual async ValueTask ExtendAliases( ElementReference elementRef, string elementId, object aliasOptions )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "extendAliases", elementRef, elementId, aliasOptions );
+        }
+
         #endregion
 
         #region Properties

@@ -53,3 +53,11 @@ export function destroy(element, elementId) {
     var instances = _instances || {};
     delete instances[elementId];
 }
+
+export function extendAliases(element, elementId, aliasOptions) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.inputMask) {
+        instance.inputMask.extendAliases(aliasOptions);
+    }
+}

@@ -127,6 +127,19 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Extends the alias options with the custom settings.
+        /// </summary>
+        /// <param name="aliasOptions">Options for the alias initialization.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public virtual async Task ExtendAliases( object aliasOptions )
+        {
+            if ( Rendered )
+            {
+                await JSModule.ExtendAliases( ElementRef, ElementId, aliasOptions );
+            }
+        }
+
+        /// <summary>
         /// Notifies the component that the input mask is completed.
         /// </summary>
         /// <param name="value">Completed value.</param>

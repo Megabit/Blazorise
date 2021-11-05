@@ -18,8 +18,17 @@ namespace Blazorise.Modules
         /// <param name="dotNetObjectRef">Reference to the color picker.</param>
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>
-        /// <param name="options">Additional options for the tooltip initialization.</param>
+        /// <param name="options">Additional options for the mask initialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
+
+        /// <summary>
+        /// Extends the alias options with the custom settings.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <param name="aliasOptions">Options for the alias initialization.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask ExtendAliases( ElementReference elementRef, string elementId, object aliasOptions );
     }
 }
