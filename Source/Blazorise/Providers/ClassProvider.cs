@@ -118,6 +118,18 @@ namespace Blazorise
 
         #endregion
 
+        #region InputMask
+
+        public abstract string InputMask( bool plaintext );
+
+        public abstract string InputMaskSize( Size size );
+
+        public abstract string InputMaskColor( Color color );
+
+        public abstract string InputMaskValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region Check
 
         public abstract string Check();

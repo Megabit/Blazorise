@@ -118,6 +118,18 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region InputMask
+
+        public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string InputMaskSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string InputMaskColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region Check
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
