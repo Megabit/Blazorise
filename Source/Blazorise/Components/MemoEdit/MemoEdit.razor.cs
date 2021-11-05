@@ -85,6 +85,11 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                if ( inputValueDebouncer is not null)
+                {
+                    inputValueDebouncer.Debounced -= OnInputValueDebounced;
+                }
             }
 
             await base.DisposeAsync( disposing );
