@@ -6,6 +6,7 @@ using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -15,6 +16,15 @@ namespace Blazorise
     /// </summary>
     public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     {
+        #region Members
+
+        /// <summary>
+        /// Object reference that can be accessed through the JSInterop.
+        /// </summary>
+        private DotNetObjectReference<InputMask> dotNetObjectRef;
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc/>
@@ -45,7 +55,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            await JSModule.Initialize( ElementRef, ElementId, new
+            dotNetObjectRef ??= CreateDotNetObjectRef( this );
+
+            await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Mask,
                 Regex,
@@ -71,6 +83,9 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
             await base.DisposeAsync( disposing );
@@ -103,6 +118,28 @@ namespace Blazorise
         protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
         {
             return Task.FromResult( new ParseValue<string>( true, value, null ) );
+        }
+
+        /// <summary>
+        /// Notifies the component that the input mask is completed.
+        /// </summary>
+        /// <param name="value">Completed value.</param>
+        /// <returns>Returns awaitable task</returns>
+        [JSInvokable]
+        public Task NotifyCompleted( string value )
+        {
+            return Completed.InvokeAsync( value );
+        }
+
+        /// <summary>
+        /// Notifies the component that the input mask is incomplete.
+        /// </summary>
+        /// <param name="value">Incompleted value.</param>
+        /// <returns>Returns awaitable task</returns>
+        [JSInvokable]
+        public Task NotifyIncompleted( string value )
+        {
+            return Incompleted.InvokeAsync( value );
         }
 
         #endregion
@@ -188,6 +225,16 @@ namespace Blazorise
         /// Defines the positioning of the caret on click.
         /// </summary>
         [Parameter] public InputMaskCaretPosition PositionCaretOnClick { get; set; } = InputMaskCaretPosition.LastValidPosition;
+
+        /// <summary>
+        /// Execute a function when the mask is completed.
+        /// </summary>
+        [Parameter] public EventCallback<string> Completed { get; set; }
+
+        /// <summary>
+        /// Execute a function when the mask is incomplete. Executes on blur.
+        /// </summary>
+        [Parameter] public EventCallback<string> Incompleted { get; set; }
 
         #endregion
     }

@@ -3,7 +3,7 @@ import { getRequiredElement } from "./utilities.js";
 
 let _instances = [];
 
-export function initialize(element, elementId, options) {
+export function initialize(dotnetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     var inputMask = new Inputmask({
@@ -17,12 +17,19 @@ export function initialize(element, elementId, options) {
         radixPoint: options.decimalSeparator || "",
         groupSeparator: options.groupSeparator || "",
         nullable: options.nullable || false,
-        positionCaretOnClick: options.positionCaretOnClick || "lvp"
+        positionCaretOnClick: options.positionCaretOnClick || "lvp",
+        oncomplete: function (e) {
+            dotnetAdapter.invokeMethodAsync('NotifyCompleted', e.target.value);
+        },
+        onincomplete: function (e) {
+            dotnetAdapter.invokeMethodAsync('NotifyIncompleted', e.target.value);
+        },
     });
 
     inputMask.mask(element);
 
     _instances[elementId] = {
+        dotnetAdapter: dotnetAdapter,
         element: element,
         elementId: elementId,
         inputMask: inputMask
