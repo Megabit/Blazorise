@@ -91,13 +91,36 @@
     <DocsAttributesItem Name="Nullable" Type="bool" Default="false">
         Return nothing when the user hasn't entered anything.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoUnmask" Type="bool" Default="false">
+        Automatically unmask the value when retrieved.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="PositionCaretOnClick" Type="InputMaskCaretPosition" Default="LastValidPosition">
         Defines the positioning of the caret on click.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClearMaskOnLostFocus" Type="bool" Default="true">
+        Remove the empty mask on blur or when not empty remove the optional trailing part.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClearIncomplete" Type="bool" Default="false">
+        Clear the incomplete input on blur.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Completed" Type="EventCallback<string>">
         Execute a function when the mask is completed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Incompleted" Type="EventCallback<string>">
         Execute a function when the mask is incomplete. Executes on blur.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cleared" Type="EventCallback">
+        Execute a function when the mask is cleared.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Alias" Type="string">
+        With an alias, you can define a complex mask definition and call it by using an alias name.
+        So this is mainly to simplify the use of your masks. Some aliases found in the extensions are email,
+        currency, decimal, integer, date, DateTime, dd/mm/yyyy, etc.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="InputFormat" Type="string">
+        Defines the input format when the <Code>Alias</Code> is used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="OutputFormat" Type="string">
+        Defines the output format of the <Code>Value</Code> when the <Code>Alias</Code> is used.
     </DocsAttributesItem>
 </DocsAttributes>

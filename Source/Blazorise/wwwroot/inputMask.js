@@ -6,9 +6,10 @@ let _instances = [];
 export function initialize(dotnetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
-    var inputMask = new Inputmask({
-        mask: options.mask,
-        regex: options.regex,
+    const maskOptions = options.mask ? { mask: options.mask } : {};
+    const regexOptions = options.mask ? { regex: options.regex } : {};
+    const aliasOptions = options.alias ? { alias: options.alias, inputFormat: options.inputFormat, outputFormat: options.outputFormat } : {};
+    const otherOptions = {
         placeholder: options.placeholder || "_",
         showMaskOnFocus: options.showMaskOnFocus,
         showMaskOnHover: options.showMaskOnHover,
@@ -18,13 +19,25 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         groupSeparator: options.groupSeparator || "",
         nullable: options.nullable || false,
         positionCaretOnClick: options.positionCaretOnClick || "lvp",
+        clearMaskOnLostFocus: options.clearMaskOnLostFocus || true,
+        clearIncomplete: options.clearIncomplete || false,
+        autoUnmask: options.autoUnmask || false,
         oncomplete: function (e) {
             dotnetAdapter.invokeMethodAsync('NotifyCompleted', e.target.value);
         },
         onincomplete: function (e) {
             dotnetAdapter.invokeMethodAsync('NotifyIncompleted', e.target.value);
         },
-    });
+        oncleared: function () {
+            dotnetAdapter.invokeMethodAsync('NotifyCleared');
+        }
+    };
+
+    const finalOptions = options.alias
+        ? { ...aliasOptions, ...otherOptions }
+        : { ...maskOptions, ...regexOptions, ...otherOptions };
+
+    var inputMask = new Inputmask(finalOptions);
 
     inputMask.mask(element);
 

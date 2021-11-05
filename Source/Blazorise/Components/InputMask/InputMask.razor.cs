@@ -61,6 +61,9 @@ namespace Blazorise
             {
                 Mask,
                 Regex,
+                Alias,
+                InputFormat,
+                OutputFormat,
                 Placeholder,
                 ShowMaskOnFocus,
                 ShowMaskOnHover,
@@ -69,7 +72,10 @@ namespace Blazorise
                 DecimalSeparator,
                 GroupSeparator,
                 Nullable,
+                AutoUnmask,
                 PositionCaretOnClick = PositionCaretOnClick.ToInputMaskCaretPosition(),
+                ClearMaskOnLostFocus,
+                ClearIncomplete,
                 Disabled,
                 ReadOnly,
             } );
@@ -142,6 +148,16 @@ namespace Blazorise
             return Incompleted.InvokeAsync( value );
         }
 
+        /// <summary>
+        /// Notifies the component that the input mask is cleared.
+        /// </summary>
+        /// <returns>Returns awaitable task</returns>
+        [JSInvokable]
+        public Task NotifyCleared()
+        {
+            return Cleared.InvokeAsync();
+        }
+
         #endregion
 
         #region Properties
@@ -183,6 +199,23 @@ namespace Blazorise
         [Parameter] public string Regex { get; set; }
 
         /// <summary>
+        /// With an alias, you can define a complex mask definition and call it by using an alias name.
+        /// So this is mainly to simplify the use of your masks. Some aliases found in the extensions are email,
+        /// currency, decimal, integer, date, DateTime, dd/mm/yyyy, etc.
+        /// </summary>
+        [Parameter] public string Alias { get; set; }
+
+        /// <summary>
+        /// Defines the input format when the <see cref="Alias"/> is used.
+        /// </summary>
+        [Parameter] public string InputFormat { get; set; }
+
+        /// <summary>
+        /// Defines the output format of the <see cref="Value"/> when the <see cref="Alias"/> is used.
+        /// </summary>
+        [Parameter] public string OutputFormat { get; set; }
+
+        /// <summary>
         /// Shows the mask when the input gets focus. (default = true)
         /// </summary>
         [Parameter] public bool ShowMaskOnFocus { get; set; } = true;
@@ -217,14 +250,29 @@ namespace Blazorise
         [Parameter] public string GroupSeparator { get; set; }
 
         /// <summary>
-        /// Return nothing when the user hasn't entered anything. Default: false
+        /// Return nothing when the user hasn't entered anything. Default: false.
         /// </summary>
         [Parameter] public bool Nullable { get; set; }
+
+        /// <summary>
+        /// Automatically unmask the value when retrieved. Default: false.
+        /// </summary>
+        [Parameter] public bool AutoUnmask { get; set; }
 
         /// <summary>
         /// Defines the positioning of the caret on click.
         /// </summary>
         [Parameter] public InputMaskCaretPosition PositionCaretOnClick { get; set; } = InputMaskCaretPosition.LastValidPosition;
+
+        /// <summary>
+        /// Remove the empty mask on blur or when not empty remove the optional trailing part. Default: true
+        /// </summary>
+        [Parameter] public bool ClearMaskOnLostFocus { get; set; } = true;
+
+        /// <summary>
+        /// Clear the incomplete input on blur. Default: false
+        /// </summary>
+        [Parameter] public bool ClearIncomplete { get; set; }
 
         /// <summary>
         /// Execute a function when the mask is completed.
@@ -235,6 +283,11 @@ namespace Blazorise
         /// Execute a function when the mask is incomplete. Executes on blur.
         /// </summary>
         [Parameter] public EventCallback<string> Incompleted { get; set; }
+
+        /// <summary>
+        /// Execute a function when the mask is cleared.
+        /// </summary>
+        [Parameter] public EventCallback Cleared { get; set; }
 
         #endregion
     }
