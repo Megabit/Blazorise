@@ -8,6 +8,18 @@
     An InputMask helps the user with the input by ensuring a predefined format. This can be useful for dates, numerics, phone numbers, ...
 </DocsPageParagraph>
 
+<UnorderedList>
+    <UnorderedListItem>
+        <Span Padding="Padding.Is2.OnX"><Code>9</Code></Span>: numeric
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Span Padding="Padding.Is2.OnX"><Code>a</Code></Span>: alphabetical
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Span Padding="Padding.Is2.OnX"><Code>*</Code></Span>: alphanumeric
+    </UnorderedListItem>
+</UnorderedList>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic Example">
         To start you only need to define the <Code>Mask</Code> parameter.
@@ -22,17 +34,15 @@
     Default masking definitions
 </DocsPageSubtitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Span Padding="Padding.Is2.OnX"><Code>9</Code></Span>: numeric
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Span Padding="Padding.Is2.OnX"><Code>a</Code></Span>: alphabetical
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Span Padding="Padding.Is2.OnX"><Code>*</Code></Span>: alphanumeric
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Aliase Example">
+        Instead of masking an input element, it is also possible to use the inputmask for formatting given values.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AliasInputMaskExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AliasInputMaskExample" />
+</DocsPageSection>
 
 <DocsPageSubtitle>
     Attributes

@@ -1018,6 +1018,8 @@ namespace Blazorise.Docs.Models
     </Column>
 </Row>";
 
+        public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
+
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
 
         public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
