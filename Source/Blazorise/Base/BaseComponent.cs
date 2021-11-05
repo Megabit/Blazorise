@@ -148,6 +148,7 @@ namespace Blazorise
         {
             ClassBuilder = null;
             StyleBuilder = null;
+
             base.Dispose( disposing );
         }
 
@@ -156,6 +157,7 @@ namespace Blazorise
         {
             ClassBuilder = null;
             StyleBuilder = null;
+
             return base.DisposeAsync( disposing );
         }
 

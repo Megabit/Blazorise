@@ -86,7 +86,7 @@ namespace Blazorise
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
 
-                if ( inputValueDebouncer is not null)
+                if ( inputValueDebouncer is not null )
                 {
                     inputValueDebouncer.Debounced -= OnInputValueDebounced;
                 }

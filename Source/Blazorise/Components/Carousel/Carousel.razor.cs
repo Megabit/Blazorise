@@ -109,7 +109,7 @@ namespace Blazorise
                 }
 
                 if ( TransitionTimer is not null )
-{
+                {
                     TransitionTimer.Stop();
                     TransitionTimer.Elapsed -= OnTransitionTimerEvent;
                     TransitionTimer.Dispose();

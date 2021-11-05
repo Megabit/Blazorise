@@ -57,7 +57,10 @@ namespace Blazorise
             return base.DisposeAsync( disposing );
         }
 
-        protected void ReleaseResources()
+        /// <summary>
+        /// Shared code to dispose of any internal resources.
+        /// </summary>
+        protected virtual void ReleaseResources()
         {
             if ( inputValueDebouncer != null )
             {
