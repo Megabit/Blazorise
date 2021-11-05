@@ -281,6 +281,14 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    DataGridColumn: Non Mandatory Field Parameter
+</Heading>
+
+<Paragraph>
+    <Code>DataGridColumn</Code> no longer requires <Code>Field</Code> to work. You may provide a <Code>DataGridColumn</Code> with no <Code>Field</Code>, however do take note, <Code>DataGrid</Code> will not do any internal management for these columns for you.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     ColorPicker component
 </Heading>
 
@@ -357,7 +365,7 @@
             Each tab will only be rendered/loaded the first time it is visited.
         </DescriptionListDefinition>
     </DescriptionList>
-        <DescriptionList>
+    <DescriptionList>
         <DescriptionListTerm><Code>TabsMode.LazyReload</Code></DescriptionListTerm>
         <DescriptionListDefinition>
             Only the active tab will have it's html rendered at a time. This also means that the content will always be re-calculated upon switching tabs.
@@ -371,4 +379,13 @@
 
 <Paragraph>
     <Code>DropdownList</Code> now supports Scrolling by default. This will make it so your DropdownLists with a lot of data, no longer keep growing indefinitely in size, going out of the page bounds.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    InputMask
+</Heading>
+
+<Paragraph>
+    The idea is to provide an easy way to increase input field readability by formatting your typed data.
+    By using this component, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
 </Paragraph>

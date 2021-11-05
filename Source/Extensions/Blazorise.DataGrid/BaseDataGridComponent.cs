@@ -17,7 +17,7 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
-            if ( JSModule == null )
+            if ( JSModule is null )
             {
                 JSModule = new JSDataGridModule( JSRuntime, VersionProvider );
             }

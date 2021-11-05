@@ -85,6 +85,15 @@
             _ => null,
         };
 
+        public static string ToInputMaskCaretPosition( this InputMaskCaretPosition inputMaskCaretPosition ) => inputMaskCaretPosition switch
+        {
+            InputMaskCaretPosition.LastValidPosition => "lvp",
+            InputMaskCaretPosition.RadixFocus => "radixFocus",
+            InputMaskCaretPosition.Select => "select",
+            InputMaskCaretPosition.Ignore => "ignore",
+            _ => "none",
+        };
+
         /// <summary>
         /// Indicates whether the specified enum size is null or a default value.
         /// </summary>
