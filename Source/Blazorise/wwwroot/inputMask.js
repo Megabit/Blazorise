@@ -6,8 +6,6 @@ let _instances = [];
 export function initialize(element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
-    var instances = _instances = _instances || {};
-
     var inputMask = new Inputmask({
         mask: options.mask,
         regex: options.regex,
@@ -18,7 +16,8 @@ export function initialize(element, elementId, options) {
         rightAlign: options.rightAlign || false,
         radixPoint: options.decimalSeparator || "",
         groupSeparator: options.groupSeparator || "",
-        nullable: false
+        nullable: options.nullable || false,
+        positionCaretOnClick: options.positionCaretOnClick || "lvp"
     });
 
     inputMask.mask(element);

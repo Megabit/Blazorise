@@ -56,6 +56,8 @@ namespace Blazorise
                 RightAlign,
                 DecimalSeparator,
                 GroupSeparator,
+                Nullable,
+                PositionCaretOnClick = PositionCaretOnClick.ToInputMaskCaretPosition(),
                 Disabled,
                 ReadOnly,
             } );
@@ -176,6 +178,16 @@ namespace Blazorise
         /// Define the group separator (numeric mode only).
         /// </summary>
         [Parameter] public string GroupSeparator { get; set; }
+
+        /// <summary>
+        /// Return nothing when the user hasn't entered anything. Default: false
+        /// </summary>
+        [Parameter] public bool Nullable { get; set; }
+
+        /// <summary>
+        /// Defines the positioning of the caret on click.
+        /// </summary>
+        [Parameter] public InputMaskCaretPosition PositionCaretOnClick { get; set; } = InputMaskCaretPosition.LastValidPosition;
 
         #endregion
     }
