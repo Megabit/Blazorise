@@ -8,6 +8,7 @@ using Blazorise.Localization;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using static System.TimeZoneInfo;
 #endregion
 
 namespace Blazorise
@@ -100,15 +101,17 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( Timer != null )
+                if ( Timer is not null )
                 {
                     Timer.Stop();
+                    Timer.Elapsed -= OnTimerEvent;
                     Timer.Dispose();
                 }
 
-                if ( TransitionTimer != null )
+                if ( TransitionTimer is not null )
                 {
                     TransitionTimer.Stop();
+                    TransitionTimer.Elapsed -= OnTransitionTimerEvent;
                     TransitionTimer.Dispose();
                 }
 
