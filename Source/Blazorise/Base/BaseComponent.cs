@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -141,6 +142,24 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnFirstAfterRenderAsync()
             => Task.CompletedTask;
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            ClassBuilder = null;
+            StyleBuilder = null;
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
+        {
+            ClassBuilder = null;
+            StyleBuilder = null;
+
+            return base.DisposeAsync( disposing );
+        }
 
         /// <summary>
         /// Builds a list of classnames for this component.
