@@ -805,11 +805,11 @@ namespace Blazorise.DataGrid
             {
                 SelectedRows.Clear();
 
-                if ( RowSelectable != null )
+                if ( RowSelectable is not null )
                 {
                     foreach ( var item in viewData )
                     {
-                        if ( RowSelectable.Invoke( item ) )
+                        if ( RowSelectable.Invoke( new( item, Enums.DataGridSelectReason.MultiSelectAll ) ) )
                         {
                             SelectedRows.Add( item );
                         }
@@ -1748,7 +1748,7 @@ namespace Blazorise.DataGrid
         /// Handles the selection of the clicked row.
         /// If not set it will default to always true.
         /// </summary>
-        [Parameter] public Func<TItem, bool> RowSelectable { get; set; }
+        [Parameter] public Func<RowSelectableEventArgs<TItem>, bool> RowSelectable { get; set; }
 
         /// <summary>
         /// Handles the selection of the cursor for a hovered row.

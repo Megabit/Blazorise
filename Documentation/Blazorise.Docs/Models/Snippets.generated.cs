@@ -3445,7 +3445,7 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
-          RowSelectable=@((item)=>item.FirstName != ""John"")
+          RowSelectable=@((x)=> x.Item.FirstName != ""John"")
           Responsive>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>

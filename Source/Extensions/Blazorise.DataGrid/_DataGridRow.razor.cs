@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Enums;
 using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -105,7 +106,7 @@ namespace Blazorise.DataGrid
             if ( !clickFromCheck )
                 await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
-            var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
+            var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
 
             if ( !selectable )
                 return;
