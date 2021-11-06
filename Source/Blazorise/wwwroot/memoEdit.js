@@ -19,6 +19,10 @@ export function initialize(element, elementId, options) {
         fence: false
     }) : null;
 
+    if (options.autoSize) {
+        element.oninput = calculateAutoHeight;
+    }
+
     _instances[elementId] = {
         element: element,
         elementId: elementId,
@@ -68,5 +72,18 @@ export function updateOptions(element, elementId, options) {
                 });
             }
         }
+
+        if (options.autoSize.changed) {
+            element.oninput = options.autoSize.value
+                ? calculateAutoHeight
+                : function () { };
+        }
     };
+}
+
+function calculateAutoHeight(e) {
+    if (e && e.target) {
+        e.target.style.height = 'auto';
+        e.target.style.height = this.scrollHeight + 'px';
+    }
 }
