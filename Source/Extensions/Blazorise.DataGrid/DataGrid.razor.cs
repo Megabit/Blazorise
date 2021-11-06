@@ -1745,7 +1745,7 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
 
         /// <summary>
-        /// Handles the selection of the clicked row.
+        /// Handles the selection of the DataGrid row.
         /// If not set it will default to always true.
         /// </summary>
         [Parameter] public Func<RowSelectableEventArgs<TItem>, bool> RowSelectable { get; set; }
