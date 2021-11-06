@@ -30,16 +30,19 @@ namespace Blazorise
             var replaceTabChanged = parameters.TryGetValue( nameof( ReplaceTab ), out bool paramReplaceTab ) && ReplaceTab != paramReplaceTab;
             var tabSizeChanged = parameters.TryGetValue( nameof( TabSize ), out int paramTabSize ) && TabSize != paramTabSize;
             var softTabsChanged = parameters.TryGetValue( nameof( SoftTabs ), out bool paramSoftTabs ) && SoftTabs != paramSoftTabs;
+            var autoSizeChanged = parameters.TryGetValue( nameof( AutoSize ), out bool paramAutoSize ) && AutoSize != paramAutoSize;
 
             if ( Rendered && ( replaceTabChanged
                 || tabSizeChanged
-                || softTabsChanged ) )
+                || softTabsChanged
+                || autoSizeChanged ) )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     ReplaceTab = new { Changed = replaceTabChanged, Value = paramReplaceTab },
                     TabSize = new { Changed = tabSizeChanged, Value = paramTabSize },
                     SoftTabs = new { Changed = softTabsChanged, Value = paramSoftTabs },
+                    AutoSize = new { Changed = autoSizeChanged, Value = paramAutoSize },
                 } ) );
             }
 
@@ -74,6 +77,7 @@ namespace Blazorise
                 ReplaceTab,
                 TabSize,
                 SoftTabs,
+                AutoSize,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -290,6 +294,11 @@ namespace Blazorise
         /// If set to true, spaces will be used instead of a tab character
         /// </summary>
         [Parameter] public bool SoftTabs { get; set; } = true;
+
+        /// <summary>
+        /// If true, the textarea will automatically grow in height according to its content.
+        /// </summary>
+        [Parameter] public bool AutoSize { get; set; }
 
         #endregion
     }
