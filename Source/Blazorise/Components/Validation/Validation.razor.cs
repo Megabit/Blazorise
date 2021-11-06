@@ -76,7 +76,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
-            if ( ParentValidations != null )
+            if ( ParentValidations is not null )
             {
                 ParentValidations.ClearingAll += OnClearingAll;
 
@@ -89,7 +89,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public void Dispose()
         {
-            if ( ParentValidations != null )
+            if ( ParentValidations is not null )
             {
                 // To avoid leaking memory, it's important to detach any event handlers in Dispose()
                 ParentValidations.ClearingAll -= OnClearingAll;
@@ -133,7 +133,7 @@ namespace Blazorise
         internal async Task InitializeInputExpression<T>( Expression<Func<T>> expression )
         {
             // Data-Annotation validation can only work if parent validationa and expression are defined.
-            if ( ( ParentValidations != null || EditContext != null ) && expression != null )
+            if ( ( ParentValidations is not null || EditContext is not null ) && expression is not null )
             {
                 // We need to re-instantiate FieldIdentifier only if the model has changed.
                 // Otherwise it could get pretty slow for larger forms.
@@ -198,12 +198,10 @@ namespace Blazorise
         {
             if ( !inputComponent.Disabled )
             {
-                var validationHandlerType = DetermineHandlerType();
+                var validationHandler = GetValidationHandler();
 
-                if ( validationHandlerType != null )
+                if ( validationHandler is not null )
                 {
-                    var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
-
                     validationHandler.Validate( this, newValidationValue );
                 }
             }
@@ -235,16 +233,11 @@ namespace Blazorise
 
                 try
                 {
-                    var validationHandlerType = DetermineHandlerType();
+                    var validationHandler = GetValidationHandler();
 
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    if ( validationHandlerType != null )
+                    if ( validationHandler is not null )
                     {
-                        var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
-
                         cancellationToken.ThrowIfCancellationRequested();
-
                         await validationHandler.ValidateAsync( this, newValidationValue, cancellationToken );
                     }
                 }
@@ -257,14 +250,27 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets the ValidationHandler for this context.
+        /// </summary>
+        /// <returns></returns>
+        private IValidationHandler GetValidationHandler()
+        {
+            var validationHandlerType = DetermineHandlerType();
+
+            return ( validationHandlerType is not null )
+                ? ValidationHandlerFactory.Create( validationHandlerType )
+                : null;
+        }
+
+        /// <summary>
         /// Determines the validation handler based on the priority.
         /// </summary>
         /// <returns></returns>
         protected virtual Type DetermineHandlerType()
         {
-            if ( HandlerType == null )
+            if ( HandlerType is null )
             {
-                if ( Validator != null || AsyncValidator != null )
+                if ( Validator is not null || AsyncValidator is not null )
                 {
                     return typeof( ValidatorValidationHandler );
                 }
@@ -272,7 +278,7 @@ namespace Blazorise
                 {
                     return typeof( PatternValidationHandler );
                 }
-                else if ( EditContext != null && hasFieldIdentifier )
+                else if ( EditContext is not null && hasFieldIdentifier )
                 {
                     return typeof( DataAnnotationValidationHandler );
                 }
