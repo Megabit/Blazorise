@@ -764,6 +764,8 @@ namespace Blazorise
 
         public abstract string ModalContentSize( ModalSize modalSize );
 
+        public abstract string ModalContentFullscreen( bool fullscreen );
+
         public abstract string ModalContentCentered( bool centered );
 
         public abstract string ModalContentScrollable( bool scrollable );

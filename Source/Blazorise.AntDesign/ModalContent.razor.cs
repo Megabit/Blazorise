@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
 
@@ -52,6 +51,11 @@ namespace Blazorise.AntDesign
         {
             builder.Append( "ant-modal" );
             builder.Append( $"ant-modal-{ClassProvider.ToModalSize( Size )}" );
+
+            if ( Fullscreen )
+            {
+                builder.Append( "ant-modal-fullscreen" );
+            }
         }
 
         #endregion

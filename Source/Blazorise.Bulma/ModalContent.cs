@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Bulma
@@ -17,6 +18,17 @@ namespace Blazorise.Bulma
             }
 
             await base.OnAfterRenderAsync( firstRender );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            if ( Fullscreen && !AsDialog )
+            {
+                builder.Append( "modal-card" );
+            }
+
+            base.BuildClasses( builder );
         }
 
         #endregion
