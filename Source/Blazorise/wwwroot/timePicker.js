@@ -135,7 +135,7 @@ export function updateLocalization(element, elementId, localization) {
 
         if (picker.amPM) {
             const selectedDate = picker.selectedDates && picker.selectedDates.length > 0 ? picker.selectedDates[0] : null;
-            const index = selectedDate && selectedDate.getHours() > 12 ? 1 : 0;
+            const index = selectedDate && selectedDate.getHours() >= 12 ? 1 : 0;
 
             picker.amPM.innerHtml = localization.amPM[index];
             picker.amPM.innerText = localization.amPM[index];
