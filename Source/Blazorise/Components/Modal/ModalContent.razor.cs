@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool fullscreen;
+
         private bool centered;
 
         private bool scrollable;
@@ -27,6 +29,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.ModalContent( AsDialog ) );
             builder.Append( ClassProvider.ModalContentSize( Size ), Size != ModalSize.Default );
+            builder.Append( ClassProvider.ModalContentFullscreen( Fullscreen ) );
             builder.Append( ClassProvider.ModalContentCentered( Centered ) );
             builder.Append( ClassProvider.ModalContentScrollable( Scrollable ) );
 
@@ -73,6 +76,21 @@ namespace Blazorise
         /// Currently used only by bulma https://bulma.io/documentation/components/modal/
         /// </summary>
         protected virtual bool AsDialog => false;
+
+        /// <summary>
+        /// Defines the modal that covers the user viewport.
+        /// </summary>
+        [Parameter]
+        public bool Fullscreen
+        {
+            get => fullscreen;
+            set
+            {
+                fullscreen = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Centers the modal vertically.

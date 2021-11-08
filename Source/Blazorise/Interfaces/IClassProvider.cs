@@ -757,6 +757,8 @@ namespace Blazorise
 
         string ModalContentSize( ModalSize modalSize );
 
+        string ModalContentFullscreen( bool fullscreen );
+
         string ModalContentCentered( bool centered );
 
         string ModalContentScrollable( bool scrollable );

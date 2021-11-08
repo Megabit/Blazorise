@@ -765,6 +765,8 @@ namespace Blazorise.Providers
 
         public string ModalContentSize( ModalSize modalSize ) => null;
 
+        public string ModalContentFullscreen( bool fullscreen ) => null;
+
         public string ModalContentCentered( bool centered ) => null;
 
         public string ModalContentScrollable( bool scrollable ) => null;

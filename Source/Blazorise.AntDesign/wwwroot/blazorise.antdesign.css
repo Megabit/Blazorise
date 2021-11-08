@@ -1899,6 +1899,20 @@ li.ant-list-item-actionable {
         max-height: calc(100vh - 13.5rem);
         overflow-y: auto; }
 
+.ant-modal.ant-modal-fullscreen {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    top: 0; }
+
+.ant-modal .ant-modal-content.ant-modal-content-fullscreen {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    top: 0; }
+    .ant-modal .ant-modal-content.ant-modal-content-fullscreen .ant-modal-body {
+        height: calc(100vh - 110px); }
+
 .ant-pagination.ant-pagination-xs .ant-pagination-total-text,
 .ant-pagination.ant-pagination-xs .ant-pagination-simple-pager {
     height: 16px;

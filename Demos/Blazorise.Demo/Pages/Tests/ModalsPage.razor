@@ -20,6 +20,9 @@
                 <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Large ))">
                     Large Modal
                 </Button>
+                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Default, null, false, true ))">
+                    Full Screen
+                </Button>
                 <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
                     Centered Modal
                 </Button>
@@ -53,7 +56,7 @@
     </Column>
 </Row>
 <Modal @ref="modalRef">
-    <ModalContent Size="@modalSize" Centered="@centered">
+    <ModalContent Size="@modalSize" Centered="@centered" Fullscreen="@fullscreen">
         <ModalHeader>
             <ModalTitle>
                 <Icon Name="IconName.Edit" />
@@ -104,14 +107,16 @@
     private Modal modalRef;
     private Modal modalRef2;
     private bool centered = false;
+    private bool fullscreen = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
 
-    private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
+    private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false, bool fullscreen = false )
     {
         this.centered = centered;
         this.modalSize = modalSize;
         this.maxHeight = maxHeight;
+        this.fullscreen = fullscreen;
 
         return modalRef.Show();
     }

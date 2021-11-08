@@ -34,6 +34,9 @@ namespace Blazorise.Bootstrap5
             builder.Append( $"modal-{ClassProvider.ToModalSize( Size )}", Size != ModalSize.Default );
             builder.Append( ClassProvider.ModalContentCentered( Centered ) );
 
+            if ( Fullscreen )
+                builder.Append( "modal-fullscreen" );
+
             if ( Centered )
                 builder.Append( "modal-dialog-centered" );
 

@@ -819,6 +819,8 @@ namespace Blazorise.Bulma
 
         public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
+        public override string ModalContentFullscreen( bool fullscreen ) => fullscreen ? "modal-fullscreen" : null;
+
         public override string ModalContentCentered( bool centered ) => null;
 
         public override string ModalContentScrollable( bool scrollable ) => null;
