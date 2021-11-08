@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using Blazorise.DataGrid.Enums;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -31,6 +30,5 @@ namespace Blazorise.DataGrid
         /// Gets the Row Select Reason
         /// </summary>
         public DataGridSelectReason SelectReason { get; }
-
     }
 }

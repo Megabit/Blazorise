@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blazorise.DataGrid.Enums
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
-    /// Defines the Select Reason of the DataGrid Selection.
+    /// Defines the select reason of the DataGrid row selection.
     /// </summary>
     public enum DataGridSelectReason
     {
@@ -15,10 +9,12 @@ namespace Blazorise.DataGrid.Enums
         /// Row has been clicked.
         /// </summary>
         RowClick,
+
         /// <summary>
         /// Multi select has been triggered.
         /// </summary>
         MultiSelectClick,
+
         /// <summary>
         /// Multi select all has been triggered.
         /// </summary>

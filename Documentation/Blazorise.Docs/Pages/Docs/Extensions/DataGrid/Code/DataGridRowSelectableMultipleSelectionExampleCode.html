@@ -35,8 +35,7 @@
     }
 
     <span class="keyword">private</span> <span class="keyword">bool</span> RowSelectableHandler( RowSelectableEventArgs&lt;Employee&gt; rowSelectableEventArgs )
-        =&gt; rowSelectableEventArgs.SelectReason <span class="keyword">is</span> not Blazorise.DataGrid.Enums.DataGridSelectReason.RowClick;
-
+        =&gt; rowSelectableEventArgs.SelectReason <span class="keyword">is</span> not DataGridSelectReason.RowClick;
 }
 </pre></div>
 </div>

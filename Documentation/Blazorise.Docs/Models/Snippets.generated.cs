@@ -3477,8 +3477,7 @@ namespace Blazorise.Docs.Models
     }
 
     private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )
-        => rowSelectableEventArgs.SelectReason is not Blazorise.DataGrid.Enums.DataGridSelectReason.RowClick;
-
+        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;
 }";
 
         public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""

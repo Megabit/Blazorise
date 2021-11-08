@@ -11,7 +11,6 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -809,7 +808,7 @@ namespace Blazorise.DataGrid
                 {
                     foreach ( var item in viewData )
                     {
-                        if ( RowSelectable.Invoke( new( item, Enums.DataGridSelectReason.MultiSelectAll ) ) )
+                        if ( RowSelectable.Invoke( new( item, DataGridSelectReason.MultiSelectAll ) ) )
                         {
                             SelectedRows.Add( item );
                         }
