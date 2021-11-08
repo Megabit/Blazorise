@@ -97,6 +97,7 @@ namespace Blazorise.DataGrid
                 }
             }
 
+            clickFromCheck = false;
             return base.OnAfterRenderAsync( firstRender );
         }
 
@@ -105,17 +106,17 @@ namespace Blazorise.DataGrid
             if ( !clickFromCheck )
                 await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
-            var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
+            var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
 
             if ( !selectable )
+            {
                 return;
+            }
 
             if ( !clickFromCheck )
                 await HandleSingleSelectClick( eventArgs );
 
             await HandleMultiSelectClick( eventArgs );
-
-            clickFromCheck = false;
         }
 
         private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )

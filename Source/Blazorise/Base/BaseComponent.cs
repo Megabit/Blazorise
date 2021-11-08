@@ -146,8 +146,11 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
-            ClassBuilder = null;
-            StyleBuilder = null;
+            if ( disposing )
+            { 
+                ClassBuilder = null;
+                StyleBuilder = null;
+            }
 
             base.Dispose( disposing );
         }
@@ -155,8 +158,11 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
-            ClassBuilder = null;
-            StyleBuilder = null;
+            if ( disposing )
+            {
+                ClassBuilder = null;
+                StyleBuilder = null;
+            }
 
             return base.DisposeAsync( disposing );
         }
@@ -249,7 +255,7 @@ namespace Blazorise
         /// </summary>
         internal protected virtual void DirtyClasses()
         {
-            ClassBuilder.Dirty();
+            ClassBuilder?.Dirty();
         }
 
         /// <summary>
@@ -257,7 +263,7 @@ namespace Blazorise
         /// </summary>
         protected virtual void DirtyStyles()
         {
-            StyleBuilder.Dirty();
+            StyleBuilder?.Dirty();
         }
 
         /// <summary>
