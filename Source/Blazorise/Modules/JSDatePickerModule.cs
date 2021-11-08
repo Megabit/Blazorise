@@ -90,6 +90,14 @@ namespace Blazorise.Modules
         }
 
         /// <inheritdoc/>
+        public virtual async ValueTask UpdateLocalization( ElementReference elementRef, string elementId, object localization )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "updateLocalization", elementRef, elementId, localization );
+        }
+
+        /// <inheritdoc/>
         public virtual async ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
             var moduleInstance = await Module;

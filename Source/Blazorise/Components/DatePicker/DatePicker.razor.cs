@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -57,7 +58,7 @@ namespace Blazorise
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
-                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
+                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = (int)firstDayOfWeek },
                     DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                     Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
@@ -91,12 +92,20 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await JSModule.Initialize( ElementRef, ElementId, new
             {
                 InputMode,
-                FirstDayOfWeek,
+                FirstDayOfWeek = (int)FirstDayOfWeek,
                 DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
                 TimeAs24hr,
                 Default = FormatValueAsString( Date ),
@@ -105,6 +114,7 @@ namespace Blazorise
                 Disabled,
                 ReadOnly,
                 DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
+                Localization = GetLocalizationObject()
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -116,6 +126,8 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             await base.DisposeAsync( disposing );
@@ -231,6 +243,88 @@ namespace Blazorise
             await JSModule.Select( ElementRef, ElementId, focus );
         }
 
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+        {
+            // no need to refresh if we're using custom localization
+            if ( PickerLocalizer != null )
+                return;
+
+            ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, GetLocalizationObject() ) );
+
+            await InvokeAsync( StateHasChanged );
+        }
+
+        private object GetLocalizationObject()
+        {
+            var strings = Localizer.GetStrings();
+
+            return new
+            {
+                FirstDayOfWeek = (int)FirstDayOfWeek,
+                Weekdays = new
+                {
+                    Shorthand = new[]
+                    {
+                        Localizer["Mon"],
+                        Localizer["Tue"],
+                        Localizer["Wed"],
+                        Localizer["Thu"],
+                        Localizer["Fri"],
+                        Localizer["Sat"],
+                        Localizer["Sun"]
+                    },
+                    Longhand = new[]
+                    {
+                        Localizer["Monday"],
+                        Localizer["Tuesday"],
+                        Localizer["Wednesday"],
+                        Localizer["Thurday"],
+                        Localizer["Friday"],
+                        Localizer["Saturday"],
+                        Localizer["Sunday"]
+                    },
+                },
+                Months = new
+                {
+                    Shorthand = new[]
+                    {
+                        Localizer["Jan"],
+                        Localizer["Feb"],
+                        Localizer["Mar"],
+                        Localizer["Apr"],
+                        Localizer["May"],
+                        Localizer["Jun"],
+                        Localizer["Jul"],
+                        Localizer["Aug"],
+                        Localizer["Sep"],
+                        Localizer["Oct"],
+                        Localizer["Nov"],
+                        Localizer["Dec"]
+                    },
+                    Longhand = new[]
+                    {
+                        Localizer["January"],
+                        Localizer["February"],
+                        Localizer["March"],
+                        Localizer["April"],
+                        Localizer["May!"],
+                        Localizer["June"],
+                        Localizer["July"],
+                        Localizer["August"],
+                        Localizer["September"],
+                        Localizer["October"],
+                        Localizer["November"],
+                        Localizer["December"]
+                    }
+                }
+            };
+        }
+
         #endregion
 
         #region Properties
@@ -255,6 +349,16 @@ namespace Blazorise
         /// Gets or sets the <see cref="IJSDatePickerModule"/> instance.
         /// </summary>
         [Inject] public IJSDatePickerModule JSModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{T}"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizer<DatePicker<TValue>> Localizer { get; set; }
 
         /// <summary>
         /// Converts the supplied date format into the internal date format.
@@ -310,6 +414,11 @@ namespace Blazorise
         /// List of disabled dates that the user should not be able to pick.
         /// </summary>
         [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler PickerLocalizer { get; set; }
 
         #endregion
     }
