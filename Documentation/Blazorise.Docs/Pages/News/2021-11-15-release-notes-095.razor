@@ -201,6 +201,13 @@
     that should take place in the next Blazorise version.
 </Paragraph>
 
+<Paragraph>
+    6. We've changed the <Code>DataGrid</Code>'s <Code>RowSelectable</Code> evaluation to take in a <Code>RowSelectableEventArgs</Code> instead. 
+    This way we can provide you with increased information on the selection being handled.
+    This new <Code>RowSelectableEventArgs</Code> will still give you access to the current row item and additionaly to the type of selection being done, <Code>RowClick</Code>, <Code>MultiSelectClick</Code>, <Code>MultiSelectAll</Code>
+    You will need to change your <Code>RowSelectable</Code> handlers to expect a <Code>RowSelectableEventArgs</Code> instead.
+</Paragraph>
+
 <NewsPageSubtitle>
     Highlights 🚀
 </NewsPageSubtitle>

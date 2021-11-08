@@ -11,7 +11,6 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -805,11 +804,11 @@ namespace Blazorise.DataGrid
             {
                 SelectedRows.Clear();
 
-                if ( RowSelectable != null )
+                if ( RowSelectable is not null )
                 {
                     foreach ( var item in viewData )
                     {
-                        if ( RowSelectable.Invoke( item ) )
+                        if ( RowSelectable.Invoke( new( item, DataGridSelectReason.MultiSelectAll ) ) )
                         {
                             SelectedRows.Add( item );
                         }
@@ -1745,10 +1744,10 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
 
         /// <summary>
-        /// Handles the selection of the clicked row.
+        /// Handles the selection of the DataGrid row.
         /// If not set it will default to always true.
         /// </summary>
-        [Parameter] public Func<TItem, bool> RowSelectable { get; set; }
+        [Parameter] public Func<RowSelectableEventArgs<TItem>, bool> RowSelectable { get; set; }
 
         /// <summary>
         /// Handles the selection of the cursor for a hovered row.
