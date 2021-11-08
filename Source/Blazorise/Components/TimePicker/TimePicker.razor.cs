@@ -3,6 +3,7 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -83,6 +84,14 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await JSModule.Initialize( ElementRef, ElementId, new
@@ -94,6 +103,7 @@ namespace Blazorise
                 Max = Max?.ToString( Parsers.InternalTimeFormat ),
                 Disabled,
                 ReadOnly,
+                Localization = GetLocalizationObject()
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -105,6 +115,8 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             await base.DisposeAsync( disposing );
@@ -223,6 +235,28 @@ namespace Blazorise
             await JSModule.Select( ElementRef, ElementId, focus );
         }
 
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+        {
+            ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, GetLocalizationObject() ) );
+
+            await InvokeAsync( StateHasChanged );
+        }
+
+        private object GetLocalizationObject()
+        {
+            var strings = Localizer.GetStrings();
+
+            return new
+            {
+                amPM = new[] { Localizer["AM"], Localizer["PM"] }
+            };
+        }
+
         #endregion
 
         #region Properties
@@ -237,6 +271,16 @@ namespace Blazorise
         /// Gets or sets the <see cref="IJSTimePickerModule"/> instance.
         /// </summary>
         [Inject] public IJSTimePickerModule JSModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{T}"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizer<TimePicker<TValue>> Localizer { get; set; }
 
         /// <summary>
         /// Converts the supplied time format into the internal time format.

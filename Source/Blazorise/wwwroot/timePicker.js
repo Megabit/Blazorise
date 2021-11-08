@@ -42,7 +42,8 @@ export function initialize(element, elementId, options) {
         minTime: options.min,
         maxTime: options.max,
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
-        clickOpens: !(options.readOnly || false)
+        clickOpens: !(options.readOnly || false),
+        locale: options.localization || {},
     });
 
     if (options) {
@@ -118,6 +119,29 @@ export function toggle(element, elementId) {
 
     if (picker) {
         picker.toggle();
+    }
+}
+
+
+export function updateLocalization(element, elementId, localization) {
+    const picker = _pickers[elementId];
+
+    if (picker) {
+        picker.config.locale = localization;
+
+        if (picker.l10n) {
+            picker.l10n.amPM = localization.amPM;
+        }
+
+        if (picker.amPM) {
+            const selectedDate = picker.selectedDates && picker.selectedDates.length > 0 ? picker.selectedDates[0] : null;
+            const index = selectedDate && selectedDate.getHours() > 12 ? 1 : 0;
+
+            picker.amPM.innerHtml = localization.amPM[index];
+            picker.amPM.innerText = localization.amPM[index];
+        }
+
+        picker.redraw();
     }
 }
 
