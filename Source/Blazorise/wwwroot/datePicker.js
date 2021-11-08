@@ -151,12 +151,16 @@ export function updateLocalization(element, elementId, localization) {
     if (picker) {
         picker.config.locale = localization;
 
-        picker.l10n.months = localization.months;
-        picker.l10n.weekdays = localization.weekdays;
+        if (picker.l10n) {
+            picker.l10n.months = localization.months;
+            picker.l10n.weekdays = localization.weekdays;
+        }
 
-        for (let i = 0; i < 7; ++i) {
-            picker.weekdayContainer.children[0].children[i].innerHtml = localization.weekdays.shorthand[i];
-            picker.weekdayContainer.children[0].children[i].innerText = localization.weekdays.shorthand[i];
+        if (picker.weekdayContainer) {
+            for (let i = 0; i < 7; ++i) {
+                picker.weekdayContainer.children[0].children[i].innerHtml = localization.weekdays.shorthand[i];
+                picker.weekdayContainer.children[0].children[i].innerText = localization.weekdays.shorthand[i];
+            }
         }
 
         picker.redraw();
