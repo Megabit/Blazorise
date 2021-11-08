@@ -250,10 +250,6 @@ namespace Blazorise
         /// <param name="eventArgs">Data about the localization event.</param>
         private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
         {
-            // no need to refresh if we're using custom localization
-            if ( PickerLocalizer != null )
-                return;
-
             ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, GetLocalizationObject() ) );
 
             await InvokeAsync( StateHasChanged );
@@ -414,11 +410,6 @@ namespace Blazorise
         /// List of disabled dates that the user should not be able to pick.
         /// </summary>
         [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
-
-        /// <summary>
-        /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
-        /// </summary>
-        [Parameter] public TextLocalizerHandler PickerLocalizer { get; set; }
 
         #endregion
     }
