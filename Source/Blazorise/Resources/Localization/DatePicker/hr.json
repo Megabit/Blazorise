@@ -38,6 +38,8 @@
     "September": "Rujan",
     "October": "Listopad",
     "November": "Studeni",
-    "December": "Prosinac"
+    "December": "Prosinac",
+    "AM": "AM",
+    "PM": "PM"
   }
 }

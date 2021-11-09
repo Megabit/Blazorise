@@ -38,6 +38,8 @@
     "September": "Eylül",
     "October": "Ekim",
     "November": "Ekim",
-    "December": "Aralık"
+    "December": "Aralık",
+    "AM": "ÖÖ",
+    "PM": "ÖS"
   }
 }

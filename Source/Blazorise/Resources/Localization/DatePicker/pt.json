@@ -38,6 +38,8 @@
     "September": "Setembro",
     "October": "Outubro",
     "November": "Novembro",
-    "December": "Dezembro"
+    "December": "Dezembro",
+    "AM": "AM",
+    "PM": "PM"
   }
 }

@@ -317,7 +317,8 @@ namespace Blazorise
                         Localizer["November"],
                         Localizer["December"]
                     }
-                }
+                },
+                amPM = new[] { Localizer["AM"], Localizer["PM"] }
             };
         }
 
