@@ -24,7 +24,7 @@
 
   <!--Binary path for the code generator-->
   <PropertyGroup>
-    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net5.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net6.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
   </PropertyGroup>
 
   <!--Project path for code generator-->
