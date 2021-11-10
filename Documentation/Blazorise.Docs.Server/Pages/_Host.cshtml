@@ -1,5 +1,6 @@
 ﻿@page "/"
 @namespace Blazorise.Docs.Server.Pages
+@using Microsoft.AspNetCore.Components.Web
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
@@ -11,6 +12,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blazorise</title>
+
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+
     <base href="~/" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
