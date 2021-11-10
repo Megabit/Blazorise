@@ -72,6 +72,15 @@ namespace Blazorise.Modules
         ValueTask Toggle( ElementReference elementRef, string elementId );
 
         /// <summary>
+        /// Updates the <see cref="DatePicker{TValue}"/> localization.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <param name="localization">Options to update.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask UpdateLocalization( ElementReference elementRef, string elementId, object localization );
+
+        /// <summary>
         /// Sets focus to the <see cref="DatePicker{TValue}"/>.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>

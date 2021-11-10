@@ -40,7 +40,7 @@ export function initialize(element, elementId, options) {
         defaultValue: options.default,
         minDate: options.min,
         maxDate: options.max,
-        locale: {
+        locale: options.localization || {
             firstDayOfWeek: options.firstDayOfWeek
         },
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
@@ -142,6 +142,37 @@ export function toggle(element, elementId) {
 
     if (picker) {
         picker.toggle();
+    }
+}
+
+export function updateLocalization(element, elementId, localization) {
+    const picker = _pickers[elementId];
+
+    if (picker) {
+        picker.config.locale = localization;
+
+        if (picker.l10n) {
+            picker.l10n.months = localization.months;
+            picker.l10n.weekdays = localization.weekdays;
+            picker.l10n.amPM = localization.amPM;
+        }
+
+        if (picker.weekdayContainer) {
+            for (let i = 0; i < 7; ++i) {
+                picker.weekdayContainer.children[0].children[i].innerHtml = localization.weekdays.shorthand[i];
+                picker.weekdayContainer.children[0].children[i].innerText = localization.weekdays.shorthand[i];
+            }
+        }
+
+        if (picker.amPM) {
+            const selectedDate = picker.selectedDates && picker.selectedDates.length > 0 ? picker.selectedDates[0] : null;
+            const index = selectedDate && selectedDate.getHours() >= 12 ? 1 : 0;
+
+            picker.amPM.innerHtml = localization.amPM[index];
+            picker.amPM.innerText = localization.amPM[index];
+        }
+
+        picker.redraw();
     }
 }
 
