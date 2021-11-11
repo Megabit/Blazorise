@@ -1,31 +1,21 @@
-﻿#region Using directives
-using System;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
-using Blazorise.RichTextEdit;
+using System;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-#endregion
 
-namespace Blazorise.Demo.Bootstrap
-{
-    public class Program
-    {
-        public static async Task Main( string[] args )
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault( args );
+using Blazorise.Bootstrap;
+using Blazorise.Demo;
+using Blazorise.Icons.FontAwesome;
 
-            builder.Services
-                .SetupDemoServices()
-                .AddBootstrapProviders()
-                .AddFontAwesomeIcons();
 
-            builder.RootComponents.Add<App>( "#app" );
-            builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
+var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
-            await builder.Build().RunAsync();
-        }
-    }
-}
+builder.Services
+    .SetupDemoServices()
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();
+
+//builder.RootComponents.Add<App>( "#app" );
+builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
+
+await builder.Build().RunAsync();

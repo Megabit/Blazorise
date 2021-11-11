@@ -92,7 +92,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Bootstrap5",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{50E48BFC-84F3-480A-BAE7-201E72CE94B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Shared", "Shared\Blazorise.Shared\Blazorise.Shared.csproj", "{692A8724-CF60-4A33-921D-EB8F3A60A2CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Shared", "Shared\Blazorise.Shared\Blazorise.Shared.csproj", "{692A8724-CF60-4A33-921D-EB8F3A60A2CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Bootstrap.Host", "Demos\Blazorise.Demo.Bootstrap.Host\Blazorise.Demo.Bootstrap.Host.csproj", "{659765AE-4CDD-4904-AEB0-5C8991E98F3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -244,6 +246,10 @@ Global
 		{692A8724-CF60-4A33-921D-EB8F3A60A2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{692A8724-CF60-4A33-921D-EB8F3A60A2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{692A8724-CF60-4A33-921D-EB8F3A60A2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{659765AE-4CDD-4904-AEB0-5C8991E98F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{659765AE-4CDD-4904-AEB0-5C8991E98F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{659765AE-4CDD-4904-AEB0-5C8991E98F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{659765AE-4CDD-4904-AEB0-5C8991E98F3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -287,6 +293,7 @@ Global
 		{224FDE0F-A04B-4BF4-8D14-E0D7871B0F1E} = {73CD9574-5204-442D-A67C-CA7B038057C2}
 		{CCA627E3-633E-4F00-854C-F028AB298CF5} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 		{692A8724-CF60-4A33-921D-EB8F3A60A2CF} = {50E48BFC-84F3-480A-BAE7-201E72CE94B9}
+		{659765AE-4CDD-4904-AEB0-5C8991E98F3D} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
