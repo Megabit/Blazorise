@@ -11,7 +11,7 @@
 </NewsPageSubtitle>
 
 <NewsPageSubtitle>
-    Migration
+    Migration 🛠
 </NewsPageSubtitle>
 
 <Paragraph>
@@ -204,7 +204,7 @@
 </Paragraph>
 
 <Paragraph>
-    6. We've changed the <Code>DataGrid</Code>'s <Code>RowSelectable</Code> evaluation to take in a <Code>RowSelectableEventArgs</Code> instead. 
+    6. We've changed the <Code>DataGrid</Code>'s <Code>RowSelectable</Code> evaluation to take in a <Code>RowSelectableEventArgs</Code> instead.
     This way we can provide you with increased information on the selection being handled.
     This new <Code>RowSelectableEventArgs</Code> will still give you access to the current row item and additionaly to the type of selection being done, <Code>RowClick</Code>, <Code>MultiSelectClick</Code>, <Code>MultiSelectAll</Code>
     You will need to change your <Code>RowSelectable</Code> handlers to expect a <Code>RowSelectableEventArgs</Code> instead.
@@ -324,37 +324,37 @@
 
 <Paragraph>
     Theming also recieved some much needed changes.
-
-    <DescriptionList>
-        <DescriptionListTerm>Color variables for RGB(A) values</DescriptionListTerm>
-        <DescriptionListDefinition>
-            Along with the <Code>--b-theme-primary</Code> CSS variable we are now generating additional RGB(A) variables,
-            namelly, <Code>--b-theme-primary-r</Code>, <Code>--b-theme-primary-g</Code>, <Code>--b-theme-primary-b</Code>,
-            and <Code>--b-theme-primary-a</Code>.
-        </DescriptionListDefinition>
-
-        <DescriptionListTerm>Nullable options</DescriptionListTerm>
-        <DescriptionListDefinition>
-            Not so much big of a change but nevertheless, is needed. When defining theme options in some cases it is hard to tell
-            when the CSS override should be applied. This small change will give us that ability.
-        </DescriptionListDefinition>
-
-        <DescriptionListTerm>Body options</DescriptionListTerm>
-        <DescriptionListDefinition>
-            It is now possible to define the <Code Tag>body</Code> background and text color. Once defined it will also properly assign the
-            color for the <Code>TextColor.Body</Code> typography color value, where needed.
-        </DescriptionListDefinition>
-
-        <DescriptionListTerm>Spacing options</DescriptionListTerm>
-        <DescriptionListDefinition>
-            So far if you wanted to change the margin and padding sizes you would need to re-compile Bootstrap(or any other) CSS. With
-            the new theming options it is now possible with just a few lines of code. And Blazorise will do all the magic for you. eg.
-            <br />
-            <br />
-            <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
-        </DescriptionListDefinition>
-    </DescriptionList>
 </Paragraph>
+
+<DescriptionList>
+    <DescriptionListTerm>Color variables for RGB(A) values</DescriptionListTerm>
+    <DescriptionListDefinition>
+        Along with the <Code>--b-theme-primary</Code> CSS variable we are now generating additional RGB(A) variables,
+        namelly, <Code>--b-theme-primary-r</Code>, <Code>--b-theme-primary-g</Code>, <Code>--b-theme-primary-b</Code>,
+        and <Code>--b-theme-primary-a</Code>.
+    </DescriptionListDefinition>
+
+    <DescriptionListTerm>Nullable options</DescriptionListTerm>
+    <DescriptionListDefinition>
+        Not so much big of a change but nevertheless, is needed. When defining theme options in some cases it is hard to tell
+        when the CSS override should be applied. This small change will give us that ability.
+    </DescriptionListDefinition>
+
+    <DescriptionListTerm>Body options</DescriptionListTerm>
+    <DescriptionListDefinition>
+        It is now possible to define the <Code Tag>body</Code> background and text color. Once defined it will also properly assign the
+        color for the <Code>TextColor.Body</Code> typography color value, where needed.
+    </DescriptionListDefinition>
+
+    <DescriptionListTerm>Spacing options</DescriptionListTerm>
+    <DescriptionListDefinition>
+        So far if you wanted to change the margin and padding sizes you would need to re-compile Bootstrap(or any other) CSS. With
+        the new theming options it is now possible with just a few lines of code. And Blazorise will do all the magic for you. eg.
+        <br />
+        <br />
+        <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
+    </DescriptionListDefinition>
+    </DescriptionList>
 
 <Heading Size="HeadingSize.Is3">
     Tabs
@@ -362,25 +362,22 @@
 
 <Paragraph>
     Introduced a new Parameter <Code>TabsMode</Code>.
-    <DescriptionList>
-        <DescriptionListTerm><Code>TabsMode.Default</Code></DescriptionListTerm>
-        <DescriptionListDefinition>
-            Will keep the same behaviour, we've had until now. Every tab is always rendered to the DOM and hidden if not active.
-        </DescriptionListDefinition>
-    </DescriptionList>
-    <DescriptionList>
-        <DescriptionListTerm><Code>TabsMode.LazyLoad</Code></DescriptionListTerm>
-        <DescriptionListDefinition>
-            Each tab will only be rendered/loaded the first time it is visited.
-        </DescriptionListDefinition>
-    </DescriptionList>
-    <DescriptionList>
-        <DescriptionListTerm><Code>TabsMode.LazyReload</Code></DescriptionListTerm>
-        <DescriptionListDefinition>
-            Only the active tab will have it's html rendered at a time. This also means that the content will always be re-calculated upon switching tabs.
-        </DescriptionListDefinition>
-    </DescriptionList>
 </Paragraph>
+
+<DescriptionList>
+    <DescriptionListTerm><Code>TabsMode.Default</Code></DescriptionListTerm>
+    <DescriptionListDefinition>
+        Will keep the same behaviour, we've had until now. Every tab is always rendered to the DOM and hidden if not active.
+    </DescriptionListDefinition>
+    <DescriptionListTerm><Code>TabsMode.LazyLoad</Code></DescriptionListTerm>
+    <DescriptionListDefinition>
+        Each tab will only be rendered/loaded the first time it is visited.
+    </DescriptionListDefinition>
+    <DescriptionListTerm><Code>TabsMode.LazyReload</Code></DescriptionListTerm>
+    <DescriptionListDefinition>
+        Only the active tab will have it's html rendered at a time. This also means that the content will always be re-calculated upon switching tabs.
+    </DescriptionListDefinition>
+</DescriptionList>
 
 <Heading Size="HeadingSize.Is3">
     DropdownList
