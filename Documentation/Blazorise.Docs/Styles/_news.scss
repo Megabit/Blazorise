@@ -15,6 +15,20 @@
             color: var(--b-theme-primary);
         }
 
+        p {
+            margin-bottom: 1.3rem;
+
+            dl {
+                padding-top: 0.5em;
+                padding-bottom: 0.5em;
+            }
+        }
+
+        h2 {
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid #f2f3f3;
+        }
+
         p, a, li, td {
             > code {
                 padding-top: 0.1rem;
