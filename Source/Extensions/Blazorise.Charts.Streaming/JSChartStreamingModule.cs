@@ -57,7 +57,7 @@ namespace Blazorise.Charts.Streaming
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.Charts.Streaming/charts.streaming.js.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Charts.Streaming/charts.streaming.js?v={VersionProvider.Version}";
 
         #endregion
     }
