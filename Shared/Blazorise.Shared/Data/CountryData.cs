@@ -1,9 +1,11 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
-using CountryData;
 using Microsoft.Extensions.Caching.Memory;
 #endregion
 
@@ -26,6 +28,10 @@ namespace Blazorise.Shared.Data
             => cache.GetOrCreateAsync( cacheKey, LoadData );
 
         private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
-            => Task.FromResult( CountryLoader.CountryInfo.Take( 100 ).Select( x => new Country( x.Name, x.Iso, x.Capital ) ) );
+        {
+            Assembly assembly = typeof( EmployeeData ).Assembly;
+            using var stream = assembly.GetManifestResourceStream( "Blazorise.Shared.Resources.CountryData.json" );
+            return Task.FromResult( JsonSerializer.Deserialize<List<Country>>( new StreamReader( stream ).ReadToEnd() ).AsEnumerable() );
+        }
     }
 }

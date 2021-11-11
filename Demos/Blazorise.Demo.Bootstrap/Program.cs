@@ -21,7 +21,7 @@ namespace Blazorise.Demo.AntDesign
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
-            //builder.RootComponents.Add<App>( "#app" );
+            builder.RootComponents.Add<App>( "#app" );
             builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
             var host = builder.Build();
 
