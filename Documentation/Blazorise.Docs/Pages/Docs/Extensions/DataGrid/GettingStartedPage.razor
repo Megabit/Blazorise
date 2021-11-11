@@ -1,38 +1,39 @@
 ﻿@page "/docs/extensions/datagrid/getting-started"
 
+<Seo Canonical="/docs/extensions/datagrid/getting-started" Title="Blazorise DataGrid" Description="Learn how to use Blazorise DataGrid extension components." />
+
 <DocsPageTitle>
-    DataGrid : Getting Started
+    DataGrid: Getting Started
 </DocsPageTitle>
 
 <DocsPageParagraph>
     To create a basic grid in Blazorise you need to set the Column that will define the grid structure and behavior.
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code>DataGrid</Code> the main <Strong>container</Strong>
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 <Code>DataGridColumns</Code> container for datagrid columns
-                <ul>
-                    <li><Code>DataGridColumn</Code> column template for text editor</li>
-                    <li><Code>DataGridNumericColumn</Code> column template for numeric values</li>
-                    <li><Code>DataGridDateColumn</Code> column template for datetime values</li>
-                    <li><Code>DataGridCheckColumn</Code> column template for boolean values</li>
-                    <li><Code>DataGridSelectColumn</Code> column template for selectable values</li>
-                    <li><Code>DataGridCommandColumn</Code> column template for editing commands like Edit, Save, Cancel, etc.</li>
-                </ul>
-            </li>
-            <li>
+                <UnorderedList>
+                    <UnorderedListItem><Code>DataGridColumn</Code> column template for text editor</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridNumericColumn</Code> column template for numeric values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridDateColumn</Code> column template for datetime values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridCheckColumn</Code> column template for boolean values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridSelectColumn</Code> column template for selectable values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridCommandColumn</Code> column template for editing commands like Edit, Save, Cancel, etc.</UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 <Code>DataGridAggregates</Code> container for datagrid aggregates
-                <ul>
-                    <li><Code>DataGridAggregate</Code> defines the column and aggregation function type</li>
-                </ul>
-            </li>
-
-        </ul>
-    </li>
-</ul>
+                <UnorderedList>
+                    <UnorderedListItem><Code>DataGridAggregate</Code> defines the column and aggregation function type</UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSubtitle>
     Installation
