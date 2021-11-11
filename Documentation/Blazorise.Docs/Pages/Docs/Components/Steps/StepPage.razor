@@ -1,52 +1,58 @@
 ﻿@page "/docs/components/step"
 
+<Seo Canonical="/docs/components/step" Title="Blazorise Step component" Description="The Step component displays progress through numbered steps." />
+
 <DocsPageTitle>
     Step component
 </DocsPageTitle>
 
 <DocsPageParagraph>
+    The <Code Tag>Step</Code> component displays progress through numbered steps.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
     Similar to <Code Tag>Tabs</Code> component, the step component have the same structure and usage.
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code Tag>Steps</Code> container for Step or StepPanel items
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 <Code Tag>Items</Code> container for Step items
-                <ul>
+                <UnorderedList>
                     <li>
                         <Code Tag>Step</Code> clickable step items
                     </li>
-                </ul>
-            </li>
-            <li>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 <Code Tag>Content</Code> container for step panels
-                <ul>
-                    <li>
+                <UnorderedList>
+                    <UnorderedListItem>
                         <Code Tag>StepPanel</Code> container for step content
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageParagraph>
     The <Code>Steps</Code> component is container for <Code>Step</Code> items. The <Code>Name</Code> of each step
     item should match the <Code>Name</Code> of a step panel(if panels are used).
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code Tag>StepsContent</Code> container for step panels
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 <Code Tag>StepPanel</Code> container for step content
-            </li>
-        </ul>
-    </li>
-</ul>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageParagraph>
     The step content container is used to hold step panels. Each content pane also has a unique <Code>Name</Code>,
