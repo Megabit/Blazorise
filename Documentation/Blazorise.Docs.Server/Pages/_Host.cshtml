@@ -37,7 +37,78 @@
     <link href="css/site.css" rel="stylesheet" />
 </head>
 <body>
-    <component type="typeof(App)" render-mode="Server" />
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script>
+        window.addEventListener("load", function () {
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#494e52"
+                    },
+                    "button": {
+                        "background": "#71489f",
+                        "text": "#ffffff"
+                    }
+                },
+                "revokable": false,
+                "showLink": true,
+                "position": "bottom-right",
+                "type": "opt-out",
+                "content": {
+                    "message": "This website uses cookies to ensure you get the best experience on our website.",
+                    "href": "/terms/"
+                },
+                onInitialise: function (status) {
+                    var type = this.options.type;
+                    var didConsent = this.hasConsented();
+                    if (type == 'opt-in' && didConsent) {
+                        // enable cookies
+                        setTracking(true);
+                    }
+                    if (type == 'opt-out' && !didConsent) {
+                        // disable cookies
+                        setTracking(false);
+                    }
+                },
+                onStatusChange: function (status, chosenBefore) {
+                    var type = this.options.type;
+                    var didConsent = this.hasConsented();
+                    if (type == 'opt-in' && didConsent) {
+                        // enable cookies
+                        setTracking(true);
+                    }
+                    if (type == 'opt-out' && !didConsent) {
+                        // disable cookies
+                        setTracking(false);
+                    }
+                },
+                onRevokeChoice: function () {
+                    var type = this.options.type;
+                    if (type == 'opt-in') {
+                        // disable cookies
+                        setTracking(false);
+                    }
+                    if (type == 'opt-out') {
+                        // enable cookies
+                        setTracking(true);
+                    }
+                },
+            })
+        });
+
+        // enables or disables google analytics
+        setTracking = (track) => {
+            if (track === true) {
+                window['ga-disable-UA-131035631-1'] = false;
+            }
+            else {
+                window['ga-disable-UA-131035631-1'] = true;
+            }
+        };
+    </script>
 
     <!-- inside of body section and after the div/app tag  -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -48,6 +119,17 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0"></script>
+
+    <script id="GA_SCRIPT_UNIVERSAL">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-131035631-1', 'auto');
+        ga('set', 'anonymizeIp', true)
+        ga('send', 'pageview');
+    </script>
 
     <script src="_content/Blazorise.Docs/blazorise.docs.js"></script>
     <script src="_framework/blazor.server.js"></script>
