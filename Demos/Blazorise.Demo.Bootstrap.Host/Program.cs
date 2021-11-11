@@ -1,33 +1,44 @@
 using Blazorise.Bootstrap;
-using Blazorise.Demo;
 using Blazorise.Icons.FontAwesome;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddRazorPages();
-builder.Services
-        .SetupDemoServices()
-        .AddBootstrapProviders()
-        .AddFontAwesomeIcons();
-
-var app = builder.Build();
-
-if (!app.Environment.IsDevelopment())
+namespace Blazorise.Demo.Bootstrap.Host
 {
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
+    public class Program
+    {
+        public static void Main( string[] args )
+        {
+            var builder = WebApplication.CreateBuilder( args );
+
+            builder.Services.AddRazorPages();
+            builder.Services
+                .SetupDemoServices()
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
+
+            var app = builder.Build();
+
+            if ( !app.Environment.IsDevelopment() )
+            {
+                app.UseExceptionHandler( "/Error" );
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseEndpoints( endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapFallbackToPage( "/_Host" );
+            } );
+
+            app.Run();
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseEndpoints( endpoints =>
-{
-    endpoints.MapRazorPages(); 
-    endpoints.MapFallbackToPage( "/_Host" ); 
-} );
-
-app.Run();
