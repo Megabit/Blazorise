@@ -1,4 +1,5 @@
 using Blazorise.Bootstrap;
+using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Builder;
@@ -59,10 +60,20 @@ namespace Blazorise.Docs.Server
             app.UseRouting();
 
             app.UseEndpoints( endpoints =>
-             {
-                 endpoints.MapBlazorHub();
-                 endpoints.MapFallbackToPage( "/_Host" );
-             } );
+            {
+                endpoints.MapGet( "/robots.txt", async context =>
+                {
+                    await Seo.GenerateRobots( context );
+                } );
+
+                endpoints.MapGet( "/sitemap.txt", async context =>
+                {
+                    await Seo.GenerateSitemap( context );
+                } );
+
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage( "/_Host" );
+            } );
         }
     }
 }
