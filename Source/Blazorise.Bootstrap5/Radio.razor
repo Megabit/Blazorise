@@ -3,7 +3,7 @@
 @if ( AsButton )
 {
     <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
-    <label class="@LabelButtonClassNames">
+    <label class="@LabelButtonClassNames" for="@ElementId">
         @ChildContent
     </label>
     @Feedback
