@@ -2281,7 +2281,7 @@ namespace Blazorise.Docs.Models
         cancellationToken.ThrowIfCancellationRequested();
 
         // some long running task or call to the rest API
-        await Task.Delay( random.Next( 600 ) );
+        await Task.Delay( random.Next( 3000 ) );
 
         e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
             ? ValidationStatus.Error
