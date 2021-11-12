@@ -92,8 +92,8 @@
         <TabPanel Name="4a" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
-                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong> (client-side).
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="BootstrapGuideRegistration1Example" />
             </DocsPageSection>
@@ -101,7 +101,8 @@
         <TabPanel Name="4b" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                    For <Strong>Blazor Server</Strong> project, or any regular <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Startup.cs</Strong> injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="BootstrapGuideRegistration2Example" />
             </DocsPageSection>
