@@ -706,6 +706,18 @@ namespace Blazorise.Docs.Models
     </DropdownMenu>
 </Dropdown>";
 
+        public const string DropdownScrollMenuExample = @"<Dropdown Display=""Display.InlineBlock"">
+    <DropdownToggle Color=""Color.Primary"">Menu</DropdownToggle>
+    <DropdownMenu MaxMenuHeight=""100px"">
+        <DropdownItem>Action</DropdownItem>
+        <DropdownItem>Action 2</DropdownItem>
+        <DropdownItem>Action 3</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+        <DropdownItem>Another Action 2</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string ShowMenuExample = @"<Dropdown @ref=""dropdown"" Display=""Display.InlineBlock"">
     <DropdownToggle Color=""Color.Primary"">Menu</DropdownToggle>
     <DropdownMenu>
