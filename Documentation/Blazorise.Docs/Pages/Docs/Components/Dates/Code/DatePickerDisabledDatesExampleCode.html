@@ -5,8 +5,8 @@
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     DateTime?[] disabledDates = <span class="keyword">new</span> DateTime?[] {
-        <span class="keyword">new</span> DateTime(<span class="number">2021</span>,<span class="number">9</span>,<span class="number">15</span>),
-        <span class="keyword">new</span> DateTime(<span class="number">2021</span>,<span class="number">9</span>,<span class="number">10</span>),
+        DateTime.Now.AddDays(-<span class="number">1</span>),
+        DateTime.Now.AddDays(<span class="number">2</span>),
     };
 }
 </pre></div>

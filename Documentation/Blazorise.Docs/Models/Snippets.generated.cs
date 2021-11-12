@@ -668,8 +668,8 @@ namespace Blazorise.Docs.Models
 
 @code {
     DateTime?[] disabledDates = new DateTime?[] {
-        new DateTime(2021,9,15),
-        new DateTime(2021,9,10),
+        DateTime.Now.AddDays(-1),
+        DateTime.Now.AddDays(2),
     };
 }";
 
@@ -4442,11 +4442,11 @@ public class Startup
   }
 }";
 
-        public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"">
+        public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"" />
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Bulma/blazorise.bulma.css"" rel=""stylesheet"" />
 
-<script defer src=""https://use.fontawesome.com/releases/v5.3.1/js/all.js""></script>";
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
