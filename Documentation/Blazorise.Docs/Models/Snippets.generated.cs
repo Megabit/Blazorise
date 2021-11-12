@@ -1240,6 +1240,8 @@ namespace Blazorise.Docs.Models
 
         public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
 
+        public const string MemoEditAutoSizeExample = @"<MemoEdit Rows=""5"" AutoSize />";
+
         public const string MemoEditTabExample = @"<MemoEdit Rows=""5"" ReplaceTab TabSize=""4"" />";
 
         public const string MemoEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
