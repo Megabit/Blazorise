@@ -4824,5 +4824,11 @@ public class Startup
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=0.9.4.1"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=0.9.4.1"" rel=""stylesheet"" />
+
+<script src=""_content/Blazorise/blazorise.js?v=0.9.4.1""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=0.9.4.1""></script>";
+
     }
 }
