@@ -1446,6 +1446,46 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string ModalFullscreenExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
+
+<Modal @ref=""modalRef"">
+    <ModalContent Fullscreen>
+        <ModalHeader>
+            <ModalTitle>Employee edit</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit Placeholder=""Enter name..."" />
+            </Field>
+            <Field>
+                <FieldLabel>Surname</FieldLabel>
+                <TextEdit Placeholder=""Enter surname..."" />
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideModal"">Close</Button>
+            <Button Color=""Color.Primary"" Clicked=""@HideModal"">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code{
+    // reference to the modal component
+    private Modal modalRef;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+}";
+
         public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
 
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
