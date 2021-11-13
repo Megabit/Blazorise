@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Pagination>
-    <PaginationItem @onclick="Previous">
+    <PaginationItem Disabled="@isActive.First()" @onclick="Previous">
         <PaginationLink>
             <span aria-hidden="true">«</span>
         </PaginationLink>
@@ -21,7 +21,7 @@
             3
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem @onclick="Next">
+    <PaginationItem Disabled="@isActive.Last()" @onclick="Next">
         <PaginationLink>
             <span aria-hidden="true">»</span>
         </PaginationLink>
