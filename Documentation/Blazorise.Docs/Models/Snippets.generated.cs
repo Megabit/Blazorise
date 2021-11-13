@@ -3900,6 +3900,23 @@ namespace Blazorise.Docs.Models
 
         public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
 
+        public const string IconSizeExample = @"<Div Flex=""Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start"">
+    @foreach ( var iconSize in Enum.GetValues<IconSize>() )
+    {
+        @if ( iconSize == IconSize.None )
+            continue;
+
+        <Div Flex=""Flex.Column.JustifyContent.Center"">
+            <Span Flex=""Flex.JustifyContent.Center.AlignItems.Center"" Padding=""Padding.Is5"">
+                <Icon Name=""IconName.Camera"" IconSize=""@iconSize"" />
+            </Span>
+            <Text TextAlignment=""TextAlignment.Center"">
+                @iconSize
+            </Text>
+        </Div>
+    }
+</Div>";
+
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
 
         public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />";
