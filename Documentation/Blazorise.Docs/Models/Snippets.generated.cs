@@ -1587,7 +1587,7 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DynamicPaginationExample = @"<Pagination>
-    <PaginationItem Disabled=""@IsNavigationDisabled(PREVIOUS)"" @onclick=""Previous"">
+    <PaginationItem Disabled=""@IsPageNavigationDisabled(PREVIOUS)"" @onclick=""Previous"">
         <PaginationLink>
             <span aria-hidden=""true"">«</span>
         </PaginationLink>
@@ -1596,14 +1596,14 @@ namespace Blazorise.Docs.Models
         for (var i = 1; i <= pageItems; i++)
         {
             var pageNumberAsString = i.ToString();
-            <PaginationItem Active=""@IsActive(pageNumberAsString)"">
+            <PaginationItem @key=""pageNumberAsString"" Active=""@IsActive(pageNumberAsString)"">
                 <PaginationLink Page=""@pageNumberAsString"" Clicked=""SetActive"">
                     @pageNumberAsString
                 </PaginationLink>
             </PaginationItem>
         } 
     }
-    <PaginationItem Disabled=""@IsNavigationDisabled(NEXT)"" @onclick=""Next"">
+    <PaginationItem Disabled=""@IsPageNavigationDisabled(NEXT)"" @onclick=""Next"">
         <PaginationLink>
             <span aria-hidden=""true"">»</span>
         </PaginationLink>
@@ -1620,7 +1620,7 @@ namespace Blazorise.Docs.Models
     private bool IsActive(string page)
         => currentPage == page;
 
-    private bool IsNavigationDisabled(string navigation )
+    private bool IsPageNavigationDisabled(string navigation )
     {
         if (navigation.Equals(PREVIOUS))
         {
@@ -1645,7 +1645,7 @@ namespace Blazorise.Docs.Models
     private void Next()
     {
         var currentPageAsInt = int.Parse(currentPage);
-        if (currentPageAsInt < 5 )
+        if (currentPageAsInt < pageItems )
         {
             currentPage = (currentPageAsInt + 1).ToString();
         }

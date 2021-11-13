@@ -1,7 +1,7 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Pagination</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationItem</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>IsNavigationDisabled(PREVIOUS)</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>onclick</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Previous</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationItem</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>IsPageNavigationDisabled(PREVIOUS)</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>onclick</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Previous</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationLink</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">span</span> <span class="htmlAttributeName">aria-hidden</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>&#171;<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">span</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PaginationLink</span><span class="htmlTagDelimiter">&gt;</span>
@@ -10,14 +10,14 @@
         for (var i = 1; i &lt;= pageItems; i++)
         {
             var pageNumberAsString = i.ToString();
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationItem</span> <span class="htmlAttributeName">Active</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>IsActive(pageNumberAsString)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationItem</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>key</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">pageNumberAsString</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Active</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>IsActive(pageNumberAsString)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationLink</span> <span class="htmlAttributeName">Page</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>pageNumberAsString</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">SetActive</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="atSign">&#64;</span>pageNumberAsString
                 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PaginationLink</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PaginationItem</span><span class="htmlTagDelimiter">&gt;</span>
         } 
     }
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationItem</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>IsNavigationDisabled(NEXT)</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>onclick</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Next</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationItem</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>IsPageNavigationDisabled(NEXT)</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>onclick</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Next</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PaginationLink</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">span</span> <span class="htmlAttributeName">aria-hidden</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>&#187;<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">span</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PaginationLink</span><span class="htmlTagDelimiter">&gt;</span>
@@ -35,7 +35,7 @@
     <span class="keyword">private</span> <span class="keyword">bool</span> IsActive(<span class="keyword">string</span> page)
         =&gt; currentPage == page;
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> IsNavigationDisabled(<span class="keyword">string</span> navigation )
+    <span class="keyword">private</span> <span class="keyword">bool</span> IsPageNavigationDisabled(<span class="keyword">string</span> navigation )
     {
         <span class="keyword">if</span> (navigation.Equals(PREVIOUS))
         {
@@ -60,7 +60,7 @@
     <span class="keyword">private</span> <span class="keyword">void</span> Next()
     {
         <span class="keyword">var</span> currentPageAsInt = <span class="keyword">int</span>.Parse(currentPage);
-        <span class="keyword">if</span> (currentPageAsInt &lt; <span class="number">5</span> )
+        <span class="keyword">if</span> (currentPageAsInt &lt; pageItems )
         {
             currentPage = (currentPageAsInt + <span class="number">1</span>).ToString();
         }
