@@ -59,7 +59,7 @@
     private void Next()
     {
         var currentPageAsInt = int.Parse(currentPage);
-        if (currentPageAsInt < 5 )
+        if (currentPageAsInt < pageItems )
         {
             currentPage = (currentPageAsInt + 1).ToString();
         }
