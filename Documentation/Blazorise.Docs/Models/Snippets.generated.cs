@@ -718,6 +718,34 @@ namespace Blazorise.Docs.Models
     </DropdownMenu>
 </Dropdown>";
 
+        public const string NestedDropdownExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"">Level 1</DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem>Item 1.1</DropdownItem>
+        <Dropdown>
+            <DropdownToggle>Level 2</DropdownToggle>
+            <DropdownMenu>
+                <DropdownItem>Item 2.1</DropdownItem>
+                <DropdownItem>Item 2.2</DropdownItem>
+                <Dropdown>
+                    <DropdownToggle>Level 3</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 3.1</DropdownItem>
+                        <DropdownItem>Item 3.2</DropdownItem>
+                        <Dropdown>
+                            <DropdownToggle>Level 4</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 4.1</DropdownItem>
+                                <DropdownItem>Item 4.2</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DropdownMenu>
+                </Dropdown>
+            </DropdownMenu>
+        </Dropdown>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string ShowMenuExample = @"<Dropdown @ref=""dropdown"" Display=""Display.InlineBlock"">
     <DropdownToggle Color=""Color.Primary"">Menu</DropdownToggle>
     <DropdownMenu>
