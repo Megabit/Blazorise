@@ -1857,7 +1857,7 @@ namespace Blazorise.Docs.Models
     </TableBody>
 </Table>";
 
-        public const string TableFixedHeaderExample = @"<Table FixedHeader=""true"" FixedHeaderTableHeight=""300px"">
+        public const string TableFixedHeaderExample = @"<Table FixedHeader FixedHeaderTableHeight=""300px"">
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
@@ -1867,24 +1867,17 @@ namespace Blazorise.Docs.Models
         </TableRow>
     </TableHeader>
     <TableBody>
-        <TableRow>
-            <TableRowHeader>1</TableRowHeader>
-            <TableRowCell>Mark</TableRowCell>
-            <TableRowCell>Otto</TableRowCell>
-            <TableRowCell>@@mdo</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowHeader>2</TableRowHeader>
-            <TableRowCell>Jacob</TableRowCell>
-            <TableRowCell>Thornton</TableRowCell>
-            <TableRowCell>@@fat</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowHeader>3</TableRowHeader>
-            <TableRowCell>Larry</TableRowCell>
-            <TableRowCell>the Bird</TableRowCell>
-            <TableRowCell>@@twitter</TableRowCell>
-        </TableRow>
+        @for ( int i = 1; i <= 10; ++i )
+        {
+            var index = i.ToString();
+
+            <TableRow @key=""@index"">
+                <TableRowHeader>@index</TableRowHeader>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+            </TableRow>
+        }
     </TableBody>
 </Table>";
 
@@ -1984,7 +1977,7 @@ namespace Blazorise.Docs.Models
         public const string TableScrollToExample = @"<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToRow"">Scroll To Row</Button>
 <Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToPixels"">Scroll To Pixels</Button>
 
-<Table @ref=""@tableRef"" FixedHeader=""true"" FixedHeaderTableHeight=""300px"">
+<Table @ref=""@tableRef"" FixedHeader FixedHeaderTableHeight=""300px"">
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
