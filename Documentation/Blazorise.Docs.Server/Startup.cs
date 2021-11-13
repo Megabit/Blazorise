@@ -1,4 +1,4 @@
-using Blazorise.Bootstrap;
+using Blazorise.Bootstrap5;
 using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
@@ -31,7 +31,7 @@ namespace Blazorise.Docs.Server
               {
                   options.ChangeTextOnKeyPress = true; // optional
               } )
-              .AddBootstrapProviders()
+              .AddBootstrap5Providers()
               .AddFontAwesomeIcons()
               .AddBlazoriseRichTextEdit();
 

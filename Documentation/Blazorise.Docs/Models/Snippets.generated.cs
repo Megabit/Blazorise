@@ -3511,7 +3511,8 @@ namespace Blazorise.Docs.Models
           @bind-SelectedRow=""@selectedEmployee""
           NewItemDefaultSetter=""@OnEmployeeNewItemDefaultSetter""
           Editable
-          Responsive>
+          Responsive
+          ShowPager>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3597,7 +3598,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           Editable
           EditMode=""DataGridEditMode.Inline""
-          Responsive>
+          Responsive
+          ShowPager>
     <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
     <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
@@ -3605,7 +3607,7 @@ namespace Blazorise.Docs.Models
                          Value=""@((decimal)context.CellValue)""
                          ValueChanged=""@( v => {
                             context.CellValue = v;
-                            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
+                            context.UpdateCell( nameof( Employee.Tax ), v * context.Item.TaxPercentage );
                          })"" />
         </EditTemplate>
     </DataGridColumn>
@@ -4408,7 +4410,7 @@ public class Startup
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
-        public const string Bootstrap5GuideNuget1Example = @"Install-Package Blazorise.Bootstrap";
+        public const string Bootstrap5GuideNuget1Example = @"Install-Package Blazorise.Bootstrap5";
 
         public const string Bootstrap5GuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
 
