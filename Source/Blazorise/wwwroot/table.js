@@ -55,7 +55,7 @@ export function fixedHeaderScrollTableToRow(element, elementId, row) {
         if (rowsLength > 0 && row >= 0 && row < rowsLength) {
             rows[row].scrollIntoView({
                 behavior: "smooth",
-                block: "start"
+                block: "nearest"
             });
         }
     }
