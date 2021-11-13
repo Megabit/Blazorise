@@ -13,7 +13,7 @@
                     @foreach ( var icon in Enum.GetValues<IconName>() )
                     {
                         <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
-                            <Div Flex="Flex.Column.JustifyContent.Center">
+                            <Div Flex="Flex.Column.JustifyContent.Center" Class="blazorise-icon">
                                 <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
                                     <Icon Name="@icon"/>
                                 </Span>

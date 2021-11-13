@@ -166,3 +166,8 @@ code {
     font-size: 85%;
     font-weight: 400;
 }
+
+.blazorise-icon span{
+    width: 150px;
+    overflow-wrap: break-word;
+}

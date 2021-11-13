@@ -12,11 +12,11 @@
     @foreach (var icon in Enum.GetValues<IconName>())
     {
         <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
-            <Div Flex="Flex.Column.JustifyContent.Center">
-                <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5" style="width:150px;">
+            <Div Flex="Flex.Column.JustifyContent.Center" Class="blazorise-icon">
+                <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
                     <Icon Name="@icon"/>
                 </Span>
-                <Text TextAlignment="TextAlignment.Center" style="width:150px;overflow-wrap: break-word;">
+                <Text TextAlignment="TextAlignment.Center">
                     @icon
                 </Text>
             </Div>
