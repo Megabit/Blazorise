@@ -48,5 +48,14 @@
         Virtualization is a technique for limiting UI rendering to just the parts that are currently visible. For example, virtualization is helpful when the app must render a long list of items and only a subset of items is required to be visible at any given time.
 
         You will still have access to every available <Code>DataGrid</Code> feature. <Code>VirtualizeOptions</Code> allows to further customize the <Code>Virtualize</Code> feature.
+        <Alert Margin="Margin.Is4.FromTop" Color="Color.Info" Visible>
+            <AlertDescription>
+                Note that this mode requires that all rows have the same height.
+            </AlertDescription>
+        </Alert>
     </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridVirtualizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridVirtualizeExample" />
 </DocsPageSection>
