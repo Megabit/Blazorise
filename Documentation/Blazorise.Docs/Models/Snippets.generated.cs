@@ -2281,7 +2281,7 @@ namespace Blazorise.Docs.Models
         cancellationToken.ThrowIfCancellationRequested();
 
         // some long running task or call to the rest API
-        await Task.Delay( random.Next( 3000 ) );
+        await Task.Delay( random.Next( 1500 ) );
 
         e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
             ? ValidationStatus.Error
@@ -4649,13 +4649,141 @@ public class Startup
     Hides on screens smaller than lg
 </Paragraph>";
 
-        public const string FlexExample = @"<Div Flex=""Flex.JustifyContent.Start"">
-    Some content at the start
+        public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
 </Div>
+<Div Flex=""Flex.AlignItems.End"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.AlignItems.Baseline"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.AlignItems.Stretch"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+@code {
+    const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
+    const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
 
-<Div Flex=""Flex.AlignItems.Center"">
-    Some content at the center
-</Div>";
+    const string ItemBackgroundColor = ""rgba(95, 163, 103,.15)"";
+    const string ItemBorderColor = ""rgba(95, 163, 103,.15)"";
+
+    string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
+    string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
+
+    string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
+}";
+
+        public const string FlexJustifyContentExample = @"<Div Flex=""Flex.JustifyContent.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.End"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.Around"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+@code {
+    const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
+    const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
+
+    const string ItemBackgroundColor = ""rgba(95, 163, 103,.15)"";
+    const string ItemBorderColor = ""rgba(95, 163, 103,.15)"";
+
+    string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
+    string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
+
+    string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
+}";
 
         public const string OverflowExample = @"<Div Overflow=""Overflow.Auto"">Auto...</Div>
 <Divider />
