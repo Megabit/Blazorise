@@ -10,7 +10,7 @@
         for (var i = 1; i <= pageItems; i++)
         {
             var pageNumberAsString = i.ToString();
-            <PaginationItem Active="@IsActive(pageNumberAsString)">
+            <PaginationItem @key="pageNumberAsString" Active="@IsActive(pageNumberAsString)">
                 <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
                     @pageNumberAsString
                 </PaginationLink>
