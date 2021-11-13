@@ -1584,11 +1584,11 @@ namespace Blazorise.Docs.Models
     int SelectedValue = 7;
 }";
 
-        public const string BasicRepeaterExample = @"<ul>
+        public const string BasicRepeaterExample = @"<UnorderedList>
     <Repeater Items=""@items"" CollectionChanged=""@OnCollectionChanged"">
-        <li style=""@GetColor( context )"">@context</li>
+        <UnorderedListItem style=""@GetColor( context )"">@context</UnorderedListItem>
     </Repeater>
-</ul>
+</UnorderedList>
 
 @code{
     System.Collections.ObjectModel.ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );

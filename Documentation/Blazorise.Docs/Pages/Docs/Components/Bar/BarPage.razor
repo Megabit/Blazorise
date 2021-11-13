@@ -11,70 +11,70 @@
     in <strong>Horizontal</strong> mode or as a sidebar in one of the three <strong>Vertical</strong> modes.
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code Tag>Bar</Code> main container
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 <Code Tag>BarBrand</Code> <strong>Horizontal</strong>: the left side, always visible. <strong>Vertical</strong>: top of Bar branding.
-            </li>
-            <li>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 <Code Tag>BarToggler</Code> <strong>Horizontal</strong>: toggles the bar. <strong>Vertical</strong>: read more below.
-            </li>
-            <li>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 <Code Tag>BarMenu</Code> <strong>Horizontal</strong>: the right side, hidden on breakpoint. <strong>Vertical</strong>: contains the core menu elements.
-                <ul>
-                    <li>
+                <UnorderedList>
+                    <UnorderedListItem>
                         <Code Tag>BarStart</Code> <strong>Horizontal</strong>: left side menu. <strong>Vertical</strong>: sticky top menu.
-                    </li>
-                    <li>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
                         <Code Tag>BarEnd</Code> <strong>Horizontal</strong>: right side menu. <strong>Vertical</strong>: sticky bottom menu.
-                        <ul>
-                            <li>
+                        <UnorderedList>
+                            <UnorderedListItem>
                                 <Code Tag>BarItem </Code> each single item of the bar menu
-                                <ul>
-                                    <li>
+                                <UnorderedList>
+                                    <UnorderedListItem>
                                         <Code Tag>BarLink</Code> item link or button
-                                        <ul>
-                                            <li>
+                                        <UnorderedList>
+                                            <UnorderedListItem>
                                                 <Code Tag>BarIcon</Code> icon for Bar item (required for BarMode.VerticalSmall)
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
+                                            </UnorderedListItem>
+                                        </UnorderedList>
+                                    </UnorderedListItem>
+                                    <UnorderedListItem>
                                         <Code Tag>BarDropdown</Code> dropdown container (or popout for BarMode.VerticalPopout)
-                                        <ul>
-                                            <li>
+                                        <UnorderedList>
+                                            <UnorderedListItem>
                                                 <Code Tag>BarDropdownToggle</Code> dropdown trigger
-                                            </li>
-                                            <li>
+                                            </UnorderedListItem>
+                                            <UnorderedListItem>
                                                 <Code Tag>BarDropdownMenu</Code> the dropdown menu, which can include bar items and dividers
                                                 for BarMode.VerticalPopout)
-                                                <ul>
-                                                    <li>
+                                                <UnorderedList>
+                                                    <UnorderedListItem>
                                                         <Code Tag>BarDropdownItem</Code> each single item of the dropdown menu
-                                                    </li>
-                                                    <li>
+                                                    </UnorderedListItem>
+                                                    <UnorderedListItem>
                                                         <Code Tag>BarDropdownDivider</Code> Divider that can be placed between <Code>BarDropdownItem</Code>’s.
-                                                    </li>
-                                                    <li>
+                                                    </UnorderedListItem>
+                                                    <UnorderedListItem>
                                                         <Code Tag>BarDropdown</Code> by adding this again inside the menu, you will create nested dropdowns
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                                                    </UnorderedListItem>
+                                                </UnorderedList>
+                                            </UnorderedListItem>
+                                        </UnorderedList>
+                                    </UnorderedListItem>
+                                </UnorderedList>
+                            </UnorderedListItem>
 
-                        </ul>
+                        </UnorderedList>
 
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Top Bar (with dropdown)">
@@ -107,14 +107,14 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Right-aligned Vertical Bar">
         You can create a right-aligned <Code>Vertical</Code> style <Code>Bar </Code>easily by following two key principals.
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 Using the <Code>Layout</Code> to accommodate the right-align bar, by putting the <Code>LayoutSider </Code>section after the <Code>Layout</Code> section (see in example below).
-            </li>
-            <li>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 Adding <Code>RightAligned="true"</Code> to ALL <Code>BarDropdownMenu</Code> within the <Code>Vertical</Code> bar.
-            </li>
-        </ul>
+            </UnorderedListItem>
+        </UnorderedList>
         Right-aligned vertical bar example:
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
@@ -126,10 +126,10 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Vertical Bar Toggler">
         The <Code>BarToggler</Code> for Vertical Bar supports 2 modes:
-        <ul>
-            <li><Code>BarTogglerMode.Normal (default)</Code></li>
-            <li><Code>BarTogglerMode.Popout</Code></li>
-        </ul>
+        <UnorderedList>
+            <UnorderedListItem><Code>BarTogglerMode.Normal (default)</Code></UnorderedListItem>
+            <UnorderedListItem><Code>BarTogglerMode.Popout</Code></UnorderedListItem>
+        </UnorderedList>
         These 2 modes, along with an external implementation, provides 3 easy to configure implementations.
         <Paragraph>
             <Strong>1. Inline</Strong>
@@ -163,14 +163,14 @@
         Where you have a top bar and vertical bar, you can add multiple <Code>BarTogglers</Code> to the top bar and choose to have one of these control the vertical bar by simply setting the <Code>Bar</Code> property.
 
         In the example below, we will create two <Code>BarTogglers</Code> inside the top bar.
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 One to control the Vertical Bar (closest to it)
-            </li>
-            <li>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 One to control the Top Bar (at the opposite end)
-            </li>
-        </ul>
+            </UnorderedListItem>
+        </UnorderedList>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <VerticalBarExternalExample />

@@ -110,14 +110,14 @@
         To use data annotations with Blazorise you must combine both <Code>Validation</Code> and the <Code>Validations</Code>
         components. The <Code>Validations</Code> component will act as a group for a fields used inside of <Code>Validation</Code>
         component. To make it all work you must meet two requirements:
-        <ol>
-            <li>
+        <OrderedList>
+            <OrderedListItem>
                 <Code>Validations</Code> component must contain reference to the validated POCO through the <Code>Model</Code> parameter.
-            </li>
-            <li>
+            </OrderedListItem>
+            <OrderedListItem>
                 Input component must bind to the model field through the <Code>@@bind-{Value}</Code>(i.e. <Code>@@bind-Text</Code>)
-            </li>
-        </ol>
+            </OrderedListItem>
+        </OrderedList>
         After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -145,14 +145,14 @@
     Where:
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code>format</Code> raw validation message
-    </li>
-    <li>
+    </UnorderedListItem>
+    <UnorderedListItem>
         <Code>arguments</Code> list of arguments or values for populating the message
-    </li>
-</ul>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageParagraph>
     So now that you know what the API consist of, we need to talk what is the content of the API. And the most important
