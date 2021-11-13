@@ -1433,7 +1433,7 @@ namespace Blazorise.Docs.Models
             1
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem>
+    <PaginationItem Active>
         <PaginationLink>
             2
         </PaginationLink>
@@ -4785,13 +4785,20 @@ public class Startup
     string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
 }";
 
-        public const string OverflowExample = @"<Div Overflow=""Overflow.Auto"">Auto...</Div>
-<Divider />
-<Div Overflow=""Overflow.Hidden"">Hidden...</Div>
-<Divider />
-<Div Overflow=""Overflow.Visible"">Visible...</Div>
-<Divider />
-<Div Overflow=""Overflow.Scroll"">Scroll...</Div>";
+        public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
+    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
+    </Div>
+    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
+    </Div>
+</Div>";
 
         public const string SpacingExample = @"<Card>
     <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
