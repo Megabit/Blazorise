@@ -1165,7 +1165,7 @@ namespace Blazorise.Docs.Models
     </Layout>
 </Layout>";
 
-        public const string AnchorLinkExample = @"<Link To=""#"">
+        public const string AnchorLinkExample = @"<Link To=""#docs-page-title"">
     Link
 </Link>";
 
