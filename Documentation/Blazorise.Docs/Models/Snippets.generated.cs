@@ -3309,9 +3309,7 @@ namespace Blazorise.Docs.Models
         public const string DataGridExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          Responsive
-          Virtualize
-          VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
+          Responsive>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3324,7 +3322,7 @@ namespace Blazorise.Docs.Models
     </DataGridColumn>
 </DataGrid>
 
-@code {
+@code{
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
@@ -3601,20 +3599,26 @@ namespace Blazorise.Docs.Models
           EditMode=""DataGridEditMode.Inline""
           Responsive>
     <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
             <NumericEdit TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
                          ValueChanged=""@( v => {
                             context.CellValue = v;
-                            context.UpdateCell( nameof( Employee.Salary ), v * .25m );
+                            context.UpdateCell( nameof( Employee.Tax ), v * .25m );
                          })"" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Tax"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal""
+                         Value=""@((decimal)context.CellValue)""
+                         Disabled />
+        </EditTemplate>
+    </DataGridColumn>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
@@ -3686,7 +3690,9 @@ namespace Blazorise.Docs.Models
         public const string DataGridVirtualizeExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          Responsive>
+          Responsive
+          Virtualize
+          VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3699,7 +3705,7 @@ namespace Blazorise.Docs.Models
     </DataGridColumn>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;

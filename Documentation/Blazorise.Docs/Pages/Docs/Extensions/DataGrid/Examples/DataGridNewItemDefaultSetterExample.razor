@@ -5,7 +5,8 @@
           @bind-SelectedRow="@selectedEmployee"
           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
           Editable
-          Responsive>
+          Responsive
+          ShowPager>
     <DataGridCommandColumn TItem="Employee" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
