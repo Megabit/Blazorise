@@ -1491,7 +1491,7 @@ namespace Blazorise.Docs.Models
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
 
         public const string BasicPaginationExample = @"<Pagination>
-    <PaginationItem @onclick=""Previous"">
+    <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
         <PaginationLink>
             <span aria-hidden=""true"">«</span>
         </PaginationLink>
@@ -1511,7 +1511,7 @@ namespace Blazorise.Docs.Models
             3
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem @onclick=""Next"">
+    <PaginationItem Disabled=""@isActive.Last()"" @onclick=""Next"">
         <PaginationLink>
             <span aria-hidden=""true"">»</span>
         </PaginationLink>
@@ -1584,6 +1584,75 @@ namespace Blazorise.Docs.Models
         }
 
     }
+}";
+
+        public const string DynamicPaginationExample = @"<Pagination>
+    <PaginationItem Disabled=""@IsNavigationDisabled(PREVIOUS)"" @onclick=""Previous"">
+        <PaginationLink>
+            <span aria-hidden=""true"">«</span>
+        </PaginationLink>
+    </PaginationItem>
+    @{
+        for (var i = 1; i <= pageItems; i++)
+        {
+            var pageNumberAsString = i.ToString();
+            <PaginationItem Active=""@IsActive(pageNumberAsString)"">
+                <PaginationLink Page=""@pageNumberAsString"" Clicked=""SetActive"">
+                    @pageNumberAsString
+                </PaginationLink>
+            </PaginationItem>
+        } 
+    }
+    <PaginationItem Disabled=""@IsNavigationDisabled(NEXT)"" @onclick=""Next"">
+        <PaginationLink>
+            <span aria-hidden=""true"">»</span>
+        </PaginationLink>
+    </PaginationItem>
+</Pagination>
+
+@code
+{
+    private const string PREVIOUS = ""previous"";
+    private const string NEXT = ""next"";
+    private string currentPage = ""2"";
+    private int pageItems = 5;
+
+    private bool IsActive(string page)
+        => currentPage == page;
+
+    private bool IsNavigationDisabled(string navigation )
+    {
+        if (navigation.Equals(PREVIOUS))
+        {
+            return currentPage.Equals(""1"");
+        }
+        else if (navigation.Equals(NEXT))
+        {
+            return currentPage.Equals(pageItems.ToString());
+        }
+        return false;
+    }
+
+    private void Previous()
+    {
+        var currentPageAsInt = int.Parse(currentPage);
+        if (currentPageAsInt > 1 )
+        {
+            currentPage = (currentPageAsInt - 1).ToString();
+        }
+    }
+
+    private void Next()
+    {
+        var currentPageAsInt = int.Parse(currentPage);
+        if (currentPageAsInt < 5 )
+        {
+            currentPage = (currentPageAsInt + 1).ToString();
+        }
+    }
+
+    private void SetActive(string page)
+        => currentPage = page;
 }";
 
         public const string BasicPageProgressExample = @"<PageProgress Visible=""true"" Value=""25"" />";
