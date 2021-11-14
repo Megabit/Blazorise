@@ -180,6 +180,46 @@ input[type="button"].btn-block {
         margin-left: 0rem;
         margin-right: .1rem; }
 
+.dropdown-menu-start {
+    right: auto;
+    left: 0; }
+
+.dropdown-menu-end {
+    right: 0;
+    left: auto; }
+
+@media (min-width: 576px) {
+    .dropdown-menu-sm-start {
+        right: auto;
+        left: 0; }
+    .dropdown-menu-sm-end {
+        right: 0;
+        left: auto; } }
+
+@media (min-width: 768px) {
+    .dropdown-menu-md-start {
+        right: auto;
+        left: 0; }
+    .dropdown-menu-md-end {
+        right: 0;
+        left: auto; } }
+
+@media (min-width: 992px) {
+    .dropdown-menu-lg-start {
+        right: auto;
+        left: 0; }
+    .dropdown-menu-lg-end {
+        right: 0;
+        left: auto; } }
+
+@media (min-width: 1200px) {
+    .dropdown-menu-xl-start {
+        right: auto;
+        left: 0; }
+    .dropdown-menu-xl-end {
+        right: 0;
+        left: auto; } }
+
 .dropup .dropdown-menu {
     top: auto;
     bottom: 100%;
