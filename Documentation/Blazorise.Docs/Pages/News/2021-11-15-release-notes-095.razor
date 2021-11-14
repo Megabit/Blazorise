@@ -8,11 +8,15 @@
 
 <Paragraph>
     Today, we are happy to announce the release of Blazorise 0.9.5. In this post, we’re covering a lot of the new Blazorise features
-    that make your app development more easier to build and use.
+    that will make your app development easier to build and use.
+</Paragraph>
+
+<Paragraph>
+    As you have probably noticed, we're also bringing completely new documentation pages built on top of Blazorise. When Blazorise was first created almost four years ago, Blazor was limited to very basic features. There was no server-side, no way to do the proper SEO, etc. And so, the only way to do the proper documentation at the time was to use GitHub pages. As time went by, with all the work on new features, documentation was always last to go. But this time Blazorise's documentation is built from the ground up, completely with Blazor and Blazorise. We now support real code examples, copy/paste snippets, hide/show code. Many new examples are included and with time we will include even more of them. We hope you will enjoy using the new docs as much as we enjoyed creating them.
 </Paragraph>
 
 <NewsPageSubtitle>
-    Highlights 💡
+    Blazorise 0.9.5 Highlights 💡
 </NewsPageSubtitle>
 
 <UnorderedList>
@@ -20,10 +24,10 @@
         <Strong>.NET 6</Strong> is now fully supported with this release.
     </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>JavaScript Modules</Strong> to load internal JavaScript on demand without the need for any manuall code.
+        <Strong>Bootstrap 5 Provider</Strong> is our new completelly new CSS framework that we fully support.
     </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>Bootstrap 5 Provider</Strong> is our new completelly new CSS framework that we fully support.
+        <Strong>JavaScript Modules</Strong> to load internal JavaScript on demand without the need for any manual code.
     </UnorderedListItem>
     <UnorderedListItem>
         <Strong>Autocomplete tags</Strong> now has support for multiple selection that will show selected items as tags.
@@ -65,7 +69,7 @@
 <Table FullWidth Narrow Striped Bordered>
     <TableHeader ThemeContrast="ThemeContrast.Light">
         <TableRow>
-            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Component Name</TableHeaderCell>
             <TableHeaderCell>Before</TableHeaderCell>
             <TableHeaderCell>After</TableHeaderCell>
         </TableRow>
@@ -254,30 +258,28 @@
     You will need to change your <Code>RowSelectable</Code> handlers to expect a <Code>RowSelectableEventArgs</Code> instead.
 </Paragraph>
 
+<Paragraph>
+    7. Remove all Blazorise static files from <Code>index.html</Code>> or <Code>_Host.cshtml</Code>. Files that are safe to be removed are:
+    <UnorderedList>
+        <UnorderedListItem><Code>_content/Blazorise/blazorise.js</Code></UnorderedListItem>
+        <UnorderedListItem><Code>_content/Blazorise.Bootstrap/blazorise.bootstrap.js</Code></UnorderedListItem>
+        <UnorderedListItem><Code>_content/Blazorise.Charts/blazorise.charts.js</Code></UnorderedListItem>
+        <UnorderedListItem><Code>_content/Blazorise.Charts.Streaming/blazorise.charts.streaming.js</Code></UnorderedListItem>
+        <UnorderedListItem><Code>_content/Blazorise.DataGrid/blazorise.datagrid.js</Code></UnorderedListItem>
+        <UnorderedListItem><Code>_content/Blazorise.Markdown/blazorise.markdown.js</Code></UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
 <NewsPageSubtitle>
     Highlights 🚀
 </NewsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    ListView
-</Heading>
-
-<Paragraph>
-    Introduced the new <Code>ListView</Code> component.
-</Paragraph>
-<Paragraph>
-    List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.
-</Paragraph>
-<Paragraph>
-    List views use <Code>ListGroup</Code> behind the covers, so you may make use of the <Code>ListGroup</Code> underlying APIs.
-</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     JavaScript modules
 </Heading>
 
 <Paragraph>
-    First and foremost. With the new version we have refactored major parts of Blazorise internals to make use of
+    We have refactored major parts of Blazorise internals to make use of
     <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</Anchor>. As a result of all
     the hard work we have made it easier to setup Blazorise projects and manually importing Javascript static files is now not needed.
     They can be safely removed from all your <Code>index.html</Code> and <Code>_Host.cshtml</Code> files.
@@ -454,6 +456,16 @@
 <Paragraph>
     The idea is to provide an easy way to increase input field readability by formatting your typed data.
     By using this component, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
+</Paragraph>
+
+<Paragraph>
+    Introduced the new <Code>ListView</Code> component.
+</Paragraph>
+<Paragraph>
+    List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.
+</Paragraph>
+<Paragraph>
+    List views use <Code>ListGroup</Code> behind the covers, so you may make use of the <Code>ListGroup</Code> underlying APIs.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
