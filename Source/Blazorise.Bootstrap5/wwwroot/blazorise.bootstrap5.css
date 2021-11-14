@@ -160,6 +160,9 @@ input[type="button"].btn-block {
         outline: 0;
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
 
+.dropdown.btn-group > .btn.dropdown-toggle-split + .dropdown-menu.show {
+    top: 100%; }
+
 .dropdown > .dropdown-menu > .dropdown {
     position: relative; }
     .dropdown > .dropdown-menu > .dropdown::after {

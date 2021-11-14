@@ -48,6 +48,12 @@
     @include form-control-focus
 }
 
+.dropdown.btn-group {
+    > .btn.dropdown-toggle-split + .dropdown-menu.show {
+        top: 100%;
+    }
+}
+
 .dropdown {
     > .dropdown-menu {
         > .dropdown {
