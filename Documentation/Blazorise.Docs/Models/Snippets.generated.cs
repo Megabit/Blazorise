@@ -3114,14 +3114,6 @@ namespace Blazorise.Docs.Models
           ShowPager
           CommandMode=""DataGridCommandMode.ButtonRow"">
     <DataGridColumns>
-        <DataGridCommandColumn TItem=""Employee"" NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
-            <SaveCommandTemplate>
-                <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
-            </SaveCommandTemplate>
-            <CancelCommandTemplate>
-                <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
-            </CancelCommandTemplate>
-        </DataGridCommandColumn>
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
@@ -3136,7 +3128,6 @@ namespace Blazorise.Docs.Models
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
         <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
         <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
-        <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
     </ButtonRowTemplate>
 </DataGrid>
 
@@ -3546,6 +3537,36 @@ namespace Blazorise.Docs.Models
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 }";
 
+        public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          FixedHeader>
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
 
         public const string DataGridLargeDataExample = @"<DataGrid TItem=""Employee""
@@ -3744,6 +3765,50 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
+
+        public const string DataGridResizableExample = @"<Field>
+    <FieldLabel>
+        Resize Mode
+    </FieldLabel>
+    <FieldBody>
+        <Select @bind-SelectedValue=""@resizeMode"">
+            <SelectItem Value=""TableResizeMode.Header"">Header</SelectItem>
+            <SelectItem Value=""TableResizeMode.Columns"">Columns</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Resizable
+          ResizeMode=""@resizeMode"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private TableResizeMode resizeMode = TableResizeMode.Header;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
 
         public const string DataGridRowSelectableMultipleSelectionExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
