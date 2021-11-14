@@ -80,3 +80,54 @@
         }
     }
 }
+
+// Allow for dropdowns to go bottom up (aka, dropup-menu)
+// Just add .dropup after the standard .dropdown class and you're set.
+.dropup {
+    .dropdown-menu {
+        top: auto;
+        bottom: 100%;
+        margin-top: 0;
+        margin-bottom: $dropdown-spacer;
+    }
+
+    .dropdown-toggle {
+        @include caret(up);
+    }
+}
+
+.dropend {
+    .dropdown-menu {
+        top: 0;
+        right: auto;
+        left: 100%;
+        margin-top: 0;
+        margin-left: $dropdown-spacer;
+    }
+
+    .dropdown-toggle {
+        @include caret(right);
+
+        &::after {
+            vertical-align: 0;
+        }
+    }
+}
+
+.dropstart {
+    .dropdown-menu {
+        top: 0;
+        right: 100%;
+        left: auto;
+        margin-top: 0;
+        margin-right: $dropdown-spacer;
+    }
+
+    .dropdown-toggle {
+        @include caret(left);
+
+        &::before {
+            vertical-align: 0;
+        }
+    }
+}
