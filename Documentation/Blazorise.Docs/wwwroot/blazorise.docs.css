@@ -278,6 +278,11 @@ html, body * {
   .b-news .b-news-content h2 {
     padding-bottom: 0.5em;
     border-bottom: 1px solid #f2f3f3; }
+  .b-news .b-news-content h3 {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #f2f3f3; }
+  .b-news .b-news-content h4 {
+    padding-bottom: 0.5em; }
   .b-news .b-news-content p > code, .b-news .b-news-content a > code, .b-news .b-news-content li > code, .b-news .b-news-content td > code {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;

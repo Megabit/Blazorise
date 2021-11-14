@@ -3,19 +3,63 @@
 <Seo Canonical="news/release-notes/095" Title="Blazorise v0.9.5" Description="Blazorise v0.9.5 release notes and changelog." />
 
 <NewsPageTitle>
-    v0.9.5 - release notes
+    Announcing Blazorise 0.9.5
 </NewsPageTitle>
 
+<Paragraph>
+    Today, we are happy to announce the release of Blazorise 0.9.5. In this post, we’re covering a lot of the new Blazorise features
+    that make your app development more easier to build and use.
+</Paragraph>
+
 <NewsPageSubtitle>
-    Breaking changes
+    Highlights 💡
 </NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Strong>.NET 6</Strong> is now fully supported with this release.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>JavaScript Modules</Strong> to load internal JavaScript on demand without the need for any manuall code.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Bootstrap 5 Provider</Strong> is our new completelly new CSS framework that we fully support.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Autocomplete tags</Strong> now has support for multiple selection that will show selected items as tags.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>DataGrid</Strong> improvements and optimizations.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Public Async methods</Strong> make it easier to prevent race condition when calling component directly.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>ColorPicker component</Strong> based upon the excellent <Anchor To="https://github.com/Simonwep/pickr">pickr</Anchor> library.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>InputMask component</Strong> based upon the excellent <Anchor To="https://github.com/RobinHerbots/Inputmask">Input Mask plugin</Anchor>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Theme improvements</Strong> to make it even easier to customize your apps without the need for CSS.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>ListView component</Strong> for displaying a series of content in a contained scrollable view by providing a data source.
+    </UnorderedListItem>
+</UnorderedList>
 
 <NewsPageSubtitle>
     Migration 🛠
 </NewsPageSubtitle>
 
 <Paragraph>
-    1. We changed all the following methods to be awaited. You will need to adjust your code accordingly.
+    No big release can be done without some breaking changes and this release is no exception. Considering this is the last <Code>0.9.*</Code>
+    release before <Code>1.0</Code>, there was no other time. We tried to make the changes to a minimum but nevertheless, you will need to
+    adjust your code. Here are the required steps that needs to be done:
+</Paragraph>
+
+<Paragraph>
+    1. Changed all the following methods from synchronous to asynchronous.
 </Paragraph>
 
 <Table FullWidth Narrow Striped Bordered>
@@ -199,7 +243,7 @@
 <Paragraph>
     5. While not strictly a breaking changes, it is advised to also rename all <Code>Left</Code> and <Code>Right</Code> values,
     eg. for <Code>TextAlignment</Code> and <Code>Direction</Code>. We have marked them as obsolete and they will be replaced with
-    <Code>Start</Code> and <Code>End</Code> values. The purpose of the new values is the better naming support for the RTL layouts
+    <Code>Start</Code> and <Code>End</Code> values. The purpose of the new values is the better naming support for the RTL support
     that should take place in the next Blazorise version.
 </Paragraph>
 
@@ -240,7 +284,11 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Autocomplete Multiple Selection Support
+    Autocomplete:
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    1. Multiple Selection Support
 </Heading>
 
 <Paragraph>
@@ -248,8 +296,8 @@
     <Code>SelectedValues</Code> and <Code>SelectedTexts</Code>
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    Autocomplete: ItemContent
+<Heading Size="HeadingSize.Is4">
+    2. ItemContent template
 </Heading>
 
 <Paragraph>
@@ -257,23 +305,27 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    DataGrid: Null Coalescing
+    DataGrid:
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Null Coalescing
 </Heading>
 
 <Paragraph>
     <Code>DataGrid</Code> <Code>Field</Code> now supports null coalescing, meaning you can now provide objects with null data, and <Code>DataGrid</Code> will set the <Code>Default</Code> Value for the respective <Code>Field</Code> <Code>Type</Code>.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    DataGrid: Sort Field
+<Heading Size="HeadingSize.Is4">
+    Sort Field
 </Heading>
 
 <Paragraph>
     Introduced a new <Code>SortField</Code> Parameter, that allows you to define a different Property or Field of a column to be considered by the sorting mechanism.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    DataGrid DetailRowTemplate
+<Heading Size="HeadingSize.Is4">
+    DetailRowTemplate
 </Heading>
 
 <Paragraph>
@@ -289,8 +341,8 @@
     To disable this behaviour you may use the new <Code>Parameter</Code> <Code>DetailRowStartsVisible</Code> and <Code>DetailRowTemplate</Code> will only be evaluated on click and if programatically called.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    DataGridColumn: Non Mandatory Field Parameter
+<Heading Size="HeadingSize.Is4">
+    DataGridColumn Non Mandatory Field Parameter
 </Heading>
 
 <Paragraph>
@@ -307,6 +359,10 @@
     define custom pallette for quick coloring, show or hide certain buttons, and many new fatures.
 </Paragraph>
 
+<Paragraph>
+    You can see examples at the <Anchor To="docs/components/color-picker">ColorPicker page</Anchor>.
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     Markdown improvements
 </Heading>
@@ -314,6 +370,7 @@
 <Paragraph>
     We did a lot of improvements and new APIs on our Markdown component. It can now support toolbar customization, image uploading, theming, and many more.
 </Paragraph>
+
 <Paragraph>
     You can see examples at the <Anchor To="docs/extensions/markdown">Markdown page</Anchor>.
 </Paragraph>
@@ -323,38 +380,40 @@
 </Heading>
 
 <Paragraph>
-    Theming also recieved some much needed changes.
+    Theming also received some much needed changes.
 </Paragraph>
 
-<DescriptionList>
-    <DescriptionListTerm>Color variables for RGB(A) values</DescriptionListTerm>
-    <DescriptionListDefinition>
-        Along with the <Code>--b-theme-primary</Code> CSS variable we are now generating additional RGB(A) variables,
-        namelly, <Code>--b-theme-primary-r</Code>, <Code>--b-theme-primary-g</Code>, <Code>--b-theme-primary-b</Code>,
-        and <Code>--b-theme-primary-a</Code>.
-    </DescriptionListDefinition>
+<Heading Size="HeadingSize.Is4">Color variables for RGB(A) values</Heading>
 
-    <DescriptionListTerm>Nullable options</DescriptionListTerm>
-    <DescriptionListDefinition>
-        Not so much big of a change but nevertheless, is needed. When defining theme options in some cases it is hard to tell
-        when the CSS override should be applied. This small change will give us that ability.
-    </DescriptionListDefinition>
+<Paragraph>
+    Along with the <Code>--b-theme-primary</Code> CSS variable we are now generating additional RGB(A) variables,
+    namelly, <Code>--b-theme-primary-r</Code>, <Code>--b-theme-primary-g</Code>, <Code>--b-theme-primary-b</Code>,
+    and <Code>--b-theme-primary-a</Code>.
+</Paragraph>
 
-    <DescriptionListTerm>Body options</DescriptionListTerm>
-    <DescriptionListDefinition>
-        It is now possible to define the <Code Tag>body</Code> background and text color. Once defined it will also properly assign the
-        color for the <Code>TextColor.Body</Code> typography color value, where needed.
-    </DescriptionListDefinition>
+<Heading Size="HeadingSize.Is4">Nullable options</Heading>
 
-    <DescriptionListTerm>Spacing options</DescriptionListTerm>
-    <DescriptionListDefinition>
-        So far if you wanted to change the margin and padding sizes you would need to re-compile Bootstrap(or any other) CSS. With
-        the new theming options it is now possible with just a few lines of code. And Blazorise will do all the magic for you. eg.
-        <br />
-        <br />
-        <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
-    </DescriptionListDefinition>
-    </DescriptionList>
+<Paragraph>
+    Not so much big of a change but nevertheless, is needed. When defining theme options in some cases it is hard to tell
+    when the CSS override should be applied. This small change will give us that ability.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">Body options</Heading>
+
+<Paragraph>
+    It is now possible to define the <Code Tag>body</Code> background and text color. Once defined it will also properly assign the
+    color for the <Code>TextColor.Body</Code> typography color value, where needed.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">Spacing options</Heading>
+
+<Paragraph>
+    So far if you wanted to change the margin and padding sizes you would need to re-compile Bootstrap(or any other) CSS. With
+    the new theming options it is now possible with just a few lines of code. And Blazorise will do all the magic for you. eg.
+    <br />
+    <br />
+    <Code>SpacingOptions = new() { Is1 = ".5rem", Is2 = "1rem" }</Code>
+</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     Tabs
