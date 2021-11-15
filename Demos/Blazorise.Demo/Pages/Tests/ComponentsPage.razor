@@ -43,7 +43,8 @@
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
                                       @bind-SelectedValue="@selectedDropValue"
-                                      Color="Color.Primary">
+                                      Color="Color.Primary"
+                                      MaxMenuHeight="200px"  >
                             Select item
                         </DropdownList>
                     </FieldBody>

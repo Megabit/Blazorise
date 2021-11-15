@@ -49,7 +49,8 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 
 ### Blazor WebAssembly
 
-- [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
+- [Bootstrap 4 Demo](https://bootstrapdemo.blazorise.com)
+- [Bootstrap 5 Demo](https://bootstrap5demo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [AntDesign Demo](https://antdesigndemo.blazorise.com/)
@@ -80,6 +81,7 @@ There are currently 5 different NuGet packages for each of the supported CSS fra
 
 ```
 - Blazorise.Bootstrap
+- Blazorise.Bootstrap5
 - Blazorise.Bulma
 - Blazorise.Material
 - Blazorise.AntDesign
@@ -124,9 +126,6 @@ In this step we're also going to define the links for Blazorise content files th
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-
-  <script src="_content/Blazorise/blazorise.js"></script>
-  <script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
 </body>
 </html>
 ```

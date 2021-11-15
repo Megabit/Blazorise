@@ -1,30 +1,32 @@
 ﻿@page "/docs/components/select"
 
+<Seo Canonical="/docs/components/select" Title="Blazorise Select system" Description="Select components are used for collecting user provided information from a list of options." />
+
 <DocsPageTitle>
     Select component
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    Use <Code>Select</Code> to combine many choices into one menu.
+    <Code Tag>Select</Code> components are used for collecting user provided information from a list of options.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
     Structure
 </DocsPageSubtitle>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code Tag>Select</Code>
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 <Code Tag>SelectItem</Code>
-            </li>
-            <li>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 <Code Tag>SelectGroup</Code> Optional tag used to group select items
-            </li>
-        </ul>
-    </li>
-</ul>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageParagraph>
     <Code>Select</Code> and <Code>SelectItem</Code> are generic components and they support all of the basic value
@@ -32,19 +34,19 @@
     come with some special rules that must be followed:
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         Value type must be known. When using member variable on <Code>bind-*</Code> or <Code>SelectedValue</Code> attributes, the value type
         will be recognized automatically. Otherwise you must use TValue to define it eg (TValue=”int”).
-    </li>
-    <li>
+    </UnorderedListItem>
+    <UnorderedListItem>
         Value type must be the same in both <Code>Select</Code> and <Code>SelectItem</Code>.
-    </li>
-    <li>
+    </UnorderedListItem>
+    <UnorderedListItem>
         String values must be defined with special syntax eg. @("@(\"hello\")"), see
         <Blazorise.Link To="https://github.com/dotnet/aspnetcore/issues/7785" Target="Target.Blank">#7785</Blazorise.Link>
-    </li>
-</ul>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSubtitle>
     Examples

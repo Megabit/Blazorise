@@ -668,8 +668,8 @@ namespace Blazorise.Docs.Models
 
 @code {
     DateTime?[] disabledDates = new DateTime?[] {
-        new DateTime(2021,9,15),
-        new DateTime(2021,9,10),
+        DateTime.Now.AddDays(-1),
+        DateTime.Now.AddDays(2),
     };
 }";
 
@@ -703,6 +703,46 @@ namespace Blazorise.Docs.Models
         <DropdownItem>Action</DropdownItem>
         <DropdownDivider />
         <DropdownItem>Another Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
+        public const string DropdownScrollMenuExample = @"<Dropdown Display=""Display.InlineBlock"">
+    <DropdownToggle Color=""Color.Primary"">Menu</DropdownToggle>
+    <DropdownMenu MaxMenuHeight=""100px"">
+        <DropdownItem>Action</DropdownItem>
+        <DropdownItem>Action 2</DropdownItem>
+        <DropdownItem>Action 3</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+        <DropdownItem>Another Action 2</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
+        public const string NestedDropdownExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"">Level 1</DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem>Item 1.1</DropdownItem>
+        <Dropdown>
+            <DropdownToggle>Level 2</DropdownToggle>
+            <DropdownMenu>
+                <DropdownItem>Item 2.1</DropdownItem>
+                <DropdownItem>Item 2.2</DropdownItem>
+                <Dropdown>
+                    <DropdownToggle>Level 3</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 3.1</DropdownItem>
+                        <DropdownItem>Item 3.2</DropdownItem>
+                        <Dropdown>
+                            <DropdownToggle>Level 4</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 4.1</DropdownItem>
+                                <DropdownItem>Item 4.2</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DropdownMenu>
+                </Dropdown>
+            </DropdownMenu>
+        </Dropdown>
     </DropdownMenu>
 </Dropdown>";
 
@@ -1125,7 +1165,7 @@ namespace Blazorise.Docs.Models
     </Layout>
 </Layout>";
 
-        public const string AnchorLinkExample = @"<Link To=""#"">
+        public const string AnchorLinkExample = @"<Link To=""#docs-page-title"">
     Link
 </Link>";
 
@@ -1227,6 +1267,8 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
+
+        public const string MemoEditAutoSizeExample = @"<MemoEdit Rows=""5"" AutoSize />";
 
         public const string MemoEditTabExample = @"<MemoEdit Rows=""5"" ReplaceTab TabSize=""4"" />";
 
@@ -1404,37 +1446,214 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string ModalFullscreenExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
+
+<Modal @ref=""modalRef"">
+    <ModalContent Fullscreen>
+        <ModalHeader>
+            <ModalTitle>Employee edit</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit Placeholder=""Enter name..."" />
+            </Field>
+            <Field>
+                <FieldLabel>Surname</FieldLabel>
+                <TextEdit Placeholder=""Enter surname..."" />
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideModal"">Close</Button>
+            <Button Color=""Color.Primary"" Clicked=""@HideModal"">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code{
+    // reference to the modal component
+    private Modal modalRef;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+}";
+
         public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
 
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
 
         public const string BasicPaginationExample = @"<Pagination>
-    <PaginationItem>
+    <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
         <PaginationLink>
             <span aria-hidden=""true"">«</span>
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem>
-        <PaginationLink>
+    <PaginationItem Active=""@isActive[0]"">
+        <PaginationLink Page=""1"" Clicked=""SetActive"">
             1
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem>
-        <PaginationLink>
+    <PaginationItem Active=""@isActive[1]"">
+        <PaginationLink Page=""2"" Clicked=""SetActive"">
             2
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem>
-        <PaginationLink>
+    <PaginationItem Active=""@isActive[2]"">
+        <PaginationLink Page=""3"" Clicked=""SetActive"">
             3
         </PaginationLink>
     </PaginationItem>
-    <PaginationItem>
+    <PaginationItem Disabled=""@isActive.Last()"" @onclick=""Next"">
         <PaginationLink>
             <span aria-hidden=""true"">»</span>
         </PaginationLink>
     </PaginationItem>
-</Pagination>";
+</Pagination>
+
+@code
+{
+    private bool[] isActive = { false, true, false };
+
+    private void Previous()
+    {
+        if (isActive[0])
+            return;
+
+        if (isActive[1])
+        {
+            SetActive(""1"");
+            return;
+        }
+
+        if (isActive[2])
+        {
+            SetActive(""2"");
+            return;
+        }
+    }
+
+    private void Next()
+    {
+        if (isActive[0])
+        {
+            SetActive(""2"");
+            return;
+        }
+
+        if (isActive[1])
+        {
+            SetActive(""3"");
+            return;
+        }
+
+        if (isActive[2])
+        {
+            return;
+        }
+    }
+
+    private void SetActive(string idx)
+    {
+        switch (idx)
+        {
+            case ""1"":
+                isActive[0] = true;
+                isActive[1] = false;
+                isActive[2] = false;
+                break;
+            case ""2"":
+                isActive[0] = false;
+                isActive[1] = true;
+                isActive[2] = false;
+                break;
+            case ""3"":
+                isActive[0] = false;
+                isActive[1] = false;
+                isActive[2] = true;
+                break;
+            default:
+                break;
+        }
+
+    }
+}";
+
+        public const string DynamicPaginationExample = @"<Pagination>
+    <PaginationItem Disabled=""@IsPageNavigationDisabled(PREVIOUS)"" @onclick=""Previous"">
+        <PaginationLink>
+            <span aria-hidden=""true"">«</span>
+        </PaginationLink>
+    </PaginationItem>
+    @{
+        for (var i = 1; i <= pageItems; i++)
+        {
+            var pageNumberAsString = i.ToString();
+            <PaginationItem @key=""pageNumberAsString"" Active=""@IsActive(pageNumberAsString)"">
+                <PaginationLink Page=""@pageNumberAsString"" Clicked=""SetActive"">
+                    @pageNumberAsString
+                </PaginationLink>
+            </PaginationItem>
+        } 
+    }
+    <PaginationItem Disabled=""@IsPageNavigationDisabled(NEXT)"" @onclick=""Next"">
+        <PaginationLink>
+            <span aria-hidden=""true"">»</span>
+        </PaginationLink>
+    </PaginationItem>
+</Pagination>
+
+@code
+{
+    private const string PREVIOUS = ""previous"";
+    private const string NEXT = ""next"";
+    private string currentPage = ""2"";
+    private int pageItems = 5;
+
+    private bool IsActive(string page)
+        => currentPage == page;
+
+    private bool IsPageNavigationDisabled(string navigation )
+    {
+        if (navigation.Equals(PREVIOUS))
+        {
+            return currentPage.Equals(""1"");
+        }
+        else if (navigation.Equals(NEXT))
+        {
+            return currentPage.Equals(pageItems.ToString());
+        }
+        return false;
+    }
+
+    private void Previous()
+    {
+        var currentPageAsInt = int.Parse(currentPage);
+        if (currentPageAsInt > 1 )
+        {
+            currentPage = (currentPageAsInt - 1).ToString();
+        }
+    }
+
+    private void Next()
+    {
+        var currentPageAsInt = int.Parse(currentPage);
+        if (currentPageAsInt < pageItems )
+        {
+            currentPage = (currentPageAsInt + 1).ToString();
+        }
+    }
+
+    private void SetActive(string page)
+        => currentPage = page;
+}";
 
         public const string BasicPageProgressExample = @"<PageProgress Visible=""true"" Value=""25"" />";
 
@@ -1502,11 +1721,11 @@ namespace Blazorise.Docs.Models
     int SelectedValue = 7;
 }";
 
-        public const string BasicRepeaterExample = @"<ul>
+        public const string BasicRepeaterExample = @"<UnorderedList>
     <Repeater Items=""@items"" CollectionChanged=""@OnCollectionChanged"">
-        <li style=""@GetColor( context )"">@context</li>
+        <UnorderedListItem style=""@GetColor( context )"">@context</UnorderedListItem>
     </Repeater>
-</ul>
+</UnorderedList>
 
 @code{
     System.Collections.ObjectModel.ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
@@ -1775,7 +1994,7 @@ namespace Blazorise.Docs.Models
     </TableBody>
 </Table>";
 
-        public const string TableFixedHeaderExample = @"<Table FixedHeader=""true"" FixedHeaderTableHeight=""300px"">
+        public const string TableFixedHeaderExample = @"<Table FixedHeader FixedHeaderTableHeight=""300px"">
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
@@ -1785,24 +2004,17 @@ namespace Blazorise.Docs.Models
         </TableRow>
     </TableHeader>
     <TableBody>
-        <TableRow>
-            <TableRowHeader>1</TableRowHeader>
-            <TableRowCell>Mark</TableRowCell>
-            <TableRowCell>Otto</TableRowCell>
-            <TableRowCell>@@mdo</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowHeader>2</TableRowHeader>
-            <TableRowCell>Jacob</TableRowCell>
-            <TableRowCell>Thornton</TableRowCell>
-            <TableRowCell>@@fat</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowHeader>3</TableRowHeader>
-            <TableRowCell>Larry</TableRowCell>
-            <TableRowCell>the Bird</TableRowCell>
-            <TableRowCell>@@twitter</TableRowCell>
-        </TableRow>
+        @for ( int i = 1; i <= 10; ++i )
+        {
+            var index = i.ToString();
+
+            <TableRow @key=""@index"">
+                <TableRowHeader>@index</TableRowHeader>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+            </TableRow>
+        }
     </TableBody>
 </Table>";
 
@@ -1899,7 +2111,7 @@ namespace Blazorise.Docs.Models
     </TableBody>
 </Table>";
 
-        public const string TableScrollToExample = @"<Table @ref=""@tableRef"" FixedHeader=""true"" FixedHeaderTableHeight=""300px"">
+        public const string TableResizableExample = @"<Table Bordered Resizable ResizeMode=""TableResizeMode.Columns"">
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
@@ -1928,8 +2140,35 @@ namespace Blazorise.Docs.Models
             <TableRowCell>@@twitter</TableRowCell>
         </TableRow>
     </TableBody>
+</Table>";
+
+        public const string TableScrollToExample = @"<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToRow"">Scroll To Row</Button>
+<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToPixels"">Scroll To Pixels</Button>
+
+<Table @ref=""@tableRef"" FixedHeader FixedHeaderTableHeight=""300px"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @for ( int i = 1; i <= 10; ++i )
+        {
+            var index = i.ToString();
+
+            <TableRow @key=""@index"">
+                <TableRowHeader>@index</TableRowHeader>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
 </Table>
-@code{
+@code {
     Table tableRef;
 
     private Task ScrollToRow()
@@ -2267,7 +2506,7 @@ namespace Blazorise.Docs.Models
         cancellationToken.ThrowIfCancellationRequested();
 
         // some long running task or call to the rest API
-        await Task.Delay( random.Next( 600 ) );
+        await Task.Delay( random.Next( 1500 ) );
 
         e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
             ? ValidationStatus.Error
@@ -2875,14 +3114,6 @@ namespace Blazorise.Docs.Models
           ShowPager
           CommandMode=""DataGridCommandMode.ButtonRow"">
     <DataGridColumns>
-        <DataGridCommandColumn TItem=""Employee"" NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
-            <SaveCommandTemplate>
-                <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
-            </SaveCommandTemplate>
-            <CancelCommandTemplate>
-                <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
-            </CancelCommandTemplate>
-        </DataGridCommandColumn>
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
@@ -2897,7 +3128,6 @@ namespace Blazorise.Docs.Models
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
         <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
         <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
-        <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
     </ButtonRowTemplate>
 </DataGrid>
 
@@ -3121,6 +3351,68 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DataGridEditModeExample = @"<Field>
+    <FieldLabel>
+        Edit Mode
+    </FieldLabel>
+    <FieldBody>
+        <Select @bind-SelectedValue=""@editMode"">
+            <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Editable
+          Responsive
+          ShowPager
+          CommandMode=""DataGridCommandMode.ButtonRow""
+          EditMode=""editMode"">
+    <DataGridColumns>
+        <DataGridCommandColumn TItem=""Employee"" NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
+            <SaveCommandTemplate>
+                <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <CancelCommandTemplate>
+                <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+        </DataGridCommandColumn>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+            <EditTemplate>
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <ButtonRowTemplate>
+        <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
+        <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
+        <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
+        <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private DataGridEditMode editMode = DataGridEditMode.Form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridEditTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Editable
@@ -3243,6 +3535,38 @@ namespace Blazorise.Docs.Models
 
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+}";
+
+        public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          PageSize=""100""
+          FixedHeader
+          FixedHeaderDataGridMaxHeight=""300px"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
@@ -3409,7 +3733,8 @@ namespace Blazorise.Docs.Models
           @bind-SelectedRow=""@selectedEmployee""
           NewItemDefaultSetter=""@OnEmployeeNewItemDefaultSetter""
           Editable
-          Responsive>
+          Responsive
+          ShowPager>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3442,6 +3767,50 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
+
+        public const string DataGridResizableExample = @"<Field>
+    <FieldLabel>
+        Resize Mode
+    </FieldLabel>
+    <FieldBody>
+        <Select @bind-SelectedValue=""@resizeMode"">
+            <SelectItem Value=""TableResizeMode.Header"">Header</SelectItem>
+            <SelectItem Value=""TableResizeMode.Columns"">Columns</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Resizable
+          ResizeMode=""@resizeMode"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private TableResizeMode resizeMode = TableResizeMode.Header;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
 
         public const string DataGridRowSelectableMultipleSelectionExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
@@ -3495,22 +3864,29 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           Editable
           EditMode=""DataGridEditMode.Inline""
-          Responsive>
+          Responsive
+          ShowPager>
     <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
             <NumericEdit TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
                          ValueChanged=""@( v => {
                             context.CellValue = v;
-                            context.UpdateCell( nameof( Employee.Salary ), v * .25m );
+                            context.UpdateCell( nameof( Employee.Tax ), v * context.Item.TaxPercentage );
                          })"" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Tax"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal""
+                         Value=""@((decimal)context.CellValue)""
+                         Disabled />
+        </EditTemplate>
+    </DataGridColumn>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
@@ -3579,12 +3955,44 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DataGridVirtualizeExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Virtualize
+          VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@((item)=>item.Name)""
               ValueField=""@((item)=>item.Iso)""
               @bind-SelectedValue=""@selectedDropValue""
-              Color=""Color.Primary"">
+              Color=""Color.Primary""
+              MaxMenuHeight=""200px"">
     Select item
 </DropdownList>
 
@@ -3612,7 +4020,7 @@ namespace Blazorise.Docs.Models
 
 }";
 
-        public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"" />";
+        public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
 
@@ -3621,6 +4029,23 @@ namespace Blazorise.Docs.Models
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
 
         public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
+
+        public const string IconSizeExample = @"<Div Flex=""Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start"">
+    @foreach ( var iconSize in Enum.GetValues<IconSize>() )
+    {
+        @if ( iconSize == IconSize.None )
+            continue;
+
+        <Div Flex=""Flex.Column.JustifyContent.Center"">
+            <Span Flex=""Flex.JustifyContent.Center.AlignItems.Center"" Padding=""Padding.Is5"">
+                <Icon Name=""IconName.Camera"" IconSize=""@iconSize"" />
+            </Span>
+            <Text TextAlignment=""TextAlignment.Center"">
+                @iconSize
+            </Text>
+        </Div>
+    }
+</Div>";
 
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
 
@@ -4172,7 +4597,7 @@ public class Startup
 }";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
-<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
 
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />";
 
@@ -4250,26 +4675,26 @@ public class Startup
 
         public const string BootstrapGuideSourceFilesExample = @"<html>
 <head>
-  <!-- inside of head section -->
-  <link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"" integrity=""sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"" crossorigin=""anonymous"">
-  <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
+	<!-- inside of head section -->
+	<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
+	<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
 
-  <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-  <link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
+	<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+	<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
 </head>
 <body>
-  <div id=""app""></div>
+	<div id=""app""></div>
 
-  <!-- inside of body section and after the div/app tag  -->
-  <script src=""https://code.jquery.com/jquery-3.5.1.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
-  <script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
-  <script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"" integrity=""sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"" crossorigin=""anonymous""></script>
+	<!-- inside of body section and after the div/app tag  -->
+	<script src=""https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
+	<script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
+	<script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"" integrity=""sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"" crossorigin=""anonymous""></script>
 </body>
 </html>";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
-        public const string Bootstrap5GuideNuget1Example = @"Install-Package Blazorise.Bootstrap";
+        public const string Bootstrap5GuideNuget1Example = @"Install-Package Blazorise.Bootstrap5";
 
         public const string Bootstrap5GuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
 
@@ -4343,7 +4768,7 @@ public class Startup
 <head>
   <!-- inside of head section -->
   <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"" crossorigin=""anonymous"">
-  <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.12.0/css/all.css"">
+  <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
 
   <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
   <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
@@ -4428,11 +4853,11 @@ public class Startup
   }
 }";
 
-        public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"">
+        public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"" />
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Bulma/blazorise.bulma.css"" rel=""stylesheet"" />
 
-<script defer src=""https://use.fontawesome.com/releases/v5.3.1/js/all.js""></script>";
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -4635,21 +5060,156 @@ public class Startup
     Hides on screens smaller than lg
 </Paragraph>";
 
-        public const string FlexExample = @"<Div Flex=""Flex.JustifyContent.Start"">
-    Some content at the start
+        public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
 </Div>
+<Div Flex=""Flex.AlignItems.End"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.AlignItems.Baseline"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.AlignItems.Stretch"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+@code {
+    const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
+    const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
 
-<Div Flex=""Flex.AlignItems.Center"">
-    Some content at the center
+    const string ItemBackgroundColor = ""rgba(95, 163, 103,.15)"";
+    const string ItemBorderColor = ""rgba(95, 163, 103,.15)"";
+
+    string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
+    string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
+
+    string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
+}";
+
+        public const string FlexJustifyContentExample = @"<Div Flex=""Flex.JustifyContent.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.End"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+<Div Flex=""Flex.JustifyContent.Around"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
+@code {
+    const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
+    const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
+
+    const string ItemBackgroundColor = ""rgba(95, 163, 103,.15)"";
+    const string ItemBorderColor = ""rgba(95, 163, 103,.15)"";
+
+    string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
+    string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
+
+    string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
+}";
+
+        public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
+    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
+    </Div>
+    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
+    </Div>
 </Div>";
-
-        public const string OverflowExample = @"<Div Overflow=""Overflow.Auto"">Auto...</Div>
-<Divider />
-<Div Overflow=""Overflow.Hidden"">Hidden...</Div>
-<Divider />
-<Div Overflow=""Overflow.Visible"">Visible...</Div>
-<Divider />
-<Div Overflow=""Overflow.Scroll"">Scroll...</Div>";
 
         public const string SpacingExample = @"<Card>
     <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
@@ -4809,6 +5369,12 @@ public class Startup
 <PageProgressAlert />";
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
+
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=0.9.4.1"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=0.9.4.1"" rel=""stylesheet"" />
+
+<script src=""_content/Blazorise/blazorise.js?v=0.9.4.1""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=0.9.4.1""></script>";
 
     }
 }

@@ -187,6 +187,10 @@ html, body * {
       background-color: #212529;
       border-radius: .25rem; }
 
+.b-example-blazorise-icon span {
+  width: 150px;
+  overflow-wrap: break-word; }
+
 .blazorise-codeblock {
   height: 100%;
   background-color: #272C35;
@@ -266,6 +270,19 @@ html, body * {
       font-size: 1rem; } }
   .b-news .b-news-content a {
     color: var(--b-theme-primary); }
+  .b-news .b-news-content p {
+    margin-bottom: 1.3rem; }
+    .b-news .b-news-content p dl {
+      padding-top: 0.5em;
+      padding-bottom: 0.5em; }
+  .b-news .b-news-content h2 {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #f2f3f3; }
+  .b-news .b-news-content h3 {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #f2f3f3; }
+  .b-news .b-news-content h4 {
+    padding-bottom: 0.5em; }
   .b-news .b-news-content p > code, .b-news .b-news-content a > code, .b-news .b-news-content li > code, .b-news .b-news-content td > code {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;

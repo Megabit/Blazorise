@@ -1,37 +1,39 @@
 ﻿@page "/docs/components/dropdown"
 
+<Seo Canonical="/docs/components/dropdown" Title="Blazorise Dropdown component" Description="Dropdowns are toggleable, contextual overlays for displaying lists of links and actions in a dropdown menu format." />
+
 <DocsPageTitle>
     Dropdown
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    The dropdown component is a container for a dropdown button and a dropdown menu.
+    Dropdowns are toggleable, contextual overlays for displaying lists of links and actions in a dropdown menu format.
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code>Dropdown</Code> the main container
-        <ul>
-            <li>
+        <UnorderedList>
+            <UnorderedListItem>
                 <Code Tag>DropdownToggle</Code> toggle button
-            </li>
-            <li>
+            </UnorderedListItem>
+            <UnorderedListItem>
                 <Code Tag>DropdownMenu</Code> the toggable menu, hidden by default
-                <ul>
-                    <li>
+                <UnorderedList>
+                    <UnorderedListItem>
                         <Code Tag>DropdownItem</Code> each single item of the dropdown menu
-                    </li>
-                    <li>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
                         <Code Tag>DropdownDivider</Code> a horizontal line to separate dropdown items
-                    </li>
-                    <li>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
                         <Code Tag>DropdownHeader</Code> a label for a section of items
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Dropdown">
@@ -60,6 +62,27 @@
         <ShowMenuExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ShowMenuExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Scrollable Menu">
+        By default the menu will show all items. If you want to add the scrolling to the menu you just need to define the
+        menu <Code>MaxMenuHeight</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <DropdownScrollMenuExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownScrollMenuExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Nested submenus">
+        By adding a few more Dropdowns you can add extra levels of submenu to your dropdown. You can apply this to the dropdown in a simple button or within the navbar.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <NestedDropdownExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="NestedDropdownExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

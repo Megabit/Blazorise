@@ -4,7 +4,7 @@
 
 @code {
     DateTime?[] disabledDates = new DateTime?[] {
-        new DateTime(2021,9,15),
-        new DateTime(2021,9,10),
+        DateTime.Now.AddDays(-1),
+        DateTime.Now.AddDays(2),
     };
 }

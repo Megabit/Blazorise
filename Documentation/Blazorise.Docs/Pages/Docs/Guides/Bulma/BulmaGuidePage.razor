@@ -1,8 +1,19 @@
 ﻿@page "/docs/usage/bulma"
 
+<Seo Canonical="/docs/usage/bulma" Title="Bulma Usage" Description="Learn all the steps on how to quickly install and setup Blazorise for Bulma CSS framework and FontAwesome icons." />
+
 <DocsPageTitle>
-    Bulma
+    Bulma Usage
 </DocsPageTitle>
+
+<DocsPageParagraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
+            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     1. NuGet packages
@@ -35,12 +46,12 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        <Strong>Note:</Strong> Don't forget to remove bootstrap JS and CSS files that comes with the default Blazor project template.
+        <Strong>Note:</Strong> Don't forget to remove Bootstrap JS and CSS files that comes with the default Blazor project template.
     </AlertDescription>
 </Alert>
 
 <DocsPageSubtitle>
-    3. Using’s
+    3. Usings
 </DocsPageSubtitle>
 
 <DocsPageSection>
@@ -60,7 +71,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0" Target="Target.Blank">official documentation</Blazorise.Link>.
+    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models" Target="Target.Blank">official documentation</Blazorise.Link>.
 </DocsPageParagraph>
 
 <Tabs @bind-SelectedTab="@selectedSection4">
@@ -72,8 +83,8 @@
         <TabPanel Name="4a" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
-                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong> (client-side).
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="BulmaGuideRegistration1Example" />
             </DocsPageSection>
@@ -81,7 +92,8 @@
         <TabPanel Name="4b" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                    For <Strong>Blazor Server</Strong> project, or any regular <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Startup.cs</Strong> injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="BulmaGuideRegistration2Example" />
             </DocsPageSection>

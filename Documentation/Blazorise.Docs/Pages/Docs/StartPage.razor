@@ -1,5 +1,7 @@
 ﻿@page "/docs/start"
 
+<Seo Canonical="/docs/start" Title="Blazorise Start" Description="Blazorise is designed to work with different CSS frameworks." />
+
 <DocsPageTitle>
     Start
 </DocsPageTitle>
@@ -8,7 +10,7 @@
     <Alert Color="Color.Info" Visible>
         <AlertDescription>
             <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
-            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-5.0" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
         </AlertDescription>
     </Alert>
 </DocsPageParagraph>
@@ -20,7 +22,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The setup process is similar for all of the supported frameworks, you will just replace Bootstrap sources with the one you need.
+    The setup process is similar for all of the supported CSS frameworks, you will just replace the Bootstrap sources with the ones you need.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -62,7 +64,7 @@
 </Alert>
 
 <DocsPageSubtitle>
-    3. Using’s
+    3. Usings
 </DocsPageSubtitle>
 
 <DocsPageSection>
@@ -90,8 +92,8 @@
         <TabPanel Name="4a" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
-                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong> (client-side).
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="BootstrapGuideRegistration1Example" />
             </DocsPageSection>
@@ -99,7 +101,8 @@
         <TabPanel Name="4b" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                    For <Strong>Blazor Server</Strong> project, or any regular <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Startup.cs</Strong> injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="BootstrapGuideRegistration2Example" />
             </DocsPageSection>

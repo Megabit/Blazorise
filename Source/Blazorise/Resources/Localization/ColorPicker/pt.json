@@ -7,7 +7,7 @@
     "btn:last-color": "use a cor anterior",
     "btn:save": "Salvar",
     "btn:cancel": "Cancelar",
-    "btn:clear": "Claro",
+    "btn:clear": "Limpar",
     "aria:btn:save": "salvar e fechar",
     "aria:btn:cancel": "cancelar e fechar",
     "aria:btn:clear": "limpar e fechar",

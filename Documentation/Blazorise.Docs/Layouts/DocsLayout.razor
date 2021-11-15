@@ -238,9 +238,19 @@
                                     <BarDropdownItem To="docs/extensions/dropdownlist">
                                         DropdownList
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/icons">
-                                        Icons
-                                    </BarDropdownItem>
+                                    <BarDropdown>
+                                        <BarDropdownToggle>
+                                            Icons
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/icons">
+                                                Usage
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/icons-available">
+                                                Available Icons
+                                            </BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/markdown">
                                         Markdown
                                     </BarDropdownItem>
@@ -377,7 +387,7 @@
                                     Meta
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/meta/faq">
+                                    <BarDropdownItem To="docs/faq">
                                         FAQ
                                     </BarDropdownItem>
                                     <BarDropdownItem To="https://commercial.blazorise.com/license" Target="Target.Blank">

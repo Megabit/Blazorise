@@ -1,7 +1,9 @@
 ﻿@page "/docs/extensions/datagrid/templates"
 
+<Seo Canonical="/docs/extensions/datagrid/templates" Title="Blazorise DataGrid templates" Description="Learn how to use Blazorise DataGrid templates." />
+
 <DocsPageTitle>
-    DataGrid : Templates
+    DataGrid: Templates
 </DocsPageTitle>
 
 <DocsPageSection>
@@ -13,7 +15,7 @@
             A display template is used to customize display cells and an edit template is used to customize cell editors. You can place anything inside of the templates, be it a Blazorise components, regular html tags or your own components.
         </Paragraph>
         <Paragraph>
-            Both templates have a special <Code>context</Code> attribute that is used to give access to the underline cell value. To learn more about <Code>context</Code> please go to official <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/templated-components?view=aspnetcore-5.0" Target="Target.Blank">Blazor documentation</Blazorise.Link>.
+            Both templates have a special <Code>context</Code> attribute that is used to give access to the underline cell value. To learn more about <Code>context</Code> please go to official <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/templated-components" Target="Target.Blank">Blazor documentation</Blazorise.Link>.
         </Paragraph>
     </DocsPageSectionHeader>
 </DocsPageSection>
@@ -51,7 +53,7 @@
         </Paragraph>
         <Paragraph>
             If you want to control the visibility of detail-row you can use <Code>DetailRowTrigger</Code> attribute that can be defined in it’s parent grid.
-            Once defined, whenever a user clicks a row, the <Code>DetailRowTrigger</Code> will be evaluated. You may also use the DataGrid API,<Code>ToggleDetailRow</Code> to programatically trigger the detail-row.
+            Once defined, whenever a user clicks a row, the <Code>DetailRowTrigger</Code> will be evaluated. You may also use the DataGrid API, <Code>ToggleDetailRow</Code> to programatically trigger the detail-row.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
@@ -65,14 +67,14 @@
         <Paragraph>
             If you want to change the default command buttons, you can use following templates:
         </Paragraph>
-        <ul>
-            <li><Code>NewCommandTemplate</Code></li>
-            <li><Code>EditCommandTemplate</Code></li>
-            <li><Code>SaveCommandTemplate</Code></li>
-            <li><Code>CancelCommandTemplate</Code></li>
-            <li><Code>DeleteCommandTemplate</Code></li>
-            <li><Code>ClearFilterCommandTemplate</Code></li>
-        </ul>
+        <UnorderedList>
+            <UnorderedListItem><Code>NewCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>EditCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>SaveCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>CancelCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>DeleteCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>ClearFilterCommandTemplate</Code></UnorderedListItem>
+        </UnorderedList>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <DataGridCommandTemplatesExample />
@@ -85,10 +87,10 @@
         <Paragraph>
             If you want to change display of content, while grid is empty or <Code>ReadData</Code> is executing, you can use following templates:
         </Paragraph>
-        <ul>
-            <li><Code>EmptyTemplate</Code></li>
-            <li><Code>LoadingTemplate</Code></li>
-        </ul>
+        <UnorderedList>
+            <UnorderedListItem><Code>EmptyTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>LoadingTemplate</Code></UnorderedListItem>
+        </UnorderedList>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <DataGridLoadingEmptyTemplateExample />

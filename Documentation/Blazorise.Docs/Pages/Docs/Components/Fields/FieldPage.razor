@@ -1,27 +1,29 @@
 ﻿@page "/docs/components/field"
 
+<Seo Canonical="/docs/components/field" Title="Blazorise Field component" Description="The Field is a container for input elements." />
+
 <DocsPageTitle>
     Field component
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    The Field is a container for <Code>TextEdit</Code>, <Code>Select</Code>, <Code>DateEdit</Code>,
+    The <Code Tag>Field</Code> is a container for <Code>TextEdit</Code>, <Code>Select</Code>, <Code>DateEdit</Code>,
     <Code>Check</Code>, <Code>MemoEdit</Code>, and optionally for <Code>Button</Code>. Structure is very simple:
 </DocsPageParagraph>
 
-<ul>
-    <li>
+<UnorderedList>
+    <UnorderedListItem>
         <Code>Field</Code> the main container
-        <ul>
-            <li><Code>FieldLabel</Code> a field label</li>
-            <li><Code>FieldBody</Code> used only for horizontal fields</li>
-            <li><Code>FieldHelp</Code> small text bellow the field</li>
-        </ul>
-    </li>
-    <li>
+        <UnorderedList>
+            <UnorderedListItem><Code>FieldLabel</Code> a field label</UnorderedListItem>
+            <UnorderedListItem><Code>FieldBody</Code> used only for horizontal fields</UnorderedListItem>
+            <UnorderedListItem><Code>FieldHelp</Code> small text bellow the field</UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+    <UnorderedListItem>
         <Code>Fields</Code> container used to group several <Code>Field</Code> components
-    </li>
-</ul>
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageParagraph>
     It is recommended to always place input components inside of a field. That way you will keep the right spacing

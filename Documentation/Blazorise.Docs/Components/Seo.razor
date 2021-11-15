@@ -1,0 +1,42 @@
+﻿<PageTitle>@Title</PageTitle>
+
+<HeadContent>
+    <meta name="og:title" content="@Title" />
+    <meta name="og:description" content="@Description" />
+    <meta name="og:url" content="@Url" />
+    <meta name="og:type" content="website" />
+    <meta name="og:site_name" content="Blazorise" />
+    <meta name="og:image" content="@ImageUrl" />
+
+    <meta name="twitter:title" content="@Title" />
+    <meta name="twitter:description" content="@Description" />
+    <meta name="twitter:url" content="@Url" />
+    <meta name="twitter:site" content="Blazorise" />
+    <meta name="twitter:creator" content="Megabit" />
+    <meta name="twitter:image" content="@ImageUrl" />
+
+    <meta name="description" content="@Description" />
+
+    <link rel="canonical" href="@Url" />
+</HeadContent>
+@code {
+    protected override void OnInitialized()
+    {
+        Url = NavigationManager.ToAbsoluteUri( Canonical ).AbsoluteUri;
+        ImageUrl = NavigationManager.ToAbsoluteUri( "img/logos/blazorise-social-logo.png" ).AbsoluteUri;
+
+        base.OnInitialized();
+    }
+
+    public string Url { get; set; }
+
+    public string ImageUrl { get; set; }
+
+    [Inject] protected NavigationManager NavigationManager { get; set; }
+
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public string Description { get; set; }
+
+    [Parameter] public string Canonical { get; set; }
+}

@@ -1,5 +1,7 @@
 ﻿@page "/docs/extensions/icons"
 
+<Seo Canonical="/docs/extensions/icons" Title="Blazorise Icons" Description="Learn how to use Blazorise Icons extension components." />
+
 <DocsPageTitle>
     Icons
 </DocsPageTitle>
@@ -20,14 +22,14 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="CSS">
+    <DocsPageSectionHeader Title="Font Awesome Icons CSS">
         Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FontAwesomeCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="CSS">
+    <DocsPageSectionHeader Title="Material Icons CSS">
         Note: If instead of FontAwesome icons you want to use Material icons you will need to define static <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="MaterialCSSExample"></DocsPageSectionSource>
@@ -73,17 +75,27 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Style">
         By default all icons will have Solid style. To change it you can use one of the supported styles:
-        <ul>
-            <li>Solid</li>
-            <li>Regular</li>
-            <li>Light</li>
-            <li>DuoTone</li>
-        </ul>
+        <UnorderedList>
+            <UnorderedListItem>Solid</UnorderedListItem>
+            <UnorderedListItem>Regular</UnorderedListItem>
+            <UnorderedListItem>Light</UnorderedListItem>
+            <UnorderedListItem>DuoTone</UnorderedListItem>
+        </UnorderedList>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <IconStyleExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="IconStyleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Size">
+        You can set the size to one of the supported below.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <IconSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="IconSizeExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

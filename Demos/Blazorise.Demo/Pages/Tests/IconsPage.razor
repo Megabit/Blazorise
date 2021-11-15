@@ -13,9 +13,9 @@
                     @foreach ( var icon in Enum.GetValues<IconName>() )
                     {
                         <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
-                            <Div Flex="Flex.Column.JustifyContent.Center">
+                            <Div Flex="Flex.Column.JustifyContent.Center" Class="b-example-blazorise-icon">
                                 <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
-                                    <Icon Name="@icon"/>
+                                    <Icon Name="@icon" />
                                 </Span>
                                 <Text TextAlignment="TextAlignment.Center">
                                     @icon

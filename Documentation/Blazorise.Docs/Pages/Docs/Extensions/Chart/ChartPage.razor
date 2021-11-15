@@ -1,5 +1,7 @@
 ﻿@page "/docs/extensions/chart"
 
+<Seo Canonical="/docs/extensions/chart" Title="Blazorise Chart" Description="Learn how to use Blazorise chart extension components." />
+
 <DocsPageTitle>
     Chart
 </DocsPageTitle>
@@ -16,16 +18,16 @@
     Supported charts types are:
 </DocsPageParagraph>
 
-<ul>
-    <li><Code>Chart</Code> default chart components, should be used only for testing(see warning)</li>
-    <li><Code>LineChart</Code></li>
-    <li><Code>BarChart</Code></li>
-    <li><Code>HorizontalBarChart</Code></li>
-    <li><Code>PieChart</Code></li>
-    <li><Code>PolarAreaChart</Code></li>
-    <li><Code>DoughnutChart</Code></li>
-    <li><Code>RadarChart</Code></li>
-</ul>
+<UnorderedList>
+    <UnorderedListItem><Code>Chart</Code> default chart components, should be used only for testing(see warning)</UnorderedListItem>
+    <UnorderedListItem><Code>LineChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>BarChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>HorizontalBarChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>PieChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>PolarAreaChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>DoughnutChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>RadarChart</Code></UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSubtitle>
     Installation
@@ -65,14 +67,14 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Events">
         It is possible to use <Code>Clicked</Code> and <Code>Hovered</Code> events to interact with chart. The usage is pretty straightforward. The only thing to keep in mind is the <Code>Model</Code> field that needs to be casted to the right chart-model type. The available model types are:
-        <ul>
-            <li><Code>LineChartModel</Code></li>
-            <li><Code>BarChartModel</Code></li>
-            <li><Code>DoughnutChartModel</Code></li>
-            <li><Code>PieChartModel</Code></li>
-            <li><Code>PolarChartModel</Code></li>
-            <li><Code>RadarChartModel</Code></li>
-        </ul>
+        <UnorderedList>
+            <UnorderedListItem><Code>LineChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>BarChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>DoughnutChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>PieChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>PolarChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>RadarChartModel</Code></UnorderedListItem>
+        </UnorderedList>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ChartEventExample />

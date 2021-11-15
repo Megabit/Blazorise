@@ -1,8 +1,19 @@
 ﻿@page "/docs/usage/material"
 
+<Seo Canonical="/docs/usage/material" Title="Material Usage" Description="Learn all the steps on how to quickly install and setup Blazorise for Material CSS framework and Material icons." />
+
 <DocsPageTitle>
-    Material
+    Material Usage
 </DocsPageTitle>
+
+<DocsPageParagraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
+            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     Since Material CSS is based on a Bootstrap you only need to change the CSS and JS sources. The code in
@@ -57,7 +68,7 @@
 </Alert>
 
 <DocsPageSubtitle>
-    4. Using’s
+    4. Usings
 </DocsPageSubtitle>
 
 <DocsPageSection>
@@ -77,7 +88,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0" Target="Target.Blank">official documentation</Blazorise.Link>.
+    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models" Target="Target.Blank">official documentation</Blazorise.Link>.
 </DocsPageParagraph>
 
 <Tabs @bind-SelectedTab="@selectedSection5">
@@ -89,8 +100,8 @@
         <TabPanel Name="5a" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is mandatory for <Strong>Blazor WebAssembly</Strong>(client-side) and also for <Strong>ASP.NET Core hosted</Strong> project types.
-                    You should place the code into the <Strong>Program.cs</Strong> of your client project.
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong> (client-side).
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="MaterialGuideRegistration1Example" />
             </DocsPageSection>
@@ -98,7 +109,8 @@
         <TabPanel Name="5b" Padding="Padding.Is2.FromTop">
             <DocsPageSection>
                 <DocsPageSectionHeader>
-                    This step is going only into the <Strong>Startup.cs</Strong> of your <Strong>Blazor Server</Strong> project.
+                    For <Strong>Blazor Server</Strong> project, or any regular <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Startup.cs</Strong> injecting the required Blazorise dependencies.
                 </DocsPageSectionHeader>
                 <DocsPageSectionSource Code="MaterialGuideRegistration2Example" />
             </DocsPageSection>
