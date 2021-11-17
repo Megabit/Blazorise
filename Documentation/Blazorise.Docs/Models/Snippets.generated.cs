@@ -4998,17 +4998,19 @@ public class Startup
     }
 }";
 
-        public const string ITextLocalizerServiceExample = @"<Field>
+        public const string ITextLocalizerServiceExample = @"@using System.Globalization
+
+<Field>
     <FileEdit />
 </Field>
 <Field>
     <Addons>
         <Addon AddonType=""AddonType.Start"">
-            <SelectList TItem=""string""
+            <SelectList TItem=""CultureInfo""
                         TValue=""string""
-                        Data=""@Blazorise.Docs.Models.LocalizationCulture.AvailableCultures""
-                        TextField=""@((item)=>item)""
-                        ValueField=""@((item)=>item)""
+                        Data=""@LocalizationService.AvailableCultures""
+                        TextField=""@((item)=>item.IsNeutralCulture ? item.EnglishName : item.Parent.EnglishName)""
+                        ValueField=""@((item)=>item.Name)""
                         @bind-SelectedValue=""selectedCulture""
                         DefaultItemText=""Choose your culture"" />
         </Addon>

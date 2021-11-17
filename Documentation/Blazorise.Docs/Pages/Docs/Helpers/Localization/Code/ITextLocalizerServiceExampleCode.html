@@ -1,16 +1,18 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Globalization
+
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileEdit</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Addons</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Addon</span> <span class="htmlAttributeName">AddonType</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AddonType</span><span class="enumValue">.Start</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectList</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectList</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">CultureInfo</span><span class="quot">&quot;</span>
                         <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
-                        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Blazorise.Docs.Models.LocalizationCulture.AvailableCultures</span><span class="quot">&quot;</span>
-                        <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item)</span><span class="quot">&quot;</span>
-                        <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item)</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>LocalizationService.AvailableCultures</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.IsNeutralCulture ? item.EnglishName : item.Parent.EnglishName)</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Name)</span><span class="quot">&quot;</span>
                         <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedCulture</span><span class="quot">&quot;</span>
                         <span class="htmlAttributeName">DefaultItemText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Choose your culture</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Addon</span><span class="htmlTagDelimiter">&gt;</span>
