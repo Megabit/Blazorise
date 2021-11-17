@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using BasicTestApp.Client;
+using Blazorise.Modules;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -7,11 +8,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class ButtonComponentTest : ComponentTestFixture
+    public class ButtonComponentTest : TestContext
     {
         public ButtonComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
         }
 
         [Fact]
@@ -27,6 +29,7 @@ namespace Blazorise.Tests.Components
             var comp = RenderComponent<ButtonComponent>();
 
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Contains( buttonOpen, comp.Markup );
             Assert.Contains( buttonClose, comp.Markup );
             Assert.Contains( buttonContent, comp.Markup );
@@ -42,9 +45,10 @@ namespace Blazorise.Tests.Components
         {
             // setup
             var comp = RenderComponent<ButtonComponent>();
+            
             var result = comp.Find( "#basic-button-event-result" );
             var button = comp.Find( "#basic-button" );
-
+            
             // test
             button.Click();
             var result1 = result.InnerHtml;
@@ -53,6 +57,7 @@ namespace Blazorise.Tests.Components
             var result2 = result.InnerHtml;
 
             // validate
+            this.JSInterop.VerifyInvoke( "initialize" );
             Assert.Equal( "1", result1 );
             Assert.Equal( "2", result2 );
         }

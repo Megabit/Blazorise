@@ -6,18 +6,9 @@
     }
     else
     {
-        @if ( To != null )
-        {
-            <Blazorise.Link To="@To" Title="@Title" Match="@Match">
-                @ChildContent
-            </Blazorise.Link>
-        }
-        else
-        {
-            <a title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
-                @ChildContent
-            </a>
-        }
+        <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
+            @ChildContent
+        </Anchor>
     }
 </span>
 <span class="ant-breadcrumb-separator">/</span>

@@ -16,7 +16,7 @@ It took more time than it was planned but it was worth it. This release is bring
 
 Before continuing I must say that the new version is also upgraded to the Blazor **preview 7**. While not much has changed with the new version of Blazor it has finally fixed bug with _EventCallback_ and generic components. This means that from now it is possible to use things like `SelectedValueChanged` on `SelectEdit` component without getting a compile error.
 
-Blazor Preview 7 also introduced some breaking changes with project dependencies. I had to remove target framework `netcoreapp3.0` and also FrameworkReference `Microsoft.AspNetCore.App`. So because of that Blazorise initialization is slightly different. You can find examples in the [readme](https://github.com/stsrki/Blazorise#client-side) or in [usage]({{ "/docs/usage/" | relative_url }}) section
+Blazor Preview 7 also introduced some breaking changes with project dependencies. I had to remove target framework `netcoreapp3.0` and also FrameworkReference `Microsoft.AspNetCore.App`. So because of that Blazorise initialization is slightly different. You can find examples in the [readme](https://github.com/Megabit/Blazorise#client-side) or in [usage]({{ "/docs/usage/" | relative_url }}) section
 
 ## Enhancements
 

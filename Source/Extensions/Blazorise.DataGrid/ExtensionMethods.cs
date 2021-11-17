@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Text;
+using Blazorise.Localization;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -28,5 +28,31 @@ namespace Blazorise.DataGrid
                     return SortDirection.None;
             }
         }
+
+        /// <summary>
+        /// Handles the localization of datagrid based on the built-int localizer and a custom localizer handler.
+        /// </summary>
+        /// <param name="textLocalizer">Default localizer.</param>
+        /// <param name="textLocalizerHandler">Custom localizer.</param>
+        /// <param name="name">Localization name.</param>
+        /// <param name="arguments">Arguments to format the text.</param>
+        /// <returns>Returns the localized text.</returns>
+        public static string Localize( this ITextLocalizer textLocalizer, TextLocalizerHandler textLocalizerHandler, string name, params object[] arguments )
+        {
+            if ( textLocalizerHandler != null )
+                return textLocalizerHandler.Invoke( name, arguments );
+
+            return textLocalizer[name, arguments];
+        }
+
+        /// <summary>
+        /// Checks if a type is a collection or a list.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if <paramref name="type"/> is the collection or a list.</returns>
+        public static bool IsListOrCollection( this Type type )
+            => typeof( System.Collections.IList ).IsAssignableFrom( type )
+            || typeof( System.Collections.ICollection ).IsAssignableFrom( type )
+            || typeof( IEnumerable<> ).IsAssignableFrom( type );
     }
 }

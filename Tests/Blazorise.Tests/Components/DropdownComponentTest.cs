@@ -5,11 +5,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class DropdownComponentTest : ComponentTestFixture
+    public class DropdownComponentTest : TestContext
     {
         public DropdownComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddCloseable( this.JSInterop );
         }
 
         [Fact]
@@ -32,6 +33,7 @@ namespace Blazorise.Tests.Components
             btnElement.Click();
 
             // validate
+            this.JSInterop.VerifyInvoke( "registerClosableComponent" );
             Assert.DoesNotContain( "show", drpElement.GetAttribute( "class" ) );
             Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
         }

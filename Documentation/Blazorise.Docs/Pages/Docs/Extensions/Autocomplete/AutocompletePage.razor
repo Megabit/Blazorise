@@ -1,0 +1,152 @@
+﻿@page "/docs/extensions/autocomplete"
+
+<Seo Canonical="/docs/extensions/autocomplete" Title="Blazorise Autocomplete" Description="The Autocomplete component provides suggestions while you type into the field." />
+
+<DocsPageTitle>
+    Autocomplete
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>Autocomplete</Code> component provides suggestions while you type into the field. The component is in essence
+    a text box which, at runtime, filters data in a drop-down by a <Code>Filter</Code> operator when a user captures a value.
+    You may also enable <Code>FreeTyping</Code> and <Code>AutoComplete</Code> can be used to just provide suggestions based on user input.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The Autocomplete extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteMultipleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteMultipleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ItemContent">
+        Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteItemContentExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteItemContentExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="TItem" Type="generic">
+        Model data type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
+        Data used for the search.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextField" Type="Func">
+        Selector for the display name field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueField" Type="Func">
+        Selector for the value field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValue" Type="	object">
+        Currently selected value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<string>">
+        Raises an event after the selected value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedText" Type="string">
+        Currently selected text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTextChanged" Type="EventCallback<string>">
+        Raises an event after the selected text has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchChanged" Type="EventCallback<string>">
+        Occurs on every search text change.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string">
+        Placeholder for the empty search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinLength" Type="int" Default="1">
+        Minimum number of character needed to start search.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxMenuHeight" Type="string" Default="200px">
+        Sets the maximum height of the dropdown menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Filter" Type="enum" Default="StartsWith">
+        Filter method used to search the data.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Disable the input field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChangeTextOnKeyPress" Type="bool?" Default="null">
+        If true the text in will be changed after each key press (overrides global settings).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DelayTextOnKeyPress" Type="bool?" Default="null">
+        If true the entered text will be slightly delayed before submitting it to the internal value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DelayTextOnKeyPressInterval" Type="int?" Default="null">
+        Interval in milliseconds that entered text will be delayed from submitting to the internal value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Validator" Type="Action<ValidatorEventArgs>" Default="null">
+        Validation handler used to validate selected value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NotFoundContent" Type="RenderFragment<string>">
+        Render fragment when no value has been found on the data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NotFound" Type="EventCallback<string>">
+        Raises an event when no value has been found on the data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FreeTyping" Type="bool" Default="false">
+        Allows the value to not be on the data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomFilter" Type="Func<TItem, string, bool>">
+        Handler for custom filtering on Autocomplete’s data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
+        Allows for multiple selection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MultipleBadgeColor" Type="Color" Default="Color.Primary">
+        Sets the Badge color for the multiple selection values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValues" Type="List<TValue>">
+        Currently selected items values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<List<TValue>>">
+        Occurs after the selected values have changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTexts" Type="List<string>">
+        Currently selected items texts.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedTextsChanged" Type="EventCallback<List<string>>">
+        Occurs after the selected texts have changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemContent" Type="RenderFragment<ItemContext<TItem,TValue>>">
+        Specifies the item content to be rendered inside each dropdown item.
+    </DocsAttributesItem>
+</DocsAttributes>

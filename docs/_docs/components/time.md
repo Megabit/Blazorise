@@ -49,9 +49,11 @@ When using the event `TimeChanged`, you also must define the `Time` value attrib
 
 ## Attributes
 
-| Name          | Type                                                                       | Default      | Description                                                                                                                    |
-|---------------|----------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Time          | TimeSpan?                                                                  | null         | Gets or sets the input time value.                                                                                             |
-| TimeChanged   | event                                                                      |              | Occurs when the time has changed.                                                                                              |
-| Pattern       | string                                                                     | null         | The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.     |
-| Placeholder   | string                                                                     | null         | Sets the placeholder for the empty time.                                                                                       |
+| Name          | Type                                                                       | Default      | Description                                                                                                                                   |
+|---------------|----------------------------------------------------------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Time          | TimeSpan?                                                                  | null         | Gets or sets the input time value.                                                                                                            |
+| TimeChanged   | event                                                                      |              | Occurs when the time has changed.                                                                                                             |
+| Pattern       | string                                                                     | null         | The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.                    |
+| Placeholder   | string                                                                     | null         | Sets the placeholder for the empty time.                                                                                                      |
+| Autofocus     | `bool`                                                                     |  false       | Set's the focus to the component after the rendering is done.                                                                                 |
+| Step          | `int`                                                                      | 60           | The step attribute specifies the legal number intervals for seconds or milliseconds in a time field (does not apply for hours or minutes).    |

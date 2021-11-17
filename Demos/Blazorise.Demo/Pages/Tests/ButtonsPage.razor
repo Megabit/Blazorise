@@ -54,13 +54,15 @@
                 <CardTitle>Sizes</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Add <code>ButtonSize.Small, ButtonSize.Large</code> for additional sizes.</CardText>
+                <CardText>Add Button Size <code>.ExtraSmall, .Small, .Medium, .Large, .ExtraLarge</code> for additional sizes.</CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Size="ButtonSize.Small">SMALL PRIMARY</Button>
-                <Button Color="Color.Secondary" Size="ButtonSize.Small">SMALL SECONDARY</Button>
-                <Button Color="Color.Primary" Size="ButtonSize.Large">LARGE PRIMARY</Button>
-                <Button Color="Color.Secondary" Size="ButtonSize.Large">LARGE SECONDARY</Button>
+                <Button Color="Color.Primary" Size="Size.ExtraSmall">EXTRASMALL</Button>
+                <Button Color="Color.Secondary" Size="Size.Small">SMALL</Button>
+                <Button Color="Color.Info" Size="Size.None">NORMAL</Button>
+                <Button Color="Color.Success" Size="Size.Medium">MEDIUM</Button>
+                <Button Color="Color.Warning" Size="Size.Large">LARGE</Button>
+                <Button Color="Color.Danger" Size="Size.ExtraLarge">EXTRALARGE</Button>
             </CardBody>
         </Card>
     </Column>
@@ -82,7 +84,7 @@
     </Column>
 </Row>
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Active</CardTitle>
@@ -96,7 +98,7 @@
             </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Disabled</CardTitle>
@@ -125,7 +127,7 @@
                 <CardTitle>Loading</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place.</CardText>
+                <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place. Use <code>@("<LoadingTemplate>")</code> to add a custom loading template</CardText>
             </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Loading="true">PRIMARY</Button>
@@ -137,12 +139,20 @@
                 <Button Color="Color.Light" Loading="true">LIGHT</Button>
                 <Button Color="Color.Dark" Loading="true">DARK</Button>
                 <Button Color="Color.Link" Loading="true">LINK</Button>
+                <Button Color="Color.Primary" Clicked="ShowLoading" Loading="@isLoading">
+                    <LoadingTemplate>
+                        This is a custom loading template
+                    </LoadingTemplate>
+                    <ChildContent>
+                        Click to load
+                    </ChildContent>
+                </Button>
             </CardBody>
         </Card>
     </Column>
 </Row>
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Button Addons</CardTitle>
@@ -159,7 +169,7 @@
             </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Nesting</CardTitle>
@@ -208,8 +218,48 @@
         </Card>
     </Column>
 </Row>
+
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown Nesting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Level 1</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1.1</DropdownItem>
+                        <Dropdown>
+                            <DropdownToggle>Level 2</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 2.1</DropdownItem>
+                                <DropdownItem>Item 2.2</DropdownItem>
+                                <Dropdown>
+                                    <DropdownToggle>Level 3</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Item 3.1</DropdownItem>
+                                        <DropdownItem>Item 3.2</DropdownItem>
+                                        <Dropdown>
+                                            <DropdownToggle>Level 4</DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem>Item 4.1</DropdownItem>
+                                                <DropdownItem>Item 4.2</DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Dropdown</CardTitle>
@@ -223,7 +273,10 @@
                         DROPDOWN
                     </DropdownToggle>
                     <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Action</DropdownItem>
+                        <DropdownItem Active="true">Active item</DropdownItem>
+                        <DropdownItem Disabled="true">Disabled item</DropdownItem>
                         <DropdownDivider />
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
@@ -232,6 +285,18 @@
                     <Button Color="Color.Secondary">SPLIT DROPDOWN</Button>
                     <DropdownToggle Color="Color.Secondary" Split="true"></DropdownToggle>
                     <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Danger" ToggleIconVisible="false">
+                        HIDDEN TOGGLE
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Action</DropdownItem>
                         <DropdownDivider />
                         <DropdownItem>Another Action</DropdownItem>
@@ -240,36 +305,40 @@
             </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Dropdown direction</CardTitle>
             </CardHeader>
             <CardBody>
-                <Dropdown>
-                    <DropdownToggle>Down</DropdownToggle>
+                <Dropdown Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Down</DropdownToggle>
                     <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Item 1</DropdownItem>
                         <DropdownItem>Item 2</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Up">
-                    <DropdownToggle>Up</DropdownToggle>
+                <Dropdown Direction="Direction.Up" Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Up</DropdownToggle>
                     <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Item 1</DropdownItem>
                         <DropdownItem>Item 2</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Left">
-                    <DropdownToggle>Left</DropdownToggle>
+                <Dropdown Direction="Direction.Start" Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Left</DropdownToggle>
                     <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Item 1</DropdownItem>
                         <DropdownItem>Item 2</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Right">
-                    <DropdownToggle>Right</DropdownToggle>
+                <Dropdown Direction="Direction.End" Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Right</DropdownToggle>
                     <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Item 1</DropdownItem>
                         <DropdownItem>Item 2</DropdownItem>
                     </DropdownMenu>
@@ -278,3 +347,15 @@
         </Card>
     </Column>
 </Row>
+@code {
+    private bool isLoading;
+
+    private async Task ShowLoading()
+    {
+        isLoading = true;
+
+        await Task.Delay( TimeSpan.FromSeconds( 3 ) );
+
+        isLoading = false;
+    }
+}

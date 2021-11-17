@@ -23,7 +23,7 @@ namespace Blazorise.Frolic
 
         #region ProgressBar
 
-        public override string ProgressBarValue( int value ) => null/*$"height: {value}%"*/;
+        public override string ProgressBarValue( int value ) => null;
 
         public override string ProgressBarSize( Size size ) => null;
 

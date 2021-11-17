@@ -1,0 +1,54 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.IO
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileEdit</span> <span class="htmlAttributeName">Changed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnChanged</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Written</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnWritten</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Progressed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnProgressed</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    <span class="keyword">const</span> <span class="keyword">int</span> OneMb = <span class="number">1024</span> * <span class="number">1024</span>;
+
+    <span class="keyword">async</span> Task OnChanged( FileChangedEventArgs e )
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">var</span> file = e.Files.FirstOrDefault();
+            <span class="keyword">if</span> ( file == <span class="keyword">null</span> )
+            {
+                <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">var</span> buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[OneMb];
+            <span class="keyword">using</span> ( <span class="keyword">var</span> bufferedStream = <span class="keyword">new</span> BufferedStream( file.OpenReadStream( <span class="keyword">long</span>.MaxValue ), OneMb ) )
+            {
+                <span class="keyword">int</span> readCount = <span class="number">0</span>;
+                <span class="keyword">int</span> readBytes;
+                <span class="keyword">while</span> ( ( readBytes = <span class="keyword">await</span> bufferedStream.ReadAsync( buffer, <span class="number">0</span>, OneMb ) ) &gt; <span class="number">0</span> )
+                {
+                    Console.WriteLine( $<span class="string">&quot;Read:{readCount++} {readBytes / (double)OneMb} MB&quot;</span> );
+                    <span class="comment">// Do work on the first 1MB of data</span>
+                }
+            }
+        }
+        <span class="keyword">catch</span> ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        <span class="keyword">finally</span>
+        {
+            <span class="keyword">this</span>.StateHasChanged();
+        }
+    }
+
+    <span class="keyword">void</span> OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $<span class="string">&quot;File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}&quot;</span> );
+    }
+
+    <span class="keyword">void</span> OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $<span class="string">&quot;File: {e.File.Name} Progress: {e.Percentage}&quot;</span> );
+    }
+}
+</pre></div>
+</div>

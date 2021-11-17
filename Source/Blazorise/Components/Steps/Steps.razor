@@ -1,0 +1,21 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
+        @if ( Items != null && Content != null )
+        {
+            <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @Items
+            </ul>
+            <div class="@ContentClassNames" @attributes="@Attributes">
+                @Content
+            </div>
+        }
+        else
+        {
+            <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </ul>
+        }
+    </CascadingValue>
+</CascadingValue>

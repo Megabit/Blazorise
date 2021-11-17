@@ -1,0 +1,80 @@
+﻿@page "/docs/components/breadcrumb"
+
+<Seo Canonical="/docs/components/breadcrumb" Title="Blazorise Breadcrumb component" Description="Breadcrumbs are used to indicate the current page’s location." />
+
+<DocsPageTitle>
+    Breadcrumb component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Breadcrumbs are used to indicate the current page’s location. Add <Code>Active</Code> attribute to active <Code>BreadcrumbItem</Code>.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Breadcrumb</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>BreadcrumbItem</Code>
+                <UnorderedList>
+                    <UnorderedListItem><Code Tag>BreadcrumbLink</Code></UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual mode">
+        This is the default mode. Meaning you need to set <Code>BreadcrumbItem.Active</Code> property implicitly.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BreadcrumbManualExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BreadcrumbManualExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Auto mode">
+        In this mode breadcrumb items will respond to navigation changes and will be activates automatically.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BreadcrumbAutoExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BreadcrumbAutoExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Breadcrumb">
+    <DocsAttributesItem Name="Mode" Type="BreadcrumbMode" Default="None">
+        Defines the breadcrumb items activation mode.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="BreadcrumbItem">
+    <DocsAttributesItem Name="Active" Type="bool" Default="false">
+        If set to true, renders <Code>span</Code> instead of <Code>a</Code> element.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="BreadcrumbLink">
+    <DocsAttributesItem Name="To" Type="string" Default="null">
+        Path to the destination page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Target" Type="Target" Default="None">
+        The target attribute specifies where to open the linked document.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Match" Type="Match" Default="All">
+        URL matching behavior for a link.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="string" Default="null">
+        Defines the title of a link, which appears to the user as a tooltip.
+    </DocsAttributesItem>
+</DocsAttributes>

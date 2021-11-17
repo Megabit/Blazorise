@@ -1,0 +1,74 @@
+﻿@page "/docs/components/time"
+
+<Seo Canonical="/docs/components/time" Title="Blazorise TimeEdit Component" Description="A native date input component." />
+
+<DocsPageTitle>
+    TimeEdit component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    A native date input component.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        A native time field example with <Code>type="time"</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicTimeEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicTimeEditExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Binding
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        By using <Code>bind-*</Code> attribute the selected time will be automatically assigned to the member variable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimeEditWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimeEditWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual event binding">
+        When using the event <Code>TimeChanged</Code>, you also must define the <Code>Time</Code> value attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimeEditWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimeEditWithEventExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is2">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Time" Type="TValue" Default="default">
+        Gets or sets the input time value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TimeChanged" Type="@("EventCallback<TValue>")">
+        Occurs when the time has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Pattern" Type="string" Default="null">
+        The pattern attribute specifies a regular expression that the input element’s value is checked against on form submission.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        Sets the placeholder for the empty time.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Autofocus" Type="bool" Default="false">
+        Set’s the focus to the component after the rendering is done.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Step" Type="int" Default="1">
+        The step attribute specifies the legal number intervals for seconds or milliseconds in a time field (does not apply for hours or minutes).
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -1,17 +1,40 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridClearFilterCommand<TItem> : ComponentBase
+    public abstract class _BaseDataGridClearFilterCommand<TItem> : ComponentBase, IDisposable
     {
-        [Parameter] public EventCallback ClearFilter { get; set; }
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+            base.OnInitialized();
+        }
+
+        public void Dispose()
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
+        }
+
+        protected EventCallback ClearFilter
+            => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
+
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
     }
 }

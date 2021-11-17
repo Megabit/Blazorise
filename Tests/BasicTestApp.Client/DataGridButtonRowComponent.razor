@@ -1,0 +1,79 @@
+﻿<DataGrid TItem="Employee"
+          Data="InMemoryData"
+          ShowPager
+          ShowPageSizes
+          Sortable
+          SortMode="DataGridSortMode.Single"
+          CommandMode="DataGridCommandMode.ButtonRow"
+          Editable
+          EditMode="@DataGridEditMode"
+          @bind-SelectedRow="selectedEmployee">
+    <ButtonRowTemplate>
+        <Button ElementId="btnNew" Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+        <Button ElementId="btnEdit" Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+        <Button ElementId="btnDelete" Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+        <Button ElementId="btnCancel" Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
+    </ButtonRowTemplate>
+    <DataGridColumns>
+        <DataGridCommandColumn TItem="Employee" NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false"  >
+            <SaveCommandTemplate>
+                <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <CancelCommandTemplate>
+                <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+        </DataGridCommandColumn>
+        <DataGridColumn TextAlignment="TextAlignment.Center"
+                        TItem="Employee"
+                        Field="@nameof( Employee.Fraction )"
+                        Caption="Fraction"
+                        SortField="@nameof( Employee.FractionValue )"
+                        SortDirection="SortDirection.Ascending"
+                        Editable="false" />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name"
+                        Editable />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    private Employee selectedEmployee;
+
+    [Parameter]
+    public DataGridEditMode DataGridEditMode { get; set; }
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public string Fraction { get; set; }
+
+        public decimal FractionValue
+        {
+            get
+            {
+                if ( !string.IsNullOrWhiteSpace( Fraction ) )
+                {
+                    var split = Fraction.Split( "/" );
+                    if ( split.Length == 2 )
+                    {
+                        return decimal.Parse( split[0] ) / decimal.Parse( split[1] );
+                    }
+                }
+
+                return 0;
+
+            }
+        }
+
+    }
+
+    public List<Employee> InMemoryData { get; set; } = new()
+        {
+            new() { Name = "John", Fraction = "1/2" },
+            new() { Name = "Sarah", Fraction = "1/4" },
+            new() { Name = "Paul", Fraction = "1/8" },
+            new() { Name = "Ana", Fraction = "3/4" }
+        };
+}

@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazorise.Bootstrap;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -19,33 +17,26 @@ namespace Blazorise.Material
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
+
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.MaterialJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.MaterialJSTooltipModule>();
 
             return serviceCollection;
         }
 
-        private static void RegisterComponents( IComponentMapper componentMapper )
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
         {
-            componentMapper.Replace( typeof( Blazorise.Switch<> ), typeof( Material.Switch<> ) );
-        }
-
-        /// <summary>
-        /// Registers the custom rules for material components.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IServiceProvider UseMaterialProviders( this IServiceProvider serviceProvider )
-        {
-            // same components as in bootstrap provider
-            serviceProvider.UseBootstrapProviders();
-
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
-        }
+            // material overrides
+            [typeof( Blazorise.NumericEdit<> )] = typeof( Material.NumericEdit<> ),
+            [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
+            [typeof( Blazorise.Step )] = typeof( Material.Step ),
+            [typeof( Blazorise.Steps )] = typeof( Material.Steps )
+        };
     }
 }

@@ -1,0 +1,85 @@
+﻿@page "/docs/extensions/spinkit"
+
+<Seo Canonical="/docs/extensions/spinkit" Title="Blazorise SpinKit" Description="Learn how to use Blazorise SpinKit extension components." />
+
+<DocsPageTitle>
+    SpinKit
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    A component used to show loading indicators animated with CSS.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SpinKitNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SpinKitImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static files">
+        Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SpinKitResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        A basic spinner with default settings.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SpinKitExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SpinKitExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Color">
+        The color can be changed with HEX value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SpinKitColorExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SpinKitColorExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Size">
+        Size can be changed using any unit type. In this example we’re using <Code>px</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SpinKitSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SpinKitSizeExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Type" Type="SpinKitType" Default="Plane">
+        Defines the spinner type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="string" Default="null">
+        Defines the custom spinner color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="string" Default="null">
+        Defines the custom spinner size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Centered" Type="bool" Default="false">
+        Position the spinner to the center of its container.
+    </DocsAttributesItem>
+</DocsAttributes>

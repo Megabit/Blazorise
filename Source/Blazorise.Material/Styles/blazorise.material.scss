@@ -1,13 +1,46 @@
-﻿@import "variables";
-@import "functions";
-@import "mixins";
+﻿$enable-grid-classes: true !default;
+$enable-pointer-cursor-for-buttons: true !default;
+$enable-print-styles: true !default;
+//$enable-responsive-font-sizes: false !default; // TODO
+$enable-validation-icons: true !default;
+$enable-deprecation-messages: true !default;
 
+//$enable-negative-margins:  true !default; // Include negative margin/padding utilities
+$enable-validation-valid: true !default; // Apply Success color to valid inputs (not recommended)
+$secondary-color-for-controls: false !default; // Use secondary color for selection/inputs (primary color otherwise, not recommended)
+$enable-smooth-scroll: true !default;
+$enable-form-ripple: true !default; // Animate bottom line of inputs/forms
+$enable-ripple: true !default; // Enable ripple effect on components (Buttons, menus)
+
+@import "colors";
+@import "functions";
+@import "variables";
+@import "variables-material";
+@import "mixins";
+@import "animations";
+
+@import "bar";
 @import "badge";
+@import "buttons";
+@import "card";
+@import "dropdown";
+@import "extensions";
 @import "form";
 @import "grid";
 @import "jumbotron";
 @import "layout";
+@import "list";
 @import "modal";
+@import "pagination";
+@import "progress";
+@import "rating";
 @import "spinner";
+@import "steps";
+@import "switch";
 @import "table";
+@import "tabs";
 @import "typography";
+
+@import "utilities";
+
+@import "vendor/flatpickr";

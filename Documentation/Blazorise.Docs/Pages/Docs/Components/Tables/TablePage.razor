@@ -1,0 +1,198 @@
+﻿@page "/docs/components/table"
+
+<Seo Canonical="/docs/components/table" Title="Blazorise Table component" Description="Table displays information in a way that’s easy to scan, so that users can look for patterns and insights." />
+
+<DocsPageTitle>
+    Table component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Table displays information in a way that’s easy to scan, so that users can look for patterns and insights.
+    They can be embedded in primary content, such as cards.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Table</Code> the main <Code>container</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>TableHeader</Code> the optional <Strong>top</Strong> part of the table
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>TableRow</Code> header <Strong>row</Strong>
+                        <UnorderedList>
+                            <li>
+                                <Code Tag>TableHeaderCell</Code> a header <Strong>cell</Strong>
+                            </li>
+                        </UnorderedList>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>TableFooter</Code> the optional <Strong>bottom</Strong> part of the table
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>TableBody</Code> the main <Strong>content</Strong> of the table
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>TableRow</Code> each table <Strong>row</Strong>
+                        <UnorderedList>
+                            <UnorderedListItem>
+                                <Code Tag>TableRowHeader</Code> a table cell <Strong>heading</Strong>
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Code Tag>TableRowCell</Code> a table <Strong>cell</Strong>
+                            </UnorderedListItem>
+                        </UnorderedList>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Simple">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicTableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicTableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Striped">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableStrippedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableStrippedExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Hoverable">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableHoverableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableHoverableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bordered">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableBorderedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableBorderedExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Borderless">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableBorderlessExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableBorderlessExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Small table">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableNarrowExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableNarrowExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Light header">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableLightHeaderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableLightHeaderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dark header">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableDarkHeaderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableDarkHeaderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fixed header">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableFixedHeaderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableFixedHeaderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Scroll To a Row Or Pixel Offset">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableScrollToExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableScrollToExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Resizable">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableResizableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableResizableExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Table">
+    <DocsAttributesItem Name="FullWidth" Type="bool" Default="false">
+        Makes the table to fill entire horizontal space.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Striped" Type="bool" Default="false">
+        Adds stripes to the table.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Bordered" Type="bool" Default="false">
+        Adds borders to all the cells.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Hoverable" Type="bool" Default="false">
+        Adds a hover effect on each row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Borderless" Type="bool" Default="false">
+        Table without any borders.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Narrow" Type="bool" Default="false">
+        Makes the table more compact by cutting cell padding in half.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Responsive" Type="bool" Default="false">
+        Makes table responsive by adding the horizontal scroll bar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedHeader" Type="bool" Default="false">
+        Makes table have a fixed header and enables a scrollbar in the table body.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedHeaderTableHeight" Type="string" Default="300px">
+        Sets the table height when FixedHeader feature is enabled (defaults to 300px).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedHeaderTableMaxHeight" Type="string" Default="300px">
+        Sets the table max height when <Code>FixedHeader</Code> feature is enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Resizable" Type="bool" Default="false">
+        Defines whether users can resize Table’s columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResizeMode" Type="TableResizeMode" Default="Header">
+        Defines the resize mode of the Table’s columns.
+    </DocsAttributesItem>
+</DocsAttributes>

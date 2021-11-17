@@ -1,0 +1,124 @@
+﻿@page "/tests/datagrid/editing/update-cell"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: Update Cell</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldLabel>
+                        Edit Mode
+                    </FieldLabel>
+                    <FieldBody>
+                        <Select @bind-SelectedValue="@editMode">
+                            <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <DataGrid TItem="Employee"
+                          Data="inMemoryData"
+                          ShowPager
+                          ShowPageSizes
+                          @bind-SelectedRow="@selectedEmployee"
+                          Editable
+                          EditMode="editMode">
+                    <DataGridColumns>
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
+                        </DataGridColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                            <DisplayTemplate>
+                                @{
+                                    var gender = ( context as Employee )?.Gender;
+
+                                    @if ( gender == "M" )
+                                    {
+                                        @("Male")
+                                    }
+                                    else if ( gender == "F" )
+                                    {
+                                        @("Female")
+                                    }
+                                    else if ( gender == "D" )
+                                    {
+                                        @("Diverse")
+                                    }
+                                }
+                            </DisplayTemplate>
+                            <EditTemplate>
+                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
+                                    <SelectItem TValue="string" Value="null"></SelectItem>
+                                    <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                                    <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                </Select>
+                            </EditTemplate>
+                        </DataGridSelectColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        </DataGridColumn>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
+                    <ButtonRowTemplate>
+                        <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+                        <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+                        <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+                        <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
+                    </ButtonRowTemplate>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<Employee> inMemoryData;
+    private Employee selectedEmployee;
+    private DataGridEditMode editMode = DataGridEditMode.Form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private string TitleFromGender( string gender )
+    {
+        return gender switch
+        {
+            "M" => "Mr.",
+            "F" => "Mrs.",
+            _ => string.Empty,
+        };
+    }
+
+    private string TitleToName( string title, object name )
+    {
+        var resultName = name.ToString();
+        resultName = resultName.Replace( "Mr.", string.Empty ).Replace( "Mrs.", string.Empty ).Trim();
+
+        if ( string.IsNullOrEmpty( title ) )
+            return $"{resultName}";
+
+        return $"{title} {resultName}";
+    }
+}

@@ -1,0 +1,41 @@
+﻿@inherits Blazorise.Step
+<CascadingValue Value="@this" IsFixed="true">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+        <div class="ant-steps-item-container">
+            <div class="ant-steps-item-tail"></div>
+            @if ( Marker != null || Caption != null )
+            {
+
+                @if ( Marker != null )
+                {
+                    <span class="@MarkerClassNames">
+                        <span class="ant-steps-icon">
+                            @Marker
+                        </span>
+                    </span>
+                }
+                @if ( Caption != null )
+                {
+                    <div class="@DescriptionClassNames">
+                        <div class="ant-steps-item-title">
+                            @Caption
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="@MarkerClassNames">
+                    <span class="ant-steps-icon">
+                        @CalculatedIndex
+                    </span>
+                </div>
+                <div class="@DescriptionClassNames">
+                    <div class="ant-steps-item-title">
+                        @ChildContent
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</CascadingValue>

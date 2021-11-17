@@ -31,9 +31,7 @@
 
     + label {
         position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-start;
+        display: initial;
         font-size: $size;
         line-height: $control-line-height;
         padding-left: $switch-width + .5;
@@ -78,5 +76,174 @@
                 left: $paddle-active-offest;
             }
         }
+    }
+}
+
+@mixin block($spacing: $block-spacing) {
+    &:not(:last-child) {
+        margin-bottom: $spacing;
+    }
+}
+
+@mixin row-cols($count) {
+    & > * {
+        flex: 0 0 100% / $count;
+        max-width: 100% / $count;
+    }
+}
+
+@mixin hover() {
+    &:hover {
+        @content;
+    }
+}
+
+@mixin hover-focus() {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin plain-hover-focus() {
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin hover-focus-active() {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}
+
+@function valid-radius($radius) {
+    $return: ();
+
+    @each $value in $radius {
+        @if type-of($value) == number {
+            $return: append($return, max($value, 0));
+        }
+        @else {
+            $return: append($return, $value);
+        }
+    }
+
+    @return $return;
+}
+
+@mixin border-radius($radius: $border-radius, $fallback-border-radius: false) {
+    border-radius: valid-radius($radius);
+}
+
+
+@mixin border-top-radius($radius) {
+    border-top-left-radius: valid-radius($radius);
+    border-top-right-radius: valid-radius($radius);
+}
+
+@mixin border-right-radius($radius) {
+    border-top-right-radius: valid-radius($radius);
+    border-bottom-right-radius: valid-radius($radius);
+}
+
+@mixin border-bottom-radius($radius) {
+    border-bottom-right-radius: valid-radius($radius);
+    border-bottom-left-radius: valid-radius($radius);
+}
+
+@mixin border-left-radius($radius) {
+    border-top-left-radius: valid-radius($radius);
+    border-bottom-left-radius: valid-radius($radius);
+}
+
+@mixin border-top-left-radius($radius) {
+    border-top-left-radius: valid-radius($radius);
+}
+
+@mixin border-top-right-radius($radius) {
+    border-top-right-radius: valid-radius($radius);
+}
+
+@mixin border-bottom-right-radius($radius) {
+    border-bottom-right-radius: valid-radius($radius);
+}
+
+@mixin border-bottom-left-radius($radius) {
+    border-bottom-left-radius: valid-radius($radius);
+}
+
+// Gradients
+
+@mixin gradient-striped($color: rgba($white, .15), $angle: 45deg) {
+    background-image: linear-gradient($angle, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
+}
+
+
+@mixin caret-down() {
+    border-top: $caret-width solid;
+    border-right: $caret-width solid transparent;
+    border-bottom: 0;
+    border-left: $caret-width solid transparent;
+}
+
+@mixin caret-up() {
+    border-top: 0;
+    border-right: $caret-width solid transparent;
+    border-bottom: $caret-width solid;
+    border-left: $caret-width solid transparent;
+}
+
+@mixin caret-right() {
+    border-top: $caret-width solid transparent;
+    border-right: 0;
+    border-bottom: $caret-width solid transparent;
+    border-left: $caret-width solid;
+}
+
+@mixin caret-left() {
+    border-top: $caret-width solid transparent;
+    border-right: $caret-width solid;
+    border-bottom: $caret-width solid transparent;
+}
+
+@mixin caret($direction: down) {
+    &::after {
+        display: inline-block;
+        margin-left: $caret-spacing;
+        vertical-align: $caret-vertical-align;
+        content: "";
+
+        @if $direction == down {
+            @include caret-down();
+        }
+        @else if $direction == up {
+            @include caret-up();
+        }
+        @else if $direction == right {
+            @include caret-right();
+        }
+    }
+
+    @if $direction == left {
+        &::after {
+            display: none;
+        }
+
+        &::before {
+            display: inline-block;
+            margin-right: $caret-spacing;
+            vertical-align: $caret-vertical-align;
+            content: "";
+            @include caret-left();
+        }
+    }
+
+    &:empty::after {
+        margin-left: 0;
     }
 }

@@ -1,0 +1,35 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          Responsive
+          Editable
+          UseValidation
+          ShowValidationsSummary="false">
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="true">
+        <EditTemplate>
+            <Validation Validator="@CheckName">
+                <TextEdit Text="@((string)context.CellValue)" TextChanged="(value => context.CellValue = value)">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        </EditTemplate>
+    </DataGridColumn>
+    <DataGridCommandColumn TItem="Employee" />
+</DataGrid>
+
+@code{
+    private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "Mladen" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
+
+    public void CheckName( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsNotEmpty( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = "Name can't be empty.";
+        }
+    }
+}

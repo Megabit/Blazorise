@@ -1,9 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Bulma
@@ -22,9 +18,13 @@ namespace Blazorise.Bulma
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( !IsFields && ColumnSize != null )
+            if ( IsFields && ColumnSize == null )
             {
                 builder.Append( ClassProvider.FieldColumn() );
+            }
+
+            if ( ColumnSize != null )
+            {
                 builder.Append( ColumnSize.Class( ClassProvider ) );
             }
 

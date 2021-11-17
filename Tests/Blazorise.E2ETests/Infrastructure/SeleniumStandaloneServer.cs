@@ -10,14 +10,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 //using Microsoft.AspNetCore.Testing;
-using Microsoft.Extensions.Internal;
 
 namespace Blazorise.E2ETests.Infrastructure
 {
     class SeleniumStandaloneServer
     {
         private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(30);
-        private static readonly object _instanceCreationLock = new object();
+        private static readonly object _instanceCreationLock = new();
         private static SeleniumStandaloneServer _instance;
 
         public Uri Uri { get; }
@@ -28,10 +27,7 @@ namespace Blazorise.E2ETests.Infrastructure
             {
                 lock (_instanceCreationLock)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new SeleniumStandaloneServer();
-                    }
+                    _instance ??= new();
                 }
 
                 return _instance;
@@ -67,7 +63,7 @@ namespace Blazorise.E2ETests.Infrastructure
             process.BeginErrorReadLine();
 
             // The Selenium sever has to be up for the entirety of the tests and is only shutdown when the application (i.e. the test) exits.
-            AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+            AppDomain.CurrentDomain.ProcessExit += (_, _) =>
             {
                 if (!process.HasExited)
                 {
@@ -86,7 +82,7 @@ namespace Blazorise.E2ETests.Infrastructure
 
             var waitForStart = Task.Run(async () =>
             {
-                var httpClient = new HttpClient
+                using var httpClient = new HttpClient
                 {
                     Timeout = TimeSpan.FromSeconds(1),
                 };
@@ -107,7 +103,7 @@ namespace Blazorise.E2ETests.Infrastructure
                     {
 
                     }
-                    await Task.Delay(1000); 
+                    await Task.Delay(1000);
                 }
             });
 

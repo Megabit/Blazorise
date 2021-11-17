@@ -5,11 +5,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class TextEditComponentTest : ComponentTestFixture
+    public class TextEditComponentTest : TestContext
     {
         public TextEditComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
         }
 
         [Fact]

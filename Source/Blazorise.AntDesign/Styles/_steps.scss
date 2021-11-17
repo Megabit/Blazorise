@@ -1,0 +1,88 @@
+﻿.ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish {
+    .ant-steps-item-icon {
+        background-color: $primary;
+
+        .ant-steps-icon {
+            color: $white;
+        }
+    }
+}
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .ant-steps-item {
+        &-#{$name} {
+            &.ant-steps-item-finish {
+                .ant-steps-item-content {
+                    .ant-steps-item-title {
+                        color: $color;
+                    }
+                }
+            }
+
+            &.ant-steps-item-wait {
+                .ant-steps-item-icon {
+                    border-color: $color;
+                    color: $white;
+                }
+
+                .ant-steps-item-content {
+                    .ant-steps-item-title {
+                        color: $color;
+                    }
+                }
+            }
+
+            &.ant-steps-item-active {
+                &.ant-steps-item-finish {
+                    .ant-steps-item-icon {
+                        background-color: $primary;
+                        border-color: $primary;
+                        color: $white;
+                    }
+                }
+
+                &.ant-steps-item-process {
+                    .ant-steps-icon {
+                        border-color: $primary;
+                        color: $white;
+                    }
+
+                    .ant-steps-item-content {
+                        .ant-steps-item-title {
+                            color: $color;
+                        }
+                    }
+                }
+            }
+
+
+            .ant-steps-item-icon {
+                border-color: $color;
+
+                .ant-steps-icon {
+                    color: $color;
+                }
+            }
+
+            .ant-steps-item-content {
+                .ant-steps-item-title {
+                    color: $color;
+                }
+            }
+        }
+    }
+}
+
+.ant-steps-content {
+    margin: 1rem 0;
+
+    > .ant-steps-panel {
+        display: none;
+    }
+
+    > .ant-steps-panel-active {
+        display: block;
+    }
+}

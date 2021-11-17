@@ -3,17 +3,33 @@
   <Import Project="..\..\Build\Blazorise.props" />
 
   <PropertyGroup>
-    <PackageId>Blazorise</PackageId>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageIcon>Blazorise.png</PackageIcon>
-    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components</PackageTags>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Localization\**\*.json" />
+    <EmbeddedResource Include="Resources\Localization\**\*.json" />
+    <None Remove="Resources\Localization\*.json" />
+    <EmbeddedResource Include="Resources\Localization\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\breakpoint.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Update="wwwroot\closable.js">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
 
 </Project>

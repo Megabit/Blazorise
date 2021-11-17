@@ -12,12 +12,12 @@ The `DropdownList` component allows you to select a value from a list of predefi
 
 ## Installation
 
-The DropdownList extension is part of the **Blazorise.Components** Nuget package.
+The DropdownList extension is part of the **Blazorise.Components** NuGet package.
 {: .notice--info}
 
-### Nuget
+### NuGet
 
-Install extension from nuget.
+Install extension from NuGet.
 
 ```
 Install-Package Blazorise.Components
@@ -28,7 +28,8 @@ Install-Package Blazorise.Components
 ### Markup
 
 ```html
-<DropdownList Data="@myDdlData"
+<DropdownList TItem="MySelectModel" TValue="int"
+    Data="@myDdlData"
     TextField="@((item)=>item.MyTextField)"
     ValueField="@((item)=>item.MyValueField)"
     SelectedValue="@selectedDropValue"
@@ -51,9 +52,9 @@ Install-Package Blazorise.Components
     static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
-    object selectedDropValue { get; set; } = 2;
+    int selectedDropValue { get; set; } = 2;
 
-    void MyDropValueChangedHandler( object newValue )
+    void MyDropValueChangedHandler( int newValue )
     {
         selectedDropValue = newValue;
     }

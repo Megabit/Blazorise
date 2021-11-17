@@ -1,0 +1,188 @@
+﻿@page "/docs/extensions/markdown"
+
+<Seo Canonical="/docs/extensions/markdown" Title="Blazorise Markdown" Description="Learn how to use Blazorise Markdown extension components." />
+
+<DocsPageTitle>
+    Markdown
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>Markdown</Code> component allows you to edit markdown strings. The Blazorise <Code>Markdown</Code> is based on the <Blazorise.Link To="https://easy-markdown-editor.tk/" Target="Target.Blank">Easy MarkDown Editor</Blazorise.Link> JavaScript library.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MarkdownNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ImportMarkdownExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        Include CSS and JS links into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="StaticFilesMarkdownExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example" />
+    <DocsPageSectionContent Outlined FullWidth>
+        <MarkdownExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        For transforming markdown value into HTML we used an excellent <Blazorise.Link To="https://github.com/xoofx/markdig" Target="Target.Blank">Markdig</Blazorise.Link> library.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Toolbar customization">
+        The editor's toolbar can be edited to show more icons and even add custom icons!
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MarkdownCustomButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownCustomButtonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Upload image">
+        Uploading image has a similar API to our FileEdit component and it is fairly simple to do.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MarkdownUploadImageExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownUploadImageExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Value" Type="string" Default="null">
+        Gets or sets the markdown value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<string>" Default="Solid">
+        An event that occurs after the markdown value has changed.
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="AutoDownloadFontAwesome" Type="bool?" Default="null">
+        If set to true, force downloads Font Awesome (used for icons). If set to false, prevents downloading.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LineNumbers" Type="bool" Default="false">
+        If set to true, enables line numbers in the editor.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LineWrapping" Type="bool" Default="false">
+        If set to false, disable line wrapping. Defaults to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinHeight" Type="string" Default="300px">
+        Sets the minimum height for the composition area, before it starts auto-growing.
+        Should be a string containing a valid CSS value like "500px". Defaults to "300px".
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxHeight" Type="string" Default="">
+        Sets fixed height for the composition area. minHeight option will be ignored.
+        Should be a string containing a valid CSS value like "500px". Defaults to undefined.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        If set, displays a custom placeholder message.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabSize" Type="int" Default="2">
+        If set, customize the tab size. Defaults to 2.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Theme" Type="string" Default="easymde">
+        Override the theme. Defaults to easymde.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="string" Default="ltr">
+        rtl or ltr. Changes text direction to support right-to-left languages. Defaults to ltr.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HideIcons" Type="string[]" Default="'side-by-side', 'fullscreen'">
+        An array of icon names to hide. Can be used to hide specific icons shown by default without
+        completely customizing the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowIcons" Type="string[]" Default="'code', 'table'">
+        An array of icon names to show. Can be used to show specific icons hidden by default without
+        completely customizing the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Toolbar" Type="RenderFragment" Default="">
+        [Optional] Gets or sets the content of the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ToolbarTips" Type="bool" Default="true">
+        If set to false, disable toolbar button tips. Defaults to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomButtonClicked" Type="EventCallback<MarkdownButtonEventArgs>" Default="">
+        Occurs after the custom toolbar button is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UploadImage" Type="bool" Default="false">
+        If set to true, enables the image upload functionality, which can be triggered by drag-drop,
+        copy-paste and through the browse-file window (opened when the user click on the upload-image icon).
+        Defaults to false.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxUploadImageMessageSize" Type="long" Default="20 * 1024">
+        Gets or sets the max message size when uploading the file.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SegmentFetchTimeout" Type="TimeSpan" Default="1 min">
+        Gets or sets the Segment Fetch Timeout when uploading the file.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageMaxSize" Type="long" Default="1024*1024*2 (2Mb)">
+        Maximum image size in bytes, checked before upload (note: never trust client, always check image
+        size at server-side). Defaults to 1024*1024*2 (2Mb).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageAccept" Type="string" Default="image/png, image/jpeg">
+        A comma-separated list of mime-types used to check image type before upload (note: never trust client, always
+        check file types at server-side). Defaults to image/png, image/jpeg.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageUploadEndpoint" Type="string">
+        The endpoint where the images data will be sent, via an asynchronous POST request. The server is supposed to
+        save this image, and return a json response.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImagePathAbsolute" Type="string">
+        If set to true, will treat imageUrl from imageUploadFunction and filePath returned from imageUploadEndpoint as
+        an absolute rather than relative path, i.e. not prepend window.location.origin to it.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageCSRFToken" Type="string">
+        CSRF token to include with AJAX call to upload image. For instance used with Django backend.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageTexts" Type="MarkdownImageTexts" Default="null">
+        Texts displayed to the user (mainly on the status bar) for the import image feature, where
+        #image_name#, #image_size# and #image_max_size# will replaced by their respective values, that
+        can be used for customization or internationalization.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageUploadChanged" Type="Func<FileChangedEventArgs, Task>">
+        Occurs every time the selected image has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageUploadStarted" Type="Func<FileStartedEventArgs, Task>">
+        Occurs when an individual image upload has started.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageUploadEnded" Type="Func<FileEndedEventArgs, Task>">
+        Occurs when an individual image upload has ended.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageUploadWritten" Type="Func<FileWrittenEventArgs, Task>">
+        Occurs every time the part of image has being written to the destination stream.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageUploadProgressed" Type="Func<FileProgressedEventArgs, Task>">
+        Notifies the progress of image being written to the destination stream.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ErrorMessages" Type="MarkdownErrorMessages">
+        Errors displayed to the user, using the errorCallback option, where #image_name#, #image_size#
+        and #image_max_size# will replaced by their respective values, that can be used for customization
+        or internationalization.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ErrorCallback" Type="Func<string, Task>">
+        A callback function used to define how to display an error message. Defaults to (errorMessage) => alert(errorMessage).
+    </DocsAttributesItem>
+</DocsAttributes>

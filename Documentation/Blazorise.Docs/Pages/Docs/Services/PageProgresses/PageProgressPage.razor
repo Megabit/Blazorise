@@ -1,0 +1,35 @@
+﻿@page "/docs/services/page-progress"
+
+<Seo Canonical="/docs/services/page-progress" Title="Blazorise Page Progress service" Description="The IPageProgressService is built on top of PageProgress component and is used to show small progress bar at the top of the page." />
+
+<DocsPageTitle>
+    Page Progress service
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>IPageProgressService</Code> is built on top of <Code>PageProgress</Code> component and is used to show small progress bar at the top of the page.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Wrapper">
+        <Code>IPageProgressService</Code> is automatically registered by Blazorise but it needs just one thing on your
+        side to make it work. You need to place <Code Tag>PageProgressAlert</Code> somewhere in your application razor code.
+        It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in the following example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PageProgressServiceUsageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        Once you’re done you can start using it by injecting the <Code>IPageProgressService</Code> in your page and then
+        simple calling the built-in methods.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BasicPageProgressServiceExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicPageProgressServiceExample" />
+</DocsPageSection>

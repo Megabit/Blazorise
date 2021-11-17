@@ -68,3 +68,49 @@ select.e-select {
 .e-form-group > .e-label-pointer > .e-check-pointer {
     cursor: pointer;
 }
+
+.e-control-tiny.e-control, .e-select-tiny.e-select:not([multiple]) {
+    height: calc(1.5rem + 2px);
+    padding: .275rem .475rem;
+    font-size: .6rem;
+}
+
+.e-control-small.e-control, .e-select-small.e-select:not([multiple]) {
+    height: calc(1.75rem + 2px);
+    padding: .3rem .5rem;
+    font-size: .8rem;
+}
+
+.e-control-medium.e-control, .e-select-medium.e-select:not([multiple]) {
+    height: calc(2.75rem + 2px);
+    padding: .4rem 1rem;
+    font-size: 1.1rem;
+}
+
+.e-control-plus.e-control, .e-select-plus.e-select:not([multiple]) {
+    height: calc(3.15rem + 2px);
+    padding: .45rem 1rem;
+    font-size: 1.2rem;
+}
+
+.e-control-huge.e-control, .e-select-huge.e-select:not([multiple]) {
+    height: calc(3.75rem + 2px);
+    padding: .65rem 1.2rem;
+    font-size: 1.4rem;
+}
+
+.e-buttons.unified.e-buttons-vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .e-btn {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .e-btn:not(:last-child) {
+        margin: -1px;
+    }
+}

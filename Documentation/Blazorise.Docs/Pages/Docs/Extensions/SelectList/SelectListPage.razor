@@ -1,0 +1,80 @@
+﻿@page "/docs/extensions/selectlist"
+
+<Seo Canonical="/docs/extensions/selectlist" Title="Blazorise SelectList" Description="Learn how to use Blazorise SelectList extension components." />
+
+<DocsPageTitle>
+    SelectList
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>SelectList</Code> component allows you to select a value from a list of predefined items.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The SelectList extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SelectListExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SelectListExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="TItem" Type="generic">
+        Model data type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TValue" Type="generic">
+        Bound value data type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
+        Data used for the search.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextField" Type="Func<TItem, string>">
+        Selector for the display name field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueField" Type="Func<TItem, TValue>">
+        Selector for the value field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValue" Type="TValue">
+        Currently selected value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<TValue>">
+        Raises an event after the selected value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxVisibleItems" Type="int?" Default="null">
+        Specifies how many options should be shown at once.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultItemText" Type="string" Default="null">
+        Display text of the default select item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultItemValue" Type="TValue" Default="default">
+        Value of the default select item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultItemDisabled" Type="bool" Default="false">
+        If true, hides the default item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultItemHidden" Type="bool" Default="false">
+        If true, hides the default item.
+    </DocsAttributesItem>
+</DocsAttributes>

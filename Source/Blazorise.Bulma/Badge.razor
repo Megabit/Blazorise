@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Badge
 @if ( Link != null )
 {
-    <a href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <a id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         <span>@ChildContent</span>
         @if ( Closable )
         {
@@ -11,7 +11,7 @@
 }
 else
 {
-    <span class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         <span>@ChildContent</span>
         @if ( Closable )
         {

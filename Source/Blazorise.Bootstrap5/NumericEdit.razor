@@ -1,0 +1,22 @@
+﻿@typeparam TValue
+@inherits Blazorise.NumericEdit<TValue>
+@if ( IsShowStepButtons )
+{
+    <div class="@NumericWrapperClassNames">
+        <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <div class="b-numeric-handler-wrap">
+            <Blazorise.Button Clicked="@OnSpinUpClicked" Class="b-numeric-handler b-numeric-handler-up" TabIndex="-1">
+                <Icon Name="IconName.SortUp" />
+            </Blazorise.Button>
+            <Blazorise.Button Clicked="@OnSpinDownClicked" Class="b-numeric-handler b-numeric-handler-down" TabIndex="-1">
+                <Icon Name="IconName.SortDown" />
+            </Blazorise.Button>
+        </div>
+    </div>
+}
+else
+{
+    <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+}
+@ChildContent
+@Feedback

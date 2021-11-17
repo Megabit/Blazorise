@@ -1,25 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace Blazorise.E2ETests.Infrastructure
 {
     public static class WebElementExtensions
     {
-        public static bool ElementIsPresent( this IWebDriver driver, By by )
-        {
-            try
-            {
-                return driver.FindElement( by ).Displayed;
-            }
-            catch ( NoSuchElementException )
-            {
-                return false;
-            }
-        }
-
         public static bool ElementIsPresent( this IWebElement element, By by )
         {
             try

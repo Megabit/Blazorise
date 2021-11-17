@@ -1,0 +1,39 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          @bind-SelectedRow="@selectedEmployee"
+          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+          Responsive>
+    <DataGridColumns>
+        <DataGridCommandColumn TItem="Employee" />
+        <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" />
+    </DataGridColumns>
+    <DetailRowTemplate>
+        @{
+            var salaries = ( context as Employee ).Salaries;
+
+            <DataGrid TItem="Salary"
+                      Data="salaries"
+                      Sortable="false"
+                      ShowCaptions="false">
+                <DataGridCommandColumn TItem="Salary" />
+                <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
+                <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
+            </DataGrid>
+        }
+    </DetailRowTemplate>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}

@@ -7,19 +7,21 @@ toc_label: "Guide"
 redirect_from: /docs/components/modals/
 ---
 
+**v0.9.3 Breaking changes** `ModalBackdrop` component is removed so you should also remove any usage of it from your project.
+`CloseButton` will now automatically close the Modal dialog.
+{: .notice--warning}
+
 ## Basics
 
 The modal structure is very simple:
 
 - `<Modal>` the main container
-  - `<ModalBackdrop>` a transparent overlay that can act as a click target to close the modal
   - `<ModalContent>` a horizontally and vertically centered container, in which you can include _any_ content
     - `<ModalHeader>` top part of the modal, usually contains a title and close button
       - `<ModalTitle>` a modal title
-      - `<CloseButton>` a simple close button located in the top right corner
+      - [`<CloseButton>`](/docs/components/close-button) a simple close button located in the top right corner
     - `<ModalBody>` main part of the modal, holds the input fields, images, etc.
     - `<ModalFooter>` bottom part of the modal, usually contains the action buttons
-
 
 ## Usage
 
@@ -31,11 +33,10 @@ Place the modal markup somewhere at root of you component layout.
 <Button Clicked="@ShowModal">Show Modal</Button>
 
 <Modal @ref="modalRef">
-    <ModalBackdrop />
-    <ModalContent IsCentered="true">
+    <ModalContent Centered="true">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
-            <CloseButton Clicked="@HideModal" />
+            <CloseButton />
         </ModalHeader>
         <ModalBody>
             <Field>
@@ -113,6 +114,7 @@ If you want to prevent modal from closing you can use `Closing` event.
 | Visible        | boolean                                                                | false     | Handles the visibility of modal dialog.                                                                                        |
 | Closing        | event                                                                  |           | Occurs before the modal is closed and can be used to prevent the modal from closing.                                           |
 | ScrollToTop    | boolean                                                                | true      | If true modal will scroll to top when opened.                                                                                  |
+| ShowBackdrop   | boolean                                                                | true      | If true the the backdrop will be rendered.                                                                                     |
 
 ### ModalContent
 
@@ -120,6 +122,7 @@ If you want to prevent modal from closing you can use `Closing` event.
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | Form           | boolean                                                                | false     | Makes the modal as classic dialog with header, body and footer. Used only by bulma provider! [see Modal card](https://bulma.io/documentation/components/modal#modal-card)                  |
 | Centered       | boolean                                                                | false     | Centers the modal vertically.                                                                                                  |
+| Scrollable     | boolean                                                                | false     | Scrolls the modal content independent of the page itself.                                                                      |
 | Size           | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})     | `Default` | Changes the size of the modal.                                                                                                 |
 
 ### ModalBody
@@ -127,3 +130,9 @@ If you want to prevent modal from closing you can use `Closing` event.
 | Name           | Type                                                                   | Default   | Description                                                                                                                    |
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | MaxHeight      | int?                                                                   | null      | Sets the maximum height of the modal body (in viewport size unit).                                                             |
+
+### ModalTitle
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| Size           | [HeadingSize]({{ "/docs/helpers/enums/#headingsize" | relative_url }}) | `Is4`     | Sets the title size and tag name.                                                                                              |

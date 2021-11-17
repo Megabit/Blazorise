@@ -1,0 +1,13 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Chart @ref="barChart" Type="ChartType.Bar" TItem="double" Clicked="@OnClicked" />
+@code{
+    Chart<double> barChart;
+
+    void OnClicked( ChartMouseEventArgs e )
+    {
+        var model = e.Model as BarChartModel;
+
+        Console.WriteLine( $"{model.X}-{model.Y}" );
+    }
+}

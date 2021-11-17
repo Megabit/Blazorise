@@ -1,0 +1,62 @@
+﻿@page "/docs/components/accordion"
+
+<Seo Canonical="/docs/components/accordion" Title="Blazorise Accordion component" Description="A content area which can be collapsed and expanded." />
+
+<DocsPageTitle>
+    Accordion component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    A content area which can be collapsed and expanded.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>Accordion</Code> and <Code>Collapse</Code> structure is very simple:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Accordion</Code> the main container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>Collapse</Code> defines an collapsible element - controls the <Code>Visible</Code> state.
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>CollapseHeader</Code> the header that will always be shown - this is where you would put a toggle element (such as a <Code>Button</Code>).
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code Tag>CollapseBody</Code> the main content that will be toggled.
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Here is an example of how to use the Accordion with the Collapse components.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicAccordionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicAccordionExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Collapse">
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Defines the collapse visibility.
+    </DocsAttributesItem>
+</DocsAttributes>

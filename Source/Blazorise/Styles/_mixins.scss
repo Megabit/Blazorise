@@ -15,3 +15,9 @@
     white-space: normal;
     line-break: auto;
 }
+
+@mixin divider($type, $thickness, $color) {
+    &.divider-#{$type} {
+        border-top: $thickness #{$type} $color;
+    }
+}

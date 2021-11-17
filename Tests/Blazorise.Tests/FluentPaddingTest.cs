@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 #endregion
 
@@ -39,8 +35,8 @@ namespace Blazorise.Tests
         [Theory]
         [InlineData( "pt-1", SpacingSize.Is1, Side.Top )]
         [InlineData( "pb-1", SpacingSize.Is1, Side.Bottom )]
-        [InlineData( "pl-1", SpacingSize.Is1, Side.Left )]
-        [InlineData( "pr-1", SpacingSize.Is1, Side.Right )]
+        [InlineData( "pl-1", SpacingSize.Is1, Side.Start )]
+        [InlineData( "pr-1", SpacingSize.Is1, Side.End )]
         [InlineData( "px-1", SpacingSize.Is1, Side.X )]
         [InlineData( "py-1", SpacingSize.Is1, Side.Y )]
         public void AreSides( string expected, SpacingSize spacingSize, Side side )
@@ -73,16 +69,16 @@ namespace Blazorise.Tests
         [InlineData( "pb-md-1", SpacingSize.Is1, Side.Bottom, Breakpoint.Desktop )]
         [InlineData( "pb-lg-1", SpacingSize.Is1, Side.Bottom, Breakpoint.Widescreen )]
         [InlineData( "pb-xl-1", SpacingSize.Is1, Side.Bottom, Breakpoint.FullHD )]
-        [InlineData( "pl-1", SpacingSize.Is1, Side.Left, Breakpoint.Mobile )]
-        [InlineData( "pl-sm-1", SpacingSize.Is1, Side.Left, Breakpoint.Tablet )]
-        [InlineData( "pl-md-1", SpacingSize.Is1, Side.Left, Breakpoint.Desktop )]
-        [InlineData( "pl-lg-1", SpacingSize.Is1, Side.Left, Breakpoint.Widescreen )]
-        [InlineData( "pl-xl-1", SpacingSize.Is1, Side.Left, Breakpoint.FullHD )]
-        [InlineData( "pr-1", SpacingSize.Is1, Side.Right, Breakpoint.Mobile )]
-        [InlineData( "pr-sm-1", SpacingSize.Is1, Side.Right, Breakpoint.Tablet )]
-        [InlineData( "pr-md-1", SpacingSize.Is1, Side.Right, Breakpoint.Desktop )]
-        [InlineData( "pr-lg-1", SpacingSize.Is1, Side.Right, Breakpoint.Widescreen )]
-        [InlineData( "pr-xl-1", SpacingSize.Is1, Side.Right, Breakpoint.FullHD )]
+        [InlineData( "pl-1", SpacingSize.Is1, Side.Start, Breakpoint.Mobile )]
+        [InlineData( "pl-sm-1", SpacingSize.Is1, Side.Start, Breakpoint.Tablet )]
+        [InlineData( "pl-md-1", SpacingSize.Is1, Side.Start, Breakpoint.Desktop )]
+        [InlineData( "pl-lg-1", SpacingSize.Is1, Side.Start, Breakpoint.Widescreen )]
+        [InlineData( "pl-xl-1", SpacingSize.Is1, Side.Start, Breakpoint.FullHD )]
+        [InlineData( "pr-1", SpacingSize.Is1, Side.End, Breakpoint.Mobile )]
+        [InlineData( "pr-sm-1", SpacingSize.Is1, Side.End, Breakpoint.Tablet )]
+        [InlineData( "pr-md-1", SpacingSize.Is1, Side.End, Breakpoint.Desktop )]
+        [InlineData( "pr-lg-1", SpacingSize.Is1, Side.End, Breakpoint.Widescreen )]
+        [InlineData( "pr-xl-1", SpacingSize.Is1, Side.End, Breakpoint.FullHD )]
         [InlineData( "px-1", SpacingSize.Is1, Side.X, Breakpoint.Mobile )]
         [InlineData( "px-sm-1", SpacingSize.Is1, Side.X, Breakpoint.Tablet )]
         [InlineData( "px-md-1", SpacingSize.Is1, Side.X, Breakpoint.Desktop )]

@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -27,6 +24,9 @@ namespace Blazorise.Snackbar
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SnackbarBody"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

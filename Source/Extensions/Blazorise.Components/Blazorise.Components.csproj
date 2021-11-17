@@ -3,16 +3,17 @@
   <Import Project="..\..\..\Build\Blazorise.props" />
 
   <PropertyGroup>
-    <PackageId>Blazorise.Components</PackageId>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageIcon>Blazorise.png</PackageIcon>
-    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
   </ItemGroup>
 
   <ItemGroup>

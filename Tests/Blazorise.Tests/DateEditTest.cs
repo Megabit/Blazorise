@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Blazorise.Tests.Mocks;
-using Microsoft.AspNetCore.Components;
 using Xunit;
 
 namespace Blazorise.Tests
@@ -15,7 +14,7 @@ namespace Blazorise.Tests
             var edit = new DateEdit<DateTime>();
 
             // test
-            edit.Date = new DateTime( 2020, 4, 12 );
+            edit.Date = new( 2020, 4, 12 );
 
             // validate
             Assert.Equal( 2020, edit.Date.Year );
@@ -30,7 +29,7 @@ namespace Blazorise.Tests
             var edit = new DateEdit<DateTimeOffset>();
 
             // test
-            edit.Date = new DateTimeOffset( new DateTime( 2020, 4, 12 ), new TimeSpan( 0, 0, 0 ) );
+            edit.Date = new( new DateTime( 2020, 4, 12 ), new( 0, 0, 0 ) );
 
             // validate
             Assert.Equal( 2020, edit.Date.Year );
@@ -62,20 +61,6 @@ namespace Blazorise.Tests
 
             // validate
             Exception ex = Assert.Throws<InvalidOperationException>( () => edit.TextValue );
-        }
-
-        [Fact]
-        public void OnClickedTest()
-        {
-            // setup
-            var edit = new MockDateEdit<DateTime>();
-            var expected = edit.ElementId;
-
-            // test
-            edit.Click();
-
-            // validate
-            Assert.Equal( expected, edit.ClickedId );
         }
 
         [Fact]
@@ -129,7 +114,7 @@ namespace Blazorise.Tests
             var expected = new DateTime( 2007, 1, 5 );
 
             // test
-            edit.OnChange( new ChangeEventArgs { Value = expected } );
+            edit.OnChange( new() { Value = expected } );
 
             // validate
             Assert.Equal( expected, edit.Date );
@@ -142,7 +127,7 @@ namespace Blazorise.Tests
             var edit = new MockDateEdit<DateTime?>();
 
             // test
-            edit.OnChange( new ChangeEventArgs() );
+            edit.OnChange( new() );
 
             // validate
             Assert.Null( edit.Date );
@@ -169,7 +154,7 @@ namespace Blazorise.Tests
             var expected = new DateTime( 2007, 1, 5 );
 
             // test
-            edit.OnChange( new ChangeEventArgs { Value = expected } );
+            edit.OnChange( new() { Value = expected } );
 
             // validate
             Assert.Equal( expected, edit.Date );
@@ -182,7 +167,7 @@ namespace Blazorise.Tests
             var edit = new MockDateEdit<DateTimeOffset?>();
 
             // test
-            edit.OnChange( new ChangeEventArgs() );
+            edit.OnChange( new() );
 
             // validate
             Assert.Null( edit.Date );

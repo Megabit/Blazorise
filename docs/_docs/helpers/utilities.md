@@ -37,6 +37,46 @@ Similar to the spacing builder you can also define column sizes using the same p
 <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
 ```
 
+## Flex
+
+Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.
+
+```html
+<Div Flex="Flex.JustifyContent.Start">
+    ...
+</Div>
+
+<Div Flex="Flex.AlignItems.Center">
+    ...
+</Div>
+```
+
+## Border
+
+Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.
+
+```html
+<Span Border="Border.Rounded">Rounded</Span>
+
+<Span Border="Border.Is1">Border on all sides</Span>
+
+<Span Border="Border.Primary">Borders with primary color</Span>
+```
+
+**Note:** Please note that if your element doesn't have any styles you will not be able to see any changes once you apply the `Borders`. You still need to add your own CSS rules like `background-color` so that visually you can see the applied borders on an element.
+{: .notice--info}
+
+## Overflow
+
+Use overflow shorthand utilities for quickly configuring how content overflows an element.
+
+```html
+<Div Overflow="Overflow.Auto">...</Div>
+<Div Overflow="Overflow.Hidden">...</Div>
+<Div Overflow="Overflow.Visible">...</Div>
+<Div Overflow="Overflow.Scroll">...</Div>
+```
+
 ## Breakpoints by frameworks
 
 | Blazorise     | Bootstrap     | Material      | Bulma         |

@@ -6,31 +6,60 @@
 [![MyGet](https://img.shields.io/myget/blazorise/vpre/blazorise.svg?label=myget)](https://www.myget.org/gallery/blazorise)
 ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 [![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Slack](https://img.shields.io/badge/chat-on%20Slack-green.svg)](https://join.slack.com/t/blazorise/shared_invite/enQtNzQ2MjQxNDI4MzQxLThjZWM2YjRjMzg1OTlmMWY5NTBlNGRhYmQxOWZhY2Q2ZDcwYjRiMTQzZWZiOTAzMmE5YmNjNzMzYjY5YWRkZjg)
-[![MIT](https://img.shields.io/github/license/stsrki/Blazorise.svg)](LICENSE)
+[![Apache 2.0](https://img.shields.io/github/license/stsrki/Blazorise.svg)](LICENSE)
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
 [![Buy me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/mladenmacanovic)
 [![Patreon](https://img.shields.io/badge/Patreon-donate-yellow.svg)](https://www.patreon.com/mladenmacanovic)
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
+> Note: Old documentation can be found at http://v094.blazorise.com/
+
+## Commercial support
+
+[Support](https://support.blazorise.com/) for the Blazorise Components is available as part of the [Blazorise Commercial](https://commercial.blazorise.com/) subscription.
+
+With the commercial license you get:
+
+- Access to premium themes and templates
+- Premium forum support
+- Dedicated customer support with 24 or 16 hour response time
+- Priority fixes and feature requests
+
+## Supporting Blazorise
+
+Blazorise is an Apache 2.0-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers.
+
+### Special Sponsors
+
+<!--platinum start-->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://volosoft.com/" target="_blank">
+          <img width="222px" src="https://volosoft.com/assets/logos/volosoft-logo-dark.svg">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+  </tbody>
+</table>
+<!--platinum end-->
+
 ## Demos
 
 ### Blazor WebAssembly
 
-- [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
+- [Bootstrap 4 Demo](https://bootstrapdemo.blazorise.com)
+- [Bootstrap 5 Demo](https://bootstrap5demo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
-- [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 - [AntDesign Demo](https://antdesigndemo.blazorise.com/)
 
 ### Blazor Server
 
 - [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
-
-```
-Note: This project is still experimental so it's possible that some components will be removed or refactored.
-```
 
 [Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/304)
 
@@ -50,10 +79,10 @@ There are currently 5 different NuGet packages for each of the supported CSS fra
 
 ```
 - Blazorise.Bootstrap
+- Blazorise.Bootstrap5
 - Blazorise.Bulma
 - Blazorise.Material
 - Blazorise.AntDesign
-- Blazorise.Frolic
 ```
 
 This guide will show you how to setup Blazorise with **Bootstrap** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
@@ -76,23 +105,27 @@ Install-Package Blazorise.Icons.FontAwesome
 
 The next step is to define links to Bootstrap and FontAwesome _CSS_ or _JS_ files. If you're using **Blazor WebAssembly** project template, those links will go to the `index.html` located inside of `wwwroot` folder. Otherwise, if you're using a **Blazor Server** project template you will place the links into the `_Host.cshtml`.
 
-In this step we're also going to define the links for Blazorise content files that comes with nuget packages. You must follow the naming convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. 
+In this step we're also going to define the links for Blazorise content files that comes with NuGet packages. You must follow the naming convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. 
 
 ```html
-<!-- inside of head section -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+<html>
+<head>
+  <!-- inside of head section -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
-<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
+  <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+  <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="app"></div>
 
-<!-- inside of body section and after the <app> tag  -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
-<script src="_content/Blazorise/blazorise.js"></script>
-<script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
+  <!-- inside of body section and after the div/app tag  -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+</body>
+</html>
 ```
 
 ---
@@ -149,13 +182,9 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
-
-    host.Services
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
 
     await host.RunAsync();
   }
@@ -193,10 +222,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

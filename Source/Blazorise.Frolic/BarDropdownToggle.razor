@@ -1,12 +1,12 @@
 ﻿@inherits Blazorise.BarDropdownToggle
-@if ( ParentStore.Mode == BarMode.Horizontal )
+@if ( ParentDropdownState.Mode == BarMode.Horizontal )
 {
     @ChildContent
     <i class="fas fa-angle-down"></i>
 }
 else
 {
-    <a id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler" @attributes="@Attributes">
+    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler"  @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave" @attributes="@Attributes">
         <span>@ChildContent</span>
     </a>
 }

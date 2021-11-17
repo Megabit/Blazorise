@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 
@@ -15,11 +14,11 @@ namespace TodoApp
 
         protected Filter filter = Filter.All;
 
-        protected List<Todo> todos = new List<Todo>()
+        protected List<Todo> todos = new()
         {
-            new Todo { Description = "Buy milk" },
-            new Todo { Description = "Call John regarding the meeting" },
-            new Todo { Description = "Walk a dog" },
+            new() { Description = "Buy milk" },
+            new() { Description = "Call John regarding the meeting" },
+            new() { Description = "Walk a dog" },
         };
 
         protected IEnumerable<Todo> Todos
@@ -48,14 +47,14 @@ namespace TodoApp
             todos.ForEach( x => x.Completed = isChecked );
         }
 
-        protected void OnAddTodo()
+        protected async Task OnAddTodo()
         {
-            if ( validations.ValidateAll() )
+            if ( await validations.ValidateAll() )
             {
-                todos.Add( new Todo { Description = description } );
+                todos.Add( new() { Description = description } );
                 description = null;
 
-                validations.ClearAll();
+                await validations.ClearAll();
             }
         }
 
@@ -67,7 +66,7 @@ namespace TodoApp
 
         protected void OnTodoStatusChanged( bool isChecked )
         {
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
     }
 }

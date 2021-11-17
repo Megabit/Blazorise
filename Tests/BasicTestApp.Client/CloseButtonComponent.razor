@@ -1,13 +1,29 @@
-﻿<h2>Close Button</h2>
+﻿<h2>Manual Close Button</h2>
 <p id="close-button-event">
-    <CloseButton id="close-button" Clicked="@RaiseCounter">Count</CloseButton>
-    <span id="close-button-event-result">@eventCounter</span>
+    <CloseButton id="close-button" Clicked="@RaiseCounter" AutoClose="false">Count</CloseButton>
+    <span id="close-button-event-result">@manualCounter</span>
+</p>
+
+<h2>Auto Close Button</h2>
+<p id="autoclose-button-event">
+    <Alert Visible="@autocloseAlertVisible" VisibleChanged="@AlertVisibleRaised">
+        <CloseButton ElementId="autoclose-button" />
+    </Alert>
+    <span id="autoclose-button-event-result">@autoCounter</span>
 </p>
 @code{
-    int eventCounter = 0;
+    int manualCounter = 0;
+    int autoCounter = 0;
+    bool autocloseAlertVisible = true;
 
     void RaiseCounter()
     {
-        eventCounter++;
+        manualCounter++;
+    }
+
+    void AlertVisibleRaised()
+    {
+        autocloseAlertVisible = false;
+        autoCounter++;
     }
 }

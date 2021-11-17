@@ -1,0 +1,122 @@
+﻿@page "/tests/datagrid/virtualize/read-data"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: Virtualize External Source</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <DataGrid TItem="Employee"
+                          Data="data"
+                          TotalItems="totalEmployees"
+                          Virtualize="true"
+                          VirtualizeOptions="virtualizeOptions"
+                          ReadData="OnReadData"
+                          ShowPager="true"
+                          ShowPageSizes="true">
+                    <DataGridColumns>
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
+                        </DataGridColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                            <DisplayTemplate>
+                                @{
+                                    var gender = ( context as Employee )?.Gender;
+
+                                    @if ( gender == "M" )
+                                    {
+                                        @("Male")
+                                    }
+                                    else if ( gender == "F" )
+                                    {
+                                        @("Female")
+                                    }
+                                    else if ( gender == "D" )
+                                    {
+                                        @("Diverse")
+                                    }
+                                }
+                            </DisplayTemplate>
+                        </DataGridSelectColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        </DataGridColumn>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> data;
+    private Blazorise.DataGrid.Configuration.VirtualizeOptions virtualizeOptions;
+    int totalEmployees;
+    Random random = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        virtualizeOptions = new() { DataGridHeight = "500px" };
+        return base.OnInitializedAsync();
+    }
+
+    /// <summary>
+    /// Simplied version of getting Data from an external source.
+    /// On a real world scenario, you should also handle filtering and sorting, please check our corresponding sections for further examples
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<Employee>> GetDataFromExternalSource( int virtualizeOffset, int virtualizeCount )
+    {
+        await Task.Delay( random.Next( 100 ) );
+        return ( await EmployeeData.GetDataAsync() ).Skip( virtualizeOffset ).Take( virtualizeCount );
+    }
+
+    /// <summary>
+    /// Simplified version of getting Total from an external source.
+    /// On a real world scenario, you should also handle filtering and sorting, please check our corresponding sections for further examples
+    /// </summary>
+    /// <returns></returns>
+    private async Task<int> GetTotalFromExternalSource()
+        => ( await EmployeeData.GetDataAsync() ).Count();
+
+    /// <summary>
+    /// Standard pattern for handling Datagrid data on demand according to pagination.
+    /// Filtering and Sorting are omitted for simplicity.
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        if ( !e.CancellationToken.IsCancellationRequested )
+        {
+            IEnumerable<Employee> response = ( await GetDataFromExternalSource( e.VirtualizeOffset, e.VirtualizeCount ) );
+
+            if ( !e.CancellationToken.IsCancellationRequested )
+            {
+                data = response;
+                totalEmployees = await GetTotalFromExternalSource();
+            }
+        }
+    }
+
+}

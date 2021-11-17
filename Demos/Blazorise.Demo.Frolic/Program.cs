@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Frolic;
 using Blazorise.Icons.FontAwesome;
+using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -21,6 +22,11 @@ namespace Blazorise.Demo.Frolic
                 {
                     options.ChangeTextOnKeyPress = true;
                 } )
+                .AddBlazoriseRichTextEdit( options =>
+                {
+                    options.UseBubbleTheme = true;
+                    options.UseShowTheme = true;
+                } )
                 .AddFrolicProviders()
                 .AddFontAwesomeIcons();
 
@@ -29,13 +35,9 @@ namespace Blazorise.Demo.Frolic
                 BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
             } );
 
-            builder.RootComponents.Add<App>( "app" );
+            builder.RootComponents.Add<App>( "#app" );
 
             var host = builder.Build();
-
-            host.Services
-                .UseFrolicProviders()
-                .UseFontAwesomeIcons();
 
             await host.RunAsync();
         }

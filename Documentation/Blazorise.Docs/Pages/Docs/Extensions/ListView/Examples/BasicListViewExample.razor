@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<ListView TItem="Country"
+            Data="Countries"
+            TextField="(item) => item.Name"
+            Mode="ListGroupMode.Static"
+            MaxHeight="300px">
+</ListView>
+
+@code{
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}

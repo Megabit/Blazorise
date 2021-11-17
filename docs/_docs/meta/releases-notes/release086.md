@@ -18,7 +18,7 @@ You need to update your _Visual Studio to 16.3_ and also install newest _.Net Co
 
 ### Static files
 
-Along with the new Blazorise comes the new way of consuming static files. Unlike in previous versions of Blazorise from now on you must set the static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`.
+Along with the new Blazorise comes the new way of consuming static files. Unlike in previous versions of Blazorise from now on you must set the static file manually. When consuming NuGet packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`.
 
 To upgrade your existing projects please look for more in the setup pages for your provider:
 
@@ -26,12 +26,12 @@ To upgrade your existing projects please look for more in the setup pages for yo
 - [Bulma]({{ "/docs/usage/bulma/#5-static-files" | relative_url }})
 - [Material]({{ "/docs/usage/material/#6-static-files" | relative_url }})
 
-> If you want to learn more about the reason behind this decision please look at the [oficial Blazor documentation.](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-3.0&tabs=visual-studio#consume-content-from-a-referenced-rcl)
+> If you want to learn more about the reason behind this decision please look at the [official Blazor documentation.](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-3.0&tabs=visual-studio#consume-content-from-a-referenced-rcl)
 
 ## Closing notes
 
 I really like to work on this project, and seeing it in its close-to-mature form as it is currently is a delight. I plan to finish the remaining bits in the next few weeks and then I will focus on **0.9** which is going to bring some new CSS providers.
 
-And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-link bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic) and help Blazorise developer to work full time on the project!
+And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/Megabit/Blazorise) or click on the star-link bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic) and help Blazorise developer to work full time on the project!
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

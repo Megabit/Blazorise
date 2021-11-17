@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Models;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -13,13 +15,70 @@ namespace Blazorise.DataGrid
         #region Members
 
         /// <summary>
+        /// List of columns used to build this row.
+        /// </summary>
+        protected IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
+
+        /// <summary>
         /// Holds the internal value for every cell in the row.
         /// </summary>
-        protected Dictionary<string, CellEditContext> cellsValues = new Dictionary<string, CellEditContext>();
+        protected Dictionary<string, CellEditContext<TItem>> cellValues = new Dictionary<string, CellEditContext<TItem>>();
+
+        /// <summary>
+        /// Holds the reference to the multiSelect cell.
+        /// </summary>
+        protected _DataGridRowMultiSelect<TItem> multiSelect;
+
+        /// <summary>
+        /// If click came propagated from MultiSelect Check
+        /// Funnels the selection logic into HandleClick.
+        /// </summary>
+        protected bool clickFromCheck;
+
+        /// <summary>
+        /// Holds information about the current Row.
+        /// </summary>
+        protected DataGridRowInfo<TItem> RowInfo;
 
         #endregion
 
         #region Methods
+
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            foreach ( var parameter in parameters )
+            {
+                switch ( parameter.Name )
+                {
+                    case nameof( Item ):
+                        Item = (TItem)parameter.Value;
+                        break;
+                    case nameof( ChildContent ):
+                        ChildContent = (RenderFragment)parameter.Value;
+                        break;
+                    case nameof( ParentDataGrid ):
+                        ParentDataGrid = (DataGrid<TItem>)parameter.Value;
+                        break;
+                    default:
+                        throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
+                }
+            }
+
+            return base.SetParametersAsync( ParameterView.Empty );
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Columns = ParentDataGrid.DisplayableColumns;
+            RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
+
+            ParentDataGrid.AddRow( RowInfo );
+
+            if ( ParentDataGrid.DetailRowStartsVisible )
+                await ParentDataGrid.ToggleDetailRow( Item );
+
+            await base.OnInitializedAsync();
+        }
 
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
@@ -28,62 +87,104 @@ namespace Blazorise.DataGrid
                 // initialise all internal cell values
                 foreach ( var column in Columns )
                 {
-                    if ( column.ColumnType == DataGridColumnType.Command )
+                    if ( column.ExcludeFromInit )
                         continue;
 
-                    cellsValues.Add( column.ElementId, new CellEditContext
+                    cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue )
                     {
                         CellValue = column.GetValue( Item ),
                     } );
                 }
             }
 
+            clickFromCheck = false;
             return base.OnAfterRenderAsync( firstRender );
         }
 
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
-            await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+            if ( !clickFromCheck )
+                await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
-            var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
+            var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
 
             if ( !selectable )
-                return;
-
-            // un-select row if the user is holding the ctrl key on already selected row
-            if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
-                && ParentDataGrid.SelectedRow != null
-                && (object)Item == (object)ParentDataGrid.SelectedRow )
             {
-                await Selected.InvokeAsync( default );
+                return;
             }
 
-            await Selected.InvokeAsync( Item );
+            if ( !clickFromCheck )
+                await HandleSingleSelectClick( eventArgs );
+
+            await HandleMultiSelectClick( eventArgs );
+        }
+
+        private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
+        {
+            if ( ParentDataGrid.MultiSelect )
+            {
+                var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
+                var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
+
+                await OnMultiSelectCommand( isSelected || shiftClick, shiftClick );
+            }
+        }
+
+        private async Task HandleSingleSelectClick( BLMouseEventArgs eventArgs )
+        {
+            // Un-select row if the user is holding the ctrl key on already selected row.
+            if ( ParentDataGrid.SingleSelect && eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
+                && ParentDataGrid.SelectedRow != null
+                && Item.IsEqual( ParentDataGrid.SelectedRow ) )
+            {
+                await ParentDataGrid.Select( default );
+            }
+            else if ( !eventArgs.ShiftKey
+                && ParentDataGrid.MultiSelect
+                && ParentDataGrid.SelectedRows != null
+                && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
+            {
+                // If the user selects an already selected multiselect row, seems like it should be more transparent,
+                // to just de-select both normal and multi selection
+                // Remove this, if that is not the case!!
+                await ParentDataGrid.Select( default );
+            }
+            else
+            {
+                await ParentDataGrid.Select( Item );
+            }
+
+            await ParentDataGrid.ToggleDetailRow( Item );
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
         {
-            return DoubleClicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+            return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
         }
 
-        protected internal Task OnEditCommand()
+        protected internal Task OnMultiSelectCommand( bool selected, bool shiftClick )
         {
-            return Edit.InvokeAsync( Item );
+            return ParentDataGrid.OnMultiSelectCommand( new( Item, selected, shiftClick ) );
         }
 
-        protected internal Task OnDeleteCommand()
+        protected Task OnMultiSelectCheckClicked()
         {
-            return Delete.InvokeAsync( Item );
+            clickFromCheck = true;
+            return Task.CompletedTask;
         }
 
-        protected internal Task OnSaveCommand()
-        {
-            return Save.InvokeAsync( Item );
-        }
+        protected Cursor GetHoverCursor()
+            => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
 
-        protected internal Task OnCancelCommand()
+        /// <inheritdoc/>
+        protected override ValueTask DisposeAsync( bool disposing )
         {
-            return Cancel.InvokeAsync( Item );
+            if ( disposing )
+            {
+                ParentDataGrid.RemoveRow( RowInfo );
+            }
+
+            return base.DisposeAsync( disposing );
         }
 
         #endregion
@@ -93,21 +194,24 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item;
+        protected bool IsSelected =>
+            ( ( ParentDataGrid.EditState == DataGridEditState.None || ParentDataGrid.SelectionMode == DataGridSelectionMode.Single ) && ParentDataGrid.SelectedRow.IsEqual( Item ) )
+            ||
+            ( ParentDataGrid.SelectionMode == DataGridSelectionMode.Multiple && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) );
 
         /// <summary>
         /// Gets the row background color.
         /// </summary>
-        protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
-            ? ( selectedStyling?.Background ?? Blazorise.Background.Primary )
-            : ( styling?.Background ?? Blazorise.Background.None );
+        protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
+            ? selectedStyling?.Background
+            : styling?.Background ) ?? Blazorise.Background.None;
 
         /// <summary>
         /// Gets the row color.
         /// </summary>
         protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
             ? selectedStyling?.Color
-            : styling?.Color ) ?? Blazorise.Color.None;
+            : styling?.Color ) ?? Blazorise.Color.Primary;
 
         /// <summary>
         /// Gets the row classnames.
@@ -124,57 +228,14 @@ namespace Blazorise.DataGrid
            : styling?.Style;
 
         /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
+        /// <summary>
         /// Item associated with the data set.
         /// </summary>
         [Parameter] public TItem Item { get; set; }
-
-        /// <summary>
-        /// List of columns used to build this row.
-        /// </summary>
-        [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
-
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
-
-        /// <summary>
-        /// Occurs after the row is selected.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Selected { get; set; }
-
-        /// <summary>
-        /// Occurs after the row is clicked.
-        /// </summary>
-        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> Clicked { get; set; }
-
-        /// <summary>
-        /// Occurs after the row is double clicked.
-        /// </summary>
-        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> DoubleClicked { get; set; }
-
-        /// <summary>
-        /// Activates the edit command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Edit { get; set; }
-
-        /// <summary>
-        /// Activates the delete command for current item.
-        /// </summary>
-        [Parameter] public EventCallback<TItem> Delete { get; set; }
-
-        /// <summary>
-        /// Activates the save command.
-        /// </summary>
-        [Parameter] public EventCallback Save { get; set; }
-
-        /// <summary>
-        /// Activates the cancel command.
-        /// </summary>
-        [Parameter] public EventCallback Cancel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the applied cursor when the row is hovered over.
-        /// </summary>
-        [Parameter]
-        public Cursor HoverCursor { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

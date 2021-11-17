@@ -1,0 +1,47 @@
+﻿@page "/news/release-notes/094-1"
+
+<Seo Canonical="news/release-notes/094-1" Title="Blazorise v0.9.4 - patch 1" Description="Blazorise v0.9.4.1 release notes and changelog." />
+
+<NewsPageTitle>
+    v0.9.4 - patch 1 release notes
+</NewsPageTitle>
+
+<NewsPageImage Source="img/news/094/v094-1.png" Text="Blazorise 0.9.4.1" />
+
+<Paragraph>
+    There can never be any big release without some small issues. Blazorise <Code>v0.9.4</Code> is no exception so we
+    bring you all the bug fixes reported since the launch day.
+</Paragraph>
+
+<Paragraph>
+    A lot of times we get reports regarding the JavaScript interop and having an invalid operation. Mostly the problem
+    is because browsers tend to cache JS and CSS files and then are using an older version than the current application
+    is expecting. The solution to the problem is easy. You just need to add a version parameter to the JS and CSS files
+    whenever you update Blazorise, eg. <Code>v=0.9.4.1</Code>.
+</Paragraph>
+
+<DocsPageSection>
+    <DocsPageSectionSource Code="_0941CodeExample" />
+</DocsPageSection>
+
+<NewsPageSubtitle>
+    Change Log
+</NewsPageSubtitle>
+
+<NewsPageList>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2658" ToText="#2658">
+        DataGrid bug
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2663" ToText="#2663">
+        Default chart configuration
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2661" ToText="#2661">
+        Checkbox appears above other components
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2675" ToText="#2675">
+        DataGrid fails to update when items are added/deleted
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/2676" ToText="#2676">
+        DataGrid selection mode
+    </NewsPageListItem>
+</NewsPageList>

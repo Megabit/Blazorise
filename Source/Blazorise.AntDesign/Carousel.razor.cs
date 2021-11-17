@@ -1,8 +1,8 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Modules;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -29,14 +29,14 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
-            var listRect = await JSRunner.GetElementInfo( slickListElementRef, null );
+            var listRect = await JSUtilitiesModule.GetElementInfo( slickListElementRef, null );
 
             if ( slickWidth != (int)listRect.BoundingClientRect.Width )
             {
                 slickWidth = (int)listRect.BoundingClientRect.Width;
                 totalWidth = slickWidth * ( carouselSlides.Count * 2 + 1 );
 
-                StateHasChanged();
+                await InvokeAsync( StateHasChanged );
             }
 
             await base.OnAfterRenderAsync( firstRender );
@@ -61,6 +61,11 @@ namespace Blazorise.AntDesign
 
         protected string SlickStyle
             => $"outline: none; width: {slickWidth}px;";
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         #endregion
     }

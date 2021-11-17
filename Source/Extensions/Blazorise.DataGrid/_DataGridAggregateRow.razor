@@ -1,18 +1,26 @@
 ﻿@typeparam TItem
 @inherits BaseDataGridComponent
 <TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
+
     @foreach ( var column in Columns )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            @if ( ParentDataGrid.Editable == true )
+            @if ( ParentDataGrid.IsCommandVisible )
+            {
+                <TableRowCell></TableRowCell>
+            }
+        }
+        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+        {
+            @if ( ParentDataGrid.MultiSelect )
             {
                 <TableRowCell></TableRowCell>
             }
         }
         else
         {
-            <TableRowCell Class="@column.GroupCellClass" Style="@column.GroupCellStyle" width="@column.Width" TextAlignment="@column.TextAlignment">
+            <TableRowCell Class="@column.GroupCellClass" Style="@column.BuildGroupCellStyle()" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display">
                 @{
                     var aggregateColumn = Aggregates.FirstOrDefault( x => x.Field == column.Field );
 
@@ -22,7 +30,7 @@
 
                         @if ( aggregateColumn.DisplayTemplate != null )
                         {
-                            @aggregateColumn.DisplayTemplate( new AggregateContext( column.Field, aggregateValue ) )
+                            @aggregateColumn.DisplayTemplate( new( column.Field, aggregateValue ) )
                         }
                         else
                         {

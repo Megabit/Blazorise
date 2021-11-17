@@ -1,13 +1,4 @@
 ﻿@inherits Blazorise.BreadcrumbLink
-@if ( To != null )
-{
-    <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match">
-        @ChildContent
-    </Blazorise.Link>
-}
-else
-{
-    <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
-        @ChildContent
-    </a>
-}
+<Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
+    @ChildContent
+</Anchor>

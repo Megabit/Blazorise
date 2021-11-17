@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Blazorise.E2ETests.Infrastructure
 {
@@ -11,8 +10,6 @@ namespace Blazorise.E2ETests.Infrastructure
     {
         private static readonly bool _isWindows = RuntimeInformation.IsOSPlatform( OSPlatform.Windows );
         private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds( 30 );
-
-        public static void KillTree( this Process process ) => process.KillTree( _defaultTimeout );
 
         public static void KillTree( this Process process, TimeSpan timeout )
         {
@@ -23,7 +20,7 @@ namespace Blazorise.E2ETests.Infrastructure
                     "taskkill",
                     $"/T /F /PID {pid}",
                     timeout,
-                    out var _ );
+                    out _ );
             }
             else
             {
@@ -74,7 +71,7 @@ namespace Blazorise.E2ETests.Infrastructure
                 "kill",
                 $"-TERM {processId}",
                 timeout,
-                out var stdout );
+                out string _ );
         }
 
         private static void RunProcessAndWaitForExit( string fileName, string arguments, TimeSpan timeout, out string stdout )

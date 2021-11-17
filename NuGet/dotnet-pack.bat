@@ -1,19 +1,28 @@
+cd ..
+call clean.bat
+cd NuGet
+
 del *.nupkg
+del *.snupkg
 
-dotnet pack ../Source/Blazorise/Blazorise.csproj --force -o . -c Release
-dotnet pack ../Source/Blazorise.Bootstrap/Blazorise.Bootstrap.csproj --force -o . -c Release
-dotnet pack ../Source/Blazorise.Material/Blazorise.Material.csproj --force -o . -c Release
-dotnet pack ../Source/Blazorise.Bulma/Blazorise.Bulma.csproj --force -o . -c Release
-dotnet pack ../Source/Blazorise.AntDesign/Blazorise.AntDesign.csproj --force -o . -c Release
-dotnet pack ../Source/Blazorise.Frolic/Blazorise.Frolic.csproj --force -o . -c Release
+dotnet pack ../Source/Blazorise/Blazorise.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise.Bootstrap/Blazorise.Bootstrap.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise.Bootstrap5/Blazorise.Bootstrap5.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise.Material/Blazorise.Material.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise.Bulma/Blazorise.Bulma.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise.AntDesign/Blazorise.AntDesign.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
-dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.Components/Blazorise.Components.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj --force -o . -c Release
+dotnet pack ../Source/Extensions/Blazorise.Animate/Blazorise.Animate.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Components/Blazorise.Components.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.SpinKit/Blazorise.SpinKit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Markdown/Blazorise.Markdown.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
-dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj --force -o . -c Release
+dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

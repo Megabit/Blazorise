@@ -96,6 +96,14 @@ Addons are used to attach controls together.
 
 ## Attributes
 
-| Name        | Type                  | Default | Description                                                                                 |
-|-------------|-----------------------|---------|---------------------------------------------------------------------------------------------|
-| AddonType   | AddonType             | `Body`  | Defines the location and behaviour of addon container.                                      |
+### Addons
+
+| Name        | Type                                                                        | Default | Description                                                                       |
+|-------------|-----------------------------------------------------------------------------|---------|-----------------------------------------------------------------------------------|
+| Size        | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})                    | `None`  | Addons size variations.                                                           |
+
+### Addon
+
+| Name        | Type                                                                        | Default | Description                                                                       |
+|-------------|-----------------------------------------------------------------------------|---------|-----------------------------------------------------------------------------------|
+| AddonType   | AddonType                                                                   | `Body`  | Defines the location and behavior of addon container.                             |

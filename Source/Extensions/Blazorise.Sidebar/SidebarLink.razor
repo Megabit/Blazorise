@@ -1,13 +1,4 @@
 ﻿@inherits BaseComponent
-@if ( To != null )
-{
-    <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match" Attributes="@Attributes">
-        @ChildContent
-    </Blazorise.Link>
-}
-else
-{
-    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" data-toggle="@DataToggle" aria-expanded="@AriaExpanded" title="@Title" @attributes="@Attributes">
-        @ChildContent
-    </a>
-}
+<Anchor Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@LinkAttributes">
+    @ChildContent
+</Anchor>

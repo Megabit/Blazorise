@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRow<TItem>
 @{
     var styling = new DataGridRowStyling();
-    var selectedStyling = new DataGridRowStyling { Background = Blazorise.Background.Primary };
+    var selectedStyling = new DataGridRowStyling { Color = Blazorise.Color.Primary };
 
     @if ( IsSelected )
     {
@@ -19,22 +19,33 @@
               Color="@GetColor(styling, selectedStyling)"
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
-              HoverCursor="@HoverCursor">
+              HoverCursor="@GetHoverCursor()">
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid.Editable == true )
+                @if ( ParentDataGrid.IsCommandVisible )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" />
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Column="column" />
+                }
+            }
+            else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+            {
+                @if ( ParentDataGrid.MultiSelect )
+                {
+                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
                 }
             }
             else
             {
-                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" width="@column.Width" TextAlignment="@column.TextAlignment">
+                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment"  Display="@column.Display">
                     @if ( column.DisplayTemplate != null )
                     {
                         @column.DisplayTemplate( Item )
+                    }
+                    else if ( ParentDataGrid.EmptyCellTemplate != null && column.GetValue( Item ) == null )
+                    {
+                        @ParentDataGrid.EmptyCellTemplate( Item )
                     }
                     else
                     {

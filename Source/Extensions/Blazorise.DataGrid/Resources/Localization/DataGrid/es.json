@@ -1,0 +1,21 @@
+{
+  "culture": "es",
+  "translations": {
+    "New": "Nuevo",
+    "Edit": "Editar",
+    "Delete": "Eliminar",
+    "Save": "Salvar",
+    "Cancel": "Cancelar",
+    "Clear Filter": "Filtro claro",
+    "First": "Primero",
+    "Last": "Último",
+    "Prev": "Anterior",
+    "Next": "Próximo",
+    "items": "artículos",
+    "items per page": "artículos por página",
+    "{0} - {1} of {2} items": "{0} - {1} de {2} elementos",
+    "Row Edit": "Editar fila",
+    "Row Create": "Fila Crear",
+    "Create": "Crear"
+  }
+}

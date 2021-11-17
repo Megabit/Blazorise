@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Providers;
 #endregion
 
@@ -12,7 +10,7 @@ namespace Blazorise.Icons.FontAwesome
     {
         #region Members
 
-        private static Dictionary<IconName, string> names = new Dictionary<IconName, string>
+        private static Dictionary<IconName, string> names = new()
         {
             { IconName.Add, "fa-plus" },
             { IconName.Adjust, "fa-adjust" },
@@ -274,9 +272,11 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.Stream, "fa-stream" },
             { IconName.StreetView, "fa-street-view" },
             { IconName.Strikethrough, "fa-strikethrough" },
+            { IconName.Subscript, "fa-subscript" },
             { IconName.Subway, "fa-subway" },
             { IconName.Suitcase, "fa-suitcase" },
             { IconName.Sun, "fa-sun" },
+            { IconName.Superscript, "fa-superscript" },
             { IconName.SwimmingPool, "fa-swimming-pool" },
             { IconName.Sync, "fa-sync" },
             { IconName.SyncAlt, "fa-sync-alt" },
@@ -324,7 +324,7 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.Wrench, "fa-wrench" },
         };
 
-        private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>
+        private static Dictionary<IconStyle, string> styles = new()
         {
             { IconStyle.Solid, "fas" },
             { IconStyle.Regular, "far" },
@@ -334,13 +334,29 @@ namespace Blazorise.Icons.FontAwesome
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
 
-        public override string GetIconName( IconName iconName )
+        public override string IconSize( IconSize iconSize )
+        {
+            return iconSize switch
+            {
+                Blazorise.IconSize.ExtraSmall => "fa-xs",
+                Blazorise.IconSize.Small => "fa-sm",
+                Blazorise.IconSize.Large => "fa-lg",
+                Blazorise.IconSize.x2 => "fa-2x",
+                Blazorise.IconSize.x3 => "fa-3x",
+                Blazorise.IconSize.x4 => "fa-4x",
+                Blazorise.IconSize.x5 => "fa-5x",
+                Blazorise.IconSize.x6 => "fa-6x",
+                Blazorise.IconSize.x7 => "fa-7x",
+                Blazorise.IconSize.x8 => "fa-8x",
+                Blazorise.IconSize.x9 => "fa-9x",
+                Blazorise.IconSize.x10 => "fa-10x",
+                _ => null,
+            };
+        }
+
+        public override string GetIconName( IconName iconName, IconStyle iconStyle )
         {
             names.TryGetValue( iconName, out var name );
 

@@ -1,3 +1,32 @@
-﻿.modal-backdrop {
-    z-index: -1;
+﻿.modal {
+    &.show {
+        animation-duration: 0.25s;
+        animation-fill-mode: both;
+        animation-name: fadeIn;
+    }
+
+    .modal-fullscreen {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+
+        .modal-content {
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+        }
+
+        .modal-header {
+            border-radius: 0;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            border-radius: 0;
+        }
+    }
 }

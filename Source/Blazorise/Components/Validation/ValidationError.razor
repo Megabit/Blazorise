@@ -1,0 +1,15 @@
+﻿@namespace Blazorise
+@inherits BaseValidationResult
+@if ( ParentValidation?.Status == ValidationStatus.Error )
+{
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @if ( ErrorText != null )
+        {
+            @ErrorText
+        }
+        else
+        {
+            @ChildContent
+        }
+    </div>
+}

@@ -52,3 +52,4 @@ Switches are the preferred way to adjust settings on mobile. The option that the
 | TValue                  | generic type                                                               |              | Data type of `Checked` value. Support types are `bool` and `bool?`.                   |
 | Checked                 | boolean                                                                    | false        | Gets or sets the checked flag.                                                        |
 | CheckedChanged          | event                                                                      |              | Occurs when the check state is changed.                                               |
+| Color                   | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})               | `None`       | Component visual or contextual style variants.                                        |

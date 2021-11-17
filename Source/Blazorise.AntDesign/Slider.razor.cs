@@ -1,8 +1,9 @@
 ﻿#region Using directives
-using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Modules;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -47,7 +48,7 @@ namespace Blazorise.AntDesign
 
             mouseDown = true;
 
-            sliderElementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
+            sliderElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
             sliderStart = sliderElementInfo.BoundingClientRect.Left;
             sliderWidth = sliderElementInfo.BoundingClientRect.Width;

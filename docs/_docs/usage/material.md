@@ -26,7 +26,7 @@ Install-Package Blazorise.Icons.Material
 
 ### 2. Download CSS
 
-Material CSS is not available through the CDN so you must download it yourself from [daemonite](http://daemonite.github.io/material/) web page. After the download is finished just must extract the _CSS_ and _JS_ to the **wwwroot** folder inside of you Blazor project.
+Material CSS is not available through the CDN so you must download it yourself from [djibe](https://djibe.github.io/material/) web page. After the download is finished you must extract the _CSS_ and _JS_ to the **wwwroot** folder inside of you Blazor project.
 
 The folder structure should be:
 
@@ -51,6 +51,7 @@ The next step is to change your `index.html` or `_Host.cshtml` file and include 
 
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
 <link href="_content/Blazorise.Material/blazorise.material.css" rel="stylesheet" />
+<link href="_content/Blazorise.Icons.Material/blazorise.icons.material.css" rel="stylesheet" />
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Material JS -->
@@ -105,13 +106,9 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
-
-    host.Services
-      .UseMaterialProviders()
-      .UseMaterialIcons();
 
     await host.RunAsync();
   }
@@ -147,10 +144,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseMaterialProviders()
-      .UseMaterialIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

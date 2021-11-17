@@ -1,9 +1,9 @@
 ﻿@inherits Blazorise.Carousel
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
         @ChildContent
 
-        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div class="slick-slider slick-initialized" dir="ltr">
                 <div @ref="@slickListElementRef" class="@SlidesClassNames">
                     <div class="slick-track" style="@SlickTrackStyle">
@@ -57,11 +57,11 @@
 
                 @if ( ShowControls )
                 {
-                    <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">
-                        Previous
+                    <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="@PreviousButtonString" role="button" style="display: block;">
+                        @PreviousButtonString
                     </button>
-                    <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">
-                        Next
+                    <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="@NextButtonString" role="button" style="display: block;">
+                        @NextButtonString
                     </button>
                 }
             </div>

@@ -26,3 +26,10 @@
         @return $light;
     }
 }
+
+@function theme-color-level($color, $level: 0) {
+    $color-base: if($level > 0, $black, $white);
+    $level: abs($level);
+
+    @return mix($color-base, $color, $level * $theme-color-interval);
+}

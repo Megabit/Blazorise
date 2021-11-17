@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 #endregion
 
 namespace Blazorise.Sidebar
@@ -86,7 +84,7 @@ namespace Blazorise.Sidebar
         public List<SidebarItemInfo> SubItems { get; set; }
 
         /// <summary>
-        /// This is needed only so that reference accross rendering states is saved.
+        /// This is needed only so that reference across rendering states is saved.
         /// </summary>
         [IgnoreDataMember]
         internal SidebarSubItem SubItemReference { get; set; }

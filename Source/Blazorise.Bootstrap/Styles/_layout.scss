@@ -1,1 +1,15 @@
-﻿
+﻿.b-layout-header {
+    &-fixed {
+        z-index: 1020;
+    }
+}
+
+.b-layout-footer {
+    &-fixed {
+        z-index: 1020;
+    }
+}
+
+.b-layout-sider-content {
+    z-index: 1021;
+}

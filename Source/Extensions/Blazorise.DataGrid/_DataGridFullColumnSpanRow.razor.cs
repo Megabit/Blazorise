@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,14 +8,6 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         #region Properties
 
         protected bool HasCommandColumn
@@ -36,7 +26,10 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        /// <summary>
+        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+        /// </summary>
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -20,6 +20,9 @@
                 <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Large ))">
                     Large Modal
                 </Button>
+                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Default, null, false, true ))">
+                    Full Screen
+                </Button>
                 <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
                     Centered Modal
                 </Button>
@@ -53,19 +56,18 @@
     </Column>
 </Row>
 <Modal @ref="modalRef">
-    <ModalBackdrop />
-    <ModalContent Size="@modalSize" Centered="@centered">
+    <ModalContent Size="@modalSize" Centered="@centered" Fullscreen="@fullscreen">
         <ModalHeader>
             <ModalTitle>
                 <Icon Name="IconName.Edit" />
                 Employee edit
             </ModalTitle>
-            <CloseButton Clicked="@HideModal" />
+            <CloseButton />
         </ModalHeader>
         <ModalBody MaxHeight="@maxHeight">
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Placeholder="Enter name..." />
+                <TextEdit Autofocus="true" Placeholder="Enter name..." />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
@@ -75,6 +77,9 @@
                 <FieldLabel>Date of birth</FieldLabel>
                 <DateEdit TValue="DateTime?" Placeholder="Pick a date" />
             </Field>
+            <Field>
+                <Button Color="Color.Primary" Clicked="@ShowModal2">Show second modal</Button>
+            </Field>
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
@@ -82,23 +87,52 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
-@code{
+<Modal @ref="modalRef2">
+    <ModalContent Size="ModalSize.Small" Centered="true">
+        <ModalHeader>
+            <ModalTitle>
+                Hello
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            I am a second modal with some message.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal2">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+@code {
     private Modal modalRef;
+    private Modal modalRef2;
     private bool centered = false;
+    private bool fullscreen = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
 
-    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
+    private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false, bool fullscreen = false )
     {
         this.centered = centered;
         this.modalSize = modalSize;
         this.maxHeight = maxHeight;
+        this.fullscreen = fullscreen;
 
-        modalRef.Show();
+        return modalRef.Show();
     }
 
-    private void HideModal()
+    private Task HideModal()
     {
-        modalRef.Hide();
+        return modalRef.Hide();
+    }
+
+    private Task ShowModal2()
+    {
+        return modalRef2.Show();
+    }
+
+    private Task HideModal2()
+    {
+        return modalRef2.Hide();
     }
 }

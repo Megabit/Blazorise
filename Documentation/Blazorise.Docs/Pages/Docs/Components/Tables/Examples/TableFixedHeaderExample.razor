@@ -1,0 +1,25 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Table FixedHeader FixedHeaderTableHeight="300px">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @for ( int i = 1; i <= 10; ++i )
+        {
+            var index = i.ToString();
+
+            <TableRow @key="@index">
+                <TableRowHeader>@index</TableRowHeader>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>

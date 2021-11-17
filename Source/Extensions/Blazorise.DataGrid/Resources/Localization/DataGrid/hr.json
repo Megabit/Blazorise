@@ -1,0 +1,21 @@
+{
+  "culture": "hr",
+  "translations": {
+    "New": "Novi",
+    "Edit": "Promijeni",
+    "Delete": "Izbriši",
+    "Save": "Spremi",
+    "Cancel": "Odustani",
+    "Clear Filter": "Očisti filter",
+    "First": "Prva",
+    "Last": "Zadnja",
+    "Prev": "Prethodna",
+    "Next": "Sljedeća",
+    "items": "stavki",
+    "items per page": "stavki po stranici",
+    "{0} - {1} of {2} items": "{0} - {1} od {2} stavki",
+    "Row Edit": "Editiranje stavke",
+    "Row Create": "Kreiranje stavke",
+    "Create": "Kreiraj"
+  }
+}

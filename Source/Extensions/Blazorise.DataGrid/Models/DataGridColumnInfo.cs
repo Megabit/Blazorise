@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -13,12 +14,18 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="field">Field name.</param>
         /// <param name="searchValue">Current search value.</param>
-        /// <param name="direction">Current sort direction.</param>
-        public DataGridColumnInfo( string field, string searchValue, SortDirection direction )
+        /// <param name="sortDirection">Current sort direction.</param>
+        /// <param name="sortIndex">Sort index.</param>
+        /// <param name="columnType">Current column type.</param>
+        /// <param name="sortField">Sort field name.</param>
+        public DataGridColumnInfo( string field, object searchValue, SortDirection sortDirection, int sortIndex, DataGridColumnType columnType, string sortField )
         {
             Field = field;
             SearchValue = searchValue;
-            Direction = direction;
+            SortDirection = sortDirection;
+            SortIndex = sortIndex;
+            ColumnType = columnType;
+            SortField = sortField;
         }
 
         /// <summary>
@@ -27,13 +34,34 @@ namespace Blazorise.DataGrid
         public string Field { get; }
 
         /// <summary>
+        /// Gets the column or datasource field name that should be considered to sort.
+        /// </summary>
+        public string SortField { get; }
+
+        /// <summary>
         /// Gets the column search value.
         /// </summary>
-        public string SearchValue { get; }
+        public object SearchValue { get; }
 
         /// <summary>
         /// Gets the column sort direction.
         /// </summary>
-        public SortDirection Direction { get; set; }
+        public SortDirection SortDirection { get; }
+
+        /// <summary>
+        /// Gets the column sort direction.
+        /// </summary>
+        [Obsolete( "This property will likely be removed in the future. Please use " + nameof( SortDirection ) + " instead." )]
+        public SortDirection Direction => SortDirection;
+
+        /// <summary>
+        /// Gets the index by which the columns should be sorted.
+        /// </summary>
+        public int SortIndex { get; }
+
+        /// <summary>
+        /// Gets the column type.
+        /// </summary>
+        public DataGridColumnType ColumnType { get; }
     }
 }

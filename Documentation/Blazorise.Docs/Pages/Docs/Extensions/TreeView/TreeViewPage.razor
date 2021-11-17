@@ -1,0 +1,77 @@
+﻿@page "/docs/extensions/treeview"
+
+<Seo Canonical="/docs/extensions/treeview" Title="Blazorise TreeView" Description="Learn how to use Blazorise TreeView extension components." />
+
+<DocsPageTitle>
+    TreeView
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The TreeView component is a graphical control element that presents a hierarchical view of information.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TreeViewNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TreeViewImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static files">
+        Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TreeViewResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        A basic TreeView that aims to reproduce standard tree-view behavior.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Nodes" Type="IEnumerable<TNode>">
+        Collection of child TreeView items (child nodes). If null/empty then this node won’t expand.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NodeContent" Type="RenderFragment<TNode>">
+        Template to display content for the node.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedNode" Type="TNode">
+        The currently selected TreeView item/node.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedNodeChanged" Type="EventCallback<TNode>">
+        Occurs when the selected TreeView node has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ExpandedNodes" Type="List<TNode>">
+        List of currently expanded TreeView items (child nodes).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ExpandedNodeChanged" Type="EventCallback<TNode>">
+        Occurs when the collection of expanded nodes has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetChildNodes" Type="expression">
+        Expression that allows the child nodes to be identifies for a particular node
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HasChildNodes" Type="expression" Default="true">
+        Expression that indicates whether the current node has any children nodes?
+    </DocsAttributesItem>
+</DocsAttributes>

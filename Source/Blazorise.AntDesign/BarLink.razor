@@ -1,13 +1,4 @@
 ﻿@inherits Blazorise.BarLink
-@if ( To != null )
-{
-    <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match">
-        <span>@ChildContent</span>
-    </Blazorise.Link>
-}
-else
-{
-    <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
-        <span>@ChildContent</span>
-    </a>
-}
+<Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Clicked="@ClickHandler" Target="@Target" Title="@Title" Match="@Match" Attributes="@Attributes">
+    <span>@ChildContent</span>
+</Anchor>

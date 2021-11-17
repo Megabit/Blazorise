@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using BasicTestApp.Client;
+﻿using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class ValidateSelectComponentTest : ComponentTestFixture
+    public class ValidateSelectComponentTest : TestContext
     {
         public ValidateSelectComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddSelect( this.JSInterop );
         }
 
         [Fact]
@@ -249,6 +246,6 @@ namespace Blazorise.Tests.Components
             // test 3
             select.Change( "Oliver" );
             Assert.Contains( "custom-select", select.GetAttribute( "class" ) );
-        } 
+        }
     }
 }

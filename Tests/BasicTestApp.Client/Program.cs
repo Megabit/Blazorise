@@ -1,7 +1,5 @@
 ﻿#region Using directives
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
@@ -27,18 +25,11 @@ namespace BasicTestApp.Client
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
-            builder.Services.AddSingleton( new HttpClient
-            {
-                BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-            } );
-
+            builder.Services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
+            builder.Services.AddScoped<Blazorise.Shared.Data.CountryData>();
             builder.RootComponents.Add<Index>( "root" );
 
             var host = builder.Build();
-
-            host.Services
-                .UseBootstrapProviders()
-                .UseFontAwesomeIcons();
 
             await host.RunAsync();
         }

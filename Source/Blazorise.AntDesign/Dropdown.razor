@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Dropdown
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
             @ChildContent
         </div>
     </CascadingValue>

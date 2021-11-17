@@ -60,24 +60,24 @@ Now back to the improvements.
 
 ### Bug Fixes
 
- - [#251](https://github.com/stsrki/Blazorise/issues/251) Fixed two-way binding issue on `SelectEdit`
- - [#263](https://github.com/stsrki/Blazorise/issues/263) Fixed `Tooltip`
- - [#290](https://github.com/stsrki/Blazorise/issues/290) `DataGridCommandColumn` attribute `Width` was unused
- - [#295](https://github.com/stsrki/Blazorise/issues/295) Remove lock from CreateDotNetObjectRef
- - [#342](https://github.com/stsrki/Blazorise/issues/342) `SelectEdit` int valued items ignores 0 when IsMultiple is true
- - [#320](https://github.com/stsrki/Blazorise/issues/320) Validation not updating after reference is changed
- - [#285](https://github.com/stsrki/Blazorise/issues/285) Autocomplete
- - [#267](https://github.com/stsrki/Blazorise/issues/267) `DataGridNumericColumn` does not sort numerically
+ - [#251](https://github.com/Megabit/Blazorise/issues/251) Fixed two-way binding issue on `SelectEdit`
+ - [#263](https://github.com/Megabit/Blazorise/issues/263) Fixed `Tooltip`
+ - [#290](https://github.com/Megabit/Blazorise/issues/290) `DataGridCommandColumn` attribute `Width` was unused
+ - [#295](https://github.com/Megabit/Blazorise/issues/295) Remove lock from CreateDotNetObjectRef
+ - [#342](https://github.com/Megabit/Blazorise/issues/342) `SelectEdit` int valued items ignores 0 when IsMultiple is true
+ - [#320](https://github.com/Megabit/Blazorise/issues/320) Validation not updating after reference is changed
+ - [#285](https://github.com/Megabit/Blazorise/issues/285) Autocomplete
+ - [#267](https://github.com/Megabit/Blazorise/issues/267) `DataGridNumericColumn` does not sort numerically
 
 ## Contributors
 
 I also need to mention these people that took some time and helped with this release.
 
- - [#311](https://github.com/stsrki/Blazorise/pull/311) Chart Options Not Updating [@andrewwilkin](https://github.com/andrewwilkin)
- - [#310](https://github.com/stsrki/Blazorise/pull/310) Fix so that Autocomplete dropdown doesn't show empty dropdown [@robalexclark](https://github.com/robalexclark)
- - [#321](https://github.com/stsrki/Blazorise/pull/321) Fix custom class provider registration [@mszyszko](https://github.com/mszyszko)
- - [#299](https://github.com/stsrki/Blazorise/pull/299) Removing unused classes [@WillianGruber](https://github.com/WillianGruber)
- - [#347](https://github.com/stsrki/Blazorise/pull/347) Font Awesome icon styles [@cassioesp](https://github.com/cassioesp)
+ - [#311](https://github.com/Megabit/Blazorise/pull/311) Chart Options Not Updating [@andrewwilkin](https://github.com/andrewwilkin)
+ - [#310](https://github.com/Megabit/Blazorise/pull/310) Fix so that Autocomplete dropdown doesn't show empty dropdown [@robalexclark](https://github.com/robalexclark)
+ - [#321](https://github.com/Megabit/Blazorise/pull/321) Fix custom class provider registration [@mszyszko](https://github.com/mszyszko)
+ - [#299](https://github.com/Megabit/Blazorise/pull/299) Removing unused classes [@WillianGruber](https://github.com/WillianGruber)
+ - [#347](https://github.com/Megabit/Blazorise/pull/347) Font Awesome icon styles [@cassioesp](https://github.com/cassioesp)
 
 Guys, thank you!
 
@@ -85,8 +85,8 @@ Guys, thank you!
 
 Right now, I'm going to give my best to finish next minor version(0.8.8) as soon as possible. The very next thing after that is going to be a long awaited **0.9** that will bring some major upgrades. Hopefully it will not take as long as 0.8.7.
 
-And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-badge bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
+And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/Megabit/Blazorise) or click on the star-badge bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
 
 Thanks!
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

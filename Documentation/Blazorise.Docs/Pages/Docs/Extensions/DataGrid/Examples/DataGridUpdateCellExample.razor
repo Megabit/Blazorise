@@ -1,0 +1,39 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          Editable
+          EditMode="DataGridEditMode.Inline"
+          Responsive
+          ShowPager>
+    <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+        <EditTemplate>
+            <NumericEdit TValue="decimal"
+                         Value="@((decimal)context.CellValue)"
+                         ValueChanged="@( v => {
+                            context.CellValue = v;
+                            context.UpdateCell( nameof( Employee.Tax ), v * context.Item.TaxPercentage );
+                         })" />
+        </EditTemplate>
+    </DataGridColumn>
+    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Tax )" Caption="Tax" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+        <EditTemplate>
+            <NumericEdit TValue="decimal"
+                         Value="@((decimal)context.CellValue)"
+                         Disabled />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}

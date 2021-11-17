@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 #endregion
 
@@ -18,7 +14,7 @@ namespace Blazorise.Tests
         }
 
         [Theory]
-        [InlineData( "", ColumnWidth.None )]
+        [InlineData( null, ColumnWidth.None )]
         [InlineData( "col-1", ColumnWidth.Is1 )]
         [InlineData( "col-2", ColumnWidth.Is2 )]
         [InlineData( "col-3", ColumnWidth.Is3 )]

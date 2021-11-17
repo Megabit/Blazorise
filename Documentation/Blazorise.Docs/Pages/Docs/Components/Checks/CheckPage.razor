@@ -1,0 +1,69 @@
+﻿@page "/docs/components/check"
+
+<Seo Canonical="/docs/components/check" Title="Blazorise Check component" Description="The Check component provides users the ability to choose between two distinct values." />
+
+<DocsPageTitle>
+    Check component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>Check</Code> component provides users the ability to choose between two distinct values.
+    You can use this to supply a way for the user to toggle an option.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Check">
+        Simple card
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CheckExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CheckExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With bind attribute">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CheckWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CheckWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With event">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CheckWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CheckWithEventExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="TValue" Type="generic">
+        Data type of <Code>Checked</Code> value. Support types are <Code>bool</Code> and <Code>bool?</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Checked" Type="TValue" Default="default">
+        Gets or sets the checked flag.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CheckedChanged" Type="EventCallback<TValue>">
+        Occurs when the check state is changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Indeterminate" Type="bool?" Default="null">
+        The indeterminate property can help you to achieve a ‘check all’ effect.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
+        Group checkboxes on the same horizontal row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
+        Defines the mouse cursor based on the behavior by the current CSS framework.
+    </DocsAttributesItem>
+</DocsAttributes>

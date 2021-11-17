@@ -1,19 +1,30 @@
 ﻿@import "variables";
 @import "functions";
 @import "mixins";
+@import "animations";
 
 @import "utilities";
 
+@import "bar";
 @import "button";
 @import "card";
 @import "card";
 @import "carousel";
+@import "check";
 @import "collapse";
+@import "dropdown";
 @import "form";
 @import "jumbotron";
 @import "layout";
 @import "list";
 @import "modal";
+@import "pagination";
+@import "progress";
+@import "rating";
+@import "steps";
+@import "switch";
 @import "table";
 @import "tabs";
-@import "bar";
+@import "typography";
+
+@import "vendor/flatpickr";

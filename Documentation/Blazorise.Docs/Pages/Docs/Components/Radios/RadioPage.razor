@@ -1,0 +1,135 @@
+﻿@page "/docs/components/radio"
+
+<Seo Canonical="/docs/components/radio" Title="Blazorise Radio system" Description="Radio buttons allow the user to select one option from a set." />
+
+<DocsPageTitle>
+    Radio component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    <Code Tag>Radio</Code> buttons allow the user to select one option from a set.
+    <br />
+    <br />
+    Use <Code>Radio</Code> buttons when the user needs to see all available options.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>RadioGroup</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>Radio</Code>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic RadioGroup">
+        <Code>RadioGroup</Code> is a helpful wrapper used to group <Code>Radio</Code> components that provides an easier API,
+        and proper keyboard accessibility to the group.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicRadioGroupExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicRadioGroupExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Standalone Radio">
+        <Code>Radio</Code> can also be used standalone, without the <Code>RadioGroup</Code> wrapper.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StandaloneRadioExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StandaloneRadioExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="RadioGroup Buttons">
+        By setting the <Code>Buttons</Code> flag, radios will be grouped together and will appear as buttons.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RadioGroupButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RadioGroupButtonsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Binding
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RadioGroupWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RadioGroupWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual event binding">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RadioGroupWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RadioGroupWithEventExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="RadioGroup">
+    <DocsAttributesItem Name="TValue" Type="generic">
+        <Code>CheckedValue</Code> data type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CheckedValue" Type="TValue" Default="default">
+        Gets or sets the checked value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CheckedValueChanged" Type="@("EventCallback<TValue>")">
+        Occurs when the checked value is changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Name" Type="string" Default="null">
+        Defines the radio group name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Orientation" Type="Orientation" Default="Horizontal">
+        Defines the orientation of the radio elements.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Buttons" Type="bool" Default="false">
+        Flag which indicates that radios will appear as button.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="Secondary">
+        Defines the color or radio buttons(only when <Code>Buttons</Code> is true).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Radio">
+    <DocsAttributesItem Name="TValue" Type="generic">
+        Data type of <Code>Checked</Code> value. Support types are <Code>bool</Code> and <Code>bool?</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Checked" Type="TValue" Default="default">
+        Gets or sets the checked value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CheckedChanged" Type="@("EventCallback<TValue>")">
+        Occurs when the checked value is changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Group" Type="string" Default="null">
+        Defines the radio group name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
+        Group radios on the same horizontal row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
+        Defines the mouse cursor based on the behavior by the current CSS framework.
+    </DocsAttributesItem>
+</DocsAttributes>

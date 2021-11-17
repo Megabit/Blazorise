@@ -1,0 +1,185 @@
+﻿@page "/tests/listgroup"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dynamic Settings</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Select different settings to see the result on the lists below.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column><Switch @bind-Checked="@flush">Flush</Switch></Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Basic Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>A static list group.</CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Flush="flush">
+                    <ListGroupItem>An item</ListGroupItem>
+                    <ListGroupItem>A second item</ListGroupItem>
+                    <ListGroupItem>A third item</ListGroupItem>
+                    <ListGroupItem>A fourth item</ListGroupItem>
+                    <ListGroupItem Disabled="true">A disabled item</ListGroupItem>
+                </ListGroup>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Selectable</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    For selectable list group, set <code>Mode</code> attribute to <code>ListGroupMode.Selectable</code>
+                    and set <code>Name</code> attribute on individual list group items.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Flush="flush" Mode="ListGroupMode.Selectable" @bind-SelectedItem="selectedItem">
+                    <ListGroupItem Name="first">An item</ListGroupItem>
+                    <ListGroupItem Name="second">A second item</ListGroupItem>
+                    <ListGroupItem Name="third">A third item</ListGroupItem>
+                    <ListGroupItem Name="fourth">A fourth item</ListGroupItem>
+                    <ListGroupItem Name="fifth" Disabled="true">A disabled item</ListGroupItem>
+                </ListGroup>
+            </CardBody>
+            <CardBody>
+                <CardText>Selected item: @selectedItem</CardText>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Contextual Colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Color</code> attribute on list group items.</CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Flush="flush">
+                    <ListGroupItem Color="Color.None">None</ListGroupItem>
+                    <ListGroupItem Color="Color.Primary">Primary</ListGroupItem>
+                    <ListGroupItem Color="Color.Secondary">Secondary</ListGroupItem>
+                    <ListGroupItem Color="Color.Success">Success</ListGroupItem>
+                    <ListGroupItem Color="Color.Danger">Danger</ListGroupItem>
+                    <ListGroupItem Color="Color.Warning">Warning</ListGroupItem>
+                    <ListGroupItem Color="Color.Info">Info</ListGroupItem>
+                    <ListGroupItem Color="Color.Light">Light</ListGroupItem>
+                    <ListGroupItem Color="Color.Dark">Dark</ListGroupItem>
+                </ListGroup>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Contextual Colors Selectable</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>You can combine contextual colors with a selectable list group.</CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Flush="flush" Mode="ListGroupMode.Selectable">
+                    <ListGroupItem Name="none" Color="Color.None">None</ListGroupItem>
+                    <ListGroupItem Name="primary" Color="Color.Primary">Primary</ListGroupItem>
+                    <ListGroupItem Name="secondary" Color="Color.Secondary">Secondary</ListGroupItem>
+                    <ListGroupItem Name="success" Color="Color.Success">Success</ListGroupItem>
+                    <ListGroupItem Name="danger" Color="Color.Danger">Danger</ListGroupItem>
+                    <ListGroupItem Name="warning" Color="Color.Warning">Warning</ListGroupItem>
+                    <ListGroupItem Name="info" Color="Color.Info">Info</ListGroupItem>
+                    <ListGroupItem Name="light" Color="Color.Light">Light</ListGroupItem>
+                    <ListGroupItem Name="dark" Color="Color.Dark">Dark</ListGroupItem>
+                </ListGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Badges</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Flex</code> utility attribute to position the content of list group items.</CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Flush="flush">
+                    <ListGroupItem Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                        A list item
+                        <Badge Color="Color.Primary" Pill="true">14</Badge>
+                    </ListGroupItem>
+                    <ListGroupItem Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                        A second list item
+                        <Badge Color="Color.Primary" Pill="true">2</Badge>
+                    </ListGroupItem>
+                    <ListGroupItem Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                        A third list item
+                        <Badge Color="Color.Primary" Pill="true">1</Badge>
+                    </ListGroupItem>
+                </ListGroup>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom content</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Combine the various Blazorise components and utility attributes to create unique lists.</CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Flush="flush">
+                    <ListGroupItem>
+                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">List group item heading</Heading>
+                            <Small>3 days ago</Small>
+                        </Div>
+                        <Paragraph Margin="Margin.Is1.FromBottom">Some placeholder content in a paragraph.</Paragraph>
+                        <Small>And some small print.</Small>
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">List group item heading</Heading>
+                            <Small TextColor="TextColor.Muted">3 days ago</Small>
+                        </Div>
+                        <Paragraph Margin="Margin.Is1.FromBottom">Some placeholder content in a paragraph.</Paragraph>
+                        <Small TextColor="TextColor.Muted">And some muted small print.</Small>
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">List group item heading</Heading>
+                            <Small TextColor="TextColor.Muted">3 days ago</Small>
+                        </Div>
+                        <Paragraph Margin="Margin.Is1.FromBottom">Some placeholder content in a paragraph.</Paragraph>
+                        <Small TextColor="TextColor.Muted">And some muted small print.</Small>
+                    </ListGroupItem>
+                </ListGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private bool flush;
+    private string selectedItem = "first";
+}

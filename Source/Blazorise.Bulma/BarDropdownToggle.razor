@@ -1,0 +1,21 @@
+﻿@inherits Blazorise.BarDropdownToggle
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    @if ( ParentDropdownState?.Mode == BarMode.Horizontal && ParentBarDropdown?.IsBarDropdownSubmenu == true )
+    {
+        <span>@ChildContent</span>
+        <span class="icon is-small">
+            @if ( ParentDropdownState.Visible )
+            {
+                <Icon Name="IconName.AngleLeft" />
+            }
+            else
+            {
+                <Icon Name="IconName.AngleRight" />
+            }
+        </span>
+    }
+    else
+    {
+        @ChildContent
+    }
+</a>

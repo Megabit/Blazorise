@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits BaseChart<PieChartDataset<TItem>, TItem, PieChartOptions, PieChartModel>
-<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
+    <canvas @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
-    </CascadingValue>
-</canvas>
+    </canvas>
+</CascadingValue>

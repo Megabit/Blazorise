@@ -6,11 +6,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class ValidateNumericEditComponentTest : ComponentTestFixture
+    public class ValidateNumericEditComponentTest : TestContext
     {
         public ValidateNumericEditComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddNumericEdit( this.JSInterop );
         }
 
         [Fact]

@@ -1,23 +1,45 @@
-﻿.ant-pagination-lg {
-    .ant-pagination-item {
-        height: auto;
-    }
+﻿@mixin pagination($size, $height) {
+    .ant-pagination {
+        &.ant-pagination-#{$size} &-total-text,
+        &.ant-pagination-#{$size} &-simple-pager {
+            height: $height;
+            line-height: $height;
+        }
 
-    .ant-pagination-link {
-        padding: .75rem 1.5rem;
-        font-size: 1.25rem;
-        line-height: 1.5rem;
+        &.ant-pagination-#{$size} &-item {
+            min-width: $height;
+            height: $height;
+            /*margin: 0;*/
+            line-height: $height - 2px;
+        }
+
+        &.ant-pagination-#{$size} &-prev,
+        &.ant-pagination-#{$size} &-next {
+            min-width: $height;
+            height: $height;
+            /*margin: 0;*/
+            line-height: $height;
+        }
+
+        &.ant-pagination-#{$size} &-prev &-item-link,
+        &.ant-pagination-#{$size} &-next &-item-link {
+            &::after {
+                height: $height;
+                line-height: $height;
+            }
+        }
+
+        &.ant-pagination-#{$size} &-jump-prev,
+        &.ant-pagination-#{$size} &-jump-next {
+            height: $height;
+            margin-right: 0;
+            line-height: $height;
+        }
     }
 }
 
-.ant-pagination-sm {
-    .ant-pagination-item {
-        height: auto;
-    }
-
-    .ant-pagination-link {
-        padding: .25rem .5rem;
-        font-size: .875rem;
-        line-height: 1rem;
-    }
-}
+@include pagination('xs', $pagination-item-size-xs);
+@include pagination('sm', $pagination-item-size-sm);
+@include pagination('md', $pagination-item-size-md);
+@include pagination('lg', $pagination-item-size-lg);
+@include pagination('xl', $pagination-item-size-xl);

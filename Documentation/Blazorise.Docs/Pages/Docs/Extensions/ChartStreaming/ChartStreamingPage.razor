@@ -1,0 +1,39 @@
+﻿@page "/docs/extensions/chart-live"
+
+<Seo Canonical="/docs/extensions/chart-live" Title="Blazorise Chart Streaming" Description="Learn how to use Blazorise chart streaming extension components." />
+
+<DocsPageTitle>
+    Chart Streaming
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Streaming">
+        Live streaming is made possible with the help of <Blazorise.Link To="https://nagix.github.io/chartjs-plugin-streaming/latest/" Target="Target.Blank">chartjs-plugin-streaming</Blazorise.Link>.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install chart streaming extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartStreamingNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        Include the necessary files into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartStreamingResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example" />
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartStreamingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartStreamingExample" />
+</DocsPageSection>

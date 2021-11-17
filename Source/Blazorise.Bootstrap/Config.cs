@@ -1,8 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -23,44 +22,48 @@ namespace Blazorise.Bootstrap
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, BootstrapJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
+
+            serviceCollection.AddBootstrapComponents();
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
             return serviceCollection;
         }
 
-        private static void RegisterComponents( IComponentMapper componentMapper )
+        public static IServiceCollection AddBootstrapComponents( this IServiceCollection serviceCollection )
         {
-            componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
-            componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
-            componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
-            componentMapper.Register<Blazorise.CardTitle, Bootstrap.CardTitle>();
-            componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
-            componentMapper.Register<Blazorise.Carousel, Bootstrap.Carousel>();
-            componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
-            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) );
-            componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
-            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
-            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
-            componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            componentMapper.Register<Blazorise.Button, Bootstrap.Button>();
-            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
-            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
+
+            return serviceCollection;
         }
 
-        /// <summary>
-        /// Registers the custom rules for bootstrap components.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IServiceProvider UseBootstrapProviders( this IServiceProvider serviceProvider )
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
-        }
+            { typeof( Blazorise.Addon ), typeof( Bootstrap.Addon ) },
+            { typeof( Blazorise.BarToggler ), typeof( Bootstrap.BarToggler ) },
+            { typeof( Blazorise.BarDropdown ), typeof( Bootstrap.BarDropdown ) },
+            { typeof( Blazorise.BarDropdownMenu ), typeof( Bootstrap.BarDropdownMenu ) },
+            { typeof( Blazorise.CardTitle ), typeof( Bootstrap.CardTitle ) },
+            { typeof( Blazorise.CardSubtitle ), typeof( Bootstrap.CardSubtitle ) },
+            { typeof( Blazorise.Carousel ), typeof( Bootstrap.Carousel ) },
+            { typeof( Blazorise.CloseButton ), typeof( Bootstrap.CloseButton ) },
+            { typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( Bootstrap.DropdownToggle ) },
+            { typeof( Blazorise.Field ), typeof( Bootstrap.Field ) },
+            { typeof( Blazorise.FieldBody ), typeof( Bootstrap.FieldBody ) },
+            { typeof( Blazorise.FileEdit ), typeof( Bootstrap.FileEdit ) },
+            { typeof( Blazorise.Modal ), typeof( Bootstrap.Modal ) },
+            { typeof( Blazorise.ModalContent ), typeof( Bootstrap.ModalContent) },
+            { typeof( Blazorise.NumericEdit<> ), typeof( Bootstrap.NumericEdit<> ) },
+            { typeof( Blazorise.Button ), typeof( Bootstrap.Button ) },
+            { typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) },
+            { typeof( Blazorise.Step ), typeof( Bootstrap.Step ) },
+        };
     }
 }

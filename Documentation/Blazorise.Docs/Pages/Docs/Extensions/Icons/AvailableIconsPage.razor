@@ -1,0 +1,25 @@
+﻿@page "/docs/extensions/icons-available"
+@inject IIconProvider IconProvider
+
+<Seo Canonical="/docs/extensions/icons-available" Title="Blazorise Available Icons" Description="Find out the Available Blazorise Icons." />
+
+<DocsPageTitle>
+    Available Icons
+</DocsPageTitle>
+
+
+<Div Flex="Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start">
+    @foreach ( var icon in Enum.GetValues<IconName>() )
+    {
+        <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
+            <Div Flex="Flex.Column.JustifyContent.Center" Class="b-example-blazorise-icon">
+                <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
+                    <Icon Name="@icon" />
+                </Span>
+                <Text TextAlignment="TextAlignment.Center">
+                    @icon
+                </Text>
+            </Div>
+        </Tooltip>
+    }
+</Div>

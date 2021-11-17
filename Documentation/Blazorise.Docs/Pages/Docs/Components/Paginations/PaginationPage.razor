@@ -1,0 +1,83 @@
+﻿@page "/docs/components/pagination"
+
+<Seo Canonical="/docs/components/pagination" Title="Blazorise Pagination system" Description="The Pagination component enables the user to select a specific page from a range of pages." />
+
+<DocsPageTitle>
+    Pagination component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>Pagination</Code> component enables the user to select a specific page from a range of pages.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Pagination</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>PaginationItem</Code>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>PaginationLink</Code>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicPaginationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicPaginationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dynamic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DynamicPaginationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DynamicPaginationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Pagination">
+    <DocsAttributesItem Name="Size" Type="Size" Default="None">
+        Gets or sets the pagination size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Alignment" Type="Alignment" Default="None">
+        Gets or sets the pagination alignment.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Background" Type="Background" Default="None">
+        Gets or sets the pagination background color.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="PaginationItem">
+    <DocsAttributesItem Name="Active" Type="bool" Default="false">
+        Indicate the currently active page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Used for links that appear un-clickable.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="PaginationLink">
+    <DocsAttributesItem Name="Page" Type="string" Default="null">
+        Defines the page name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<string>">
+        Occurs when the item link is clicked.
+    </DocsAttributesItem>
+</DocsAttributes>

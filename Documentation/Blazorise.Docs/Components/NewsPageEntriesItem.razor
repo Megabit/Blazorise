@@ -1,0 +1,24 @@
+﻿<Div Margin="Margin.Is2.FromBottom">
+    <article>
+        <Heading Size="HeadingSize.Is2">
+            @if ( To != null )
+            {
+                <Blazorise.Link To="@To" TextColor="TextColor.Primary">
+                    @ToText
+                </Blazorise.Link>
+            }
+            <Paragraph Margin="Margin.Is0.FromTop">
+                <Small>
+                    @ChildContent
+                </Small>
+            </Paragraph>
+        </Heading>
+    </article>
+</Div>
+@code {
+    [Parameter] public string To { get; set; }
+
+    [Parameter] public string ToText { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

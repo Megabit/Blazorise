@@ -1,0 +1,238 @@
+﻿@page "/docs/components/bar"
+
+<Seo Canonical="/docs/components/bar" Title="Blazorise Bar component" Description="The Bar component is a responsive and versatile navigation bar that can be used as a top menu" />
+
+<DocsPageTitle>
+    Bar
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <code>Bar</code> component is a responsive and versatile navigation bar that can be used as a top menu
+    in <strong>Horizontal</strong> mode or as a sidebar in one of the three <strong>Vertical</strong> modes.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Bar</Code> main container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>BarBrand</Code> <strong>Horizontal</strong>: the left side, always visible. <strong>Vertical</strong>: top of Bar branding.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>BarToggler</Code> <strong>Horizontal</strong>: toggles the bar. <strong>Vertical</strong>: read more below.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>BarMenu</Code> <strong>Horizontal</strong>: the right side, hidden on breakpoint. <strong>Vertical</strong>: contains the core menu elements.
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>BarStart</Code> <strong>Horizontal</strong>: left side menu. <strong>Vertical</strong>: sticky top menu.
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code Tag>BarEnd</Code> <strong>Horizontal</strong>: right side menu. <strong>Vertical</strong>: sticky bottom menu.
+                        <UnorderedList>
+                            <UnorderedListItem>
+                                <Code Tag>BarItem </Code> each single item of the bar menu
+                                <UnorderedList>
+                                    <UnorderedListItem>
+                                        <Code Tag>BarLink</Code> item link or button
+                                        <UnorderedList>
+                                            <UnorderedListItem>
+                                                <Code Tag>BarIcon</Code> icon for Bar item (required for BarMode.VerticalSmall)
+                                            </UnorderedListItem>
+                                        </UnorderedList>
+                                    </UnorderedListItem>
+                                    <UnorderedListItem>
+                                        <Code Tag>BarDropdown</Code> dropdown container (or popout for BarMode.VerticalPopout)
+                                        <UnorderedList>
+                                            <UnorderedListItem>
+                                                <Code Tag>BarDropdownToggle</Code> dropdown trigger
+                                            </UnorderedListItem>
+                                            <UnorderedListItem>
+                                                <Code Tag>BarDropdownMenu</Code> the dropdown menu, which can include bar items and dividers
+                                                for BarMode.VerticalPopout)
+                                                <UnorderedList>
+                                                    <UnorderedListItem>
+                                                        <Code Tag>BarDropdownItem</Code> each single item of the dropdown menu
+                                                    </UnorderedListItem>
+                                                    <UnorderedListItem>
+                                                        <Code Tag>BarDropdownDivider</Code> Divider that can be placed between <Code>BarDropdownItem</Code>’s.
+                                                    </UnorderedListItem>
+                                                    <UnorderedListItem>
+                                                        <Code Tag>BarDropdown</Code> by adding this again inside the menu, you will create nested dropdowns
+                                                    </UnorderedListItem>
+                                                </UnorderedList>
+                                            </UnorderedListItem>
+                                        </UnorderedList>
+                                    </UnorderedListItem>
+                                </UnorderedList>
+                            </UnorderedListItem>
+
+                        </UnorderedList>
+
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Top Bar (with dropdown)">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <TopBarExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TopBarExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Vertical Bar (Sidebar)">
+        When using the Bar in one of the <strong>Vertical</strong> modes for the purpose of a Sidebar, you need to place it inside the <Code>LayoutSiderContent</Code> component.
+
+        Please see the <Blazorise.Link To="docs/components/layout" Target="Target.Blank">Layout docs </Blazorise.Link> for more information on setup with Sidebar.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <VerticalBarSideBarExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VerticalBarSideBarExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> The <Code>BarIcon</Code> is required for each <Code>BarLink</Code> or <Code>BarDropdownToggle</Code> when using <Code>BarMode.VerticalSmall</Code> or <Code>BarCollapseMode.Small</Code>, in order for it work correctly.
+        For a demo of the Vertical bar in action, please check out <Blazorise.Link To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank">this Blazorise demo</Blazorise.Link>.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Right-aligned Vertical Bar">
+        You can create a right-aligned <Code>Vertical</Code> style <Code>Bar </Code>easily by following two key principals.
+        <UnorderedList>
+            <UnorderedListItem>
+                Using the <Code>Layout</Code> to accommodate the right-align bar, by putting the <Code>LayoutSider </Code>section after the <Code>Layout</Code> section (see in example below).
+            </UnorderedListItem>
+            <UnorderedListItem>
+                Adding <Code>RightAligned="true"</Code> to ALL <Code>BarDropdownMenu</Code> within the <Code>Vertical</Code> bar.
+            </UnorderedListItem>
+        </UnorderedList>
+        Right-aligned vertical bar example:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <VerticalBarRightAlignedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VerticalBarRightAlignedExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Vertical Bar Toggler">
+        The <Code>BarToggler</Code> for Vertical Bar supports 2 modes:
+        <UnorderedList>
+            <UnorderedListItem><Code>BarTogglerMode.Normal (default)</Code></UnorderedListItem>
+            <UnorderedListItem><Code>BarTogglerMode.Popout</Code></UnorderedListItem>
+        </UnorderedList>
+        These 2 modes, along with an external implementation, provides 3 easy to configure implementations.
+        <Paragraph>
+            <Strong>1. Inline</Strong>
+        </Paragraph>
+        By simply adding the <Code>BarToggler</Code> anywhere inside the Vertical <Code>Bar</Code> component (at the top level), you will have an inline toggler added to your bar at this location.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <VerticalBarInlineExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VerticalBarInlineExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Strong>2. Popout</Strong>
+
+        Once again, by simply adding the BarToggler anywhere inside the Vertical Bar component (at the top level), and setting the Mode to Popout you will have an popout toggler added to your bar at this location.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <VerticalBarPopoutExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VerticalBarPopoutExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Strong>3. External (controlled by Top Bar)</Strong>
+
+        For an externally controlled <Code>BarToggler</Code>, you need to be using the top bar.
+
+        Where you have a top bar and vertical bar, you can add multiple <Code>BarTogglers</Code> to the top bar and choose to have one of these control the vertical bar by simply setting the <Code>Bar</Code> property.
+
+        In the example below, we will create two <Code>BarTogglers</Code> inside the top bar.
+        <UnorderedList>
+            <UnorderedListItem>
+                One to control the Vertical Bar (closest to it)
+            </UnorderedListItem>
+            <UnorderedListItem>
+                One to control the Top Bar (at the opposite end)
+            </UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <VerticalBarExternalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VerticalBarExternalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Nested Dropdowns">
+        To create nested <Code>BarDropdowns</Code>, you can simply add a <Code>BarDropdown</Code> component inside the structure of an existing <Code>BarDropdownMenu</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <VerticalBarNestedDropdownsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VerticalBarNestedDropdownsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Header on top">
+        For an example where the horizontal <Code>Bar</Code> is “on top” of the vertical <Code>Bar</Code>, please look at <Blazorise.Link To="docs/components/layout" Target="Target.Blank">this example </Blazorise.Link> in the <Code>Layout</Code> docs.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Bar">
+    <DocsAttributesItem Name="Mode" Type="BarMode" Default="Horizontal">
+        Bar mode (<Code>Vertical*</Code> for Sidebar).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CollapseMode" Type="BarCollapseMode" Default="Hide">
+        What the Bar will collapse to when <Code>Visible</Code> toggled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Controls the state of toggle and the menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Breakpoint" Type="Breakpoint" Default="None">
+        Defines the media breakpoint.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NavigationBreakpoint" Type="Breakpoint" Default="None">
+        Defines the media breakpoint on navigation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ThemeContrast" Type="ThemeContrast" Default="Light">
+        Adjusts the contrast for light or dark themes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Background" Type="Background" Default="None">
+        Sets the bar background color.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="BarLink">
+    <DocsAttributesItem Name="To" Type="string" Default="null">
+        Path to the destination page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Target" Type="Target" Default="None">
+        The target attribute specifies where to open the linked document.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Match" Type="bool" Default="All">
+        URL matching behavior for a link.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="string" Default="null">
+        Defines the title of a link, which appears to the user as a tooltip.
+    </DocsAttributesItem>
+</DocsAttributes>

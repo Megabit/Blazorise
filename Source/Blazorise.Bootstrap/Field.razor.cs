@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Bootstrap
@@ -17,7 +14,7 @@ namespace Blazorise.Bootstrap
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( IsFields )
+            if ( IsFields && ColumnSize == null )
                 builder.Append( ClassProvider.FieldColumn() );
 
             if ( ColumnSize != null )

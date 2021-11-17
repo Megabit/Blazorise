@@ -1,0 +1,71 @@
+﻿@page "/docs/components/time-picker"
+
+<Seo Canonical="/docs/components/time-picker" Title="Blazorise TimePicker Component" Description="The TimePicker is stand-alone component that can be utilized in many existing Blazorise components. It offers the user a visual representation for selecting the time." />
+
+<DocsPageTitle>
+    TimePicker component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>TimePicker</Code> is stand-alone component that can be utilized in many existing Blazorise components. It offers the user a visual representation for selecting the time.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>TimePicker</Code> is based on a <Blazorise.Link To="https://flatpickr.js.org/">flatpickr</Blazorise.Link> time picker
+    and as such is not a native time input element. That means that unlike <Code>TimeEdit</Code> which will render <Code>type="time"</Code>,
+    <Code>TimePicker</Code> will render <Code>type="text"</Code> in the DOM.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicTimePickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicTimePickerExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Add icon">
+        To add icon you can combine <Code>TimePicker</Code> with an <Code>Addon</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerWithIconExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerWithIconExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is2">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Time" Type="TValue" Default="default">
+        Gets or sets the input time value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TimeChanged" Type="@("EventCallback<TValue>")">
+        Occurs when the time has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Min" Type="TimeSpan?" Default="null">
+        The earliest time to accept.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Max" Type="TimeSpan?" Default="null">
+        The latest time to accept.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Pattern" Type="string" Default="null">
+        The pattern attribute specifies a regular expression that the input element’s value is checked against on form submission.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        Sets the placeholder for the empty time.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisplayFormat" Type="string" Default="null">
+        Defines the display format of the time.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TimeAs24hr" Type="bool " Default="false">
+        Displays time picker in 24 hour mode without AM/PM selection when enabled.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -1,0 +1,48 @@
+﻿@page "/tests/ratings"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Basic Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Rating.</CardText>
+            </CardBody>
+            <CardBody>
+                <Rating Color="Color.Primary" @bind-SelectedValue="@SelectedValue" MaxValue="10" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Read Only</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Default rating.</CardText>
+            </CardBody>
+            <CardBody>
+                <Rating SelectedValue="@SelectedValue" MaxValue="10" ReadOnly="true" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Disabled</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Default rating.</CardText>
+            </CardBody>
+            <CardBody>
+                <Rating SelectedValue="@SelectedValue" MaxValue="10" Disabled="true" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    public int SelectedValue { get; set; } = 2;
+    public int SelectedMaterialValue { get; set; } = 1;
+}

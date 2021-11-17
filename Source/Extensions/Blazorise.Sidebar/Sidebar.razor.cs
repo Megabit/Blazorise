@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -36,7 +33,7 @@ namespace Blazorise.Sidebar
         {
             Visible = true;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -46,7 +43,7 @@ namespace Blazorise.Sidebar
         {
             Visible = false;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -56,7 +53,7 @@ namespace Blazorise.Sidebar
         {
             Visible = !Visible;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

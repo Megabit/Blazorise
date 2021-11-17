@@ -1,0 +1,65 @@
+﻿@page "/docs/extensions/dropdownlist"
+
+<Seo Canonical="/docs/extensions/dropdownlist" Title="Blazorise DropdownList" Description="Learn how to use Blazorise DropdownList extension components." />
+
+<DocsPageTitle>
+    DropdownList
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>DropdownList</Code> component allows you to select a value from a list of predefined items.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The DropdownList extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DropdownListExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownListExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="TItem" Type="generic">
+        Model data type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
+        Data used for the search.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextField" Type="Func">
+        Selector for the display name field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueField" Type="Func">
+        Selector for the value field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValue" Type="	object">
+        Currently selected value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<string>">
+        Raises an event after the selected value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxMenuHeight" Type="string">
+        Sets the maximum height of the dropdown menu.
+    </DocsAttributesItem>
+</DocsAttributes>

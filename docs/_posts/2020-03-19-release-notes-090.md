@@ -19,7 +19,7 @@ Before we continue it's good to mention that with this release comes a lot of br
 
 ### Renamed properties
 
-This is by far the largest refactor in this release and a lot of components are touched with this release. Basically this is one of the first [issues](https://github.com/stsrki/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/stsrki/Blazorise/pull/536) and see all changes listed.
+This is by far the largest refactor in this release and a lot of components are touched with this release. Basically this is one of the first [issues](https://github.com/Megabit/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/Megabit/Blazorise/pull/536) and see all changes listed.
 
 ### Refactored components
 
@@ -96,7 +96,7 @@ There is also a great landing page theme made by [@richbryant](https://github.co
 
 ### Layout
 
-Originally this was not going to a part of **v0.9**. While I was working on provider for AntDesign, I liked how they had special layout component(s) to structure the page. I wanted to see how it would translate to Blazorise so I can use it instead of current custom structure in the demo app. It worked quite good, but I didn't want to loose too much time working on it, so I just stashed it until later. At the same time [@MitchellNZ](https://github.com/MitchellNZ) opened new [ticket](https://github.com/stsrki/Blazorise/issues/700) with the request for the very same component(s). So instead, we both agreed for him to join me and to finish the Layout component. I must admit without his help this feature would be laying around for a long time. As a result it's now part of a **v0.9** and as a bonus with it the entire demo app is structured fully by Blazorise components without any help of native elements or custom CSS.
+Originally this was not going to a part of **v0.9**. While I was working on provider for AntDesign, I liked how they had special layout component(s) to structure the page. I wanted to see how it would translate to Blazorise so I can use it instead of current custom structure in the demo app. It worked quite good, but I didn't want to loose too much time working on it, so I just stashed it until later. At the same time [@MitchellNZ](https://github.com/MitchellNZ) opened new [ticket](https://github.com/Megabit/Blazorise/issues/700) with the request for the very same component(s). So instead, we both agreed for him to join me and to finish the Layout component. I must admit without his help this feature would be laying around for a long time. As a result it's now part of a **v0.9** and as a bonus with it the entire demo app is structured fully by Blazorise components without any help of native elements or custom CSS.
 
 You can read more about how to implement the new `Layout` component system on its [documentation page](/docs/components/layout).
 
@@ -130,46 +130,46 @@ Just as in previous releases, DataGrid has received many new features. Without g
 
 ## List of Features and Bug Fixes
 
-- [#612](https://github.com/stsrki/Blazorise/issues/612) Make BaseAutocomplete.CurrentSearch
-- [#358](https://github.com/stsrki/Blazorise/issues/358) Snackbar colors and theme support
-- [#576](https://github.com/stsrki/Blazorise/issues/576) Snackbar Closed event
-- [#570](https://github.com/stsrki/Blazorise/issues/570) DataGrid events converted to `EventCallback`
-- [#296](https://github.com/stsrki/Blazorise/issues/296) Cleaned Tabs API
-- [#549](https://github.com/stsrki/Blazorise/issues/549) `CloseReason` for closable components like Modal
-- [#493](https://github.com/stsrki/Blazorise/issues/493) DataGrid multi sorting
-- [#539](https://github.com/stsrki/Blazorise/issues/539) DataGrid sorting icon
-- [#509](https://github.com/stsrki/Blazorise/issues/509) Limit NumericEdit max and min based on it's value type
-- [#516](https://github.com/stsrki/Blazorise/issues/516) DataGrid previous and next templates
-- [#506](https://github.com/stsrki/Blazorise/issues/506) Support for MVVM with ICommand
-- [#617](https://github.com/stsrki/Blazorise/issues/617) DataGrid Row click events
-- [#681](https://github.com/stsrki/Blazorise/issues/681) Some Components can not be styled
-- [#656](https://github.com/stsrki/Blazorise/issues/656) FileUpload does not allow ValidationErrors to be displayed
-- [#668](https://github.com/stsrki/Blazorise/issues/668) Navigation marked as obsolete
-- [#492](https://github.com/stsrki/Blazorise/issues/492) [DataGrid] Add First and Last pagination buttons
-- [#529](https://github.com/stsrki/Blazorise/issues/529) DataGrid styling
-- [#527](https://github.com/stsrki/Blazorise/issues/527) [DataGrid] OnSaveCommand not working when Data is used with EF
-- [#633](https://github.com/stsrki/Blazorise/issues/633) DataGridColumn Filter Template (PR #639)
-- [#491](https://github.com/stsrki/Blazorise/issues/491) [DataGrid] Add Alignment to column
-- [#490](https://github.com/stsrki/Blazorise/issues/490) [DataGrid] Add Format attribute to DataGridColumn
-- [#569](https://github.com/stsrki/Blazorise/issues/569) [Bug] Scroll problem with sidebar
-- [#662](https://github.com/stsrki/Blazorise/issues/662) Possible memory leak on Dispose
-- [#657](https://github.com/stsrki/Blazorise/issues/657) Size-attribute conflict in `<Select>` component
-- [#394](https://github.com/stsrki/Blazorise/issues/394) Custom filtering for DataGrid
-- [#489](https://github.com/stsrki/Blazorise/issues/489) [DataGrid] Aggregate columns
-- [#722](https://github.com/stsrki/Blazorise/issues/722) `.b-body-layout` is not working Bulma
-- [#571](https://github.com/stsrki/Blazorise/issues/571) Prevent users from injecting their own components
-- [#677](https://github.com/stsrki/Blazorise/issues/677) Slider component not initializing as expected with values over 100 (#727)
-- [#351](https://github.com/stsrki/Blazorise/issues/351) Automatically set Breadcrumb active state based on navigation URL
-- [#605](https://github.com/stsrki/Blazorise/issues/605) Option to control data-grid column visibility in display mode
-- [#627](https://github.com/stsrki/Blazorise/issues/627) DataGrid Filter box placement #742
-- [#575](https://github.com/stsrki/Blazorise/issues/575) Adding `@attributes` to Blazorise.Components such as SelectList
-- [#514](https://github.com/stsrki/Blazorise/issues/514) [Clean] CascadingParameter access modifiers
-- [#522](https://github.com/stsrki/Blazorise/issues/522) [Refactor] Convert all components to partial classes
-- [#424](https://github.com/stsrki/Blazorise/issues/424) Tabs documentation doesn't match Tabs Demo (documentation solution doesn't work)
-- [#521](https://github.com/stsrki/Blazorise/issues/521) [Clean] DropdownToggle and BarDropdownToggle
-- [#507](https://github.com/stsrki/Blazorise/issues/507) BootStrap Alert Close Button
-- [#259](https://github.com/stsrki/Blazorise/issues/259) Tab not work with blazor preview 9
-- [#744](https://github.com/stsrki/Blazorise/issues/744) Feature Request: Ability to disable tabs
+- [#612](https://github.com/Megabit/Blazorise/issues/612) Make BaseAutocomplete.CurrentSearch
+- [#358](https://github.com/Megabit/Blazorise/issues/358) Snackbar colors and theme support
+- [#576](https://github.com/Megabit/Blazorise/issues/576) Snackbar Closed event
+- [#570](https://github.com/Megabit/Blazorise/issues/570) DataGrid events converted to `EventCallback`
+- [#296](https://github.com/Megabit/Blazorise/issues/296) Cleaned Tabs API
+- [#549](https://github.com/Megabit/Blazorise/issues/549) `CloseReason` for closable components like Modal
+- [#493](https://github.com/Megabit/Blazorise/issues/493) DataGrid multi sorting
+- [#539](https://github.com/Megabit/Blazorise/issues/539) DataGrid sorting icon
+- [#509](https://github.com/Megabit/Blazorise/issues/509) Limit NumericEdit max and min based on it's value type
+- [#516](https://github.com/Megabit/Blazorise/issues/516) DataGrid previous and next templates
+- [#506](https://github.com/Megabit/Blazorise/issues/506) Support for MVVM with ICommand
+- [#617](https://github.com/Megabit/Blazorise/issues/617) DataGrid Row click events
+- [#681](https://github.com/Megabit/Blazorise/issues/681) Some Components can not be styled
+- [#656](https://github.com/Megabit/Blazorise/issues/656) FileUpload does not allow ValidationErrors to be displayed
+- [#668](https://github.com/Megabit/Blazorise/issues/668) Navigation marked as obsolete
+- [#492](https://github.com/Megabit/Blazorise/issues/492) [DataGrid] Add First and Last pagination buttons
+- [#529](https://github.com/Megabit/Blazorise/issues/529) DataGrid styling
+- [#527](https://github.com/Megabit/Blazorise/issues/527) [DataGrid] OnSaveCommand not working when Data is used with EF
+- [#633](https://github.com/Megabit/Blazorise/issues/633) DataGridColumn Filter Template (PR #639)
+- [#491](https://github.com/Megabit/Blazorise/issues/491) [DataGrid] Add Alignment to column
+- [#490](https://github.com/Megabit/Blazorise/issues/490) [DataGrid] Add Format attribute to DataGridColumn
+- [#569](https://github.com/Megabit/Blazorise/issues/569) [Bug] Scroll problem with sidebar
+- [#662](https://github.com/Megabit/Blazorise/issues/662) Possible memory leak on Dispose
+- [#657](https://github.com/Megabit/Blazorise/issues/657) Size-attribute conflict in `<Select>` component
+- [#394](https://github.com/Megabit/Blazorise/issues/394) Custom filtering for DataGrid
+- [#489](https://github.com/Megabit/Blazorise/issues/489) [DataGrid] Aggregate columns
+- [#722](https://github.com/Megabit/Blazorise/issues/722) `.b-body-layout` is not working Bulma
+- [#571](https://github.com/Megabit/Blazorise/issues/571) Prevent users from injecting their own components
+- [#677](https://github.com/Megabit/Blazorise/issues/677) Slider component not initializing as expected with values over 100 (#727)
+- [#351](https://github.com/Megabit/Blazorise/issues/351) Automatically set Breadcrumb active state based on navigation URL
+- [#605](https://github.com/Megabit/Blazorise/issues/605) Option to control data-grid column visibility in display mode
+- [#627](https://github.com/Megabit/Blazorise/issues/627) DataGrid Filter box placement #742
+- [#575](https://github.com/Megabit/Blazorise/issues/575) Adding `@attributes` to Blazorise.Components such as SelectList
+- [#514](https://github.com/Megabit/Blazorise/issues/514) [Clean] CascadingParameter access modifiers
+- [#522](https://github.com/Megabit/Blazorise/issues/522) [Refactor] Convert all components to partial classes
+- [#424](https://github.com/Megabit/Blazorise/issues/424) Tabs documentation doesn't match Tabs Demo (documentation solution doesn't work)
+- [#521](https://github.com/Megabit/Blazorise/issues/521) [Clean] DropdownToggle and BarDropdownToggle
+- [#507](https://github.com/Megabit/Blazorise/issues/507) BootStrap Alert Close Button
+- [#259](https://github.com/Megabit/Blazorise/issues/259) Tab not work with blazor preview 9
+- [#744](https://github.com/Megabit/Blazorise/issues/744) Feature Request: Ability to disable tabs
 
 ## Contributors
 
@@ -179,24 +179,24 @@ I already mentioned [@MitchellNZ](https://github.com/MitchellNZ) and his help wi
 
 Many new contributors also helped with this release. Big thanks to all of you guys!
 
-- [#623](https://github.com/stsrki/Blazorise/pull/623) Use Tab key for Autocomplete selection
-- [#685](https://github.com/stsrki/Blazorise/pull/685) Grid/Row Gutter
-- [#639](https://github.com/stsrki/Blazorise/pull/639) DataGridColumn Filter Template
-- [#699](https://github.com/stsrki/Blazorise/pull/699) Fixed minor issues in RadioGroup tests so that they pass
-- [#702](https://github.com/stsrki/Blazorise/pull/702) Refactoring the Tests folder into Tests & Demos
-- [#703](https://github.com/stsrki/Blazorise/pull/703) Layout additions and fixes
-- [#713](https://github.com/stsrki/Blazorise/pull/713) fix: add back sticky header & scrollable sidebar
-- [#727](https://github.com/stsrki/Blazorise/pull/727) Fix slider initial value ignoring max
-- [#615](https://github.com/stsrki/Blazorise/pull/615) Add DisplayGridColumns parameter (#730)
-- [#726](https://github.com/stsrki/Blazorise/pull/726) Added DateEdit tests
-- [#736](https://github.com/stsrki/Blazorise/pull/736) [AntDesign] fix: ant card image/cover
-- [#737](https://github.com/stsrki/Blazorise/pull/737) [AntDesign] fix: progress bar
-- [#742](https://github.com/stsrki/Blazorise/pull/742) fix: insert empty cell when DataGridColumn Filterable is False
-- [#688](https://github.com/stsrki/Blazorise/pull/688) Updated contributing doc to include steps to setup development and testing environment.
-- [#719](https://github.com/stsrki/Blazorise/pull/719) Added unit test project for Blazorise
-- [#748](https://github.com/stsrki/Blazorise/pull/748) fix: Ant Design TableRowHeader
-- [#749](https://github.com/stsrki/Blazorise/pull/749) refactor: Collapse component away from Card dependency
-- [#752](https://github.com/stsrki/Blazorise/pull/752) docs: small changes & added grid docs
+- [#623](https://github.com/Megabit/Blazorise/pull/623) Use Tab key for Autocomplete selection
+- [#685](https://github.com/Megabit/Blazorise/pull/685) Grid/Row Gutter
+- [#639](https://github.com/Megabit/Blazorise/pull/639) DataGridColumn Filter Template
+- [#699](https://github.com/Megabit/Blazorise/pull/699) Fixed minor issues in RadioGroup tests so that they pass
+- [#702](https://github.com/Megabit/Blazorise/pull/702) Refactoring the Tests folder into Tests & Demos
+- [#703](https://github.com/Megabit/Blazorise/pull/703) Layout additions and fixes
+- [#713](https://github.com/Megabit/Blazorise/pull/713) fix: add back sticky header & scrollable sidebar
+- [#727](https://github.com/Megabit/Blazorise/pull/727) Fix slider initial value ignoring max
+- [#615](https://github.com/Megabit/Blazorise/pull/615) Add DisplayGridColumns parameter (#730)
+- [#726](https://github.com/Megabit/Blazorise/pull/726) Added DateEdit tests
+- [#736](https://github.com/Megabit/Blazorise/pull/736) [AntDesign] fix: ant card image/cover
+- [#737](https://github.com/Megabit/Blazorise/pull/737) [AntDesign] fix: progress bar
+- [#742](https://github.com/Megabit/Blazorise/pull/742) fix: insert empty cell when DataGridColumn Filterable is False
+- [#688](https://github.com/Megabit/Blazorise/pull/688) Updated contributing doc to include steps to setup development and testing environment.
+- [#719](https://github.com/Megabit/Blazorise/pull/719) Added unit test project for Blazorise
+- [#748](https://github.com/Megabit/Blazorise/pull/748) fix: Ant Design TableRowHeader
+- [#749](https://github.com/Megabit/Blazorise/pull/749) refactor: Collapse component away from Card dependency
+- [#752](https://github.com/Megabit/Blazorise/pull/752) docs: small changes & added grid docs
 
 ## Closing Notes
 
@@ -204,6 +204,6 @@ What's comes next. For start, I will rest for a few days. Play with my son. Mayb
 
 Anyways, this post is already too long so I don't want to make it any longer. Go, download Blazorise, fix all the breaking changes, report any new bug to me. Also ask for help if anything is not clear.
 
-And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-badge bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
+And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/Megabit/Blazorise) or click on the star-badge bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
 
 Big thanks to everyone who come this far!

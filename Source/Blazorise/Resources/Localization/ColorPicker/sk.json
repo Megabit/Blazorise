@@ -1,0 +1,19 @@
+{
+  "culture": "sk",
+  "translations": {
+    "ui:dialog": "dialógové okno pre výber farieb",
+    "btn:toggle": "prepnúť dialógové okno výberu farieb",
+    "btn:swatch": "vzorkovník farieb",
+    "btn:last-color": "použiť predchádzajúcu farbu",
+    "btn:save": "Uložiť",
+    "btn:cancel": "Zrušiť",
+    "btn:clear": "Vymazať",
+    "aria:btn:save": "uložiť a zavrieť",
+    "aria:btn:cancel": "zrušiť a zavrieť",
+    "aria:btn:clear": "jasné a zatvorené",
+    "aria:input": "pole na zadanie farby",
+    "aria:palette": "oblasť výberu farieb",
+    "aria:hue": "posúvač výberu odtieňa",
+    "aria:opacity": "posúvač výberu"
+  }
+}

@@ -2,7 +2,6 @@
     align-items: center;
     background-color: var(--b-snackbar-background, #323232);
     color: var(--b-snackbar-text-color, white);
-    display: flex;
     font-size: 0.875rem;
     line-height: 1.42857;
     opacity: 0;
@@ -31,26 +30,54 @@
     @media screen and (prefers-reduced-motion: reduce) {
         .snackbar {
             transition: none; } }
-    .snackbar.show {
+    .snackbar.snackbar-show {
         transition-duration: 0.225s;
         transition-property: transform;
         transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
         opacity: 1;
         transform: translateY(0); }
         @media (min-width: 768px) {
-            .snackbar.show {
+            .snackbar.snackbar-show {
                 transition-duration: 0.2925s; } }
         @media (min-width: 1200px) {
-            .snackbar.show {
+            .snackbar.snackbar-show {
                 transition-duration: 0.15s; } }
         @media screen and (prefers-reduced-motion: reduce) {
-            .snackbar.show {
+            .snackbar.snackbar-show {
                 transition: none; } }
         @media (min-width: 768px) {
-            .snackbar.show {
+            .snackbar.snackbar-show {
                 transform: translate(-50%, -1.5rem); } }
 
+.snackbar-header {
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: DARKEN(var(--b-snackbar-background, #323232), 30%);
+    margin-right: auto;
+    min-width: 0;
+    font-weight: bold;
+    padding-bottom: 0.875rem; }
+
+.snackbar-footer {
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: DARKEN(var(--b-snackbar-background, #323232), 30%);
+    margin-right: auto;
+    min-width: 0;
+    padding-top: 0.875rem; }
+
 .snackbar-body {
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -58,7 +85,7 @@
     max-height: 100%;
     min-width: 0; }
 
-.snackbar-btn {
+.snackbar-action-button {
     transition-duration: 0.3s;
     transition-property: background-color, background-image;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -72,34 +99,34 @@
     font-size: inherit;
     font-weight: 500;
     line-height: inherit;
-    margin-left: 1.5rem;
+    /*margin-left: $snackbar-inner-spacer-x;*/
     padding: 0;
     text-transform: uppercase;
     white-space: nowrap; }
     @media (min-width: 768px) {
-        .snackbar-btn {
+        .snackbar-action-button {
             transition-duration: 0.39s; } }
     @media (min-width: 1200px) {
-        .snackbar-btn {
+        .snackbar-action-button {
             transition-duration: 0.2s; } }
     @media screen and (prefers-reduced-motion: reduce) {
-        .snackbar-btn {
+        .snackbar-action-button {
             transition: none; } }
-    .snackbar-btn:focus, .snackbar-btn:hover {
+    .snackbar-action-button:focus, .snackbar-action-button:hover {
         color: var(--b-snackbar-button-hover-color, var(--b-snackbar-button-hover-color, #ff80ab));
         text-decoration: none; }
     @media (min-width: 768px) {
-        .snackbar-btn {
+        .snackbar-action-button {
             margin-left: 3rem; } }
-    .snackbar-btn:focus {
+    .snackbar-action-button:focus {
         outline: 0; }
 
 @media (min-width: 768px) {
     .snackbar-left,
     .snackbar-right {
         transform: translateY(100%); }
-        .snackbar-left.show,
-        .snackbar-right.show {
+        .snackbar-left.snackbar-show,
+        .snackbar-right.snackbar-show {
             transform: translateY(-1.5rem); } }
 
 @media (min-width: 768px) {
@@ -112,7 +139,6 @@
         left: auto; } }
 
 .snackbar-multi-line {
-    height: 5rem;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem; }
     .snackbar-multi-line .snackbar-body {
@@ -122,70 +148,94 @@
     background-color: var(--b-snackbar-background-primary, #cce5ff);
     color: var(--b-snackbar-text-primary, #004085); }
 
-.snackbar-btn-primary {
+.snackbar-action-button-primary {
     color: var(--b-snackbar-button-primary, #ff4081); }
-    .snackbar-btn-primary:focus, .snackbar-btn-primary:hover {
+    .snackbar-action-button-primary:focus, .snackbar-action-button-primary:hover {
         color: var(--b-snackbar-button-hover-primary, #ff80ab); }
 
 .snackbar-secondary {
     background-color: var(--b-snackbar-background-secondary, #e2e3e5);
     color: var(--b-snackbar-text-secondary, #383d41); }
 
-.snackbar-btn-secondary {
+.snackbar-action-button-secondary {
     color: var(--b-snackbar-button-secondary, #ff4081); }
-    .snackbar-btn-secondary:focus, .snackbar-btn-secondary:hover {
+    .snackbar-action-button-secondary:focus, .snackbar-action-button-secondary:hover {
         color: var(--b-snackbar-button-hover-secondary, #ff80ab); }
 
 .snackbar-success {
     background-color: var(--b-snackbar-background-success, #d4edda);
     color: var(--b-snackbar-text-success, #155724); }
 
-.snackbar-btn-success {
+.snackbar-action-button-success {
     color: var(--b-snackbar-button-success, #ff4081); }
-    .snackbar-btn-success:focus, .snackbar-btn-success:hover {
+    .snackbar-action-button-success:focus, .snackbar-action-button-success:hover {
         color: var(--b-snackbar-button-hover-success, #ff80ab); }
 
 .snackbar-danger {
     background-color: var(--b-snackbar-background-danger, #f8d7da);
     color: var(--b-snackbar-text-danger, #721c24); }
 
-.snackbar-btn-danger {
+.snackbar-action-button-danger {
     color: var(--b-snackbar-button-danger, #ff4081); }
-    .snackbar-btn-danger:focus, .snackbar-btn-danger:hover {
+    .snackbar-action-button-danger:focus, .snackbar-action-button-danger:hover {
         color: var(--b-snackbar-button-hover-danger, #ff80ab); }
 
 .snackbar-warning {
     background-color: var(--b-snackbar-background-warning, #fff3cd);
     color: var(--b-snackbar-text-warning, #856404); }
 
-.snackbar-btn-warning {
+.snackbar-action-button-warning {
     color: var(--b-snackbar-button-warning, #ff4081); }
-    .snackbar-btn-warning:focus, .snackbar-btn-warning:hover {
+    .snackbar-action-button-warning:focus, .snackbar-action-button-warning:hover {
         color: var(--b-snackbar-button-hover-warning, #ff80ab); }
 
 .snackbar-info {
     background-color: var(--b-snackbar-background-info, #d1ecf1);
     color: var(--b-snackbar-text-info, #0c5460); }
 
-.snackbar-btn-info {
+.snackbar-action-button-info {
     color: var(--b-snackbar-button-info, #ff4081); }
-    .snackbar-btn-info:focus, .snackbar-btn-info:hover {
+    .snackbar-action-button-info:focus, .snackbar-action-button-info:hover {
         color: var(--b-snackbar-button-hover-info, #ff80ab); }
 
 .snackbar-light {
     background-color: var(--b-snackbar-background-light, #fefefe);
     color: var(--b-snackbar-text-light, #818182); }
 
-.snackbar-btn-light {
+.snackbar-action-button-light {
     color: var(--b-snackbar-button-light, #ff4081); }
-    .snackbar-btn-light:focus, .snackbar-btn-light:hover {
+    .snackbar-action-button-light:focus, .snackbar-action-button-light:hover {
         color: var(--b-snackbar-button-hover-light, #ff80ab); }
 
 .snackbar-dark {
     background-color: var(--b-snackbar-background-dark, #d6d8d9);
     color: var(--b-snackbar-text-dark, #1b1e21); }
 
-.snackbar-btn-dark {
+.snackbar-action-button-dark {
     color: var(--b-snackbar-button-dark, #ff4081); }
-    .snackbar-btn-dark:focus, .snackbar-btn-dark:hover {
+    .snackbar-action-button-dark:focus, .snackbar-action-button-dark:hover {
         color: var(--b-snackbar-button-hover-dark, #ff80ab); }
+
+.snackbar-stack {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 60;
+    bottom: 0; }
+
+.snackbar-stack .snackbar {
+    position: relative;
+    flex-direction: row;
+    margin-bottom: 0; }
+
+.snackbar-stack .snackbar:not(:last-child) {
+    margin-bottom: 1.5rem; }
+
+@media (min-width: 576px) {
+    .snackbar-stack-center {
+        left: 50%;
+        transform: translate(-50%, 0%); }
+    .snackbar-stack-left {
+        left: 1.5rem; }
+    .snackbar-stack-right {
+        right: 1.5rem; } }

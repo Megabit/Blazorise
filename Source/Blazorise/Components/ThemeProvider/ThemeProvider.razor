@@ -1,0 +1,11 @@
+@namespace Blazorise
+@if ( WriteVariables )
+{
+    @((MarkupString)GetVariablesTag())
+}
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@Theme">
+        @ChildContent
+    </CascadingValue>
+</CascadingValue>
+@((MarkupString)GetStylesTag())

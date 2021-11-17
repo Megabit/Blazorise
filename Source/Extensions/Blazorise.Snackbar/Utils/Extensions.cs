@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazorise.Snackbar.Utils
+﻿namespace Blazorise.Snackbar.Utils
 {
     static class Extensions
     {
@@ -17,6 +13,20 @@ namespace Blazorise.Snackbar.Utils
                 case SnackbarLocation.None:
                 default:
                     return null;
+            }
+        }
+
+        public static string GetName( this SnackbarStackLocation snackbarStackLocation )
+        {
+            switch ( snackbarStackLocation )
+            {
+                case SnackbarStackLocation.Left:
+                    return "left";
+                case SnackbarStackLocation.Right:
+                    return "right";
+                case SnackbarStackLocation.Center:
+                default:
+                    return "center";
             }
         }
 

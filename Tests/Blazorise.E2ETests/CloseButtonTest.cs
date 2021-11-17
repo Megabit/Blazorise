@@ -3,7 +3,6 @@ using BasicTestApp.Client;
 using Blazorise.E2ETests.Infrastructure;
 using Blazorise.E2ETests.Infrastructure.ServerFixtures;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using Xunit;
 using Xunit.Abstractions;
 using DevHostServerProgram = BasicTestApp.Server.Program;
@@ -36,6 +35,19 @@ namespace Blazorise.E2ETests
 
             button.Click();
             WaitAssert.Equal( "2", () => result.Text );
+        }
+
+        [Fact]
+        public void CanAutoClose()
+        {
+            var paragraph = Browser.FindElement( By.Id( "autoclose-button-event" ) );
+            var button = paragraph.FindElement( By.Id( "autoclose-button" ) );
+            var result = paragraph.FindElement( By.Id( "autoclose-button-event-result" ) );
+
+            WaitAssert.Equal( "0", () => result.Text );
+
+            button.Click();
+            WaitAssert.Equal( "1", () => result.Text );
         }
     }
 }

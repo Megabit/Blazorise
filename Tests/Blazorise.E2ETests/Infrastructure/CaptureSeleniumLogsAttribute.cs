@@ -25,7 +25,6 @@ namespace Blazorise.E2ETests.Infrastructure
 
         public override void After(MethodInfo methodUnderTest)
         {
-            var browser = BrowserTestBase.Browser;
             var logs = BrowserTestBase.Logs;
             var output = BrowserTestBase.Output;
 
@@ -34,7 +33,7 @@ namespace Blazorise.E2ETests.Infrastructure
             foreach (var kind in logs.AvailableLogTypes.OrderBy(k => k == LogType.Browser ? 0 : 1))
             {
                 output.WriteLine($"{kind} Logs from Selenium:");
-                
+
                 var entries = logs.GetLog(kind);
                 foreach (LogEntry entry in entries)
                 {

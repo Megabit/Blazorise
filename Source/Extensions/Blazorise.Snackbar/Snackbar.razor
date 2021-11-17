@@ -1,13 +1,6 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <div class="@ClassNames">
-        <CascadingValue Value="this">
-            @ChildContent
-        </CascadingValue>
+<CascadingValue Value="@this" IsFixed="true">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
+        @ChildContent
     </div>
-}
-else
-{
-    @RenderCustomComponent()
-}
+</CascadingValue>

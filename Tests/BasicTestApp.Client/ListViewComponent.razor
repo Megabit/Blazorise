@@ -1,0 +1,29 @@
+﻿<ListView TItem="Country"
+            Data="Countries"
+            TextField="(item) => item.Name"
+            Mode="ListGroupMode.Selectable"
+            MaxHeight="300px"
+            @bind-SelectedItem="@selectedListViewItem">
+</ListView>
+
+<Field Horizontal="true">
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected Item Text: @selectedListViewItem?.Name
+    </FieldBody>
+</Field>
+
+
+@code{
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    Country selectedListViewItem { get; set; }
+
+}

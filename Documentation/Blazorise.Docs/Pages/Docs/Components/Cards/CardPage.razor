@@ -1,0 +1,169 @@
+﻿@page "/docs/components/card"
+
+<Seo Canonical="/docs/components/card" Title="Blazorise Card component" Description="The Card component is a versatile component that can be used for anything from a panel to a static image." />
+
+<DocsPageTitle>
+    Cards
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>Card</Code> component is a versatile component that can be used for anything from a panel to a static image.
+    The card component has numerous helper components to make markup as easy as possible.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Card</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>CardHeader</Code>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>CardImage</Code>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>CardBody</Code>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>CardTitle</Code>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code Tag>CardSubtitle</Code>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code Tag>CardText</Code>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>CardFooter</Code>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code Tag>CardGroup</Code>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code Tag>CardDeck</Code>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Card">
+        Simple card
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Card deck">
+        A set of equal width and height cards that aren’t attached to one another.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardDeckExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardDeckExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Card">
+    <DocsAttributesItem Name="Background" Type="Background" Default="None">
+        Sets the bar background color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="WhiteText" Type="bool" Default="false">
+        Sets the white text when using the darker background.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CardText">
+    <DocsAttributesItem Name="Italic" Type="bool" Default="false">
+        Italicize text if set to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="None">
+        Sets the text alignment.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextColor" Type="TextColor" Default="None">
+        Sets the text color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextOverflow" Type="TextOverflow" Default="None">
+        Determines how the text will behave when it is larger than a parent container.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextTransform" Type="TextTransform" Default="None">
+        Sets the text transformation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextWeight" Type="TextWeight" Default="None">
+        Sets the text weight.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CardTitle">
+    <DocsAttributesItem Name="Italic" Type="bool" Default="false">
+        Italicize text if set to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="int?" Default="null">
+        Number from 1 to 6 that defines the title size where the smaller number means larger text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="None">
+        Sets the text alignment.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextColor" Type="TextColor" Default="None">
+        Sets the text color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextOverflow" Type="TextOverflow" Default="None">
+        Determines how the text will behave when it is larger than a parent container.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextTransform" Type="TextTransform" Default="None">
+        Sets the text transformation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextWeight" Type="TextWeight" Default="None">
+        Sets the text weight.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CardSubtitle">
+    <DocsAttributesItem Name="Italic" Type="bool" Default="false">
+        Italicize text if set to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="int" Default="6">
+        Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="None">
+        Sets the text alignment.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextColor" Type="TextColor" Default="None">
+        Sets the text color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextOverflow" Type="TextOverflow" Default="None">
+        Determines how the text will behave when it is larger than a parent container.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextTransform" Type="TextTransform" Default="None">
+        Sets the text transformation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextWeight" Type="TextWeight" Default="None">
+        Sets the text weight.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CardLink">
+    <DocsAttributesItem Name="Alt" Type="string" Default="null">
+        Alternative link text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Source" Type="string" Default="null">
+        Link URL.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CardImage">
+    <DocsAttributesItem Name="Alt" Type="string" Default="null">
+        Alternative image text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Source" Type="string" Default="null">
+        Image URL.
+    </DocsAttributesItem>
+</DocsAttributes>

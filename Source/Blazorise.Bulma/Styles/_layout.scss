@@ -1,5 +1,24 @@
-﻿body {
+﻿
+body {
     &::-webkit-scrollbar {
         display: none;
     }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @if $grid-row-columns > 0 {
+            @for $i from 1 through $grid-row-columns {
+                .are-columns#{$infix}-#{$i} {
+                    @include row-cols($i);
+                }
+            }
+        }
+    }
+}
+
+.b-layout-header {
+    z-index: 30;
 }

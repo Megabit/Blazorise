@@ -51,7 +51,8 @@ The `Check` component is another basic element for user input. You can use this 
 | Name                    | Type                                                                       | Default      | Description                                                                           |
 |-------------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
 | TValue                  | generic type                                                               |              | Data type of `Checked` value. Support types are `bool` and `bool?`.                   |
-| Checked                 | boolean                                                                    | false        | Gets or sets the checked flag.                                                        |
-| CheckedChanged          | event                                                                      |              | Occurs when the check state is changed.                                               |
-| Inline                  | boolean                                                                    | false        | Group checkboxes on the same horizontal row.                                          |
+| Checked                 | `TValue`                                                                   | `default`    | Gets or sets the checked flag.                                                        |
+| CheckedChanged          | `EventCallback<TValue>`                                                    |              | Occurs when the check state is changed.                                               |
+| Indeterminate           | `bool?`                                                                    | `null`       | The indeterminate property can help you to achieve a 'check all' effect.              |
+| Inline                  | `bool`                                                                     | `false`      | Group checkboxes on the same horizontal row.                                          |
 | Cursor                  | [Cursor]({{ "/docs/helpers/enums/#cursor" | relative_url }})               | `Default`    | Defines the mouse cursor based on the behavior by the current CSS framework.          |

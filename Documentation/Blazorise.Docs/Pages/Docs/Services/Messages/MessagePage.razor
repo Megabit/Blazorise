@@ -1,0 +1,35 @@
+﻿@page "/docs/services/message"
+
+<Seo Canonical="/docs/services/message" Title="Blazorise Message service" Description="The IMessageService is a powerful helper utility built on top of Modal component and is used for showing the messages and confirmation dialogs to the user." />
+
+<DocsPageTitle>
+    Message service
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>IMessageService</Code> is a powerful helper utility built on top of <Code>Modal</Code> component
+    and is used for showing the messages and confirmation dialogs to the user.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Wrapper">
+        <Code>IMessageService</Code> is automatically registered by Blazorise but it needs just one thing on
+        your side to make it work. You need to place <Code Tag>MessageAlert</Code> somewhere in your application
+        razor code. It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in
+        the following example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MessageServiceUsageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BasicMessageServiceExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicMessageServiceExample" />
+</DocsPageSection>

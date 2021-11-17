@@ -1,0 +1,15 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<i id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
+    @if ( IconProvider.IconNameAsContent && Name != null )
+    {
+        if ( Name is IconName )
+        {
+            @IconProvider.GetIconName( (IconName)Name, IconStyle );
+        }
+        else if ( Name is string )
+        {
+            @IconProvider.GetIconName( (string)Name );
+        }
+    }
+</i>

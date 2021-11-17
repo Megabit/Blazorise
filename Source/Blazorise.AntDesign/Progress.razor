@@ -1,10 +1,21 @@
 ﻿@inherits Blazorise.Progress
-<CascadingValue Value=this>
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <div class="ant-progress-outer">
-            <div class="ant-progress-inner">
-                @ChildContent
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div class="ant-progress-outer">
+                <div class="ant-progress-inner">
+                    @if ( !HasProgressBar )
+                    {
+                        <div class="@ProgressBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
+                            @ChildContent
+                        </div>
+                    }
+                    else
+                    {
+                        @ChildContent
+                    }
+                </div>
             </div>
         </div>
-    </div>
+    </CascadingValue>
 </CascadingValue>

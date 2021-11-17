@@ -1,0 +1,34 @@
+﻿@page "/docs/components/color"
+
+<Seo Canonical="/docs/components/color" Title="Blazorise Color component" Description="Native color picker allows you to select different colors." />
+
+<DocsPageTitle>
+    Color component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Native color picker allows you to select different colors.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+        Click the red area to activate the color picker. This is the basic variation of it.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicColorEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicColorEditExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Color" Type="string" Default="null">
+        Gets or sets the input color value in hex format.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColorChanged" Type="EventCallback<string>">
+        Occurs when the color has changed.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -39,7 +39,7 @@ namespace Blazorise.E2ETests.Infrastructure
             var elemToFind = By.CssSelector( "#test-selector > select" );
             new WebDriverWait( Browser, TimeSpan.FromSeconds( 30 ) ).Until(
                 driver => driver.FindElement( elemToFind ) != null );
-            return new SelectElement( Browser.FindElement( elemToFind ) );
+            return new( Browser.FindElement( elemToFind ) );
         }
     }
 }

@@ -1,14 +1,24 @@
 ﻿@typeparam TItem
-<Select @ref="@select" TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Attributes="@Attributes">
-    @if ( Data != null )
-    {
-        foreach ( var item in Data )
+@typeparam TValue
+<Select @ref="@selectRef" ElementId="@ElementId" TValue="TValue" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Size="@Size" MaxVisibleItems="@MaxVisibleItems" TabIndex="@TabIndex" Disabled="@Disabled" Attributes="@Attributes" SelectedValueExpression="@SelectedValueExpression">
+    <ChildContent>
+        @if ( DefaultItemText != null )
         {
-            var text = TextField?.Invoke( item );
-            var value = ValueField?.Invoke( item );
-
-            <SelectItem TValue="object" Value="@value">@text</SelectItem>
+            <SelectItem @key="@DefaultItemValue" TValue="TValue" Value="@DefaultItemValue" Disabled="@DefaultItemDisabled" Hidden="@DefaultItemHidden">@DefaultItemText</SelectItem>
         }
-    }
-    @ChildContent
+        @if ( Data != null )
+        {
+            @foreach ( var item in Data )
+            {
+                var text = TextField?.Invoke( item );
+                var value = ValueField != null ? ValueField.Invoke( item ) : default;
+
+                <SelectItem @key="@value" TValue="TValue" Value="@value">@text</SelectItem>
+            }
+        }
+        @ChildContent
+    </ChildContent>
+    <Feedback>
+        @Feedback
+    </Feedback>
 </Select>

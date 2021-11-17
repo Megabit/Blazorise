@@ -2,7 +2,7 @@
 @inherits Blazorise.Radio<TValue>
 <label class="@WrapperClassNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>
@@ -11,6 +11,8 @@
     </span>
 </label>
 @code{
+    // Ant design doesn't have appearance for custom radio button colors.
+    // So for now I will skip support for it until I find a good way.
     string WrapperClassNames => AsButton == true
         ? $"ant-radio-button-wrapper{( Checked ? " ant-radio-button-wrapper-checked" : "" )}"
         : $"ant-radio-wrapper{( Checked ? " ant-radio-wrapper-checked" : "" )}";
@@ -20,6 +22,6 @@
         : $"ant-radio{( Checked ? " ant-radio-checked" : "" )}";
 
     string InnerClassNames => AsButton == true
-        ? $"ant-radio-button-inner"
-        : $"ant-radio-inner";
+        ? "ant-radio-button-inner"
+        : "ant-radio-inner";
 }

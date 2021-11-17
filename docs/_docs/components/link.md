@@ -8,6 +8,9 @@ toc_label: "Guide"
 
 `<Link>` is the building block for most Blazorise components that offer link functionality. A `Link` component behaves like an `<a>` element, except it toggles an active CSS class based on whether its `href` matches the current URL.
 
+**Note:** Due to a [bug](https://github.com/dotnet/aspnetcore/issues/18685) in VisualStudio tooling you should write `<Link>` as `<Blazorise.Link>` until the issue is resolved.
+{: .notice--warning}
+
 ## Example
 
 By specifying a value in the `To` property, a standard link (`<a>`) element will be rendered.
@@ -35,6 +38,7 @@ Typically `<a href="#">` will cause the document to scroll to the top of page wh
 | Name       | Type                                                        | Default    | Description                                                          |
 |------------|-------------------------------------------------------------|------------|----------------------------------------------------------------------|
 | To         | string                                                      | null       | Path to the destination page.                                        |
+| Target     | [Target]({{ "/docs/helpers/enums/#target" | relative_url }})| `None`     | The target attribute specifies where to open the linked document.    |
 | Match      | [Match]({{ "/docs/helpers/enums/#match" | relative_url }})  | `Prefix`   | URL matching behavior for a link.                                    |
 | Title      | string                                                      | null       | Defines the title of a link, which appears to the user as a tooltip. |
 | Clicked    | event                                                       |            | Occurs when the link is clicked.                                     |

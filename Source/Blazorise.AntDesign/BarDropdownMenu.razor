@@ -1,27 +1,25 @@
 ﻿@inherits Blazorise.BarDropdownMenu
-<CascadingValue Value="@ParentStore">
-    @if ( ParentStore.Mode != BarMode.VerticalInline )
-    {
-        <div class="@( ParentStore.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )">
-            <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
-                @ChildContent
-            </ul>
-        </div>
-
-    }
-    else
-    {
+@if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
+{
+    <div class="@( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>
-    }
-</CascadingValue>
+    </div>
+
+}
+else
+{
+    <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+        @ChildContent
+    </ul>
+}
 @code{
     string HorizontalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" )} {( ParentStore.Visible ? "" : "ant-menu-submenu-hidden" )}";
+        => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
 
     string VerticalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" )} {( ParentStore.Visible ? "" : "ant-menu-submenu-hidden" )}";
+        => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
 
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
 }

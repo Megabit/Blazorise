@@ -270,7 +270,50 @@ The next step is to add necessary files to the _index.html_ or __Host.cshtml_ fi
 | OptionsJsonString  | string                                                                     | null         | Defines the chart options that is serialized as JSON string. **[WILL BE REMOVED]**    |
 | Clicked            | event                                                                      |              | Raised when clicked on data point.                                                    |
 | Hovered            | event                                                                      |              | Raised when hovered over data point.                                                  |
+| MouseOut           | event                                                                      |              | Raised when mouse leaves the chart area.                                              |
 
+## ChartOptions Attributes
 
-**Note:** DataJsonString and OptionsJsonString are used only temporary until the Blazor team fixes the built-in JSON serializer.
-{: .notice--info}
+| Name                | Type                                                                       | Default     | Description                                                                           |
+|---------------------|----------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------|
+| Scales              | Scales                                                                     |             |                                                                                       |
+| Legend              | Legend                                                                     |             |                                                                                       |
+| Tooltips            | Tooltips                                                                   |             |                                                                                       |
+| Animation           | Animation                                                                  |             |                                                                                       |
+| Responsive          | bool?                                                                      | `true`      | Resizes the chart canvas when its container does.                                     |
+| MaintainAspectRatio | bool?                                                                      | `true`      | Maintain the original canvas aspect ratio (width / height) when resizing.             |
+| ResponsiveAnimationDuration | bool?                                                              | `true`      | Duration in milliseconds it takes to animate to new size after a resize event.        |
+| AspectRatio         | int                                                                        | `2`         | Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas). |
+
+## Scales Attributes
+
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| XAxes              | List of Axis                                                               |              |                                                                                       |
+| YAxes              | List of Axis                                                               |              |                                                                                       |
+
+## Legend Attributes
+
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Display            | bool                                                                       | `true`       | Is the legend shown.                                                                  |
+| Reverse            | bool                                                                       | `false`      | Legend will show datasets in reverse order.                                           |
+| FullWidth          | bool                                                                       | `true`       | Marks that this box should take the full width of the canvas.                         |
+
+## Tooltips Attributes
+
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Display            | bool                                                                       | `true`       | Are on-canvas tooltips enabled.                                                       |
+
+## Axis Attributes
+
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Type               | string                                                                     | null         |                                                                                       |
+| Display            | bool                                                                       | `true`       |                                                                                       |
+| Ticks              | AxeTicks                                                                   |              |                                                                                       |
+| GridLines          | GridLines                                                                  |              |                                                                                       |
+| ScaleLabel         | ScaleLabel                                                                 |              |                                                                                       |
+| Ticks              | AxeTicks                                                                   |              |                                                                                       |
+| Stacked            | bool                                                                       | `false`      | Only used for `BarChart` and settng this to true will stack the datasets              |

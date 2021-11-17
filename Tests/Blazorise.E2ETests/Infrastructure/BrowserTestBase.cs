@@ -11,9 +11,9 @@ namespace Blazorise.E2ETests.Infrastructure
     [CaptureSeleniumLogs]
     public class BrowserTestBase : IClassFixture<BrowserFixture>
     {
-        private static readonly AsyncLocal<IWebDriver> _browser = new AsyncLocal<IWebDriver>();
-        private static readonly AsyncLocal<ILogs> _logs = new AsyncLocal<ILogs>();
-        private static readonly AsyncLocal<ITestOutputHelper> _output = new AsyncLocal<ITestOutputHelper>();
+        private static readonly AsyncLocal<IWebDriver> _browser = new();
+        private static readonly AsyncLocal<ILogs> _logs = new();
+        private static readonly AsyncLocal<ITestOutputHelper> _output = new();
 
         public static IWebDriver Browser => _browser.Value;
 

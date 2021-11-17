@@ -1,0 +1,91 @@
+﻿@page "/docs/extensions/sidebar"
+
+<Seo Canonical="/docs/extensions/sidebar" Title="Blazorise Sidebar" Description="Learn how to use Blazorise Sidebar extension components." />
+
+<DocsPageTitle>
+    Sidebar
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage.
+
+    The sidebar extension is defined of several different components:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>Sidebar</Code> main sidebar component
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code>SidebarContent</Code> container for the sidebar brand and navigation
+                <UnorderedList>
+                    <UnorderedListItem><Code>SidebarBrand</Code> brand logo or link located in the sidebar header</UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code>SidebarNavigation</Code> container for the sidebar navigation items
+                        <UnorderedList>
+                            <UnorderedListItem><Code>SidebarLabel</Code> simple label to separate navigation items</UnorderedListItem>
+                            <UnorderedListItem>
+                                <Code>SidebarItem</Code> navigation item that holds the link or subitems
+                                <UnorderedList>
+                                    <UnorderedListItem><Code>SidebarLink</Code> simple label to separate navigation items</UnorderedListItem>
+                                    <UnorderedListItem><Code>SidebarSubItem</Code> simple label to separate navigation items</UnorderedListItem>
+                                </UnorderedList>
+                            </UnorderedListItem>
+                        </UnorderedList>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SidebarNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SidebarImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static files">
+        Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SidebarResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Usage">
+        When defining a sidebar structure you can chose between manual or dynamic building. Please note that you cannot combine both of them so you have to chose the one that suits you best.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual">
+        When building your sidebar manually you have full control of it’s content and navigation item. You can combine every sidebar component as you wish.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SidebarManualExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SidebarManualExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dynamic">
+        You can also build sidebar dynamically by using the <Code>Data</Code> attribute and the <Code>SidebarInfo</Code> class. The <Code>SidebarInfo</Code> is fully serializable so you can save it to an external source or database.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SidebarDynamicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SidebarDynamicExample" />
+</DocsPageSection>

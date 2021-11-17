@@ -1,0 +1,89 @@
+﻿@page "/docs/helpers/utilities/position"
+
+<Seo Canonical="/docs/helpers/utilities/position" Title="Blazorise Position" Description="Learn about the Blazorise Position system." />
+
+<DocsPageTitle>
+    Position
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Use these shorthand utilities for quickly configuring the position of an element.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Position values">
+        <Paragraph>
+            Quick positioning classes are available, though they are not responsive.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="BasicPositionExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Arrange elements">
+        <Paragraph>
+            Arrange elements easily with the edge positioning utilities. The format is <code>{Property}.Is{Position}</code>.
+        </Paragraph>
+        <Paragraph>
+            Where property is one of:
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>Top</Code> - for the vertical <Code>top</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>Left</Code> - for the horizontal <Code>left</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>Bottom</Code> - for the vertical <Code>bottom</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>Right</Code> - for the horizontal <Code>right</Code> position</UnorderedListItem>
+        </UnorderedList>
+        <Paragraph>
+            Where position is one of:
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>0</Code> - for the <Code>0</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>50</Code> - for the <Code>50%</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>100</Code> - for the <Code>100%</Code> position</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <Div Class="b-example b-example-position-utils">
+            <PositionArrangeElementsExample />
+        </Div>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PositionArrangeElementsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Center elements">
+        <Paragraph>
+            In addition, you can also center the elements with the transform utility class <Code>Translate.Middle</Code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <Div Class="b-example b-example-position-utils">
+            <PositionCenterElements1Example />
+        </Div>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PositionCenterElements1Example" />
+    <Paragraph>
+        By adding <Code>.Translate.MiddleX</Code> or <Code>.Translate.MiddleY</Code> classes,
+        elements can be positioned only in horizontal or vertical direction.
+    </Paragraph>
+    <DocsPageSectionContent FullWidth>
+        <Div Class="b-example b-example-position-utils">
+            <PositionCenterElements2Example />
+        </Div>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PositionCenterElements2Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Examples">
+        <Paragraph>
+            Here are some real life examples of these classes:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <Div Class="b-example" Flex="Flex.JustifyContent.Around">
+            <PositionRealExample />
+        </Div>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PositionRealExample" />
+</DocsPageSection>

@@ -13,10 +13,10 @@ Documentation and examples for typography, including paragraphs, headings, text,
 Displays a simple static text on a page.
 
 ```html
-<Text Color="TextColor.Primary">
+<Text TextColor="TextColor.Primary">
     Lorem ipsum dolor sit amet.
 </Text>
-<Text Color="TextColor.Secondary">
+<Text TextColor="TextColor.Secondary">
     Cursus euismod quis viverra nibh cras.
 </Text>
 ```
@@ -66,33 +66,35 @@ Block of text separated from adjacent blocks by blank lines and/or first-line in
 
 ### Text
 
-| Name          | Type                                                                       | Default          | Description                                                                                 |
-|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Color         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
-| Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
-| Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
-| Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Name              | Type                                                                       | Default          | Description                                                                                 |
+|-------------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| TextColor         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
+| TextAlignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
+| TextTransform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
+| TextWeight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
+| TextOverflow      | [TextOverflow]({{ "/docs/helpers/enums/#textoverflow" | relative_url }})   | `None`           | Determines how the text will behave when it is larger than a parent container.              |
+| Italic            | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### Paragraph
 
-| Name          | Type                                                                       | Default          | Description                                                                                 |
-|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Color         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
-| Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
-| Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
-| Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Name              | Type                                                                       | Default          | Description                                                                                 |
+|-------------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| TextColor         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
+| TextAlignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
+| TextTransform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
+| TextWeight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
+| TextOverflow      | [TextOverflow]({{ "/docs/helpers/enums/#textoverflow" | relative_url }})   | `None`           | Determines how the text will behave when it is larger than a parent container.              |
+| Italic            | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### Heading
 
-| Name          | Type                                                                       | Default          | Description                                                                                 |
-|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Size          | [HeadingSize]({{ "/docs/helpers/enums/#headingsize" | relative_url }})     | `Is3`            | Sets the heading size.                                                                      |
-| Color         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the heading text color.                                                                |
+| Name              | Type                                                                       | Default          | Description                                                                                 |
+|-------------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Size              | [HeadingSize]({{ "/docs/helpers/enums/#headingsize" | relative_url }})     | `Is3`            | Sets the heading size.                                                                      |
+| TextColor         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the heading text color.                                                                |
 
 ### DisplayHeading
 
-| Name          | Type                                                                                     | Default          | Description                                                                                 |
-|---------------|------------------------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Size          | [DisplayHeadingSize]({{ "/docs/helpers/enums/#displayheadingsize" | relative_url }})     | `Is2`            | Sets the display heading size.                                                              |
+| Name              | Type                                                                                     | Default          | Description                                                                                 |
+|-------------------|------------------------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Size              | [DisplayHeadingSize]({{ "/docs/helpers/enums/#displayheadingsize" | relative_url }})     | `Is2`            | Sets the display heading size.                                                              |

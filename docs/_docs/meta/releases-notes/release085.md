@@ -40,19 +40,19 @@ Introduced new `<FigureImage>` and `<FigureCaption>` components that can be used
 
 ### Misc
 
-- [#252](https://github.com/stsrki/Blazorise/issues/252) Added `Visibility` attribute on `<SelectItem>` components to allow definition of _default item_ that can be selected if `SelectedValue` is null or empty.
-- [#226](https://github.com/stsrki/Blazorise/issues/226) New `<ValidationNone>` component for default message when validation is not yet done.
+- [#252](https://github.com/Megabit/Blazorise/issues/252) Added `Visibility` attribute on `<SelectItem>` components to allow definition of _default item_ that can be selected if `SelectedValue` is null or empty.
+- [#226](https://github.com/Megabit/Blazorise/issues/226) New `<ValidationNone>` component for default message when validation is not yet done.
 
 ## Bug Fixes
 
-- [#244](https://github.com/stsrki/Blazorise/issues/244) Dropdown going out of bounds
-- [#162](https://github.com/stsrki/Blazorise/issues/162) Snackbar not closing (Server-side)
-- [#248](https://github.com/stsrki/Blazorise/issues/248) `launchSettings.json` warning
-- [#222](https://github.com/stsrki/Blazorise/issues/222) Validations.ClearAll() Fails to clear validations for second field
-- [#230](https://github.com/stsrki/Blazorise/issues/230) NumericEdit Decimals Property Handling
+- [#244](https://github.com/Megabit/Blazorise/issues/244) Dropdown going out of bounds
+- [#162](https://github.com/Megabit/Blazorise/issues/162) Snackbar not closing (Server-side)
+- [#248](https://github.com/Megabit/Blazorise/issues/248) `launchSettings.json` warning
+- [#222](https://github.com/Megabit/Blazorise/issues/222) Validations.ClearAll() Fails to clear validations for second field
+- [#230](https://github.com/Megabit/Blazorise/issues/230) NumericEdit Decimals Property Handling
 
 ## Final notes
 
-As always, if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-link bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic) and help Blazorise developer to work full time on the project!
+As always, if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/Megabit/Blazorise) or click on the star-link bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic) and help Blazorise developer to work full time on the project!
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

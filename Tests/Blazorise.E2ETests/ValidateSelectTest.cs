@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Diagnostics;
 using BasicTestApp.Client;
 using Blazorise.E2ETests.Infrastructure;
 using Blazorise.E2ETests.Infrastructure.ServerFixtures;

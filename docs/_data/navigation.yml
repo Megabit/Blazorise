@@ -1,12 +1,16 @@
 # main links
 main:
+  - title: "Commercial"
+    url: https://commercial.blazorise.com
+  - title: "Support"
+    url: https://support.blazorise.com
   - title: "Documentation"
     url: /docs/
   - title: "News"
     url: /news/
   - title: "GitHub"
     icon: "fab fa-fw fa-github"
-    url: https://github.com/stsrki/Blazorise
+    url: https://github.com/Megabit/Blazorise
 
 
 # documentation links
@@ -31,6 +35,8 @@ docs:
         url: /docs/components/color/
       - title: "Date"
         url: /docs/components/date/
+      - title: "Date Picker"
+        url: /docs/components/date-picker/
       - title: "Divider"
         url: /docs/components/divider/
       - title: "Field"
@@ -43,6 +49,8 @@ docs:
         url: /docs/components/memo/
       - title: "Numeric"
         url: /docs/components/numeric/
+      - title: "Progress"
+        url: /docs/components/progress/
       - title: "Radio"
         url: /docs/components/radio/
       - title: "Select"
@@ -55,6 +63,8 @@ docs:
         url: /docs/components/text/
       - title: "Time"
         url: /docs/components/time/
+      - title: "Time Picker"
+        url: /docs/components/time-picker/
       - title: "Validation"
         url: /docs/components/validation/
   - title: Components
@@ -76,6 +86,8 @@ docs:
         url: /docs/components/card/
       - title: "Carousel"
         url: /docs/components/carousel/
+      - title: "Close Button"
+        url: "/docs/components/close-button"
       - title: "Dropdown"
         url: /docs/components/dropdown/
       - title: "Figure"
@@ -86,10 +98,18 @@ docs:
         url: /docs/components/jumbotron/
       - title: "Layout"
         url: /docs/components/layout/
+      - title: "List Group"
+        url: /docs/components/list-group/
       - title: "Modal"
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Rating"
+        url: /docs/components/rating/
+      - title: "Repeater"
+        url: /docs/components/repeater/
+      - title: "Step"
+        url: /docs/components/step/
       - title: "Tab"
         url: /docs/components/tab/
       - title: "Table"
@@ -111,14 +131,29 @@ docs:
         url: /docs/extensions/dropdownlist/
       - title: "Icons"
         url: /docs/extensions/icons/
+      - title: "Markdown"
+        url: /docs/extensions/markdown/
+      - title: "RichTextEdit"
+        url: /docs/extensions/richtextedit/
       - title: "SelectList"
         url: /docs/extensions/selectlist/
       - title: "Sidebar"
         url: /docs/extensions/sidebar/
       - title: "Snackbar"
         url: /docs/extensions/snackbar/
+      - title: "SpinKit"
+        url: /docs/extensions/spinkit/
       - title: "TreeView"
         url: /docs/extensions/treeview/
+  - title: Services
+    url: /docs/services/
+    children:
+      - title: "Messages"
+        url: /docs/services/message/
+      - title: "Notifications"
+        url: /docs/services/notification/
+      - title: "Page Progress"
+        url: /docs/services/page-progress/
   - title: Helpers
     url: /docs/helpers/
     children:
@@ -126,6 +161,8 @@ docs:
         url: /docs/helpers/colors/
       - title: "Enums"
         url: /docs/helpers/enums/
+      - title: "Localization"
+        url: /docs/helpers/localization/
       - title: "Sizes"
         url: /docs/helpers/sizes/
       - title: "Utilities"

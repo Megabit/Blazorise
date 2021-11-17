@@ -17,7 +17,7 @@ toc_label: "Steps"
 
 First step is to install a Bulma provider for Blazorise:
 
-Install Bulma provider from nuget.
+Install Bulma provider from NuGet.
 
 ```
 Install-Package Blazorise.Bulma
@@ -34,7 +34,7 @@ Install-Package Blazorise.Icons.FontAwesome
 The next step is to change your `index.html` or `_Host.cshtml` file and include the CSS and JS source files:
 
 ```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
 <link href="_content/Blazorise.Bulma/blazorise.bulma.css" rel="stylesheet" />
 
@@ -94,13 +94,9 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
-
-    host.Services
-      .UseBulmaProviders()
-      .UseFontAwesomeIcons();
 
     await host.RunAsync();
   }
@@ -136,10 +132,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseBulmaProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

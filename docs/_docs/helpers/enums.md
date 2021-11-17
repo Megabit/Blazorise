@@ -39,6 +39,7 @@ Defines the button type and behavior.
 - `Button` The button is a clickable button.
 - `Submit` The button is a submit button (submits form-data).
 - `Reset` The button is a reset button (resets the form-data to its initial values).
+- `Link` The button will be rendered as a link but will appear as a regular button.
 
 ## Cursor
 
@@ -122,6 +123,23 @@ Defines the placement of an element.
 - `Left` Left side.
 - `Right` Right side.
 
+## TooltipPlacement
+
+Defines the placement of an element.
+
+- `Top` Top-center side.
+- `TopStart` Top-left side.
+- `TopEnd` Top-right side.
+- `Bottom` Bottom-center side.
+- `BottomStart` Bottom-left side.
+- `BottomEnd` Bottom-right side.
+- `Left` Left-center side.
+- `LeftStart` Left-top side.
+- `LeftEnd` Left-bottom side.
+- `Right` Right-center side.
+- `RightStart` Right-top side.
+- `RightEnd` Right-bottom side.
+
 ## DataGridFilterMethod
 
 - `Contains` search for any occurrence (default)
@@ -129,6 +147,28 @@ Defines the placement of an element.
 - `EndsWith` search only the ending
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
+
+## DataGridSortMode
+
+- `Single` The data grid can only be sorted by one column at a time.
+- `Multiple` The data grid can sorted by multiple columns.
+
+## DataGridSelectionMode
+
+- `Single` The data grid only supports a row selected at a time.
+- `Multiple` The data grid enables multiple rows to be selected.
+
+## DataGridCommandMode
+
+- `Default` Default state which means that both defined commands and button row will render.
+- `Commands` Only defined commands will render.
+- `ButtonRow` Only button row will render.
+
+## DataGridPagerPosition
+
+- `Top` Positions the pagination above the table.
+- `Bottom` Positions the pagination below the table.
+- `TopAndBottom` Positions the pagination on above and below the table.
 
 ## TextAlignment
 
@@ -157,6 +197,15 @@ Defines the text weight.
 - `Normal` Defines normal characters. This is default.
 - `Bold` Defines thick characters.
 - `Light` Defines lighter characters.
+
+## TextOverflow
+
+Determines how the text will behave when it is larger than a parent container.
+
+- `None` No overflow will be applied.
+- `Wrap` Text will wrap into a new line when it reaches the end of container.
+- `NoWrap` Prevents text from wrapping.
+- `Truncate` Truncate the text with an ellipsis.
 
 ## HeadingSize
 
@@ -218,6 +267,24 @@ Defines the breadcrumb activation mode.
 - `Light`
 - `DuoTone`
 
+## IconSize
+
+Defines the size of an Icon element.
+
+- `None` The icon size will not be applied.
+- `ExtraSmall` The icon will be size 0.75em.
+- `Small` The icon will be size 0.875em.
+- `Large` The icon will be size 1.33em (Also applies vertical-align: -25%).
+- `x2` The icon will be size 2em.
+- `x3` The icon will be size 3em.
+- `x4` The icon will be size 4em.
+- `x5` The icon will be size 5em.
+- `x6` The icon will be size 6em.
+- `x7` The icon will be size 7em.
+- `x8` The icon will be size 8em.
+- `x9` The icon will be size 9em.
+- `x10` The icon will be size 10em.
+
 ## SnackbarLocation
 
 - `None` Default behavior.
@@ -246,3 +313,67 @@ Defines the `Bar` state when collapsed (only works with `Vertical` bar modes)
 
 - `Hide` - collapses to be completely hidden
 - `Small` - collapse to behave like `BarMode.VerticalSmall`
+
+## Target
+
+The target attribute specifies where to open the linked document.
+
+- `None` - No target will be applied. Usually this is the same as `Self`.
+- `Self` - Opens the linked document in the same frame as it was clicked (this is default)
+- `Blank` - Opens the linked document in a new window or tab.
+- `Parent` - Opens the linked document in the parent frame.
+- `Top` - Opens the linked document in the full body of the window.
+
+
+## DateInputMode
+
+Hints at the type of data that might be entered into DateEdit by the user while editing the element or its contents.
+
+- `Date` - Only date is allowed to be entered.
+- `DateTime` - Both date and time are allowed to be entered.
+- `Month` - Allowed to select only year and month.
+
+## Orientation
+
+Defines the orientation of the elements.
+
+- `Horizontal` - Elements will be stacked horizontally.
+- `Vertical` - - Elements will be stacked vertically.
+
+## TableResizeMode
+
+Defines the resize mode of the data grid columns.
+
+- `Header` - The table can only be resized from the columns header.
+- `Columns` - The table can be resized from the entire column area.
+
+## TooltipTrigger
+
+Determines the events that cause the tooltip to show.
+
+- `MouseEnterFocus` - Tooltip will show on mouse enter and focus event (default option).
+- `Click` - Tooltip will show on click event only.
+- `Focus` - Tooltip will show on focus event only.
+- `MouseEnterClick` - Tooltip will show on mouse enter and click event.
+
+## SpinKitType
+
+- Plane
+- Chase
+- Bounce
+- Wave
+- Pulse
+- Flow
+- Swing
+- Circle
+- CircleFade
+- Grid
+- Fold
+- Wander
+
+## ListGroupMode
+
+Defines the ListGroup behavior.
+
+- `Static` - List group will act as a static list.
+- `Selectable` - List group will act on clicking the items.

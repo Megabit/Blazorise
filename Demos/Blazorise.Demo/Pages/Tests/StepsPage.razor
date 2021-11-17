@@ -1,0 +1,70 @@
+﻿@page "/tests/steps"
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Steps</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Steps>
+                    <Step Name="1">Step 1</Step>
+                    <Step Name="2">Step 2</Step>
+                    <Step Name="3">Step 3</Step>
+                    <Step Name="4">Step 4</Step>
+                </Steps>
+            </CardBody>
+            <CardBody>
+                <Steps>
+                    <Step Name="1" Completed="true">
+                        <Marker>
+                            <Icon Name="IconName.Check" />
+                        </Marker>
+                        <Caption>
+                            Step 1
+                        </Caption>
+                    </Step>
+                    <Step Name="2">Step 2</Step>
+                    <Step Name="3" Color="Color.Info">Step 3</Step>
+                    <Step Name="4">
+                        <Marker>
+                            <Icon Name="IconName.Flag" />
+                        </Marker>
+                        <Caption>
+                            Finish
+                        </Caption>
+                    </Step>
+                </Steps>
+            </CardBody>
+            <CardBody>
+                <Steps>
+                    <Step Name="1" Completed="true">Step 1</Step>
+                    <Step Name="2" Completed="true" Color="Color.Info">Step 2</Step>
+                    <Step Name="3" Completed="true" Color="Color.Warning">Step 3</Step>
+                    <Step Name="4">
+                        <Marker>
+                            <Icon Name="IconName.Flag" />
+                        </Marker>
+                        <Caption>
+                            Finish
+                        </Caption>
+                    </Step>
+                </Steps>
+            </CardBody>
+            <CardBody>
+                <Steps>
+                    <Step Name="1" Color="Color.Primary">Primary</Step>
+                    <Step Name="2" Color="Color.Secondary">Secondary</Step>
+                    <Step Name="3" Color="Color.Success">Success</Step>
+                    <Step Name="4" Color="Color.Danger">Danger</Step>
+                    <Step Name="5" Color="Color.Warning">Warning</Step>
+                    <Step Name="6" Color="Color.Info">Info</Step>
+                    <Step Name="7" Color="Color.Light">Light</Step>
+                    <Step Name="8" Color="Color.Dark">Dark</Step>
+                    <Step Name="9" Color="Color.Link">Link</Step>
+                </Steps>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+}

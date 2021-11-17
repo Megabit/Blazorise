@@ -1,0 +1,70 @@
+﻿@page "/docs/theming"
+
+<Seo Canonical="/docs/theming" Title="Blazorise Theming" Description="Easily change the colors of your application programmatically. Rebuild the default stylesheet and customize various aspects of the framework for your particular needs." />
+
+<DocsPageTitle>
+    Overview
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Easily change the colors of your application programmatically. Rebuild the default stylesheet and customize various
+    aspects of the framework for your particular needs.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Blazorise offers its own theme provider to control your application look and feel. Generally, if you stick
+    to the built-in provider(s) and it’s CSS classes and variants, there isn’t anything else you need to do to
+    use a custom theme with Blazorise. It just works. But we also make coloring outside the lines easy to do.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Start
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    To prepare your application for theming you need to wrap your root component with the <Code>ThemeProvider</Code> component tag.
+    The best option is to add it to the <Strong>App.razor</Strong> where you wrap the <Code>Router</Code> tag with the <Code>ThemeProvider</Code> tag.
+    Next you must set the <Code>Theme</Code> attribute where you can configure <i>colors</i>, <i>borders</i>, <i></i>, <i>paddings</i> etc.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        If no properties are specified, default settings will be used.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingStartExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    What this little peace of code is doing behind the scene? Basically it’s generating a fully customized CSS
+    and styles based on the setting provided in the Theme attribute. It will also generate for you a list of CSS
+    variables that you can use later if you want to expand your applications styles even further. The things like
+    colors and element settings will be saved as CSS variables to the <Strong>:root</Strong>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Runtime change">
+        To dynamically change theme settings you can use <Code>Theme</Code> from anywhere in your application.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingRuntimeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Colors">
+        With <Code>ColorOptions</Code> you can customize your application variant colors. Note that colors must be defined in hex format!
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingColorsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Gradient">
+        Enables the gradient background colors.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingGradientExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Border Radius">
+        Globally enable or disable rounded elements.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingRoundedExample" />
+</DocsPageSection>

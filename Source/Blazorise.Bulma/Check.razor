@@ -3,22 +3,14 @@
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <Control Role="ControlRole.Check" Inline="@Inline">
-            <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">
-                <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" @attributes="@Attributes" />
-                @ChildContent
-            </Label>
-        </Control>
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
         @Feedback
     </div>
 }
 else
 {
-    <Control Role="ControlRole.Check" Inline="@Inline">
-        <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">
-            <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" @attributes="@Attributes" />
-            @ChildContent
-        </Label>
-    </Control>
+    <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
     @Feedback
 }

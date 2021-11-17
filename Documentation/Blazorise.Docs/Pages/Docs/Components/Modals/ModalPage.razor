@@ -1,0 +1,169 @@
+﻿@page "/docs/components/modal"
+
+<Seo Canonical="/docs/components/modal" Title="Blazorise Modal system" Description="The modal component provides a solid foundation for creating dialogs, popovers, lightboxes, or whatever else." />
+
+<DocsPageTitle>
+    Modal component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The modal component provides a solid foundation for creating dialogs, popovers, lightboxes, or whatever else.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Modal</Code> the main container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>ModalContent</Code> a horizontally and vertically centered container, in which you can include any content
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>ModalHeader</Code> top part of the modal, usually contains a title and close button
+                        <UnorderedList>
+                            <UnorderedListItem>
+                                <Code Tag>ModalTitle</Code> a modal title
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Code Tag>CloseButton</Code> a simple close button located in the top right corner
+                            </UnorderedListItem>
+                        </UnorderedList>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code Tag>ModalBody</Code> main part of the modal, holds the input fields, images, etc.
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Code Tag>ModalFooter</Code> bottom part of the modal, usually contains the action buttons
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Place the modal markup somewhere at root of you component layout.
+        <br />
+        <br />
+        To work with the modal you must use the reference to the Modal component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicModalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicModalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        You can also control the <Code>Modal</Code> visibility by declaring the <Code>Visible</Code> state.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalBindingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalBindingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Closing">
+        If you want to prevent modal from closing you can use <Code>Closing</Code> event.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalClosingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalClosingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fullscreen">
+        If the built-in sizes are not enough you can show the modal in fullscreen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalFullscreenExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalFullscreenExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Show()</Code></TableRowCell>
+            <TableRowCell>Open the modal dialog.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Hide()</Code></TableRowCell>
+            <TableRowCell>Close the modal dialog.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Modal">
+    <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
+        Handles the visibility of modal dialog.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the modal visibility state changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opening" Type="Func<ModalOpeningEventArgs, Task>">
+        Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Func<ModalClosingEventArgs, Task>">
+        Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Occurs after the modal has opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Occurs after the modal has closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToTop" Type="boolean" Default="true">
+        If true modal will scroll to top when opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
+        If true the the backdrop will be rendered.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ModalContent">
+    <DocsAttributesItem Name="Centered" Type="boolean" Default="false">
+        Centers the modal vertically.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Fullscreen" Type="boolean" Default="false">
+        Defines the modal that covers the user viewport.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="boolean" Default="false">
+        Scrolls the modal content independent of the page itself.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="ModalSize" Default="Default">
+        Changes the size of the modal.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ModalBody">
+    <DocsAttributesItem Name="MaxHeight" Type="int?" Default="null">
+        Sets the maximum height of the modal body (in viewport size unit).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ModalTitle">
+    <DocsAttributesItem Name="Size" Type="HeadingSize" Default="Is4">
+        Sets the title size and tag name.
+    </DocsAttributesItem>
+</DocsAttributes>

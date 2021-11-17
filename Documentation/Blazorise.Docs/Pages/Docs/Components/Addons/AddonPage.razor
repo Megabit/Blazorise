@@ -1,0 +1,87 @@
+﻿@page "/docs/components/addon"
+
+<Seo Canonical="/docs/components/addon" Title="Blazorise Adddon component" Description="The Addon component is the easiest way to add some structure to forms." />
+
+<DocsPageTitle>
+    Addon
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>Addon</Code> component is the easiest way to add some structure to forms. Its purpose is to pair
+    form controls with a legend or label, and to provide help text and invalid/valid feedback text, as well as
+    visual (color) contextual state feedback.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Addons</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>Addon</Code>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageParagraph>
+    To define addon location you have to set the <Code>AddonType</Code> attribute:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem><Code>.Start</Code> will place addon on the left side.</UnorderedListItem>
+    <UnorderedListItem><Code>.Body</Code> will place it in the middle.</UnorderedListItem>
+    <UnorderedListItem><Code>.End</Code> will place it at the right side.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static addon">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StaticAddonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StaticAddonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With multiple addons">
+        Addons are used to attach controls together.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MultipleAddonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MultipleAddonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Button addon">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ButtonAddonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonAddonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown addon">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DropdownAddonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownAddonExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Addons">
+    <DocsAttributesItem Name="Size" Type="Size" Default="None">
+        Addons size variations.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Addon">
+    <DocsAttributesItem Name="AddonType" Type="AddonType" Default="Body">
+        Defines the location and behavior of addon container.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -5,11 +5,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class SelectComponentTest : ComponentTestFixture
+    public class SelectComponentTest : TestContext
     {
         public SelectComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
         }
 
         [Fact]

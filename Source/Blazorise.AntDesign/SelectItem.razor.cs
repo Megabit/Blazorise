@@ -1,7 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -10,10 +8,6 @@ namespace Blazorise.AntDesign
 {
     public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         protected Task OnClickHandler()
@@ -44,10 +38,30 @@ namespace Blazorise.AntDesign
 
         #region Properties
 
-        string SelectedString => Selected.ToString().ToLowerInvariant();
+        string SelectItemClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder( $"{ClassNames} ant-select-item ant-select-item-option" );
 
-        string SelectItemClass
-            => $"{ClassNames} ant-select-item ant-select-item-option {( Selected ? "ant-select-item-option-selected" : "" )} {( Active ? "ant-select-item-option-active" : "" )}";
+                if ( Selected )
+                {
+                    sb.Append( " ant-select-item-option-selected" );
+                }
+
+                if ( Active )
+                {
+                    sb.Append( " ant-select-item-option-active" );
+                }
+
+                if ( Disabled )
+                {
+                    sb.Append( " ant-select-item-option-disabled" );
+                }
+
+                return sb.ToString();
+            }
+        }
 
         bool Active { get; set; }
 

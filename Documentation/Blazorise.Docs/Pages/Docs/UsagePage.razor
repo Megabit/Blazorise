@@ -1,0 +1,43 @@
+﻿@page "/docs/usage"
+
+<Seo Canonical="/docs/usage" Title="Blazorise Usage" Description="Blazorise usage." />
+
+<DocsPageTitle>
+    Usage
+</DocsPageTitle>
+
+<DocsPageSubtitle>
+    Supported CSS Providers
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Blazorise.Link To="docs/usage/bootstrap4">Bootstrap 4</Blazorise.Link>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Blazorise.Link To="docs/usage/bootstrap5">Bootstrap 5</Blazorise.Link>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Blazorise.Link To="docs/usage/material">Material</Blazorise.Link>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Blazorise.Link To="docs/usage/ant-design">AntDesign</Blazorise.Link>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Blazorise.Link To="docs/usage/bulma">Bulma</Blazorise.Link>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Empty provider
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Generally you will always want to use and register one of the provided CSS frameworks. But in the case that you
+    only want to use any of the custom Blazorise extensions, like for example: Chart or Sidebar, you can register an “Empty” provider.
+    This way the extensions will still work but the default Blazorise components will be unused.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionSource Code="EmptyProviderExample" />
+</DocsPageSection>

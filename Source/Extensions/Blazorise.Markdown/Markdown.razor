@@ -1,0 +1,9 @@
+﻿@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed="true">
+    <textarea @ref="@ElementRef" id="@ElementId">
+        @if ( Toolbar != null )
+        {
+            @Toolbar
+        }
+    </textarea>
+</CascadingValue>

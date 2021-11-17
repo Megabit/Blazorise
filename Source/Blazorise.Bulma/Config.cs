@@ -1,8 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -18,57 +17,62 @@ namespace Blazorise.Bulma
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
+
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
 
             return serviceCollection;
         }
 
-        private static void RegisterComponents( IComponentMapper componentMapper )
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
-            componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
-            componentMapper.Register<Blazorise.Badge, Bulma.Badge>();
-            componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
-            componentMapper.Register<Blazorise.BarDropdown, Bulma.BarDropdown>();
-            componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
-            componentMapper.Register<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
-            componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
-            componentMapper.Register<Blazorise.CardTitle, Bulma.CardTitle>();
-            componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
-            componentMapper.Register<Blazorise.Carousel, Bulma.Carousel>();
-            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) );
-            componentMapper.Register( typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) );
-            componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
-            componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
-            componentMapper.Register<Blazorise.DropdownToggle, Bulma.DropdownToggle>();
-            componentMapper.Register<Blazorise.Field, Bulma.Field>();
-            componentMapper.Register<Blazorise.FieldLabel, Bulma.FieldLabel>();
-            componentMapper.Register<Blazorise.FieldHelp, Bulma.FieldHelp>();
-            componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
-            componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
-            componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
-            componentMapper.Register<Blazorise.Jumbotron, Bulma.Jumbotron>();
-            componentMapper.Register<Blazorise.JumbotronSubtitle, Bulma.JumbotronSubtitle>();
-            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) );
-            componentMapper.Register( typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) );
-            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) );
-            componentMapper.Register<Blazorise.Button, Bulma.Button>();
-            componentMapper.Register<Blazorise.Table, Bulma.Table>();
-            componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
-            componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
-            componentMapper.Register( typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) );
-            componentMapper.Register( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
-            componentMapper.Register<Blazorise.Pagination, Bulma.Pagination>();
-        }
-
-        public static IServiceProvider UseBulmaProviders( this IServiceProvider serviceProvider )
-        {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
-        }
+            { typeof( Blazorise.Addons ), typeof( Bulma.Addons ) },
+            { typeof( Blazorise.Badge ), typeof( Bulma.Badge ) },
+            { typeof( Blazorise.BarToggler ), typeof( Bulma.BarToggler ) },
+            { typeof( Blazorise.BarDropdown ), typeof( Bulma.BarDropdown ) },
+            { typeof( Blazorise.BarDropdownToggle ), typeof( Bulma.BarDropdownToggle ) },
+            { typeof( Blazorise.Breadcrumb ), typeof( Bulma.Breadcrumb ) },
+            { typeof( Blazorise.BreadcrumbLink ), typeof( Bulma.BreadcrumbLink ) },
+            { typeof( Blazorise.CardImage ), typeof( Bulma.CardImage ) },
+            { typeof( Blazorise.CardTitle ), typeof( Bulma.CardTitle ) },
+            { typeof( Blazorise.CardSubtitle ), typeof( Bulma.CardSubtitle ) },
+            { typeof( Blazorise.Carousel ), typeof( Bulma.Carousel ) },
+            { typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) },
+            { typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) },
+            { typeof( Blazorise.DropdownDivider ), typeof( Bulma.DropdownDivider ) },
+            { typeof( Blazorise.DropdownMenu ), typeof( Bulma.DropdownMenu ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( Bulma.DropdownToggle ) },
+            { typeof( Blazorise.Field ), typeof( Bulma.Field ) },
+            { typeof( Blazorise.FieldLabel ), typeof( Bulma.FieldLabel ) },
+            { typeof( Blazorise.FieldHelp ), typeof( Bulma.FieldHelp ) },
+            { typeof( Blazorise.FieldBody ), typeof( Bulma.FieldBody ) },
+            { typeof( Blazorise.Fields ), typeof( Bulma.Fields ) },
+            { typeof( Blazorise.FileEdit ), typeof( Bulma.FileEdit ) },
+            { typeof( Blazorise.Heading ), typeof( Bulma.Heading ) },
+            { typeof( Blazorise.Jumbotron ), typeof( Bulma.Jumbotron ) },
+            { typeof( Blazorise.JumbotronSubtitle ), typeof( Bulma.JumbotronSubtitle ) },
+            { typeof( Blazorise.ModalContent ), typeof( Bulma.ModalContent ) },
+            { typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) },
+            { typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) },
+            { typeof( Blazorise.Button ), typeof( Bulma.Button ) },
+            { typeof( Blazorise.Table ), typeof( Bulma.Table ) },
+            { typeof( Blazorise.Tabs ), typeof( Bulma.Tabs ) },
+            { typeof( Blazorise.TextEdit ), typeof( Bulma.TextEdit ) },
+            { typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) },
+            { typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) },
+            { typeof( Blazorise.Pagination ), typeof( Bulma.Pagination ) },
+            { typeof( Blazorise.PaginationLink ), typeof( Bulma.PaginationLink ) },
+            { typeof( Blazorise.Progress ), typeof( Bulma.Progress ) },
+            { typeof( Blazorise.ProgressBar ), typeof( Bulma.ProgressBar ) },
+            { typeof( Blazorise.Steps ), typeof( Bulma.Steps ) },
+            { typeof( Blazorise.Step ), typeof( Bulma.Step ) },
+        };
     }
 }

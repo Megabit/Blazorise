@@ -1,0 +1,56 @@
+﻿@page "/docs/components/figure"
+
+<Seo Canonical="/docs/components/figure" Title="Blazorise Figure component" Description="Figures are used as containers for responsive images." />
+
+<DocsPageTitle>
+    Figure
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Figures are used as containers for responsive images.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Figure</Code> the main container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>FigureImage</Code> source image that needs to be displayed
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>FigureCaption</Code> a caption text bellow the image
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <FigureExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FigureExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Figure">
+    <DocsAttributesItem Name="Size" Type="ButtonSize" Default="None">
+        Figure size variations.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="FigureImage">
+    <DocsAttributesItem Name="Source" Type="string">
+        Image URL.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AlternateText" Type="string">
+        Alternate text when image cannot be found.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Rounded" Type="bool" Default="false">
+        Makes the figure border rounded.
+    </DocsAttributesItem>
+</DocsAttributes>

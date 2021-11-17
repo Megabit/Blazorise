@@ -1,0 +1,81 @@
+﻿@page "/"
+
+<Seo Canonical="/" Title="Blazorise Component Library" Description="Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material." />
+
+<Row NoGutters>
+    <Column Class="page-hero-overlay" Style="background-image: url(img/backs/Halftone-background-1080.jpg)">
+        <Container Margin="Margin.IsAuto.FromLeft.IsAuto.FromRight" Width="Width.Is100">
+            <Heading Class="page-title" Size="HeadingSize.Is1" TextColor="TextColor.White">
+                Blazorise Component Library
+            </Heading>
+            <Paragraph Class="page-lead" Color="TextColor.Light" Margin="Margin.Is4.FromTop">
+                Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
+                <br />
+                <small>
+                    <Blazorise.Link To="https://github.com/Megabit/Blazorise" Target="Target.Blank">View it on GitHub</Blazorise.Link>
+                </small>
+            </Paragraph>
+            <Paragraph Margin="Margin.Is4.FromTop">
+                <Button Type="ButtonType.Link" To="docs" Outline Color="Color.Light" Size="Size.Large">
+                    <Icon Name="IconName.Book" />
+                    Get started now
+                </Button>
+                <Button Type="ButtonType.Link" To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank" Outline Color="Color.Light" Size="Size.Large">
+                    <Icon Name="IconName.Tv" />
+                    See it in action
+                </Button>
+            </Paragraph>
+        </Container>
+    </Column>
+</Row>
+
+<Row NoGutters>
+    <Column Margin="Margin.IsAuto.OnX">
+        <Container Margin="Margin.IsAuto.OnX" Class="page-content">
+            <Row Margin="Margin.IsAuto.OnX">
+                <CardDeck>
+                    <Card Border="Border.Is0">
+                        <CardImage Source="img/illustrations/web-1.jpg" Alt="Card image cap 3"></CardImage>
+                        <CardBody>
+                            <CardTitle Size="4">Blazor</CardTitle>
+                            <CardText Margin="Margin.Is4.OnY">
+                                Built with Blazor and CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
+                            </CardText>
+                            <Button Type="ButtonType.Link" To="docs" Color="Color.Secondary">
+                                Start building
+                            </Button>
+                        </CardBody>
+                    </Card>
+                    <Card Border="Border.Is0">
+                        <CardImage Source="img/illustrations/open-source-2-small.jpg" Alt="Card image cap 9"></CardImage>
+                        <CardBody>
+                            <CardTitle Size="4">
+                                Open-source & free
+                            </CardTitle>
+                            <CardText Margin="Margin.Is4.OnY">
+                                Free to use in a Non-Commercial-Manner, under the Apache License. Clone it, fork it, customize it… whatever!
+                            </CardText>
+                            <Button Type="ButtonType.Link" To="https://github.com/Megabit/Blazorise" Target="Target.Blank" Color="Color.Secondary">
+                                Blazorise on GitHub
+                            </Button>
+                        </CardBody>
+                    </Card>
+                    <Card Border="Border.Is0">
+                        <CardImage Source="img/illustrations/faq-2.jpg" Alt="Card image cap 12"></CardImage>
+                        <CardBody>
+                            <CardTitle Size="4">
+                                FAQ
+                            </CardTitle>
+                            <CardText Margin="Margin.Is4.OnY">
+                                Quickly learn more about Blazorise and what is it used for.
+                            </CardText>
+                            <Button Type="ButtonType.Link" To="docs/faq" Color="Color.Secondary">
+                                What is Blazorise?
+                            </Button>
+                        </CardBody>
+                    </Card>
+                </CardDeck>
+            </Row>
+        </Container>
+    </Column>
+</Row>

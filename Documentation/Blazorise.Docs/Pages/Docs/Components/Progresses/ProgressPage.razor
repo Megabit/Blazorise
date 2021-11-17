@@ -1,0 +1,147 @@
+﻿@page "/docs/components/progress"
+
+<Seo Canonical="/docs/components/progress" Title="Blazorise Progress system" Description="Progress indicators inform users about the status of ongoing processes, such as loading an app, submitting a form, or saving updates." />
+
+<DocsPageTitle>
+    Progress component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Use our progress component for displaying simple or complex progress bars, featuring support for horizontally stacked bars, animated backgrounds, and text labels.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Progress</Code> main component for single progress value or wrapper for multiple bars
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>ProgressBar</Code> progress bar for single progress value
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Progress components are built with two components.
+
+    <UnorderedList>
+        <UnorderedListItem>
+            We use the <Code>Progress</Code> as a wrapper to indicate the max value of the progress bar.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            We use the inner <Code>ProgressBar</Code> to indicate the progress so far.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Single bar">
+        Put that all together, and you have the following examples.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicProgressExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicProgressExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple bars">
+        Include multiple ProgressBar sub-components in a Progress component to build a horizontally stacked set of progress bars.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MultipleProgressExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MultipleProgressExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Page progress
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    You can also show a small progress bar at the top of the page. Note that unlike regular <Code>Progress</Code> component,
+    for <Code>PageProgress</Code> you must set the <Code>Visible</Code> parameter to make it active.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        To show page progress just set the <Code>Value</Code> and <Code>Visible</Code> parameters.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="BasicPageProgressExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Indeterminate">
+        To make an indeterminate progress bar, simply remove <Code>Value</Code> or make it a <Code>null</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="IndeterminatePageProgressExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Progress">
+    <DocsAttributesItem Name="Value" Type="int?" Default="null">
+        The progress value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="Size" Default="None">
+        Progress size variations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Min" Type="int" Default="0">
+        Minimum value of the progress.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Max" Type="int" Default="100">
+        Maximum value of the progress.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="Primary">
+        Defines the progress bar color variant.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Striped" Type="bool" Default="false">
+        Set to true to make the progress bar stripped.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="bool" Default="false">
+        Set to true to make the progress bar animated.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="ProgressBar">
+    <DocsAttributesItem Name="Value" Type="int?" Default="null">
+        The progress bar value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Min" Type="int" Default="0">
+        Minimum value of the progress bar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Max" Type="int" Default="100">
+        Maximum value of the progress bar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="Primary">
+        Defines the progress bar color variant.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Striped" Type="bool" Default="false">
+        Set to true to make the progress bar stripped.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="bool" Default="false">
+        Set to true to make the progress bar animated.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="PageProgress">
+    <DocsAttributesItem Name="Value" Type="int?" Default="null">
+        The page progress value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="None">
+        Defines the page progress color variant.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Defines the visibility of progress bar.
+    </DocsAttributesItem>
+</DocsAttributes>

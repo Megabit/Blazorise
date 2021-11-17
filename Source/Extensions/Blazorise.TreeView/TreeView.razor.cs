@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,7 +11,7 @@ namespace Blazorise.TreeView
     {
         #region Members
 
-        private TreeViewStore<TNode> store = new TreeViewStore<TNode>
+        private TreeViewState<TNode> state = new()
         {
         };
 
@@ -22,7 +23,7 @@ namespace Blazorise.TreeView
         {
             SelectedNode = node;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -45,15 +46,15 @@ namespace Blazorise.TreeView
         [Parameter]
         public TNode SelectedNode
         {
-            get => store.SelectedNode;
+            get => state.SelectedNode;
             set
             {
-                if ( EqualityComparer<TNode>.Default.Equals( store.SelectedNode, value ) )
+                if ( state.SelectedNode.IsEqual( value ) )
                     return;
 
-                store.SelectedNode = value;
+                state.SelectedNode = value;
 
-                SelectedNodeChanged.InvokeAsync( store.SelectedNode );
+                SelectedNodeChanged.InvokeAsync( state.SelectedNode );
 
                 DirtyClasses();
             }
@@ -85,6 +86,16 @@ namespace Blazorise.TreeView
         [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets selected node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+        /// <summary>
+        /// Gets or sets node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 
         #endregion
     }

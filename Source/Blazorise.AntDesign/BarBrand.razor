@@ -1,6 +1,4 @@
 ﻿@inherits Blazorise.BarBrand
-<CascadingValue Value="@ParentStore">
-    <span class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </span>
-</CascadingValue>
+<span id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</span>

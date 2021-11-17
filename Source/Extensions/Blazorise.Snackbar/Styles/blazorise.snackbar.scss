@@ -18,8 +18,8 @@ $theme-colors: ( primary: $primary, secondary: $secondary, success: $success, da
 $snackbar-bg: var(--b-snackbar-background, #323232) !default;
 $snackbar-border-radius: $border-radius !default;
 $snackbar-breakpoint: sm !default;
-$snackbar-btn-color: var(--b-snackbar-button-color, #ff4081) !default;
-$snackbar-btn-color-hover: var(--b-snackbar-button-hover-color, #ff80ab) !default;
+$snackbar-action-button-color: var(--b-snackbar-button-color, #ff4081) !default;
+$snackbar-action-button-color-hover: var(--b-snackbar-button-hover-color, #ff80ab) !default;
 $snackbar-color: var(--b-snackbar-text-color, $white-primary) !default;
 $snackbar-elevation-shadow: map-get($elevation-shadows, 6) !default;
 $snackbar-font-size: 0.875rem !default;
@@ -39,7 +39,6 @@ $snackbar-padding-y-multi: 1.25rem !default;
     align-items: center;
     background-color: $snackbar-bg;
     color: $snackbar-color;
-    display: flex;
     font-size: $snackbar-font-size;
     line-height: $snackbar-line-height;
     opacity: 0;
@@ -73,7 +72,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
         transition: none;
     }
 
-    &.show {
+    &.snackbar-show {
         @include transition-deceleration(transform);
         opacity: 1;
         transform: translateY(0);
@@ -84,33 +83,58 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
+.snackbar-header {
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    @include text-truncate;
+    background-color: DARKEN($snackbar-bg, 30%);
+    margin-right: auto;
+    min-width: 0;
+    font-weight: bold;
+    padding-bottom: $snackbar-padding-y;
+}
+
+.snackbar-footer {
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    @include text-truncate;
+    background-color: DARKEN($snackbar-bg, 30%);
+    margin-right: auto;
+    min-width: 0;
+    padding-top: $snackbar-padding-y;
+}
+
 .snackbar-body {
+     display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     @include text-truncate;
     margin-right: auto;
     max-height: 100%;
     min-width: 0;
 }
 
-
-.snackbar-btn {
+.snackbar-action-button {
     @include transition-standard(background-color, background-image);
     background-color: transparent;
     background-image: none;
     border: 0;
-    color: var(--b-snackbar-button-color, $snackbar-btn-color);
+    color: var(--b-snackbar-button-color, $snackbar-action-button-color);
     cursor: pointer;
     display: block;
     flex-shrink: 0;
     font-size: inherit;
     font-weight: $btn-font-weight;
     line-height: inherit;
-    margin-left: $snackbar-inner-spacer-x;
+    /*margin-left: $snackbar-inner-spacer-x;*/
     padding: 0;
     text-transform: uppercase;
     white-space: nowrap;
 
     @include focus-hover {
-        color: var(--b-snackbar-button-hover-color, $snackbar-btn-color-hover);
+        color: var(--b-snackbar-button-hover-color, $snackbar-action-button-color-hover);
         text-decoration: none;
     }
 
@@ -128,7 +152,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
     @include media-breakpoint-up($snackbar-breakpoint) {
         transform: translateY(100%);
 
-        &.show {
+        &.snackbar-show {
             transform: translateY($snackbar-margin-y * -1);
         }
     }
@@ -148,7 +172,6 @@ $snackbar-padding-y-multi: 1.25rem !default;
 }
 
 .snackbar-multi-line {
-    height: $snackbar-height-multi;
     padding-top: $snackbar-padding-y-multi;
     padding-bottom: $snackbar-padding-y-multi;
 
@@ -163,11 +186,46 @@ $snackbar-padding-y-multi: 1.25rem !default;
         color: map-get($color, color);
     }
 
-    .snackbar-btn-#{$name} {
+    .snackbar-action-button-#{$name} {
         color: map-get($color, button);
 
         @include focus-hover {
             color: map-get($color, button-hover);
         }
+    }
+}
+
+.snackbar-stack {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: map-get($snackbar-elevation-shadow, elevation);
+    bottom: 0;
+}
+
+.snackbar-stack {
+    .snackbar {
+        position: relative;
+        flex-direction: row;
+        margin-bottom: 0;
+    }
+
+    .snackbar:not(:last-child) {
+        margin-bottom: $spacer-lg;
+    }
+}
+
+@media (min-width: $mobile) {
+    .snackbar-stack-center {
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+
+    .snackbar-stack-left {
+        left: $spacer-lg;
+    }
+
+    .snackbar-stack-right {
+        right: $spacer-lg;
     }
 }

@@ -97,6 +97,20 @@ To define button color use a `Color` attribute.
 
 <iframe src="/examples/buttons/disabled/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
+### Loading
+
+Use `Loading` attribute to add spinners within buttons to indicate an action is currently processing or taking place. Use `<LoadingTemplate>` to add a custom loading template
+
+```html
+<Button Loading="true">Primary</Button>
+<Button Loading="true">
+    <LoadingTemplate>Custom loading template</LoadingTemplate>
+    <ChildContent>Primary</ChildContent>
+</Button>
+```
+
+<iframe src="/examples/buttons/loading/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ## Button group
 
 If you want to group buttons together on a single line, use the `Buttons` tag.
@@ -110,6 +124,17 @@ If you want to group buttons together on a single line, use the `Buttons` tag.
 ```
 
 <iframe src="/examples/buttons/buttongroup/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+## Link Button
+
+By default, `Button` works with `<button>` element, but you can also create an `<a>` element that will still appear as regular button.
+
+```html
+<Button Color="Color.Primary" Type="ButtonType.Link" To="#">Primary link</Button>
+<Button Color="Color.Secondary" Type="ButtonType.Link" To="#" Target="Target.Blank">Secondary link</Button>
+```
+
+<iframe src="/examples/buttons/linkbutton/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Toolbar
 
@@ -154,17 +179,18 @@ When using a submit button inside of `<Form>` element the browser will automatic
 
 ## Attributes
 
-| Name                      | Type                                                                    | Default  | Description                                                                  |
-|---------------------------|-------------------------------------------------------------------------|----------|------------------------------------------------------------------------------|
-| Color                     | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`   | Component visual or contextual style variants                                |
-| Size                      | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`   | Button size variations.                                                      |
-| Type                      | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` | Defines the button type.                                                     |
-| Clicked                   | event                                                                   |          | Occurs when the button is clicked.                                           |
-| Outline                   | boolean                                                                 | false    | Outlined button.                                                             |
-| Disabled                  | boolean                                                                 | false    | Makes button look inactive.                                                  |
-| Active                    | boolean                                                                 | false    | Makes the button to appear as pressed.                                       |
-| Block                     | boolean                                                                 | false    | Makes the button to span the full width of a parent.                         |
-| Loading                   | boolean                                                                 | false    | Shows the loading spinner.                                                   |
-| Command                   | ICommand                                                                | null     | Command to be executed when clicked on a button.                             |
-| CommandParameter          | object                                                                  | null     | Reflects the parameter to pass to the CommandProperty upon execution.        |
-| PreventDefaultOnSubmit    | boolean                                                                 | false    | Prevents the button from submitting the form.                                |
+| Name                      | Type                                                                    | Default  			| Description                                                                  |
+|---------------------------|-------------------------------------------------------------------------|---------------------|------------------------------------------------------------------------------|
+| Color                     | [Color]({{ "/docs/helpers/colors/#color" | relative_url }})             | `None`   			| Component visual or contextual style variants                                |
+| Size                      | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})                | `None`   			| Button size variations.                                                      |
+| Type                      | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` 			| Defines the button type.                                                     |
+| Clicked                   | event                                                                   |          			| Occurs when the button is clicked.                                           |
+| Outline                   | boolean                                                                 | false    			| Outlined button.                                                             |
+| Disabled                  | boolean                                                                 | false    			| Makes button look inactive.                                                  |
+| Active                    | boolean                                                                 | false    			| Makes the button to appear as pressed.                                       |
+| Block                     | boolean                                                                 | false    			| Makes the button to span the full width of a parent.                         |
+| Loading                   | boolean                                                                 | false    			| Shows the loading spinner.                                                   |
+| LoadingTemplate			| RenderFragment														  |`Loading spinner`	| Changes the default loading spinner to custom content.                       |
+| Command                   | ICommand                                                                | null     			| Command to be executed when clicked on a button.                             |
+| CommandParameter          | object                                                                  | null     			| Reflects the parameter to pass to the CommandProperty upon execution.        |
+| PreventDefaultOnSubmit    | boolean                                                                 | false    			| Prevents the button from submitting the form.                                |

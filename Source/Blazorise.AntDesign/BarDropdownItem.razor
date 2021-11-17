@@ -1,15 +1,6 @@
 ﻿@inherits Blazorise.BarDropdownItem
-<li class="@ClassNames" style="@StyleNames" role="menuitem" @attributes="@Attributes">
-    @if ( To != null )
-    {
-        <Blazorise.Link To="@To" Title="@Title" Match="@Match">
-            @ChildContent
-        </Blazorise.Link>
-    }
-    else
-    {
-        <a title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
-            @ChildContent
-        </a>
-    }
+<li id="@ElementId" class="@ClassNames" role="menuitem" @attributes="@Attributes">
+    <Anchor Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
+        @ChildContent
+    </Anchor>
 </li>

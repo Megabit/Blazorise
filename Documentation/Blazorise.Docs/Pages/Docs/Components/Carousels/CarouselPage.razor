@@ -1,0 +1,59 @@
+﻿@page "/docs/components/carousel"
+
+<Seo Canonical="/docs/components/carousel" Title="Blazorise Carousel component" Description="A slideshow component for cycling through elements - images or slides of text - like a carousel." />
+
+<DocsPageTitle>
+    Carousel
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    A slideshow component for cycling through elements - images or slides of text - like a carousel.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Carousel</Code> main container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>CarouselSlide</Code> wrapper for slide content
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CarouselExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CarouselExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Autoplay" Type="bool" Default="true">
+        Autoplays the carousel slides from left to right.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowIndicators" Type="bool" Default="true">
+        Specifies whether to show an indicator for each slide.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowControls" Type="bool" Default="true">
+        Specifies whether to show the controls that allows the user to navigate to the next or previous slide.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedSlide" Type="string">
+        Gets or sets currently selected slide name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedSlideChanged" Type="EventCallback<string>">
+        Occurs after the selected slide has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PreviousButtonLocalizer" Type="TextLocalizerHandler">
+        Function used to handle custom localization for previous button that will override a default ITextLocalizer.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NextButtonLocalizer" Type="TextLocalizerHandler">
+        Function used to handle custom localization for next button that will override a default ITextLocalizer.
+    </DocsAttributesItem>
+</DocsAttributes>

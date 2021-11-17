@@ -203,7 +203,7 @@
     <span id="select-nullable-enum-initially-selected-result">@nullableEnumInitiallySelected</span>
 </p>
 
-<Button Clicked="@(()=>StateHasChanged())">CHANGE STATE</Button>
+<Button Clicked="@(()=>InvokeAsync( StateHasChanged ))">CHANGE STATE</Button>
 
 @code{
     string nameInitiallyBlank = string.Empty;

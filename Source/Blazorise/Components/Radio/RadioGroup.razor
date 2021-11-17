@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@typeparam TValue
+@inherits BaseInputComponent<TValue>
+<CascadingValue Value="@this" IsFixed="true">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        @ChildContent
+    </div>
+    @Feedback
+</CascadingValue>

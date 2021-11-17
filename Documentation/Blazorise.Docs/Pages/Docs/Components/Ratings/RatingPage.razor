@@ -1,0 +1,64 @@
+﻿@page "/docs/components/rating"
+
+<Seo Canonical="/docs/components/rating" Title="Blazorise Rating system" Description="Ratings provide insight regarding others opinions and experiences with a product. Users can also rate products they’ve purchased." />
+
+<DocsPageTitle>
+    Rating component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Ratings provide insight regarding others opinions and experiences with a product. Users can also rate products they’ve purchased.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicRatingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicRatingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RatingWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RatingWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="MaxValue" Type="int" Default="5">
+        Maximum rating value that is allowed to be selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Prevents modification of the input’s value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Prevent the user interactions and make it appear lighter.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullIcon" Type="object" Default="IconName.Star">
+        Defines the selected icon name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyIcon" Type="object" Default="IconName.Star">
+        Defines the non-selected icon name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullIconStyle" Type="IconStyle?" Default="Solid">
+        Defines the selected icon style.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyIconStyle" Type="IconStyle?" Default="Regular">
+        Defines the non-selected icon style.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="Warning">
+        Defines the color or icons.
+    </DocsAttributesItem>
+</DocsAttributes>

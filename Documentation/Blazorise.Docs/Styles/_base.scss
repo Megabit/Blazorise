@@ -1,0 +1,70 @@
+﻿body {
+    color: #3d4144;
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+    line-height: 1.5;
+}
+
+.b-top-bar {
+    /*.navbar-brand {
+        font-size: 1.25rem;
+        font-weight: 500;
+    }*/
+
+    > :not(.navbar-brand) {
+        .nav-link {
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+    }
+}
+
+.page-hero-overlay {
+    position: relative;
+    margin-bottom: 2em;
+    padding: 3em 0;
+    clear: both;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-animation: intro 0.3s both;
+    animation: intro 0.3s both;
+    -webkit-animation-delay: 0.25s;
+    animation-delay: 0.25s;
+
+    .page-title {
+        font-size: 3.953em
+    }
+
+    .page-lead {
+        font-size: 1.75em
+    }
+
+    a {
+        color: #fff;
+        text-decoration: underline;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    z-index: 1;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bfbfbf;
+    border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+html, body * {
+    scrollbar-color: #bfbfbf transparent;
+    scrollbar-width: thin;
+}

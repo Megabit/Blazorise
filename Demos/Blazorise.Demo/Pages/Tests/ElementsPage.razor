@@ -23,6 +23,9 @@
                         <Tooltip Text="Tooltip text" AlwaysActive="true">
                             <Button Color="Color.Primary">Always Active</Button>
                         </Tooltip>
+                        <Tooltip Text="Tooltip text" ShowArrow="false">
+                            <Button Color="Color.Primary">No Arrow</Button>
+                        </Tooltip>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is2">
                         <Field>
@@ -30,6 +33,51 @@
                                 <TextEdit></TextEdit>
                             </Tooltip>
                         </Field>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Left" ShowArrow="false">
+                            <Button Color="Color.Primary">Left</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Top" ShowArrow="false">
+                            <Button Color="Color.Primary">Top</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Bottom" ShowArrow="false">
+                            <Button Color="Color.Primary">Bottom</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Right" ShowArrow="false">
+                            <Button Color="Color.Primary">Right</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+                            <Button Color="Color.Primary" Padding="Padding.Is5.OnX">Top Start</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.TopEnd" ShowArrow="false">
+                            <Button Color="Color.Primary" Padding="Padding.Is5.OnX">Top End</Button>
+                        </Tooltip>
+                    </Column>
+                    <Column>
+                        <Tooltip Text="<span style='color: aqua;'>Hello</span>, this is a <strong>bolded content</strong>!">
+                            <Button Color="Color.Primary">Html content</Button>
+                        </Tooltip>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <CardText>Tooltips can also be triggered by <code>click</code> or <code>focus</code> events.</CardText>
+                <Row>
+                    <Column>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Click">
+                            <Button Color="Color.Primary">Click</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Focus">
+                            <Button Color="Color.Primary">Focus</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.MouseEnterClick">
+                            <Button Color="Color.Primary">MouseEnterClick</Button>
+                        </Tooltip>
                     </Column>
                 </Row>
             </CardBody>
@@ -51,9 +99,8 @@
                 <Badge Color="Color.Primary">Primary</Badge>
                 <Badge Color="Color.Secondary">Secondary</Badge>
                 <Badge Color="Color.Success">Success</Badge>
-                <Badge Color="Color.Info">Info</Badge>
-                <Badge Color="Color.Warning">Warning</Badge>
                 <Badge Color="Color.Danger">Danger</Badge>
+                <Badge Color="Color.Warning">Warning</Badge>
                 <Badge Color="Color.Info">Info</Badge>
                 <Badge Color="Color.Light">Light</Badge>
                 <Badge Color="Color.Dark">Dark</Badge>
@@ -74,9 +121,8 @@
                 <Badge Color="Color.Primary" Pill="true">Primary</Badge>
                 <Badge Color="Color.Secondary" Pill="true">Secondary</Badge>
                 <Badge Color="Color.Success" Pill="true">Success</Badge>
-                <Badge Color="Color.Info" Pill="true">Info</Badge>
-                <Badge Color="Color.Warning" Pill="true">Warning</Badge>
                 <Badge Color="Color.Danger" Pill="true">Danger</Badge>
+                <Badge Color="Color.Warning" Pill="true">Warning</Badge>
                 <Badge Color="Color.Info" Pill="true">Info</Badge>
                 <Badge Color="Color.Light" Pill="true">Light</Badge>
                 <Badge Color="Color.Dark" Pill="true">Dark</Badge>
@@ -274,6 +320,40 @@
     </Column>
 </Row>
 <Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Stacked snackbars with custom intervals</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    You can have a dynamicaly stacked snackbars with custom interval before close.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Interval(ms)</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
+                    </FieldBody>
+                </Field>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync((MarkupString)("Some success message with &nbsp;<strong>some HTML markup</strong>! Timeout: " + intervalBeforeMsgClose), SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Success message
+                </Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Info, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Info message
+                </Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.PushAsync("Some warning message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Warning, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Warning message
+                </Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.PushAsync("Some danger message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Danger, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Danger message
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile">
         <Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
             <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, world!</JumbotronTitle>
@@ -346,44 +426,44 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Alert Color="Color.Success" Visible="@dismisableAlert1" Dismisable="true">
+                <Alert Color="Color.Success" @bind-Visible="@dismisableAlert1" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert1 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" Visible="@dismisableAlert2" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert2" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert2 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Warning" Visible="@dismisableAlert3" Dismisable="true">
+                <Alert Color="Color.Warning" @bind-Visible="@dismisableAlert3" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert3 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Danger" Visible="@dismisableAlert4" Dismisable="true">
+                <Alert Color="Color.Danger" @bind-Visible="@dismisableAlert4" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>Alert Link.</AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert4 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" Visible="@dismisableAlert5" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable="true">
                     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
                         Big one!
-                        <CloseButton Clicked="@(()=>dismisableAlert5 = false)" />
+                        <CloseButton />
                     </Heading>
                     <Paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
@@ -405,14 +485,14 @@
 <Snackbar @ref="snackbarAction">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarMultiline" Multiline="true">
     <SnackbarBody>
         When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
+        <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Left">
     <SnackbarBody>
@@ -428,51 +508,55 @@
 <Snackbar @ref="snackbarPrimary" Color="SnackbarColor.Primary">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarSecondary" Color="SnackbarColor.Secondary">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarSuccess.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarSuccess.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarDanger" Color="SnackbarColor.Danger">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarDanger.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarDanger.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarWarning" Color="SnackbarColor.Warning">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarWarning.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarWarning.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarInfo" Color="SnackbarColor.Info">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarInfo.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarInfo.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarLight" Color="SnackbarColor.Light">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarLight.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarLight.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarDark" Color="SnackbarColor.Dark">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
 </Snackbar>
+<SnackbarStack @ref="snackbarStack"
+               Location="SnackbarStackLocation.Right"
+               Interval="3000"
+               DelayCloseOnClick="true" />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;
@@ -489,12 +573,13 @@
     Snackbar snackbarLight;
     Snackbar snackbarDark;
 
+    SnackbarStack snackbarStack;
+
+    double intervalBeforeMsgClose = 2000;
+
     bool dismisableAlert1 = true;
     bool dismisableAlert2 = true;
     bool dismisableAlert3 = true;
     bool dismisableAlert4 = true;
     bool dismisableAlert5 = true;
-
-
-    
 }

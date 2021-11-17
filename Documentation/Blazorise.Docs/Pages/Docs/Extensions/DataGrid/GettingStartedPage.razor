@@ -1,0 +1,363 @@
+﻿@page "/docs/extensions/datagrid/getting-started"
+
+<Seo Canonical="/docs/extensions/datagrid/getting-started" Title="Blazorise DataGrid" Description="Learn how to use Blazorise DataGrid extension components." />
+
+<DocsPageTitle>
+    DataGrid: Getting Started
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    To create a basic grid in Blazorise you need to set the Column that will define the grid structure and behavior.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>DataGrid</Code> the main <Strong>container</Strong>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code>DataGridColumns</Code> container for datagrid columns
+                <UnorderedList>
+                    <UnorderedListItem><Code>DataGridColumn</Code> column template for text editor</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridNumericColumn</Code> column template for numeric values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridDateColumn</Code> column template for datetime values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridCheckColumn</Code> column template for boolean values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridSelectColumn</Code> column template for selectable values</UnorderedListItem>
+                    <UnorderedListItem><Code>DataGridCommandColumn</Code> column template for editing commands like Edit, Save, Cancel, etc.</UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code>DataGridAggregates</Code> container for datagrid aggregates
+                <UnorderedList>
+                    <UnorderedListItem><Code>DataGridAggregate</Code> defines the column and aggregation function type</UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="DataGridNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="DataGridImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGrid">
+        For DataGrid the required fields are <Code>TItem</Code> typeparam and Data attribute. Other attributes on the <Code>DataGrid</Code> are optional.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Columns">
+        Next you must set the Columns that you want to see in the grid. When defining the columns the required fields are:
+
+        <Code>TItem</Code> this is always the same model as on <Code>DataGrid</Code>.
+        <Code>Field</Code> name of the field in the supplied model.
+        <Code>Caption</Code> the column caption text.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Nested fields">
+        Field attribute also supports nested fields. You can define a column with field name like <Code>"City.Country.Name"</Code> and it will work. Just keep in mind that when editing nested fields they must be initialized first or otherwise they will raise an exception.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="DataGrid">
+    <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
+        Grid data-source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EditMode" Type="EditMode" Default="Form">
+        Specifies the grid editing modes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UseInternalEditing" Type="bool" Default="true">
+        Specifies the behavior of DataGrid editing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Editable" Type="bool" Default="false">
+        Whether users can edit DataGrid rows.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Resizable" Type="bool" Default="false">
+        Whether users can resize DataGrid columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResizeMode" Type="TableResizeMode" Default="Header">
+        Defines the resize mode of the data grid columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Sortable" Type="bool" Default="true">
+        Whether end-users can sort data by the column’s values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowCaptions" Type="bool" Default="true">
+        Gets or sets whether user can see a column captions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Filterable" Type="bool" Default="false">
+        Whether users can filter rows by its cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowPager" Type="bool" Default="false">
+        Whether users can navigate DataGrid by using pagination controls.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentPage" Type="int" Default="1">
+        Current page number.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageSize" Type="int" Default="5">
+        Maximum number of items for each page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Striped" Type="bool" Default="false">
+        Adds stripes to the table.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Bordered" Type="bool" Default="false">
+        Adds borders to all the cells.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Borderless" Type="bool" Default="false">
+        Makes the table without any borders.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Hoverable" Type="bool" Default="false">
+        Adds a hover effect when moussing over rows.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Narrow" Type="bool" Default="false">
+        Makes the table more compact by cutting cell padding in half.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Responsive" Type="bool" Default="false">
+        Makes table responsive by adding the horizontal scroll bar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadData" Type="EventCallback">
+        Handles the manual loading of large data sets.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRow" Type="TItem">
+        Currently selected row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRowChanged" Type="EventCallback">
+        Occurs after the selected row has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowSelectable" Type="Func<TItem,bool>">
+        Handles the selection of the DataGrid row. If not set it will default to always true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowHoverCursor" Type="Func<TItem,Blazorise.Cursor>">
+        Handles the selection of the cursor for a hovered row. If not set, Blazorise.Cursor.Pointer` will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DetailRowTrigger" Type="Func<TItem,bool>">
+        A trigger function used to handle the visibility of detail row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowInserting" Type="EventCallback<CancellableRowChange<TItem, Dictionary<string, object>>>">
+        Cancelable event called before the row is inserted.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowUpdating" Type="EventCallback<CancellableRowChange<TItem, Dictionary<string, object>>>">
+        Cancelable event called before the row is updated.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowRemoving" Type="EventCallback<CancellableRowChange<TItem>>">
+        Cancelable event called before the row is removed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowInserted" Type="EventCallback<SavedRowItem<TItem, Dictionary<string, object>>>">
+        Event called after the row is inserted.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowUpdated" Type="EventCallback<SavedRowItem<TItem, Dictionary<string, object>>>">
+        Event called after the row is updated.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowRemoved" Type="EventCallback<TItem>">
+        Event called after the row is removed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageChanged" Type="EventCallback">
+        Occurs after the selected page has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
+        Define the display template for empty data cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
+        Define the display template for empty data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupSize" Type="ModalSize" Default="Default">
+        Defines the size of popup modal.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupClosing" Type="Func<ModalClosingEventArgs, Task>">
+        Occurs before the popup dialog is closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
+        Template for custom title of edit popup dialog
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NewItemDefaultSetter" Type="Action<TItem>">
+        Action will be called for setting default values of property, when create new entry
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderTemplate<PageButtonContext>">
+        Define the format a pagination button
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UseValidation" Type="bool" Default="false">
+        If true, validation will be used when editing the fields
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowValidationFeedback" Type="bool" Default="false">
+        Hide or show feedback for validation
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowValidationsSummary" Type="bool" Default="true">
+        Hide or show validations summary
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationsSummaryLabel" Type="string" Default="null">
+        Label for validations summary.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationsSummaryErrors" Type="string[]" Default="null">
+        List of custom error messages for the validations summary.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortMode" Type="DataGridSortMode" Default="Multiple">
+        Defines whether the user can sort only by one column or by multiple.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="DataGridSelectionMode" Default="Single">
+        Defines whether the datagrid is set to single or multiple selection mode
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Localizers" Type="DataGridLocalizers">
+        Custom localizer handlers to override default localization.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CommandMode" Type="DataGridCommandMode" Default="Default">
+        Defines whether the datagrid renders both commands and button row or just either one of them.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PagerPosition" Type="DataGridPagerPosition" Default="Bottom">
+        Defines the position of the pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowPageSizes" Type="bool" Default="false">
+        Defines whether users can adjust the page size of the datagrid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
+        Gets or sets whether the datagrid will use the Virtualize functionality.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VirtualizeOptions" Type="VirtualizeOptions" Default="null">
+        Gets or sets Virtualize options when using the Virtualize functionality.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SubmitFormOnEnter" Type="bool" Default="true">
+        If true, the edit form will have the Save button as <c>type="submit"</c>, and it will react to Enter keys being pressed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderThemeContrast" Type="ThemeContrast">
+        Sets the Datagrid's table header ThemeContrast.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataGridMaxHeigh" Type="string" Default="500px">
+        Sets the DataGrid height when <Code>Virtualize</Code> feature is enabled.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DataGridColumn">
+    <DocsAttributesItem Name="Field" Type="string">
+        TItem data field name.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Caption" Type="string">
+        Column’s display caption. It will be displayed, if ColumnTemplate is not set.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Filter" Type="FilterContext">
+        Filter value for this column.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortDirection" Type="SortDirection" Default="None">
+        Column initial sort direction.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="None">
+        Defines the alignment for display cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderTextAlignment" Type="TextAlignment" Default="None">
+        Defines the alignment for column header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Editable" Type="bool" Default="false">
+        Whether users can edit cell values under this column.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Displayable" Type="bool" Default="false">
+        Whether column can be displayed on a grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisplayOrder" Type="int" Default="0">
+        Where column will be displayed on a grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Sortable" Type="bool" Default="true">
+        Whether end-users can sort data by the column’s values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Readonly" Type="bool" Default="false">
+        Whether end-users are prevented from editing the column’s cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowCaption" Type="bool" Default="true">
+        Whether the column’s caption is displayed within the column header.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Filterable" Type="bool" Default="true">
+        Whether users can filter rows by its cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Width" Type="string" Default="null">
+        The width of the column.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisplayFormat" Type="string">
+        Defines the format for display value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisplayFormatProvider" Type="IFormatProvider">
+        Defines the format provider info for display value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CellClass" Type="Func<TItem, string>">
+        Custom classname handler for cell based on the current row item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CellStyle" Type="Func<TItem, string>	">
+        Custom style handler for cell based on the current row item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderCellClass" Type="string">
+        Custom classname for header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderCellStyle" Type="string">
+        Custom style for header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterCellClass" Type="string">
+        Custom classname for filter cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterCellStyle" Type="string">
+        Custom style for filter cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupCellClass" Type="string">
+        Custom classname for group cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupCellStyle" Type="string">
+        Custom style for group cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisplayTemplate" Type="RenderFragment<TItem>">
+        Template for custom cell display formating.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EditTemplate" Type="RenderFragment<CellEditContext>">
+        Template for custom cell editing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTemplate" Type="RenderFragment<FilterContext>">
+        Template for custom column filter rendering.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupFieldColumnSize" Type="IFluentColumn" Default="IsHalf.OnDesktop">
+        Defines the size of field for popup modal.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaptionTemplate" Type="RenderFragment<DataGridColumn<TItem>>">
+        Template for custom caption. CaptionTemplate will block caption template.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortDirectionTemplate" Type="RenderFragment<SortDirection>">
+        Template for custom sort direction icon.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Validator" Type="Action<ValidatorEventArgs>">
+        Validates the input value after trying to save.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationPattern" Type="string">
+        Forces validation to use regex pattern matching instead of default validator handler.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomFilter" Type="DataGridColumnCustomFilter">
+        Custom filter function used to override internal filtering.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Display" Type="IFluentDisplay">
+        Specifies the display behavior of a cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderDisplay" Type="IFluentDisplay">
+        Specifies the display behavior of a header cell.
+    </DocsAttributesItem>
+</DocsAttributes>

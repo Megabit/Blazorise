@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class CloseButtonComponentTest : ComponentTestFixture
+    public class CloseButtonComponentTest : TestContext
     {
         public CloseButtonComponentTest()
         {
@@ -54,6 +54,22 @@ namespace Blazorise.Tests.Components
             // validate
             Assert.Equal( "1", result1 );
             Assert.Equal( "2", result2 );
+        }
+
+        [Fact]
+        public void CanAutoClose()
+        {
+            // setup
+            var comp = RenderComponent<CloseButtonComponent>();
+            var result = comp.Find( "#autoclose-button-event-result" );
+            var button = comp.Find( "#autoclose-button" );
+
+            // test
+            button.Click();
+            var result1 = result.InnerHtml;
+
+            // validate
+            Assert.Equal( "1", result1 );
         }
     }
 }

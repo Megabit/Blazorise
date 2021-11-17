@@ -1,0 +1,113 @@
+﻿@page "/tests/utilities/services"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Message Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText><code>IMessageService</code> is used to show a simple message or prompt dialog with an optional icon.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@ShowInfoMessage">Say hi!</Button>
+                <Button Color="Color.Danger" Clicked="@ShowConfirmMessage">Confirm</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Notification Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText><code>INotificationService</code> is used to show a simple alerts.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show alert!</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>PageProgress Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText><code>IPageProgressService</code> is used to show a simple page progress at the top of the page.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress25">25 %</Button>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress50">50 %</Button>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress75">75 %</Button>
+                <Button Color="Color.Primary" Clicked="@SetPageProgress100">100 %</Button>
+
+                <Button Color="Color.Secondary" Clicked="@SetPageProgressIndeterminate">Indeterminate</Button>
+
+                <Button Color="Color.Secondary" Clicked="@SetPageProgressHidden">Hide</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+    [Inject] IMessageService MessageService { get; set; }
+
+    [Inject] INotificationService NotificationService { get; set; }
+
+    [Inject] IPageProgressService PageProgressService { get; set; }
+
+    Task ShowInfoMessage()
+    {
+        return MessageService.Info( "This is a simple info message!", "Hello" );
+    }
+
+    async Task ShowConfirmMessage()
+    {
+        if ( await MessageService.Confirm( "Are you sure you want to confirm?", "Confirmation" ) )
+        {
+            Console.WriteLine( "OK Clicked" );
+        }
+        else
+        {
+            Console.WriteLine( "Cancel Clicked" );
+        }
+    }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( "This is a simple notification message!", "Hello", options => options.IntervalBeforeClose = 10000 );
+    }
+
+    Task SetPageProgress25()
+    {
+        return PageProgressService.Go( 25, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgress50()
+    {
+        return PageProgressService.Go( 50, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgress75()
+    {
+        return PageProgressService.Go( 75, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgress100()
+    {
+        return PageProgressService.Go( 100, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgressIndeterminate()
+    {
+        return PageProgressService.Go( null, options => { options.Color = Color.Warning; } );
+    }
+
+    Task SetPageProgressHidden()
+    {
+        return PageProgressService.Go( -1 );
+    }
+}

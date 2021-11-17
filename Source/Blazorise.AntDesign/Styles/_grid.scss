@@ -22,25 +22,25 @@
 }
 
 @media (min-width: 576px) {
-    .ant-container {
+    .ant-container, .ant-container-sm {
         max-width: 540px;
     }
 }
 
 @media (min-width: 768px) {
-    .ant-container {
+    .ant-container, .ant-container-sm, .ant-container-md {
         max-width: 720px;
     }
 }
 
 @media (min-width: 992px) {
-    .ant-container {
+    .ant-container, .ant-container-sm, .ant-container-md, .ant-container-lg {
         max-width: 960px;
     }
 }
 
 @media (min-width: 1200px) {
-    .ant-container {
+    .ant-container, .ant-container-sm, .ant-container-md, .ant-container-lg, .ant-container-xl {
         max-width: 1140px;
     }
 }
@@ -51,4 +51,29 @@
     padding-left: 0;
     margin-right: auto;
     margin-left: auto;
+}
+
+.ant-row-no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .ant-col,
+    > [class*="ant-col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @if $grid-row-columns > 0 {
+            @for $i from 1 through $grid-row-columns {
+                .are-columns#{$infix}-#{$i} {
+                    @include row-cols($i);
+                }
+            }
+        }
+    }
 }

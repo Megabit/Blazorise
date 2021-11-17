@@ -1,0 +1,25 @@
+﻿@each $value1 in $overflows {
+    @each $value2 in $overflows {
+        .overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
+}
+
+ol.ordered-list {
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}

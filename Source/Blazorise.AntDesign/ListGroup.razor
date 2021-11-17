@@ -1,12 +1,14 @@
 ﻿@inherits Blazorise.ListGroup
-<CascadingValue Value=this>
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <div class="ant-spin-nested-loading">
-            <div class="ant-spin-container">
-                <ul class="ant-list-items">
-                    @ChildContent
-                </ul>
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div class="ant-spin-nested-loading">
+                <div class="ant-spin-container">
+                    <ul class="ant-list-items">
+                        @ChildContent
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    </CascadingValue>
 </CascadingValue>

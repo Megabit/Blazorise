@@ -1,14 +1,16 @@
 ﻿@typeparam TNode
 @inherits BaseComponent
-<CascadingValue Value=this>
-    <CascadingValue Value="@store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@state">
         <_TreeViewNode Nodes="Nodes"
                        NodeContent="NodeContent"
                        GetChildNodes="GetChildNodes"
                        ExpandedNodes="ExpandedNodes"
                        ExpandedNodesChanged="ExpandedNodesChanged"
                        Expanded="true"
-                       HasChildNodes="HasChildNodes">
+                       HasChildNodes="HasChildNodes"
+                       NodeStyling="@NodeStyling"
+                       SelectedNodeStyling="@SelectedNodeStyling">
         </_TreeViewNode>
     </CascadingValue>
 </CascadingValue>

@@ -3,7 +3,7 @@
         $color: $value;
         $color-invert: color-yiq($value);
 
-        &.hero-#{$name} {
+        &.is-#{$name} {
             background-color: $color;
             color: $color-invert;
         }

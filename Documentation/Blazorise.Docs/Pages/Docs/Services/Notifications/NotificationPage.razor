@@ -1,0 +1,53 @@
+﻿@page "/docs/services/notification"
+
+<Seo Canonical="/docs/services/notification" Title="Blazorise Notification service" Description="The INotificationService is a powerful helper utility built on top of Snackbar component and is used for showing simple alerts and notifications." />
+
+<DocsPageTitle>
+    Notification service
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code>INotificationService</Code> is built on top of <Code>Snackbar</Code> component and is used for showing simple
+    alerts and notifications.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        Notification service is part of the <Strong>Blazorise.Components</Strong> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="NotificationServiceInstallationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Wrapper">
+        <Code>INotificationService</Code> is automatically registered by Blazorise but it needs just one thing on your side
+        to make it work. You need to place <Code>NotificationAlert</Code> somewhere in your application razor code. It can
+        be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in the following example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="NotificationServiceUsageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        Once you’re done you can start using it by injecting the <Code>INotificationService</Code> in your page and then simple
+        calling the built-in methods.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BasicNotificationServiceExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicNotificationServiceExample" />
+</DocsPageSection>

@@ -132,6 +132,7 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 |-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
 | Value                 | generic   |         | Gets or sets the item value.                                                                 |
 | Disabled              | boolean   | false   | Disable the item from mouse click.                                                           |
+| Hidden                | boolean   | false   | Hides the item from the list - useful for default.                                           |
 
 ### SelectGroup
 

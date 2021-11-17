@@ -1,288 +1,67 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
 
-<Layout Sider="true">
-    <LayoutSider>
-        <LayoutSiderContent>
-            <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" @bind-Visible="siderVisible">
-                <BarBrand>
-                    <BarItem>
-                        <BarLink To="">
-                            <BarIcon IconName="customIcon" />
-                            Blazorise Demo
-                        </BarLink>
-                    </BarItem>
-                </BarBrand>
-                <BarMenu>
-                    <BarStart>
-                        <BarLabel>Main</BarLabel>
-                        <BarItem>
-                            <BarLink To="">
-                                <BarIcon IconName="IconName.Dashboard" />
-                                Dashboard
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarDropdown @bind-Visible="uiElementsVisible">
-                                <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.Wrench" />
-                                    UI Elements
-                                </BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="tests/buttons">
-                                        Buttons
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/modals">
-                                        Modals
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/cards">
-                                        Cards
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/progressbars">
-                                        Progress bars
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/elements">
-                                        General UI
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/typography">
-                                        Typography
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/collapse">
-                                        Collapse
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/tables">
-                                        Tables
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/figures">
-                                        Figures
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/tabs">
-                                        Tabs
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/carousel">
-                                        Carousel
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/layout">
-                                        Layout
-                                    </BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                        <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.Edit" />
-                                    Forms
-                                </BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="tests/forms">
-                                        Forms
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/validations">
-                                        Validations
-                                    </BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                        <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.PuzzlePiece" />
-                                    Extensions
-                                </BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="tests/datagrid">
-                                        Data Grid
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/components">
-                                        Components
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/charts">
-                                        Charts
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/livecharts">
-                                        Live Charts
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="tests/treeview">
-                                        TreeView
-                                    </BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                    </BarStart>
-                    <BarEnd>
-                        <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.Smartphone" />
-                                    Apps
-                                </BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="apps/todo">
-                                        Todo
-                                    </BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                    </BarEnd>
-                </BarMenu>
-            </Bar>
-        </LayoutSiderContent>
-    </LayoutSider>
+@if ( layoutType == "fixed-header" )
+{
+    <Layout Sider>
+        <LayoutSider>
+            <LayoutSiderContent>
+                <SideMenu />
+            </LayoutSiderContent>
+        </LayoutSider>
+        <Layout>
+            <LayoutHeader Fixed>
+                <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                         ThemeGradientChanged="@OnThemeGradientChanged"
+                         ThemeRoundedChanged="@OnThemeRoundedChanged"
+                         ThemeColorChanged="@OnThemeColorChanged"
+                         @bind-LayoutType="@layoutType" />
+            </LayoutHeader>
+            <LayoutContent Padding="Padding.Is4.OnX">
+                @Body
+            </LayoutContent>
+        </Layout>
+    </Layout>
+}
+else if ( layoutType == "fixed-header-footer-only" )
+{
     <Layout>
-        <LayoutHeader Fixed="true">
-            <Bar Style="height: 64px;" Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
-                <BarBrand>
-                    <BarItem>
-                        <BarLink To="">
-                            <BarIcon IconName="IconName.Dashboard" />
-                            Blazorise Demo
-                        </BarLink>
-                    </BarItem>
-                </BarBrand>
-                <BarToggler Clicked="@ToggleSidebar" />
-                <BarMenu>
-                    <BarStart>
-                        <BarItem>
-                            <BarLink To="https://blazorise.com/">Home</BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="https://blazorise.com/docs/">Documentation</BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle>More</BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
-                                        Quick-Start Guide
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="https://blazorise.com/docs/usage/">
-                                        Usage
-                                    </BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                    </BarStart>
-                    <BarEnd>
-                        <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                                <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
-                                    <Row>
-                                        <Column Margin="Margin.Is2.FromBottom">
-                                            <Field>
-                                                <Switch TValue="bool" Checked="@(Theme?.Enabled == true)" CheckedChanged="@OnThemeEnabledChanged">Theme enabled</Switch>
-                                            </Field>
-                                        </Column>
-                                    </Row>
-                                    <Row>
-                                        <Column Margin="Margin.Is2.FromBottom">
-                                            <Field>
-                                                <Check TValue="bool" Checked="@(Theme?.IsGradient == true)" CheckedChanged="@OnGradientChanged">Gradient colors</Check>
-                                            </Field>
-                                            <Field>
-                                                <Check TValue="bool" Checked="@(Theme?.IsRounded == true)" CheckedChanged="@OnRoundedChanged">Rounded elements</Check>
-                                            </Field>
-                                        </Column>
-                                    </Row>
-                                    <Row>
-                                        <Column>
-                                            <Container Fluid="true">
-                                                <ThemeColorSelector Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
-                                            </Container>
-                                        </Column>
-                                    </Row>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
-                        </BarItem>
-                    </BarEnd>
-                </BarMenu>
-            </Bar>
+        <LayoutHeader Fixed>
+            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                     ThemeGradientChanged="@OnThemeGradientChanged"
+                     ThemeRoundedChanged="@OnThemeRoundedChanged"
+                     ThemeColorChanged="@OnThemeColorChanged"
+                     @bind-LayoutType="@layoutType" />
         </LayoutHeader>
-        <LayoutContent Padding="Padding.Is4.OnX">
+        <LayoutContent>
             @Body
         </LayoutContent>
+        <LayoutFooter Fixed>
+            <FooterMenu></FooterMenu>
+        </LayoutFooter>
     </Layout>
-</Layout>
-
-@code{
-    void OnThemeEnabledChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.Enabled = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnGradientChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsGradient = value;
-
-        //if ( Theme.GradientOptions == null )
-        //    Theme.GradientOptions = new GradientOptions();
-
-        //Theme.GradientOptions.BlendPercentage = 80;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnRoundedChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsRounded = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnThemeColorChanged( string value )
-    {
-        if ( Theme == null )
-            return;
-
-        if ( Theme.ColorOptions == null )
-            Theme.ColorOptions = new ThemeColorOptions();
-
-        if ( Theme.BackgroundOptions == null )
-            Theme.BackgroundOptions = new ThemeBackgroundOptions();
-
-        if ( Theme.TextColorOptions == null )
-            Theme.TextColorOptions = new ThemeTextColorOptions();
-
-        Theme.ColorOptions.Primary = value;
-        Theme.BackgroundOptions.Primary = value;
-        Theme.TextColorOptions.Primary = value;
-
-        if ( Theme.InputOptions == null )
-            Theme.InputOptions = new ThemeInputOptions();
-
-        //Theme.InputOptions.Color = value;
-        Theme.InputOptions.CheckColor = value;
-        Theme.InputOptions.SliderColor = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-
-    private bool siderVisible = true;
-    private bool uiElementsVisible = true;
-
-    RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
-
-void ToggleSidebar()
-{
-siderVisible = !siderVisible;
-StateHasChanged();
 }
-
-[CascadingParameter] protected Theme Theme { get; set; }
+else if ( layoutType == "sider-with-header-on-top" )
+{
+    <Layout>
+        <LayoutHeader Fixed>
+            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                     ThemeGradientChanged="@OnThemeGradientChanged"
+                     ThemeRoundedChanged="@OnThemeRoundedChanged"
+                     ThemeColorChanged="@OnThemeColorChanged"
+                     @bind-LayoutType="@layoutType" />
+        </LayoutHeader>
+        <Layout Sider>
+            <LayoutSider>
+                <LayoutSiderContent>
+                    <SideMenu />
+                </LayoutSiderContent>
+            </LayoutSider>
+            <Layout>
+                <LayoutContent Padding="Padding.Is4.OnX">
+                    @Body
+                </LayoutContent>
+            </Layout>
+        </Layout>
+    </Layout>
 }

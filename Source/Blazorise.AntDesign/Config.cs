@@ -1,8 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -23,84 +22,78 @@ namespace Blazorise.AntDesign
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, AntDesignStyleProvider>();
-            serviceCollection.AddScoped<IJSRunner, AntDesignJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
+
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
+
+            serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
+            serviceCollection.AddScoped<IJSTooltipModule, Modules.AntDesignJSTooltipModule>();
 
             return serviceCollection;
         }
 
-        private static void RegisterComponents( IComponentMapper componentMapper )
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
-            componentMapper.Register<Blazorise.Addons, AntDesign.Addons>();
-            componentMapper.Register<Blazorise.Addon, AntDesign.Addon>();
-            componentMapper.Register<Blazorise.AddonLabel, AntDesign.AddonLabel>();
-            componentMapper.Register<Blazorise.AlertMessage, AntDesign.AlertMessage>();
-            componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
-            componentMapper.Register<Blazorise.Badge, AntDesign.Badge>();
-            componentMapper.Register<Blazorise.Bar, AntDesign.Bar>();
-            componentMapper.Register<Blazorise.BarBrand, AntDesign.BarBrand>();
-            componentMapper.Register<Blazorise.BarIcon, AntDesign.BarIcon>();
-            componentMapper.Register<Blazorise.BarItem, AntDesign.BarItem>();
-            componentMapper.Register<Blazorise.BarMenu, AntDesign.BarMenu>();
-            componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();
-            componentMapper.Register<Blazorise.BarEnd, AntDesign.BarEnd>();
-            componentMapper.Register<Blazorise.BarDropdown, AntDesign.BarDropdown>();
-            componentMapper.Register<Blazorise.BarLink, AntDesign.BarLink>();
-            componentMapper.Register<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
-            componentMapper.Register<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
-            componentMapper.Register<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();
-            componentMapper.Register<Blazorise.BarToggler, AntDesign.BarToggler>();
-            componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
-            componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
-            componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
-            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) );
-            componentMapper.Register<Blazorise.Button, AntDesign.Button>();
-            componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
-            componentMapper.Register<Blazorise.CardLink, AntDesign.CardLink>();
-            componentMapper.Register<Blazorise.Carousel, AntDesign.Carousel>();
-            componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
-            componentMapper.Register<Blazorise.CollapseHeader, AntDesign.CollapseHeader>();
-            componentMapper.Register<Blazorise.Dropdown, AntDesign.Dropdown>();
-            componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
-            componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
-            componentMapper.Register<Blazorise.DropdownToggle, AntDesign.DropdownToggle>();
-            componentMapper.Register<Blazorise.Field, AntDesign.Field>();
-            componentMapper.Register<Blazorise.FieldBody, AntDesign.FieldBody>();
-            componentMapper.Register<Blazorise.FieldLabel, AntDesign.FieldLabel>();
-            componentMapper.Register<Blazorise.FileEdit, AntDesign.FileEdit>();
-            componentMapper.Register<Blazorise.Heading, AntDesign.Heading>();
-            componentMapper.Register<Blazorise.ListGroup, AntDesign.ListGroup>();
-            componentMapper.Register<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
-            componentMapper.Register<Blazorise.ModalContent, AntDesign.ModalContent>();
-            componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();
-            componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
-            componentMapper.Register( typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) );
-            componentMapper.Register<Blazorise.SelectGroup, AntDesign.SelectGroup>();
-            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( AntDesign.Radio<> ) );
-            componentMapper.Register( typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) );
-            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) );
-            componentMapper.Register<Blazorise.Tabs, AntDesign.Tabs>();
-            componentMapper.Register<Blazorise.Tab, AntDesign.Tab>();
-            componentMapper.Register<Blazorise.TabPanel, AntDesign.TabPanel>();
-            componentMapper.Register<Blazorise.TabsContent, AntDesign.TabsContent>();
-            componentMapper.Register<Blazorise.Table, AntDesign.Table>();
-            componentMapper.Register<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
-            componentMapper.Register<Blazorise.TextEdit, AntDesign.TextEdit>();
-        }
-
-        /// <summary>
-        /// Registers the custom rules for ant design components.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IServiceProvider UseAntDesignProviders( this IServiceProvider serviceProvider )
-        {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
-        }
+            { typeof( Blazorise.Addons ), typeof( AntDesign.Addons ) },
+            { typeof( Blazorise.Addon ), typeof( AntDesign.Addon ) },
+            { typeof( Blazorise.AddonLabel ), typeof( AntDesign.AddonLabel ) },
+            { typeof( Blazorise.AlertMessage ), typeof( AntDesign.AlertMessage ) },
+            { typeof( Blazorise.AlertDescription ), typeof( AntDesign.AlertDescription ) },
+            { typeof( Blazorise.Badge ), typeof( AntDesign.Badge ) },
+            { typeof( Blazorise.Bar ), typeof( AntDesign.Bar ) },
+            { typeof( Blazorise.BarBrand ), typeof( AntDesign.BarBrand ) },
+            { typeof( Blazorise.BarIcon ), typeof( AntDesign.BarIcon ) },
+            { typeof( Blazorise.BarItem ), typeof( AntDesign.BarItem ) },
+            { typeof( Blazorise.BarMenu ), typeof( AntDesign.BarMenu ) },
+            { typeof( Blazorise.BarStart ), typeof( AntDesign.BarStart ) },
+            { typeof( Blazorise.BarEnd ), typeof( AntDesign.BarEnd ) },
+            { typeof( Blazorise.BarDropdown ), typeof( AntDesign.BarDropdown ) },
+            { typeof( Blazorise.BarLink ), typeof( AntDesign.BarLink ) },
+            { typeof( Blazorise.BarDropdownMenu ), typeof( AntDesign.BarDropdownMenu ) },
+            { typeof( Blazorise.BarDropdownItem ), typeof( AntDesign.BarDropdownItem ) },
+            { typeof( Blazorise.BarDropdownDivider ), typeof( AntDesign.BarDropdownDivider ) },
+            { typeof( Blazorise.BarDropdownToggle ), typeof( AntDesign.BarDropdownToggle ) },
+            { typeof( Blazorise.BarToggler ), typeof( AntDesign.BarToggler ) },
+            { typeof( Blazorise.Breadcrumb ), typeof( AntDesign.Breadcrumb ) },
+            { typeof( Blazorise.BreadcrumbItem ), typeof( AntDesign.BreadcrumbItem ) },
+            { typeof( Blazorise.BreadcrumbLink ), typeof( AntDesign.BreadcrumbLink ) },
+            { typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) },
+            { typeof( Blazorise.Button ), typeof( AntDesign.Button ) },
+            { typeof( Blazorise.CardHeader ), typeof( AntDesign.CardHeader ) },
+            { typeof( Blazorise.CardLink ), typeof( AntDesign.CardLink ) },
+            { typeof( Blazorise.Carousel ), typeof( AntDesign.Carousel ) },
+            { typeof( Blazorise.CloseButton ), typeof( AntDesign.CloseButton ) },
+            { typeof( Blazorise.CollapseHeader ), typeof( AntDesign.CollapseHeader ) },
+            { typeof( Blazorise.Dropdown ), typeof( AntDesign.Dropdown ) },
+            { typeof( Blazorise.DropdownMenu ), typeof( AntDesign.DropdownMenu ) },
+            { typeof( Blazorise.DropdownItem ), typeof( AntDesign.DropdownItem ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( AntDesign.DropdownToggle ) },
+            { typeof( Blazorise.Field ), typeof( AntDesign.Field ) },
+            { typeof( Blazorise.FieldBody ), typeof( AntDesign.FieldBody ) },
+            { typeof( Blazorise.FieldLabel ), typeof( AntDesign.FieldLabel ) },
+            { typeof( Blazorise.FileEdit ), typeof( AntDesign.FileEdit ) },
+            { typeof( Blazorise.ListGroup ), typeof( AntDesign.ListGroup ) },
+            { typeof( Blazorise.ModalContent ), typeof( AntDesign.ModalContent ) },
+            { typeof( Blazorise.Progress ), typeof( AntDesign.Progress ) },
+            { typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) },
+            { typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) },
+            { typeof( Blazorise.SelectGroup ), typeof( AntDesign.SelectGroup ) },
+            { typeof( Blazorise.Radio<> ), typeof( AntDesign.Radio<> ) },
+            { typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) },
+            { typeof( Blazorise.Tabs ), typeof( AntDesign.Tabs ) },
+            { typeof( Blazorise.Tab ), typeof( AntDesign.Tab ) },
+            { typeof( Blazorise.TabPanel ), typeof( AntDesign.TabPanel ) },
+            { typeof( Blazorise.TabsContent ), typeof( AntDesign.TabsContent ) },
+            { typeof( Blazorise.Table ), typeof( AntDesign.Table ) },
+            { typeof( Blazorise.TableRowHeader ), typeof( AntDesign.TableRowHeader ) },
+            { typeof( Blazorise.TextEdit ), typeof( AntDesign.TextEdit ) },
+            { typeof( Blazorise.Step ), typeof( AntDesign.Step ) },
+            { typeof( Blazorise.Rating ), typeof( AntDesign.Rating ) },
+            { typeof( Blazorise.RatingItem ), typeof( AntDesign.RatingItem ) },
+        };
     }
 }

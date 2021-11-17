@@ -1,0 +1,25 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.Threading
+
+<Validation AsyncValidator="@ValidateNameAsync">
+    <TextEdit Placeholder="Enter name">
+        <Feedback>
+            <ValidationError>Enter valid name!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+@code{
+    Random random = new Random();
+
+    async Task ValidateNameAsync( ValidatorEventArgs e, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        // some long running task or call to the rest API
+        await Task.Delay( random.Next( 1500 ) );
+
+        e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+    }
+}

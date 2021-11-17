@@ -1,0 +1,21 @@
+{
+  "culture": "nl",
+  "translations": {
+    "New": "Nieuw",
+    "Edit": "Bewerken",
+    "Delete": "Verwijderen",
+    "Save": "Opslaan",
+    "Cancel": "Annuleren",
+    "Clear Filter": "Filter legen",
+    "First": "Eerste",
+    "Last": "Laatste",
+    "Prev": "Vorige",
+    "Next": "Volgende",
+    "items": "items",
+    "items per page": "items per pagina",
+    "{0} - {1} of {2} items": "{0} - {1} van de {2} items",
+    "Row Edit": "Rij bewerken",
+    "Row Create": "Rij Creëren",
+    "Create": "Creëer"
+  }
+}

@@ -1,0 +1,70 @@
+﻿@page "/tests/utilities/vertical-align"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Vertical alignment</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph>
+                    Easily change the <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align" Target="Target.Blank">vertical alignment</Anchor> of inline, inline-block, inline-table, and table cell elements.
+                </Paragraph>
+                <Paragraph>
+                    Change the alignment of elements with the vertical-alignment utilities. Please note that vertical-align only affects inline, inline-block, inline-table, and table cell elements.
+                </Paragraph>
+                <Paragraph>
+                    Choose from: <code>VerticalAlignment.Baseline</code>, <code>VerticalAlignment.Top</code>, <code>VerticalAlignment.Middle</code>, <code>VerticalAlignment.Bottom</code>, <code>VerticalAlignment.TextTop</code>, and <code>VerticalAlignment.TextBottom</code>  as needed.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph>
+                    With inline elements:
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div>
+                    <Span VerticalAlignment="VerticalAlignment.Baseline">baseline</Span>
+                    <Span VerticalAlignment="VerticalAlignment.Top">top</Span>
+                    <Span VerticalAlignment="VerticalAlignment.Middle">middle</Span>
+                    <Span VerticalAlignment="VerticalAlignment.Bottom">bottom</Span>
+                    <Span VerticalAlignment="VerticalAlignment.TextTop">text-top</Span>
+                    <Span VerticalAlignment="VerticalAlignment.TextBottom">text-bottom</Span>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph>
+                    With table cells:
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Table Style="height: 100px;">
+                    <TableBody>
+                        <TableRow>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Baseline">baseline</TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Top">top</TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle">middle</TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Bottom">bottom</TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.TextTop">text-top</TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.TextBottom">text-bottom</TableRowCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

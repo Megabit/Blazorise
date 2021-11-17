@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Blazorise.Utils;
+using System.Text.Json.Serialization;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts
@@ -24,7 +25,7 @@ namespace Blazorise.Charts
         /// List of labels for the chart coordinates.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> Labels { get; set; }
+        public List<object> Labels { get; set; }
 
         /// <summary>
         /// List of datasets to be displayed in the chart.
@@ -64,25 +65,50 @@ namespace Blazorise.Charts
         /// List of data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
+#if !NET6_0_OR_GREATER
+        [JsonNumberHandling( JsonNumberHandling.AllowNamedFloatingPointLiterals )]
+#endif
         public List<T> Data { get; set; }
 
         /// <summary>
         ///List of background colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public object BackgroundColor { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> BackgroundColor { get; set; }
 
         /// <summary>
         /// List of border colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public object BorderColor { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> BorderColor { get; set; }
 
         /// <summary>
         /// Defines the border width.
         /// </summary>
         [DataMember]
         public int BorderWidth { get; set; } = 1;
+
+        /// <summary>
+        /// Defines the type of a chart dataset.
+        /// </summary>
+        [DataMember]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Drawing order of the dataset. Used mainly for mixed charts. 
+        /// </summary>
+        [DataMember]
+        public int Order { get; set; }
+
+        /// <summary>
+        /// If true, makes the dataset hidden.
+        /// </summary>
+        [DataMember]
+        public bool Hidden { get; set; }
     }
 
     /// <remarks>
@@ -93,17 +119,19 @@ namespace Blazorise.Charts
     {
         public LineChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
-        { }
+        {
+            Type = "line";
+        }
 
         /// <summary>
         /// Length and spacing of dashes.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<int> BorderDash { get; set; } = new List<int>();
+        public List<int> BorderDash { get; set; } = new();
 
         /// <summary>
         /// Offset for line dashes.
@@ -127,13 +155,17 @@ namespace Blazorise.Charts
         /// The fill color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> PointBackgroundColor { get; set; }
 
         /// <summary>
         /// The border color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> PointBorderColor { get; set; }
 
         /// <summary>
         /// The width of the point border in pixels.
@@ -170,6 +202,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public string CubicInterpolationMode { get; set; } = "default";
+
+        [DataMember( EmitDefaultValue = false )]
+        public string XAxisID { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public string YAxisID { get; set; }
     }
 
     /// <remarks>
@@ -180,25 +218,31 @@ namespace Blazorise.Charts
     {
         public BarChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 0
         )
-        { }
+        {
+            Type = "bar";
+        }
 
         /// <summary>
         /// The fill colour of the bars when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBackgroundColor { get; set; }
 
         /// <summary>
         /// The stroke colour of the bars when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBorderColor { get; set; }
 
         /// <summary>
         /// The stroke width of the bars when hovered.
@@ -215,25 +259,31 @@ namespace Blazorise.Charts
     {
         public PieChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
-        { }
+        {
+            Type = "pie";
+        }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBackgroundColor { get; set; }
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBorderColor { get; set; }
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
@@ -246,7 +296,11 @@ namespace Blazorise.Charts
     [DataContract]
     public class DoughnutChartDataset<T> : PieChartDataset<T>
     {
-        // same as pie chart
+        public DoughnutChartDataset()
+            : base()
+        {
+            Type = "doughnut";
+        }
     }
 
     /// <remarks>
@@ -257,25 +311,31 @@ namespace Blazorise.Charts
     {
         public PolarAreaChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
-        { }
+        {
+            Type = "polarArea";
+        }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBackgroundColor { get; set; }
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBorderColor { get; set; }
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
@@ -293,11 +353,13 @@ namespace Blazorise.Charts
     {
         public RadarChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
-            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            backgroundColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new() { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
-        { }
+        {
+            Type = "radar";
+        }
 
         /// <summary>
         /// How to fill the area under the line.
@@ -361,7 +423,7 @@ namespace Blazorise.Charts
         /// <param name="blue"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
+        public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new( red, green, blue, alpha );
 
         /// <summary>
         /// Creates a new color based on the supplied HTML color code.
@@ -377,7 +439,7 @@ namespace Blazorise.Charts
 
             if ( HtmlColorCodeParser.TryParse( code, out var red, out var green, out var blue ) )
             {
-                return new ChartColor( red, green, blue );
+                return new( red, green, blue );
             }
 
             throw new ArgumentException( $"The \"{code}\" doesn't represent a valid HTML color code.", nameof( code ) );

@@ -1,0 +1,37 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Size="Size.Small" Color="Color.Primary" Clicked="@ScrollToRow">Scroll To Row</Button>
+<Button Size="Size.Small" Color="Color.Primary" Clicked="@ScrollToPixels">Scroll To Pixels</Button>
+
+<Table @ref="@tableRef" FixedHeader FixedHeaderTableHeight="300px">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @for ( int i = 1; i <= 10; ++i )
+        {
+            var index = i.ToString();
+
+            <TableRow @key="@index">
+                <TableRowHeader>@index</TableRowHeader>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+                <TableRowCell>Column content</TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+@code {
+    Table tableRef;
+
+    private Task ScrollToRow()
+        => tableRef.ScrollToRow( 1 ).AsTask();
+
+    private Task ScrollToPixels()
+        => tableRef.ScrollToPixels( 250 ).AsTask();
+}

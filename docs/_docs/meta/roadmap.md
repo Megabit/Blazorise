@@ -19,4 +19,4 @@ toc_label: "On this page"
 
 ## Progress
 
-You can check out the latest development pipeline and track its progress [on GitHub](https://github.com/stsrki/Blazorise/projects/8).
+You can check out the latest development pipeline and track its progress [on GitHub](https://github.com/Megabit/Blazorise/projects/8).

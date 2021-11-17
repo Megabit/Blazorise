@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
@@ -24,7 +23,7 @@ namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
             }
 
             var sampleSitePath = FindSampleOrTestSitePath(
-                BuildWebHostMethod.Method.DeclaringType.Assembly.GetName().Name);
+                BuildWebHostMethod.Method.DeclaringType!.Assembly.GetName().Name);
 
             return BuildWebHostMethod(new[]
             {

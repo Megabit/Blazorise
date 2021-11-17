@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blazorise.Charts;
-using Blazorise.Charts.Streaming;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Demo.Pages.Tests
 {
     public partial class TreeViewPage : ComponentBase
     {
-        IList<NodeInfo> ExpandedNodes = new List<NodeInfo>();
-        NodeInfo selectedNode;
+        private IList<NodeInfo> ExpandedNodes = new List<NodeInfo>();
+        private NodeInfo selectedNode;
 
         public class NodeInfo
         {
@@ -21,7 +15,7 @@ namespace Blazorise.Demo.Pages.Tests
             public IEnumerable<NodeInfo> Children { get; set; }
         }
 
-        IEnumerable<NodeInfo> Nodes = new[]
+        private IEnumerable<NodeInfo> Nodes = new[]
         {
             new NodeInfo { Text = "NodeInfo 1" },
             new NodeInfo

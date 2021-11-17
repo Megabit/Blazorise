@@ -1,0 +1,201 @@
+﻿.b-page-progress {
+    .b-page-progress-indicator {
+        @each $name, $value in $theme-colors {
+            $color: $value;
+
+            &.b-page-progress-indicator-#{$name} {
+                background-color: $color;
+            }
+        }
+    }
+}
+
+
+
+@-webkit-keyframes animate-stripes {
+    100% {
+        background-position: -40px 0px;
+    }
+}
+
+@keyframes animate-stripes {
+    100% {
+        background-position: -40px 0px;
+    }
+}
+
+.progress-wrapper {
+    position: relative;
+    display: flex;
+
+    .progress {
+        &.is-extra-small {
+            height: $size-extra-small;
+        }
+
+        &.is-extra-large {
+            height: $size-extra-large;
+        }
+
+        &[value].progress-animated::-webkit-progress-value {
+            -webkit-animation: animate-stripes 5s linear infinite;
+            animation: animate-stripes 5s linear infinite;
+        }
+
+        &[value].progress-striped::-webkit-progress-value {
+            @include gradient-striped();
+            background-size: 1rem 1rem;
+        }
+    }
+}
+
+$progress-bar-background-color: $border-light !default
+$progress-value-background-color: $text !default
+$progress-border-radius: $radius-rounded !default
+
+$progress-indeterminate-duration: 1.5s !default
+
+@mixin progress-size() {
+    &.is-extra-small {
+        + .progress-value, .progress-value {
+            font-size: calc(#{$size-extra-small} / 1.5);
+            line-height: $size-extra-small;
+        }
+    }
+
+    &.is-small {
+        + .progress-value, .progress-value {
+            font-size: calc(#{$size-small} / 1.5);
+            line-height: $size-small;
+        }
+    }
+
+    &.is-medium {
+        + .progress-value, .progress-value {
+            font-size: calc(#{$size-medium} / 1.5);
+            line-height: $size-medium;
+        }
+    }
+
+    &.is-large {
+        + .progress-value, .progress-value {
+            font-size: calc(#{$size-large} / 1.5);
+            line-height: $size-large;
+        }
+    }
+
+    &.is-extra-large {
+        + .progress-value, .progress-value {
+            font-size: calc(#{$size-extra-large} / 1.5);
+            line-height: $size-extra-large;
+        }
+    }
+}
+
+.progress-bars-wrapper {
+    position: relative;
+    overflow: hidden;
+
+    &:not(:last-child) {
+        margin-bottom: 1.5rem;
+    }
+
+    .progress-value {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: calc(#{$size-normal} / 1.5);
+        line-height: $size-normal;
+        font-weight: $weight-bold;
+        color: findColorInvert($progress-bar-background-color);
+        white-space: nowrap;
+    }
+
+    .progress-bar {
+        margin-bottom: 0;
+
+        @include progress-size();
+
+        &::-webkit-progress-value {
+            transition: width 0.5s ease;
+        }
+
+        &.is-more-than-half {
+            + .progress-value {
+                color: findColorInvert($progress-value-background-color);
+            }
+
+            @each $name, $value in $theme-colors {
+                $color: $value;
+                $color-invert: color-yiq($value);
+
+                &.is-#{$name} {
+                    + .progress-value {
+                        color: $color-invert;
+                    }
+                }
+            }
+        }
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 1.5rem;
+    }
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: $progress-border-radius;
+    display: block;
+    height: $size-normal;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+
+    &::-webkit-progress-bar {
+        background-color: $progress-bar-background-color;
+    }
+
+    &::-webkit-progress-value {
+        background-color: $progress-value-background-color;
+    }
+
+    &::-moz-progress-bar {
+        background-color: $progress-value-background-color;
+    }
+
+    &::-ms-fill {
+        background-color: $progress-value-background-color;
+        border: none;
+    }
+
+    white-space: nowrap;
+    background-color: $progress-bar-background-color;
+    border-radius: $progress-border-radius;
+
+    .progress-bar {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+        background-color: $progress-value-background-color;
+
+        .progress-value {
+            color: findColorInvert($progress-value-background-color);
+        }
+
+        @each $name, $value in $theme-colors {
+            $color: $value;
+            $color-invert: color-yiq($value);
+
+            &.is-#{$name} {
+                background-color: $color;
+
+                .progress-value {
+                    color: $color-invert;
+                }
+            }
+        }
+    }
+}

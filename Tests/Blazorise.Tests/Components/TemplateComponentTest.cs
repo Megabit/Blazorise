@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Blazorise.Tests.Helpers;
+﻿using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class TemplateComponentTest : ComponentTestFixture
+    public class TemplateComponentTest : TestContext
     {
         public TemplateComponentTest()
         {

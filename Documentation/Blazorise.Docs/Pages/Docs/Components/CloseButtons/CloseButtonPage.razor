@@ -1,0 +1,54 @@
+﻿@page "/docs/components/close-button"
+
+<Seo Canonical="/docs/components/close-button" Title="Blazorise CloseButton component" Description="The CloseButton is a simple button that highlights to the user that a part of the current UI can be dismissed" />
+
+<DocsPageTitle>
+    CloseButton
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>CloseButton</Code> is a simple button that highlights to the user that a part of the current
+    UI can be dismissed such as an <Code>Alert</Code> or a <Code>Modal</Code>. When used in an <Code>Alert</Code>
+    or a <Code>Modal</Code> the component will be dismissed, if not inside one of these components the
+    <Code>Clicked</Code> EventCallback must be set for it to be useful.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual close">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ManualCloseExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ManualCloseExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Auto close">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <AutoCloseExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutoCloseExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With other components">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <WithOtherComponentsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="WithOtherComponentsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback">
+        Occurs when the Button is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoClose" Type="bool" Default="true">
+        If true, the parent Alert or Modal with be automatically closed.
+    </DocsAttributesItem>
+</DocsAttributes>

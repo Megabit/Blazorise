@@ -4,7 +4,7 @@
 {
     <div class="field">
         <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback
@@ -13,7 +13,7 @@
 else
 {
     <div class="control">
-        <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
         @ChildContent
     </div>
     @Feedback

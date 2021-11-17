@@ -12,13 +12,13 @@ Here is another minor update for `v0.8.8`. As promised, I will support `v0.8.8` 
 
 ## Fixes
 
-- [#518](https://github.com/stsrki/Blazorise/issues/518) Alerts are always visible
-- [#517](https://github.com/stsrki/Blazorise/issues/517) Style missing from Table components
+- [#518](https://github.com/Megabit/Blazorise/issues/518) Alerts are always visible
+- [#517](https://github.com/Megabit/Blazorise/issues/517) Style missing from Table components
 
 ## Closing notes
 
 That's it for now. See you next time.
 
-If you wish just leave a star on [GitHub](https://github.com/stsrki/Blazorise). Thanks!
+If you wish just leave a star on [GitHub](https://github.com/Megabit/Blazorise). Thanks!
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

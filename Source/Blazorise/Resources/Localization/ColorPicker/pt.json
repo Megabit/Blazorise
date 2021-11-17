@@ -1,0 +1,19 @@
+{
+  "culture": "pt",
+  "translations": {
+    "ui:dialog": "diálogo seletor de cores",
+    "btn:toggle": "alternar a caixa de diálogo do seletor de cores",
+    "btn:swatch": "amostra de cor",
+    "btn:last-color": "use a cor anterior",
+    "btn:save": "Salvar",
+    "btn:cancel": "Cancelar",
+    "btn:clear": "Limpar",
+    "aria:btn:save": "salvar e fechar",
+    "aria:btn:cancel": "cancelar e fechar",
+    "aria:btn:clear": "limpar e fechar",
+    "aria:input": "campo de entrada de cor",
+    "aria:palette": "área de seleção de cores",
+    "aria:hue": "controle deslizante de seleção de matiz",
+    "aria:opacity": "controle deslizante de seleção"
+  }
+}

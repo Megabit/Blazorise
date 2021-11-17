@@ -1,0 +1,45 @@
+﻿<CascadingValue Value="this" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@if ( Title != null )
+{
+    <Heading Class="docs-page-attributes-title" Size="HeadingSize.Is3">
+        @Title
+    </Heading>
+}
+
+<Table Class="b-docs-attributes" Responsive>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+            <TableHeaderCell>Type</TableHeaderCell>
+            <TableHeaderCell>Default</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach ( var DocsAttributesItem in DocsAttributesItems )
+        {
+            <TableRow>
+                <TableRowCell>
+                    <Code>@DocsAttributesItem.Name</Code>
+                </TableRowCell>
+                <TableRowCell>
+                    @DocsAttributesItem.ChildContent
+                </TableRowCell>
+                <TableRowCell>
+                    <Code Tag="@DocsAttributesItem.TypeTag">@DocsAttributesItem.Type</Code>
+                </TableRowCell>
+                <TableRowCell Class="@DocsAttributesItem.DefaultClassNames">
+                    @if ( @DocsAttributesItem.Default != null )
+                    {
+                        <Code>@DocsAttributesItem.Default</Code>
+                    }
+                </TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+
+

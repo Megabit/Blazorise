@@ -1,0 +1,93 @@
+﻿@page "/docs/components/numeric"
+
+<Seo Canonical="/docs/components/numeric" Title="Blazorise NumericEdit system" Description="Use NumericEdit to have a field for any kind if numeric values." />
+
+<DocsPageTitle>
+    NumericEdit component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Use <Code Tag>NumericEdit</Code> to have a field for any kind if numeric values.
+    All basic types are supported, including nullable types
+    (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicNumericEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicNumericEditExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Rules
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Generic type">
+        Since <Code>NumericEdit</Code> is a generic component you will have to specify the exact data type for the value.
+        Most of the time it will be recognized automatically when you set the <Code>Value</Code> attribute, but if
+        not you will just use the <Code>TValue</Code> attribute and define the type manually eg.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <NumericEditGenericExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="NumericEditGenericExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    NumericEdit is just a specialized version of <Code>TextEdit</Code> component so all of the rules and styles are still working
+    all the same. See <Link To="docs/components/text">TextEdit</Link> to find the list of supported attributes.
+</DocsPageParagraph>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="TValue" Type="generic">
+        Generic type parameter used for the value attribute.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
+        Gets or sets the value inside the input field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueChanged" Type="@("EventCallback<TValue>")">
+        Occurs after the value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Step" Type="decimal?" Default="null">
+        Specifies the interval between valid values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Decimals" Type="int" Default="2">
+        Maximum number of decimal places after the decimal separator.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DecimalsSeparator" Type="string" Default="@("\".\"")">
+        String to use as the decimal separator in numeric values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Culture" Type="string" Default="null">
+        Helps define the language of an element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Min" Type="TValue" Default="default">
+        The minimum value to accept for this input.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Max" Type="TValue" Default="default">
+        The maximum value to accept for this input.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Autofocus" Type="bool" Default="false">
+        Set’s the focus to the component after the rendering is done.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowStepButtons" Type="bool?" Default="true">
+        If true, step buttons will be visible.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EnableStep" Type="bool?" Default="true">
+        If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectAllOnFocus" Type="bool" Default="false">
+        If true, selects all the text entered in the input field once it receives the focus.
+    </DocsAttributesItem>
+</DocsAttributes>

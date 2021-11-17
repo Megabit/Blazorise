@@ -1,0 +1,92 @@
+﻿@page "/docs/components/layout"
+
+<Seo Canonical="/docs/components/layout" Title="Blazorise Layout system" Description="The Layout is used to handling the overall layout of a page." />
+
+<DocsPageTitle>
+    Layout component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The <Code Tag>Layout</Code> is used to handling the overall layout of a page.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Layout</Code> The main layout container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>LayoutHeader</Code> The top container for a Bar or navigation
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>LayoutContent</Code> The main content container
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>LayoutFooter</Code> The bottom layout
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>LayoutSider</Code> The sidebar container
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Code Tag>LayoutSiderContent</Code> Main content for sider component
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicLayoutStyledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicLayoutExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Sider">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LayoutWithSiderStyledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LayoutWithSiderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Sider with Header on top">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LayoutWithSiderAndTopHeaderStyledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LayoutWithSiderAndTopHeaderExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Layout">
+    <DocsAttributesItem Name="Sider" Type="bool" Default="false">
+        Indicates that layout will contain sider.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loading" Type="bool" Default="false">
+        If true, an overlay will be created so the user cannot click anything until set to false.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="LayoutHeader">
+    <DocsAttributesItem Name="Fixed" Type="bool" Default="false">
+        If true header will be fixed to the top of the page.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="LayoutFooter">
+    <DocsAttributesItem Name="Fixed" Type="bool" Default="false">
+        If true footer will be fixed to the bottom of the page.
+    </DocsAttributesItem>
+</DocsAttributes>

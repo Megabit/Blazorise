@@ -10,3 +10,45 @@
         @content;
     }
 }
+
+@mixin row-cols($count) {
+    & > * {
+        flex: 0 0 100% / $count;
+        max-width: 100% / $count;
+    }
+}
+
+@mixin hover() {
+    &:hover {
+        @content;
+    }
+}
+
+@mixin hover-focus() {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin plain-hover-focus() {
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin hover-focus-active() {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}
+
+// Gradients
+
+@mixin gradient-striped($color: rgba($white, .15), $angle: 45deg) {
+    background-image: linear-gradient($angle, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
+}

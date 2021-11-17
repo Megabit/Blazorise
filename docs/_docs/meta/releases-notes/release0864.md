@@ -16,6 +16,6 @@ The update process is the same as before. You need to update your _Visual Studio
 
 ## Closing notes
 
-That's it for now. If you like the project leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-badge bellow.
+That's it for now. If you like the project leave a star on [GitHub](https://github.com/Megabit/Blazorise) or click on the star-badge bellow.
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 #endregion
 
@@ -9,13 +6,9 @@ namespace Blazorise.AntDesign
 {
     public partial class Tabs : Blazorise.Tabs
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
-        protected override void OnAfterRender( bool firstRender )
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
@@ -23,11 +16,11 @@ namespace Blazorise.AntDesign
                 // This is needed because selected tab will not work unless we know all properly initialized.
                 if ( TabItems.Count > 0 && TabItems.Count == TabPanels.Count )
                 {
-                    StateHasChanged();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
-            base.OnAfterRender( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         #endregion
@@ -37,43 +30,21 @@ namespace Blazorise.AntDesign
         string TabsBarClassNames
             => $"ant-tabs-bar {ItemsPositionClassNames} {( IsCards && TabPosition == TabPosition.Top || TabPosition == TabPosition.Bottom ? "ant-tabs-card-bar" : "" )}";
 
-        protected string ItemsPositionClassNames
+        protected string ItemsPositionClassNames => TabPosition switch
         {
-            get
-            {
-                switch ( TabPosition )
-                {
-                    case TabPosition.Left:
-                        return "ant-tabs-left-bar";
-                    case TabPosition.Right:
-                        return "ant-tabs-right-bar";
-                    case TabPosition.Bottom:
-                        return "ant-tabs-bottom-bar";
-                    case TabPosition.Top:
-                    default:
-                        return "ant-tabs-top-bar";
-                }
-            }
-        }
+            TabPosition.Left or TabPosition.Start => "ant-tabs-left-bar",
+            TabPosition.Right or TabPosition.End => "ant-tabs-right-bar",
+            TabPosition.Bottom => "ant-tabs-bottom-bar",
+            _ => "ant-tabs-top-bar",
+        };
 
-        protected string ContentPositionClassNames
+        protected string ContentPositionClassNames => TabPosition switch
         {
-            get
-            {
-                switch ( TabPosition )
-                {
-                    case TabPosition.Left:
-                        return "ant-tabs-left-content";
-                    case TabPosition.Right:
-                        return "ant-tabs-right-content";
-                    case TabPosition.Bottom:
-                        return "ant-tabs-bottom-content";
-                    case TabPosition.Top:
-                    default:
-                        return "ant-tabs-top-content";
-                }
-            }
-        }
+            TabPosition.Left or TabPosition.Start => "ant-tabs-left-content",
+            TabPosition.Right or TabPosition.End => "ant-tabs-right-content",
+            TabPosition.Bottom => "ant-tabs-bottom-content",
+            _ => "ant-tabs-top-content",
+        };
 
         protected string StyleOfSelectedTab
         {
@@ -83,7 +54,7 @@ namespace Blazorise.AntDesign
                     ? IndexOfSelectedTab * -100
                     : 0;
 
-                var margin = TabPosition == TabPosition.Left || TabPosition == TabPosition.Right
+                var margin = TabPosition == TabPosition.Left || TabPosition == TabPosition.Right || TabPosition == TabPosition.Start || TabPosition == TabPosition.End
                     ? "margin-top"
                     : "margin-left";
 

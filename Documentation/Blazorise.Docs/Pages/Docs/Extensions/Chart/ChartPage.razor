@@ -1,0 +1,200 @@
+﻿@page "/docs/extensions/chart"
+
+<Seo Canonical="/docs/extensions/chart" Title="Blazorise Chart" Description="Learn how to use Blazorise chart extension components." />
+
+<DocsPageTitle>
+    Chart
+</DocsPageTitle>
+
+<Alert Color="Color.Warning" Visible>
+    <AlertDescription>
+        <Strong>Warning:</Strong> Right now there are some issues when serializing dataset and option objects to JSON. Blazor internal serializer is serializing nullable fields and when ChartJS is trying to read them it will break. There is not much I can do for now, except to always initialize all of the fields for the particular chart dataset. To overcome this limitation you can use <Code>DataJsonString</Code> and <Code>OptionsJsonString</Code> or <Code>OptionsObject</Code>. Keep in mind that these parameters are just a temporary feature that will be removed once the .Net Core team implements a better serializer.
+    </AlertDescription>
+</Alert>
+
+<DocsPageParagraph>
+    The chart extension is defined of several different chart components. Each of the chart type have it’s own dataset and option settings.
+
+    Supported charts types are:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem><Code>Chart</Code> default chart components, should be used only for testing(see warning)</UnorderedListItem>
+    <UnorderedListItem><Code>LineChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>BarChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>HorizontalBarChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>PieChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>PolarAreaChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>DoughnutChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>RadarChart</Code></UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install chart extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        Add <Code>ChartsJS</Code> and <Code>charts.js</Code> to your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example">
+        You should always define <Code>TItem</Code> data type.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Events">
+        It is possible to use <Code>Clicked</Code> and <Code>Hovered</Code> events to interact with chart. The usage is pretty straightforward. The only thing to keep in mind is the <Code>Model</Code> field that needs to be casted to the right chart-model type. The available model types are:
+        <UnorderedList>
+            <UnorderedListItem><Code>LineChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>BarChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>DoughnutChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>PieChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>PolarChartModel</Code></UnorderedListItem>
+            <UnorderedListItem><Code>RadarChartModel</Code></UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartEventExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Type" Type="ChartType" Default="Line">
+        Defines the chart type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Data" Type="ChartData">
+        Defines the chart data.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Options" Type="ChartOptions">
+        Defines the chart options.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataJsonString" Type="string" Default="null">
+        Defines the chart data that is serialized as JSON string. [WILL BE REMOVED]
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="OptionsJsonString" Type="string" Default="null">
+        Defines the chart options that is serialized as JSON string. [WILL BE REMOVED]
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<ChartMouseEventArgs>">
+        Raised when clicked on data point.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Hovered" Type="EventCallback<ChartMouseEventArgs>">
+        Raised when hovered over data point.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MouseOut" Type="EventCallback<ChartMouseEventArgs>">
+        Raised when mouse leaves the chart area.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    ChartOptions Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Scales" Type="Scales">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Legend" Type="Legend">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Tooltips" Type="Tooltips">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animation" Type="Animation">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Responsive" Type="bool?" Default="true">
+        Resizes the chart canvas when its container does.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaintainAspectRatio" Type="bool?" Default="true">
+        Maintain the original canvas aspect ratio (width / height) when resizing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResponsiveAnimationDuration" Type="bool?" Default="true">
+        Duration in milliseconds it takes to animate to new size after a resize event.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AspectRatio" Type="int" Default="2">
+        Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Scales Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="XAxes" Type="List<Axis>">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="YAxes" Type="List<Axis>">
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Legend Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Display" Type="bool" Default="true">
+        Is the legend shown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Reverse" Type="bool" Default="false">
+        Legend will show datasets in reverse order.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullWidth" Type="bool" Default="true">
+        Marks that this box should take the full width of the canvas.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Tooltips Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Display" Type="bool" Default="true">
+        Are on-canvas tooltips enabled.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Axis Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Type" Type="string" Default="null">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Display" Type="bool" Default="true">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ticks" Type="AxeTicks">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GridLines" Type="GridLines">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScaleLabel" Type="ScaleLabel">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ticks" Type="AxeTicks">
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Stacked" Type="bool" Default="false">
+        Only used for BarChart and seting this to true will stack the datasets.
+    </DocsAttributesItem>
+</DocsAttributes>

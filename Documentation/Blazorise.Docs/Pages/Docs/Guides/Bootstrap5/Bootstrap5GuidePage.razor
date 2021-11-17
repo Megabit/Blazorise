@@ -1,0 +1,109 @@
+﻿@page "/docs/usage/bootstrap5"
+
+<Seo Canonical="/docs/usage/bootstrap5" Title="Bootstrap 5 Usage" Description="Learn all the steps on how to quickly install and setup Blazorise for Bootstrap 5 CSS framework and FontAwesome icons." />
+
+<DocsPageTitle>
+    Bootstrap 5 Usage
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
+            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    1. NuGet packages
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        First step is to install a Bootstrap provider for Blazorise:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="Bootstrap5GuideNuget1Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        You also need to install the icon package:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="Bootstrap5GuideNuget2Example" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    2. Source files
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        The next step is to change your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="Bootstrap5GuideSourceFilesExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> When Blazor project is created it will also include it’s own <Strong>Bootstrap</Strong>
+        and <Strong>FontAwesome</Strong> files that can sometime be of older versions. To ensure we’re using the appropriate
+        Bootstrap and FontAwesome files, you need to remove them or replace them with the links from above. If you forget to
+        remove them, it’s possible that some components will not work as expected. Also, the links provided here might not always be the most up to date. 
+        You may update your sources, but do take note, that <Strong>Blazorise</Strong> has been tested with the versions listed here.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSubtitle>
+    3. Usings
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        In your main _Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="Bootstrap5GuideUsingExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    4. Registrations
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Depending on the hosting model of your Blazor project you only need to apply either step <Strong>4.a</Strong> or <Strong>4.b</Strong>.
+    You should not include both of them as that is generally not supported.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models" Target="Target.Blank">official documentation</Blazorise.Link>.
+</DocsPageParagraph>
+
+<Tabs @bind-SelectedTab="@selectedSection4">
+    <Items>
+        <Tab Name="4a" TextWeight="TextWeight.Bold">4.a Blazor WebAssembly</Tab>
+        <Tab Name="4b" TextWeight="TextWeight.Bold">4.b Blazor Server</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="4a" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    This step is mandatory for <Strong>Blazor WebAssembly</Strong> (client-side).
+                    You should place the code into the <Strong>Program.cs</Strong> of your client project injecting the required Blazorise dependencies.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="Bootstrap5GuideRegistration1Example" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="4b" Padding="Padding.Is2.FromTop">
+            <DocsPageSection>
+                <DocsPageSectionHeader>
+                    For <Strong>Blazor Server</Strong> project, or any regular <Strong>ASP.NET Core hosted</Strong> project types.
+                    You should place the code into the <Strong>Startup.cs</Strong> injecting the required Blazorise dependencies.
+                </DocsPageSectionHeader>
+                <DocsPageSectionSource Code="Bootstrap5GuideRegistration2Example" />
+            </DocsPageSection>
+        </TabPanel>
+    </Content>
+</Tabs>
+@code{
+    string selectedSection4 = "4a";
+}
