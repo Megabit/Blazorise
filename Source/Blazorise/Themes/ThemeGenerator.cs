@@ -1205,6 +1205,7 @@ namespace Blazorise
             return ToHex( ThemeColorLevel( theme, inColor, level ) );
         }
 
+
         /// <summary>
         /// Parses the supplied string value and converts it to a <see cref="System.Drawing.Color"/>.
         /// </summary>
@@ -1310,19 +1311,23 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Checks for characters that are Hexadecimal
+        /// </summary>
+        protected static Regex isHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
+
+        /// <summary>
         /// Extract only the hex digits from a string.
         /// </summary>
         /// <param name="input">A string to extract.</param>
         /// <returns>A new hex string.</returns>
         protected static string ExtractHexDigits( string input )
         {
-            // remove any characters that are not digits (like #)
-            Regex isHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
             string newnum = "";
             foreach ( char c in input )
             {
-                if ( isHexDigit.IsMatch( c.ToString() ) )
-                    newnum += c.ToString();
+                var charAsString = c.ToString();
+                if ( isHexDigit.IsMatch( charAsString ) )
+                    newnum += charAsString;
             }
             return newnum;
         }
