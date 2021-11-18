@@ -90,7 +90,7 @@
 }
 
 @each $dimension in $dimensions {
-    &.is-#{$dimension}x#{$dimension} {
+    .is-#{$dimension}x#{$dimension} {
         height: $dimension * 1px;
         width: $dimension * 1px;
     }
