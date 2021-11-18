@@ -4,12 +4,25 @@ using System.Text;
 using System.Text.RegularExpressions;
 using BenchmarkDotNet.Attributes;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Themes;
 
 namespace Blazorise.Benchmark.Blazorise
 {
     [MemoryDiagnoser]
     public class ThemeBenchmark
     {
+        IThemeGenerator _themeGenerator = new Bootstrap5.BootstrapThemeGenerator( new ThemeCache( new BlazoriseOptions( null, null ) ) );
+        private Theme theme = new();
+
+
+        [Benchmark]
+        public void GenerateStyles()
+            => _themeGenerator.GenerateStyles( theme );
+
+        [Benchmark]
+        public void GenerateVariables()
+            => _themeGenerator.GenerateVariables( theme );
+
         [Benchmark]
         public void ExtractHexDigitsBenchmark()
             => ExtractHexDigits( "#ffffff" );
