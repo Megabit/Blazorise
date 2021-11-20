@@ -69,11 +69,11 @@ namespace Blazorise
             {
                 if ( visibleResult == true && await IsSafeToOpen() )
                 {
-                    SetVisibleState( true );
+                    await SetVisibleState( true );
                 }
                 else if ( visibleResult == false && await IsSafeToClose() )
                 {
-                    SetVisibleState( false );
+                    await SetVisibleState( false );
                 }
                 else
                 {
@@ -181,7 +181,7 @@ namespace Blazorise
 
             if ( await IsSafeToOpen() )
             {
-                SetVisibleState( true );
+                await SetVisibleState( true );
 
                 await InvokeAsync( StateHasChanged );
             }
@@ -210,7 +210,7 @@ namespace Blazorise
 
             if ( await IsSafeToClose() )
             {
-                SetVisibleState( false );
+                await SetVisibleState( false );
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
@@ -269,7 +269,7 @@ namespace Blazorise
         /// Handles the styles based on the visibility flag.
         /// </summary>
         /// <param name="visible">Modal visibility flag.</param>
-        protected virtual async void HandleVisibilityStyles( bool visible )
+        protected virtual async Task HandleVisibilityStyles( bool visible )
         {
             if ( visible )
             {
@@ -313,7 +313,6 @@ namespace Blazorise
                 } );
             }
 
-            //Handle animations properly
             await ModalDirtyStylingAnimation( visible );
         }
 
@@ -349,18 +348,18 @@ namespace Blazorise
         /// Fires all the events for this modal
         /// </summary>
         /// <param name="visible"></param>
-        protected virtual void RaiseEvents( bool visible )
+        protected virtual async Task RaiseEvents( bool visible )
         {
             if ( visible )
             {
-                Opened.InvokeAsync();
+                await Opened.InvokeAsync();
             }
             else
             {
-                Closed.InvokeAsync();
+                await Closed.InvokeAsync();
             }
 
-            InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+            await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
@@ -421,12 +420,12 @@ namespace Blazorise
         /// Handles the internal visibility states.
         /// </summary>
         /// <param name="visible">Visible state.</param>
-        private void SetVisibleState( bool visible )
+        private async Task SetVisibleState( bool visible )
         {
             state = state with { Visible = visible };
 
-            HandleVisibilityStyles( visible );
-            RaiseEvents( visible );
+            await HandleVisibilityStyles( visible );
+            await RaiseEvents( visible );
         }
 
         #endregion
