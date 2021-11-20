@@ -114,18 +114,18 @@ namespace Blazorise.Benchmark.Blazorise
 
         protected static string CachedExtractHexDigitsMatchesStringBuilder( string input )
         {
-            var sb = new StringBuilder(string.Empty);
+            var sb = new StringBuilder( string.Empty );
             var result = isHexDigit.Matches( input );
             foreach ( System.Text.RegularExpressions.Match item in result )
             {
-                sb.Append(item.Value);
+                sb.Append( item.Value );
             }
             return sb.ToString();
         }
 
         private static readonly string pattern = "[abcdefABCDEF\\d]+";
         private static Regex isHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
-        private static Regex isHexDigitNoCompiled = new( "[abcdefABCDEF\\d]+");
+        private static Regex isHexDigitNoCompiled = new( "[abcdefABCDEF\\d]+" );
 
     }
 

@@ -23,7 +23,7 @@ namespace Blazorise.Tests
         [InlineData( "abcdef", "abcdef" )]
         [InlineData( "abcdeflol", "abcdef" )]
         [InlineData( "lolabcdeflol", "abcdef" )]
-        public void ExtractHexDigits_Returns_CorrectHexDigits( string colorInput, string expected)
+        public void ExtractHexDigits_Returns_CorrectHexDigits( string colorInput, string expected )
         {
             var result = MockThemeGenerator.ExtractHexDigitsTest( colorInput );
 
