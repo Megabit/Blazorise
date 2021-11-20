@@ -1313,7 +1313,7 @@ namespace Blazorise
         /// <summary>
         /// Checks for characters that are Hexadecimal
         /// </summary>
-        protected static Regex isHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
+        protected static Regex IsHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
 
         /// <summary>
         /// Extract only the hex digits from a string.
@@ -1322,12 +1322,14 @@ namespace Blazorise
         /// <returns>A new hex string.</returns>
         protected static string ExtractHexDigits( string input )
         {
-            string newnum = string.Empty;
-            var result = isHexDigit.Matches( input );
+            var newnum = string.Empty;
+            var result = IsHexDigit.Matches( input );
+
             foreach ( System.Text.RegularExpressions.Match item in result )
             {
                 newnum += item.Value;
             }
+
             return newnum;
         }
 
