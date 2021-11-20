@@ -881,12 +881,6 @@ li.list-group-item-action {
   flex: 1;
 }
 
-.modal.show {
-  animation-duration: 0.25s;
-  animation-fill-mode: both;
-  animation-name: fadeIn;
-}
-
 .page-item:not(.disabled) .page-link {
   cursor: pointer;
 }
