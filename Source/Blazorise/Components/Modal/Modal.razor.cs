@@ -269,7 +269,7 @@ namespace Blazorise
         /// Handles the styles based on the visibility flag.
         /// </summary>
         /// <param name="visible">Modal visibility flag.</param>
-        protected virtual void HandleVisibilityStyles( bool visible )
+        protected virtual async void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
             {
@@ -313,8 +313,36 @@ namespace Blazorise
                 } );
             }
 
-            DirtyClasses();
-            DirtyStyles();
+            //Handle animations properly
+            await ModalDirtyStylingAnimation( visible );
+        }
+
+        /// <summary>
+        /// Handles the modal styling in a way that still triggers css animations.
+        /// </summary>
+        /// <param name="visible"></param>
+        /// <returns></returns>
+        private async Task ModalDirtyStylingAnimation( bool visible )
+        {
+            var hasFadeAnimation = !string.IsNullOrWhiteSpace( ClassProvider.ModalFade() );
+
+            if ( visible )
+                DirtyStyles();
+            else
+                DirtyClasses();
+
+            if ( hasFadeAnimation )
+            {
+                await InvokeAsync( StateHasChanged );
+                await Task.Delay( 150 );
+            }
+
+            if ( visible )
+                DirtyClasses();
+            else
+                DirtyStyles();
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
