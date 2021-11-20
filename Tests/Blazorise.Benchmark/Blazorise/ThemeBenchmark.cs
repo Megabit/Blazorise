@@ -11,17 +11,6 @@ namespace Blazorise.Benchmark.Blazorise
     [MemoryDiagnoser]
     public class ThemeBenchmark
     {
-        //IThemeGenerator _themeGenerator = new Bootstrap5.BootstrapThemeGenerator( new ThemeCache( new BlazoriseOptions( null, null ) ) );
-        //private Theme theme = new() { };
-
-        //[Benchmark]
-        //public void GenerateStyles()
-        //    => _themeGenerator.GenerateStyles( theme );
-
-        //[Benchmark]
-        //public void GenerateVariables()
-        //    => _themeGenerator.GenerateVariables( theme );
-
 
         [Benchmark]
         public void ExtractHexDigitsBenchmark()
@@ -33,18 +22,25 @@ namespace Blazorise.Benchmark.Blazorise
 
 
         [Benchmark]
-        public void CachedExtractHexDigitsAllocateOnlyOnceSpanBenchmark()
+        public void CachedExtractHexDigitsAllocateOnlyOnceBenchmark()
             => CachedExtractHexDigitsAllocateOnlyOnce( "#ffffff" );
 
         [Benchmark]
-        public void CachedExtractHexDigitsMatches()
+        public void CachedExtractHexDigitsMatchesBenchmark()
             => CachedExtractHexDigitsMatches( "#ffffff" );
 
-        /// <summary>
-        /// Extract only the hex digits from a string.
-        /// </summary>
-        /// <param name="input">A string to extract.</param>
-        /// <returns>A new hex string.</returns>
+        [Benchmark]
+        public void ExtractHexDigitsStaticBenchmark()
+            => ExtractHexDigitsStatic( "#ffffff" );
+
+        [Benchmark]
+        public void CachedExtractHexDigitsMatchesStringBuilderBenchmark()
+            => CachedExtractHexDigitsMatchesStringBuilder( "#ffffff" );
+
+        [Benchmark]
+        public void CachedExtractHexDigitsMatchesNoCompiledBenchmark()
+             => CachedExtractHexDigitsMatchesNoCompiled( "#ffffff" );
+
         protected static string ExtractHexDigits( string input )
         {
             // remove any characters that are not digits (like #)
@@ -58,11 +54,6 @@ namespace Blazorise.Benchmark.Blazorise
             return newnum;
         }
 
-        /// <summary>
-        /// Extract only the hex digits from a string.
-        /// </summary>
-        /// <param name="input">A string to extract.</param>
-        /// <returns>A new hex string.</returns>
         protected static string CachedExtractHexDigits( string input )
         {
             string newnum = "";
@@ -74,11 +65,17 @@ namespace Blazorise.Benchmark.Blazorise
             return newnum;
         }
 
-        /// <summary>
-        /// Extract only the hex digits from a string.
-        /// </summary>
-        /// <param name="input">A string to extract.</param>
-        /// <returns>A new hex string.</returns>
+        protected static string ExtractHexDigitsStatic( string input )
+        {
+            string newnum = "";
+            foreach ( char c in input )
+            {
+                if ( Regex.IsMatch( c.ToString(), pattern ) )
+                    newnum += c.ToString();
+            }
+            return newnum;
+        }
+
         protected static string CachedExtractHexDigitsAllocateOnlyOnce( string input )
         {
             string newnum = "";
@@ -93,29 +90,42 @@ namespace Blazorise.Benchmark.Blazorise
         }
 
 
-        /// <summary>
-        /// Extract only the hex digits from a string.
-        /// </summary>
-        /// <param name="input">A string to extract.</param>
-        /// <returns>A new hex string.</returns>
-        //Need to setup tests with this to see if it's equivalent to the previous versions.
-        //Test values:
-        //#ffffff
-        //#
-        //no value
-        //null
-        //#12321321
-        //213123
-        //DFDASfçpqope
         protected static string CachedExtractHexDigitsMatches( string input )
         {
+            string newnum = string.Empty;
             var result = isHexDigit.Matches( input );
-            return result.ToString(); 
+            foreach ( System.Text.RegularExpressions.Match item in result )
+            {
+                newnum += item.Value;
+            }
+            return newnum;
         }
 
+        protected static string CachedExtractHexDigitsMatchesNoCompiled( string input )
+        {
+            string newnum = string.Empty;
+            var result = isHexDigitNoCompiled.Matches( input );
+            foreach ( System.Text.RegularExpressions.Match item in result )
+            {
+                newnum += item.Value;
+            }
+            return newnum;
+        }
 
+        protected static string CachedExtractHexDigitsMatchesStringBuilder( string input )
+        {
+            var sb = new StringBuilder(string.Empty);
+            var result = isHexDigit.Matches( input );
+            foreach ( System.Text.RegularExpressions.Match item in result )
+            {
+                sb.Append(item.Value);
+            }
+            return sb.ToString();
+        }
 
+        private static readonly string pattern = "[abcdefABCDEF\\d]+";
         private static Regex isHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
+        private static Regex isHexDigitNoCompiled = new( "[abcdefABCDEF\\d]+");
 
     }
 
