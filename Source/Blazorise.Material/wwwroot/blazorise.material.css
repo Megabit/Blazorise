@@ -596,11 +596,6 @@ select[readonly] optgroup {
   overflow-y: scroll;
 }
 
-.modal.show {
-  animation-duration: 0.25s;
-  animation-fill-mode: both;
-  animation-name: fadeIn;
-}
 .modal .modal-fullscreen {
   width: 100vw;
   max-width: none;
