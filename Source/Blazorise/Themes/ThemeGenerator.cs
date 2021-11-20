@@ -1322,12 +1322,11 @@ namespace Blazorise
         /// <returns>A new hex string.</returns>
         protected static string ExtractHexDigits( string input )
         {
-            string newnum = "";
-            foreach ( char c in input )
+            string newnum = string.Empty;
+            var result = isHexDigit.Matches( input );
+            foreach ( System.Text.RegularExpressions.Match item in result )
             {
-                var charAsString = c.ToString();
-                if ( isHexDigit.IsMatch( charAsString ) )
-                    newnum += charAsString;
+                newnum += item.Value;
             }
             return newnum;
         }
