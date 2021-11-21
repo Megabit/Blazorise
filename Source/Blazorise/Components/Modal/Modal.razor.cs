@@ -15,7 +15,7 @@ namespace Blazorise
     /// <summary>
     /// A classic modal overlay, in which you can include any content you want.
     /// </summary>
-    public partial class Modal : BaseComponent, ICloseActivator, IAsyncDisposable
+    public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent, IAsyncDisposable
     {
         #region Members
 
@@ -313,35 +313,7 @@ namespace Blazorise
                 } );
             }
 
-            await ModalDirtyStylingAnimation( visible );
-        }
-
-        /// <summary>
-        /// Handles the modal styling in a way that still triggers css animations.
-        /// </summary>
-        /// <param name="visible"></param>
-        /// <returns></returns>
-        private async Task ModalDirtyStylingAnimation( bool visible )
-        {
-            var hasFadeAnimation = !string.IsNullOrWhiteSpace( ClassProvider.ModalFade() );
-
-            if ( visible )
-                DirtyStyles();
-            else
-                DirtyClasses();
-
-            if ( hasFadeAnimation )
-            {
-                await InvokeAsync( StateHasChanged );
-                await Task.Delay( 150 );
-            }
-
-            if ( visible )
-                DirtyClasses();
-            else
-                DirtyStyles();
-
-            await InvokeAsync( StateHasChanged );
+            await Animate( visible );
         }
 
         /// <summary>
@@ -428,6 +400,28 @@ namespace Blazorise
             await RaiseEvents( visible );
         }
 
+        /// inheritdoc
+        public async Task Animate( bool visible )
+        {
+            if ( visible )
+                DirtyStyles();
+            else
+                DirtyClasses();
+
+            if ( this.IsAnimated )
+            {
+                await InvokeAsync( StateHasChanged );
+                await Task.Delay( this.AnimationDuration );
+            }
+
+            if ( visible )
+                DirtyClasses();
+            else
+                DirtyStyles();
+
+            await InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -512,6 +506,12 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Modal"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// inheritdoc
+        public bool IsAnimated => !string.IsNullOrWhiteSpace( ClassProvider.ModalFade() );
+
+        /// inheritdoc
+        public int AnimationDuration { get; } = 150;
 
         #endregion
     }
