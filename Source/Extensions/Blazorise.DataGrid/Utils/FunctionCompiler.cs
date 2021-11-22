@@ -32,6 +32,9 @@ namespace Blazorise.DataGrid.Utils
             Expression field = null;
 
             MemberInfo memberInfo = GetSafeMember( item.Type, parts[0] );
+            
+            if ( memberInfo.ReflectedType == null )
+                throw new ArgumentException( $"Cannot detect type of {item.Type}" );
 
             if ( memberInfo is PropertyInfo propertyInfo )
                 field = Expression.Property( item, propertyInfo );
@@ -41,7 +44,9 @@ namespace Blazorise.DataGrid.Utils
             if ( field == null )
                 throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
 
-            field = Expression.Condition( Expression.Equal( item, Expression.Constant( null ) ),
+            var nullObject = Expression.Constant( memberInfo.ReflectedType.IsValueType ? Activator.CreateInstance( memberInfo.ReflectedType ) : null );
+
+            field = Expression.Condition( Expression.Equal( item, nullObject ),
                         IsNullable( field.Type ) ? Expression.Constant( null, field.Type ) : Expression.Default( field.Type ), 
                         field );
 
