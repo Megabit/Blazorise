@@ -19,14 +19,11 @@ namespace Blazorise.Demo.Pages.Tests
         {
             Scales = new()
             {
-                YAxes = new()
+                Y = new()
                 {
-                    new()
+                    Ticks = new AxisTicks
                     {
-                        Ticks = new AxisTicks
-                        {
-                            Callback = ( value, index, values ) => $"{value / 1000} K"
-                        }
+                        Callback = ( value, index, values ) => value / 1000 + "K"
                     }
                 }
             }
@@ -162,8 +159,9 @@ namespace Blazorise.Demo.Pages.Tests
                 Data = RandomizeData(),
                 BackgroundColor = backgroundColors[0], // radar chart can only have one color
                 BorderColor = borderColors,
-                LineTension = 0.0f,
-                BorderWidth = 1
+                Tension = 0.0f,
+                BorderWidth = 1,
+                Fill = true,
             };
         }
 

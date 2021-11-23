@@ -186,7 +186,7 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
                 Fill = false,
-                LineTension = 0,
+                Tension = 0,
             } );
         }
 
@@ -215,7 +215,7 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
                 Fill = false,
-                LineTension = 0,
+                Tension = 0,
             } );
         }
 
@@ -296,7 +296,7 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[0],
                 BorderColor = borderColors[0],
                 Fill = false,
-                LineTension = 0,
+                Tension = 0,
                 BorderDash = new() { 8, 4 },
             };
         }

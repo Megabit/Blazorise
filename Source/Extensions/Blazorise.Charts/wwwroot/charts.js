@@ -1,28 +1,31 @@
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
-const _ChartTitleCallbacks = function (item, data) {
-    return data.datasets[item[0].datasetIndex].label;
+const _ChartTitleCallbacks = function (item) {
+    return item[0].dataset.label;
 };
 
-const _ChartLabelCallback = function (item, data) {
-    const label = data.labels[item.index];
-    const value = data.datasets[item.datasetIndex].data[item.index];
+const _ChartLabelCallback = function (item) {
+    const label = item.label;
+    const value = item.dataset.data[item.dataIndex];
     return label + ': ' + value;
 };
 
-if (!Chart.defaults.pie.tooltips.callbacks.title) {
-    Chart.defaults.pie.tooltips.callbacks.title = _ChartTitleCallbacks;
+// In Chart v3 callbacks are now defined by default. So to override them by the Blazorise the user
+// would have to first set them to null immediately after charts.js is loaded.
+
+if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
+    Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
 }
 
-if (!Chart.defaults.pie.tooltips.callbacks.label) {
-    Chart.defaults.pie.tooltips.callbacks.label = _ChartLabelCallback;
+if (!Chart.overrides.pie.plugins.tooltip.callbacks.label) {
+    Chart.overrides.pie.plugins.tooltip.callbacks.label = _ChartLabelCallback;
 }
 
-if (!Chart.defaults.doughnut.tooltips.callbacks.title) {
-    Chart.defaults.doughnut.tooltips.callbacks.title = _ChartTitleCallbacks;
+if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.title) {
+    Chart.overrides.doughnut.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
 }
 
-if (!Chart.defaults.doughnut.tooltips.callbacks.label) {
-    Chart.defaults.doughnut.tooltips.callbacks.label = _ChartLabelCallback;
+if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
+    Chart.overrides.doughnut.plugins.tooltip.callbacks.label = _ChartLabelCallback;
 }
 
 const _instances = [];
@@ -311,8 +314,8 @@ export function getChart(canvasId) {
     let chart = null;
 
     Chart.helpers.each(Chart.instances, function (instance) {
-        if (instance.chart.canvas.id === canvasId) {
-            chart = instance.chart;
+        if (instance.canvas.id === canvasId) {
+            chart = instance;
         }
     });
 
