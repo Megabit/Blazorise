@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using Blazorise.DataGrid;
 using Blazorise.DataGrid.Utils;
 using Xunit;
 
@@ -11,12 +8,15 @@ namespace Blazorise.Tests.DataGrid.Utils
     public class FunctionCompilerTests
     {
         [Theory]
-        [InlineData("Id", "0")]
+        [InlineData( "Id", "0" )]
         [InlineData( "Name", null )]
         [InlineData( "Value", null )]
         [InlineData( "Boolean", "False" )]
         [InlineData( "DateTime", "1/1/0001 12:00:00 AM" )]
         [InlineData( "DateTime.TimeOfDay", "00:00:00" )]
+        [InlineData( "DateTimeNull", null )]
+        [InlineData( "TimeSpan", "00:00:00" )]
+        [InlineData( "TimeSpanNull", null )]
         [InlineData( "Information.Id", "0" )]
         [InlineData( "Information.Message", null )]
         [InlineData( "Information.Detail.Id", "0" )]
@@ -36,6 +36,9 @@ namespace Blazorise.Tests.DataGrid.Utils
         [InlineData( "Boolean", "True" )]
         [InlineData( "DateTime", "12/31/9999 11:59:59 PM" )]
         [InlineData( "DateTime.TimeOfDay", "23:59:59.9999999" )]
+        [InlineData( "DateTimeNull", "8/18/2018 12:00:00 AM" )]
+        [InlineData( "TimeSpan", "10675199.02:48:05.4775807" )]
+        [InlineData( "TimeSpanNull", "20:00:00" )]
         [InlineData( "Information.Id", "1000" )]
         [InlineData( "Information.Message", "This is a message!" )]
         [InlineData( "Information.Detail.Id", "2000" )]
@@ -63,6 +66,9 @@ namespace Blazorise.Tests.DataGrid.Utils
                 Value = 200,
                 Boolean = true,
                 DateTime = DateTime.MaxValue,
+                DateTimeNull = DateTime.Parse( "08/18/2018" ),
+                TimeSpan = TimeSpan.MaxValue,
+                TimeSpanNull = TimeSpan.FromHours( 20.0 ),
                 Information = new()
                 {
                     Id = 1000,
@@ -85,6 +91,9 @@ namespace Blazorise.Tests.DataGrid.Utils
             public int? Value { get; set; }
             public bool Boolean { get; set; }
             public DateTime DateTime { get; set; }
+            public DateTime? DateTimeNull { get; set; }
+            public TimeSpan TimeSpan { get; set; }
+            public TimeSpan? TimeSpanNull { get; set; }
             public Information Information { get; set; }
         }
 
