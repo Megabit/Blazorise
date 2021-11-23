@@ -294,7 +294,7 @@ namespace Blazorise.Charts
 
             return JSModule.Initialize( DotNetObjectRef, eventOptions, ElementRef, ElementId, Type,
                 Data,
-                Converters.ToDictionary( Options ),
+                Options,
                 DataJsonString,
                 OptionsJsonString,
                 OptionsObject );
