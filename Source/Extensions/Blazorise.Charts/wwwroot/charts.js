@@ -1,3 +1,5 @@
+import { parseFunction } from "./utilities.js";
+
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
 const _ChartTitleCallbacks = function (item) {
     return item[0].dataset.label;
@@ -10,7 +12,8 @@ const _ChartLabelCallback = function (item) {
 };
 
 // In Chart v3 callbacks are now defined by default. So to override them by the Blazorise the user
-// would have to first set them to null immediately after charts.js is loaded.
+// would have to first set them to null immediately after charts.js is loaded for this workaround
+// to have any effect.
 
 if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
     Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
@@ -58,8 +61,8 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     }
 
     if (options && options.scales) {
-        processTicksCallback(options.scales, 'xAxes');
-        processTicksCallback(options.scales, 'yAxes');
+        processTicksCallback(options.scales, 'x');
+        processTicksCallback(options.scales, 'y');
     }
 
     // search for canvas element
@@ -100,6 +103,8 @@ export function changeChartType(canvas, canvasId, type) {
 }
 
 function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options) {
+    options = compileOptionCallbacks(options);
+
     const chart = new Chart(canvas, {
         type: type,
         data: data,
@@ -109,6 +114,20 @@ function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, 
     wireEvents(dotnetAdapter, eventOptions, canvas, chart);
 
     return chart;
+}
+
+function compileOptionCallbacks(options) {
+    if (options && options.scales) {
+        if (options.scales.x && options.scales.x.ticks && options.scales.x.ticks.callback) {
+            options.scales.x.ticks.callback = parseFunction(options.scales.x.ticks.callback);
+        }
+
+        if (options.scales.y && options.scales.y.ticks && options.scales.y.ticks.callback) {
+            options.scales.y.ticks.callback = parseFunction(options.scales.y.ticks.callback);
+        }
+    }
+
+    return options;
 }
 
 export function destroy(canvas, canvasId) {

@@ -383,6 +383,7 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( LambdaConverter<Func<double, int, double[], string>> ) )]
         public Expression<Func<double, int, double[], string>> Callback { get; set; }
     }
 
