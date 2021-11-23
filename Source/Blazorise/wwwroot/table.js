@@ -11,7 +11,8 @@
     }
 
     function resizeHandler(element) {
-        const tableRows = element.querySelectorAll("thead tr");
+        const thead = element.querySelector("thead:first-child");
+        const tableRows = thead.querySelectorAll("tr");
         if (tableRows !== null && tableRows.length > 1) {
             let previousRowCellHeight = 0;
             for (let i = 0; i < tableRows.length; i++) {
@@ -31,7 +32,8 @@ export function destroyTableFixedHeader(element, elementId) {
     if (typeof this.resizeThottler === "function") {
         window.removeEventListener("resize", this.resizeThottler);
     }
-    const tableRows = element.querySelectorAll("thead tr");
+    const thead = element.querySelector("thead:first-child");
+    const tableRows = thead.querySelectorAll("tr");
 
     if (tableRows !== null && tableRows.length > 1) {
         for (let i = 0; i < tableRows.length; i++) {
@@ -68,7 +70,8 @@ export function initializeResizable(element, elementId, mode) {
     let cols = null;
 
     if (element !== null) {
-        cols = element.querySelectorAll('thead tr:first-child > th');
+        const thead = element.querySelector("thead:first-child");
+        cols = thead.querySelectorAll('tr:first-child > th');
     }
 
     if (cols !== null) {
