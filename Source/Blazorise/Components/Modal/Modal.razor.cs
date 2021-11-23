@@ -58,6 +58,8 @@ namespace Blazorise
         /// </summary>
         private readonly List<string> closeActivatorElementIds = new();
 
+        private CloseableAdapter closeableAdapter;
+
         #endregion
 
         #region Methods
@@ -83,6 +85,13 @@ namespace Blazorise
             }
 
             await base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnInitializedAsync()
+        {
+            closeableAdapter = new( this );
+            return base.OnInitializedAsync();
         }
 
         /// <inheritdoc/>
@@ -313,7 +322,7 @@ namespace Blazorise
                 } );
             }
 
-            await Animate( visible );
+            await closeableAdapter.Run( visible );
         }
 
         /// <summary>
@@ -400,27 +409,35 @@ namespace Blazorise
             await RaiseEvents( visible );
         }
 
+
         /// inheritdoc
-        public async Task Animate( bool visible )
+        public Task Open()
+            => Task.CompletedTask;
+        
+        /// inheritdoc
+        public Task Close()
+            => Task.CompletedTask;
+
+        /// inheritdoc
+        public Task BeforeAnimation( bool visible )
         {
             if ( visible )
                 DirtyStyles();
             else
                 DirtyClasses();
+            return Task.CompletedTask;
+        }
 
-            if ( this.IsAnimated )
-            {
-                await InvokeAsync( StateHasChanged );
-                await Task.Delay( this.AnimationDuration );
-            }
-
+        /// inheritdoc
+        public Task AfterAnimation( bool visible )
+        {
             if ( visible )
                 DirtyClasses();
             else
                 DirtyStyles();
-
-            await InvokeAsync( StateHasChanged );
+            return Task.CompletedTask;
         }
+
 
         #endregion
 
