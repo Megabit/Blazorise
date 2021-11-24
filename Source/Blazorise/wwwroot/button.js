@@ -1,9 +1,13 @@
-﻿const _instances = [];
+﻿import { getRequiredElement } from "./utilities.js";
+
+const _instances = [];
 
 export function initialize(element, elementId, options) {
     _instances[elementId] = new ButtonInfo(element, elementId, options);
 
-    if (element.type === "submit") {
+    element = getRequiredElement(element, elementId);
+
+    if (element && element.type === "submit") {
         element.addEventListener("click", (e) => {
             click(_instances[elementId], e);
         });
