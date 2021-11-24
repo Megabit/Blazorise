@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.JSInterop;
 #endregion
 
@@ -24,7 +25,7 @@ namespace Blazorise.Modules
         /// <summary>
         /// Awaitable module instance.
         /// </summary>
-        private readonly Lazy<Task<IJSObjectReference>> lazyModuleTask;
+        private Lazy<Task<IJSObjectReference>> lazyModuleTask;
 
         #endregion
 
@@ -76,14 +77,19 @@ namespace Blazorise.Modules
 
                     if ( disposing )
                     {
-                        var moduleTask = lazyModuleTask.Value;
-
-                        if ( moduleTask != null )
+                        if ( lazyModuleTask != null )
                         {
-                            var moduleInstance = await moduleTask;
-                            await moduleInstance.DisposeAsync();
+                            var moduleTask = lazyModuleTask.Value;
 
-                            moduleTask = null;
+                            if ( moduleTask != null )
+                            {
+                                var moduleInstance = await moduleTask;
+                                await moduleInstance.SafeDisposeAsync();
+
+                                moduleTask = null;
+                            }
+
+                            lazyModuleTask = null;
                         }
                     }
                 }
