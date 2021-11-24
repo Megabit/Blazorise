@@ -24,7 +24,7 @@ namespace Blazorise.Modules
         /// <summary>
         /// Awaitable module instance.
         /// </summary>
-        protected Task<IJSObjectReference> moduleTask;
+        private readonly Lazy<Task<IJSObjectReference>> lazyModuleTask;
 
         #endregion
 
@@ -39,6 +39,17 @@ namespace Blazorise.Modules
         {
             this.jsRuntime = jsRuntime;
             this.versionProvider = versionProvider;
+
+            lazyModuleTask = new Lazy<Task<IJSObjectReference>>( LazyModuleFactory );
+        }
+
+        /// <summary>
+        /// Handles the loading of the JS module.
+        /// </summary>
+        /// <returns>An awaitable JS module reference.</returns>
+        protected virtual Task<IJSObjectReference> LazyModuleFactory()
+        {
+            return jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
         }
 
         #endregion
@@ -65,6 +76,8 @@ namespace Blazorise.Modules
 
                     if ( disposing )
                     {
+                        var moduleTask = lazyModuleTask.Value;
+
                         if ( moduleTask != null )
                         {
                             var moduleInstance = await moduleTask;
@@ -91,8 +104,7 @@ namespace Blazorise.Modules
         protected bool AsyncDisposed { get; private set; }
 
         /// <inheritdoc/>
-        public Task<IJSObjectReference> Module
-            => moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
+        public Task<IJSObjectReference> Module => lazyModuleTask.Value;
 
         /// <inheritdoc/>
         public abstract string ModuleFileName { get; }

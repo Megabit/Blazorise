@@ -38,12 +38,9 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
         {
-            if ( moduleTask != null )
-            {
-                var moduleInstance = await moduleTask;
+            var moduleInstance = await Module;
 
-                await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
-            }
+            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
         }
 
         /// <inheritdoc/>
