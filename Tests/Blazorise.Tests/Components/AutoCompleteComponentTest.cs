@@ -14,8 +14,10 @@ namespace Blazorise.Tests.Components
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddTextEdit(this.JSInterop);
+            BlazoriseConfig.JSInterop.AddSelect( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
         }
-
 
         [Fact]
         public void InitialSelectedValue_ShouldSet_SelectedText()

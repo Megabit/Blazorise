@@ -11,6 +11,7 @@ namespace Blazorise.Tests.Components
         public DateEditComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
         }
 
         [Fact]

@@ -13,6 +13,7 @@ namespace Blazorise.Tests.Components
         public DataGridDetailRowComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
         }
 
         [Fact]
