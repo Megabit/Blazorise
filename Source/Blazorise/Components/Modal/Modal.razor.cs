@@ -58,6 +58,9 @@ namespace Blazorise
         /// </summary>
         private readonly List<string> closeActivatorElementIds = new();
 
+        /// <summary>
+        /// Manages the modal visibility states.
+        /// </summary>
         private CloseableAdapter closeableAdapter;
 
         #endregion
@@ -91,6 +94,7 @@ namespace Blazorise
         protected override Task OnInitializedAsync()
         {
             closeableAdapter = new( this );
+
             return base.OnInitializedAsync();
         }
 
@@ -180,7 +184,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Opens the modal dialog.
+        /// Starts the modal opening process.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Show()
@@ -409,35 +413,27 @@ namespace Blazorise
             await RaiseEvents( visible );
         }
 
-
         /// inheritdoc
-        public Task Open()
-            => Task.CompletedTask;
-        
-        /// inheritdoc
-        public Task Close()
-            => Task.CompletedTask;
-
-        /// inheritdoc
-        public Task BeforeAnimation( bool visible )
+        public Task BeginAnimation( bool visible )
         {
             if ( visible )
                 DirtyStyles();
             else
                 DirtyClasses();
-            return Task.CompletedTask;
+
+            return InvokeAsync( StateHasChanged );
         }
 
         /// inheritdoc
-        public Task AfterAnimation( bool visible )
+        public Task EndAnimation( bool visible )
         {
             if ( visible )
                 DirtyClasses();
             else
                 DirtyStyles();
-            return Task.CompletedTask;
-        }
 
+            return InvokeAsync( StateHasChanged );
+        }
 
         #endregion
 

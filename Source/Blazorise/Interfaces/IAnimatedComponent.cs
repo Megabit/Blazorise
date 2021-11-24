@@ -7,7 +7,7 @@ namespace Blazorise
     /// <summary>
     /// Providers the necessary logic to open or close an animated component
     /// </summary>
-    public interface IAnimatedComponent : ICloseableComponent
+    public interface IAnimatedComponent : IHideableComponent
     {
         /// <summary>
         /// Tracks whether the component has any animations.
@@ -20,18 +20,17 @@ namespace Blazorise
         public int AnimationDuration { get; }
 
         /// <summary>
-        /// Animates the component.
+        /// Starts the component animation.
         /// </summary>
-        /// <param name="visible"></param>
-        /// <returns></returns>
-        public Task BeforeAnimation( bool visible );
+        /// <param name="visible">Visibility flag.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task BeginAnimation( bool visible );
 
         /// <summary>
-        /// Animates the component.
+        /// Ends the component animation.
         /// </summary>
-        /// <param name="visible"></param>
-        /// <returns></returns>
-        public Task AfterAnimation( bool visible );
-
+        /// <param name="visible">Visibility flag.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task EndAnimation( bool visible );
     }
 }

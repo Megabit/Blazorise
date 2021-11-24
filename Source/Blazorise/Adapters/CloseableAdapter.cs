@@ -5,47 +5,48 @@ using System.Threading.Tasks;
 namespace Blazorise
 {
     /// <summary>
-    /// ICloseableComponent Manager
+    /// Manages the <see cref="IHideableComponent"/> visibility and animation logic.
     /// </summary>
     public class CloseableAdapter
     {
-        private readonly ICloseableComponent component;
+        private readonly IHideableComponent component;
 
         /// <summary>
         /// Default constructor for <see cref="CloseableAdapter"/>.
         /// </summary>
         /// <param name="component">Reference to the close activator.</param>
-        public CloseableAdapter( ICloseableComponent component )
+        public CloseableAdapter( IHideableComponent component )
         {
             this.component = component;
         }
 
         /// <summary>
-        /// Runs ICloseableComponent
+        /// Runs <see cref="IHideableComponent"/> procedure.
         /// </summary>
-        /// <param name="visible"></param>
-        /// <returns></returns>
+        /// <param name="visible">Visibility flag.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Run( bool visible )
         {
             if ( component is IAnimatedComponent animatedComponent && animatedComponent.IsAnimated )
             {
-                await animatedComponent.BeforeAnimation( visible );
-                
-                await Task.Delay( animatedComponent.AnimationDuration );
-                
-                if ( visible )
-                    await animatedComponent.Open();
-                else
-                    await animatedComponent.Close();
+                await animatedComponent.BeginAnimation( visible );
 
-                await animatedComponent.AfterAnimation( visible );
+                await Task.Delay( animatedComponent.AnimationDuration );
+
+                // NOT SURE IF WE NEED THIS?
+                //if ( visible )
+                //    await animatedComponent.Show();
+                //else
+                //    await animatedComponent.Hide();
+
+                await animatedComponent.EndAnimation( visible );
             }
             else
             {
                 if ( visible )
-                    await component.Open();
+                    await component.Show();
                 else
-                    await component.Close();
+                    await component.Hide();
             }
         }
     }
