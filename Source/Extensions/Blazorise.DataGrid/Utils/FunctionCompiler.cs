@@ -41,7 +41,7 @@ namespace Blazorise.DataGrid.Utils
             if ( field == null )
                 throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
 
-            field = Expression.Condition( Expression.Equal( item, Expression.Constant( null ) ),
+            field = Expression.Condition( Expression.Equal( item, Expression.Default( item.Type ) ),
                         IsNullable( field.Type ) ? Expression.Constant( null, field.Type ) : Expression.Default( field.Type ), 
                         field );
 
