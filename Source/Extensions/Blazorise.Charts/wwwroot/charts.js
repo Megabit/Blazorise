@@ -297,7 +297,7 @@ export function popData(canvasId, datasetIndex) {
 export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
     if (eventOptions.hasClickEvent) {
         canvas.onclick = function (evt) {
-            const activePoint = chart.getElementAtEvent(evt);
+            const activePoint = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
             if (activePoint && activePoint.length > 0) {
                 const datasetIndex = activePoint[0]._datasetIndex;
@@ -312,7 +312,7 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
     if (eventOptions.hasHoverEvent) {
         chart.config.options.onHover = function (evt) {
             if (evt.type === "mousemove") {
-                const activePoint = chart.getElementAtEvent(evt);
+                const activePoint = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
                 if (activePoint && activePoint.length > 0) {
                     const datasetIndex = activePoint[0]._datasetIndex;
