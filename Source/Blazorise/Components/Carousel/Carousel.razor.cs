@@ -101,7 +101,6 @@ namespace Blazorise
         {
             if ( disposing )
             {
-
                 if ( Timer is not null )
                 {
                     Timer.Stop();
@@ -115,6 +114,7 @@ namespace Blazorise
                     TransitionTimer.Elapsed -= OnTransitionTimerEvent;
                     TransitionTimer.Dispose();
                 }
+
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
