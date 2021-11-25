@@ -120,7 +120,7 @@ namespace Blazorise.Snackbar
         /// <returns>Returns awaitable task.</returns>
         public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
-            return PushAsync( (MarkupString)message, null, color, options );
+            return PushAsync( (MarkupString)message, title, color, options );
         }
 
         /// <summary>
