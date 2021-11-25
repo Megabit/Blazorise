@@ -101,6 +101,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
+
                 if ( Timer is not null )
                 {
                     Timer.Stop();
@@ -114,7 +115,6 @@ namespace Blazorise
                     TransitionTimer.Elapsed -= OnTransitionTimerEvent;
                     TransitionTimer.Dispose();
                 }
-
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
@@ -307,6 +307,8 @@ namespace Blazorise
                 if ( AutoPlayEnabled )
                 {
                     Timer.Interval = GetSelectedCarouselSlide()?.Interval ?? Interval;
+                    // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
+                    InitializeTimer();
                     Timer.Start();
                 }
             }
@@ -317,7 +319,8 @@ namespace Blazorise
             if ( TransitionTimer != null )
             {
                 TransitionTimer.Stop();
-                InitializeTransitionTimer(); // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
+                // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
+                InitializeTransitionTimer();
                 TransitionTimer.Start();
             }
         }
