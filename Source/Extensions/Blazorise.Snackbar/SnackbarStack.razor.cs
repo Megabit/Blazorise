@@ -72,7 +72,7 @@ namespace Blazorise.Snackbar
 
         private SnackbarStackLocation location = SnackbarStackLocation.Center;
 
-        private List<SnackbarInfo> snackbarInfos = new();
+        private readonly List<SnackbarInfo> snackbarInfos = new();
 
         #endregion
 
