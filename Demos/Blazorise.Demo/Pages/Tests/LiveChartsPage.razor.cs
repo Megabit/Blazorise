@@ -36,13 +36,21 @@ namespace Blazorise.Demo.Pages.Tests
                 Display = true,
                 Text = "Line chart (horizontal scroll) sample"
             },
+            Plugins = new
+            {
+                Streaming = new
+                {
+                    Duration = 20000
+                }
+            },
             Scales = new
             {
-                YAxes = new object[]
+                Y = new
                 {
-                    new {
-                        ScaleLabel = new {
-                        Display = true, LabelString = "value" }
+                    ScaleLabel = new
+                    {
+                        Display = true,
+                        LabelString = "value"
                     }
                 }
             },
@@ -67,14 +75,14 @@ namespace Blazorise.Demo.Pages.Tests
             },
             Scales = new
             {
-                XAxes = new object[]
+                X = new
                 {
-                    new {
-                        Type = "linear",
+                    Type = "linear",
+                    Display = true,
+                    ScaleLabel = new
+                    {
                         Display = true,
-                        ScaleLabel = new {
-                            Display = true, LabelString = "value"
-                        }
+                        LabelString = "value"
                     }
                 }
             },
@@ -92,6 +100,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         private object horizontalBarChartOptions = new
         {
+            IndexAxis = "y",
             Title = new
             {
                 Display = true,
@@ -99,14 +108,12 @@ namespace Blazorise.Demo.Pages.Tests
             },
             Scales = new
             {
-                YAxes = new object[]
+                Y = new
                 {
-                    new
+                    ScaleLabel = new
                     {
-                        ScaleLabel = new
-                        {
-                            Display = true, LabelString = "value"
-                        }
+                        Display = true,
+                        LabelString = "value"
                     }
                 }
             },
@@ -131,13 +138,12 @@ namespace Blazorise.Demo.Pages.Tests
             },
             Scales = new
             {
-                XAxes = new object[]
+                X = new
                 {
-                    new {
-                        ScaleLabel = new
-                        {
-                            Display = true, LabelString = "value"
-                        }
+                    ScaleLabel = new
+                    {
+                        Display = true,
+                        LabelString = "value"
                     }
                 }
             },
@@ -161,7 +167,8 @@ namespace Blazorise.Demo.Pages.Tests
                     HandleRedraw( horizontalLineChart, GetLineChartDataset1, GetLineChartDataset2 ),
                     HandleRedraw( verticalLineChart, GetLineChartDataset1, GetLineChartDataset2 ),
                     HandleRedraw( horizontalBarChart, GetBarChartDataset1 ),
-                    HandleRedraw( verticalBarChart, GetBarChartDataset2 ) );
+                    HandleRedraw( verticalBarChart, GetBarChartDataset2 )
+                    );
             }
         }
 
@@ -329,7 +336,7 @@ namespace Blazorise.Demo.Pages.Tests
         {
             return new()
             {
-                Type = "horizontalBar",
+                Type = "bar",
                 Data = new(),
                 Label = "Dataset 1",
                 BackgroundColor = backgroundColors[0],
