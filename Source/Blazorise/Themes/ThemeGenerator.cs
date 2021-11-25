@@ -361,7 +361,6 @@ namespace Blazorise
         /// <summary>
         /// Generates the bar component CSS variables.
         /// </summary>
-        /// <param name="theme">Currently used theme options.</param>
         /// <param name="barOptions">Bar options.</param>
         protected virtual void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
         {
@@ -1206,7 +1205,6 @@ namespace Blazorise
             return ToHex( ThemeColorLevel( theme, inColor, level ) );
         }
 
-
         /// <summary>
         /// Parses the supplied string value and converts it to a <see cref="System.Drawing.Color"/>.
         /// </summary>
@@ -1312,25 +1310,20 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Checks for characters that are Hexadecimal
-        /// </summary>
-        protected static Regex IsHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
-
-        /// <summary>
         /// Extract only the hex digits from a string.
         /// </summary>
         /// <param name="input">A string to extract.</param>
         /// <returns>A new hex string.</returns>
         protected static string ExtractHexDigits( string input )
         {
-            var newnum = string.Empty;
-            var result = IsHexDigit.Matches( input );
-
-            foreach ( System.Text.RegularExpressions.Match item in result )
+            // remove any characters that are not digits (like #)
+            Regex isHexDigit = new( "[abcdefABCDEF\\d]+", RegexOptions.Compiled );
+            string newnum = "";
+            foreach ( char c in input )
             {
-                newnum += item.Value;
+                if ( isHexDigit.IsMatch( c.ToString() ) )
+                    newnum += c.ToString();
             }
-
             return newnum;
         }
 

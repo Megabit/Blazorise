@@ -72,7 +72,7 @@ namespace Blazorise.Snackbar
 
         private SnackbarStackLocation location = SnackbarStackLocation.Center;
 
-        private readonly List<SnackbarInfo> snackbarInfos = new();
+        private List<SnackbarInfo> snackbarInfos = new();
 
         #endregion
 
@@ -120,7 +120,7 @@ namespace Blazorise.Snackbar
         /// <returns>Returns awaitable task.</returns>
         public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
-            return PushAsync( (MarkupString)message, title, color, options );
+            return PushAsync( (MarkupString)message, null, color, options );
         }
 
         /// <summary>

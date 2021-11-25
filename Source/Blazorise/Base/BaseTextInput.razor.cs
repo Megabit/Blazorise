@@ -54,22 +54,19 @@ namespace Blazorise
             {
                 ReleaseResources();
             }
-
             return base.DisposeAsync( disposing );
         }
 
         /// <summary>
         /// Shared code to dispose of any internal resources.
         /// </summary>
-        protected override void ReleaseResources()
+        protected virtual void ReleaseResources()
         {
             if ( inputValueDebouncer != null )
             {
                 inputValueDebouncer.Debounced -= OnInputValueDebounced;
                 inputValueDebouncer = null;
             }
-
-            base.ReleaseResources();
         }
 
         /// <summary>
