@@ -2964,7 +2964,7 @@ namespace Blazorise.Docs.Models
             BackgroundColor = backgroundColors[0],
             BorderColor = borderColors[0],
             Fill = false,
-            LineTension = 0,
+            Tension = 0,
             BorderDash = new List<int> { 8, 4 },
         };
     }
