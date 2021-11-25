@@ -361,6 +361,7 @@ namespace Blazorise
         /// <summary>
         /// Generates the bar component CSS variables.
         /// </summary>
+        /// <param name="theme">Currently used theme options.</param>
         /// <param name="barOptions">Bar options.</param>
         protected virtual void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
         {
