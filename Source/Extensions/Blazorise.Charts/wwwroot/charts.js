@@ -103,6 +103,9 @@ export function changeChartType(canvas, canvasId, type) {
 }
 
 function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options) {
+    // save the copy of the received options
+    const originalOptions = deepClone(options);
+
     options = compileOptionCallbacks(options);
 
     const chart = new Chart(canvas, {
@@ -111,12 +114,14 @@ function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, 
         options: options
     });
 
+    chart.originalOptions = originalOptions;
+
     wireEvents(dotnetAdapter, eventOptions, canvas, chart);
 
     return chart;
 }
 
-function compileOptionCallbacks(options) {
+export function compileOptionCallbacks(options) {
     if (options && options.scales) {
         if (options.scales.x && options.scales.x.ticks && options.scales.x.ticks.callback) {
             options.scales.x.ticks.callback = parseFunction(options.scales.x.ticks.callback);
@@ -153,7 +158,13 @@ export function setOptions(canvasId, options, optionsJsonString, optionsObject) 
     const chart = getChart(canvasId);
 
     if (chart) {
+        // save the copy of the received options
+        const originalOptions = deepClone(options);
+
+        options = compileOptionCallbacks(options);
+
         chart.options = options;
+        chart.originalOptions = originalOptions;
 
         // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
         // instead of through the options.
