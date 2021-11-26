@@ -1,4 +1,4 @@
-import { parseFunction } from "./utilities.js";
+import { parseFunction, deepClone } from "./utilities.js";
 
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
 const _ChartTitleCallbacks = function (item) {
@@ -86,7 +86,7 @@ export function changeChartType(canvas, canvasId, type) {
 
     if (chart) {
         const data = chart.data;
-        const options = chart.options;
+        const options = deepClone(chart.options);
 
         if (data && data.datasets) {
             data.datasets.forEach((ds) => {
