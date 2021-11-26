@@ -31,131 +31,83 @@ namespace Blazorise.Demo.Pages.Tests
 
         private object horizontalLineChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Line chart (horizontal scroll) sample"
-            },
-            Plugins = new
-            {
-                Streaming = new
-                {
-                    Duration = 20000
-                }
-            },
             Scales = new
             {
                 Y = new
                 {
-                    ScaleLabel = new
+                    Title = new
                     {
                         Display = true,
-                        LabelString = "value"
+                        Text = "Value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
         private object verticalLineChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Line chart (vertical scroll) sample"
-            },
+            IndexAxis = "y",
             Scales = new
             {
                 X = new
                 {
                     Type = "linear",
                     Display = true,
-                    ScaleLabel = new
+                    Title = new
                     {
                         Display = true,
                         LabelString = "value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
         private object horizontalBarChartOptions = new
         {
-            IndexAxis = "y",
-            Title = new
-            {
-                Display = true,
-                Text = "Bar chart (horizontal scroll) sample"
-            },
             Scales = new
             {
                 Y = new
                 {
-                    ScaleLabel = new
+                    Title = new
                     {
                         Display = true,
-                        LabelString = "value"
+                        Text = "Value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
         private object verticalBarChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Bar chart (vertical scroll) sample"
-            },
+            IndexAxis = "y",
             Scales = new
             {
                 X = new
                 {
-                    ScaleLabel = new
+                    Type = "linear",
+                    Display = true,
+                    Title = new
                     {
                         Display = true,
-                        LabelString = "value"
+                        Text = "Value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
