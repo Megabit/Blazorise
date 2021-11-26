@@ -20,3 +20,7 @@ export function parseFunction(str) {
         return null;
     }
 }
+
+export function deepClone(value) {
+    return JSON.parse(JSON.stringify(value));
+}
