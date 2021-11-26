@@ -1,4 +1,4 @@
-import { getChart } from "../Blazorise.Charts/charts.js";
+import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js";
 import { deepClone } from "../Blazorise.Charts/utilities.js";
 
 Chart.defaults.set('plugins.streaming', {
@@ -12,12 +12,15 @@ export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOpti
         // Chart v3 options now contains all kind of objects and functions in options. Thats why we need to deep
         // clone options without getting the reference to any running object or function. Otherwise we
         // will run into recursion errors.
-        const options = deepClone(chart.options);
+        let options = deepClone(chart.originalOptions);
 
-        const scalesOptions = getStreamingOptions(dotNetAdapter, vertical, options, streamOptions);
+        options = compileOptionCallbacks(options);
+
+        let scalesOptions = getStreamingOptions(dotNetAdapter, vertical, options, streamOptions);
 
         // merge all options
-        chart.options = { ...options, ...scalesOptions };
+        const merged = { ...options, ...scalesOptions }
+        chart.options = merged;
 
         chart.update();
     }
