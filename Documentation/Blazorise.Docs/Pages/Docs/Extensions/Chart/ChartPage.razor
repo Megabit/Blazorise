@@ -6,12 +6,6 @@
     Chart
 </DocsPageTitle>
 
-<Alert Color="Color.Warning" Visible>
-    <AlertDescription>
-        <Strong>Warning:</Strong> Right now there are some issues when serializing dataset and option objects to JSON. Blazor internal serializer is serializing nullable fields and when ChartJS is trying to read them it will break. There is not much I can do for now, except to always initialize all of the fields for the particular chart dataset. To overcome this limitation you can use <Code>DataJsonString</Code> and <Code>OptionsJsonString</Code> or <Code>OptionsObject</Code>. Keep in mind that these parameters are just a temporary feature that will be removed once the .Net Core team implements a better serializer.
-    </AlertDescription>
-</Alert>
-
 <DocsPageParagraph>
     The chart extension is defined of several different chart components. Each of the chart type have it’s own dataset and option settings.
 
