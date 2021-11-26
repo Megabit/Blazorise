@@ -2884,7 +2884,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
-        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>";
+        public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js""></script>";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -2988,9 +2988,9 @@ namespace Blazorise.Docs.Models
 
         public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
 
-        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>";
+        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.27.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0""></script>";
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
