@@ -8,6 +8,5 @@
         Doughnut,
         PolarArea,
         Radar,
-        HorizontalBar,
     }
 }
