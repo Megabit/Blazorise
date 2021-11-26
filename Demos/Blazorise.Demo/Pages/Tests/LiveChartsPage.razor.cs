@@ -14,7 +14,7 @@ namespace Blazorise.Demo.Pages.Tests
         private LineChart<LiveDataPoint> verticalLineChart;
 
         private BarChart<LiveDataPoint> horizontalBarChart;
-        private HorizontalBarChart<LiveDataPoint> verticalBarChart;
+        private BarChart<LiveDataPoint> verticalBarChart;
 
         private Random random = new( DateTime.Now.Millisecond );
 

@@ -338,7 +338,6 @@ namespace Blazorise.Charts
                 case ChartType.Line:
                     return System.Text.Json.JsonSerializer.Deserialize<LineChartModel>( data );
                 case ChartType.Bar:
-                case ChartType.HorizontalBar:
                     return System.Text.Json.JsonSerializer.Deserialize<BarChartModel>( data );
                 case ChartType.Pie:
                     return System.Text.Json.JsonSerializer.Deserialize<PieChartModel>( data );

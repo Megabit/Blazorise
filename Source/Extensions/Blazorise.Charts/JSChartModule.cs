@@ -172,7 +172,6 @@ namespace Blazorise.Charts
             return type switch
             {
                 ChartType.Bar => "bar",
-                ChartType.HorizontalBar => "horizontalBar",
                 ChartType.Pie => "pie",
                 ChartType.Doughnut => "doughnut",
                 ChartType.Radar => "radar",

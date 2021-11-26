@@ -1,7 +1,0 @@
-﻿@typeparam TItem
-@inherits BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions, BarChartModel>
-<CascadingValue Value="@this" IsFixed="true">
-    <canvas @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </canvas>
-</CascadingValue>
