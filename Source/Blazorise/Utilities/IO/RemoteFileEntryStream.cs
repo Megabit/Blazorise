@@ -186,10 +186,10 @@ namespace Blazorise
                 return;
             }
 
+            disposed = true;
+
             fillBufferCts.Cancel();
             fillBufferCts.Dispose();
-
-            disposed = true;
 
             base.Dispose( disposing );
         }
@@ -201,10 +201,10 @@ namespace Blazorise
                 return ValueTask.CompletedTask;
             }
 
+            disposed = true;
+
             fillBufferCts.Cancel();
             fillBufferCts.Dispose();
-
-            disposed = true;
 
             return base.DisposeAsync();
         }
