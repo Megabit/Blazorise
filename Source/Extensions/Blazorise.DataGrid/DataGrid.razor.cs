@@ -254,6 +254,8 @@ namespace Blazorise.DataGrid
                 {
                     paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
                     paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                    paginationContext.CancellationTokenSource?.Dispose();
+                    paginationContext.CancellationTokenSource = null;
                 }
             }
 
