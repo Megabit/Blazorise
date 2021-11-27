@@ -193,6 +193,20 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        public override ValueTask DisposeAsync()
+        {
+            if ( disposed )
+            {
+                return ValueTask.CompletedTask;
+            }
+
+            fillBufferCts.Cancel();
+
+            disposed = true;
+
+            return base.DisposeAsync();
+        }
+
         #endregion
 
         #region Properties
