@@ -187,6 +187,7 @@ namespace Blazorise
             }
 
             fillBufferCts.Cancel();
+            fillBufferCts.Dispose();
 
             disposed = true;
 
@@ -201,6 +202,7 @@ namespace Blazorise
             }
 
             fillBufferCts.Cancel();
+            fillBufferCts.Dispose();
 
             disposed = true;
 
