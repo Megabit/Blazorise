@@ -73,17 +73,6 @@ namespace Blazorise.Tests.Helpers
 
         public static class JSInterop
         {
-            public static void AddDataGrid( BunitJSInterop jsInterop )
-            {
-                var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "initialize", _ => true );
-
-                AddButton( jsInterop );
-                AddTextEdit( jsInterop );
-                AddModal( jsInterop );
-                AddUtilities( jsInterop );
-            }
-
             public static void AddButton( BunitJSInterop jsInterop )
             {
                 AddUtilities( jsInterop );
@@ -181,6 +170,7 @@ namespace Blazorise.Tests.Helpers
                 AddClosable( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true );
                 module.SetupVoid( "scrollTo", _ => true );
             }
         }
