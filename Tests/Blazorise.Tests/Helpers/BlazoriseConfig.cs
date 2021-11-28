@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using Blazorise.Bootstrap;
+using Blazorise.DataGrid;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Providers;
@@ -72,6 +73,17 @@ namespace Blazorise.Tests.Helpers
 
         public static class JSInterop
         {
+            public static void AddDataGrid( BunitJSInterop jsInterop )
+            {
+                var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true );
+
+                AddButton( jsInterop );
+                AddTextEdit( jsInterop );
+                AddModal( jsInterop );
+                AddUtilities( jsInterop );
+            }
+
             public static void AddButton( BunitJSInterop jsInterop )
             {
                 var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
