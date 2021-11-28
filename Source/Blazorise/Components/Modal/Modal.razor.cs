@@ -193,6 +193,12 @@ namespace Blazorise
             {
                 await SetVisibleState( true );
 
+                if ( !IsAnimated )
+                {
+                    DirtyClasses();
+                    DirtyStyles();
+                }
+
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -221,6 +227,12 @@ namespace Blazorise
             if ( await IsSafeToClose() )
             {
                 await SetVisibleState( false );
+
+                if ( !IsAnimated )
+                {
+                    DirtyClasses();
+                    DirtyStyles();
+                }
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
