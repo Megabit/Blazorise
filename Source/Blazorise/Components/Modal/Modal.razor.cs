@@ -117,7 +117,8 @@ namespace Blazorise
         protected override void BuildStyles( StyleBuilder builder )
         {
             builder.Append( StyleProvider.ModalShow(), IsVisible );
-
+            builder.Append( $"--modal-animation-duration: {AnimationDuration}ms;" );
+           
             base.BuildStyles( builder );
         }
 

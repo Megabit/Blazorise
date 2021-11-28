@@ -23,4 +23,13 @@
             border-radius: 0;
         }
     }
+
+    &.fade {
+        transition: opacity var(--modal-animation-duration, 300ms) linear;
+
+        .modal-dialog {
+            transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
+            transition: transform var(--modal-animation-duration, 300ms) ease-out;
+        }
+    }
 }
