@@ -81,7 +81,7 @@
                     {
                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                         {
-                            Clicked = EventCallback.Factory.Create(this, CloseModal),
+                            Clicked = EventCallback.Factory.Create( this, CloseModal ),
                             LocalizationString = cancelButtonString,
                             Item = EditItem,
                         } )
