@@ -63,13 +63,23 @@ namespace Blazorise
         /// </summary>
         private CloseableAdapter closeableAdapter;
 
+
         #endregion
 
         #region Methods
 
         /// <inheritdoc/>
+        public Modal()
+        {
+            closeableAdapter = new( this );
+
+        }
+
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            await base.SetParametersAsync( parameters );
+
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
             {
                 if ( visibleResult == true && await IsSafeToOpen() )
@@ -86,16 +96,6 @@ namespace Blazorise
                     return;
                 }
             }
-
-            await base.SetParametersAsync( parameters );
-        }
-
-        /// <inheritdoc/>
-        protected override Task OnInitializedAsync()
-        {
-            closeableAdapter = new( this );
-
-            return base.OnInitializedAsync();
         }
 
         /// <inheritdoc/>
