@@ -25,6 +25,14 @@ namespace Blazorise.DataGrid
 
         #region Methods        
 
+        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId );
+        }
+
+
         public virtual async ValueTask<int> ScrollTo( ElementReference elementRef, string classname )
         {
             var moduleInstance = await Module;
@@ -37,7 +45,7 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.DataGrid/blazorise.datagrid.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.DataGrid/datagrid.js?v={VersionProvider.Version}";
 
         #endregion
     }

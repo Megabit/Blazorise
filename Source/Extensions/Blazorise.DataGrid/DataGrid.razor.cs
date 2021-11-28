@@ -233,6 +233,7 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
@@ -254,6 +255,8 @@ namespace Blazorise.DataGrid
                 {
                     paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
                     paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+                    paginationContext.CancellationTokenSource?.Dispose();
+                    paginationContext.CancellationTokenSource = null;
                 }
             }
 
