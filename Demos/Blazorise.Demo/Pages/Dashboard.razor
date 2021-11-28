@@ -1,73 +1,30 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
+<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.FromBottom">Blazorise</Heading>
 
-<DataGrid TItem="Person" Filterable Data="People" @bind-SelectedRow=SelectedRow >
-    <DataGridColumns>
-@*        <DataGridCommandColumn TItem="Person" Width="0px">
-            <NewCommandTemplate />
-            <EditCommandTemplate />
-            <SaveCommandTemplate />
-            <DeleteCommandTemplate />
-            <CancelCommandTemplate />
-            <ClearFilterCommandTemplate>
-            </ClearFilterCommandTemplate>
-        </DataGridCommandColumn>*@
-        <DataGridColumn TItem="Person" Field="@nameof(Person.Id)" Caption="ID" />
-    </DataGridColumns>
-@*    <DetailRowTemplate>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderCell>#</TableHeaderCell>
-                    <TableHeaderCell>First Name</TableHeaderCell>
-                    <TableHeaderCell>Last Name</TableHeaderCell>
-                    <TableHeaderCell>Username</TableHeaderCell>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableRowHeader>1</TableRowHeader>
-                    <TableRowCell>Mark</TableRowCell>
-                    <TableRowCell>Otto</TableRowCell>
-                    <TableRowCell>@@mdo</TableRowCell>
-                </TableRow>
-                <TableRow>
-                    <TableRowHeader>2</TableRowHeader>
-                    <TableRowCell>Jacob</TableRowCell>
-                    <TableRowCell>Thornton</TableRowCell>
-                    <TableRowCell>@@fat</TableRowCell>
-                </TableRow>
-                <TableRow>
-                    <TableRowHeader>3</TableRowHeader>
-                    <TableRowCell>Larry</TableRowCell>
-                    <TableRowCell>the Bird</TableRowCell>
-                    <TableRowCell>@@twitter</TableRowCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-    </DetailRowTemplate>*@
-</DataGrid>
+<Paragraph>
+    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
+</Paragraph>
 
-@code{
-    public class Person
-    {
-        public int Id;
+<Alert Color="Color.Info" Visible="true">
+    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
+        Note:
+    </Heading>
+    <Paragraph>
+        This is a demo application for Blazorise used to show basic example for most of the components and extensions.
+    </Paragraph>
+    <Paragraph>
+        Full source code for this demo can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
+    </Paragraph>
+    <Paragraph>
+        If you wish to learn more about Blazorise please go to the official <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">documentation</Anchor>.
+    </Paragraph>
+</Alert>
 
-        public string Name;
-
-    }
-    public Person? SelectedRow { get; set; }
-    public Person? SelectedRow2 { get; set; }
-
-    public List<Person> People { get; set; } = new()
-        {
-            new Person { Id = 1, Name = "Rob" },
-            new Person { Id = 2, Name = "Joe" },
-            new Person { Id = 3, Name = "Mary" },
-            new Person { Id = 4, Name = "Peter" },
-            new Person { Id = 5, Name = "Dave" },
-            new Person { Id = 6, Name = "Mike" },
-            new Person { Id = 7, Name = "Steve" },
-            new Person { Id = 8, Name = "Scott" },
-        };
-}
+<Paragraph>
+    On the left sidebar you can see the Blazorise components and extensions in action.
+</Paragraph>
+<br />
+<Paragraph>
+    <Strong> Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
+</Paragraph>
