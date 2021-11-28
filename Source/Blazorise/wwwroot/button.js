@@ -3,9 +3,12 @@
 const _instances = [];
 
 export function initialize(element, elementId, options) {
-    _instances[elementId] = new ButtonInfo(element, elementId, options);
-
     element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    _instances[elementId] = new ButtonInfo(element, elementId, options);
 
     if (element && element.type === "submit") {
         element.addEventListener("click", (e) => {
