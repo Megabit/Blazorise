@@ -23,6 +23,7 @@ export function initialize(element, elementId, maskType, editMask) {
 
     element.addEventListener("keypress", (e) => {
         keyPress(instances[elementId], e);
+        checkPreventSubmitOnEnter(element, e);
     });
 
     element.addEventListener("paste", (e) => {
@@ -39,6 +40,12 @@ function keyPress(validator, e) {
     var currentValue = String.fromCharCode(e.which);
 
     return validator.isValid(currentValue) || e.preventDefault();
+}
+
+function checkPreventSubmitOnEnter(element, e) {
+    if (element.dataset.preventDefault != null && e.keyCode == 13) {
+        e.preventDefault();
+    }
 }
 
 function paste(validator, e) {
