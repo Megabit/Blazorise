@@ -80,14 +80,15 @@ namespace Blazorise
         {
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
             {
-                if ( await IsSafeToClose() )
+                if ( visibleResult && await IsSafeToOpen() )
                 {
                     await base.SetParametersAsync( parameters );
-
-                    if ( visibleResult )
-                        await SetVisibleState( true );
-                    else
-                        await SetVisibleState( false );
+                    await SetVisibleState( true );
+                }
+                else if ( !visibleResult && await IsSafeToClose() )
+                {
+                    await base.SetParametersAsync( parameters );
+                    await SetVisibleState( false );
                 }
             }
             else
@@ -296,10 +297,10 @@ namespace Blazorise
                 {
                     ExecuteAfterRender( () =>
                     {
-                        //TODO: This warrants further investigation
-                        //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
-                        //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
-                        var firstFocusableComponent = FocusableComponents.FirstOrDefault();
+                    //TODO: This warrants further investigation
+                    //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
+                    //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
+                    var firstFocusableComponent = FocusableComponents.FirstOrDefault();
 
                         if ( firstFocusableComponent != null )
                         {
