@@ -78,24 +78,20 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            await base.SetParametersAsync( parameters );
-
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
             {
-                if ( visibleResult == true && await IsSafeToOpen() )
+                if ( await IsSafeToClose() )
                 {
-                    await SetVisibleState( true );
-                }
-                else if ( visibleResult == false && await IsSafeToClose() )
-                {
-                    await SetVisibleState( false );
-                }
-                else
-                {
-                    // skip execution
-                    return;
+                    await base.SetParametersAsync( parameters );
+
+                    if ( visibleResult )
+                        await SetVisibleState( true );
+                    else
+                        await SetVisibleState( false );
                 }
             }
+            else
+                await base.SetParametersAsync( parameters );
         }
 
         /// <inheritdoc/>
