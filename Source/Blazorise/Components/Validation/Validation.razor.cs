@@ -95,6 +95,7 @@ namespace Blazorise
                 ParentValidations.ClearingAll -= OnClearingAll;
                 ParentValidations.NotifyValidationRemoved( this );
             }
+
             cancellationTokenSource?.Dispose();
             cancellationTokenSource = null;
         }
@@ -227,6 +228,7 @@ namespace Blazorise
             if ( !inputComponent.Disabled )
             {
                 cancellationTokenSource?.Cancel();
+                cancellationTokenSource?.Dispose();
 
                 // Create a CTS for this request.
                 cancellationTokenSource = new();
