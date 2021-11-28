@@ -805,9 +805,9 @@ namespace Blazorise.Bulma
 
         public override string Modal() => "modal";
 
-        public override string ModalFade() => null;
+        public override string ModalFade() => Fade();
 
-        public override string ModalFade( bool animation ) => null;
+        public override string ModalFade( bool animation ) => animation ? Fade() : null;
 
         public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
