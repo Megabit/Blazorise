@@ -233,6 +233,7 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
