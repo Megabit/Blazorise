@@ -25,6 +25,14 @@ namespace Blazorise.DataGrid
 
         #region Methods        
 
+        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId );
+        }
+
+
         public virtual async ValueTask<int> ScrollTo( ElementReference elementRef, string classname )
         {
             var moduleInstance = await Module;

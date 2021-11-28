@@ -110,7 +110,7 @@
                                     }
                                     else
                                     {
-                                        <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" data-prevent-default />
+                                        <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
                                     }
                                 </TableHeaderCell>
                             }

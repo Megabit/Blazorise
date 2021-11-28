@@ -14,3 +14,19 @@
     table.parentElement.scrollTop = scrollTo;
     return scrollTo;
 }
+
+export function initialize(element, elementId) {
+    var headerInputs = element.querySelectorAll("thead input");
+    headerInputs.forEach(input => {
+        input.addEventListener("keypress", (e) => {
+            preventSubmitOnEnter(e);
+        });
+
+    });
+}
+
+function preventSubmitOnEnter(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+    }
+}
