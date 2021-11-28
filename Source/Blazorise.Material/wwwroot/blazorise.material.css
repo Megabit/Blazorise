@@ -616,6 +616,13 @@ select[readonly] optgroup {
 .modal .modal-fullscreen .modal-footer {
   border-radius: 0;
 }
+.modal.fade {
+  transition: opacity var(--modal-animation-duration, 300ms) cubic-bezier(0, 0, 0.2, 1);
+}
+.modal.show .modal-dialog {
+  transition: opacity, -webkit-transform var(--modal-animation-duration, 300ms) cubic-bezier(0, 0, 0.2, 1);
+  transition: opacity, transform var(--modal-animation-duration, 300ms) cubic-bezier(0, 0, 0.2, 1);
+}
 
 .pagination-xs .page-link {
   border-radius: 0.84375rem;
