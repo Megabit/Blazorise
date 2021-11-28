@@ -10,14 +10,14 @@ namespace Blazorise
     public interface IAnimatedComponent : IHideableComponent
     {
         /// <summary>
-        /// Tracks whether the component has any animations.
+        /// Gets or Sets whether the component has any animations.
         /// </summary>
-        public bool IsAnimated { get; }
+        public bool IsAnimated { get; set; }
 
         /// <summary>
-        /// Tracks the animation duration.
+        /// Gets or Sets the animation duration.
         /// </summary>
-        public int AnimationDuration { get; }
+        public int AnimationDuration { get; set; }
 
         /// <summary>
         /// Starts the component animation.

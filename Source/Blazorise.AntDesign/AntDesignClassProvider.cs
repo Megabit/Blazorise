@@ -791,6 +791,8 @@ namespace Blazorise.AntDesign
 
         public override string ModalFade() => null;
 
+        public override string ModalFade( bool animation ) => animation ? Fade() : null;
+
         public override string ModalVisible( bool visible ) => null;
 
         public override string ModalBackdrop() => "ant-modal-mask";

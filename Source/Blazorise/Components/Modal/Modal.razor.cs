@@ -107,7 +107,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Modal() );
-            builder.Append( ClassProvider.ModalFade() );
+            builder.Append( ClassProvider.ModalFade( IsAnimated ) );
             builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
             base.BuildClasses( builder );
@@ -297,10 +297,10 @@ namespace Blazorise
                 {
                     ExecuteAfterRender( () =>
                     {
-                    //TODO: This warrants further investigation
-                    //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
-                    //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
-                    var firstFocusableComponent = FocusableComponents.FirstOrDefault();
+                        //TODO: This warrants further investigation
+                        //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
+                        //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
+                        var firstFocusableComponent = FocusableComponents.FirstOrDefault();
 
                         if ( firstFocusableComponent != null )
                         {
@@ -518,10 +518,10 @@ namespace Blazorise
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// inheritdoc
-        public bool IsAnimated => !string.IsNullOrWhiteSpace( ClassProvider.ModalFade() );
+        [Parameter] public bool IsAnimated { get; set; } = true;
 
         /// inheritdoc
-        public int AnimationDuration { get; } = 150;
+        [Parameter] public int AnimationDuration { get; set; } = 150;
 
         #endregion
     }
