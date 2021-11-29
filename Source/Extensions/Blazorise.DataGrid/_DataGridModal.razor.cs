@@ -13,6 +13,8 @@ namespace Blazorise.DataGrid
     {
         #region Members
 
+        protected Modal modalRef;
+
         protected EventCallbackFactory callbackFactory = new();
 
         protected Validations validations;
@@ -59,6 +61,9 @@ namespace Blazorise.DataGrid
                 await ParentDataGrid.Save();
             }
         }
+
+        protected Task CloseModal()
+            => modalRef.Hide();
 
         #endregion
 

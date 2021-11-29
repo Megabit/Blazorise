@@ -4,6 +4,11 @@ import * as utilities from "./utilities.js";
 const _instancesInfos = [];
 
 export function initialize(dotnetAdapter, element, elementId, options) {
+    element = utilities.getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     const picker = Pickr.create({
         el: element,
         theme: 'monolith', // or 'monolith', or 'nano'

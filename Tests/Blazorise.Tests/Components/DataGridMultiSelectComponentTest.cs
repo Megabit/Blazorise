@@ -14,9 +14,7 @@ namespace Blazorise.Tests.Components
         public DataGridMultiSelectComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
-            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
-            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-            BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
         }
 
         [Fact]
