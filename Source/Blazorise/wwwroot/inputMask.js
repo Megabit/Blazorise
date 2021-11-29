@@ -6,6 +6,9 @@ let _instances = [];
 export function initialize(dotnetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
+    if (!element)
+        return;
+
     const maskOptions = options.mask ? { mask: options.mask } : {};
     const regexOptions = options.mask ? { regex: options.regex } : {};
     const aliasOptions = options.alias ? { alias: options.alias, inputFormat: options.inputFormat, outputFormat: options.outputFormat } : {};

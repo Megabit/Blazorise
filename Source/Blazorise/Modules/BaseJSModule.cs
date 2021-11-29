@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.JSInterop;
 #endregion
 
@@ -24,7 +25,7 @@ namespace Blazorise.Modules
         /// <summary>
         /// Awaitable module instance.
         /// </summary>
-        protected Task<IJSObjectReference> moduleTask;
+        private Lazy<Task<IJSObjectReference>> lazyModuleTask;
 
         #endregion
 
@@ -39,6 +40,17 @@ namespace Blazorise.Modules
         {
             this.jsRuntime = jsRuntime;
             this.versionProvider = versionProvider;
+
+            lazyModuleTask = new Lazy<Task<IJSObjectReference>>( LazyModuleFactory );
+        }
+
+        /// <summary>
+        /// Handles the loading of the JS module.
+        /// </summary>
+        /// <returns>An awaitable JS module reference.</returns>
+        protected virtual Task<IJSObjectReference> LazyModuleFactory()
+        {
+            return jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
         }
 
         #endregion
@@ -65,12 +77,19 @@ namespace Blazorise.Modules
 
                     if ( disposing )
                     {
-                        if ( moduleTask != null )
+                        if ( lazyModuleTask != null )
                         {
-                            var moduleInstance = await moduleTask;
-                            await moduleInstance.DisposeAsync();
+                            var moduleTask = lazyModuleTask.Value;
 
-                            moduleTask = null;
+                            if ( moduleTask != null )
+                            {
+                                var moduleInstance = await moduleTask;
+                                await moduleInstance.SafeDisposeAsync();
+
+                                moduleTask = null;
+                            }
+
+                            lazyModuleTask = null;
                         }
                     }
                 }
@@ -91,8 +110,7 @@ namespace Blazorise.Modules
         protected bool AsyncDisposed { get; private set; }
 
         /// <inheritdoc/>
-        public Task<IJSObjectReference> Module
-            => moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
+        public Task<IJSObjectReference> Module => lazyModuleTask.Value;
 
         /// <inheritdoc/>
         public abstract string ModuleFileName { get; }

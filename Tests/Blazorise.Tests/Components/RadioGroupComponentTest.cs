@@ -10,6 +10,7 @@ namespace Blazorise.Tests.Components
         public RadioGroupComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
         }
 
         [Fact]

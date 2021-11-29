@@ -4,6 +4,11 @@ import * as utilities from "./utilities.js";
 const _pickers = [];
 
 export function initialize(element, elementId, options) {
+    element = utilities.getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     function mutationObserverCallback(mutationsList, observer) {
         mutationsList.forEach(mutation => {
             if (mutation.attributeName === 'class') {

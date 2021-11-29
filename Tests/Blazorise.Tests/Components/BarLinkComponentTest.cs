@@ -14,6 +14,7 @@ namespace Blazorise.Tests.Components
         {
             var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
             BlazoriseConfig.AddBootstrapProviders( testServices );
+            BlazoriseConfig.JSInterop.AddButton( JSInterop );
         }
 
         [Fact]
