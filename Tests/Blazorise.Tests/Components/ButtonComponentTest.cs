@@ -13,7 +13,7 @@ namespace Blazorise.Tests.Components
         public ButtonComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
-            BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddButton( JSInterop );
         }
 
         [Fact]

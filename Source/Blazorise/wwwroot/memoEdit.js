@@ -1,8 +1,14 @@
 ﻿import { Behave } from "./vendors/Behave.js";
+import { getRequiredElement } from "./utilities.js";
 
 const _instances = [];
 
 export function initialize(element, elementId, options) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     const replaceTab = options.replaceTab || false;
     const tabSize = options.tabSize || 4;
     const softTabs = options.tabSize || true;

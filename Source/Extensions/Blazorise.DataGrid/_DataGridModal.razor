@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridModal<TItem>
-<Modal Visible="@PopupVisible" Closing="@PopupClosing" Closed="@Cancel">
+<Modal @ref="modalRef" Visible="@PopupVisible" Closing="@PopupClosing" Closed="@Cancel">
     <ModalContent Size="@PopupSize">
         <Form>
             <ModalHeader>
@@ -18,7 +18,7 @@
                             : Localizer.Localize( ParentDataGrid.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
                     }
                 </ModalTitle>
-                <CloseButton Clicked="@Cancel" AutoClose="false" />
+                <CloseButton Clicked="@CloseModal" AutoClose="false" />
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem">
@@ -81,14 +81,14 @@
                     {
                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                         {
-                            Clicked = Cancel,
+                            Clicked = EventCallback.Factory.Create( this, CloseModal ),
                             LocalizationString = cancelButtonString,
                             Item = EditItem,
                         } )
                     }
                     else
                     {
-                        <Button Color="Color.Link" Clicked="@Cancel">
+                        <Button Color="Color.Link" Clicked="@CloseModal">
                             @cancelButtonString
                         </Button>
                     }

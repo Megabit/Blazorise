@@ -1,4 +1,11 @@
-﻿export function initializeTableFixedHeader(element, elementId) {
+﻿import { getRequiredElement } from "./utilities.js";
+
+export function initializeTableFixedHeader(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     let resizeTimeout = null
 
     function resizeThottler() {
@@ -11,7 +18,8 @@
     }
 
     function resizeHandler(element) {
-        const tableRows = element.querySelectorAll("thead tr");
+        const thead = element.querySelector("thead:first-child");
+        const tableRows = thead.querySelectorAll("tr");
         if (tableRows !== null && tableRows.length > 1) {
             let previousRowCellHeight = 0;
             for (let i = 0; i < tableRows.length; i++) {
@@ -28,10 +36,17 @@
 }
 
 export function destroyTableFixedHeader(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     if (typeof this.resizeThottler === "function") {
         window.removeEventListener("resize", this.resizeThottler);
     }
-    const tableRows = element.querySelectorAll("thead tr");
+
+    const thead = element.querySelector("thead:first-child");
+    const tableRows = thead.querySelectorAll("tr");
 
     if (tableRows !== null && tableRows.length > 1) {
         for (let i = 0; i < tableRows.length; i++) {
@@ -42,13 +57,15 @@ export function destroyTableFixedHeader(element, elementId) {
 }
 
 export function fixedHeaderScrollTableToPixels(element, elementId, pixels) {
-    if (element !== null && element.parentElement !== null) {
+    if (element && element.parentElement) {
         element.parentElement.scrollTop = pixels;
     }
 }
 
 export function fixedHeaderScrollTableToRow(element, elementId, row) {
-    if (element !== null) {
+    element = getRequiredElement(element, elementId);
+
+    if (element) {
         let rows = element.querySelectorAll("tr");
         let rowsLength = rows.length;
 
@@ -67,11 +84,14 @@ export function initializeResizable(element, elementId, mode) {
     const resizerHeaderMode = 0;
     let cols = null;
 
-    if (element !== null) {
-        cols = element.querySelectorAll('thead tr:first-child > th');
+    element = getRequiredElement(element, elementId);
+
+    if (element) {
+        const thead = element.querySelector("thead:first-child");
+        cols = thead.querySelectorAll('tr:first-child > th');
     }
 
-    if (cols !== null) {
+    if (cols) {
 
         const calculateTableActualHeight = function () {
             let height = 0;
