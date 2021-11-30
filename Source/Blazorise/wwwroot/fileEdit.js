@@ -1,6 +1,13 @@
-﻿const _instances = [];
+﻿import { getRequiredElement } from "./utilities.js";
+
+const _instances = [];
 
 export function initialize(adapter, element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     var nextFileId = 0;
 
     // save an instance of adapter
@@ -38,6 +45,8 @@ export function destroy(element, elementId) {
 }
 
 export function reset(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
     if (element) {
         element.value = '';
 

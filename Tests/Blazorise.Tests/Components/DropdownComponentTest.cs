@@ -10,7 +10,7 @@ namespace Blazorise.Tests.Components
         public DropdownComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
-            BlazoriseConfig.JSInterop.AddCloseable( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
         }
 
         [Fact]

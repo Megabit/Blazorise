@@ -95,6 +95,9 @@ namespace Blazorise
                 ParentValidations.ClearingAll -= OnClearingAll;
                 ParentValidations.NotifyValidationRemoved( this );
             }
+
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = null;
         }
 
         internal async Task InitializeInput( IValidationInput inputComponent )
@@ -225,6 +228,7 @@ namespace Blazorise
             if ( !inputComponent.Disabled )
             {
                 cancellationTokenSource?.Cancel();
+                cancellationTokenSource?.Dispose();
 
                 // Create a CTS for this request.
                 cancellationTokenSource = new();
