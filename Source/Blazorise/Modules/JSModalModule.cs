@@ -38,6 +38,9 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask CloseModal( ElementReference elementRef )
         {
+            if ( IsUnsafe )
+                return;
+
             var moduleInstance = await Module;
 
             await moduleInstance.InvokeVoidAsync( "close", elementRef );
