@@ -25,7 +25,7 @@ namespace Blazorise.Modules
         /// <summary>
         /// Awaitable module instance.
         /// </summary>
-        private Task<IJSObjectReference> moduleTask;
+        protected Task<IJSObjectReference> moduleTask;
 
         #endregion
 
@@ -69,7 +69,7 @@ namespace Blazorise.Modules
                         if ( moduleTask != null )
                         {
                             var moduleInstance = await moduleTask;
-                            await moduleInstance.SafeDisposeAsync();
+                            await moduleInstance.DisposeAsync();
 
                             moduleTask = null;
                         }
