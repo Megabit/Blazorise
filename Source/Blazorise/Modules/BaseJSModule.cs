@@ -87,6 +87,11 @@ namespace Blazorise.Modules
         #region Properties
 
         /// <summary>
+        /// Returns true if module was already being destroyed.
+        /// </summary>
+        protected bool IsUnsafe => AsyncDisposed || moduleTask == null;
+
+        /// <summary>
         /// Indicates if the component is already fully disposed (asynchronously).
         /// </summary>
         protected bool AsyncDisposed { get; private set; }

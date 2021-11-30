@@ -38,6 +38,9 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask UnregisterBreakpoint( IBreakpointActivator component )
         {
+            if ( IsUnsafe )
+                return;
+
             var moduleInstance = await Module;
 
             await moduleInstance.InvokeVoidAsync( "unregisterBreakpointComponent", component.ElementId );
@@ -46,6 +49,9 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask<string> GetBreakpoint()
         {
+            if ( IsUnsafe )
+                return await Task.FromResult<string>( null );
+
             var moduleInstance = await Module;
 
             return await moduleInstance.InvokeAsync<string>( "getBreakpoint" );
