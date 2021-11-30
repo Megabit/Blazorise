@@ -69,7 +69,7 @@ namespace Blazorise.Modules
                         if ( moduleTask != null )
                         {
                             var moduleInstance = await moduleTask;
-                            await moduleInstance.DisposeAsync();
+                            await moduleInstance.SafeDisposeAsync();
 
                             moduleTask = null;
                         }
