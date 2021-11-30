@@ -59,6 +59,8 @@ namespace Blazorise.DataGrid
             if ( await validations.ValidateAll() )
             {
                 await ParentDataGrid.Save();
+                if ( ParentDataGrid.EditState == DataGridEditState.None )
+                    await CloseModal();
             }
         }
 
