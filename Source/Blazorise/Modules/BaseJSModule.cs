@@ -25,7 +25,7 @@ namespace Blazorise.Modules
         /// <summary>
         /// Awaitable module instance.
         /// </summary>
-        protected Task<IJSObjectReference> moduleTask;
+        private Task<IJSObjectReference> moduleTask;
 
         #endregion
 
@@ -85,6 +85,11 @@ namespace Blazorise.Modules
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Returns true if module was already being destroyed.
+        /// </summary>
+        protected bool IsUnsafe => AsyncDisposed || moduleTask == null;
 
         /// <summary>
         /// Indicates if the component is already fully disposed (asynchronously).

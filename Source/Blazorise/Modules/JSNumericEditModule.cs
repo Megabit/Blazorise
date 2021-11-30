@@ -38,7 +38,7 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
         {
-            if ( moduleTask == null )
+            if ( IsUnsafe )
                 return;
 
             var moduleInstance = await Module;
@@ -49,7 +49,7 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
         {
-            if ( moduleTask == null )
+            if ( IsUnsafe )
                 return;
 
             var moduleInstance = await Module;
