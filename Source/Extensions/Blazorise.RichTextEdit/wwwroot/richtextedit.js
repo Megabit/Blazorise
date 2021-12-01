@@ -1,17 +1,21 @@
-﻿export function initialize(dotnetAdapter, containerRef, readOnly, placeholder, theme, bindEnter, configureQuillJsMethod) {
-    if (!containerRef)
-        return false;
+﻿import { getRequiredElement } from "../Blazorise/utilities.js";
 
-    const editorRef = containerRef.getElementsByClassName("rte-editor")[0];
-    const toolbarRef = containerRef.getElementsByClassName("rte-toolbar")[0];
-    const contentRef = containerRef.getElementsByClassName("rte-content")[0];
+export function initialize(dotnetAdapter, element, elementId, readOnly, placeholder, theme, bindEnter, configureQuillJsMethod) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    const editorRef = element.getElementsByClassName("rte-editor")[0];
+    const toolbarRef = element.getElementsByClassName("rte-toolbar")[0];
+    const contentRef = element.getElementsByClassName("rte-content")[0];
 
     let options = {
         modules: {
             toolbar: toolbarRef,
             keyboard: undefined
         },
-        bounds: containerRef,
+        bounds: element,
         placeholder: placeholder,
         readOnly: readOnly,
         theme: theme
@@ -78,7 +82,6 @@
     setContent();
 
     editorRef.quill = quill;
-    return true;
 }
 
 export function configure(functionName, context, args) {
