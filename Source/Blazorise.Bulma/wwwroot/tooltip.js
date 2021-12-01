@@ -3,7 +3,7 @@ import { initialize as baseInitialize, destroy, updateContent } from "../Blazori
 export function initialize(element, elementId, options) {
     baseInitialize(element, elementId, options);
 
-    if (element) {
+    if (options.autodetectInline && element) {
         if (element.querySelector(".checkbox,.button")) {
             element.classList.add("b-tooltip-inline");
         }
