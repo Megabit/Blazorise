@@ -53,5 +53,12 @@ namespace Blazorise.RichTextEdit
         }
 
         #endregion
+
+        #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
+        #endregion
     }
 }
