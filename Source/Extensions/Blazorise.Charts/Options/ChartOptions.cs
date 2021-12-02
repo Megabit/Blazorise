@@ -23,7 +23,7 @@ namespace Blazorise.Charts
         [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public Animation Animation { get; set; }
-
+        
         /// <summary>
         /// Resizes the chart canvas when its container does.
         /// </summary>

@@ -10,111 +10,118 @@ namespace Blazorise.Charts
     /// The grid line configuration is nested under the scale configuration in the gridLines key. It defines options for the grid lines that run perpendicular to the axis.
     /// </summary>
     [DataContract]
-    public class AxisGridLines
+    public class AxisGridLine
     {
         /// <summary>
-        /// If false, do not display grid lines for this axis.
+        /// The color of the border line.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = true;
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> BorderColor { get; set; }
 
         /// <summary>
-        /// If true, gridlines are circular (on radar chart only).
+        /// The width of the border line.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Circular { get; set; }
-
-        /// <summary>
-        /// The color of the grid lines.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Color { get; set; }
+        public double? BorderWidth { get; set; } = 1d;
 
         /// <summary>
         /// Length and spacing of dashes on grid lines
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public List<int> BorderDash { get; set; }
 
         /// <summary>
         /// Offset for line dashes.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public decimal? BorderDashOffset { get; set; } = 0m;
+        public double? BorderDashOffset { get; set; } = 0d;
 
         /// <summary>
-        /// Stroke width of grid lines.
+        /// If true, gridlines are circular (on radar chart only).
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? LineWidth { get; set; } = 1;
+        public bool? Circular { get; set; }
+
+        /// <summary>
+        /// The color of the grid lines. If specified as an array, the first color applies to the first grid line, the second to the second grid line, and so on.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> Color { get; set; }
+
+        /// <summary>
+        /// If false, do not display grid lines for this axis.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public bool? Display { get; set; } = true;
 
         /// <summary>
         /// If true, draw border at the edge between the axis and the chart area.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? DrawBorder { get; set; } = true;
 
         /// <summary>
         /// If true, draw lines on the chart area inside the axis lines. This is useful when there are multiple axes and you need to control which grid lines are drawn.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? DrawOnChartArea { get; set; } = true;
 
         /// <summary>
         /// If true, draw lines beside the ticks in the axis area beside the chart.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? DrawTicks { get; set; } = true;
 
         /// <summary>
+        /// Stroke width of grid lines.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? LineWidth { get; set; } = 1d;
+
+        /// <summary>
+        /// If true, grid lines will be shifted to be between labels. This is set to true for a bar chart by default.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public bool? Offset { get; set; }
+
+        /// <summary>
+        /// Length and spacing of the tick mark line. If not set, defaults to the grid line borderDash value.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public List<double> TickBorderDash { get; set; }
+
+        /// <summary>
+        /// Offset for the line dash of the tick mark. If unset, defaults to the grid line borderDashOffset value
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? TickBorderDashOffset { get; set; }
+
+        /// <summary>
+        /// Color of the tick line. If unset, defaults to the grid line color.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> TickColor { get; set; }
+
+        /// <summary>
         /// Length in pixels that the grid lines will draw into the axis area.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? TickMarkLength { get; set; } = 10;
+        public double? TickLength { get; set; } = 8;
 
         /// <summary>
-        /// Stroke width of the grid line for the first index (index 0).
+        /// Width of the tick mark in pixels. If unset, defaults to the grid line width.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? ZeroLineWidth { get; set; } = 1;
+        public double? TickWidth { get; set; }
 
         /// <summary>
-        /// Stroke color of the grid line for the first index (index 0).
+        /// z-index of gridline layer. Values <= 0 are drawn under datasets, > 0 on top.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
+        [JsonPropertyName( "y" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string ZeroLineColor { get; set; }
-
-        /// <summary>
-        /// Length and spacing of dashes of the grid line for the first index (index 0).
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public List<int> ZeroLineBorderDash { get; set; }
-
-        /// <summary>
-        /// Offset for line dashes of the grid line for the first index (index 0).
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public decimal? ZeroLineBorderDashOffset { get; set; } = 0m;
-
-        /// <summary>
-        /// If true, grid lines will be shifted to be between labels. This is set to true for a category scale in a bar chart by default.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? OffsetGridLines { get; set; }
+        public double? Z { get; set; } = 0;
     }
 }

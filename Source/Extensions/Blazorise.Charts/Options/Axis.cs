@@ -5,59 +5,82 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts
 {
+    /// <summary>
+    /// Common options to all axes.
+    /// </summary>
     [DataContract]
     public class Axis
     {
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Id { get; set; }
-
-        [DataMember( EmitDefaultValue = false )]
+        /// <summary>
+        /// Type of scale being employed. Custom scales can be created and registered with a string key. This allows changing the type of an axis for a chart.
+        /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string Type { get; set; }
 
-        [DataMember]
+        /// <summary>
+        /// Align pixel values to device pixels.
+        /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = true;
+        public bool? AlignToPixels { get; set; } = false;
 
-        [DataMember( EmitDefaultValue = false )]
+        /// <summary>
+        /// Controls the axis global visibility (visible when <c>true</c>, hidden when <c>false</c>). When display: <c>"auto"</c>, the axis is visible only if at least one associated dataset is visible.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public object Display { get; set; } = true;
+
+        /// <summary>
+        /// Grid line configuration. <see href="https://www.chartjs.org/docs/latest/axes/styling.html#grid-line-configuration">more...</see>
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public AxisGridLine Grid { get; set; }
+
+        /// <summary>
+        /// User defined minimum number for the scale, overrides minimum value from data. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? Min { get; set; }
+
+        /// <summary>
+        /// User defined maximum number for the scale, overrides maximum value from data. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? Max { get; set; }
+
+        /// <summary>
+        /// Reverse the scale.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public bool? Reverse { get; set; } = false;
+
+        /// <summary>
+        /// Should the data be stacked.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public bool? Stacked { get; set; } = false;
+
+        /// <summary>
+        /// Adjustment used when calculating the maximum data value. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? SuggestedMax { get; set; }
+
+        /// <summary>
+        /// Adjustment used when calculating the minimum data value. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? SuggestedMin { get; set; }
+
+        /// <summary>
+        /// Tick configuration.
+        /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public AxisTicks Ticks { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public AxisGridLines GridLines { get; set; }
-
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public AxisScaleLabel ScaleLabel { get; set; }
-
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Stacked { get; set; }
-
         /// <summary>
-        /// Manually set width of each bar in pixels. If not set, the base sample widths are calculated automatically so that they take the full available widths without overlap. Then, the bars are sized using barPercentage and categoryPercentage.
+        /// The weight used to sort the axis. Higher weights are further away from the chart area.
         /// </summary>
-        /// <remarks>
-        /// NOTE: used only on Bar chart!
-        /// </remarks>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BarThickness { get; set; }
-
-        /// <summary>
-        /// Set this to ensure that bars are not sized thicker than this.
-        /// </summary>
-        /// <remarks>
-        /// NOTE: used only on Bar chart!
-        /// </remarks>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? MaxBarThickness { get; set; }
-
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Position { get; set; }
+        public double? Weight { get; set; } = 0d;
     }
 }

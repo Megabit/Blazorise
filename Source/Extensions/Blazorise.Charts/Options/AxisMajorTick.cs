@@ -17,40 +17,5 @@ namespace Blazorise.Charts
         [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? Enabled { get; set; } = false;
-
-        /// <summary>
-        /// Font color for tick labels.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string FontColor { get; set; } = "#666";
-
-        /// <summary>
-        /// Font family for the tick labels, follows CSS font-family options.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string FontFamily { get; set; } = "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
-
-        /// <summary>
-        /// Font size for the tick labels.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? FontSize { get; set; } = 12;
-
-        /// <summary>
-        /// Font style for the tick labels, follows CSS font-style options (i.e. normal, italic, oblique, initial, inherit).
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string FontStyle { get; set; } = "normal";
-
-        /// <summary>
-        /// Height of an individual line of text.
-        /// </summary>
-        [DataMember( EmitDefaultValue = false )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public decimal? LineHeight { get; set; } = 1.2m;
     }
 }
