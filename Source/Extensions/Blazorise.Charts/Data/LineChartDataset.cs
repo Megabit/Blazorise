@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -9,7 +8,6 @@ namespace Blazorise.Charts
     /// <remarks>
     /// Defaults values as per https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties
     /// </remarks>
-    [DataContract]
     public class LineChartDataset<T> : ChartDataset<T>
     {
         public LineChartDataset() : base(
@@ -27,7 +25,6 @@ namespace Blazorise.Charts
         /// The ID of the group to which this dataset belongs to (when stacked, each group will be a separate stack). Defaults
         /// to dataset type.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string Stack { get; set; }
 
@@ -48,28 +45,24 @@ namespace Blazorise.Charts
         ///     </item>
         /// </list>
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string BorderCapStyle { get; set; } = "butt";
 
         /// <summary>
         /// Length and spacing of dashes. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</see>.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public List<int> BorderDash { get; set; } = new();
 
         /// <summary>
         /// Offset for line dashes. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</see>.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? BorderDashOffset { get; set; }
 
         /// <summary>
         /// Line joint style. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin">MDN</see>.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string BorderJoinStyle { get; set; } = "miter";
 
@@ -91,55 +84,44 @@ namespace Blazorise.Charts
         ///     If left untouched (undefined), the global options.elements.line.cubicInterpolationMode property is used.
         /// </para>
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string CubicInterpolationMode { get; set; } = "default";
 
         /// <summary>
         /// Fill the area under the line. See <see href="https://www.chartjs.org/docs/latest/charts/area.html">area charts.</see>.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? Fill { get; set; } = true;
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> HoverBackgroundColor { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string HoverBorderCapStyle { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> HoverBorderColor { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int[] HoverBorderDash { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? HoverBorderDashOffset { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string HoverBorderJoinStyle { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? HoverBorderWidth { get; set; }
 
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string IndexAxis { get; set; }
 
         /// <summary>
         /// The fill color for points.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> PointBackgroundColor { get; set; }
@@ -147,7 +129,6 @@ namespace Blazorise.Charts
         /// <summary>
         /// The border color for points.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> PointBorderColor { get; set; }
@@ -155,21 +136,18 @@ namespace Blazorise.Charts
         /// <summary>
         /// The width of the point border in pixels.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? PointBorderWidth { get; set; } = 1;
 
         /// <summary>
         /// The pixel size of the non-displayed point that reacts to mouse events.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? PointHitRadius { get; set; } = 1;
 
         /// <summary>
         /// Point background color when hovered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> PointHoverBackgroundColor { get; set; }
@@ -177,7 +155,6 @@ namespace Blazorise.Charts
         /// <summary>
         /// Point border color when hovered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> PointHoverBorderColor { get; set; }
@@ -185,42 +162,36 @@ namespace Blazorise.Charts
         /// <summary>
         /// Border width of point when hovered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? PointHoverBorderWidth { get; set; } = 1f;
 
         /// <summary>
         /// The radius of the point when hovered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? PointHoverRadius { get; set; } = 4f;
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? PointRadius { get; set; } = 3.0f;
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? PointRotation { get; set; } = 0f;
 
         /// <summary>
         /// Style of the point.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string PointStyle { get; set; } = "circle";
 
         /// <summary>
         /// If false, the line is not drawn for this dataset.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? ShowLine { get; set; } = true;
 
@@ -255,7 +226,6 @@ namespace Blazorise.Charts
         ///     </item>
         /// </list>
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public object Segment { get; set; }
 
@@ -263,7 +233,6 @@ namespace Blazorise.Charts
         /// If true, lines will be drawn between points with no or null data. If false, points with null data will
         /// create a break in the line. Can also be a number specifying the maximum gap length to span. The unit of the value depends on the scale used.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public object SpanGaps { get; set; }
 
@@ -297,7 +266,6 @@ namespace Blazorise.Charts
         ///     If the <c>stepped</c> value is set to anything other than false, <c>tension</c> will be ignored.
         /// </para>
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public object Stepped { get; set; } = false;
 
@@ -305,21 +273,18 @@ namespace Blazorise.Charts
         /// Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if monotone cubic
         /// interpolation is used.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? Tension { get; set; } = 0f;
 
         /// <summary>
         /// The ID of the x-axis to plot this dataset on.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string XAxisID { get; set; }
 
         /// <summary>
         /// The ID of the y-axis to plot this dataset on.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string YAxisID { get; set; }
     }

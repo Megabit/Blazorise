@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts
 {
-    [DataContract]
     public class DoughnutChartDataset<T> : PieChartDataset<T>
     {
         public DoughnutChartDataset()

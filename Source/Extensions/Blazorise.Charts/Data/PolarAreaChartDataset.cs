@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -8,7 +7,6 @@ namespace Blazorise.Charts
     /// <remarks>
     /// Defaults as per https://www.chartjs.org/docs/latest/charts/polar.html#dataset-properties
     /// </remarks>
-    [DataContract]
     public class PolarAreaChartDataset<T> : ChartDataset<T>
     {
         public PolarAreaChartDataset() : base(
@@ -24,7 +22,6 @@ namespace Blazorise.Charts
         /// <summary>
         /// Defines the border alignment.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string BorderAlign { get; set; } = "center";
 
@@ -32,7 +29,6 @@ namespace Blazorise.Charts
         /// The fill colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> HoverBackgroundColor { get; set; }
@@ -41,7 +37,6 @@ namespace Blazorise.Charts
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> HoverBorderColor { get; set; }
@@ -50,7 +45,7 @@ namespace Blazorise.Charts
         /// The stroke width of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
-        [DataMember]
-        public int HoverBorderWidth { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public int? HoverBorderWidth { get; set; }
     }
 }

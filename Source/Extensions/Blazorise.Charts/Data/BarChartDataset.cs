@@ -8,7 +8,6 @@ namespace Blazorise.Charts
     /// <remarks>
     /// Defaults as per https://www.chartjs.org/docs/latest/charts/bar.html#dataset-properties
     /// </remarks>
-    [DataContract]
     public class BarChartDataset<T> : ChartDataset<T>
     {
         public BarChartDataset() : base(
@@ -25,7 +24,6 @@ namespace Blazorise.Charts
         /// <summary>
         /// Base value for the bar in data units along the value axis. If not set, defaults to the value axis base value.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? Base { get; set; }
 
@@ -33,7 +31,6 @@ namespace Blazorise.Charts
         /// Percent (0-1) of the available width each bar should be within the category width. 1.0 will take the whole
         /// category width and put the bars right next to each other.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? BarPercentage { get; set; }
 
@@ -48,7 +45,6 @@ namespace Blazorise.Charts
         ///         If not set (default), the base sample widths are calculated using the smallest interval that prevents bar overlapping, and bars are sized using barPercentage and categoryPercentage. This mode always generates bars equally sized.
         ///     </para>
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string BarThickness { get; set; }
 
@@ -90,21 +86,18 @@ namespace Blazorise.Charts
         ///     </item>
         /// </list>
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string BorderSkipped { get; set; } = "start";
 
         /// <summary>
         /// If this value is a number, it is applied to all corners of the rectangle (topLeft, topRight, bottomLeft, bottomRight), except corners touching the borderSkipped. If this value is an object, the topLeft property defines the top-left corners border radius. Similarly, the topRight, bottomLeft, and bottomRight properties can also be specified. Omitted corners and those touching the borderSkipped are skipped. For example if the top border is skipped, the border radius for the corners topLeft and topRight will be skipped as well.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? BorderRadius { get; set; } = 0f;
 
         /// <summary>
         /// Percent (0-1) of the available width each category should be within the sample width.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? CategoryPercentage { get; set; } = 0.8f;
 
@@ -112,14 +105,12 @@ namespace Blazorise.Charts
         /// Should the bars be grouped on index axis. When true, all the datasets at same index value will be placed next
         /// to each other centering on that index value. When false, each bar is placed on its actual index-axis value.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? Grouped { get; set; }
 
         /// <summary>
         /// The bar background color when hovered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> HoverBackgroundColor { get; set; }
@@ -127,7 +118,6 @@ namespace Blazorise.Charts
         /// <summary>
         /// The bar border color when hovered.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
         public IndexableOption<object> HoverBorderColor { get; set; }
@@ -135,21 +125,18 @@ namespace Blazorise.Charts
         /// <summary>
         /// The bar border width when hovered (in pixels).
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? HoverBorderWidth { get; set; } = 1;
 
         /// <summary>
         /// The bar border radius when hovered (in pixels).
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public int? HoverBorderRadius { get; set; } = 0;
 
         /// <summary>
         /// The base axis of the dataset. 'x' for vertical bars and 'y' for horizontal bars.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string IndexAxis { get; set; } = "x";
 
@@ -158,35 +145,30 @@ namespace Blazorise.Charts
         /// between bars when barPercentage(#barpercentage) * categoryPercentage(#categorypercentage) is 1. The default
         /// value 'auto' should work in most cases.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public object InflateAmount { get; set; } = "auto";
 
         /// <summary>
         /// Set this to ensure that bars are not sized thicker than this.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string MaxBarThickness { get; set; }
 
         /// <summary>
         /// Set this to ensure that bars have a minimum length in pixels.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public float? MinBarLength { get; set; }
 
         /// <summary>
         /// Style of the point for legend. https://www.chartjs.org/docs/latest/configuration/elements.html#point-styles
         /// </summary>    
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string PointStyle { get; set; } = "circle";
 
         /// <summary>
         /// If true, null or undefined values will not be used for spacing calculations when determining bar size.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public bool? SkipNull { get; set; }
 
@@ -194,21 +176,18 @@ namespace Blazorise.Charts
         /// The ID of the group to which this dataset belongs to (when stacked, each group will be a separate stack). Defaults
         /// to dataset type.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string Stack { get; set; }
 
         /// <summary>
         /// The ID of the x-axis to plot this dataset on.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string XAxisID { get; set; }
 
         /// <summary>
         /// The ID of the y-axis to plot this dataset on.
         /// </summary>
-        [DataMember( EmitDefaultValue = false )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string YAxisID { get; set; }
     }

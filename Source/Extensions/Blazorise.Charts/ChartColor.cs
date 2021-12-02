@@ -1,13 +1,12 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts
 {
-    [DataContract]
     public struct ChartColor
     {
         #region Constructors
@@ -82,7 +81,7 @@ namespace Blazorise.Charts
         /// Converts the color to the js function call.
         /// </summary>
         /// <returns></returns>
-        public string ToJsRgba() => $"rgba({R},{G},{B},{A.ToString( CultureInfo.InvariantCulture )})";
+        public string ToJsRgba() => $"rgba({R},{G},{B},{( A ?? 0 ).ToString( CultureInfo.InvariantCulture )})";
 
         #endregion
 
@@ -91,26 +90,26 @@ namespace Blazorise.Charts
         /// <summary>
         /// Gets or sets the red component value of color structure.
         /// </summary>
-        [DataMember]
-        public byte R { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public byte? R { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the green component value of color structure.
         /// </summary>
-        [DataMember]
-        public byte G { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public byte? G { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the blue component value of color structure.
         /// </summary>
-        [DataMember]
-        public byte B { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public byte? B { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the alpha component value of color structure.
         /// </summary>
-        [DataMember]
-        public float A { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public float? A { get; set; } = 0;
 
         #endregion
     }

@@ -9,7 +9,6 @@ namespace Blazorise.Charts
     /// <summary>
     /// The grid line configuration is nested under the scale configuration in the gridLines key. It defines options for the grid lines that run perpendicular to the axis.
     /// </summary>
-    [DataContract]
     public class AxisGridLine
     {
         /// <summary>

@@ -10,7 +10,6 @@ namespace Blazorise.Charts
     /// <summary>
     /// Common tick options to all axes.
     /// </summary>
-    [DataContract]
     public class AxisTicks
     {
         /// <summary>

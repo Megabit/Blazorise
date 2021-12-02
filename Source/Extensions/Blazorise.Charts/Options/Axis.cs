@@ -8,7 +8,6 @@ namespace Blazorise.Charts
     /// <summary>
     /// Common options to all axes.
     /// </summary>
-    [DataContract]
     public class Axis
     {
         /// <summary>

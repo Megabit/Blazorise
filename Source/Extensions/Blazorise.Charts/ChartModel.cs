@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts
 {
-    [DataContract]
     public class ChartModel
     {
         [JsonPropertyName( "x" )]
@@ -20,7 +19,6 @@ namespace Blazorise.Charts
     * Until that is fixed we must write every model without inherit fields.
     * =========================== */
 
-    [DataContract]
     public class LineChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
@@ -72,7 +70,6 @@ namespace Blazorise.Charts
         //public double Y { get; set; }
     }
 
-    [DataContract]
     public class BarChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
@@ -109,7 +106,6 @@ namespace Blazorise.Charts
         public double Width { get; set; }
     }
 
-    [DataContract]
     public class DoughnutChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
@@ -146,7 +142,6 @@ namespace Blazorise.Charts
         //public double Y { get; set; }
     }
 
-    [DataContract]
     public class PieChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
@@ -183,7 +178,6 @@ namespace Blazorise.Charts
         //public double Y { get; set; }
     }
 
-    [DataContract]
     public class PolarChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
@@ -214,7 +208,6 @@ namespace Blazorise.Charts
         //public double Y { get; set; }
     }
 
-    [DataContract]
     public class RadarChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
