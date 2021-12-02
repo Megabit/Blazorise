@@ -31,8 +31,8 @@ export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOpti
 export function destroy(canvas, canvasId) {
     const chart = getChart(canvasId);
 
-    if (chart && chart.scales) {
-        const scales = chart.scales;
+    if (chart && chart.options && chart.options.scales) {
+        const scales = chart.options.scales;
 
         // unsubscribe events
         if (scales.x && scales.x.realtime) {
@@ -40,7 +40,7 @@ export function destroy(canvas, canvasId) {
         }
 
         if (scales.y && scales.y.realtime) {
-            axe.realtime.onRefresh = null;
+            scales.y.realtime.onRefresh = null;
         }
     }
 }

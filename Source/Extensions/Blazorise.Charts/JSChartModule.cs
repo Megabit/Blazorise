@@ -39,7 +39,7 @@ namespace Blazorise.Charts
                 canvasId,
                 ToChartTypeString( type ),
                 ToChartData( data ),
-                options,
+                (object)options,
                 dataJsonString,
                 optionsJsonString,
                 optionsObject );

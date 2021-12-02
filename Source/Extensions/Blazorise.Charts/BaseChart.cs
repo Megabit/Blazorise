@@ -275,7 +275,7 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Destroys the chart instance. Calling this method should generally.
+        /// Destroys the chart instance. Calling this method should generally dispose of any chart resources.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Destroy()
