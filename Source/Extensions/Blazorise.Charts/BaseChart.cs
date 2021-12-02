@@ -36,6 +36,8 @@ namespace Blazorise.Charts
             {
                 await Update();
             }
+
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <summary>
