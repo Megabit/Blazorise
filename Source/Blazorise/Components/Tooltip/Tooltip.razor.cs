@@ -32,6 +32,8 @@ namespace Blazorise
 
         private TooltipTrigger trigger = TooltipTrigger.MouseEnterFocus;
 
+        private bool autodetectInline;
+
         #endregion
 
         #region Methods
@@ -57,6 +59,9 @@ namespace Blazorise
                 ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, text ) );
             }
 
+            // autodetect inline mode only if Inline parameter is not explicitly defined
+            autodetectInline = !parameters.TryGetValue<bool>( nameof( Inline ), out var _ );
+
             return base.SetParametersAsync( parameters );
         }
 
@@ -77,6 +82,7 @@ namespace Blazorise
                     FadeDuration,
                     Trigger = ToTippyTrigger( Trigger ),
                     MaxWidth = Theme?.TooltipOptions?.MaxWidth,
+                    AutodetectInline = autodetectInline,
                 } );
             } );
 
