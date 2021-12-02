@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.JSInterop;
 #endregion
 
@@ -24,7 +25,7 @@ namespace Blazorise.Modules
         /// <summary>
         /// Awaitable module instance.
         /// </summary>
-        protected Task<IJSObjectReference> moduleTask;
+        private Task<IJSObjectReference> moduleTask;
 
         #endregion
 
@@ -68,7 +69,7 @@ namespace Blazorise.Modules
                         if ( moduleTask != null )
                         {
                             var moduleInstance = await moduleTask;
-                            await moduleInstance.DisposeAsync();
+                            await moduleInstance.SafeDisposeAsync();
 
                             moduleTask = null;
                         }
@@ -84,6 +85,11 @@ namespace Blazorise.Modules
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Returns true if module was already being destroyed.
+        /// </summary>
+        protected bool IsUnsafe => AsyncDisposed || moduleTask == null;
 
         /// <summary>
         /// Indicates if the component is already fully disposed (asynchronously).

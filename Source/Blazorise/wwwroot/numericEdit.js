@@ -1,8 +1,14 @@
 ﻿import { NumericMaskValidator } from "./validators/NumericMaskValidator.js";
+import { getRequiredElement } from "./utilities.js";
 
 let _instances = [];
 
 export function initialize(dotnetAdapter, element, elementId, options) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     const instance = new NumericMaskValidator(dotnetAdapter, element, elementId, options);
 
     _instances[elementId] = instance;

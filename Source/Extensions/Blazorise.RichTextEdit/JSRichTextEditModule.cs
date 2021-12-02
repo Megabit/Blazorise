@@ -55,6 +55,7 @@ namespace Blazorise.RichTextEdit
             await moduleInstance.InvokeVoidAsync( "initialize",
                 dotNetRef,
                 richTextEdit.ElementRef,
+                richTextEdit.ElementId,
                 richTextEdit.ReadOnly,
                 richTextEdit.PlaceHolder,
                 richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",

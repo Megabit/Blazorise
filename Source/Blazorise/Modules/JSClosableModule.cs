@@ -38,12 +38,12 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual async ValueTask Unregister( ICloseActivator component )
         {
-            if ( moduleTask != null )
-            {
-                var moduleInstance = await moduleTask;
+            if ( IsUnsafe )
+                return;
 
-                await moduleInstance.InvokeVoidAsync( "unregisterClosableComponent", component.ElementRef );
-            }
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "unregisterClosableComponent", component.ElementRef );
         }
 
         #endregion

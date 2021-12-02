@@ -2,10 +2,16 @@
 import { DateTimeMaskValidator } from "./validators/DateTimeMaskValidator.js";
 import { RegExMaskValidator } from "./validators/RegExMaskValidator.js";
 import { NoValidator } from "./validators/NoValidator.js";
+import { getRequiredElement } from "./utilities.js";
 
 let _instances = [];
 
 export function initialize(element, elementId, maskType, editMask) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     var instances = _instances = _instances || {};
 
     if (maskType === "numeric") {
