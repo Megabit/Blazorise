@@ -17,5 +17,8 @@ namespace Blazorise.Charts
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public ChartSubtitle Subtitle { get; set; }
+
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public ChartDecimation Decimation { get; set; }
     }
 }
