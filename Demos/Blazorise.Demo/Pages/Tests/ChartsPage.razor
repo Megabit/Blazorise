@@ -12,7 +12,7 @@
                 <Button Color="Color.Danger" Outline="true" Clicked="@(async ()=> await lineChart.ChangeType(ChartType.Bar))">Change Type</Button>
             </CardBody>
             <CardBody>
-                <LineChart @ref="lineChart" TItem="double" Options=lineChartOptions />
+                <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions" />
             </CardBody>
         </Card>
     </Column>
@@ -25,7 +25,7 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
-                <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" />
+                <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" Options="@chartOptions" />
             </CardBody>
         </Card>
     </Column>
@@ -38,12 +38,23 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
-                <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" />
+                <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" Options="@chartOptions" />
             </CardBody>
         </Card>
     </Column>
-</Row>
-<Row>
+    <Column ColumnSize="ColumnSize.IsThird.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Scatter</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( scatterChart, GetScatterChartDataset ))">Redraw</Button>
+            </CardBody>
+            <CardBody>
+                <Chart @ref="scatterChart" Type="ChartType.Scatter" TItem="System.Drawing.PointF" Options="@chartOptions" />
+            </CardBody>
+        </Card>
+    </Column>
     <Column ColumnSize="ColumnSize.IsThird.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
@@ -53,7 +64,7 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
-                <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
+                <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" Options="@chartOptions" />
             </CardBody>
         </Card>
     </Column>
@@ -66,7 +77,7 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
-                <Chart @ref="radarChart" Type="ChartType.Radar" TItem="double" />
+                <Chart @ref="radarChart" Type="ChartType.Radar" TItem="double" Options="@chartOptions" />
             </CardBody>
         </Card>
     </Column>
@@ -79,7 +90,7 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
-                <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
+                <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" Options="@chartOptions" />
             </CardBody>
         </Card>
     </Column>
@@ -92,7 +103,7 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await SetDataAndUpdate( lineChartWithData, RandomizeData ))">Change Data</Button>
             </CardBody>
             <CardBody>
-                <LineChart @ref="lineChartWithData" TItem="double" />
+                <LineChart @ref="lineChartWithData" TItem="double" Options="@line2ChartOptions" />
             </CardBody>
         </Card>
     </Column>

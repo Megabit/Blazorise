@@ -8,5 +8,6 @@
         Doughnut,
         PolarArea,
         Radar,
+        Scatter,
     }
 }

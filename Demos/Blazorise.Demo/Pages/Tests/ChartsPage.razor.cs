@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Charts;
@@ -14,9 +15,16 @@ namespace Blazorise.Demo.Pages.Tests
         private Chart<double> doughnutChart;
         private Chart<double> polarAreaChart;
         private Chart<double> radarChart;
+        private Chart<PointF> scatterChart;
+
+        ChartOptions chartOptions = new()
+        {
+            AspectRatio = 1.5
+        };
 
         LineChartOptions lineChartOptions = new()
         {
+            AspectRatio = 1.5,
             Scales = new()
             {
                 Y = new()
@@ -27,6 +35,11 @@ namespace Blazorise.Demo.Pages.Tests
                     }
                 }
             }
+        };
+
+        LineChartOptions line2ChartOptions = new()
+        {
+            AspectRatio = 1.5
         };
 
         private LineChart<double> lineChartWithData;
@@ -52,7 +65,8 @@ namespace Blazorise.Demo.Pages.Tests
                     HandleRedraw( doughnutChart, GetDoughnutChartDataset ),
                     HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ),
                     HandleRedraw( radarChart, GetRadarChartDataset ),
-                    HandleRedraw( lineChartWithData, GetLineChartDataset ) );
+                    HandleRedraw( lineChartWithData, GetLineChartDataset ),
+                    HandleRedraw( scatterChart, GetScatterChartDataset ) );
             }
         }
 
@@ -95,6 +109,20 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[0], // line chart can only have one color
                 BorderColor = borderColors[0],
                 Fill = true,
+                PointRadius = 3,
+                BorderWidth = 1,
+                PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
+            };
+        }
+
+        private ScatterChartDataset<PointF> GetScatterChartDataset()
+        {
+            return new()
+            {
+                Label = "# of randoms",
+                Data = RandomizeData2D( 3000, 50000 ),
+                BackgroundColor = backgroundColors[0], // line chart can only have one color
+                BorderColor = borderColors[0],
                 PointRadius = 3,
                 BorderWidth = 1,
                 PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
@@ -184,6 +212,13 @@ namespace Blazorise.Demo.Pages.Tests
         List<double> RandomizeData( int min, int max )
         {
             return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
+        }
+
+        List<PointF> RandomizeData2D() => RandomizeData2D( 3, 50 );
+
+        List<PointF> RandomizeData2D( int min, int max )
+        {
+            return Enumerable.Range( 0, 6 ).Select( x => new PointF( (float)( random.Next( min, max ) * random.NextDouble() ), (float)( random.Next( min, max ) * random.NextDouble() ) ) ).ToList();
         }
     }
 }

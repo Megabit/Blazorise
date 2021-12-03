@@ -349,6 +349,8 @@ namespace Blazorise.Charts
                     return System.Text.Json.JsonSerializer.Deserialize<PolarChartModel>( data );
                 case ChartType.Radar:
                     return System.Text.Json.JsonSerializer.Deserialize<RadarChartModel>( data );
+                case ChartType.Scatter:
+                    return System.Text.Json.JsonSerializer.Deserialize<ScatterChartModel>( data );
                 default:
                     return null;
             }

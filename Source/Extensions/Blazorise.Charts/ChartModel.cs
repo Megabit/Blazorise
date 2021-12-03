@@ -255,4 +255,8 @@ namespace Blazorise.Charts
         //[JsonPropertyName( "y" )]
         //public double Y { get; set; }
     }
+
+    public class ScatterChartModel : ChartModel
+    {
+    }
 }

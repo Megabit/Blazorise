@@ -176,6 +176,7 @@ namespace Blazorise.Charts
                 ChartType.Doughnut => "doughnut",
                 ChartType.Radar => "radar",
                 ChartType.PolarArea => "polarArea",
+                ChartType.Scatter => "scatter",
                 _ => "line",
             };
         }
