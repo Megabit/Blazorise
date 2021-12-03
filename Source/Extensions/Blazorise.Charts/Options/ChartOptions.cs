@@ -18,6 +18,9 @@ namespace Blazorise.Charts
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public ChartInteractions Interactions { get; set; }
 
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public string IndexAxis { get; set; }
+
         /// <summary>
         /// Resizes the chart canvas when its container does.
         /// </summary>

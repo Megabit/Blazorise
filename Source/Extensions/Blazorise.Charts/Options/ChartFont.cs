@@ -37,6 +37,6 @@ namespace Blazorise.Charts
         /// Height of an individual line of text. See <see href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double LineHeight { get; set; } = 1.2d;
+        public double? LineHeight { get; set; } = 1.2d;
     }
 }
