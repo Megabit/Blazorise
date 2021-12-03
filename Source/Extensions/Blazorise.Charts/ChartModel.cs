@@ -259,4 +259,8 @@ namespace Blazorise.Charts
     public class ScatterChartModel : ChartModel
     {
     }
+
+    public class BubbleChartModel : ChartModel
+    {
+    }
 }

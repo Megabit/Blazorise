@@ -351,6 +351,8 @@ namespace Blazorise.Charts
                     return System.Text.Json.JsonSerializer.Deserialize<RadarChartModel>( data );
                 case ChartType.Scatter:
                     return System.Text.Json.JsonSerializer.Deserialize<ScatterChartModel>( data );
+                case ChartType.Bubble:
+                    return System.Text.Json.JsonSerializer.Deserialize<BubbleChartModel>( data );
                 default:
                     return null;
             }

@@ -51,7 +51,20 @@
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( scatterChart, GetScatterChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
-                <Chart @ref="scatterChart" Type="ChartType.Scatter" TItem="System.Drawing.PointF" Options="@chartOptions" />
+                <Chart @ref="scatterChart" Type="ChartType.Scatter" TItem="ScatterChartPoint" Options="@chartOptions" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsThird.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Bubble</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( bubbleChart, GetBubbleChartDataset ))">Redraw</Button>
+            </CardBody>
+            <CardBody>
+                <Chart @ref="bubbleChart" Type="ChartType.Bubble" TItem="BubbleChartPoint" Options="@chartOptions" />
             </CardBody>
         </Card>
     </Column>

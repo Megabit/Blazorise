@@ -9,5 +9,6 @@
         PolarArea,
         Radar,
         Scatter,
+        Bubble,
     }
 }

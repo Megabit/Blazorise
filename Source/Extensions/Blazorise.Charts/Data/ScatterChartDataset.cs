@@ -132,4 +132,21 @@ namespace Blazorise.Charts
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string YAxisID { get; set; }
     }
+
+    public struct ScatterChartPoint
+    {
+        public ScatterChartPoint( double? x, double? y )
+        {
+            X = x;
+            Y = y;
+        }
+
+        [JsonPropertyName( "x" )]
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? X { get; set; }
+
+        [JsonPropertyName( "y" )]
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? Y { get; set; }
+    }
 }

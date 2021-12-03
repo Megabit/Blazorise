@@ -177,6 +177,7 @@ namespace Blazorise.Charts
                 ChartType.Radar => "radar",
                 ChartType.PolarArea => "polarArea",
                 ChartType.Scatter => "scatter",
+                ChartType.Bubble => "bubble",
                 _ => "line",
             };
         }

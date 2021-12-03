@@ -15,7 +15,8 @@ namespace Blazorise.Demo.Pages.Tests
         private Chart<double> doughnutChart;
         private Chart<double> polarAreaChart;
         private Chart<double> radarChart;
-        private Chart<PointF> scatterChart;
+        private Chart<ScatterChartPoint> scatterChart;
+        private Chart<BubbleChartPoint> bubbleChart;
 
         ChartOptions chartOptions = new()
         {
@@ -66,7 +67,8 @@ namespace Blazorise.Demo.Pages.Tests
                     HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ),
                     HandleRedraw( radarChart, GetRadarChartDataset ),
                     HandleRedraw( lineChartWithData, GetLineChartDataset ),
-                    HandleRedraw( scatterChart, GetScatterChartDataset ) );
+                    HandleRedraw( scatterChart, GetScatterChartDataset ),
+                    HandleRedraw( bubbleChart, GetBubbleChartDataset ) );
             }
         }
 
@@ -115,17 +117,28 @@ namespace Blazorise.Demo.Pages.Tests
             };
         }
 
-        private ScatterChartDataset<PointF> GetScatterChartDataset()
+        private ScatterChartDataset<ScatterChartPoint> GetScatterChartDataset()
         {
             return new()
             {
                 Label = "# of randoms",
-                Data = RandomizeData2D( 3000, 50000 ),
+                Data = RandomizeScatterData( 3000, 50000 ),
                 BackgroundColor = backgroundColors[0], // line chart can only have one color
                 BorderColor = borderColors[0],
                 PointRadius = 3,
                 BorderWidth = 1,
                 PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
+            };
+        }
+
+        private BubbleChartDataset<BubbleChartPoint> GetBubbleChartDataset()
+        {
+            return new()
+            {
+                Label = "# of randoms",
+                Data = RandomizeBubbleData( 3000, 50000 ),
+                BackgroundColor = backgroundColors[0], // line chart can only have one color
+                BorderColor = borderColors[0],
             };
         }
 
@@ -214,11 +227,21 @@ namespace Blazorise.Demo.Pages.Tests
             return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
         }
 
-        List<PointF> RandomizeData2D() => RandomizeData2D( 3, 50 );
+        List<ScatterChartPoint> RandomizeScatterData() => RandomizeScatterData( 3, 50 );
 
-        List<PointF> RandomizeData2D( int min, int max )
+        List<ScatterChartPoint> RandomizeScatterData( int min, int max )
         {
-            return Enumerable.Range( 0, 6 ).Select( x => new PointF( (float)( random.Next( min, max ) * random.NextDouble() ), (float)( random.Next( min, max ) * random.NextDouble() ) ) ).ToList();
+            return Enumerable.Range( 0, 6 ).Select( x => new ScatterChartPoint( random.Next( min, max ) * random.NextDouble(), random.Next( min, max ) * random.NextDouble() ) ).ToList();
+        }
+
+        List<BubbleChartPoint> RandomizeBubbleData() => RandomizeBubbleData( 3, 50 );
+
+        List<BubbleChartPoint> RandomizeBubbleData( int min, int max )
+        {
+            return Enumerable.Range( 0, 6 ).Select( x => new BubbleChartPoint(
+                (float)( random.Next( min, max ) * random.NextDouble() ),
+                (float)( random.Next( min, max ) * random.NextDouble() ),
+                (float)( random.Next( 5, 60 ) * random.NextDouble() ) ) ).ToList();
         }
     }
 }
