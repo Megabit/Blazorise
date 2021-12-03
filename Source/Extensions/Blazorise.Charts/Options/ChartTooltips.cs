@@ -7,7 +7,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Tooltip Configuration
     /// </summary>
-    public class Tooltips
+    public class ChartTooltips
     {
         /// <summary>
         /// Are on-canvas tooltips enabled.
@@ -51,7 +51,7 @@ namespace Blazorise.Charts
         /// See <see href="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Font TitleFont { get; set; } = new Font { Weight = "bold" };
+        public ChartFont TitleFont { get; set; } = new ChartFont { Weight = "bold" };
 
         /// <summary>
         /// Horizontal alignment of the title text lines.
@@ -82,7 +82,7 @@ namespace Blazorise.Charts
         /// See <see href="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Font BodyFont { get; set; }
+        public ChartFont BodyFont { get; set; }
 
         /// <summary>
         /// Horizontal alignment of the body text lines.
@@ -107,7 +107,7 @@ namespace Blazorise.Charts
         /// See <see href="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Font FooterFont { get; set; }
+        public ChartFont FooterFont { get; set; }
 
         /// <summary>
         /// Horizontal alignment of the footer text lines.

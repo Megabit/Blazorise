@@ -8,7 +8,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Common options to all axes.
     /// </summary>
-    public class Axis
+    public class ChartAxis
     {
         /// <summary>
         /// Type of scale being employed. Custom scales can be created and registered with a string key. This allows changing the type of an axis for a chart.
@@ -32,7 +32,7 @@ namespace Blazorise.Charts
         /// Grid line configuration. <see href="https://www.chartjs.org/docs/latest/axes/styling.html#grid-line-configuration">more...</see>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public AxisGridLine Grid { get; set; }
+        public ChartAxisGridLine Grid { get; set; }
 
         /// <summary>
         /// User defined minimum number for the scale, overrides minimum value from data. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
@@ -74,7 +74,7 @@ namespace Blazorise.Charts
         /// Tick configuration.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public AxisTicks Ticks { get; set; }
+        public ChartAxisTicks Ticks { get; set; }
 
         /// <summary>
         /// The weight used to sort the axis. Higher weights are further away from the chart area.

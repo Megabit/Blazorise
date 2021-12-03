@@ -10,7 +10,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Common tick options to all axes.
     /// </summary>
-    public class AxisTicks
+    public class ChartAxisTicks
     {
         /// <summary>
         /// Color of label backdrops.
@@ -49,13 +49,13 @@ namespace Blazorise.Charts
         /// Font color for tick labels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Font Font { get; set; }
+        public ChartFont Font { get; set; }
 
         /// <summary>
         /// Major ticks configuration. Omitted options are inherited from options above.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public AxisMajorTick Major { get; set; }
+        public ChartAxisMajorTick Major { get; set; }
 
         /// <summary>
         /// Sets the offset of the tick labels from the axis.

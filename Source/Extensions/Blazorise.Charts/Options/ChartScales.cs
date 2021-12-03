@@ -4,14 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts
 {
-    public class Scales
+    public class ChartScales
     {
         [JsonPropertyName( "x" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Axis X { get; set; }
+        public ChartAxis X { get; set; }
 
         [JsonPropertyName( "y" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Axis Y { get; set; }
+        public ChartAxis Y { get; set; }
     }
 }

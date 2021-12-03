@@ -7,16 +7,16 @@ namespace Blazorise.Charts
     public class ChartOptions
     {
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Scales Scales { get; set; }
+        public ChartScales Scales { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Legend Legend { get; set; }
+        public ChartLegend Legend { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Tooltips Tooltips { get; set; }
+        public ChartTooltips Tooltips { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Animation Animation { get; set; }
+        public ChartAnimation Animation { get; set; }
         
         /// <summary>
         /// Resizes the chart canvas when its container does.

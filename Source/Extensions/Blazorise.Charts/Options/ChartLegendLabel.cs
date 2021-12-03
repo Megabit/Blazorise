@@ -7,7 +7,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Legend Label Configuration.
     /// </summary>
-    public class LegendLabel
+    public class ChartLegendLabel
     {
         /// <summary>
         /// Width of coloured box.
@@ -32,7 +32,7 @@ namespace Blazorise.Charts
         /// Font of the label.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Font Font { get; set; }
+        public ChartFont Font { get; set; }
 
         /// <summary>
         /// Padding between rows of colored boxes.

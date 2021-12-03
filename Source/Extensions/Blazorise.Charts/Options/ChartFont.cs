@@ -7,7 +7,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Defines the font styles.
     /// </summary>
-    public class Font
+    public class ChartFont
     {
         /// <summary>
         /// Default font family for all text, follows CSS font-family options.

@@ -8,7 +8,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Defines options for the scale title.
     /// </summary>
-    public class AxisScaleLabel
+    public class ChartAxisScaleLabel
     {
         /// <summary>
         /// If true, display the axis title.

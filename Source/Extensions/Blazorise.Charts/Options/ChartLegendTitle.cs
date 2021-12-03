@@ -7,7 +7,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Legend Title Configuration.
     /// </summary>
-    public class LegendTitle
+    public class ChartLegendTitle
     {
         /// <summary>
         /// Color of the text.
@@ -26,7 +26,7 @@ namespace Blazorise.Charts
         /// Font of the text.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public Font Font { get; set; }
+        public ChartFont Font { get; set; }
 
         /// <summary>
         /// Padding around the title.

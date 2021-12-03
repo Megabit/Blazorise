@@ -7,7 +7,7 @@ namespace Blazorise.Charts
     /// <summary>
     /// Defines the chart animation options.
     /// </summary>
-    public class Animation
+    public class ChartAnimation
     {
         /// <summary>
         /// The number of milliseconds an animation takes.

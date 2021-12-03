@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts
 {
-    public class Legend
+    public class ChartLegend
     {
         /// <summary>
         /// Is the legend shown.
@@ -52,7 +52,7 @@ namespace Blazorise.Charts
         /// Options to change legend labels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public LegendLabel Labels { get; set; }
+        public ChartLegendLabel Labels { get; set; }
 
         /// <summary>
         /// true for rendering the legends from right to left.
@@ -70,6 +70,6 @@ namespace Blazorise.Charts
         /// Options to change legend title.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public LegendTitle Title { get; set; }
+        public ChartLegendTitle Title { get; set; }
     }
 }
