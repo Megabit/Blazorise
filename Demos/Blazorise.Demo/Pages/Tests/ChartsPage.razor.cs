@@ -231,7 +231,9 @@ namespace Blazorise.Demo.Pages.Tests
 
         List<ScatterChartPoint> RandomizeScatterData( int min, int max )
         {
-            return Enumerable.Range( 0, 6 ).Select( x => new ScatterChartPoint( random.Next( min, max ) * random.NextDouble(), random.Next( min, max ) * random.NextDouble() ) ).ToList();
+            return Enumerable.Range( 0, 6 ).Select( x => new ScatterChartPoint(
+                random.Next( min, max ) * random.NextDouble(),
+                random.Next( min, max ) * random.NextDouble() ) ).ToList();
         }
 
         List<BubbleChartPoint> RandomizeBubbleData() => RandomizeBubbleData( 3, 50 );
@@ -239,9 +241,9 @@ namespace Blazorise.Demo.Pages.Tests
         List<BubbleChartPoint> RandomizeBubbleData( int min, int max )
         {
             return Enumerable.Range( 0, 6 ).Select( x => new BubbleChartPoint(
-                (float)( random.Next( min, max ) * random.NextDouble() ),
-                (float)( random.Next( min, max ) * random.NextDouble() ),
-                (float)( random.Next( 5, 60 ) * random.NextDouble() ) ) ).ToList();
+                random.Next( min, max ) * random.NextDouble(),
+                random.Next( min, max ) * random.NextDouble(),
+                random.Next( 5, 60 ) * random.NextDouble() ) ).ToList();
         }
     }
 }
