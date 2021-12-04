@@ -30,6 +30,18 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( parameters.TryGetValue( nameof( PopupVisible ), out bool popupVisibleParam ) && PopupVisible != popupVisibleParam && popupVisibleParam )
+            {
+                await OpenModal();
+            }
+
+            await base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -37,13 +49,14 @@ namespace Blazorise.DataGrid
             base.OnInitialized();
         }
 
-        //inheritdoc
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
+
             base.Dispose( disposing );
         }
 
@@ -64,14 +77,17 @@ namespace Blazorise.DataGrid
             if ( await validations.ValidateAll() )
             {
                 await ParentDataGrid.Save();
+
                 if ( ParentDataGrid.EditState == DataGridEditState.None )
                     await CloseModal();
             }
         }
 
-        protected void OpenModal()
+        protected async Task OpenModal()
         {
-            validations?.ClearAll();
+            if ( validations != null )
+                await validations.ClearAll();
+
             ExecuteAfterRender( () => modalRef.Show() );
         }
 
@@ -106,20 +122,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext<TItem>> EditItemCellValues { get; set; }
 
-        [Parameter]
-        public bool PopupVisible
-        {
-            get => popupVisible;
-            set
-            {
-                if ( !popupVisible && value )
-                {
-                    OpenModal();
-                }
-
-                popupVisible = value;
-            }
-        }
+        [Parameter] public bool PopupVisible { get; set; }
 
         [Parameter] public ModalSize PopupSize { get; set; }
 
