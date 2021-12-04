@@ -33,7 +33,7 @@ namespace Blazorise.DataGrid
         /// If click came propagated from MultiSelect Check
         /// Funnels the selection logic into HandleClick.
         /// </summary>
-        protected bool clickFromCheck;
+        protected bool clickFromMultiSelectCheck;
 
         /// <summary>
         /// Holds information about the current Row.
@@ -97,26 +97,28 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            clickFromCheck = false;
             return base.OnAfterRenderAsync( firstRender );
         }
 
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
-            if ( !clickFromCheck )
+            if ( !clickFromMultiSelectCheck )
                 await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
-            var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
+            var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromMultiSelectCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
 
             if ( !selectable )
             {
+                clickFromMultiSelectCheck = false;
                 return;
             }
 
-            if ( !clickFromCheck )
+            if ( !clickFromMultiSelectCheck )
                 await HandleSingleSelectClick( eventArgs );
 
             await HandleMultiSelectClick( eventArgs );
+
+            clickFromMultiSelectCheck = false;
         }
 
         private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
@@ -169,7 +171,8 @@ namespace Blazorise.DataGrid
 
         protected Task OnMultiSelectCheckClicked()
         {
-            clickFromCheck = true;
+            clickFromMultiSelectCheck = true;
+
             return Task.CompletedTask;
         }
 
