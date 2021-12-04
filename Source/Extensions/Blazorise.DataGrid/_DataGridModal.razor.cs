@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridModal<TItem> : ComponentBase, IDisposable
+    public abstract class _BaseDataGridModal<TItem> : BaseAfterRenderComponent, IDisposable
     {
         #region Members
 
@@ -37,9 +37,14 @@ namespace Blazorise.DataGrid
             base.OnInitialized();
         }
 
-        public void Dispose()
+        //inheritdoc
+        protected override void Dispose( bool disposing )
         {
-            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            if ( disposing )
+            {
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            }
+            base.Dispose( disposing );
         }
 
         private async void OnLocalizationChanged( object sender, EventArgs e )
@@ -62,6 +67,12 @@ namespace Blazorise.DataGrid
                 if ( ParentDataGrid.EditState == DataGridEditState.None )
                     await CloseModal();
             }
+        }
+
+        protected void OpenModal()
+        {
+            validations?.ClearAll();
+            ExecuteAfterRender( () => modalRef.Show() );
         }
 
         protected Task CloseModal()
@@ -103,7 +114,7 @@ namespace Blazorise.DataGrid
             {
                 if ( !popupVisible && value )
                 {
-                    validations?.ClearAll();
+                    OpenModal();
                 }
 
                 popupVisible = value;
