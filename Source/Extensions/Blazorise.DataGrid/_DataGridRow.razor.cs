@@ -97,7 +97,6 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            clickFromCheck = false;
             return base.OnAfterRenderAsync( firstRender );
         }
 
@@ -110,6 +109,7 @@ namespace Blazorise.DataGrid
 
             if ( !selectable )
             {
+                clickFromCheck = false;
                 return;
             }
 
@@ -117,6 +117,7 @@ namespace Blazorise.DataGrid
                 await HandleSingleSelectClick( eventArgs );
 
             await HandleMultiSelectClick( eventArgs );
+            clickFromCheck = false;
         }
 
         private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
@@ -170,6 +171,7 @@ namespace Blazorise.DataGrid
         protected Task OnMultiSelectCheckClicked()
         {
             clickFromCheck = true;
+
             return Task.CompletedTask;
         }
 
