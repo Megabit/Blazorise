@@ -197,7 +197,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child row with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="row">Row to add.</param>
         public void AddRow( DataGridRowInfo<TItem> row )
         {
             Rows.Add( row );
@@ -216,7 +216,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child row with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="row">Row to remove.</param>
         public bool RemoveRow( DataGridRowInfo<TItem> row )
             => Rows.Remove( row );
 
