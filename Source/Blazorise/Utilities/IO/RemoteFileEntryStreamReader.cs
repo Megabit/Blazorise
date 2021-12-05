@@ -60,10 +60,10 @@ namespace Blazorise
             }
             finally
             {
-                var isSuccess = position == FileEntry.Size;
-                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, isSuccess, isSuccess
-                    ? FileInvalidReason.None
-                    : FileInvalidReason.UnexpectedError );
+                var success = position == FileEntry.Size;
+                var fileInvalidReason = success ? FileInvalidReason.None : FileInvalidReason.UnexpectedError;
+
+                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, success, fileInvalidReason );
             }
         }
     }
