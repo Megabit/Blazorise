@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridModal<TItem> : ComponentBase, IDisposable
+    public abstract class _BaseDataGridModal<TItem> : BaseAfterRenderComponent, IDisposable
     {
         #region Members
 
@@ -30,6 +30,18 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( parameters.TryGetValue( nameof( PopupVisible ), out bool popupVisibleParam ) && PopupVisible != popupVisibleParam && popupVisibleParam )
+            {
+                await OpenModal();
+            }
+
+            await base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -37,9 +49,15 @@ namespace Blazorise.DataGrid
             base.OnInitialized();
         }
 
-        public void Dispose()
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
         {
-            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            if ( disposing )
+            {
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            }
+
+            base.Dispose( disposing );
         }
 
         private async void OnLocalizationChanged( object sender, EventArgs e )
@@ -59,7 +77,18 @@ namespace Blazorise.DataGrid
             if ( await validations.ValidateAll() )
             {
                 await ParentDataGrid.Save();
+
+                if ( ParentDataGrid.EditState == DataGridEditState.None )
+                    await CloseModal();
             }
+        }
+
+        protected async Task OpenModal()
+        {
+            if ( validations != null )
+                await validations.ClearAll();
+
+            ExecuteAfterRender( () => modalRef.Show() );
         }
 
         protected Task CloseModal()
@@ -93,20 +122,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext<TItem>> EditItemCellValues { get; set; }
 
-        [Parameter]
-        public bool PopupVisible
-        {
-            get => popupVisible;
-            set
-            {
-                if ( !popupVisible && value )
-                {
-                    validations?.ClearAll();
-                }
-
-                popupVisible = value;
-            }
-        }
+        [Parameter] public bool PopupVisible { get; set; }
 
         [Parameter] public ModalSize PopupSize { get; set; }
 
