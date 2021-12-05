@@ -52,11 +52,11 @@ namespace Blazorise
 
         private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
         {
-            long offset = 0;
+            long position = 0;
 
             try
             {
-                while ( offset < fileEntry.Size )
+                while ( position < fileEntry.Size )
                 {
                     var pipeBuffer = writer.GetMemory( maxMessageSize );
 
@@ -65,8 +65,8 @@ namespace Blazorise
                         using var readSegmentCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
                         readSegmentCts.CancelAfter( segmentFetchTimeout );
 
-                        var length = (int)Math.Min( maxMessageSize, fileEntry.Size - offset );
-                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, offset, length, cancellationToken );
+                        var length = (int)Math.Min( maxMessageSize, fileEntry.Size - position );
+                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, position, length, cancellationToken );
                         var bytes = Convert.FromBase64String( base64 );
 
                         if ( bytes is null || bytes.Length != length )
@@ -78,12 +78,12 @@ namespace Blazorise
 
                         bytes.CopyTo( pipeBuffer );
                         writer.Advance( length );
-                        offset += length;
+                        position += length;
 
                         var result = await writer.FlushAsync( cancellationToken );
 
                         await Task.WhenAll(
-                            fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, offset, bytes ),
+                            fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, bytes ),
                             fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytes.Length ) );
 
                         if ( result.IsCompleted )
@@ -99,7 +99,7 @@ namespace Blazorise
             }
             finally
             {
-                var success = offset == fileEntry.Size;
+                var success = position == fileEntry.Size;
                 var fileInvalidReason = success ? FileInvalidReason.None : FileInvalidReason.UnexpectedError;
 
                 await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, success, fileInvalidReason );
