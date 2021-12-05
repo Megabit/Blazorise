@@ -171,14 +171,14 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
         {
             if ( AutoReset )
             {
                 await Reset();
             }
 
-            await Ended.InvokeAsync( new( fileEntry, success ) );
+            await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) );
         }
 
         /// <inheritdoc/>

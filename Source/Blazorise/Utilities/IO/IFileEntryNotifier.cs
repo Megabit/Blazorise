@@ -21,8 +21,9 @@ namespace Blazorise
         /// </summary>
         /// <param name="fileEntry">Uploaded file entry.</param>
         /// <param name="success">True if the file upload was successful.</param>
+        /// <param name="fileInvalidReason">Provides information about the invalid file.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success );
+        Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason );
 
         /// <summary>
         /// Updates component with the latest file data.

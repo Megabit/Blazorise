@@ -71,8 +71,9 @@ namespace Blazorise
 
                         if ( bytes is null || bytes.Length != length )
                         {
-                            throw new InvalidOperationException(
-                                $"A segment with size {bytes?.Length ?? 0} bytes was received, but {length} bytes were expected." );
+                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                            await writer.CompleteAsync();
+                            return;
                         }
 
                         bytes.CopyTo( pipeBuffer );
@@ -93,13 +94,15 @@ namespace Blazorise
                     catch ( Exception e )
                     {
                         await writer.CompleteAsync( e );
-                        return;
                     }
                 }
             }
             finally
             {
-                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, offset == fileEntry.Size );
+                var isSuccess = offset == fileEntry.Size;
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, isSuccess, isSuccess 
+                    ? FileInvalidReason.None 
+                    : FileInvalidReason.UnexpectedError);
             }
 
             await writer.CompleteAsync();

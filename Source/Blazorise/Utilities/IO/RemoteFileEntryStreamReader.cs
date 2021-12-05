@@ -38,7 +38,8 @@ namespace Blazorise
 
                     if ( length != buffer.Length )
                     {
-                        throw new InvalidOperationException( $"Requested a maximum of {length}, but received {buffer.Length}" );
+                        await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                        return;
                     }
 
                     cancellationToken.ThrowIfCancellationRequested();
@@ -59,7 +60,10 @@ namespace Blazorise
             }
             finally
             {
-                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, position == FileEntry.Size );
+                var isSuccess = position == FileEntry.Size;
+                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, isSuccess, isSuccess
+                    ? FileInvalidReason.None
+                    : FileInvalidReason.UnexpectedError );
             }
         }
     }

@@ -213,10 +213,10 @@ namespace Blazorise.Markdown
         }
 
         /// <inheritdoc/>
-        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
         {
             if ( ImageUploadEnded is not null )
-                await ImageUploadEnded.Invoke( new( fileEntry, success ) );
+                await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
 
             if ( success )
                 await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl );
