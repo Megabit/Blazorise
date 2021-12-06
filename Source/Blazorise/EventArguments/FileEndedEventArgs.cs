@@ -14,6 +14,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="file">File that is ended.</param>
         /// <param name="success">Result of file end upload.</param>
+        /// <param name="fileInvalidReason">Reason for file failure.</param>
         public FileEndedEventArgs( IFileEntry file, bool success, FileInvalidReason fileInvalidReason )
         {
             File = file;
