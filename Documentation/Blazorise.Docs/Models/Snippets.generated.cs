@@ -3857,8 +3857,10 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
-          Virtualize
-          VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
+          ShowPager
+          FixedHeader
+          FixedHeaderDataGridMaxHeight=""250px""
+          PageSize=""50"">
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3885,10 +3887,10 @@ namespace Blazorise.Docs.Models
     }
 
     private Task ScrollToRow()
-         => dataGridRef.ScrollToRow(1).AsTask();
+         => dataGridRef.ScrollToRow(30).AsTask();
 
     private Task ScrollToPixels()
-        => dataGridRef.ScrollToPixels(250).AsTask();
+        => dataGridRef.ScrollToPixels(500).AsTask();
 }";
 
         public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""

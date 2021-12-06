@@ -1,0 +1,81 @@
+﻿@typeparam TItem
+@attribute [CascadingTypeParameter(nameof(TItem))]
+<CascadingValue Value="this" IsFixed>
+    @PivotGridColumns
+    @PivotGridRows
+    @PivotGridValues
+</CascadingValue>
+
+@*Example: *@
+<table>
+    <thead>
+        <tr>
+            <th>...</th>
+            <th>(Col Year)2021 - click expands into more trs with detail</th>
+            <th>(Col Year)2022 - click expands into more trs with detail</th>
+        </tr>
+        <tr>
+            <th>...</th>
+            <th>(Data)Amount</th>
+            <th>(Data)Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>(row) Africa - click expands into more trs with detail</td>
+            <td>100</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>(row) Asia - click expands into more trs with detail</td>
+            <td>3000</td>
+            <td>9</td>
+        </tr>
+    </tbody>
+</table>
+
+<Table>
+    <TableHeader>
+        @*Cols*@
+        <TableRow>
+            <TableHeaderCell></TableHeaderCell>
+            @foreach (var colGroup in colGroups)
+            {
+                <TableHeaderCell ColumnSpan="Values.Count">
+                    @colGroup
+                </TableHeaderCell>
+            }
+        </TableRow>
+
+        @*Values*@
+        <TableRow>
+            <TableHeaderCell></TableHeaderCell>
+            @for (var i = 0; i < colGroups.Count; i++)
+            {
+                @foreach (var value in Values)
+                {
+                    <TableHeaderCell>
+                        @value.Caption
+                    </TableHeaderCell>
+                }
+            }
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach (var rowGroup in rowGroups)
+        {
+            <TableRow>
+                <TableRowCell>@rowGroup</TableRowCell>
+                @*Iterate data vs no. columns?*@
+            </TableRow>
+        }
+
+    </TableBody>
+    <TableFooter>
+
+    </TableFooter>
+</Table>
+@code {
+    private List<string> rowGroups = new() { "Africa", "Asia" };
+    private List<string> colGroups = new() { "2021", "2022" };
+}
