@@ -63,7 +63,6 @@ namespace Blazorise
         /// </summary>
         private CloseableAdapter closeableAdapter;
 
-
         #endregion
 
         #region Methods
@@ -72,7 +71,6 @@ namespace Blazorise
         public Modal()
         {
             closeableAdapter = new( this );
-
         }
 
         /// <inheritdoc/>
@@ -118,7 +116,7 @@ namespace Blazorise
         {
             builder.Append( StyleProvider.ModalShow(), IsVisible );
             builder.Append( $"--modal-animation-duration: {AnimationDuration}ms;" );
-           
+
             base.BuildStyles( builder );
         }
 
