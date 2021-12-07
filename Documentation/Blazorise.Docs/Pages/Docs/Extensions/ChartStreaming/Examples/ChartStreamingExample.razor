@@ -23,30 +23,20 @@
 
     object horizontalLineChartOptions = new
     {
-        Title = new
-        {
-            Display = true,
-            Text = "Line chart (horizontal scroll) sample"
-        },
         Scales = new
         {
-            YAxes = new object[]
+            Y = new
             {
-                new {
-                    ScaleLabel = new {
-                    Display = true, LabelString = "value" }
+                Title = new
+                {
+                    Display = true,
+                    Text = "Value"
                 }
-                    }
+            }
         },
-        Tooltips = new
+        Interaction = new
         {
-            Mode = "nearest",
-            Intersect = false
-        },
-        Hover = new
-        {
-            Mode = "nearest",
-            Intersect = false
+            intersect = false
         }
     };
 

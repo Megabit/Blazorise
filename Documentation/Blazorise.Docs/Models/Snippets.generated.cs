@@ -2832,7 +2832,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string ChartExample = @"<Button Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
+        public const string ChartExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
 <LineChart @ref=""lineChart"" TItem=""double"" />
 
@@ -2863,8 +2863,8 @@ namespace Blazorise.Docs.Models
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
+            PointRadius = 3,
+            CubicInterpolationMode = ""monotone"",
         };
     }
 
@@ -2876,7 +2876,13 @@ namespace Blazorise.Docs.Models
     {
         var r = new Random( DateTime.Now.Millisecond );
 
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        return new List<double> { 
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
     }
 }";
 
@@ -2909,30 +2915,20 @@ namespace Blazorise.Docs.Models
 
     object horizontalLineChartOptions = new
     {
-        Title = new
-        {
-            Display = true,
-            Text = ""Line chart (horizontal scroll) sample""
-        },
         Scales = new
         {
-            YAxes = new object[]
+            Y = new
             {
-                new {
-                    ScaleLabel = new {
-                    Display = true, LabelString = ""value"" }
+                Title = new
+                {
+                    Display = true,
+                    Text = ""Value""
                 }
-                    }
+            }
         },
-        Tooltips = new
+        Interaction = new
         {
-            Mode = ""nearest"",
-            Intersect = false
-        },
-        Hover = new
-        {
-            Mode = ""nearest"",
-            Intersect = false
+            intersect = false
         }
     };
 

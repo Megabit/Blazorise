@@ -113,7 +113,8 @@ namespace Blazorise.Demo.Pages.Tests
                 Fill = true,
                 PointRadius = 3,
                 BorderWidth = 1,
-                PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
+                PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList(),
+                CubicInterpolationMode = "monotone",
             };
         }
 
