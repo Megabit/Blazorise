@@ -20,7 +20,7 @@ namespace Blazorise.Charts
         public IndexableOption<object> BackdropColor { get; set; } = "rgba(255, 255, 255, 0.75)";
 
         /// <summary>
-        /// Padding of label backdrop. See <see href="https://www.chartjs.org/docs/3.6.0/general/padding.html">Padding</see>.
+        /// Padding of label backdrop. See <see href="https://www.chartjs.org/docs/3.6.2/general/padding.html">Padding</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public object BackdropPadding { get; set; } = 2;
