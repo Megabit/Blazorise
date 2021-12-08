@@ -1,0 +1,19 @@
+{
+  "culture": "cs-CZ",
+  "translations": {
+    "ui:dialog": "dialogové okno pro výběr barvy",
+    "btn:toggle": "přepnout dialogové okno pro výběr barvy",
+    "btn:swatch": "vzorkovník barev",
+    "btn:last-color": "použít předchozí barvu",
+    "btn:save": "Uložit",
+    "btn:cancel": "Zrušit",
+    "btn:clear": "Vymazat",
+    "aria:btn:save": "uložit a zavřít",
+    "aria:btn:cancel": "zrušit a zavřít",
+    "aria:btn:clear": "vymazat a zavřít",
+    "aria:input": "pole na zadaní barvy",
+    "aria:palette": "výběr barev",
+    "aria:hue": "výběr odstínu",
+    "aria:opacity": "posuvník výběru"
+  }
+}
