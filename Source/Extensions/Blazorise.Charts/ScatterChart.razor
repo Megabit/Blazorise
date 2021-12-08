@@ -1,0 +1,7 @@
+﻿@typeparam TItem
+@inherits BaseChart<ScatterChartDataset<TItem>, TItem, ScatterChartOptions, ScatterChartModel>
+<CascadingValue Value="@this" IsFixed="true">
+    <canvas @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </canvas>
+</CascadingValue>

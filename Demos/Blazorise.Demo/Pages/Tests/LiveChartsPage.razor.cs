@@ -14,7 +14,7 @@ namespace Blazorise.Demo.Pages.Tests
         private LineChart<LiveDataPoint> verticalLineChart;
 
         private BarChart<LiveDataPoint> horizontalBarChart;
-        private HorizontalBarChart<LiveDataPoint> verticalBarChart;
+        private BarChart<LiveDataPoint> verticalBarChart;
 
         private Random random = new( DateTime.Now.Millisecond );
 
@@ -31,125 +31,83 @@ namespace Blazorise.Demo.Pages.Tests
 
         private object horizontalLineChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Line chart (horizontal scroll) sample"
-            },
             Scales = new
             {
-                YAxes = new object[]
+                Y = new
                 {
-                    new {
-                        ScaleLabel = new {
-                        Display = true, LabelString = "value" }
+                    Title = new
+                    {
+                        Display = true,
+                        Text = "Value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
         private object verticalLineChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Line chart (vertical scroll) sample"
-            },
+            IndexAxis = "y",
             Scales = new
             {
-                XAxes = new object[]
+                X = new
                 {
-                    new {
-                        Type = "linear",
+                    Type = "linear",
+                    Display = true,
+                    Title = new
+                    {
                         Display = true,
-                        ScaleLabel = new {
-                            Display = true, LabelString = "value"
-                        }
+                        LabelString = "value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
         private object horizontalBarChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Bar chart (horizontal scroll) sample"
-            },
             Scales = new
             {
-                YAxes = new object[]
+                Y = new
                 {
-                    new
+                    Title = new
                     {
-                        ScaleLabel = new
-                        {
-                            Display = true, LabelString = "value"
-                        }
+                        Display = true,
+                        Text = "Value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
         private object verticalBarChartOptions = new
         {
-            Title = new
-            {
-                Display = true,
-                Text = "Bar chart (vertical scroll) sample"
-            },
+            IndexAxis = "y",
             Scales = new
             {
-                XAxes = new object[]
+                X = new
                 {
-                    new {
-                        ScaleLabel = new
-                        {
-                            Display = true, LabelString = "value"
-                        }
+                    Type = "linear",
+                    Display = true,
+                    Title = new
+                    {
+                        Display = true,
+                        Text = "Value"
                     }
                 }
             },
-            Tooltips = new
+            Interaction = new
             {
-                Mode = "nearest",
-                Intersect = false
-            },
-            Hover = new
-            {
-                Mode = "nearest",
-                Intersect = false
+                intersect = false
             }
         };
 
@@ -161,7 +119,8 @@ namespace Blazorise.Demo.Pages.Tests
                     HandleRedraw( horizontalLineChart, GetLineChartDataset1, GetLineChartDataset2 ),
                     HandleRedraw( verticalLineChart, GetLineChartDataset1, GetLineChartDataset2 ),
                     HandleRedraw( horizontalBarChart, GetBarChartDataset1 ),
-                    HandleRedraw( verticalBarChart, GetBarChartDataset2 ) );
+                    HandleRedraw( verticalBarChart, GetBarChartDataset2 )
+                    );
             }
         }
 
@@ -186,7 +145,7 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
                 Fill = false,
-                LineTension = 0,
+                Tension = 0,
             } );
         }
 
@@ -215,7 +174,7 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
                 Fill = false,
-                LineTension = 0,
+                Tension = 0,
             } );
         }
 
@@ -296,7 +255,7 @@ namespace Blazorise.Demo.Pages.Tests
                 BackgroundColor = backgroundColors[0],
                 BorderColor = borderColors[0],
                 Fill = false,
-                LineTension = 0,
+                Tension = 0,
                 BorderDash = new() { 8, 4 },
             };
         }
@@ -329,7 +288,7 @@ namespace Blazorise.Demo.Pages.Tests
         {
             return new()
             {
-                Type = "horizontalBar",
+                Type = "bar",
                 Data = new(),
                 Label = "Dataset 1",
                 BackgroundColor = backgroundColors[0],
