@@ -63,12 +63,12 @@
                 <CardTitle>Vertical Bar</CardTitle>
             </CardHeader>
             <CardBody>
-                <HorizontalBarChart @ref="verticalBarChart" TItem="LiveDataPoint" OptionsObject="@verticalBarChartOptions">
+                <BarChart @ref="verticalBarChart" TItem="LiveDataPoint" OptionsObject="@verticalBarChartOptions">
                     <ChartStreaming TItem="LiveDataPoint"
                                     Vertical="true"
                                     Options="new ChartStreamingOptions { Delay = 2000 }"
                                     Refreshed="@OnVerticalBarRefreshed" />
-                </HorizontalBarChart>
+                </BarChart>
             </CardBody>
             <CardFooter>
                 <Button Color="Color.Primary" Outline="true" Clicked="@AddNewVerticalBarDataSet">Add DataSet</Button>

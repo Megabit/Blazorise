@@ -1,13 +1,26 @@
-import { getChart } from "../Blazorise.Charts/charts.js";
+import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js";
+import { deepClone } from "../Blazorise.Charts/utilities.js";
+
+Chart.defaults.set('plugins.streaming', {
+    duration: 20000
+});
 
 export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOptions) {
     const chart = getChart(canvasId);
 
     if (chart) {
-        const scalesOptions = getStreamingOptions(dotNetAdapter, vertical, chart.options, streamOptions);
+        // Chart v3 options now contains all kind of objects and functions in options. Thats why we need to deep
+        // clone options without getting the reference to any running object or function. Otherwise we
+        // will run into recursion errors.
+        let options = deepClone(chart.originalOptions);
+
+        options = compileOptionCallbacks(options);
+
+        let scalesOptions = getStreamingOptions(dotNetAdapter, vertical, options, streamOptions);
 
         // merge all options
-        chart.options = { ...chart.options, ...scalesOptions };
+        const merged = { ...options, ...scalesOptions }
+        chart.options = merged;
 
         chart.update();
     }
@@ -22,20 +35,12 @@ export function destroy(canvas, canvasId) {
         const scales = chart.options.scales;
 
         // unsubscribe events
-        if (scales.xAxes) {
-            scales.xAxes.forEach(function (axe) {
-                if (axe.realtime) {
-                    axe.realtime.onRefresh = null;
-                }
-            });
+        if (scales.x && scales.x.realtime) {
+            scales.x.realtime.onRefresh = null;
         }
 
-        if (scales.yAxes) {
-            scales.yAxes.forEach(function (axe) {
-                if (axe.realtime) {
-                    axe.realtime.onRefresh = null;
-                }
-            });
+        if (scales.y && scales.y.realtime) {
+            scales.y.realtime.onRefresh = null;
         }
     }
 }
@@ -70,13 +75,13 @@ function getStreamingOptions(dotNetAdapter, vertical, chartOptions, streamOption
     if (vertical) {
         let verticalScalesOptions = {
             scales: {
-                yAxes: [axeOptions]
+                y: axeOptions
             }
         };
 
         // this is needed so that any additional axes option can be merged
-        if (chartOptions && chartOptions.scales && chartOptions.scales.xAxes) {
-            verticalScalesOptions.scales.xAxes = chartOptions.scales.xAxes;
+        if (chartOptions && chartOptions.scales && chartOptions.scales.x) {
+            verticalScalesOptions.scales.x = chartOptions.scales.x;
         }
 
         return verticalScalesOptions;
@@ -84,14 +89,14 @@ function getStreamingOptions(dotNetAdapter, vertical, chartOptions, streamOption
 
     let horizontalScalesOptions = {
         scales: {
-            xAxes: [axeOptions],
-            yAxes: chartOptions.scales.yAxes,
+            x: axeOptions,
+            y: chartOptions.scales.y,
         }
     };
 
     // this is needed so that any additional axes option can be merged
-    if (chartOptions && chartOptions.scales && chartOptions.scales.yAxes) {
-        horizontalScalesOptions.scales.yAxes = chartOptions.scales.yAxes;
+    if (chartOptions && chartOptions.scales && chartOptions.scales.y) {
+        horizontalScalesOptions.scales.y = chartOptions.scales.y;
     }
 
     return horizontalScalesOptions;

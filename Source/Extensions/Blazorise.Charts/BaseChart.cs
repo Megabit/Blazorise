@@ -275,7 +275,7 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Destroys the chart instance. Calling this method should generally.
+        /// Destroys the chart instance. Calling this method should generally dispose of any chart resources.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Destroy()
@@ -296,7 +296,7 @@ namespace Blazorise.Charts
 
             return JSModule.Initialize( DotNetObjectRef, eventOptions, ElementRef, ElementId, Type,
                 Data,
-                Converters.ToDictionary( Options ),
+                Options,
                 DataJsonString,
                 OptionsJsonString,
                 OptionsObject );
@@ -340,7 +340,6 @@ namespace Blazorise.Charts
                 case ChartType.Line:
                     return System.Text.Json.JsonSerializer.Deserialize<LineChartModel>( data );
                 case ChartType.Bar:
-                case ChartType.HorizontalBar:
                     return System.Text.Json.JsonSerializer.Deserialize<BarChartModel>( data );
                 case ChartType.Pie:
                     return System.Text.Json.JsonSerializer.Deserialize<PieChartModel>( data );
@@ -350,6 +349,10 @@ namespace Blazorise.Charts
                     return System.Text.Json.JsonSerializer.Deserialize<PolarChartModel>( data );
                 case ChartType.Radar:
                     return System.Text.Json.JsonSerializer.Deserialize<RadarChartModel>( data );
+                case ChartType.Scatter:
+                    return System.Text.Json.JsonSerializer.Deserialize<ScatterChartModel>( data );
+                case ChartType.Bubble:
+                    return System.Text.Json.JsonSerializer.Deserialize<BubbleChartModel>( data );
                 default:
                     return null;
             }

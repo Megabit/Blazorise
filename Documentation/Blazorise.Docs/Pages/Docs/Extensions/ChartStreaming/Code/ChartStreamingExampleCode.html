@@ -24,30 +24,20 @@
 
     <span class="keyword">object</span> horizontalLineChartOptions = <span class="keyword">new</span>
     {
-        Title = <span class="keyword">new</span>
-        {
-            Display = <span class="keyword">true</span>,
-            Text = <span class="string">&quot;Line chart (horizontal scroll) sample&quot;</span>
-        },
         Scales = <span class="keyword">new</span>
         {
-            YAxes = <span class="keyword">new</span> <span class="keyword">object</span>[]
+            Y = <span class="keyword">new</span>
             {
-                <span class="keyword">new</span> {
-                    ScaleLabel = <span class="keyword">new</span> {
-                    Display = <span class="keyword">true</span>, LabelString = <span class="string">&quot;value&quot;</span> }
+                Title = <span class="keyword">new</span>
+                {
+                    Display = <span class="keyword">true</span>,
+                    Text = <span class="string">&quot;Value&quot;</span>
                 }
-                    }
+            }
         },
-        Tooltips = <span class="keyword">new</span>
+        Interaction = <span class="keyword">new</span>
         {
-            Mode = <span class="string">&quot;nearest&quot;</span>,
-            Intersect = <span class="keyword">false</span>
-        },
-        Hover = <span class="keyword">new</span>
-        {
-            Mode = <span class="string">&quot;nearest&quot;</span>,
-            Intersect = <span class="keyword">false</span>
+            intersect = <span class="keyword">false</span>
         }
     };
 
@@ -79,7 +69,7 @@
             BackgroundColor = backgroundColors[<span class="number">0</span>],
             BorderColor = borderColors[<span class="number">0</span>],
             Fill = <span class="keyword">false</span>,
-            LineTension = <span class="number">0</span>,
+            Tension = <span class="number">0</span>,
             BorderDash = <span class="keyword">new</span> List&lt;<span class="keyword">int</span>&gt; { <span class="number">8</span>, <span class="number">4</span> },
         };
     }
