@@ -21,6 +21,7 @@ namespace Blazorise
         private readonly IFileEntryNotifier fileEntryNotifier;
         private readonly int maxMessageSize;
         private readonly TimeSpan segmentFetchTimeout;
+        private readonly long maxFileSize;
         private readonly PipeReader pipeReader;
         private readonly CancellationTokenSource fillBufferCts;
         private bool disposed;
@@ -31,7 +32,7 @@ namespace Blazorise
 
         #region Constructors
 
-        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
+        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, long maxFileSize, CancellationToken cancellationToken )
         {
             this.jsModule = jsModule;
             this.elementRef = elementRef;
@@ -39,6 +40,7 @@ namespace Blazorise
             this.fileEntryNotifier = fileEntryNotifier;
             this.maxMessageSize = maxMessageSize;
             this.segmentFetchTimeout = segmentFetchTimeout;
+            this.maxFileSize = maxFileSize;
             fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
             var pipe = new Pipe( new( pauseWriterThreshold: this.maxMessageSize, resumeWriterThreshold: this.maxMessageSize ) );
             pipeReader = pipe.Reader;
@@ -52,6 +54,12 @@ namespace Blazorise
 
         private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
         {
+            if ( maxFileSize < fileEntry.Size )
+            {
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                return;
+            }
+
             long position = 0;
 
             try
@@ -71,7 +79,7 @@ namespace Blazorise
 
                         if ( bytes is null || bytes.Length != length )
                         {
-                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.UnexpectedBufferLength );
+                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.UnexpectedBufferChunkLength );
                             await writer.CompleteAsync();
                             return;
                         }
@@ -108,11 +116,11 @@ namespace Blazorise
                 if ( !cancellationToken.IsCancellationRequested )
                 {
                     var success = position == fileEntry.Size;
-                    var overMaxLength = position > fileEntry.Size;
+                    var overMaxBufferChunkLength = position > fileEntry.Size;
                     var fileInvalidReason = success
                         ? FileInvalidReason.None
-                        : overMaxLength
-                            ? FileInvalidReason.MaxLengthExceeded
+                        : overMaxBufferChunkLength
+                            ? FileInvalidReason.UnexpectedBufferChunkLength
                             : FileInvalidReason.UnexpectedError;
 
                     await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, success, fileInvalidReason );

@@ -18,7 +18,7 @@
         /// <summary>
         /// The length of the buffer was not as expected when reading the file into the buffer.
         /// </summary>
-        UnexpectedBufferLength,
+        UnexpectedBufferChunkLength,
 
         /// <summary>
         /// Task was cancelled.

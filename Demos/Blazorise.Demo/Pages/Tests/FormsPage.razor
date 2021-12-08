@@ -105,7 +105,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Default file input</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <FileEdit Placeholder="Please select the file..." />
+                        <FileEdit Placeholder="Please select the file..." MaxFileSize="100000000" Changed="OnFileChanged" Ended="OnFileEnded"/>
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -475,34 +475,34 @@
     //string fileContent;
     //int fileProgress;
 
-    //async Task OnFileChanged( FileChangedEventArgs e )
-    //{
-    //    try
-    //    {
-    //        foreach ( var file in e.Files )
-    //        {
-    //            using ( var stream = new System.IO.MemoryStream() )
-    //            {
-    //                await file.WriteToStreamAsync( stream );
+    async Task OnFileChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                using ( var stream = new System.IO.MemoryStream() )
+                {
+                    await file.WriteToStreamAsync( stream );
 
-    //                //stream.Seek( 0, SeekOrigin.Begin );
+                    //stream.Seek( 0, SeekOrigin.Begin );
 
-    //                //using ( var reader = new StreamReader( stream ) )
-    //                //{
-    //                //    fileContent = await reader.ReadToEndAsync();
-    //                //}
-    //            }
-    //        }
-    //    }
-    //    catch ( Exception exc )
-    //    {
-    //        Console.WriteLine( exc.Message );
-    //    }
-    //    finally
-    //    {
-    //        this.StateHasChanged();
-    //    }
-    //}
+                    //using ( var reader = new StreamReader( stream ) )
+                    //{
+                    //    fileContent = await reader.ReadToEndAsync();
+                    //}
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
 
     //void OnFileStarted( FileStartedEventArgs e )
     //{
@@ -510,10 +510,10 @@
     //    Console.WriteLine( $"Started Name: {e.File.Name}" );
     //}
 
-    //void OnFileEnded( FileEndedEventArgs e )
-    //{
-    //    Console.WriteLine( $"Finished {nameof(e.File.Name)}: {e.File.Name}, {nameof(e.Success)}: {e.Success}, {nameof(e.FileInvalidReason)}: {e.FileInvalidReason}" );
-    //}
+    void OnFileEnded( FileEndedEventArgs e )
+    {
+        Console.WriteLine( $"Finished {nameof(e.File.Name)}: {e.File.Name}, {nameof(e.Success)}: {e.Success}, {nameof(e.FileInvalidReason)}: {e.FileInvalidReason}" );
+    }
 
     //void OnFileProgressed( FileProgressedEventArgs e )
     //{

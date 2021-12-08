@@ -207,14 +207,14 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxMessageSize )
+            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, SegmentFetchTimeout, MaxFileSize, cancellationToken );
         }
 
         /// <summary>
@@ -320,9 +320,15 @@ namespace Blazorise
         [Parameter] public string Filter { get; set; }
 
         /// <summary>
-        /// Gets or sets the max message size when uploading the file.
+        /// Gets or sets the max chunk size when uploading the file.
         /// </summary>
-        [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
+        [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
+
+        /// <summary>
+        /// Maximum file size in bytes, checked before starting upload (note: never trust client, always check file
+        /// size at server-side). Defaults to <see cref="long.MaxValue"/>.
+        /// </summary>
+        [Parameter] public long MaxFileSize { get; set; } = long.MaxValue;
 
         /// <summary>
         /// Gets or sets the Segment Fetch Timeout when uploading the file.
