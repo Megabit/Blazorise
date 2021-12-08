@@ -719,11 +719,6 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
-.modal.show {
-  animation-duration: 0.25s;
-  animation-fill-mode: both;
-  animation-name: fadeIn;
-}
 .modal .modal-fullscreen {
   width: 100vw;
   max-width: none;
@@ -743,6 +738,13 @@ li.list-group-item-action {
 }
 .modal .modal-fullscreen .modal-footer {
   border-radius: 0;
+}
+.modal.fade {
+  transition: opacity var(--modal-animation-duration, 300ms) linear;
+}
+.modal.fade .modal-dialog {
+  transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
+  transition: transform var(--modal-animation-duration, 300ms) ease-out;
 }
 
 .page-item:not(.disabled) .page-link {

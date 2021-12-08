@@ -15,7 +15,7 @@ namespace Blazorise
     /// <summary>
     /// A classic modal overlay, in which you can include any content you want.
     /// </summary>
-    public partial class Modal : BaseComponent, ICloseActivator, IAsyncDisposable
+    public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent, IAsyncDisposable
     {
         #region Members
 
@@ -58,31 +58,39 @@ namespace Blazorise
         /// </summary>
         private readonly List<string> closeActivatorElementIds = new();
 
+        /// <summary>
+        /// Manages the modal visibility states.
+        /// </summary>
+        private CloseableAdapter closeableAdapter;
+
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        public Modal()
+        {
+            closeableAdapter = new( this );
+        }
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
             {
-                if ( visibleResult == true && await IsSafeToOpen() )
+                if ( visibleResult && await IsSafeToOpen() )
                 {
-                    SetVisibleState( true );
+                    await base.SetParametersAsync( parameters );
+                    await SetVisibleState( true );
                 }
-                else if ( visibleResult == false && await IsSafeToClose() )
+                else if ( !visibleResult && await IsSafeToClose() )
                 {
-                    SetVisibleState( false );
-                }
-                else
-                {
-                    // skip execution
-                    return;
+                    await base.SetParametersAsync( parameters );
+                    await SetVisibleState( false );
                 }
             }
-
-            await base.SetParametersAsync( parameters );
+            else
+                await base.SetParametersAsync( parameters );
         }
 
         /// <inheritdoc/>
@@ -97,7 +105,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Modal() );
-            builder.Append( ClassProvider.ModalFade() );
+            builder.Append( ClassProvider.ModalFade( IsAnimated ) );
             builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
             base.BuildClasses( builder );
@@ -107,6 +115,7 @@ namespace Blazorise
         protected override void BuildStyles( StyleBuilder builder )
         {
             builder.Append( StyleProvider.ModalShow(), IsVisible );
+            builder.Append( $"--modal-animation-duration: {AnimationDuration}ms;" );
 
             base.BuildStyles( builder );
         }
@@ -171,7 +180,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Opens the modal dialog.
+        /// Starts the modal opening process.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Show()
@@ -181,7 +190,13 @@ namespace Blazorise
 
             if ( await IsSafeToOpen() )
             {
-                SetVisibleState( true );
+                await SetVisibleState( true );
+
+                if ( !IsAnimated )
+                {
+                    DirtyClasses();
+                    DirtyStyles();
+                }
 
                 await InvokeAsync( StateHasChanged );
             }
@@ -210,7 +225,13 @@ namespace Blazorise
 
             if ( await IsSafeToClose() )
             {
-                SetVisibleState( false );
+                await SetVisibleState( false );
+
+                if ( !IsAnimated )
+                {
+                    DirtyClasses();
+                    DirtyStyles();
+                }
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
@@ -269,7 +290,7 @@ namespace Blazorise
         /// Handles the styles based on the visibility flag.
         /// </summary>
         /// <param name="visible">Modal visibility flag.</param>
-        protected virtual void HandleVisibilityStyles( bool visible )
+        protected virtual async Task HandleVisibilityStyles( bool visible )
         {
             if ( visible )
             {
@@ -313,26 +334,25 @@ namespace Blazorise
                 } );
             }
 
-            DirtyClasses();
-            DirtyStyles();
+            await closeableAdapter.Run( visible );
         }
 
         /// <summary>
         /// Fires all the events for this modal
         /// </summary>
         /// <param name="visible"></param>
-        protected virtual void RaiseEvents( bool visible )
+        protected virtual async Task RaiseEvents( bool visible )
         {
             if ( visible )
             {
-                Opened.InvokeAsync();
+                await Opened.InvokeAsync();
             }
             else
             {
-                Closed.InvokeAsync();
+                await Closed.InvokeAsync();
             }
 
-            InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+            await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
@@ -393,12 +413,34 @@ namespace Blazorise
         /// Handles the internal visibility states.
         /// </summary>
         /// <param name="visible">Visible state.</param>
-        private void SetVisibleState( bool visible )
+        private async Task SetVisibleState( bool visible )
         {
             state = state with { Visible = visible };
 
-            HandleVisibilityStyles( visible );
-            RaiseEvents( visible );
+            await HandleVisibilityStyles( visible );
+            await RaiseEvents( visible );
+        }
+
+        /// inheritdoc
+        public Task BeginAnimation( bool visible )
+        {
+            if ( visible )
+                DirtyStyles();
+            else
+                DirtyClasses();
+
+            return InvokeAsync( StateHasChanged );
+        }
+
+        /// inheritdoc
+        public Task EndAnimation( bool visible )
+        {
+            if ( visible )
+                DirtyClasses();
+            else
+                DirtyStyles();
+
+            return InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -485,6 +527,12 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="Modal"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// inheritdoc
+        [Parameter] public bool IsAnimated { get; set; } = true;
+
+        /// inheritdoc
+        [Parameter] public int AnimationDuration { get; set; } = 150;
 
         #endregion
     }

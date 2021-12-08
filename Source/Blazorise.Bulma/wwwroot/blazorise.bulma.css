@@ -5724,9 +5724,8 @@ li.list-group-item-action {
   margin: 0;
   background-color: #fff;
 }
-
-.modal.is-active {
-  animation-duration: 0.25s;
+.modal.is-active.fade {
+  animation-duration: var(--modal-animation-duration, 300ms);
   animation-fill-mode: both;
   animation-name: fadeIn;
 }

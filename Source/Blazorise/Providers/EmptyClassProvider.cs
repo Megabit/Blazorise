@@ -753,6 +753,8 @@ namespace Blazorise.Providers
 
         public string ModalFade() => null;
 
+        public string ModalFade( bool animation ) => null;
+
         public string ModalVisible( bool visible ) => null;
 
         public string ModalBackdrop() => null;
