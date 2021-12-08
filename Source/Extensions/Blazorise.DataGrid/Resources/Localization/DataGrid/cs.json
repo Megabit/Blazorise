@@ -1,0 +1,21 @@
+﻿{
+  "culture": "cs-CZ",
+  "translations": {
+    "New": "Nový",
+    "Edit": "Upravit",
+    "Delete": "Vymazat",
+    "Save": "Uložit",
+    "Cancel": "Zrušit",
+    "Clear Filter": "Vymazat filtr",
+    "First": "První",
+    "Last": "Poslední",
+    "Prev": "Předchozí",
+    "Next": "Další",
+    "items": "položky",
+    "items per page": "Položek na stránce",
+    "{0} - {1} of {2} items": "{0} – {1} z {2} položek",
+    "Row Edit": "Úpravit řádek",
+    "Row Create": "Vytvořit řádek",
+    "Create": "Vytvořit" 
+  }
+}
