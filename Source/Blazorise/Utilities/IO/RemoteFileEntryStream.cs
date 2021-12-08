@@ -54,6 +54,12 @@ namespace Blazorise
         {
             long position = 0;
 
+            if ( maxMessageSize < fileEntry.Size )
+            {
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                return;
+            }
+
             try
             {
                 while ( position < fileEntry.Size )
@@ -71,7 +77,7 @@ namespace Blazorise
 
                         if ( bytes is null || bytes.Length != length )
                         {
-                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.UnexpectedBufferLength );
                             await writer.CompleteAsync();
                             return;
                         }
@@ -91,6 +97,12 @@ namespace Blazorise
                             break;
                         }
                     }
+                    catch ( OperationCanceledException oce )
+                    {
+                        await writer.CompleteAsync( oce );
+                        await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.TaskCancelled );
+                        return;
+                    }
                     catch ( Exception e )
                     {
                         await writer.CompleteAsync( e );
@@ -99,10 +111,18 @@ namespace Blazorise
             }
             finally
             {
-                var success = position == fileEntry.Size;
-                var fileInvalidReason = success ? FileInvalidReason.None : FileInvalidReason.UnexpectedError;
+                if ( !cancellationToken.IsCancellationRequested )
+                {
+                    var success = position == fileEntry.Size;
+                    var overMaxLength = position > fileEntry.Size;
+                    var fileInvalidReason = success
+                        ? FileInvalidReason.None
+                        : overMaxLength
+                            ? FileInvalidReason.MaxLengthExceeded
+                            : FileInvalidReason.UnexpectedError;
 
-                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, success, fileInvalidReason );
+                    await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, success, fileInvalidReason );
+                }
             }
 
             await writer.CompleteAsync();

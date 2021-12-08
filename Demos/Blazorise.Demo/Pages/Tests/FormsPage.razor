@@ -481,7 +481,7 @@
     //    {
     //        foreach ( var file in e.Files )
     //        {
-    //            using ( var stream = new MemoryStream() )
+    //            using ( var stream = new System.IO.MemoryStream() )
     //            {
     //                await file.WriteToStreamAsync( stream );
 
@@ -512,7 +512,7 @@
 
     //void OnFileEnded( FileEndedEventArgs e )
     //{
-    //    Console.WriteLine( $"Finished Name: {e.File.Name}, Success: {e.Success}" );
+    //    Console.WriteLine( $"Finished {nameof(e.File.Name)}: {e.File.Name}, {nameof(e.Success)}: {e.Success}, {nameof(e.FileInvalidReason)}: {e.FileInvalidReason}" );
     //}
 
     //void OnFileProgressed( FileProgressedEventArgs e )

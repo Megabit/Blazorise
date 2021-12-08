@@ -16,6 +16,16 @@
         MaxLengthExceeded,
 
         /// <summary>
+        /// The length of the buffer was not as expected when reading the file into the buffer.
+        /// </summary>
+        UnexpectedBufferLength,
+
+        /// <summary>
+        /// Task was cancelled.
+        /// </summary>
+        TaskCancelled,
+
+        /// <summary>
         /// Unexpected error, please see exception.
         /// </summary>
         UnexpectedError
