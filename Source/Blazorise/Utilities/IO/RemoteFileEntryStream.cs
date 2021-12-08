@@ -54,12 +54,6 @@ namespace Blazorise
         {
             long position = 0;
 
-            if ( maxMessageSize < fileEntry.Size )
-            {
-                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
-                return;
-            }
-
             try
             {
                 while ( position < fileEntry.Size )
