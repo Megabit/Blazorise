@@ -1,5 +1,10 @@
-﻿.modal.show {
-    animation-duration: 0.25s;
-    animation-fill-mode: both;
-    animation-name: fadeIn;
+﻿.modal {
+    &.fade {
+        transition: opacity var(--modal-animation-duration, 300ms) linear;
+
+        .modal-dialog {
+            transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
+            transition: transform var(--modal-animation-duration, 300ms) ease-out;
+        }
+    }
 }

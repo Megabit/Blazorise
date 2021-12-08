@@ -20,4 +20,8 @@
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Lambda2Js" Version="3.1.3" />
+  </ItemGroup>
+
 </Project>

@@ -24,10 +24,10 @@
         margin: 0;
         background-color: #fff;
     }
-}
 
-.modal.is-active {
-    animation-duration: 0.25s;
-    animation-fill-mode: both;
-    animation-name: fadeIn;
+    &.is-active.fade {
+        animation-duration: var(--modal-animation-duration, 300ms);
+        animation-fill-mode: both;
+        animation-name: fadeIn;
+    }
 }

@@ -49,7 +49,7 @@ namespace Blazorise.Charts.Streaming
         {
             if ( disposing && Rendered )
             {
-                await JSModule.SafeDestroy( ElementRef, ElementId );
+                await JSModule.SafeDestroy( ParentChart.ElementRef, ParentChart.ElementId );
 
                 await JSModule.SafeDisposeAsync();
 

@@ -20,9 +20,9 @@
     }
 }
 
-.ant-modal-root[style*="display: block;"] > .ant-modal-wrap,
-.ant-modal-mask {
-    animation-duration: 0.25s;
+.ant-modal-root[style*="display: block;"] > .ant-modal-wrap.fade,
+.ant-modal-root.fade .ant-modal-mask {
+    animation-duration: var(--modal-animation-duration, 300ms);
     animation-fill-mode: both;
     animation-name: fadeIn;
 }

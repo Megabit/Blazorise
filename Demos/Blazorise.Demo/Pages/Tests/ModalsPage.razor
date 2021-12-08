@@ -3,6 +3,25 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
+                <CardTitle>Modals (Configuration)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Switch @bind-Checked="@animation">Animation</Switch>
+                    </Column>
+                    <Column>
+                        <NumericEdit TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericEdit>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
                 <CardTitle>Modals (Default)</CardTitle>
             </CardHeader>
             <CardBody>
@@ -55,7 +74,7 @@
         </Card>
     </Column>
 </Row>
-<Modal @ref="modalRef">
+<Modal @ref="modalRef" IsAnimated="animation" AnimationDuration="animationDuration">
     <ModalContent Size="@modalSize" Centered="@centered" Fullscreen="@fullscreen">
         <ModalHeader>
             <ModalTitle>
@@ -87,7 +106,7 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
-<Modal @ref="modalRef2">
+<Modal @ref="modalRef2" IsAnimated="animation" AnimationDuration="animationDuration">
     <ModalContent Size="ModalSize.Small" Centered="true">
         <ModalHeader>
             <ModalTitle>
@@ -110,8 +129,10 @@
     private bool fullscreen = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
+    private bool animation = true;
+    private int animationDuration = 150;
 
-    private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false, bool fullscreen = false )
+    private Task ShowModal(ModalSize modalSize, int? maxHeight = null, bool centered = false, bool fullscreen = false)
     {
         this.centered = centered;
         this.modalSize = modalSize;

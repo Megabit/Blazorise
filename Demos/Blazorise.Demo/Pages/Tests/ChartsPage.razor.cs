@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Charts;
@@ -14,22 +15,32 @@ namespace Blazorise.Demo.Pages.Tests
         private Chart<double> doughnutChart;
         private Chart<double> polarAreaChart;
         private Chart<double> radarChart;
+        private Chart<ScatterChartPoint> scatterChart;
+        private Chart<BubbleChartPoint> bubbleChart;
+
+        ChartOptions chartOptions = new()
+        {
+            AspectRatio = 1.5
+        };
 
         LineChartOptions lineChartOptions = new()
         {
+            AspectRatio = 1.5,
             Scales = new()
             {
-                YAxes = new()
+                Y = new()
                 {
-                    new()
+                    Ticks = new ChartAxisTicks
                     {
-                        Ticks = new AxisTicks
-                        {
-                            Callback = ( value, index, values ) => $"{value / 1000} K"
-                        }
+                        Callback = ( value, index, values ) => value / 1000 + "K"
                     }
                 }
             }
+        };
+
+        LineChartOptions line2ChartOptions = new()
+        {
+            AspectRatio = 1.5
         };
 
         private LineChart<double> lineChartWithData;
@@ -55,7 +66,9 @@ namespace Blazorise.Demo.Pages.Tests
                     HandleRedraw( doughnutChart, GetDoughnutChartDataset ),
                     HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ),
                     HandleRedraw( radarChart, GetRadarChartDataset ),
-                    HandleRedraw( lineChartWithData, GetLineChartDataset ) );
+                    HandleRedraw( lineChartWithData, GetLineChartDataset ),
+                    HandleRedraw( scatterChart, GetScatterChartDataset ),
+                    HandleRedraw( bubbleChart, GetBubbleChartDataset ) );
             }
         }
 
@@ -100,7 +113,33 @@ namespace Blazorise.Demo.Pages.Tests
                 Fill = true,
                 PointRadius = 3,
                 BorderWidth = 1,
+                PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList(),
+                CubicInterpolationMode = "monotone",
+            };
+        }
+
+        private ScatterChartDataset<ScatterChartPoint> GetScatterChartDataset()
+        {
+            return new()
+            {
+                Label = "# of randoms",
+                Data = RandomizeScatterData( 3000, 50000 ),
+                BackgroundColor = backgroundColors[0], // line chart can only have one color
+                BorderColor = borderColors[0],
+                PointRadius = 3,
+                BorderWidth = 1,
                 PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
+            };
+        }
+
+        private BubbleChartDataset<BubbleChartPoint> GetBubbleChartDataset()
+        {
+            return new()
+            {
+                Label = "# of randoms",
+                Data = RandomizeBubbleData( 3000, 50000 ),
+                BackgroundColor = backgroundColors[0], // line chart can only have one color
+                BorderColor = borderColors[0],
             };
         }
 
@@ -162,8 +201,9 @@ namespace Blazorise.Demo.Pages.Tests
                 Data = RandomizeData(),
                 BackgroundColor = backgroundColors[0], // radar chart can only have one color
                 BorderColor = borderColors,
-                LineTension = 0.0f,
-                BorderWidth = 1
+                Tension = 0.0f,
+                BorderWidth = 1,
+                Fill = true,
             };
         }
 
@@ -186,6 +226,25 @@ namespace Blazorise.Demo.Pages.Tests
         List<double> RandomizeData( int min, int max )
         {
             return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
+        }
+
+        List<ScatterChartPoint> RandomizeScatterData() => RandomizeScatterData( 3, 50 );
+
+        List<ScatterChartPoint> RandomizeScatterData( int min, int max )
+        {
+            return Enumerable.Range( 0, 6 ).Select( x => new ScatterChartPoint(
+                random.Next( min, max ) * random.NextDouble(),
+                random.Next( min, max ) * random.NextDouble() ) ).ToList();
+        }
+
+        List<BubbleChartPoint> RandomizeBubbleData() => RandomizeBubbleData( 3, 50 );
+
+        List<BubbleChartPoint> RandomizeBubbleData( int min, int max )
+        {
+            return Enumerable.Range( 0, 6 ).Select( x => new BubbleChartPoint(
+                random.Next( min, max ) * random.NextDouble(),
+                random.Next( min, max ) * random.NextDouble(),
+                random.Next( 5, 60 ) * random.NextDouble() ) ).ToList();
         }
     }
 }

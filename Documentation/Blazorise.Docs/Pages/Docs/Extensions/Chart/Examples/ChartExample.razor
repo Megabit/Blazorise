@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Button Clicked="@(async () => await HandleRedraw())">Redraw</Button>
+<Button Color="Color.Primary" Clicked="@(async () => await HandleRedraw())">Redraw</Button>
 
 <LineChart @ref="lineChart" TItem="double" />
 
@@ -31,8 +31,8 @@
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
+            PointRadius = 3,
+            CubicInterpolationMode = "monotone",
         };
     }
 
@@ -44,6 +44,12 @@
     {
         var r = new Random( DateTime.Now.Millisecond );
 
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        return new List<double> { 
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
     }
 }

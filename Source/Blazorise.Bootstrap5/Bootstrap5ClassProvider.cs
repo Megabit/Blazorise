@@ -787,6 +787,8 @@ namespace Blazorise.Bootstrap5
 
         public override string ModalFade() => Fade();
 
+        public override string ModalFade( bool animation ) => animation ? Fade() : null;
+
         public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
         public override string ModalBackdrop() => "modal-backdrop";

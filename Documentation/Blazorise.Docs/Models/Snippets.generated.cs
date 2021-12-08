@@ -2832,7 +2832,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string ChartExample = @"<Button Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
+        public const string ChartExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
 <LineChart @ref=""lineChart"" TItem=""double"" />
 
@@ -2863,8 +2863,8 @@ namespace Blazorise.Docs.Models
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
+            PointRadius = 3,
+            CubicInterpolationMode = ""monotone"",
         };
     }
 
@@ -2876,7 +2876,13 @@ namespace Blazorise.Docs.Models
     {
         var r = new Random( DateTime.Now.Millisecond );
 
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        return new List<double> { 
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
     }
 }";
 
@@ -2884,7 +2890,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
-        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>";
+        public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js""></script>";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -2909,30 +2915,20 @@ namespace Blazorise.Docs.Models
 
     object horizontalLineChartOptions = new
     {
-        Title = new
-        {
-            Display = true,
-            Text = ""Line chart (horizontal scroll) sample""
-        },
         Scales = new
         {
-            YAxes = new object[]
+            Y = new
             {
-                new {
-                    ScaleLabel = new {
-                    Display = true, LabelString = ""value"" }
+                Title = new
+                {
+                    Display = true,
+                    Text = ""Value""
                 }
-                    }
+            }
         },
-        Tooltips = new
+        Interaction = new
         {
-            Mode = ""nearest"",
-            Intersect = false
-        },
-        Hover = new
-        {
-            Mode = ""nearest"",
-            Intersect = false
+            intersect = false
         }
     };
 
@@ -2964,7 +2960,7 @@ namespace Blazorise.Docs.Models
             BackgroundColor = backgroundColors[0],
             BorderColor = borderColors[0],
             Fill = false,
-            LineTension = 0,
+            Tension = 0,
             BorderDash = new List<int> { 8, 4 },
         };
     }
@@ -2988,9 +2984,9 @@ namespace Blazorise.Docs.Models
 
         public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
 
-        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>";
+        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.27.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0""></script>";
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
@@ -3857,8 +3853,10 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
-          Virtualize
-          VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
+          ShowPager
+          FixedHeader
+          FixedHeaderDataGridMaxHeight=""250px""
+          PageSize=""50"">
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
@@ -3885,10 +3883,10 @@ namespace Blazorise.Docs.Models
     }
 
     private Task ScrollToRow()
-         => dataGridRef.ScrollToRow(1).AsTask();
+         => dataGridRef.ScrollToRow(30).AsTask();
 
     private Task ScrollToPixels()
-        => dataGridRef.ScrollToPixels(250).AsTask();
+        => dataGridRef.ScrollToPixels(500).AsTask();
 }";
 
         public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""
