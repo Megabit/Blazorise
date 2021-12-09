@@ -152,7 +152,7 @@ namespace Blazorise.DataGrid
         /// Inspects User Agent for a client using a Macintosh Operating System.
         /// </summary>
         /// <returns></returns>
-        internal async Task<bool> IsClientMacintoshOS()
+        private async Task<bool> IsUserAgentMacintoshOS()
             => ( await JSUtilitiesModule.GetUserAgent() ).Contains( "Mac", StringComparison.InvariantCultureIgnoreCase );
 
         /// <summary>
@@ -241,6 +241,7 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                IsClientMacintoshOS = await IsUserAgentMacintoshOS();
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
@@ -1356,6 +1357,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         internal bool MultiSelect
             => ( SelectionMode == DataGridSelectionMode.Multiple );
+
+        /// <summary>
+        /// Tracks whether the current client is a Macintosh Operating System.
+        /// </summary>
+        internal bool IsClientMacintoshOS { get; private set; }
 
         /// <summary>
         /// Gets template for title of popup modal.
