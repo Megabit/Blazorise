@@ -132,10 +132,16 @@ namespace Blazorise.DataGrid
             }
         }
 
+        private async Task<bool> IsCtrlClick( BLMouseEventArgs eventArgs )
+        {
+            var isMacOsCtrl = await ParentDataGrid.IsClientMacintoshOS() && eventArgs.MetaKey;
+            return ( eventArgs.CtrlKey || isMacOsCtrl ) && eventArgs.Button == MouseButton.Left;
+        }
+
         private async Task HandleSingleSelectClick( BLMouseEventArgs eventArgs )
         {
             // Un-select row if the user is holding the ctrl key on already selected row.
-            if ( ParentDataGrid.SingleSelect && eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
+            if ( ParentDataGrid.SingleSelect && await IsCtrlClick( eventArgs )
                 && ParentDataGrid.SelectedRow != null
                 && Item.IsEqual( ParentDataGrid.SelectedRow ) )
             {

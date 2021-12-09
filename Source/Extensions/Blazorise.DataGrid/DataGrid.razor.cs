@@ -9,6 +9,7 @@ using Blazorise.DataGrid.Configuration;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
@@ -146,6 +147,13 @@ namespace Blazorise.DataGrid
         #region Methods
 
         #region Setup
+
+        /// <summary>
+        /// Inspects User Agent for a client using a Macintosh Operating System.
+        /// </summary>
+        /// <returns></returns>
+        internal async Task<bool> IsClientMacintoshOS()
+            => ( await JSUtilitiesModule.GetUserAgent() ).Contains( "Mac", StringComparison.InvariantCultureIgnoreCase );
 
         /// <summary>
         /// Sets the height for the FixedHeader table feature.
@@ -1187,6 +1195,11 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class

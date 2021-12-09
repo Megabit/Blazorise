@@ -20,7 +20,8 @@ namespace Blazorise
         /// <param name="ctrl">true if the control key was down when the event was fired. false otherwise.</param>
         /// <param name="shift">true if the shift key was down when the event was fired. false otherwise.</param>
         /// <param name="alt">true if the alt key was down when the event was fired. false otherwise.</param>
-        public BLMouseEventArgs( MouseButton button, long clicks, Point screen, Point client, bool ctrl, bool shift, bool alt )
+        /// <param name="meta">true if the meta key was down when the event was fired. false otherwise.</param>
+        public BLMouseEventArgs( MouseButton button, long clicks, Point screen, Point client, bool ctrl, bool shift, bool alt, bool meta )
         {
             Button = button;
             Clicks = clicks;
@@ -29,6 +30,7 @@ namespace Blazorise
             CtrlKey = ctrl;
             ShiftKey = shift;
             AltKey = alt;
+            MetaKey = meta;
         }
 
         /// <summary>
@@ -65,5 +67,10 @@ namespace Blazorise
         /// true if the alt key was down when the event was fired. false otherwise.
         /// </summary>
         public bool AltKey { get; }
+
+        /// <summary>
+        /// true if the meta key was down when the event was fired. false otherwise.
+        /// </summary>
+        public bool MetaKey { get; }
     }
 }
