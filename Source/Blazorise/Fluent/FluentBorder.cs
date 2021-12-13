@@ -34,6 +34,26 @@ namespace Blazorise
         /// Borders will be 1px wide.
         /// </summary>
         IFluentBorderWithAll Is1 { get; }
+
+        /// <summary>
+        /// Borders will be 2px wide.
+        /// </summary>
+        IFluentBorderWithAll Is2 { get; }
+
+        /// <summary>
+        /// Borders will be 3px wide.
+        /// </summary>
+        IFluentBorderWithAll Is3 { get; }
+
+        /// <summary>
+        /// Borders will be 4px wide.
+        /// </summary>
+        IFluentBorderWithAll Is4 { get; }
+
+        /// <summary>
+        /// Borders will be 5px wide.
+        /// </summary>
+        IFluentBorderWithAll Is5 { get; }
     }
 
     /// <summary>
@@ -363,6 +383,18 @@ namespace Blazorise
         public IFluentBorderWithAll Is1 => WithSize( BorderSize.Is1 );
 
         /// <inheritdoc/>
+        public IFluentBorderWithAll Is2 => WithSize( BorderSize.Is2 );
+
+        /// <inheritdoc/>
+        public IFluentBorderWithAll Is3 => WithSize( BorderSize.Is3 );
+
+        /// <inheritdoc/>
+        public IFluentBorderWithAll Is4 => WithSize( BorderSize.Is4 );
+
+        /// <inheritdoc/>
+        public IFluentBorderWithAll Is5 => WithSize( BorderSize.Is5 );
+
+        /// <inheritdoc/>
         public IFluentBorderWithAll OnTop => WithSide( BorderSide.Top );
 
         /// <inheritdoc/>
@@ -445,6 +477,30 @@ namespace Blazorise
         /// Borders will be 1px wide.
         /// </summary>
         public static IFluentBorderWithAll Is1 => new FluentBorder().Is1;
+
+
+        /// <summary>
+        /// Borders will be 2px wide.
+        /// </summary>
+        public static IFluentBorderWithAll Is2 => new FluentBorder().Is2;
+
+
+        /// <summary>
+        /// Borders will be 3px wide.
+        /// </summary>
+        public static IFluentBorderWithAll Is3 => new FluentBorder().Is3;
+
+
+        /// <summary>
+        /// Borders will be 4px wide.
+        /// </summary>
+        public static IFluentBorderWithAll Is4 => new FluentBorder().Is4;
+
+
+        /// <summary>
+        /// Borders will be 5px wide.
+        /// </summary>
+        public static IFluentBorderWithAll Is5 => new FluentBorder().Is5;
 
         /// <summary>
         /// Shows the 1px wide border on the top side of the element.

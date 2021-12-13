@@ -1090,13 +1090,11 @@ namespace Blazorise.AntDesign
             if ( borderSide != BorderSide.All )
                 sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
-            if ( borderSize == BorderSize.Is0 )
-                sb.Append( "-0" );
+            if ( borderSize != BorderSize.None )
+                sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
             if ( borderColor != BorderColor.None )
-            {
                 sb.Append( " ant-border-" ).Append( ToBorderColor( borderColor ) );
-            }
 
             return sb.ToString();
         }

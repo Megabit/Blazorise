@@ -1614,6 +1614,20 @@ namespace Blazorise
             };
         }
 
+        public virtual string ToBorderSize( BorderSize borderSize )
+        {
+            return borderSize switch
+            {
+                Blazorise.BorderSize.Is5 => "5",
+                Blazorise.BorderSize.Is4 => "4",
+                Blazorise.BorderSize.Is3 => "3",
+                Blazorise.BorderSize.Is2 => "2",
+                Blazorise.BorderSize.Is1 => "1",
+                Blazorise.BorderSize.Is0 => "0",
+                _ => "0",
+            };
+        }
+
         public virtual string ToBorderColor( BorderColor borderColor )
         {
             return borderColor switch
