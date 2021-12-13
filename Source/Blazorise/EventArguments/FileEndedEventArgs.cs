@@ -14,10 +14,12 @@ namespace Blazorise
         /// </summary>
         /// <param name="file">File that is ended.</param>
         /// <param name="success">Result of file end upload.</param>
-        public FileEndedEventArgs( IFileEntry file, bool success )
+        /// <param name="fileInvalidReason">Reason for file failure.</param>
+        public FileEndedEventArgs( IFileEntry file, bool success, FileInvalidReason fileInvalidReason )
         {
             File = file;
             Success = success;
+            FileInvalidReason = fileInvalidReason;
         }
 
         /// <summary>
@@ -29,5 +31,10 @@ namespace Blazorise
         /// Gets the value indicating if file has finished successfully.
         /// </summary>
         public bool Success { get; }
+
+        /// <summary>
+        /// Provides information about the invalid file.
+        /// </summary>
+        public FileInvalidReason FileInvalidReason { get; set; }
     }
 }

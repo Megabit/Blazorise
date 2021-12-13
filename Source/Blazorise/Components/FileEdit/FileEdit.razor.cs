@@ -16,19 +16,6 @@ using Microsoft.JSInterop;
 namespace Blazorise
 {
     /// <summary>
-    /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
-    /// </summary>
-    public interface IFileEdit
-    {
-        /// <summary>
-        /// Notify us that one or more files has changed.
-        /// </summary>
-        /// <param name="files">List of changed files.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task NotifyChange( FileEntry[] files );
-    }
-
-    /// <summary>
     /// Input component with support for single of multi file upload.
     /// </summary>
     public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
@@ -171,14 +158,14 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
         {
             if ( AutoReset )
             {
                 await Reset();
             }
 
-            await Ended.InvokeAsync( new( fileEntry, success ) );
+            await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) );
         }
 
         /// <inheritdoc/>
@@ -207,14 +194,14 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxMessageSize )
+            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, SegmentFetchTimeout, MaxFileSize, cancellationToken );
         }
 
         /// <summary>
@@ -320,9 +307,15 @@ namespace Blazorise
         [Parameter] public string Filter { get; set; }
 
         /// <summary>
-        /// Gets or sets the max message size when uploading the file.
+        /// Gets or sets the max chunk size when uploading the file.
         /// </summary>
-        [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
+        [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
+
+        /// <summary>
+        /// Maximum file size in bytes, checked before starting upload (note: never trust client, always check file
+        /// size at server-side). Defaults to <see cref="long.MaxValue"/>.
+        /// </summary>
+        [Parameter] public long MaxFileSize { get; set; } = long.MaxValue;
 
         /// <summary>
         /// Gets or sets the Segment Fetch Timeout when uploading the file.

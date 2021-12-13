@@ -21,6 +21,7 @@ namespace Blazorise
         private readonly IFileEntryNotifier fileEntryNotifier;
         private readonly int maxMessageSize;
         private readonly TimeSpan segmentFetchTimeout;
+        private readonly long maxFileSize;
         private readonly PipeReader pipeReader;
         private readonly CancellationTokenSource fillBufferCts;
         private bool disposed;
@@ -31,7 +32,7 @@ namespace Blazorise
 
         #region Constructors
 
-        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
+        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, long maxFileSize, CancellationToken cancellationToken )
         {
             this.jsModule = jsModule;
             this.elementRef = elementRef;
@@ -39,6 +40,7 @@ namespace Blazorise
             this.fileEntryNotifier = fileEntryNotifier;
             this.maxMessageSize = maxMessageSize;
             this.segmentFetchTimeout = segmentFetchTimeout;
+            this.maxFileSize = maxFileSize;
             fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
             var pipe = new Pipe( new( pauseWriterThreshold: this.maxMessageSize, resumeWriterThreshold: this.maxMessageSize ) );
             pipeReader = pipe.Reader;
@@ -52,11 +54,17 @@ namespace Blazorise
 
         private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
         {
-            long offset = 0;
+            if ( maxFileSize < fileEntry.Size )
+            {
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                return;
+            }
+
+            long position = 0;
 
             try
             {
-                while ( offset < fileEntry.Size )
+                while ( position < fileEntry.Size )
                 {
                     var pipeBuffer = writer.GetMemory( maxMessageSize );
 
@@ -65,24 +73,25 @@ namespace Blazorise
                         using var readSegmentCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
                         readSegmentCts.CancelAfter( segmentFetchTimeout );
 
-                        var length = (int)Math.Min( maxMessageSize, fileEntry.Size - offset );
-                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, offset, length, cancellationToken );
+                        var length = (int)Math.Min( maxMessageSize, fileEntry.Size - position );
+                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, position, length, cancellationToken );
                         var bytes = Convert.FromBase64String( base64 );
 
                         if ( bytes is null || bytes.Length != length )
                         {
-                            throw new InvalidOperationException(
-                                $"A segment with size {bytes?.Length ?? 0} bytes was received, but {length} bytes were expected." );
+                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.UnexpectedBufferChunkLength );
+                            await writer.CompleteAsync();
+                            return;
                         }
 
                         bytes.CopyTo( pipeBuffer );
                         writer.Advance( length );
-                        offset += length;
+                        position += length;
 
                         var result = await writer.FlushAsync( cancellationToken );
 
                         await Task.WhenAll(
-                            fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, offset, bytes ),
+                            fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, bytes ),
                             fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytes.Length ) );
 
                         if ( result.IsCompleted )
@@ -90,16 +99,32 @@ namespace Blazorise
                             break;
                         }
                     }
+                    catch ( OperationCanceledException oce )
+                    {
+                        await writer.CompleteAsync( oce );
+                        await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.TaskCancelled );
+                        return;
+                    }
                     catch ( Exception e )
                     {
                         await writer.CompleteAsync( e );
-                        return;
                     }
                 }
             }
             finally
             {
-                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, offset == fileEntry.Size );
+                if ( !cancellationToken.IsCancellationRequested )
+                {
+                    var success = position == fileEntry.Size;
+                    var overMaxBufferChunkLength = position > fileEntry.Size;
+                    var fileInvalidReason = success
+                        ? FileInvalidReason.None
+                        : overMaxBufferChunkLength
+                            ? FileInvalidReason.UnexpectedBufferChunkLength
+                            : FileInvalidReason.UnexpectedError;
+
+                    await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, success, fileInvalidReason );
+                }
             }
 
             await writer.CompleteAsync();

@@ -1,3 +1,0 @@
-﻿To merge into final notes
-DataGrid : ScrollTo
-Added ScrollTo Api to Datagrid. You may now use the ScrollToRow and ScrollToPixels API when FixedHeader or Virtualize is set on your DataGrid.

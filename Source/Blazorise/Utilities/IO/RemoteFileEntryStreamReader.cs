@@ -12,16 +12,24 @@ namespace Blazorise
     internal class RemoteFileEntryStreamReader : FileEntryStreamReader
     {
         private readonly int maxMessageSize;
+        private readonly long maxFileSize;
 
-        public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize )
+        public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
             : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
         {
             this.maxMessageSize = maxMessageSize;
+            this.maxFileSize = maxFileSize;
         }
 
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
         {
             await FileEntryNotifier.UpdateFileStartedAsync( FileEntry );
+
+            if ( maxFileSize < FileEntry.Size )
+            {
+                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.MaxLengthExceeded );
+                return;
+            }
 
             long position = 0;
 
@@ -38,7 +46,8 @@ namespace Blazorise
 
                     if ( length != buffer.Length )
                     {
-                        throw new InvalidOperationException( $"Requested a maximum of {length}, but received {buffer.Length}" );
+                        await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.UnexpectedBufferChunkLength );
+                        return;
                     }
 
                     cancellationToken.ThrowIfCancellationRequested();
@@ -47,19 +56,30 @@ namespace Blazorise
 
                     position += buffer.Length;
 
-                    // notify of all the changes
                     await Task.WhenAll(
                         FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer ),
                         FileEntryNotifier.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
                 }
             }
-            catch
+            catch ( OperationCanceledException )
             {
+                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.TaskCancelled );
                 throw;
             }
             finally
             {
-                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, position == FileEntry.Size );
+                if ( !cancellationToken.IsCancellationRequested )
+                {
+                    var success = position == FileEntry.Size;
+                    var overMaxBufferChunkLength = position > FileEntry.Size;
+                    var fileInvalidReason = success
+                        ? FileInvalidReason.None
+                        : overMaxBufferChunkLength
+                            ? FileInvalidReason.UnexpectedBufferChunkLength
+                            : FileInvalidReason.UnexpectedError;
+
+                    await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, success, fileInvalidReason );
+                }
             }
         }
     }

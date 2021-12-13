@@ -144,8 +144,8 @@
     <DocsAttributesItem Name="Filter" Type="string" Default="null">
         Types of files that the input accepts.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="MaxMessageSize" Type="int" Default="20480">
-        Max message size (in bytes) when uploading the file.
+    <DocsAttributesItem Name="MaxChunkSize" Type="int" Default="20480">
+        Max chunk size (in bytes) when uploading the file.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple files can be selected.
@@ -161,5 +161,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Written" Type="@("EventCallback<FileWrittenEventArgs>")">
         Occurs every time the part of file has being uploaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxFileSize" Type="long" Default="long.MaxValue">
+        Maximum file size in bytes, checked before starting upload (note: never trust client, always check file size at server-side). Defaults to long.MaxValue.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -213,10 +213,10 @@ namespace Blazorise.Markdown
         }
 
         /// <inheritdoc/>
-        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
         {
             if ( ImageUploadEnded is not null )
-                await ImageUploadEnded.Invoke( new( fileEntry, success ) );
+                await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
 
             if ( success )
                 await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl );
@@ -254,14 +254,14 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageMessageSize )
+            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, 0 )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageMessageSize, SegmentFetchTimeout, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, SegmentFetchTimeout, 0, cancellationToken );
         }
 
         [JSInvokable]
@@ -412,9 +412,9 @@ namespace Blazorise.Markdown
         [Parameter] public bool UploadImage { get; set; }
 
         /// <summary>
-        /// Gets or sets the max message size when uploading the file.
+        /// Gets or sets the max chunk size when uploading the file.
         /// </summary>
-        [Parameter] public int MaxUploadImageMessageSize { get; set; } = 20 * 1024;
+        [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
 
         /// <summary>
         /// Gets or sets the Segment Fetch Timeout when uploading the file.

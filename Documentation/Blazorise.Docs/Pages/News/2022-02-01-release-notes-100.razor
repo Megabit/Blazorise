@@ -25,6 +25,12 @@
     Migration 🛠
 </NewsPageSubtitle>
 
+<OrderedList>
+    <UnorderedListItem>
+        Renamed <Code>MaxMessageSize</Code> to <Code>MaxChunkSize</Code> to better convey the Parameter meaning.
+    </UnorderedListItem>
+</OrderedList>
+
 <Paragraph>
     No big release can be done without some breaking changes and this release is no exception...
 </Paragraph>
@@ -64,3 +70,31 @@
         </UnorderedListItem>
     </UnorderedList>
 </Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    Added ScrollTo Api to Datagrid. You may now use the ScrollToRow and ScrollToPixels API when FixedHeader or Virtualize is set on your DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FileEdit
+</Heading>
+
+<Paragraph>
+    Added MaxFileSize Parameter, this will default to long.MaxValue
+</Paragraph>
+
+<Paragraph>
+    Added FileInvalidReason to the FileEndedEventArgs so you may track what went wrong in case the file upload was not successfull.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>None</UnorderedListItem>
+    <UnorderedListItem>MaxLengthExceeded</UnorderedListItem>
+    <UnorderedListItem>UnexpectedBufferChunkLength</UnorderedListItem>
+    <UnorderedListItem>TaskCancelled</UnorderedListItem>
+    <UnorderedListItem>UnexpectedError</UnorderedListItem>
+</UnorderedList>
