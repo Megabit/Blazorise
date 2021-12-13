@@ -1107,13 +1107,11 @@ namespace Blazorise.Bulma
             if ( borderSide != BorderSide.All )
                 sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
-            if ( borderSize == BorderSize.Is0 )
-                sb.Append( "-0" );
+            if ( borderSize != BorderSize.None )
+                sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
             if ( borderColor != BorderColor.None )
-            {
                 sb.Append( " has-border-" ).Append( ToBorderColor( borderColor ) );
-            }
 
             return sb.ToString();
         }
