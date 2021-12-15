@@ -928,6 +928,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Code
+
+        public abstract string Code();
+
+        #endregion
+
         #region Heading
 
         public abstract string HeadingSize( HeadingSize headingSize );

@@ -929,6 +929,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Code
+
+        public string Code() => null;
+
+        #endregion
+
         #region Heading
 
         public string HeadingSize( HeadingSize headingSize ) => null;
