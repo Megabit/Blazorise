@@ -229,6 +229,13 @@ namespace Blazorise.DataGrid
             Aggregates.Add( aggregate );
         }
 
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            await CheckMultipleSelectionSetEmpty( parameters );
+
+            await base.SetParametersAsync( parameters );
+        }
+
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
@@ -261,6 +268,27 @@ namespace Blazorise.DataGrid
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        /// <summary>
+        /// Tracks whether the user explicitly set SelectedRows to null or empty and makes sure SelectedRow is synced.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private async Task CheckMultipleSelectionSetEmpty( ParameterView parameters )
+        {
+            if ( SelectionMode == DataGridSelectionMode.Multiple )
+            {
+                if ( parameters.TryGetValue<List<TItem>>( nameof( SelectedRows ), out var changedSelectedRows ) )
+                {
+                    //If we note SelectedRows is empty. Let's make sure SelectedRow is syncronized.
+                    if ( changedSelectedRows.IsNullOrEmpty() && !SelectedRow.Equals(default) )
+                    {
+                        SelectedRow = default;
+                        await SelectedRowChanged.InvokeAsync( default );
+                    }
+                }
+            }
         }
 
         private async Task HandleSelectionModeChanged()
