@@ -9,6 +9,7 @@ using Blazorise.DataGrid.Configuration;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
@@ -148,6 +149,13 @@ namespace Blazorise.DataGrid
         #region Setup
 
         /// <summary>
+        /// Inspects User Agent for a client using a Macintosh Operating System.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> IsUserAgentMacintoshOS()
+            => ( await JSUtilitiesModule.GetUserAgent() ).Contains( "Mac", StringComparison.InvariantCultureIgnoreCase );
+
+        /// <summary>
         /// Sets the height for the FixedHeader table feature.
         /// </summary>
         /// <returns></returns>
@@ -233,6 +241,7 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                IsClientMacintoshOS = await IsUserAgentMacintoshOS();
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
@@ -1189,6 +1198,11 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+        /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
         protected string ClassNames
@@ -1343,6 +1357,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         internal bool MultiSelect
             => ( SelectionMode == DataGridSelectionMode.Multiple );
+
+        /// <summary>
+        /// Tracks whether the current client is a Macintosh Operating System.
+        /// </summary>
+        internal bool IsClientMacintoshOS { get; private set; }
 
         /// <summary>
         /// Gets template for title of popup modal.

@@ -15,7 +15,7 @@ namespace Blazorise.Utilities
                 e.Detail,
                 new( (int)e.ScreenX, (int)e.ScreenY ),
                 new( (int)e.ClientX, (int)e.ClientY ),
-                e.CtrlKey, e.ShiftKey, e.AltKey );
+                e.CtrlKey, e.ShiftKey, e.AltKey, e.MetaKey );
         }
 
         private static MouseButton ToMouseButton( long button )

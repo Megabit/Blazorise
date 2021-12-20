@@ -149,3 +149,8 @@ export function getRequiredElement(element, elementId) {
 
     return document.getElementById(elementId);
 }
+
+
+export function getUserAgent() {
+    return navigator.userAgent;
+}

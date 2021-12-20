@@ -120,5 +120,13 @@ namespace Blazorise.Modules
         /// <param name="elementId">ID of the rendered element.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
+
+        /// <summary>
+        /// Gets the User Agent.
+        /// https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/ms537503(v=vs.85)
+        /// </summary>
+        /// <returns></returns>
+        ValueTask<string> GetUserAgent();
+
     }
 }
