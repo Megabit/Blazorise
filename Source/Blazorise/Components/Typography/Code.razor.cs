@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Wrapper for code components.
+    /// The <see cref="Code"/> component displays its contents styled in a fashion intended to indicate that the text
+    /// is a short fragment of computer code.
     /// </summary>
     public partial class Code : BaseTypographyComponent
     {
