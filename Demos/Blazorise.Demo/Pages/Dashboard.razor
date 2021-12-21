@@ -1,30 +1,36 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
-<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.FromBottom">Blazorise</Heading>
+<DataGrid 
+@ref="dataGridRef"
+            TItem="string" Data="@dataList" Narrow="true" FixedHeader="true" Virtualize="false"
+          VirtualizeOptions="@(new Blazorise.DataGrid.Configuration.VirtualizeOptions() { DataGridHeight="calc(-8px + 70vh) !important", DataGridMaxHeight="calc(-8px + 70vh) !important" })"
+          Striped="true" Bordered="true" Filterable="true" Sortable="false" SelectionMode="DataGridSelectionMode.Multiple"
+          Responsive="true"
+          SelectedRows="@myList"
+          SelectedRowsChanged="@AddOrRemoveMyList">
+    <DataGridColumn TItem="string" Caption="No">
+        <DisplayTemplate>
+            @context
+        </DisplayTemplate>
+    </DataGridColumn>
+</DataGrid>
+<Button Color="Color.Danger" Clicked="@ResetSelection">Reset</Button>
+@String.Join(',' , myList)
+@code {
+    private DataGrid<string> dataGridRef;
+    private List<string> dataList = new List<string>() { "a", "b", "c", "d", "e", "f" };
+    private List<string> myList = new List<string>();
 
-<Paragraph>
-    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
-</Paragraph>
+    private void AddOrRemoveMyList(List<string> someList)
+    {
+        myList = someList;
+        StateHasChanged();
+    }
 
-<Alert Color="Color.Info" Visible="true">
-    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
-        Note:
-    </Heading>
-    <Paragraph>
-        This is a demo application for Blazorise used to show basic example for most of the components and extensions.
-    </Paragraph>
-    <Paragraph>
-        Full source code for this demo can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
-    </Paragraph>
-    <Paragraph>
-        If you wish to learn more about Blazorise please go to the official <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">documentation</Anchor>.
-    </Paragraph>
-</Alert>
-
-<Paragraph>
-    On the left sidebar you can see the Blazorise components and extensions in action.
-</Paragraph>
-<br />
-<Paragraph>
-    <Strong> Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
-</Paragraph>
+    private void ResetSelection()
+    {
+        myList = new List<string>();
+        //myList.Clear();
+        StateHasChanged();
+    }
+}

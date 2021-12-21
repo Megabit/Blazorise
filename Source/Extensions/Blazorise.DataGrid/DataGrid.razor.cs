@@ -9,6 +9,7 @@ using Blazorise.DataGrid.Configuration;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
@@ -148,6 +149,13 @@ namespace Blazorise.DataGrid
         #region Setup
 
         /// <summary>
+        /// Inspects User Agent for a client using a Macintosh Operating System.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> IsUserAgentMacintoshOS()
+            => ( await JSUtilitiesModule.GetUserAgent() ).Contains( "Mac", StringComparison.InvariantCultureIgnoreCase );
+
+        /// <summary>
         /// Sets the height for the FixedHeader table feature.
         /// </summary>
         /// <returns></returns>
@@ -197,7 +205,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child row with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="row">Row to add.</param>
         public void AddRow( DataGridRowInfo<TItem> row )
         {
             Rows.Add( row );
@@ -216,7 +224,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child row with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="row">Row to remove.</param>
         public bool RemoveRow( DataGridRowInfo<TItem> row )
             => Rows.Remove( row );
 
@@ -229,10 +237,18 @@ namespace Blazorise.DataGrid
             Aggregates.Add( aggregate );
         }
 
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            await CheckMultipleSelectionSetEmpty( parameters );
+
+            await base.SetParametersAsync( parameters );
+        }
+
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
+                IsClientMacintoshOS = await IsUserAgentMacintoshOS();
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
@@ -261,6 +277,27 @@ namespace Blazorise.DataGrid
             }
 
             return base.DisposeAsync( disposing );
+        }
+
+        /// <summary>
+        /// Tracks whether the user explicitly set SelectedRows to null or empty and makes sure SelectedRow is synced.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private async Task CheckMultipleSelectionSetEmpty( ParameterView parameters )
+        {
+            if ( SelectionMode == DataGridSelectionMode.Multiple )
+            {
+                if ( parameters.TryGetValue<List<TItem>>( nameof( SelectedRows ), out var changedSelectedRows ) )
+                {
+                    //If we note SelectedRows is empty. Let's make sure SelectedRow is syncronized.
+                    if ( changedSelectedRows.IsNullOrEmpty() && !SelectedRow.Equals(default) )
+                    {
+                        SelectedRow = default;
+                        await SelectedRowChanged.InvokeAsync( default );
+                    }
+                }
+            }
         }
 
         private async Task HandleSelectionModeChanged()
@@ -1205,6 +1242,11 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+        /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
         protected string ClassNames
@@ -1359,6 +1401,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         internal bool MultiSelect
             => ( SelectionMode == DataGridSelectionMode.Multiple );
+
+        /// <summary>
+        /// Tracks whether the current client is a Macintosh Operating System.
+        /// </summary>
+        internal bool IsClientMacintoshOS { get; private set; }
 
         /// <summary>
         /// Gets template for title of popup modal.
