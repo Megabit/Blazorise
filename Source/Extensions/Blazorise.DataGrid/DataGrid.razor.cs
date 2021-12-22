@@ -291,7 +291,7 @@ namespace Blazorise.DataGrid
                 if ( parameters.TryGetValue<List<TItem>>( nameof( SelectedRows ), out var changedSelectedRows ) )
                 {
                     //If we note SelectedRows is empty. Let's make sure SelectedRow is syncronized.
-                    if ( changedSelectedRows.IsNullOrEmpty() && !SelectedRow.Equals(default) )
+                    if ( changedSelectedRows.IsNullOrEmpty() && !( SelectedRow?.Equals( default ) ?? true ) )
                     {
                         SelectedRow = default;
                         await SelectedRowChanged.InvokeAsync( default );
@@ -1515,7 +1515,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data after all of the filters have being applied.
         /// </summary>
-        protected internal IEnumerable<TItem> FilteredData
+        public IEnumerable<TItem> FilteredData
         {
             get
             {
@@ -1534,7 +1534,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
         /// </summary>
-        internal IEnumerable<TItem> DisplayData
+        public IEnumerable<TItem> DisplayData
         {
             get
             {
