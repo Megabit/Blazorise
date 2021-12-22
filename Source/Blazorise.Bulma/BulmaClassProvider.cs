@@ -983,6 +983,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Code
+
+        public override string Code() => null;
+
+        #endregion
+
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => $"title is-{ToHeadingSize( headingSize )}";

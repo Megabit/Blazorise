@@ -921,6 +921,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Code
+
+        string Code();
+
+        #endregion
+
         #region Heading
 
         string HeadingSize( HeadingSize headingSize );

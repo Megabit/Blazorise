@@ -154,3 +154,14 @@ export function getRequiredElement(element, elementId) {
 export function getUserAgent() {
     return navigator.userAgent;
 }
+
+export function copyToClipboard(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(element.innerText);
+    }
+}

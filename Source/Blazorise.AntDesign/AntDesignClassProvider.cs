@@ -967,6 +967,12 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Code
+
+        public override string Code() => null;
+
+        #endregion
+
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => "ant-typography";

@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseTypographyComponent
-<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
     @ChildContent
 </div>
