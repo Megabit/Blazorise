@@ -147,6 +147,14 @@ namespace Blazorise.Modules
             return await moduleInstance.InvokeAsync<string>( "getUserAgent" );
         }
 
+        /// <inheritdoc/>
+        public async ValueTask CopyToClipboard( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "copyToClipboard", elementRef, elementId );
+        }
+
         #endregion
 
         #region Properties

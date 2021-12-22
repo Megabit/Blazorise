@@ -122,11 +122,17 @@ namespace Blazorise.Modules
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
 
         /// <summary>
-        /// Gets the User Agent.
-        /// https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/ms537503(v=vs.85)
+        /// Gets the User Agent name.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask<string> GetUserAgent();
 
+        /// <summary>
+        /// Copies the specified element content to the clipboard.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask CopyToClipboard( ElementReference elementRef, string elementId );
     }
 }

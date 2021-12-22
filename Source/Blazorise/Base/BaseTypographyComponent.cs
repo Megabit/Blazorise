@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -27,9 +29,24 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the component click event.
+        /// </summary>
+        /// <returns></returns>
+        protected async Task OnClickHandler()
+        {
+            if ( CopyToClipboard )
+                await JSUtilitiesModule.CopyToClipboard( ElementRef, ElementId );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Gets or sets the text color.
@@ -89,6 +106,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// If true, the content of the component will be copied to clipboard on click event.
+        /// </summary>
+        [Parameter] public bool CopyToClipboard { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this component.
