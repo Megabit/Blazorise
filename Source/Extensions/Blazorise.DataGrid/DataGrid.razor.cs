@@ -1515,7 +1515,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data after all of the filters have being applied.
         /// </summary>
-        protected internal IEnumerable<TItem> FilteredData
+        public IEnumerable<TItem> FilteredData
         {
             get
             {
@@ -1534,7 +1534,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
         /// </summary>
-        internal IEnumerable<TItem> DisplayData
+        public IEnumerable<TItem> DisplayData
         {
             get
             {
