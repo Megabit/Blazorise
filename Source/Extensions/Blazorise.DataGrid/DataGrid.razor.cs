@@ -291,7 +291,7 @@ namespace Blazorise.DataGrid
                 if ( parameters.TryGetValue<List<TItem>>( nameof( SelectedRows ), out var changedSelectedRows ) )
                 {
                     //If we note SelectedRows is empty. Let's make sure SelectedRow is syncronized.
-                    if ( changedSelectedRows.IsNullOrEmpty() && !SelectedRow.Equals(default) )
+                    if ( changedSelectedRows.IsNullOrEmpty() && !( SelectedRow?.Equals( default ) ?? true ) )
                     {
                         SelectedRow = default;
                         await SelectedRowChanged.InvokeAsync( default );
