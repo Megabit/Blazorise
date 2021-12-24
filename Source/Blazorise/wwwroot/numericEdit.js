@@ -1,7 +1,7 @@
 ﻿import { NumericMaskValidator } from "./validators/NumericMaskValidator.js";
 import { getRequiredElement } from "./utilities.js";
 
-import AutoNumeric from './vendors/autoNumeric.js';
+import * as ANumeric from './vendors/autoNumeric.js';
 
 let _instances = [];
 
