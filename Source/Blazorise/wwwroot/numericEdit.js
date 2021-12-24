@@ -1,6 +1,8 @@
 ﻿import { NumericMaskValidator } from "./validators/NumericMaskValidator.js";
 import { getRequiredElement } from "./utilities.js";
 
+import AutoNumeric from './vendors/autoNumeric.js';
+
 let _instances = [];
 
 export function initialize(dotnetAdapter, element, elementId, options) {
@@ -9,25 +11,27 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
-    const instance = new NumericMaskValidator(dotnetAdapter, element, elementId, options);
+    const anElement = new AutoNumeric(element);
 
-    _instances[elementId] = instance;
+    //const instance = new NumericMaskValidator(dotnetAdapter, element, elementId, options);
 
-    element.addEventListener("keypress", (e) => {
-        keyPress(_instances[elementId], e);
-    });
+    //_instances[elementId] = instance;
 
-    element.addEventListener("paste", (e) => {
-        paste(_instances[elementId], e);
-    });
+    //element.addEventListener("keypress", (e) => {
+    //    keyPress(_instances[elementId], e);
+    //});
 
-    element.addEventListener("focus", (e) => {
-        selectAll(_instances[elementId], e);
-    });
+    //element.addEventListener("paste", (e) => {
+    //    paste(_instances[elementId], e);
+    //});
 
-    if (instance.decimals && instance.decimals !== 2) {
-        instance.truncate();
-    }
+    //element.addEventListener("focus", (e) => {
+    //    selectAll(_instances[elementId], e);
+    //});
+
+    //if (instance.decimals && instance.decimals !== 2) {
+    //    instance.truncate();
+    //}
 }
 
 export function destroy(element, elementId) {
