@@ -1,7 +1,7 @@
 ﻿import { NumericMaskValidator } from "./validators/NumericMaskValidator.js";
 import { getRequiredElement } from "./utilities.js";
 
-import AutoNumeric from './vendors/autoNumeric.js';
+import * as a from './vendors/AutoNumeric.js';
 
 let _instances = [];
 
@@ -12,6 +12,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         return;
 
     const anElement = new AutoNumeric(element);
+    console.log(anElement);
 
     //const instance = new NumericMaskValidator(dotnetAdapter, element, elementId, options);
 
