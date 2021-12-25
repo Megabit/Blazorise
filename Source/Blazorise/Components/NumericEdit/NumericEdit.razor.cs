@@ -107,6 +107,8 @@ namespace Blazorise
                 TypeMax = maxFromType,
                 ChangeTextOnKeyPress = IsChangeTextOnKeyPress,
                 SelectAllOnFocus,
+                CurrencySymbol,
+                CurrencySymbolPlacement = CurrencySymbolPlacement.ToCurrencySymbolPlacement(),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -355,6 +357,16 @@ namespace Blazorise
         /// String to use as the decimal separator in numeric values.
         /// </summary>
         [Parameter] public string DecimalsSeparator { get; set; } = ".";
+
+        /// <summary>
+        /// Defines the currency symbol to display.
+        /// </summary>
+        [Parameter] public string CurrencySymbol { get; set; }
+
+        /// <summary>
+        /// Placement of the currency sign, relative to the number shown (as a prefix or a suffix).
+        /// </summary>
+        [Parameter] public CurrencySymbolPlacement CurrencySymbolPlacement { get; set; } = CurrencySymbolPlacement.Prefix;
 
         /// <summary>
         /// Helps define the language of an element.

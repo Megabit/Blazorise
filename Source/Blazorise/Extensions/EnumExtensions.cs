@@ -94,6 +94,12 @@
             _ => "none",
         };
 
+        public static string ToCurrencySymbolPlacement( this CurrencySymbolPlacement currencySymbolPlacement ) => currencySymbolPlacement switch
+        {
+            CurrencySymbolPlacement.Suffix => "s",
+            CurrencySymbolPlacement.Prefix => "p",
+        };
+
         /// <summary>
         /// Indicates whether the specified enum size is null or a default value.
         /// </summary>

@@ -11,19 +11,21 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         return;
 
     const instance = new AutoNumeric(element, {
-        digitGroupSeparator: options.groupSeparator || "",
-        decimalCharacter: options.separator || ".",
-        decimalCharacterAlternative: options.separator || ",",
-        decimalPlaces: options.decimals || 2,
+        digitGroupSeparator: options.groupSeparator || AutoNumeric.options.digitGroupSeparator.noSeparator,
+        decimalCharacter: options.separator || AutoNumeric.options.decimalCharacter.dot,
+        decimalCharacterAlternative: options.separator || AutoNumeric.options.decimalCharacter.comma,
+        decimalPlaces: options.decimals || AutoNumeric.options.decimalPlaces.two,
         wheelStep: options.step || 1,
-        minimumValue: fromExponential(options.min || options.typeMin) || '-10000000000000',
-        maximumValue: fromExponential(options.max || options.typeMax) || '10000000000000',
-
-        currencySymbol: options.currencySymbol || "",
-        currencySymbolPlacement: AutoNumeric.options.currencySymbolPlacement.suffix,
+        minimumValue: fromExponential(options.min || options.typeMin) || AutoNumeric.options.minimumValue.tenTrillions,
+        maximumValue: fromExponential(options.max || options.typeMax) || AutoNumeric.options.maximumValue.tenTrillions,
         roundingMethod: AutoNumeric.options.roundingMethod.halfUpSymmetric,
+
+        currencySymbol: options.currencySymbol || AutoNumeric.options.currencySymbol.none,
+        currencySymbolPlacement: options.currencySymbolPlacement || AutoNumeric.options.currencySymbolPlacement.suffix,
+
+        selectOnFocus: options.selectAllOnFocus || AutoNumeric.options.selectOnFocus.doNotSelect,
+
         onInvalidPaste: 'ignore',
-        selectOnFocus: options.selectAllOnFocus || false
     });
 
     _instances[elementId] = instance;
