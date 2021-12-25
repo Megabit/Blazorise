@@ -30,5 +30,7 @@ namespace Blazorise.Modules
         /// <param name="options">Options for numeric edit.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+
+        ValueTask UpdateValue<TValue>( ElementReference elementRef, string elementId, TValue value );
     }
 }

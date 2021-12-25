@@ -44,13 +44,22 @@ namespace Blazorise
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             var decimalsChanged = parameters.TryGetValue( nameof( Decimals ), out int decimals ) && !Decimals.IsEqual( decimals );
+            var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
 
-            if ( Rendered && decimalsChanged )
+            if ( Rendered )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                if ( decimalsChanged )
                 {
-                    Decimals = new { Changed = decimalsChanged, Value = decimals },
-                } ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                    {
+                        Decimals = new { Changed = decimalsChanged, Value = decimals },
+                    } ) );
+                }
+
+                if ( valueChanged )
+                {
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
+                }
             }
 
             // This make sure we know that Min or Max parameters are defined and can be checked against the current value.

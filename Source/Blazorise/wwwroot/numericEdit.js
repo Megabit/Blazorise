@@ -1,7 +1,6 @@
-﻿import { NumericMaskValidator } from "./validators/NumericMaskValidator.js";
-import { getRequiredElement } from "./utilities.js";
+﻿import { getRequiredElement, fromExponential } from "./utilities.js";
 
-import * as ANumeric from './vendors/autoNumeric.js';
+import './vendors/autoNumeric.js';
 
 let _instances = [];
 
@@ -11,27 +10,23 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
-    const anElement = new AutoNumeric(element);
+    const instance = new AutoNumeric(element, {
+        digitGroupSeparator: options.groupSeparator || "",
+        decimalCharacter: options.separator || ".",
+        decimalCharacterAlternative: options.separator || ",",
+        decimalPlaces: options.decimals || 2,
+        wheelStep: options.step || 1,
+        minimumValue: fromExponential(options.min || options.typeMin) || '-10000000000000',
+        maximumValue: fromExponential(options.max || options.typeMax) || '10000000000000',
 
-    //const instance = new NumericMaskValidator(dotnetAdapter, element, elementId, options);
+        currencySymbol: options.currencySymbol || "",
+        currencySymbolPlacement: AutoNumeric.options.currencySymbolPlacement.suffix,
+        roundingMethod: AutoNumeric.options.roundingMethod.halfUpSymmetric,
+        onInvalidPaste: 'ignore',
+        selectOnFocus: options.selectAllOnFocus || false
+    });
 
-    //_instances[elementId] = instance;
-
-    //element.addEventListener("keypress", (e) => {
-    //    keyPress(_instances[elementId], e);
-    //});
-
-    //element.addEventListener("paste", (e) => {
-    //    paste(_instances[elementId], e);
-    //});
-
-    //element.addEventListener("focus", (e) => {
-    //    selectAll(_instances[elementId], e);
-    //});
-
-    //if (instance.decimals && instance.decimals !== 2) {
-    //    instance.truncate();
-    //}
+    _instances[elementId] = instance;
 }
 
 export function destroy(element, elementId) {
@@ -47,24 +42,10 @@ export function updateOptions(element, elementId, options) {
     }
 }
 
-function keyPress(validator, e) {
-    var currentValue = String.fromCharCode(e.which);
+export function updateValue(element, elementId, value) {
+    const instance = _instances[elementId];
 
-    return e.which === 13 // still need to allow ENTER key so that we don't preventDefault on form submit
-        || validator.isValid(currentValue)
-        || e.preventDefault();
-}
-
-function paste(validator, e) {
-    return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
-}
-
-function selectAll(validator, e) {
-    if (validator.selectAllOnFocus && validator.element) {
-        const element = validator.element;
-
-        if (element.value && element.value.length > 0) {
-            element.setSelectionRange(0, element.value.length);
-        }
+    if (instance) {
+        instance.set(value);
     }
 }

@@ -57,6 +57,17 @@ namespace Blazorise.Modules
             await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
         }
 
+        /// <inheritdoc/>
+        public virtual async ValueTask UpdateValue<TValue>( ElementReference elementRef, string elementId, TValue value )
+        {
+            if ( IsUnsafe )
+                return;
+
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "updateValue", elementRef, elementId, value );
+        }
+
         #endregion
 
         #region Properties
