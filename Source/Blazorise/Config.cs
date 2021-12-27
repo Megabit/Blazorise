@@ -95,7 +95,6 @@ namespace Blazorise
             { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
             { typeof( IJSTextEditModule ), typeof( JSTextEditModule ) },
             { typeof( IJSMemoEditModule ), typeof( JSMemoEditModule ) },
-            { typeof( IJSNumericEditModule ), typeof( JSNumericEditModule ) },
             { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
             { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
             { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },

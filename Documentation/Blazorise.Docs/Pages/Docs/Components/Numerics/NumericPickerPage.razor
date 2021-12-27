@@ -1,24 +1,13 @@
-﻿@page "/docs/components/numeric"
+﻿@page "/docs/components/numeric-picker"
 
-<Seo Canonical="/docs/components/numeric" Title="Blazorise NumericEdit system" Description="Use NumericEdit to have a field for any kind if numeric values." />
+<Seo Canonical="/docs/components/numeric-picker" Title="Blazorise NumericPicker system" Description="Use NumericPicker to have a field for any kind if numeric values." />
 
 <DocsPageTitle>
-    NumericEdit component
+    NumericPicker component
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    A native numeric <Code Tag>input</Code> component built around the <Code>type="number"</Code>.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Being built around native <Code>type="number"</Code> input element, the <Code>NumericEdit</Code> component
-    comes with a few limitations that you must be aware of. First and foremost, the input display format is fully
-    controlled by the browser and the system locale. This means that for you to change the input format you would
-    need to change the browser settings.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Use <Code Tag>NumericEdit</Code> to have a field for any kind of numeric values.
+    Use <Code Tag>NumericPicker</Code> to have a field for any kind of numeric values.
     All basic types are supported, including nullable types
     (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
 </DocsPageParagraph>
@@ -31,9 +20,9 @@
     <DocsPageSectionHeader Title="Basic">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicNumericEditExample />
+        <BasicNumericPickerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicNumericEditExample" />
+    <DocsPageSectionSource Code="BasicNumericPickerExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -42,14 +31,14 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Generic type">
-        Since <Code>NumericEdit</Code> is a generic component you will have to specify the exact data type for the value.
+        Since <Code>NumericPicker</Code> is a generic component you will have to specify the exact data type for the value.
         Most of the time it will be recognized automatically when you set the <Code>Value</Code> attribute, but if
         not you will just use the <Code>TValue</Code> attribute and define the type manually eg.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <NumericEditGenericExample />
+        <NumericPickerGenericExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="NumericEditGenericExample" />
+    <DocsPageSectionSource Code="NumericPickerGenericExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -57,7 +46,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    NumericEdit is just a specialized version of <Code>TextEdit</Code> component so all of the rules and styles are still working
+    NumericPicker is just a specialized version of <Code>TextEdit</Code> component so all of the rules and styles are still working
     all the same. See <Link To="docs/components/text">TextEdit</Link> to find the list of supported attributes.
 </DocsPageParagraph>
 
@@ -74,6 +63,12 @@
     <DocsAttributesItem Name="Step" Type="decimal?" Default="null">
         Specifies the interval between valid values.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Decimals" Type="int" Default="2">
+        Maximum number of decimal places after the decimal separator.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DecimalsSeparator" Type="string" Default="@("\".\"")">
+        String to use as the decimal separator in numeric values.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Culture" Type="string" Default="null">
         Helps define the language of an element.
     </DocsAttributesItem>
@@ -85,5 +80,14 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Autofocus" Type="bool" Default="false">
         Set’s the focus to the component after the rendering is done.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowStepButtons" Type="bool?" Default="true">
+        If true, step buttons will be visible.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EnableStep" Type="bool?" Default="true">
+        If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectAllOnFocus" Type="bool" Default="false">
+        If true, selects all the text entered in the input field once it receives the focus.
     </DocsAttributesItem>
 </DocsAttributes>

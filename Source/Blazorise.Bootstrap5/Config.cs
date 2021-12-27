@@ -62,7 +62,6 @@ namespace Blazorise.Bootstrap5
             { typeof( Blazorise.FileEdit ), typeof( Bootstrap5.FileEdit ) },
             { typeof( Blazorise.Modal ), typeof( Bootstrap5.Modal ) },
             { typeof( Blazorise.ModalContent ), typeof( Bootstrap5.ModalContent) },
-            { typeof( Blazorise.NumericEdit<> ), typeof( Bootstrap5.NumericEdit<> ) },
             { typeof( Blazorise.NumericPicker<> ), typeof( Bootstrap5.NumericPicker<> ) },
             { typeof( Blazorise.Radio<> ), typeof( Bootstrap5.Radio<> ) },
             { typeof( Blazorise.Switch<> ), typeof( Bootstrap5.Switch<> ) },

@@ -33,7 +33,6 @@ namespace Blazorise.Material
         public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
         {
             // material overrides
-            [typeof( Blazorise.NumericEdit<> )] = typeof( Material.NumericEdit<> ),
             [typeof( Blazorise.NumericPicker<> )] = typeof( Material.NumericPicker<> ),
             [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
             [typeof( Blazorise.Step )] = typeof( Material.Step ),
