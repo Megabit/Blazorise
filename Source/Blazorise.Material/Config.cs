@@ -34,6 +34,7 @@ namespace Blazorise.Material
         {
             // material overrides
             [typeof( Blazorise.NumericEdit<> )] = typeof( Material.NumericEdit<> ),
+            [typeof( Blazorise.NumericPicker<> )] = typeof( Material.NumericPicker<> ),
             [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
             [typeof( Blazorise.Step )] = typeof( Material.Step ),
             [typeof( Blazorise.Steps )] = typeof( Material.Steps )

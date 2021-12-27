@@ -117,6 +117,18 @@ namespace Blazorise
 
         #endregion
 
+        #region NumericPicker
+
+        string NumericPicker( bool plaintext );
+
+        string NumericPickerSize( Size size );
+
+        string NumericPickerColor( Color color );
+
+        string NumericPickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region InputMask
 
         string InputMask( bool plaintext );

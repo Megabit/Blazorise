@@ -60,6 +60,7 @@ namespace Blazorise.Bootstrap
             { typeof( Blazorise.Modal ), typeof( Bootstrap.Modal ) },
             { typeof( Blazorise.ModalContent ), typeof( Bootstrap.ModalContent) },
             { typeof( Blazorise.NumericEdit<> ), typeof( Bootstrap.NumericEdit<> ) },
+            { typeof( Blazorise.NumericPicker<> ), typeof( Bootstrap.NumericPicker<> ) },
             { typeof( Blazorise.Button ), typeof( Bootstrap.Button ) },
             { typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) },
             { typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) },
