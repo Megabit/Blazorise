@@ -276,6 +276,8 @@ namespace Blazorise
                 if ( Converters.TryChangeType<TValue>( comparableNumber, out var currentValue, CurrentCultureInfo )
                     && !CurrentValue.IsEqual( currentValue ) )
                 {
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, currentValue ) );
+
                     // number has changed so we need to re-set the CurrentValue and re-run any validation
                     return CurrentValueHandler( FormatValueAsString( currentValue ) );
                 }
