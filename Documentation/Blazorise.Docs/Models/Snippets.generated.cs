@@ -4772,7 +4772,7 @@ public class Program
 
         public const string Bootstrap5GuideRegistration2Example = @"// other usings
 using Blazorise;
-using Blazorise.Bootstrap;
+using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 
 public class Startup

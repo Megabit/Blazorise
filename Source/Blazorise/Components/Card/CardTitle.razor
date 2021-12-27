@@ -2,13 +2,13 @@
 @inherits BaseTypographyComponent
 @if ( Size != null )
 {
-    <Dynamic TagName="@($"h{Size}")" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <Dynamic TagName="@($"h{Size}")" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
         @ChildContent
     </Dynamic>
 }
 else
 {
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
         @ChildContent
     </div>
 }

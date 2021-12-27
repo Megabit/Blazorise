@@ -970,6 +970,12 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Code
+
+        public override string Code() => null;
+
+        #endregion
+
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";

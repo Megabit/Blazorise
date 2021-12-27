@@ -135,6 +135,7 @@ namespace Blazorise.Tests.Helpers
                 var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "import", _ => true );
                 module.SetupVoid( "setProperty", _ => true );
+                module.Setup<string>( "getUserAgent", _ => true );
             }
 
             public static void AddModal( BunitJSInterop jsInterop )

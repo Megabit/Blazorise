@@ -250,8 +250,29 @@
     <DocsAttributesItem Name="HeaderThemeContrast" Type="ThemeContrast">
         Sets the Datagrid's table header ThemeContrast.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DataGridMaxHeigh" Type="string" Default="500px">
-        Sets the DataGrid height when <Code>Virtualize</Code> feature is enabled.
+    <DocsAttributesItem Name="FixedHeader" Type="bool">
+        Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedHeaderDataGridHeight" Type="string" Default="500px">
+        Sets the Datagrid height when FixedHeader feature is enabled (defaults to 500px).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedHeaderDataGridMaxHeight" Type="string" Default="500px">
+        Sets the Datagrid max height when FixedHeader feature is enabled (defaults to 500px).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DetailRowStartsVisible" Type="bool" Default="true">
+        Controls whether DetailRow will start visible if DetailRowTemplate is set
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="VirtualizeOptions">
+    <DocsAttributesItem Name="DataGridHeight" Type="string" Default="500px">
+        Sets the DataGrid height when Virtualize feature is enabled (defaults to 500px).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataGridMaxHeight" Type="string" Default="500px">
+        Sets the DataGrid height when Virtualize feature is enabled (defaults to 500px).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="OverscanCount" Type="int">
+        Gets or sets a value that determines how many additional items will be rendered before and after the visible region. This help to reduce the frequency of rendering during scrolling. However, higher values mean that more elements will be present in the page.
     </DocsAttributesItem>
 </DocsAttributes>
 

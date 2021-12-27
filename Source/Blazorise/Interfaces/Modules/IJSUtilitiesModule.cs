@@ -120,5 +120,19 @@ namespace Blazorise.Modules
         /// <param name="elementId">ID of the rendered element.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
+
+        /// <summary>
+        /// Gets the User Agent name.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask<string> GetUserAgent();
+
+        /// <summary>
+        /// Copies the specified element content to the clipboard.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask CopyToClipboard( ElementReference elementRef, string elementId );
     }
 }
