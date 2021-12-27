@@ -73,7 +73,7 @@ namespace Blazorise.Modules
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/numericEdit.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise/numericPicker.js?v={VersionProvider.Version}";
 
         #endregion
     }
