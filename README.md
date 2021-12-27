@@ -2,7 +2,7 @@
 
 # Components for Blazor
 
-[![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki)
+[![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/Megabit)
 [![MyGet](https://img.shields.io/myget/blazorise/vpre/blazorise.svg?label=myget)](https://www.myget.org/gallery/blazorise)
 ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 [![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
