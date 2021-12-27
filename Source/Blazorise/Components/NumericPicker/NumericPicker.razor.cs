@@ -43,18 +43,49 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var decimalsChanged = parameters.TryGetValue( nameof( Decimals ), out int decimals ) && !Decimals.IsEqual( decimals );
-            var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
-
             if ( Rendered )
             {
-                if ( decimalsChanged )
+                var decimalsChanged = parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
+                var decimalsSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalsSeparator ), out var paramDecimalsSeparator ) && !DecimalsSeparator.IsEqual( paramDecimalsSeparator );
+                var alternativeDecimalsSeparatorChanged = parameters.TryGetValue<string>( nameof( AlternativeDecimalsSeparator ), out var paramAlternativeDecimalsSeparator ) && !AlternativeDecimalsSeparator.IsEqual( paramAlternativeDecimalsSeparator );
+
+                var groupSeparatorChanged = parameters.TryGetValue<string>( nameof( GroupSeparator ), out var paramGroupSeparator ) && !GroupSeparator.IsEqual( paramGroupSeparator );
+                var groupSpacingChanged = parameters.TryGetValue<string>( nameof( GroupSpacing ), out var paramGroupSpacing ) && !GroupSpacing.IsEqual( paramGroupSpacing );
+
+                var currencySymbolChanged = parameters.TryGetValue<string>( nameof( CurrencySymbol ), out var paramCurrencySymbol ) && !CurrencySymbol.IsEqual( paramCurrencySymbol );
+                var currencySymbolPlacementChanged = parameters.TryGetValue<CurrencySymbolPlacement>( nameof( CurrencySymbolPlacement ), out var paramCurrencySymbolPlacement ) && !CurrencySymbolPlacement.IsEqual( paramCurrencySymbolPlacement );
+
+                var roundingMethodChanged = parameters.TryGetValue<NumericRoundingMethod>( nameof( RoundingMethod ), out var paramRoundingMethod ) && !RoundingMethod.IsEqual( paramRoundingMethod );
+
+                var minChanged = parameters.TryGetValue<TValue>( nameof( Min ), out var paramMin ) && !Min.IsEqual( paramMin );
+                var maxChanged = parameters.TryGetValue<TValue>( nameof( Max ), out var paramMax ) && !Max.IsEqual( paramMax );
+
+                var selectAllOnFocusChanged = parameters.TryGetValue<bool>( nameof( SelectAllOnFocus ), out var paramSelectAllOnFocus ) && !SelectAllOnFocus.IsEqual( paramSelectAllOnFocus );
+
+                if ( decimalsChanged || decimalsSeparatorChanged || alternativeDecimalsSeparatorChanged
+                    || groupSeparatorChanged || groupSpacingChanged
+                    || currencySymbolChanged || currencySymbolPlacementChanged
+                    || roundingMethodChanged
+                    || minChanged || maxChanged
+                    || selectAllOnFocusChanged )
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
-                        Decimals = new { Changed = decimalsChanged, Value = decimals },
+                        Decimals = new { Changed = decimalsChanged, Value = paramDecimals },
+                        Separator = new { Changed = decimalsSeparatorChanged, Value = paramDecimalsSeparator },
+                        AlternativeSeparator = new { Changed = alternativeDecimalsSeparatorChanged, Value = paramAlternativeDecimalsSeparator },
+                        GroupSeparator = new { Changed = groupSeparatorChanged, Value = paramGroupSeparator },
+                        GroupSpacing = new { Changed = groupSpacingChanged, Value = paramGroupSpacing },
+                        CurrencySymbol = new { Changed = currencySymbolChanged, Value = paramCurrencySymbol },
+                        CurrencySymbolPlacement = new { Changed = currencySymbolPlacementChanged, Value = paramCurrencySymbolPlacement },
+                        RoundingMethod = new { Changed = roundingMethodChanged, Value = paramRoundingMethod },
+                        Min = new { Changed = minChanged, Value = paramMin },
+                        Max = new { Changed = maxChanged, Value = paramMax },
+                        SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
                     } ) );
                 }
+
+                var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
 
                 if ( valueChanged )
                 {
@@ -103,15 +134,15 @@ namespace Blazorise
                 AlternativeSeparator = AlternativeDecimalsSeparator,
                 GroupSeparator,
                 GroupSpacing,
-                Step,
+                CurrencySymbol,
+                CurrencySymbolPlacement = CurrencySymbolPlacement.ToCurrencySymbolPlacement(),
+                RoundingMethod = RoundingMethod.ToNumericRoundingMethod(),
                 Min = MinDefined ? (object)Min : null,
                 Max = MaxDefined ? (object)Max : null,
                 TypeMin = minFromType,
                 TypeMax = maxFromType,
-                ChangeTextOnKeyPress = IsChangeTextOnKeyPress,
+                Step,
                 SelectAllOnFocus,
-                CurrencySymbol,
-                CurrencySymbolPlacement = CurrencySymbolPlacement.ToCurrencySymbolPlacement(),
             } );
 
             await base.OnFirstAfterRenderAsync();
