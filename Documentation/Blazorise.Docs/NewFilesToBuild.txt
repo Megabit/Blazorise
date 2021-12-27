@@ -1,2 +1,0 @@
-D:\Projects\UI\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Components\Numerics\Code\BasicNumericPickerExampleCode.html
-D:\Projects\UI\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Components\Numerics\Code\NumericPickerGenericExampleCode.html

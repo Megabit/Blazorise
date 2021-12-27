@@ -41,6 +41,28 @@
     <DocsPageSectionSource Code="NumericPickerGenericExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Curency symbols">
+        The display format of the <Code>NumericPicker</Code> can be adjusted to provide more context for the value it represents,
+        such as displaying currency. By defining the <Code>CurrencySymbol</Code> parameter you can use any symbol. Additionally you can define the symbol position
+        with the <Code>CurrencySymbolPlacement</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <NumericPickerCurrencyExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="NumericPickerCurrencyExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Controlling the step value">
+        Set the amount to increment or decrement the value when the spinner buttons are used with the <Code>step</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <NumericPickerStepExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="NumericPickerStepExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -68,6 +90,21 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DecimalsSeparator" Type="string" Default="@("\".\"")">
         String to use as the decimal separator in numeric values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AlternativeDecimalsSeparator" Type="string" Default="@("\",\"")">
+        String to use as the alternative decimal separator in numeric values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupSeparator" Type="string">
+        Defines the thousand grouping separator character.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupSpacing" Type="string" Default="3">
+        Defines how many numbers should be grouped together (usually for the thousand separator).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrencySymbol" Type="string">
+        Defines the currency symbol to display.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrencySymbolPlacement" Type="CurrencySymbolPlacement" Default="Prefix">
+        Placement of the currency sign, relative to the number shown (as a prefix or a suffix).
     </DocsAttributesItem>
     <DocsAttributesItem Name="Culture" Type="string" Default="null">
         Helps define the language of an element.
