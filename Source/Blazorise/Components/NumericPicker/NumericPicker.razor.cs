@@ -357,6 +357,16 @@ namespace Blazorise
         [Parameter] public int Decimals { get; set; } = 2;
 
         /// <summary>
+        /// String to use as the decimal separator in numeric values.
+        /// </summary>
+        [Parameter] public string DecimalsSeparator { get; set; } = ".";
+
+        /// <summary>
+        /// String to use as the alternative decimal separator in numeric values.
+        /// </summary>
+        [Parameter] public string AlternativeDecimalsSeparator { get; set; } = ",";
+
+        /// <summary>
         /// Defines the thousand grouping separator character.
         /// </summary>
         [Parameter] public string GroupSeparator { get; set; }
@@ -365,16 +375,6 @@ namespace Blazorise
         /// Defines how many numbers should be grouped together (usually for the thousand separator).
         /// </summary>
         [Parameter] public string GroupSpacing { get; set; } = "3";
-
-        /// <summary>
-        /// String to use as the decimal separator in numeric values.
-        /// </summary>
-        [Parameter] public string DecimalsSeparator { get; set; } = ".";
-
-        /// <summary>
-        /// String to use as the decimal separator in numeric values.
-        /// </summary>
-        [Parameter] public string AlternativeDecimalsSeparator { get; set; } = ",";
 
         /// <summary>
         /// Defines the currency symbol to display.
