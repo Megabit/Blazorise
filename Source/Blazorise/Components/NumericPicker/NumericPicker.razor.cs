@@ -389,6 +389,11 @@ namespace Blazorise
         [Parameter] public CurrencySymbolPlacement CurrencySymbolPlacement { get; set; } = CurrencySymbolPlacement.Prefix;
 
         /// <summary>
+        /// Method used for rounding decimal values.
+        /// </summary>
+        [Parameter] public NumericRoundingMethod RoundingMethod { get; set; } = NumericRoundingMethod.HalfUpSymmetric;
+
+        /// <summary>
         /// Helps define the language of an element.
         /// </summary>
         /// <remarks>
