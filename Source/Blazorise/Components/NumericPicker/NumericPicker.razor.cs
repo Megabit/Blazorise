@@ -62,12 +62,16 @@ namespace Blazorise
 
                 var selectAllOnFocusChanged = parameters.TryGetValue<bool>( nameof( SelectAllOnFocus ), out var paramSelectAllOnFocus ) && !SelectAllOnFocus.IsEqual( paramSelectAllOnFocus );
 
+                var allowDecimalPaddingChanged = parameters.TryGetValue<NumericAllowDecimalPadding>( nameof( AllowDecimalPadding ), out var paramAllowDecimalPadding ) && !AllowDecimalPadding.IsEqual( paramAllowDecimalPadding );
+                var alwaysAllowDecimalSeparatorChanged = parameters.TryGetValue<bool>( nameof( AlwaysAllowDecimalSeparator ), out var paramAlwaysAllowDecimalSeparator ) && !AlwaysAllowDecimalSeparator.IsEqual( paramAlwaysAllowDecimalSeparator );
+
                 if ( decimalsChanged || decimalsSeparatorChanged || alternativeDecimalsSeparatorChanged
                     || groupSeparatorChanged || groupSpacingChanged
                     || currencySymbolChanged || currencySymbolPlacementChanged
                     || roundingMethodChanged
                     || minChanged || maxChanged
-                    || selectAllOnFocusChanged )
+                    || selectAllOnFocusChanged
+                    || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged )
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
@@ -77,8 +81,10 @@ namespace Blazorise
                         GroupSeparator = new { Changed = groupSeparatorChanged, Value = paramGroupSeparator },
                         GroupSpacing = new { Changed = groupSpacingChanged, Value = paramGroupSpacing },
                         CurrencySymbol = new { Changed = currencySymbolChanged, Value = paramCurrencySymbol },
-                        CurrencySymbolPlacement = new { Changed = currencySymbolPlacementChanged, Value = paramCurrencySymbolPlacement },
-                        RoundingMethod = new { Changed = roundingMethodChanged, Value = paramRoundingMethod },
+                        CurrencySymbolPlacement = new { Changed = currencySymbolPlacementChanged, Value = paramCurrencySymbolPlacement.ToCurrencySymbolPlacement() },
+                        RoundingMethod = new { Changed = roundingMethodChanged, Value = paramRoundingMethod.ToNumericRoundingMethod() },
+                        AllowDecimalPadding = new { Changed = allowDecimalPaddingChanged, Value = paramAllowDecimalPadding.ToNumericDecimalPadding() },
+                        AlwaysAllowDecimalSeparator = new { Changed = alwaysAllowDecimalSeparatorChanged, Value = paramAlwaysAllowDecimalSeparator },
                         Min = new { Changed = minChanged, Value = paramMin },
                         Max = new { Changed = maxChanged, Value = paramMax },
                         SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
@@ -137,6 +143,8 @@ namespace Blazorise
                 CurrencySymbol,
                 CurrencySymbolPlacement = CurrencySymbolPlacement.ToCurrencySymbolPlacement(),
                 RoundingMethod = RoundingMethod.ToNumericRoundingMethod(),
+                AllowDecimalPadding = AllowDecimalPadding.ToNumericDecimalPadding(),
+                AlwaysAllowDecimalSeparator,
                 Min = MinDefined ? (object)Min : null,
                 Max = MaxDefined ? (object)Max : null,
                 TypeMin = minFromType,
@@ -423,6 +431,19 @@ namespace Blazorise
         /// Method used for rounding decimal values.
         /// </summary>
         [Parameter] public NumericRoundingMethod RoundingMethod { get; set; } = NumericRoundingMethod.HalfUpSymmetric;
+
+        /// <summary>
+        /// Allow padding the decimal places with zeros. If set to <c>Floats</c>, padding is only done when there are some decimals.        /// 
+        /// </summary>
+        /// <remarks>
+        /// Setting AllowDecimalPadding to 'false' will override the <see cref="Decimals"/> setting.
+        /// </remarks>
+        [Parameter] public NumericAllowDecimalPadding AllowDecimalPadding { get; set; } = NumericAllowDecimalPadding.Always;
+
+        /// <summary>
+        /// Defines if the decimal character or decimal character alternative should be accepted when there is already a decimal character shown in the element.
+        /// </summary>
+        [Parameter] public bool AlwaysAllowDecimalSeparator { get; set; }
 
         /// <summary>
         /// Helps define the language of an element.

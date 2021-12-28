@@ -28,6 +28,9 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
         selectOnFocus: options.selectAllOnFocus || AutoNumeric.options.selectOnFocus.doNotSelect,
 
+        allowDecimalPadding: options.allowDecimalPadding || AutoNumeric.options.allowDecimalPadding.always,
+        alwaysAllowDecimalCharacter: options.alwaysAllowDecimalSeparator || AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow,
+
         onInvalidPaste: 'ignore',
     });
 
@@ -92,6 +95,14 @@ export function updateOptions(element, elementId, options) {
 
         if (options.selectAllOnFocus.changed) {
             instance.options.selectOnFocus(options.selectAllOnFocus.value || AutoNumeric.options.selectOnFocus.doNotSelect);
+        }
+
+        if (options.allowDecimalPadding.changed) {
+            instance.options.allowDecimalPadding(options.allowDecimalPadding.value || AutoNumeric.options.allowDecimalPadding.always);
+        }
+
+        if (options.alwaysAllowDecimalSeparator.changed) {
+            instance.options.alwaysAllowDecimalCharacter(options.alwaysAllowDecimalSeparator.value || AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow);
         }
     }
 }

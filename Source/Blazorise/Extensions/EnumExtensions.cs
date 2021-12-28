@@ -117,6 +117,13 @@
             NumericRoundingMethod.DownToNext05 => "D05",
         };
 
+        public static object ToNumericDecimalPadding( this NumericAllowDecimalPadding numericAllowDecimalPadding ) => numericAllowDecimalPadding switch
+        {
+            NumericAllowDecimalPadding.Always => true,
+            NumericAllowDecimalPadding.Never => false,
+            NumericAllowDecimalPadding.Floats => "floats",
+        };
+
         /// <summary>
         /// Indicates whether the specified enum size is null or a default value.
         /// </summary>
