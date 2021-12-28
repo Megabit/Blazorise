@@ -3,14 +3,14 @@ import * as utilities from "./utilities.js";
 
 const _instancesInfos = [];
 
+// Install built-in polyfills to patch browser incompatibilities.
+shaka.polyfill.installAll();
+
 export function initialize(dotnetAdapter, element, elementId, options) {
     element = utilities.getRequiredElement(element, elementId);
 
     if (!element)
         return;
-
-    // Install built-in polyfills to patch browser incompatibilities.
-    shaka.polyfill.installAll();
 
     // Check to see if the browser supports the basic APIs Shaka needs.
     if (shaka.Player.isBrowserSupported()) {
@@ -18,7 +18,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         initPlayer();
     } else {
         // This browser does not have the minimum set of APIs we need.
-        console.error('Browser not supported!');
+        console.error('Browser not supported for Video player!');
     }
 
     _instancesInfos[elementId] = instanceInfo;
