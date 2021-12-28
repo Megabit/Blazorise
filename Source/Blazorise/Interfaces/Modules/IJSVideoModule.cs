@@ -16,7 +16,7 @@ namespace Blazorise.Modules
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>
-        /// <param name="options">Additional options for the tooltip initialization.</param>
+        /// <param name="options">Additional options for the video initialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Initialize( ElementReference elementRef, string elementId, object options );
     }

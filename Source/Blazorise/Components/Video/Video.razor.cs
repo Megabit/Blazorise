@@ -65,7 +65,7 @@ namespace Blazorise
         [Inject] public IJSVideoModule JSModule { get; set; }
 
         /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
+        /// Specifies the content to be rendered inside this <see cref="Video"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
         #endregion
