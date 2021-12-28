@@ -104,6 +104,7 @@ namespace Blazorise
             { typeof( IJSTableModule ), typeof( JSTableModule ) },
             { typeof( IJSSelectModule ), typeof( JSSelectModule ) },
             { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },
+            { typeof( IJSVideoModule ), typeof( JSVideoModule ) },
         };
 
         /// <summary>

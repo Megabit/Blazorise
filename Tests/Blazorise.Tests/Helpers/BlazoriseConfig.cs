@@ -55,6 +55,7 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSTableModule, JSTableModule>();
             services.AddScoped<IJSSelectModule, JSSelectModule>();
             services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
+            services.AddScoped<IJSVideoModule, JSVideoModule>();
 
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();

@@ -2695,6 +2695,8 @@ namespace Blazorise.Docs.Models
     @*other validation fields*@
 </Validations>";
 
+        public const string BasicVideoExample = @"<Video  />";
+
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services

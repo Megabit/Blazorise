@@ -58,6 +58,9 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Pages\Docs\Components\Video\Code\BasicVideoExampleCode.html" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
