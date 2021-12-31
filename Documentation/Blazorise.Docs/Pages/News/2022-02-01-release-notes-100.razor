@@ -27,8 +27,15 @@
 
 <OrderedList>
     <UnorderedListItem>
-        Renamed <Code>MaxMessageSize</Code> to <Code>MaxChunkSize</Code> to better convey the Parameter meaning.
+        All <Code>NumericEdit</Code> formating features are moved to the new <Code>NumericPicker</Code> component. 
+        <Code>NumericEdit</Code> is now used only as a native HTML numeric input.
     </UnorderedListItem>
+    <UnorderedListItem>
+        Renamed <Code>DecimalsSeparator</Code> to <Code>DecimalSeparator</Code> on the <Code>DataGridColumn</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Renamed <Code>MaxMessageSize</Code> to <Code>MaxChunkSize</Code> to better convey the Parameter meaning.
+    </UnorderedListItem>    
 </OrderedList>
 
 <Paragraph>
@@ -98,3 +105,20 @@
     <UnorderedListItem>TaskCancelled</UnorderedListItem>
     <UnorderedListItem>UnexpectedError</UnorderedListItem>
 </UnorderedList>
+
+<Heading Size="HeadingSize.Is3">
+    NumericPicker
+</Heading>
+
+<Paragraph>
+    The new <Code>NumericPicker</Code> component is created as an alternative to the <Code>NumericEdit</Code> component.
+    All the formating features from <Code>NumericEdit</Code> are moved to the component. This breaking change was needed because
+    we felt there was no need to support two similarly behavior components. So, <Code>NumericEdit</Code> is left to serve as
+    a native HTML input element, and all the custom and advanced stuff is not part of the new <Code>NumericPicker</Code>.
+</Paragraph>
+
+<Paragraph>
+    The new <Code>NumericPicker</Code> componet have many new features like currency mask, group separators, configurable
+    rounding methods, proper min and max input mode, and many more. We really hope new <Code>NumericPicker</Code> will serve
+    you well.
+</Paragraph>
