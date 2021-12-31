@@ -48,14 +48,14 @@
 
 <h2>Decimal separator</h2>
 <p id="decimal-separator-with-dot">
-    <NumericEdit id="dot-decimal-numeric" TValue="decimal" @bind-Value="@decimalSeparator1" DecimalsSeparator="." />
+    <NumericEdit id="dot-decimal-numeric" TValue="decimal" @bind-Value="@decimalSeparator1" DecimalSeparator="." />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
     <span id="decimal-separator-with-dot-result">@decimalSeparator1.ToString( System.Globalization.CultureInfo.InvariantCulture )</span>
 </p>
 <p id="decimal-separator-with-comma">
-    <NumericEdit id="comma-decimal-numeric" TValue="decimal" Culture="hr" @bind-Value="@decimalSeparator2" DecimalsSeparator="," />
+    <NumericEdit id="comma-decimal-numeric" TValue="decimal" Culture="hr" @bind-Value="@decimalSeparator2" DecimalSeparator="," />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 

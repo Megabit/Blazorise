@@ -113,7 +113,6 @@ namespace Blazorise
         {
             get
             {
-                // TODO: find the right culture based on DecimalsSeparator
                 if ( !string.IsNullOrEmpty( Culture ) )
                 {
                     return CultureInfo.GetCultureInfo( Culture );

@@ -46,8 +46,8 @@ namespace Blazorise
             if ( Rendered )
             {
                 var decimalsChanged = parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
-                var decimalsSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalsSeparator ), out var paramDecimalsSeparator ) && !DecimalsSeparator.IsEqual( paramDecimalsSeparator );
-                var alternativeDecimalsSeparatorChanged = parameters.TryGetValue<string>( nameof( AlternativeDecimalsSeparator ), out var paramAlternativeDecimalsSeparator ) && !AlternativeDecimalsSeparator.IsEqual( paramAlternativeDecimalsSeparator );
+                var decimalSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalSeparator ), out var paramDecimalSeparator ) && !DecimalSeparator.IsEqual( paramDecimalSeparator );
+                var alternativeDecimalSeparatorChanged = parameters.TryGetValue<string>( nameof( AlternativeDecimalSeparator ), out var paramAlternativeDecimalSeparator ) && !AlternativeDecimalSeparator.IsEqual( paramAlternativeDecimalSeparator );
 
                 var groupSeparatorChanged = parameters.TryGetValue<string>( nameof( GroupSeparator ), out var paramGroupSeparator ) && !GroupSeparator.IsEqual( paramGroupSeparator );
                 var groupSpacingChanged = parameters.TryGetValue<string>( nameof( GroupSpacing ), out var paramGroupSpacing ) && !GroupSpacing.IsEqual( paramGroupSpacing );
@@ -65,7 +65,7 @@ namespace Blazorise
                 var allowDecimalPaddingChanged = parameters.TryGetValue<NumericAllowDecimalPadding>( nameof( AllowDecimalPadding ), out var paramAllowDecimalPadding ) && !AllowDecimalPadding.IsEqual( paramAllowDecimalPadding );
                 var alwaysAllowDecimalSeparatorChanged = parameters.TryGetValue<bool>( nameof( AlwaysAllowDecimalSeparator ), out var paramAlwaysAllowDecimalSeparator ) && !AlwaysAllowDecimalSeparator.IsEqual( paramAlwaysAllowDecimalSeparator );
 
-                if ( decimalsChanged || decimalsSeparatorChanged || alternativeDecimalsSeparatorChanged
+                if ( decimalsChanged || decimalSeparatorChanged || alternativeDecimalSeparatorChanged
                     || groupSeparatorChanged || groupSpacingChanged
                     || currencySymbolChanged || currencySymbolPlacementChanged
                     || roundingMethodChanged
@@ -76,8 +76,8 @@ namespace Blazorise
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
                         Decimals = new { Changed = decimalsChanged, Value = paramDecimals },
-                        Separator = new { Changed = decimalsSeparatorChanged, Value = paramDecimalsSeparator },
-                        AlternativeSeparator = new { Changed = alternativeDecimalsSeparatorChanged, Value = paramAlternativeDecimalsSeparator },
+                        DecimalSeparator = new { Changed = decimalSeparatorChanged, Value = paramDecimalSeparator },
+                        AlternativeDecimalSeparator = new { Changed = alternativeDecimalSeparatorChanged, Value = paramAlternativeDecimalSeparator },
                         GroupSeparator = new { Changed = groupSeparatorChanged, Value = paramGroupSeparator },
                         GroupSpacing = new { Changed = groupSpacingChanged, Value = paramGroupSpacing },
                         CurrencySymbol = new { Changed = currencySymbolChanged, Value = paramCurrencySymbol },
@@ -136,8 +136,8 @@ namespace Blazorise
             await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Decimals,
-                Separator = DecimalsSeparator,
-                AlternativeSeparator = AlternativeDecimalsSeparator,
+                DecimalSeparator,
+                AlternativeDecimalSeparator,
                 GroupSeparator,
                 GroupSpacing,
                 CurrencySymbol,
@@ -354,7 +354,7 @@ namespace Blazorise
         {
             get
             {
-                // TODO: find the right culture based on DecimalsSeparator
+                // TODO: find the right culture based on DecimalSeparator
                 if ( !string.IsNullOrEmpty( Culture ) )
                 {
                     return CultureInfo.GetCultureInfo( Culture );
@@ -400,12 +400,12 @@ namespace Blazorise
         /// <summary>
         /// String to use as the decimal separator in numeric values.
         /// </summary>
-        [Parameter] public string DecimalsSeparator { get; set; } = ".";
+        [Parameter] public string DecimalSeparator { get; set; } = ".";
 
         /// <summary>
         /// String to use as the alternative decimal separator in numeric values.
         /// </summary>
-        [Parameter] public string AlternativeDecimalsSeparator { get; set; } = ",";
+        [Parameter] public string AlternativeDecimalSeparator { get; set; } = ",";
 
         /// <summary>
         /// Defines the thousand grouping separator character.

@@ -12,8 +12,11 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const instance = new AutoNumeric(element, {
         decimalPlaces: options.decimals || AutoNumeric.options.decimalPlaces.two,
-        decimalCharacter: options.separator || AutoNumeric.options.decimalCharacter.dot,
-        decimalCharacterAlternative: options.alternativeSeparator || AutoNumeric.options.decimalCharacter.comma,
+        decimalPlacesRawValue: options.decimals || AutoNumeric.options.decimalPlaces.two,
+        decimalPlacesShownOnBlur: options.decimals || AutoNumeric.options.decimalPlaces.two,
+        decimalPlacesShownOnFocus: options.decimals || AutoNumeric.options.decimalPlaces.two,
+        decimalCharacter: options.decimalSeparator || AutoNumeric.options.decimalCharacter.dot,
+        decimalCharacterAlternative: options.alternativeDecimalSeparator || AutoNumeric.options.decimalCharacter.comma,
 
         digitGroupSeparator: options.groupSeparator || AutoNumeric.options.digitGroupSeparator.noSeparator,
         digitalGroupSpacing: options.groupSpacing || AutoNumeric.options.digitalGroupSpacing.three,
@@ -52,17 +55,18 @@ export function updateOptions(element, elementId, options) {
 
     if (instance && options) {
         if (options.decimals.changed) {
+            //instance.options.decimalPlaces(options.decimals.value || AutoNumeric.options.decimalPlaces.two);
             instance.options.decimalPlacesRawValue(options.decimals.value || AutoNumeric.options.decimalPlaces.two);
             instance.options.decimalPlacesShownOnFocus(options.decimals.value || AutoNumeric.options.decimalPlaces.two);
             instance.options.decimalPlacesShownOnBlur(options.decimals.value || AutoNumeric.options.decimalPlaces.two);
         }
 
-        if (options.separator.changed) {
-            instance.options.decimalCharacter(options.separator.value || AutoNumeric.options.decimalCharacter.dot);
+        if (options.decimalSeparator.changed) {
+            instance.options.decimalCharacter(options.decimalSeparator.value || AutoNumeric.options.decimalCharacter.dot);
         }
 
-        if (options.alternativeSeparator.changed) {
-            instance.options.decimalCharacterAlternative(options.alternativeSeparator.value || AutoNumeric.options.decimalCharacter.comma);
+        if (options.alternativeDecimalSeparator.changed) {
+            instance.options.decimalCharacterAlternative(options.alternativeDecimalSeparator.value || AutoNumeric.options.decimalCharacter.comma);
         }
 
         if (options.groupSeparator.changed) {

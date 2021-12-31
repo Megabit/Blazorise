@@ -13,7 +13,7 @@
 }
 else if ( ValueType == typeof( decimal ) )
 {
-    <NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@decimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@decimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -24,7 +24,7 @@ else if ( ValueType == typeof( decimal ) )
 }
 else if ( ValueType == typeof( decimal? ) )
 {
-    <NumericEdit TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDecimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDecimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -35,7 +35,7 @@ else if ( ValueType == typeof( decimal? ) )
 }
 else if ( ValueType == typeof( double ) )
 {
-    <NumericEdit TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@doubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@doubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -46,7 +46,7 @@ else if ( ValueType == typeof( double ) )
 }
 else if ( ValueType == typeof( double? ) )
 {
-    <NumericEdit TValue="double?" Value="@(( double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDoubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="double?" Value="@(( double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDoubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -57,7 +57,7 @@ else if ( ValueType == typeof( double? ) )
 }
 else if ( ValueType == typeof( float ) )
 {
-    <NumericEdit TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@floatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@floatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -68,7 +68,7 @@ else if ( ValueType == typeof( float ) )
 }
 else if ( ValueType == typeof( float? ) )
 {
-    <NumericEdit TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableFloatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableFloatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -79,7 +79,7 @@ else if ( ValueType == typeof( float? ) )
 }
 else if ( ValueType == typeof( int ) )
 {
-    <NumericEdit TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@intExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@intExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -90,7 +90,7 @@ else if ( ValueType == typeof( int ) )
 }
 else if ( ValueType == typeof( int? ) )
 {
-    <NumericEdit TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableIntExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableIntExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -101,7 +101,7 @@ else if ( ValueType == typeof( int? ) )
 }
 else if ( ValueType == typeof( long ) )
 {
-    <NumericEdit TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@longExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@longExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -112,7 +112,7 @@ else if ( ValueType == typeof( long ) )
 }
 else if ( ValueType == typeof( long? ) )
 {
-    <NumericEdit TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableLongExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalsSeparator="@DecimalsSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericEdit TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableLongExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
