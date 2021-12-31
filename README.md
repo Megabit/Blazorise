@@ -1,4 +1,4 @@
-![Blazorise](docs/assets/images/blazorise.png)
+![Blazorise](https://user-images.githubusercontent.com/900302/147649481-11ca2931-34cd-4e24-8035-fe757cf9d744.png)
 
 # Components for Blazor
 
