@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazorise.Bootstrap5" Version="0.9.5.3" />
+    <PackageReference Include="Blazorise.Charts" Version="0.9.5.3" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Blazorise.Charts.Streaming">
+      <HintPath>..\..\Blazorise\Source\Extensions\Blazorise.Charts.Streaming\bin\Debug\net6.0\Blazorise.Charts.Streaming.dll</HintPath>
+    </Reference>
+    <Reference Include="Blazorise.Charts.Trendline">
+      <HintPath>..\..\Blazorise\Source\Extensions\Blazorise.Charts.Trendline\bin\Debug\net6.0\Blazorise.Charts.Trendline.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
