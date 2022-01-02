@@ -1,5 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
+@using Blazorise.Charts
+@using Blazorise.Charts.Trendline
+
 <Button Color="Color.Primary" Clicked="@OnButtonClicked">Toggle trendline</Button>
 
 <Chart @ref="chart" TItem="double?" Type="ChartType.Line">
@@ -41,7 +44,7 @@
                 new ChartTrendline 
                 { 
                     DatasetIndex = 1, // This will add a trendline to the second dataset. If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
-                    Width = 5, 
+                    Width = 10, 
                     Color = ChartColor.FromRgba( 54, 162, 235, .6f ) 
                 }
             };
