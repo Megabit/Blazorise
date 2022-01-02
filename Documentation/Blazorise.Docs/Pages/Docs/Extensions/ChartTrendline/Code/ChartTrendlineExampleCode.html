@@ -22,7 +22,7 @@
         }
     }
 
-    <span class="keyword">bool</span> trendlinesOn;
+    <span class="keyword">bool</span> trendlinesOn = <span class="keyword">true</span>;
     <span class="keyword">async</span> Task OnButtonClicked()
     {
         trendlinesOn = !trendlinesOn;
@@ -38,6 +38,9 @@
         <span class="keyword">await</span> chart.AddDataSet( GetLineChartDataset() );
         <span class="keyword">await</span> chart.AddDataSet( GetLineChartDataset() );
 
+        <span class="keyword">await</span> chart.Update();
+
+        <span class="comment">// Add the trendline(s) after you have added the datasets and called await chart.Update();</span>
         <span class="keyword">if</span> (trendlinesOn)
         {
             <span class="keyword">var</span> trendlines = <span class="keyword">new</span> List&lt;ChartTrendline&gt; 
@@ -51,8 +54,6 @@
             };
             <span class="keyword">await</span> chartTrendline.AddTrendLines(trendlines);
         }
-
-        <span class="keyword">await</span> chart.Update();
     }
 
     LineChartDataset&lt;<span class="keyword">double</span>?&gt; GetLineChartDataset()

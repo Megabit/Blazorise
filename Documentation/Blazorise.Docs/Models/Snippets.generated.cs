@@ -3009,7 +3009,7 @@ namespace Blazorise.Docs.Models
         }
     }
 
-    bool trendlinesOn;
+    bool trendlinesOn = true;
     async Task OnButtonClicked()
     {
         trendlinesOn = !trendlinesOn;
@@ -3025,6 +3025,9 @@ namespace Blazorise.Docs.Models
         await chart.AddDataSet( GetLineChartDataset() );
         await chart.AddDataSet( GetLineChartDataset() );
 
+        await chart.Update();
+
+        // Add the trendline(s) after you have added the datasets and called await chart.Update();
         if (trendlinesOn)
         {
             var trendlines = new List<ChartTrendline> 
@@ -3038,8 +3041,6 @@ namespace Blazorise.Docs.Models
             };
             await chartTrendline.AddTrendLines(trendlines);
         }
-
-        await chart.Update();
     }
 
     LineChartDataset<double?> GetLineChartDataset()

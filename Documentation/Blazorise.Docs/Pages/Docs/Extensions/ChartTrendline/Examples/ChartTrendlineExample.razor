@@ -21,7 +21,7 @@
         }
     }
 
-    bool trendlinesOn;
+    bool trendlinesOn = true;
     async Task OnButtonClicked()
     {
         trendlinesOn = !trendlinesOn;
@@ -37,21 +37,24 @@
         await chart.AddDataSet( GetLineChartDataset() );
         await chart.AddDataSet( GetLineChartDataset() );
 
+        await chart.Update();
+
+        // Add the trendline(s) after you have added the datasets and called await chart.Update();
         if (trendlinesOn)
         {
+            // This will add a trendline to the second dataset.
+            // If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
             var trendlines = new List<ChartTrendline> 
             {
                 new ChartTrendline 
                 { 
-                    DatasetIndex = 1, // This will add a trendline to the second dataset. If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
+                    DatasetIndex = 1,
                     Width = 10, 
                     Color = ChartColor.FromRgba( 54, 162, 235, .6f ) 
                 }
             };
             await chartTrendline.AddTrendLines(trendlines);
         }
-
-        await chart.Update();
     }
 
     LineChartDataset<double?> GetLineChartDataset()
