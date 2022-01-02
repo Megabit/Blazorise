@@ -98,7 +98,7 @@ namespace Blazorise.Charts.Trendline
         /// <summary>
         /// Stream options.
         /// </summary>
-        [Parameter] public ChartTrendlineOptions Options { get; set; } = new();
+        [Parameter] public List<ChartTrendlineOptions> Options { get; set; } = new() { new ChartTrendlineOptions() };
 
         /// <summary>
         /// Callback function that will be called at a regular interval. The callback takes one argument, a reference to the dataset object. You can update your datasets here. The chart will be automatically updated after returning.

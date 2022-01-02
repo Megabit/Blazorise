@@ -6,14 +6,16 @@
 
 <h1>Hello, world!</h1>
 
-<div style="width: 85%; border: 0.5px dotted; padding: 10px; position: absolute; bottom: 5px;">
-    <Chart @ref="chart" TItem="double" Type="ChartType.Line">
-        <ChartTrendline TItem="double" />
+<Button Color="Color.Primary" Clicked="@OnButtonClicked">Toggle trendline</Button>
+
+<div>
+    <Chart @ref="chart" TItem="double?" Type="ChartType.Line">
+        <ChartTrendline TItem="double?" Options="@trendlines" Visibility="@trendlinesOn" />
     </Chart>
 </div>
 
 @code{
-    Chart<double> chart;
+    Chart<double?> chart;
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
@@ -23,16 +25,30 @@
         }
     }
 
+    Visibility trendlinesOn;
+    async Task OnButtonClicked()
+    {
+        trendlinesOn = trendlinesOn == Visibility.Visible ? Visibility.Invisible : Visibility.Visible;
+
+        await HandleRedraw();
+    }
+
     async Task HandleRedraw()
     {
         await chart.Clear();
 
-        await chart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
+        await chart.AddLabels(Labels);
+        await chart.AddDataSet( GetLineChartDataset() );
+        await chart.AddDataSet( GetLineChartDataset() );
+
+        await chart.Update();
     }
 
-    LineChartDataset<double> GetLineChartDataset()
+    List<ChartTrendlineOptions> trendlines = new List<ChartTrendlineOptions> { new ChartTrendlineOptions { DatasetIndex = 1,  Width = 5, Color = ChartColor.FromRgba( 54, 162, 235, .6f ) } };
+
+    LineChartDataset<double?> GetLineChartDataset()
     {
-        return new LineChartDataset<double>
+        return new LineChartDataset<double?>
         {
             Label = "# of randoms",
             Data = RandomizeData(),
@@ -44,14 +60,14 @@
         };
     }
 
-    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+    string[] Labels = { "0", "1", "2", "3", "4", "5" };
     List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
     List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
-    List<double> RandomizeData()
+    List<double?> RandomizeData()
     {
         var r = new Random( DateTime.Now.Millisecond );
 
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        return new List<double?> { r.Next( 3, 20 ) * r.NextDouble(), r.Next( 3, 30 ) * r.NextDouble(), r.Next( 3, 40 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 60 ) * r.NextDouble(), r.Next( 3, 70 ) * r.NextDouble() };
     }
 }

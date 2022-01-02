@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
@@ -20,7 +21,7 @@ namespace Blazorise.Charts.Trendline
         {
         }
 
-        public virtual async ValueTask<bool> Initialize( DotNetObjectReference<ChartTrendlineAdapter> dotNetObjectReference, ElementReference canvasRef, string canvasId, bool vertical, ChartTrendlineOptions options )
+        public virtual async ValueTask<bool> Initialize( DotNetObjectReference<ChartTrendlineAdapter> dotNetObjectReference, ElementReference canvasRef, string canvasId, bool vertical, List<ChartTrendlineOptions> options )
         {
             var moduleInstance = await Module;
 
