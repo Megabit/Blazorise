@@ -2,7 +2,7 @@
 
 namespace Blazorise.Charts.Trendline
 {
-    public class ChartTrendlineOptions
+    public class ChartTrendline
     {
         /// <summary>
         /// The index of the dataset to add the trendline to. By default this is 0. If you have more than one line, increase the index by one for each dataset you have.

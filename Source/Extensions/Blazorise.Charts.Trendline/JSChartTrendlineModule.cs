@@ -8,8 +8,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Trendline
 {
-    public class JSChartTrendlineModule : BaseJSModule,
-        IJSDestroyableModule
+    public class JSChartTrendlineModule : BaseJSModule
     {
         /// <summary>
         /// Default module constructor.
@@ -21,23 +20,11 @@ namespace Blazorise.Charts.Trendline
         {
         }
 
-        public virtual async ValueTask<bool> Initialize( DotNetObjectReference<ChartTrendlineAdapter> dotNetObjectReference, ElementReference canvasRef, string canvasId, bool vertical, List<ChartTrendlineOptions> options )
+        public virtual async ValueTask<bool> AddTrendlines( string canvasId, List<ChartTrendline> trendlines )
         {
             var moduleInstance = await Module;
 
-            return await moduleInstance.InvokeAsync<bool>( "initialize",
-                dotNetObjectReference,
-                canvasRef,
-                canvasId,
-                vertical,
-                options );
-        }
-
-        public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
+            return await moduleInstance.InvokeAsync<bool>( "addTrendlines", canvasId, trendlines );
         }
 
         /// <inheritdoc/>

@@ -10,12 +10,13 @@
 
 <div>
     <Chart @ref="chart" TItem="double?" Type="ChartType.Line">
-        <ChartTrendline TItem="double?" Options="@trendlines" Visibility="@trendlinesOn" />
+        <ChartTrendline @ref="chartTrendline" TItem="double?" />
     </Chart>
 </div>
 
 @code{
     Chart<double?> chart;
+    ChartTrendline<double?> chartTrendline;
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
@@ -25,10 +26,10 @@
         }
     }
 
-    Visibility trendlinesOn;
+    bool trendlinesOn;
     async Task OnButtonClicked()
     {
-        trendlinesOn = trendlinesOn == Visibility.Visible ? Visibility.Invisible : Visibility.Visible;
+        trendlinesOn = !trendlinesOn;
 
         await HandleRedraw();
     }
@@ -41,10 +42,17 @@
         await chart.AddDataSet( GetLineChartDataset() );
         await chart.AddDataSet( GetLineChartDataset() );
 
+        if (trendlinesOn)
+        {
+            var trendlines = new List<ChartTrendline> 
+            {
+                new ChartTrendline { DatasetIndex = 1, Width = 5, Color = ChartColor.FromRgba( 54, 162, 235, .6f ) }
+            };
+            await chartTrendline.AddTrendLines(trendlines);
+        }
+
         await chart.Update();
     }
-
-    List<ChartTrendlineOptions> trendlines = new List<ChartTrendlineOptions> { new ChartTrendlineOptions { DatasetIndex = 1,  Width = 5, Color = ChartColor.FromRgba( 54, 162, 235, .6f ) } };
 
     LineChartDataset<double?> GetLineChartDataset()
     {
