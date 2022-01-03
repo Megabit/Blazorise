@@ -266,23 +266,23 @@ namespace Blazorise
                 {
                     Shorthand = new[]
                     {
+                        Localizer["Sun"],
                         Localizer["Mon"],
                         Localizer["Tue"],
                         Localizer["Wed"],
                         Localizer["Thu"],
                         Localizer["Fri"],
-                        Localizer["Sat"],
-                        Localizer["Sun"]
+                        Localizer["Sat"]
                     },
                     Longhand = new[]
                     {
+                        Localizer["Sunday"],
                         Localizer["Monday"],
                         Localizer["Tuesday"],
                         Localizer["Wednesday"],
                         Localizer["Thurday"],
                         Localizer["Friday"],
-                        Localizer["Saturday"],
-                        Localizer["Sunday"]
+                        Localizer["Saturday"]
                     },
                 },
                 Months = new
