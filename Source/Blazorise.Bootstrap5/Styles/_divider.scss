@@ -2,6 +2,10 @@
     &.divider {
         &.divider-text {
             position: unset;
+
+            &::before {
+                top: unset;
+            }
         }
     }
 }
