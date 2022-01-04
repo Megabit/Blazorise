@@ -1440,7 +1440,8 @@ namespace Blazorise.Docs.Models
     private Task OnModalClosing( ModalClosingEventArgs e )
     {
         // just set Cancel to prevent modal from closing
-        e.Cancel = cancelClose;
+        e.Cancel = cancelClose 
+            || e.CloseReason != CloseReason.UserClosing;
 
         return Task.CompletedTask;
     }
