@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Blazorise.Charts.Trendline
+﻿namespace Blazorise.Charts.Trendline
 {
-    public class ChartTrendline
+    /// <summary>
+    /// Supplies information about a trendline.
+    /// </summary>
+    public class ChartTrendlineData
     {
         /// <summary>
         /// The index of the dataset to add the trendline to. By default this is 0. If you have more than one line, increase the index by one for each dataset you have.
@@ -23,6 +24,5 @@ namespace Blazorise.Charts.Trendline
         /// Line width
         /// </summary>
         public int Width { get; set; } = 2;
-        
     }
 }

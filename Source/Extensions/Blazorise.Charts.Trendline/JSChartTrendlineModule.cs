@@ -20,11 +20,11 @@ namespace Blazorise.Charts.Trendline
         {
         }
 
-        public virtual async ValueTask<bool> AddTrendlines( string canvasId, List<ChartTrendline> trendlines )
+        public virtual async ValueTask<bool> AddTrendlineOptions( string canvasId, List<ChartTrendlineData> trendlineData )
         {
             var moduleInstance = await Module;
 
-            return await moduleInstance.InvokeAsync<bool>( "addTrendlines", canvasId, trendlines );
+            return await moduleInstance.InvokeAsync<bool>( "addTrendlines", canvasId, trendlineData );
         }
 
         /// <inheritdoc/>

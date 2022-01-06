@@ -3004,13 +3004,13 @@ namespace Blazorise.Docs.Models
         public const string ChartTrendlineExample = @"@using Blazorise.Charts
 @using Blazorise.Charts.Trendline
 
-<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Toggle trendline</Button>
+<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Toggle trendline and redraw</Button>
 
 <Chart @ref=""chart"" TItem=""double?"" Type=""ChartType.Line"">
     <ChartTrendline @ref=""chartTrendline"" TItem=""double?"" />
 </Chart>
 
-@code{
+@code {
     Chart<double?> chart;
     ChartTrendline<double?> chartTrendline;
 
@@ -3034,40 +3034,43 @@ namespace Blazorise.Docs.Models
     {
         await chart.Clear();
 
-        await chart.AddLabels(Labels);
+        await chart.AddLabels( Labels );
         await chart.AddDataSet( GetLineChartDataset() );
         await chart.AddDataSet( GetLineChartDataset() );
 
         await chart.Update();
 
         // Add the trendline(s) after you have added the datasets and called await chart.Update();
-        if (trendlinesOn)
+        if ( trendlinesOn )
         {
-            var trendlines = new List<ChartTrendline> 
+            // This will add a trendline to the second dataset.
+            // If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
+            var trendlineData = new List<ChartTrendlineData>
             {
-                new ChartTrendline 
-                { 
-                    DatasetIndex = 1, // This will add a trendline to the second dataset. If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
-                    Width = 10, 
-                    Color = ChartColor.FromRgba( 54, 162, 235, .6f ) 
+                new ChartTrendlineData
+                {
+                    DatasetIndex = 1,
+                    Width = 10,
+                    Color = ChartColor.FromRgba( 54, 162, 235, .6f )
                 }
             };
-            await chartTrendline.AddTrendLines(trendlines);
+
+            await chartTrendline.AddTrendLineOptions( trendlineData );
         }
     }
 
     LineChartDataset<double?> GetLineChartDataset()
     {
         return new LineChartDataset<double?>
-        {
-            Label = ""# of randoms"",
-            Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
-            Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
-        };
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                Fill = true,
+                PointRadius = 2,
+                BorderDash = new List<int> { }
+            };
     }
 
     string[] Labels = { ""0"", ""1"", ""2"", ""3"", ""4"", ""5"" };

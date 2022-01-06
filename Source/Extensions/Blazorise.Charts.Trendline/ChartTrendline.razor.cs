@@ -12,7 +12,7 @@ namespace Blazorise.Charts.Trendline
 {
     public interface IChartTrendline
     {
-        Task AddTrendLines( List<ChartTrendline> trendlines );
+        Task AddTrendLineOptions( List<ChartTrendlineData> trendlineData );
     }
 
     /// <summary>
@@ -31,12 +31,12 @@ namespace Blazorise.Charts.Trendline
             return base.OnInitializedAsync();
         }
 
-        public async Task AddTrendLines(List<ChartTrendline> trendlines)
+        public async Task AddTrendLineOptions( List<ChartTrendlineData> trendlineData )
         {
             if ( !Rendered )
                 return;
 
-            await JSModule.AddTrendlines( ParentChart.ElementId, trendlines );
+            await JSModule.AddTrendlineOptions( ParentChart.ElementId, trendlineData );
         }
 
         /// <inheritdoc/>
@@ -49,6 +49,5 @@ namespace Blazorise.Charts.Trendline
         [Inject] private IVersionProvider VersionProvider { get; set; }
 
         [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
-       
     }
 }
