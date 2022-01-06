@@ -116,6 +116,9 @@
     <DocsAttributesItem Name="Validator" Type="Action<ValidatorEventArgs>" Default="null">
         Validation handler used to validate selected value.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="AsyncValidator" Type="Func<ValidatorEventArgs, CancellationToken, Task>" Default="null">
+        Asynchronously validates the selected value.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="NotFoundContent" Type="RenderFragment<string>">
         Render fragment when no value has been found on the data source.
     </DocsAttributesItem>

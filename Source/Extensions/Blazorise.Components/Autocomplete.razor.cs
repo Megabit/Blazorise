@@ -752,7 +752,7 @@ namespace Blazorise.Components
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <summary>
-        /// Asynchronously validates the input value after trying to save.
+        /// Asynchronously validates the selected value.
         /// </summary>
         [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
