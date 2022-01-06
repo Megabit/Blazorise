@@ -104,36 +104,23 @@ Install-Package Blazorise.Icons.FontAwesome
 
 ### 2. Source files
 
-The next step is to define links to Bootstrap and FontAwesome _CSS_ or _JS_ files. If you're using **Blazor WebAssembly** project template, those links will go to the `index.html` located inside of `wwwroot` folder. Otherwise, if you're using a **Blazor Server** project template you will place the links into the `_Host.cshtml`.
-
-In this step we're also going to define the links for Blazorise content files that comes with NuGet packages. You must follow the naming convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. 
+Add the following to `index.html` (Blazor WebAssembly) or `_Host.cshtml` (Blazor Server) in the `head` section.
 
 ```html
-<html>
-<head>
-  <!-- inside of head section -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
-  <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-  <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
-</head>
-<body>
-  <div id="app"></div>
-
-  <!-- inside of body section and after the div/app tag  -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-</body>
-</html>
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 ```
 
----
-**NOTE**
- When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate Bootstrap and FontAwesome files, you need to remove them or replace them with the links from above. If you forget to remove them it's possible that some of components will not work as expected.
+Add the following to `index.html` or `_Host.cshtml` in the `body` section.
 
----
+```html
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+```
 
 ### 3. Using's
 
@@ -145,91 +132,22 @@ In your main `_Imports.razor` add:
 
 ### 4. Registrations
 
-Starting from **.Net Core 3.2** there was some changes regarding the setup process for **Blazor WebAssembly** project types. Specifically the **Startup.cs** file is removed and all registrations are now done in the **Program.cs**.
-
----
-Depending on the hosting model of your Blazor project you only need to apply either step **4.a** or **4.b**. You should not include both of them as that is generally not supported.
-
-To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0).
-
----
-
-#### 4.a Blazor WebAssembly
-
-This step is mandatory for **Blazor WebAssembly**(client-side) and also for **ASP.NET Core hosted** project types. You should place the code into the **Program.cs** of your **client** project.
+Add the following lines to the relevant sections of `Program.cs`.
 
 ```cs
-// other usings
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-
-public class Program
-{
-  public static async Task Main( string[] args )
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault( args );
-
-    builder.Services
-      .AddBlazorise( options =>
-      {
-          options.ChangeTextOnKeyPress = true;
-      } )
-      .AddBootstrapProviders()
-      .AddFontAwesomeIcons();
-
-    builder.Services.AddSingleton( new HttpClient
-    {
-      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-    } );
-
-    builder.RootComponents.Add<App>( "#app" );
-
-    var host = builder.Build();
-
-    await host.RunAsync();
-  }
-}
 ```
 
-#### 4.b Blazor Server
-
-This step is going only into the **Startup.cs** of your **Blazor Server** project.
-
 ```cs
-// other usings
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
-
-public class Startup
-{
-  public void ConfigureServices( IServiceCollection services )
+builder.Services
+  .AddBlazorise( options =>
   {
-    services
-      .AddBlazorise( options =>
-      {
-        options.ChangeTextOnKeyPress = true; // optional
-      } )
-      .AddBootstrapProviders()
-      .AddFontAwesomeIcons();
-
-      // other services
-  }
-
-  public void Configure( IComponentsApplicationBuilder app )
-  {
-    // other settings
-    
-    app.UseRouting();
-    
-    app.UseEndpoints( endpoints =>
-    {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage( "/_Host" );
-    } );
-  }
-}
+      options.ChangeTextOnKeyPress = true;
+  } )
+  .AddBootstrapProviders()
+  .AddFontAwesomeIcons();
 ```
 
 ## Usage
