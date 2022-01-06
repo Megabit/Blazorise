@@ -7,9 +7,9 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules
 {
     /// <summary>
-    /// Contracts for the <see cref="NumericEdit{TValue}"/> JS module.
+    /// Contracts for the <see cref="NumericPicker{TValue}"/> JS module.
     /// </summary>
-    public interface IJSNumericEditModule : IBaseJSModule,
+    public interface IJSNumericPickerModule : IBaseJSModule,
         IJSDestroyableModule
     {
         /// <summary>
@@ -20,15 +20,17 @@ namespace Blazorise.Modules
         /// <param name="elementId">ID of the rendered element.</param>
         /// <param name="options">Options for numeric edit.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Initialize( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
+        ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
 
         /// <summary>
-        /// Updates the <see cref="NumericEdit{TValue}"/> options.
+        /// Updates the <see cref="NumericPicker{TValue}"/> options.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>
         /// <param name="options">Options for numeric edit.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+
+        ValueTask UpdateValue<TValue>( ElementReference elementRef, string elementId, TValue value );
     }
 }

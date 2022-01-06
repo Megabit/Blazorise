@@ -1489,7 +1489,19 @@ namespace Blazorise.Docs.Models
 
         public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
 
+        public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
+
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
+
+        public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
+
+        public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
+
+        public const string NumericPickerStepExample = @"<NumericPicker @bind-Value=""@value"" Step=""10"" />
+
+@code{
+    decimal value;
+}";
 
         public const string BasicPaginationExample = @"<Pagination>
     <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">

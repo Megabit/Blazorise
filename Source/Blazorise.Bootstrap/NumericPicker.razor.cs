@@ -4,11 +4,11 @@ using Blazorise.Utilities;
 
 namespace Blazorise.Bootstrap
 {
-    public partial class NumericEdit<TValue> : Blazorise.NumericEdit<TValue>
+    public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     {
         #region Constructors
 
-        public NumericEdit()
+        public NumericPicker()
         {
             NumericWrapperClassBuilder = new( BuildDialogClasses );
         }
@@ -27,7 +27,7 @@ namespace Blazorise.Bootstrap
         private void BuildDialogClasses( ClassBuilder builder )
         {
             builder.Append( "b-numeric" );
-            builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
         }
 
         #endregion

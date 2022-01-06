@@ -10,7 +10,7 @@ namespace Blazorise
     /// <remarks>
     /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
     /// </remarks>
-    public interface INumericEdit
+    public interface INumericPicker
     {
         /// <summary>
         /// Updates the <see cref="NumericEdit{TValue}"/> with the new value.

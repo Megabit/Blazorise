@@ -7,9 +7,9 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules
 {
     /// <summary>
-    /// Default implementation of the <see cref="NumericEdit{TValue}"/> JS module.
+    /// Default implementation of the <see cref="NumericPicker{TValue}"/> JS module.
     /// </summary>
-    public class JSNumericEditModule : BaseJSModule, IJSNumericEditModule
+    public class JSNumericPickerModule : BaseJSModule, IJSNumericPickerModule
     {
         #region Constructors
 
@@ -18,7 +18,7 @@ namespace Blazorise.Modules
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
         /// <param name="versionProvider">Version provider.</param>
-        public JSNumericEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+        public JSNumericPickerModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
             : base( jsRuntime, versionProvider )
         {
         }
@@ -28,7 +28,7 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
         {
             var moduleInstance = await Module;
 
@@ -57,12 +57,23 @@ namespace Blazorise.Modules
             await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
         }
 
+        /// <inheritdoc/>
+        public virtual async ValueTask UpdateValue<TValue>( ElementReference elementRef, string elementId, TValue value )
+        {
+            if ( IsUnsafe )
+                return;
+
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "updateValue", elementRef, elementId, value );
+        }
+
         #endregion
 
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/numericEdit.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise/numericPicker.js?v={VersionProvider.Version}";
 
         #endregion
     }

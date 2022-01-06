@@ -6,17 +6,17 @@ using Microsoft.JSInterop;
 namespace Blazorise
 {
     /// <summary>
-    /// Middleman between the NumericEdit component and javascript.
+    /// Middleman between the NumericPicker component and javascript.
     /// </summary>
-    public class NumericEditAdapter
+    public class NumericPickerAdapter
     {
-        private readonly INumericEdit numericEdit;
+        private readonly INumericPicker numericEdit;
 
         /// <summary>
-        /// Default constructor for <see cref="NumericEditAdapter"/>.
+        /// Default constructor for <see cref="NumericPickerAdapter"/>.
         /// </summary>
         /// <param name="numericEdit">Numeric input to which the adapter is referenced.</param>
-        public NumericEditAdapter( INumericEdit numericEdit )
+        public NumericPickerAdapter( INumericPicker numericEdit )
         {
             this.numericEdit = numericEdit;
         }
