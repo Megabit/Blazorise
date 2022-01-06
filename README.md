@@ -34,7 +34,7 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 ### Special Sponsors
 
 <!--platinum start-->
-<table style="overflow:unset;">
+<table>
   <tbody>
     <tr>
       <td align="center" valign="middle">
