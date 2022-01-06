@@ -1450,7 +1450,7 @@ namespace Blazorise.Docs.Models
         public const string ModalFullscreenExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
 <Modal @ref=""modalRef"">
-    <ModalContent Fullscreen>
+    <ModalContent Size=""ModalSize.Fullscreen"">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />

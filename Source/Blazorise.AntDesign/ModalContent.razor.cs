@@ -52,7 +52,7 @@ namespace Blazorise.AntDesign
             builder.Append( "ant-modal" );
             builder.Append( $"ant-modal-{ClassProvider.ToModalSize( Size )}" );
 
-            if ( Fullscreen )
+            if ( Size == ModalSize.Fullscreen )
             {
                 builder.Append( "ant-modal-fullscreen" );
             }
