@@ -67,6 +67,7 @@ namespace Blazorise.Bulma
             { typeof( Blazorise.TextEdit ), typeof( Bulma.TextEdit ) },
             { typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) },
             { typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) },
+            { typeof( Blazorise.NumericPicker<> ), typeof( Bulma.NumericPicker<> ) },
             { typeof( Blazorise.Pagination ), typeof( Bulma.Pagination ) },
             { typeof( Blazorise.PaginationLink ), typeof( Bulma.PaginationLink ) },
             { typeof( Blazorise.Progress ), typeof( Bulma.Progress ) },

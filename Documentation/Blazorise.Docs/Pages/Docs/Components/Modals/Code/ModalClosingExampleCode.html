@@ -46,7 +46,8 @@
     <span class="keyword">private</span> Task OnModalClosing( ModalClosingEventArgs e )
     {
         <span class="comment">// just set Cancel to prevent modal from closing</span>
-        e.Cancel = cancelClose;
+        e.Cancel = cancelClose 
+            || e.CloseReason != CloseReason.UserClosing;
 
         <span class="keyword">return</span> Task.CompletedTask;
     }

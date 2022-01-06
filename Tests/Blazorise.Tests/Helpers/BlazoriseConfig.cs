@@ -47,7 +47,7 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
             services.AddScoped<IJSTextEditModule, JSTextEditModule>();
             services.AddScoped<IJSMemoEditModule, JSMemoEditModule>();
-            services.AddScoped<IJSNumericEditModule, JSNumericEditModule>();
+            services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
             services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();
             services.AddScoped<IJSTimePickerModule, JSTimePickerModule>();
             services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
@@ -116,7 +116,7 @@ namespace Blazorise.Tests.Helpers
             {
                 AddUtilities( jsInterop );
 
-                var module = jsInterop.SetupModule( new JSNumericEditModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                var module = jsInterop.SetupModule( new JSNumericPickerModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "import", _ => true );
                 module.SetupVoid( "initialize", _ => true );
                 module.SetupVoid( "destroy", _ => true );
