@@ -118,6 +118,18 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region NumericPicker
+
+        public override string NumericPicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+
+        public override string NumericPickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string NumericPickerColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+
+        public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region InputMask
 
         public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";

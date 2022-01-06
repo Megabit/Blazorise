@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /examples/*
-
-Sitemap: https://blazorise.com/siteindex.xml

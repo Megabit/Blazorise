@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
@@ -749,6 +750,11 @@ namespace Blazorise.Components
         /// Validation handler used to validate selected value.
         /// </summary>
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Asynchronously validates the selected value.
+        /// </summary>
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.

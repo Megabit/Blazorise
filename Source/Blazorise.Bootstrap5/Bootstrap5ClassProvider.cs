@@ -118,6 +118,18 @@ namespace Blazorise.Bootstrap5
 
         #endregion
 
+        #region NumericPicker
+
+        public override string NumericPicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string NumericPickerColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region InputMask
 
         public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";

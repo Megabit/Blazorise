@@ -7,7 +7,18 @@
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    Use <Code Tag>NumericEdit</Code> to have a field for any kind if numeric values.
+    A native numeric <Code Tag>input</Code> component built around the <Code>type="number"</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Being built around native <Code>type="number"</Code> input element, the <Code>NumericEdit</Code> component
+    comes with a few limitations that you must be aware of. First and foremost, the input display format is fully
+    controlled by the browser and the system locale. This means that for you to change the input format you would
+    need to change the browser settings.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code Tag>NumericEdit</Code> to have a field for any kind of numeric values.
     All basic types are supported, including nullable types
     (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
 </DocsPageParagraph>
@@ -63,14 +74,8 @@
     <DocsAttributesItem Name="Step" Type="decimal?" Default="null">
         Specifies the interval between valid values.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Decimals" Type="int" Default="2">
-        Maximum number of decimal places after the decimal separator.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DecimalsSeparator" Type="string" Default="@("\".\"")">
-        String to use as the decimal separator in numeric values.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="Culture" Type="string" Default="null">
-        Helps define the language of an element.
+        Helps define the localization of an element (used for parsing of the value).
     </DocsAttributesItem>
     <DocsAttributesItem Name="Min" Type="TValue" Default="default">
         The minimum value to accept for this input.
@@ -80,14 +85,5 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Autofocus" Type="bool" Default="false">
         Set’s the focus to the component after the rendering is done.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowStepButtons" Type="bool?" Default="true">
-        If true, step buttons will be visible.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EnableStep" Type="bool?" Default="true">
-        If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectAllOnFocus" Type="bool" Default="false">
-        If true, selects all the text entered in the input field once it receives the focus.
     </DocsAttributesItem>
 </DocsAttributes>
