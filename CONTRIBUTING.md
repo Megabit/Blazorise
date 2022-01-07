@@ -43,4 +43,8 @@ When submitting a pull request:
 
 1. Fork the repository.
 2. Create a branch from `master` or `rel-X.Y` and give it a meaningful name (e.g. `rel-{version-num}-my-awesome-new-feature`) and describe the feature or fix.
-3. Open a pull request on GitHub.
+  - `dev-` prefix for new features based on `master` branch
+  - `rel-` prefix for fixed on existing release branch
+4. Open a pull request on GitHub.
+
+> :warning: **Don't make any changes on master branch**: You must always create a feature branch by following our guidelines or we will close the PR until the changes are properly organized.
