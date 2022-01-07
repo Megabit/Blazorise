@@ -2,12 +2,11 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.Video
 {
     /// <summary>
     /// Video 
@@ -20,10 +19,20 @@ namespace Blazorise
 
         #region Methods
 
-        /// <inheritdoc/>
-        protected override void OnInitialized()
+        protected override Task OnInitializedAsync()
         {
-            ExecuteAfterRender( async () =>
+            if ( JSModule == null )
+            {
+                JSModule = new JSVideoModule( JSRuntime, VersionProvider );
+            }
+
+            return base.OnInitializedAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
             {
                 await JSModule.Initialize( ElementRef, ElementId, new
                 {
@@ -32,9 +41,9 @@ namespace Blazorise
                     Source,
                     Streaming,
                 } );
-            } );
+            }
 
-            base.OnInitialized();
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <inheritdoc/>
@@ -43,6 +52,8 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                await JSModule.SafeDisposeAsync();
             }
 
             await base.DisposeAsync( disposing );
@@ -55,10 +66,11 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
-        /// <summary>
-        /// Gets or sets the <see cref="IJSVideoModule"/> instance.
-        /// </summary>
-        [Inject] public IJSVideoModule JSModule { get; set; }
+        protected JSVideoModule JSModule { get; private set; }
+
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        [Inject] private IVersionProvider VersionProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the controls visibility of the player.
@@ -71,7 +83,7 @@ namespace Blazorise
         [Parameter] public bool AutoPlay { get; set; }
 
         /// <summary>
-        /// Gets or sets the current source for the player. The setter accepts an object.
+        /// Gets or sets the current source for the player.
         /// </summary>
         [Parameter] public string Source { get; set; }
 
@@ -80,7 +92,10 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string Poster { get; set; }
 
-        [Parameter] public string Streaming { get; set; }
+        /// <summary>
+        /// If true, the video will be running in streaming mode.
+        /// </summary>
+        [Parameter] public bool Streaming { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Video"/>.

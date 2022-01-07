@@ -1,16 +1,14 @@
 ﻿#region Using directives
-using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Modules
+namespace Blazorise.Video
 {
-    /// <summary>
-    /// Default implementation for the video JS module.
-    /// </summary>
-    public class JSVideoModule : BaseJSModule, IJSVideoModule
+    public class JSVideoModule : BaseJSModule,
+        IJSDestroyableModule
     {
         #region Constructors
 
@@ -28,23 +26,18 @@ namespace Blazorise.Modules
 
         #region Methods
 
-        /// <inheritdoc/>
-        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask<bool> Initialize( ElementReference elementRef, string elementId, object options )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, options );
+            return await moduleInstance.InvokeAsync<bool>( "initialize", elementRef, elementId, options );
         }
 
-        /// <inheritdoc/>
-        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
+        public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
         {
-            if ( IsUnsafe )
-                return;
-
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
+            await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
         }
 
         #endregion
@@ -52,7 +45,7 @@ namespace Blazorise.Modules
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/video.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Video/video.js?v={VersionProvider.Version}";
 
         #endregion
     }
