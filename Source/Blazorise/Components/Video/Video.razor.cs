@@ -27,7 +27,7 @@ namespace Blazorise
             {
                 await JSModule.Initialize( ElementRef, ElementId, new
                 {
-                    ManifestUri = ManifestUri
+                    Source = Source
                 } );
             } );
 
@@ -57,11 +57,25 @@ namespace Blazorise
         /// </summary>
         [Inject] public IJSVideoModule JSModule { get; set; }
 
+        /// <summary>
+        /// Gets or sets the controls visibility of the player.
+        /// </summary>
         [Parameter] public bool Controls { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the autoplay state of the player.
+        /// </summary>
         [Parameter] public bool AutoPlay { get; set; }
 
-        [Parameter] public string ManifestUri { get; set; }
+        /// <summary>
+        /// Gets or sets the current source for the player. The setter accepts an object.
+        /// </summary>
+        [Parameter] public string Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current poster image for the player. The setter accepts a string; the URL for the updated poster image.
+        /// </summary>
+        [Parameter] public string Poster { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Video"/>.

@@ -2708,7 +2708,8 @@ namespace Blazorise.Docs.Models
     @*other validation fields*@
 </Validations>";
 
-        public const string BasicVideoExample = @"<Video ManifestUri=""https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"" />";
+        public const string BasicVideoExample = @"<Video Source=""https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4""
+       Poster=""https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"" />";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
