@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+#endregion
 
 namespace Blazorise.Modules
 {
@@ -27,7 +29,7 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async  ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, object options )
         {
             var moduleInstance = await Module;
 
@@ -35,7 +37,7 @@ namespace Blazorise.Modules
         }
 
         /// <inheritdoc/>
-        public virtual async  ValueTask Destroy( ElementReference elementRef, string elementId )
+        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
         {
             if ( IsUnsafe )
                 return;
@@ -44,8 +46,8 @@ namespace Blazorise.Modules
 
             await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
         }
-        #endregion
 
+        #endregion
 
         #region Properties
 

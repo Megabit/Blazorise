@@ -6,7 +6,7 @@ const _instancesInfos = [];
 // Install built-in polyfills to patch browser incompatibilities.
 shaka.polyfill.installAll();
 
-export function initialize(dotnetAdapter, element, elementId, options) {
+export function initialize(element, elementId, options) {
     element = utilities.getRequiredElement(element, elementId);
 
     if (!element)
@@ -15,7 +15,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     // Check to see if the browser supports the basic APIs Shaka needs.
     if (shaka.Player.isBrowserSupported()) {
         // Everything looks good!
-        initPlayer();
+        initPlayer(element, options);
     } else {
         // This browser does not have the minimum set of APIs we need.
         console.error('Browser not supported for Video player!');
@@ -24,10 +24,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     _instancesInfos[elementId] = instanceInfo;
 }
 
-export function initPlayer() {
-    // Create a Player instance.
-    const video = document.getElementById('video');
-    const player = new shaka.Player(video);
+export function initPlayer(element, options) {
+    const player = new shaka.Player(element);
 
     // Attach player to the window to make it easy to access in the JS console.
     window.player = player;
@@ -38,7 +36,7 @@ export function initPlayer() {
     // Try to load a manifest.
     // This is an asynchronous process.
     try {
-        await player.load(manifestUri);
+        await player.load(options.manifestUri);
         // This runs if the asynchronous load is successful.
         console.log('The video has now been loaded!');
     } catch (e) {

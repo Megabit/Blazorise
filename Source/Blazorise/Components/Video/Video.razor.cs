@@ -16,27 +16,20 @@ namespace Blazorise
     {
         #region Members
 
-        private bool autodetectInline;
-
         #endregion
 
         #region Methods
 
         /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            base.BuildClasses( builder );
-        }
-
-        /// <inheritdoc/>
-        public override Task SetParametersAsync( ParameterView parameters )
-        {
-            return base.SetParametersAsync( parameters );
-        }
-
-        /// <inheritdoc/>
         protected override void OnInitialized()
         {
+            ExecuteAfterRender( async () =>
+            {
+                await JSModule.Initialize( ElementRef, ElementId, new
+                {
+                    ManifestUri = ManifestUri
+                } );
+            } );
 
             base.OnInitialized();
         }
@@ -64,10 +57,17 @@ namespace Blazorise
         /// </summary>
         [Inject] public IJSVideoModule JSModule { get; set; }
 
+        [Parameter] public bool Controls { get; set; } = true;
+
+        [Parameter] public bool AutoPlay { get; set; }
+
+        [Parameter] public string ManifestUri { get; set; }
+
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Video"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
         #endregion
     }
 }
