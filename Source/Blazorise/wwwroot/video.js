@@ -13,8 +13,11 @@ export function initialize(element, elementId, options) {
     if (!element)
         return;
 
-    const dash = dashjs.MediaPlayer().create();
-    dash.initialize(element, options.source, true);
+    if (options.streaming) {
+        const dash = dashjs.MediaPlayer().create();
+        dash.initialize(element, options.source, options.autoPlay);
+        window.dash = dash;
+    }
 
     const player = new Plyr(element, {
         captions: {
@@ -24,7 +27,6 @@ export function initialize(element, elementId, options) {
     });
 
     window.player = player;
-    window.dash = dash;
 
     _instances[elementId] = player;
 }

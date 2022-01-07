@@ -27,7 +27,10 @@ namespace Blazorise
             {
                 await JSModule.Initialize( ElementRef, ElementId, new
                 {
-                    Source = Source
+                    Controls,
+                    AutoPlay,
+                    Source,
+                    Streaming,
                 } );
             } );
 
@@ -76,6 +79,8 @@ namespace Blazorise
         /// Gets or sets the current poster image for the player. The setter accepts a string; the URL for the updated poster image.
         /// </summary>
         [Parameter] public string Poster { get; set; }
+
+        [Parameter] public string Streaming { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Video"/>.
