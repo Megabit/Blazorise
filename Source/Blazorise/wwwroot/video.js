@@ -1,4 +1,6 @@
 ﻿import "./vendors/plyr.js";
+import "./vendors/dash.js";
+
 import { getRequiredElement } from "./utilities.js";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
@@ -11,7 +13,18 @@ export function initialize(element, elementId, options) {
     if (!element)
         return;
 
-    const player = new Plyr(element);
+    const dash = dashjs.MediaPlayer().create();
+    dash.initialize(element, options.source, true);
+
+    const player = new Plyr(element, {
+        captions: {
+            active: true,
+            update: true
+        }
+    });
+
+    window.player = player;
+    window.dash = dash;
 
     _instances[elementId] = player;
 }
