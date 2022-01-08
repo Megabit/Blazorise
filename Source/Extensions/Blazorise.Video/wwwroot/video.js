@@ -1,5 +1,6 @@
 ﻿import "./vendors/plyr.js";
 import "./vendors/dash.js";
+import "./vendors/hls.js";
 
 import { getRequiredElement } from "../Blazorise/utilities.js";
 
@@ -14,12 +15,39 @@ export function initialize(element, elementId, options) {
         return;
 
     if (options.streaming) {
-        const dash = dashjs.MediaPlayer().create();
-        dash.initialize(element, options.source, options.autoPlay);
-        window.dash = dash;
+        if (Hls.isSupported()) {
+            var hls = new Hls({
+                debug: true,
+            });
+
+            hls.loadSource(options.source);
+            hls.attachMedia(element);
+
+            window.hls = hls;
+        }
+        else if (element.canPlayType('application/vnd.apple.mpegurl')) {
+            element.src = options.source;
+            element.addEventListener('canplay', function () {
+                element.play();
+            });
+        }
     }
 
     const player = new Plyr(element, {
+        hideControls: options.automaticallyHideControls,
+        autopause: options.autoPause || true,
+        seekTime: options.seekTime || 10,
+        volume: options.volume || 1,
+        muted: options.muted || false,
+        clickToPlay: options.clickToPlay || true,
+        disableContextMenu: options.disableContextMenu || true,
+        resetOnEnd: options.resetOnEnd || false,
+        ratio: options.ratio,
+        invertTime: options.invertTime || true,
+        previewThumbnails: {
+            enabled: options.poster && options.poster.length > 0,
+            src: options.poster
+        },
         captions: {
             active: true,
             update: true
@@ -27,6 +55,14 @@ export function initialize(element, elementId, options) {
     });
 
     window.player = player;
+
+    player.on('ready', (event) => {
+        console.log(event.detail.plyr);
+    });
+
+    player.on('progress', (event) => {
+        console.log(event.detail.plyr);
+    });
 
     _instances[elementId] = player;
 }
