@@ -8,7 +8,7 @@ document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link 
 
 const _instances = [];
 
-export function initialize(element, elementId, options) {
+export function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -17,19 +17,13 @@ export function initialize(element, elementId, options) {
     if (options.streaming) {
         if (Hls.isSupported()) {
             var hls = new Hls({
-                debug: true,
+                debug: false,
             });
 
             hls.loadSource(options.source);
             hls.attachMedia(element);
 
             window.hls = hls;
-        }
-        else if (element.canPlayType('application/vnd.apple.mpegurl')) {
-            element.src = options.source;
-            element.addEventListener('canplay', function () {
-                element.play();
-            });
         }
     }
 
@@ -56,12 +50,76 @@ export function initialize(element, elementId, options) {
 
     window.player = player;
 
-    player.on('ready', (event) => {
-        console.log(event.detail.plyr);
+    player.on('progress', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.plyr.buffered || 0);
     });
 
-    player.on('progress', (event) => {
-        console.log(event.detail.plyr);
+    player.on('playing', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyPlaying");
+    });
+
+    player.on('play', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyPlay");
+    });
+
+    player.on('pause', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyPause");
+    });
+
+    player.on('timeupdate', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyTimeUpdate", event.detail.plyr.currentTime || 0);
+    });
+
+    player.on('volumechange', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyVolumeChange", event.detail.plyr.volume || 0, event.detail.plyr.muted || false);
+    });
+
+    player.on('seeking', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeking");
+    });
+
+    player.on('seeked', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeked");
+    });
+
+    player.on('ratechange', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyRateChange", event.detail.plyr.speed || 0);
+    });
+
+    player.on('ended', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnded");
+    });
+
+    player.on('enterfullscreen', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnterFullScreen");
+    });
+
+    player.on('exitfullscreen', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyExitFullScreen");
+    });
+
+    player.on('captionsenabled', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyCaptionsEnabled");
+    });
+
+    player.on('captionsdisabled', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyCaptionsDisabled");
+    });
+
+    player.on('languagechange', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyLanguageChange", event.detail.plyr.language);
+    });
+
+    player.on('controlshidden', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsHidden");
+    });
+
+    player.on('controlsshown', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsShown");
+    });
+
+    player.on('ready', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyReady");
     });
 
     _instances[elementId] = player;
@@ -76,4 +134,11 @@ export function destroy(element, elementId) {
 
         delete instances[elementId];
     }
+}
+
+function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
+    dotNetAdapter.invokeMethodAsync(methodName, ...args)
+        .catch((reason) => {
+            console.error(reason);
+        });
 }

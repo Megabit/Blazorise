@@ -26,11 +26,11 @@ namespace Blazorise.Video
 
         #region Methods
 
-        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask Initialize( DotNetObjectReference<Video> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, options );
+            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
         }
 
         public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
