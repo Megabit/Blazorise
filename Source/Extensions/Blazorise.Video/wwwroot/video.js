@@ -15,15 +15,26 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         return;
 
     if (options.streaming) {
-        if (Hls.isSupported()) {
-            var hls = new Hls({
-                debug: false,
-            });
+        // TODO: find better way of detecing HLS video
+        const extension = options.source.split('.').pop();
 
-            hls.loadSource(options.source);
-            hls.attachMedia(element);
+        if (extension === "m3u8") {
+            if (Hls.isSupported()) {
+                const hls = new Hls({
+                    debug: false,
+                });
 
-            window.hls = hls;
+                hls.loadSource(options.source);
+                hls.attachMedia(element);
+
+                window.hls = hls;
+            }
+        } else {
+            const dash = dashjs.MediaPlayer().create();
+
+            dash.initialize(element, options.source, options.autoPlay || false);
+
+            window.dash = dash;
         }
     }
 
