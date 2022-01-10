@@ -60,6 +60,11 @@ namespace Blazorise.Components
         /// </summary>
         private TValue selectedValue;
 
+        /// <summary>
+        /// When CloseOnSelection is set to false, tracks whether the auto complete is in a state where it can actually close.
+        /// </summary>
+        private bool closeOnSelectionAllowClose = true;
+
         #endregion
 
         #region Methods
@@ -222,14 +227,17 @@ namespace Blazorise.Components
 
         private async Task OnDropdownItemClicked( object value )
         {
-            CurrentSearch = null;
-
-            var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
+            if ( !CloseOnSelection )
+                closeOnSelectionAllowClose = false;
+            else
+            {
+                CurrentSearch = null;
+                await SearchChanged.InvokeAsync( CurrentSearch );
+            }
 
             SelectedValue = Converters.ChangeType<TValue>( value );
-
             await SelectedValueChanged.InvokeAsync( SelectedValue );
-            await SearchChanged.InvokeAsync( CurrentSearch );
+
 
             if ( Multiple )
             {
@@ -239,6 +247,8 @@ namespace Blazorise.Components
             }
             else
             {
+                var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
+
                 SelectedText = GetDisplayText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
@@ -269,10 +279,19 @@ namespace Blazorise.Components
             return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
         }
 
-        private Task ResetSelectedText()
+        private async Task ResetSelectedText()
         {
-            SelectedText = string.Empty;
-            return SelectedTextChanged.InvokeAsync( string.Empty );
+            if ( !CloseOnSelection && !closeOnSelectionAllowClose )
+            {
+                dirtyFilter = true;
+                await textEditRef.Focus();
+                await InvokeAsync( StateHasChanged );
+            }
+            else
+            {
+                SelectedText = string.Empty;
+                await SelectedTextChanged.InvokeAsync( string.Empty );
+            }
         }
         private async Task AddMultipleValue( TValue value )
         {
@@ -423,7 +442,9 @@ namespace Blazorise.Components
         /// <returns>True if Autocomplete can be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
         {
-            return Task.FromResult( ElementId == elementId && closeReason == CloseReason.EscapeClosing );
+            closeOnSelectionAllowClose = ( ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
+                ( closeReason == CloseReason.FocusLostClosing && !isChild );
+            return Task.FromResult( closeOnSelectionAllowClose );
         }
 
         /// <inheritdoc/>
@@ -546,9 +567,10 @@ namespace Blazorise.Components
 
         /// <summary>
         /// True if the dropdown menu should be visible.
+        /// Takes into account whether menu was open and whether CloseOnSelection is set to false.
         /// </summary>
         protected bool DropdownVisible
-            => CanSearch && TextField != null;
+            => ( CanSearch || ( !CloseOnSelection && !closeOnSelectionAllowClose ) ) && TextField != null;
 
         /// <summary>
         /// True if the not found content should be visible.
@@ -816,6 +838,13 @@ namespace Blazorise.Components
         /// Specifies the item content to be rendered inside each dropdown item.
         /// </summary>
         [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
+
+
+        /// <summary>
+        /// Specifies whether auto complete's dropdown closes on selection.
+        /// Defauls to true.
+        /// </summary>
+        [Parameter] public bool CloseOnSelection { get; set; } = true;
 
         #endregion
     }

@@ -59,6 +59,7 @@ function tryClose(closable, targetElementId, isEscapeKey, isChildClicked) {
 }
 
 export function registerClosableComponent(dotnetAdapter, element) {
+    console.log(element.id);
     if (element) {
         if (isClosableComponent(element.id) !== true) {
             addClosableComponent(element.id, dotnetAdapter);
@@ -76,6 +77,8 @@ export function unregisterClosableComponent(element) {
 }
 
 function hasParentInTree(element, parentElementId) {
+    console.log(parentElementId);
+    console.log(element);
     if (!element.parentElement) return false;
     if (element.parentElement.id === parentElementId) return true;
     return hasParentInTree(element.parentElement, parentElementId);
