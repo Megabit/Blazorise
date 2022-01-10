@@ -850,7 +850,7 @@ namespace Blazorise.Components
 
 
         /// <summary>
-        /// Specifies whether auto complete's dropdown closes on selection.
+        /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when the <see cref="Multiple"/> is set to true.
         /// Defauls to true.
         /// </summary>
         [Parameter] public bool CloseOnSelection { get; set; } = true;
