@@ -288,7 +288,7 @@ namespace Blazorise.Components
             if ( ShouldNotClose() )
             {
                 dirtyFilter = true;
-                await textEditRef.Focus();
+                await Focus();
                 await InvokeAsync( StateHasChanged );
             }
             else
@@ -446,7 +446,7 @@ namespace Blazorise.Components
         /// <returns>True if Autocomplete can be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
         {
-            closeOnSelectionAllowClose = ( ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
+            closeOnSelectionAllowClose = ( DropdownMenuRef.ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
                 ( closeReason == CloseReason.FocusLostClosing && !isChild );
             return Task.FromResult( closeOnSelectionAllowClose );
         }
@@ -534,6 +534,11 @@ namespace Blazorise.Components
         /// Gets the Element Reference
         /// </summary>
         public ElementReference ElementRef => DropdownMenuRef.ElementRef;
+
+        /// <summary>
+        /// Gets the DropdownMenu ElementId.
+        /// </summary>
+        public string DropdownElementId { get; set; }
 
         /// <summary>
         /// Gets the dropdown CSS styles.

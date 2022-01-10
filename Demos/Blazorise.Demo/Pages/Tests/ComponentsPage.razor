@@ -83,7 +83,6 @@
                                       Placeholder="Search..."
                                       Filter="AutocompleteFilter.StartsWith"
                                       FreeTyping="autocompleteFreeTyping"
-                                      CloseOnSelection="false"
                                       CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
@@ -130,6 +129,7 @@
                                       Multiple
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
+                                      MinLength="1"
                                       @bind-SelectedValues="multipleSelectionData"
                                       @bind-SelectedTexts="multipleSelectionTexts">
                         </Autocomplete>
