@@ -279,9 +279,13 @@ namespace Blazorise.Components
             return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
         }
 
+
+        private bool ShouldNotClose()
+            => Multiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
+
         private async Task ResetSelectedText()
         {
-            if ( !CloseOnSelection && !closeOnSelectionAllowClose )
+            if ( ShouldNotClose() )
             {
                 dirtyFilter = true;
                 await textEditRef.Focus();
@@ -570,7 +574,7 @@ namespace Blazorise.Components
         /// Takes into account whether menu was open and whether CloseOnSelection is set to false.
         /// </summary>
         protected bool DropdownVisible
-            => ( CanSearch || ( !CloseOnSelection && !closeOnSelectionAllowClose ) ) && TextField != null;
+            => ( CanSearch || ShouldNotClose() ) && TextField != null;
 
         /// <summary>
         /// True if the not found content should be visible.
