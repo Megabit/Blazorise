@@ -1,0 +1,36 @@
+﻿@page "/tests/video"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Video player</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@OnChangeVideoUrl">Change Video</Button>
+                <Button Color="Color.Primary" Clicked="@OnChangeCurrentTime">Go to 20 seconds</Button>
+            </CardBody>
+            <CardBody>
+                <Video Source="@videoUrl" CurrentTime="@currentTime" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    string videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    double currentTime = 10;
+
+    Task OnChangeVideoUrl()
+    {
+        videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+        currentTime = 0;
+
+        return Task.CompletedTask;
+    }
+
+    Task OnChangeCurrentTime()
+    {
+        currentTime = 20;
+
+        return Task.CompletedTask;
+    }
+}

@@ -2,7 +2,7 @@
 import "./vendors/dash.js";
 import "./vendors/hls.js";
 
-import { getRequiredElement } from "../Blazorise/utilities.js";
+import { getRequiredElement, isString } from "../Blazorise/utilities.js";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
 
@@ -14,26 +14,33 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     if (!element)
         return;
 
-    if (options.streamingLibrary === "Hls") {
-        if (Hls.isSupported()) {
-            const hls = new Hls({
-                debug: false,
-            });
-            hls.loadSource(options.source);
-            hls.attachMedia(element);
-            window.hls = hls;
+    if (options.streamingLibrary !== "Html5") {
+        const source = extractSingleSourceUrl(options.source);
+
+        if (options.streamingLibrary === "Hls") {
+            if (Hls.isSupported()) {
+                const hls = new Hls({
+                    debug: false,
+                });
+                hls.loadSource(source);
+                hls.attachMedia(element);
+                window.hls = hls;
+            }
+        } else if (options.streamingLibrary === "Dash") {
+            const dash = dashjs.MediaPlayer().create();
+            dash.initialize(element, source, options.autoPlay || false);
+            window.dash = dash;
         }
-    } else if (options.streamingLibrary === "Dash") {
-        const dash = dashjs.MediaPlayer().create();
-        dash.initialize(element, options.source, options.autoPlay || false);
-        window.dash = dash;
     }
 
     const player = new Plyr(element, {
+        source: options.source,
+        poster: options.poster,
         hideControls: options.automaticallyHideControls,
         autopause: options.autoPause || true,
         seekTime: options.seekTime || 10,
         volume: options.volume || 1,
+        currentTime: options.currentTime || 0,
         muted: options.muted || false,
         clickToPlay: options.clickToPlay || true,
         disableContextMenu: options.disableContextMenu || true,
@@ -136,6 +143,46 @@ export function destroy(element, elementId) {
 
         delete instances[elementId];
     }
+}
+
+export function updateOptions(element, elementId, options) {
+    const instance = _instances[elementId];
+
+    if (instance && options) {
+        if (options.source.changed) {
+            instance.source = options.source.value;
+        }
+
+        if (options.currentTime.changed) {
+            instance.currentTime = options.currentTime.value;
+        }
+
+        if (options.volume.changed) {
+            instance.volume = options.volume.value;
+        }
+    }
+}
+
+export function updateSource(element, elementId, source) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.source = source;
+    }
+}
+
+function extractSingleSourceUrl(source) {
+    if (!source)
+        return null;
+
+    if (isString(source)) {
+        return source;
+    }
+    else if (source.sources && source.sources.length > 0) {
+        return source.sources[0].src;
+    }
+
+    return null;
 }
 
 function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {

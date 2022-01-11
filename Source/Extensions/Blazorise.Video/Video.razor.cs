@@ -9,18 +9,36 @@ using Microsoft.JSInterop;
 namespace Blazorise.Video
 {
     /// <summary>
-    /// Video 
+    /// The video component embeds a media player which supports video playback into the document.
     /// </summary>
     public partial class Video : BaseComponent, IAsyncDisposable
     {
-        #region Members
-
-
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( Rendered )
+            {
+                var sourceChanged = parameters.TryGetValue<VideoSource>( nameof( Source ), out var paramSource ) && !Source.Equals( paramSource );
+                var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
+                var volumeChanged = parameters.TryGetValue<double>( nameof( Volume ), out var paramVolume ) && !Volume.IsEqual( paramVolume );
+
+                if ( sourceChanged || currentTimeChanged || volumeChanged )
+                {
+                    ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                    {
+                        Source = new { Changed = sourceChanged, Value = paramSource },
+                        CurrentTime = new { Changed = currentTimeChanged, Value = paramCurrentTime },
+                        Volume = new { Changed = volumeChanged, Value = paramVolume },
+                    } ) );
+                }
+            }
+
+            await base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             if ( JSModule == null )
@@ -49,6 +67,7 @@ namespace Blazorise.Video
                     Poster,
                     StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
                     SeekTime,
+                    CurrentTime,
                     Volume,
                     ClickToPlay,
                     DisableContextMenu,
@@ -79,6 +98,18 @@ namespace Blazorise.Video
 
             await base.DisposeAsync( disposing );
         }
+
+        public async Task UpdateSource( VideoSource source )
+        {
+            if ( Rendered )
+            {
+                Source = source;
+
+                await JSModule.UpdateSource( ElementRef, ElementId, source );
+            }
+        }
+
+        #region Events
 
         [JSInvokable]
         public Task NotifyProgress( double buffered )
@@ -244,6 +275,8 @@ namespace Blazorise.Video
 
         #endregion
 
+        #endregion
+
         #region Properties
 
         /// <inheritdoc/>
@@ -287,7 +320,7 @@ namespace Blazorise.Video
         /// <summary>
         /// Gets or sets the current source for the player.
         /// </summary>
-        [Parameter] public string Source { get; set; }
+        [Parameter] public VideoSource Source { get; set; }
 
         /// <summary>
         /// Gets or sets the current poster image for the player. The setter accepts a string; the URL for the updated poster image.
@@ -303,6 +336,11 @@ namespace Blazorise.Video
         /// The time, in seconds, to seek when a user hits fast forward or rewind.
         /// </summary>
         [Parameter] public int SeekTime { get; set; } = 10;
+
+        /// <summary>
+        /// Gets or sets the currentTime for the player.
+        /// </summary>
+        [Parameter] public double CurrentTime { get; set; }
 
         /// <summary>
         /// A number, between 0 and 1, representing the initial volume of the player.

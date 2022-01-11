@@ -40,6 +40,20 @@ namespace Blazorise.Video
             await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
         }
 
+        public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
+        }
+
+        public virtual async ValueTask UpdateSource( ElementReference elementRef, string elementId, object source )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "updateSource", elementRef, elementId, source );
+        }
+
         #endregion
 
         #region Properties
