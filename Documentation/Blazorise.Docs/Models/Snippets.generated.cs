@@ -4670,7 +4670,7 @@ namespace Blazorise.Docs.Models
 
         public const string BasicVideoExample = @"<Video Source=""http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"" />";
 
-        public const string StreamingVideoExample = @"<Video Source=""https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"" StreamingLibrary=""StreamingLibrary.Hls"" />";
+        public const string StreamingVideoExample = @"<Video Source=""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"" StreamingLibrary=""StreamingLibrary.Dash"" />";
 
         public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
 
