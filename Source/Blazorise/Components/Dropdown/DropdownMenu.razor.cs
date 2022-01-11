@@ -18,6 +18,9 @@ namespace Blazorise
 
         private string maxMenuHeight;
 
+        // inheritdoc
+        protected override bool ShouldAutoGenerateId => true;
+
         #endregion
 
         #region Methods
