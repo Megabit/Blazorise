@@ -47,7 +47,7 @@ namespace Blazorise.Video
                     Muted,
                     Source,
                     Poster,
-                    Streaming,
+                    StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
                     SeekTime,
                     Volume,
                     ClickToPlay,
@@ -313,9 +313,9 @@ namespace Blazorise.Video
         [Parameter] public string Poster { get; set; }
 
         /// <summary>
-        /// If true, the video will be running in streaming mode.
+        /// If defined the video will run in streaming mode.
         /// </summary>
-        [Parameter] public bool Streaming { get; set; }
+        [Parameter] public StreamingLibrary StreamingLibrary { get; set; } = StreamingLibrary.None;
 
         /// <summary>
         /// The time, in seconds, to seek when a user hits fast forward or rewind.
