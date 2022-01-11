@@ -83,7 +83,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyProgress( double buffered )
         {
-            Console.WriteLine( "Playinc" );
             if ( Progress != null )
                 return Progress.Invoke( buffered );
 
@@ -93,7 +92,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyPlaying()
         {
-            Console.WriteLine( "Playinc" );
             if ( Playing != null )
                 return Playing.Invoke();
 
@@ -103,7 +101,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyPlay()
         {
-            Console.WriteLine( "Play" );
             if ( Play != null )
                 return Play.Invoke();
 
@@ -113,7 +110,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyPause()
         {
-            Console.WriteLine( "Pause" );
             if ( Pause != null )
                 return Pause.Invoke();
 
@@ -123,7 +119,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyTimeUpdate( double currentTime )
         {
-            Console.WriteLine( "TimeUpdate:" + currentTime );
             if ( TimeUpdate != null )
                 return TimeUpdate.Invoke( currentTime );
 
@@ -133,7 +128,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyVolumeChange( double volume, bool muted )
         {
-            Console.WriteLine( "VolumeChange:" + volume + muted );
             if ( VolumeChange != null )
                 return VolumeChange.Invoke( volume, muted );
 
@@ -143,7 +137,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifySeeking()
         {
-            Console.WriteLine( "NotifySeeking" );
             if ( Seeking != null )
                 return Seeking.Invoke();
 
@@ -153,7 +146,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifySeeked()
         {
-            Console.WriteLine( "NotifySeeked" );
             if ( Seeked != null )
                 return Seeked.Invoke();
 
@@ -163,7 +155,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyRateChange( double speed )
         {
-            Console.WriteLine( "NotifyRateChange: " + speed );
             if ( RateChange != null )
                 return RateChange.Invoke( speed );
 
@@ -173,7 +164,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyEnded()
         {
-            Console.WriteLine( "NotifyEnded" );
             if ( Ended != null )
                 return Ended.Invoke();
 
@@ -183,7 +173,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyEnterFullScreen()
         {
-            Console.WriteLine( "NotifyEnterFullScreen" );
             if ( EnterFullScreen != null )
                 return EnterFullScreen.Invoke();
 
@@ -193,7 +182,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyExitFullScreen()
         {
-            Console.WriteLine( "NotifyExitFullScreen" );
             if ( ExitFullScreen != null )
                 return ExitFullScreen.Invoke();
 
@@ -203,7 +191,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyCaptionsEnabled()
         {
-            Console.WriteLine( "NotifyCaptionsEnabled" );
             if ( CaptionsEnabled != null )
                 return CaptionsEnabled.Invoke();
 
@@ -213,7 +200,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyCaptionsDisabled()
         {
-            Console.WriteLine( "NotifyCaptionsDisabled" );
             if ( CaptionsDisabled != null )
                 return CaptionsDisabled.Invoke();
 
@@ -223,7 +209,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyLanguageChange( string language )
         {
-            Console.WriteLine( "NotifyLanguageChange" );
             if ( LanguageChange != null )
                 return LanguageChange.Invoke( language );
 
@@ -233,7 +218,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyControlsHidden()
         {
-            Console.WriteLine( "NotifyControlsHidden" );
             if ( ControlsHidden != null )
                 return ControlsHidden.Invoke();
 
@@ -243,7 +227,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyControlsShown()
         {
-            Console.WriteLine( "NotifyControlsShown" );
             if ( ControlsShown != null )
                 return ControlsShown.Invoke();
 
@@ -253,7 +236,6 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyReady()
         {
-            Console.WriteLine( "NotifyReady" );
             if ( Ready != null )
                 return Ready.Invoke();
 
