@@ -4668,16 +4668,9 @@ namespace Blazorise.Docs.Models
 
         public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
 
-        public const string BasicVideoExample = @"<Video Source=""https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"" StreamingLibrary=""StreamingLibrary.Hls"" Progress=""@OnProgress"" />
+        public const string BasicVideoExample = @"<Video Source=""http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"" />";
 
-@code {
-    Task OnProgress( double timespamp )
-    {
-        Console.WriteLine( ""OnProgress:"" + timespamp );
-
-        return Task.CompletedTask;
-    }
-}";
+        public const string StreamingVideoExample = @"<Video Source=""https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"" StreamingLibrary=""StreamingLibrary.Hls"" />";
 
         public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
 

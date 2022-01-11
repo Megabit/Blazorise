@@ -1,12 +1,3 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Video Source="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" StreamingLibrary="StreamingLibrary.Hls" Progress="@OnProgress" />
-
-@code {
-    Task OnProgress( double timespamp )
-    {
-        Console.WriteLine( "OnProgress:" + timespamp );
-
-        return Task.CompletedTask;
-    }
-}
+<Video Source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" />

@@ -1,15 +1,5 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Video</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8</span><span class="quot">&quot;</span> <span class="htmlAttributeName">StreamingLibrary</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">StreamingLibrary</span><span class="enumValue">.Hls</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Progress</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnProgress</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
-<span class="atSign">&#64;</span>code {
-    Task OnProgress( <span class="keyword">double</span> timespamp )
-    {
-        Console.WriteLine( <span class="string">&quot;OnProgress:&quot;</span> + timespamp );
-
-        <span class="keyword">return</span> Task.CompletedTask;
-    }
-}
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Video</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 </pre></div>
 </div>

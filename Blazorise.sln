@@ -96,7 +96,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Shared", "Shared\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Trendline", "Source\Extensions\Blazorise.Charts.Trendline\Blazorise.Charts.Trendline.csproj", "{57608577-B62C-47FB-9998-76F8FD28741D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Video", "Source\Extensions\Blazorise.Video\Blazorise.Video.csproj", "{ADDAA817-8AA4-407F-B602-B7E697908D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Video", "Source\Extensions\Blazorise.Video\Blazorise.Video.csproj", "{ADDAA817-8AA4-407F-B602-B7E697908D0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

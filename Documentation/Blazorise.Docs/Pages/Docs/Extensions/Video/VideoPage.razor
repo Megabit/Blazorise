@@ -16,12 +16,23 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        A streaming video component <Code>type="video"</Code>.
+        To play the video you just need to define the <Code>Source</Code> of the video.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicVideoExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicVideoExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Streaming">
+        We also support streaming videos. To stream the video you just define the <Code>Source</Code> as usual, along with the <Code>StreamingLibrary</Code>
+        used to handle the video media type.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StreamingVideoExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StreamingVideoExample" />
 </DocsPageSection>
 
 <Heading Size="HeadingSize.Is2">
@@ -50,8 +61,8 @@
     <DocsAttributesItem Name="Poster" Type="string" Default="null">
         Gets or sets the controls visibility of the player.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Streaming" Type="bool" Default="false">
-        If true, the video will be running in streaming mode.
+    <DocsAttributesItem Name="StreamingLibrary" Type="StreamingLibrary" Default="Html5">
+        If defined the video will run in streaming mode.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SeekTime" Type="int" Default="10">
         The time, in seconds, to seek when a user hits fast forward or rewind.
