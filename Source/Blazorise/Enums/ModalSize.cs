@@ -24,5 +24,10 @@
         /// Extra large modal.
         /// </summary>
         ExtraLarge,
+
+        /// <summary>
+        /// Defines the modal that covers the user viewport.
+        /// </summary>
+        Fullscreen,
     }
 }

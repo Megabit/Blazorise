@@ -23,7 +23,7 @@ namespace Blazorise.Bulma
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( Fullscreen && !AsDialog )
+            if ( Size == ModalSize.Fullscreen && !AsDialog )
             {
                 builder.Append( "modal-card" );
             }
