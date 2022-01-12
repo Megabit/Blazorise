@@ -109,6 +109,100 @@ namespace Blazorise.Video
             }
         }
 
+        /// <summary>
+        /// Start playback.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Play() => JSModule.Play( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Pause playback.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Pause() => JSModule.Pause( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Toggle playback, if no parameters are passed, it will toggle based on current status.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task TogglePlay() => JSModule.TogglePlay( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Stop playback and reset to start.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Stop() => JSModule.Stop( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Restart playback.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Restart() => JSModule.Restart( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Rewind playback by the specified seek time.
+        /// </summary>
+        /// <param name="seekTime"></param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Rewind( double seekTime = 10 ) => JSModule.Rewind( ElementRef, ElementId, seekTime ).AsTask();
+
+        /// <summary>
+        /// Fast forward by the specified seek time. If no parameter is passed, the default seek time will be used.
+        /// </summary>
+        /// <param name="seekTime"></param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Forward( double seekTime = 10 ) => JSModule.Forward( ElementRef, ElementId, seekTime ).AsTask();
+
+        /// <summary>
+        /// Increase volume by the specified step. If no parameter is passed, the default step will be used.
+        /// </summary>
+        /// <param name="step">Volume step to increase.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task IncreaseVolume( double step = 0.1 ) => JSModule.IncreaseVolume( ElementRef, ElementId, step ).AsTask();
+
+        /// <summary>
+        /// Decrease volume by the specified step. If no parameter is passed, the default step will be used.
+        /// </summary>
+        /// <param name="step">Volume step to decrease.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task DecreaseVolume( double step = 0.1 ) => JSModule.DecreaseVolume( ElementRef, ElementId, step ).AsTask();
+
+        /// <summary>
+        /// Toggle captions display.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ToggleCaptions() => JSModule.ToggleCaptions( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Enter fullscreen. If fullscreen is not supported, a fallback "full window/viewport" is used instead.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task EnterFullscreen() => JSModule.EnterFullscreen( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Exit fullscreen.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ExitFullscreen() => JSModule.ExitFullscreen( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Toggle fullscreen.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ToggleFullscreen() => JSModule.ToggleFullscreen( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Trigger the airplay dialog on supported devices.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Airplay() => JSModule.Airplay( ElementRef, ElementId ).AsTask();
+
+        /// <summary>
+        /// Toggle the controls (video only). Takes optional truthy value to force it on/off.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ToggleControls() => JSModule.ToggleControls( ElementRef, ElementId ).AsTask();
+
         #region Events
 
         [JSInvokable]
@@ -132,8 +226,8 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyPlay()
         {
-            if ( Play != null )
-                return Play.Invoke();
+            if ( Played != null )
+                return Played.Invoke();
 
             return Task.CompletedTask;
         }
@@ -141,8 +235,8 @@ namespace Blazorise.Video
         [JSInvokable]
         public Task NotifyPause()
         {
-            if ( Pause != null )
-                return Pause.Invoke();
+            if ( Paused != null )
+                return Paused.Invoke();
 
             return Task.CompletedTask;
         }
@@ -387,12 +481,12 @@ namespace Blazorise.Video
         /// <summary>
         /// Sent when playback of the media starts after having been paused; that is, when playback is resumed after a prior pause event.
         /// </summary>
-        [Parameter] public Func<Task> Play { get; set; }
+        [Parameter] public Func<Task> Played { get; set; }
 
         /// <summary>
         /// Sent when playback is paused.
         /// </summary>
-        [Parameter] public Func<Task> Pause { get; set; }
+        [Parameter] public Func<Task> Paused { get; set; }
 
         /// <summary>
         /// The time indicated by the element's currentTime attribute has changed.

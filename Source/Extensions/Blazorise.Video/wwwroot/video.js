@@ -171,6 +171,126 @@ export function updateSource(element, elementId, source) {
     }
 }
 
+export function play(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.play();
+    }
+}
+
+export function pause(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.pause();
+    }
+}
+
+export function togglePlay(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.togglePlay();
+    }
+}
+
+export function stop(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.stop();
+    }
+}
+
+export function restart(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.restart();
+    }
+}
+
+export function rewind(element, elementId, seekTime) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.rewind(seekTime);
+    }
+}
+
+export function forward(element, elementId, seekTime) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.forward(seekTime);
+    }
+}
+
+export function increaseVolume(element, elementId, step) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.increaseVolume(step);
+    }
+}
+
+export function decreaseVolume(element, elementId, step) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.decreaseVolume(step);
+    }
+}
+
+export function toggleCaptions(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.toggleCaptions();
+    }
+}
+
+export function enterFullscreen(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.fullscreen.enter();
+    }
+}
+
+export function exitFullscreen(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.fullscreen.exit();
+    }
+}
+
+export function toggleFullscreen(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.fullscreen.toggle();
+    }
+}
+
+export function airplay(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.airplay();
+    }
+}
+
+export function toggleControls(element, elementId, toggle) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        instance.toggleControls(toggle);
+    }
+}
+
 function extractSingleSourceUrl(source) {
     if (!source)
         return null;

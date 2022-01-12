@@ -54,6 +54,111 @@ namespace Blazorise.Video
             await moduleInstance.InvokeVoidAsync( "updateSource", elementRef, elementId, source );
         }
 
+        public virtual async ValueTask Play( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "play", elementRef, elementId );
+        }
+
+        public virtual async ValueTask Pause( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "pause", elementRef, elementId );
+        }
+
+        public virtual async ValueTask TogglePlay( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "togglePlay", elementRef, elementId );
+        }
+
+        public virtual async ValueTask Stop( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "stop", elementRef, elementId );
+        }
+
+        public virtual async ValueTask Restart( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "restart", elementRef, elementId );
+        }
+
+        public virtual async ValueTask Rewind( ElementReference elementRef, string elementId, double seekTime )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "rewind", elementRef, elementId, seekTime );
+        }
+
+        public virtual async ValueTask Forward( ElementReference elementRef, string elementId, double seekTime )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "forward", elementRef, elementId, seekTime );
+        }
+
+        public virtual async ValueTask IncreaseVolume( ElementReference elementRef, string elementId, double step )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "increaseVolume", elementRef, elementId, step );
+        }
+
+        public virtual async ValueTask DecreaseVolume( ElementReference elementRef, string elementId, double step )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "decreaseVolume", elementRef, elementId, step );
+        }
+
+        public virtual async ValueTask ToggleCaptions( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "toggleCaptions", elementRef, elementId );
+        }
+
+        public virtual async ValueTask EnterFullscreen( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "enterFullscreen", elementRef, elementId );
+        }
+
+        public virtual async ValueTask ExitFullscreen( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "exitFullscreen", elementRef, elementId );
+        }
+
+        public virtual async ValueTask ToggleFullscreen( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "toggleFullscreen", elementRef, elementId );
+        }
+
+        public virtual async ValueTask Airplay( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "airplay", elementRef, elementId );
+        }
+
+        public virtual async ValueTask ToggleControls( ElementReference elementRef, string elementId )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "toggleControls", elementRef, elementId );
+        }
+
         #endregion
 
         #region Properties
