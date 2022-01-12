@@ -204,12 +204,22 @@
                                     <BarDropdownItem To="docs/extensions/autocomplete">
                                         Autocomplete
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/chart">
-                                        Chart
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/chart-live">
-                                        Live Chart
-                                    </BarDropdownItem>
+                                    <BarDropdown>
+                                        <BarDropdownToggle>
+                                            Chart
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/chart">
+                                                Start Here
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-live">
+                                                Live Chart
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-trendline">
+                                                Trendline
+                                            </BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                     <BarDropdown>
                                         <BarDropdownToggle>
                                             Datagrid

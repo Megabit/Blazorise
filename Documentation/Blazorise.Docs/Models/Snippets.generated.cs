@@ -3001,6 +3001,95 @@ namespace Blazorise.Docs.Models
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0""></script>";
 
+        public const string ChartTrendlineExample = @"@using Blazorise.Charts
+@using Blazorise.Charts.Trendline
+
+<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Toggle trendline and redraw</Button>
+
+<Chart @ref=""chart"" TItem=""double?"" Type=""ChartType.Line"">
+    <ChartTrendline @ref=""chartTrendline"" TItem=""double?"" />
+</Chart>
+
+@code {
+    Chart<double?> chart;
+    ChartTrendline<double?> chartTrendline;
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    bool trendlinesOn = true;
+    async Task OnButtonClicked()
+    {
+        trendlinesOn = !trendlinesOn;
+
+        await HandleRedraw();
+    }
+
+    async Task HandleRedraw()
+    {
+        await chart.Clear();
+
+        await chart.AddLabels( Labels );
+        await chart.AddDataSet( GetLineChartDataset() );
+        await chart.AddDataSet( GetLineChartDataset() );
+
+        await chart.Update();
+
+        // Add the trendline(s) after you have added the datasets and called await chart.Update();
+        if ( trendlinesOn )
+        {
+            // This will add a trendline to the second dataset.
+            // If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
+            var trendlineData = new List<ChartTrendlineData>
+            {
+                new ChartTrendlineData
+                {
+                    DatasetIndex = 1,
+                    Width = 10,
+                    Color = ChartColor.FromRgba( 54, 162, 235, .6f )
+                }
+            };
+
+            await chartTrendline.AddTrendLineOptions( trendlineData );
+        }
+    }
+
+    LineChartDataset<double?> GetLineChartDataset()
+    {
+        return new LineChartDataset<double?>
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                Fill = true,
+                PointRadius = 2,
+                BorderDash = new List<int> { }
+            };
+    }
+
+    string[] Labels = { ""0"", ""1"", ""2"", ""3"", ""4"", ""5"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double?> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double?> { r.Next( 3, 20 ) * r.NextDouble(), r.Next( 3, 30 ) * r.NextDouble(), r.Next( 3, 40 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 60 ) * r.NextDouble(), r.Next( 3, 70 ) * r.NextDouble() };
+    }
+}";
+
+        public const string ChartTrendlineNugetInstallExample = @"Install-Package Blazorise.Charts.Trendline";
+
+        public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
+
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
         <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
