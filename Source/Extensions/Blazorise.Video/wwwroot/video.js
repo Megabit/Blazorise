@@ -100,11 +100,11 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     });
 
     player.on('enterfullscreen', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnterFullScreen");
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyFullScreenEntered");
     });
 
     player.on('exitfullscreen', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyExitFullScreen");
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyFullScreenExited");
     });
 
     player.on('captionsenabled', (event) => {

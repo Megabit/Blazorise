@@ -296,19 +296,19 @@ namespace Blazorise.Video
         }
 
         [JSInvokable]
-        public Task NotifyEnterFullScreen()
+        public Task NotifyFullScreenEntered()
         {
-            if ( EnterFullScreen != null )
-                return EnterFullScreen.Invoke();
+            if ( FullScreenEntered != null )
+                return FullScreenEntered.Invoke();
 
             return Task.CompletedTask;
         }
 
         [JSInvokable]
-        public Task NotifyExitFullScreen()
+        public Task NotifyFullScreenExited()
         {
-            if ( ExitFullScreen != null )
-                return ExitFullScreen.Invoke();
+            if ( FullScreenExited != null )
+                return FullScreenExited.Invoke();
 
             return Task.CompletedTask;
         }
@@ -521,12 +521,12 @@ namespace Blazorise.Video
         /// <summary>
         /// Sent when the player enters fullscreen mode (either the proper fullscreen or full-window fallback for older browsers).
         /// </summary>
-        [Parameter] public Func<Task> EnterFullScreen { get; set; }
+        [Parameter] public Func<Task> FullScreenEntered { get; set; }
 
         /// <summary>
         /// Sent when the player exits fullscreen mode.
         /// </summary>
-        [Parameter] public Func<Task> ExitFullScreen { get; set; }
+        [Parameter] public Func<Task> FullScreenExited { get; set; }
 
         /// <summary>
         /// Sent when captions are enabled.
