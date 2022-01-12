@@ -48,6 +48,13 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> When dealing with a TValue of an enum type, you should be mindfull of your javascript serializer settings. As that will affect the correct handling of this type by the <Code>Select</Code> as it will need to javascript interop the enum value as a string.
+        Applying the attribute <Code>[JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]</Code> to your enum should allow it to be properly bound.
+    </AlertDescription>
+</Alert>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
