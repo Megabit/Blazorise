@@ -12,6 +12,7 @@ namespace Blazorise.Video
     /// <typeparam name="T"></typeparam>
     public class ValueEqualityList<T> : List<T>
     {
+        /// <inheritdoc/>
         public override bool Equals( object other )
         {
             if ( !( other is IEnumerable<T> enumerable ) )
@@ -20,6 +21,7 @@ namespace Blazorise.Video
             return enumerable.SequenceEqual( this );
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             var hashCode = 0;

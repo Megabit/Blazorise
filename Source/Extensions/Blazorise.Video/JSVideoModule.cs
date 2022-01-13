@@ -7,6 +7,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Video
 {
+    /// <summary>
+    /// Default implementation of the video JS module.
+    /// </summary>
     public class JSVideoModule : BaseJSModule,
         IJSDestroyableModule
     {

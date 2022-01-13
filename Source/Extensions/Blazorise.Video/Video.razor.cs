@@ -99,6 +99,11 @@ namespace Blazorise.Video
             await base.DisposeAsync( disposing );
         }
 
+        /// <summary>
+        /// Updates the media source.
+        /// </summary>
+        /// <param name="source">New media source.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task UpdateSource( VideoSource source )
         {
             if ( Rendered )
@@ -205,6 +210,11 @@ namespace Blazorise.Video
 
         #region Events
 
+        /// <summary>
+        /// Notifies the video component of the media progress so far. Should not be called directly by the user!
+        /// </summary>
+        /// <param name="buffered">How much of media is buffered so far.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyProgress( double buffered )
         {
@@ -214,6 +224,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media is playing. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyPlaying()
         {
@@ -223,6 +237,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media is started to play. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyPlay()
         {
@@ -232,6 +250,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media is paused. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyPause()
         {
@@ -241,6 +263,11 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component how much time has passed since the media started playing. Should not be called directly by the user!
+        /// </summary>
+        /// <param name="currentTime">Current time in seconds.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyTimeUpdate( double currentTime )
         {
@@ -250,6 +277,12 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the volume has changed. Should not be called directly by the user!
+        /// </summary>
+        /// <param name="volume">Volume value.</param>
+        /// <param name="muted">True if the media is muted.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyVolumeChange( double volume, bool muted )
         {
@@ -259,6 +292,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media is in seeking mode. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifySeeking()
         {
@@ -268,6 +305,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media has ended seeking. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifySeeked()
         {
@@ -277,6 +318,11 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media speed rate has changed. Should not be called directly by the user!
+        /// </summary>
+        /// <param name="speed">Media speed rate.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyRateChange( double speed )
         {
@@ -286,6 +332,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the media has ended. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyEnded()
         {
@@ -295,6 +345,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the video is entered the fullscreen mode. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyFullScreenEntered()
         {
@@ -304,6 +358,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the video is exited from fullscreen mode. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyFullScreenExited()
         {
@@ -313,6 +371,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the video has enabled captions. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyCaptionsEnabled()
         {
@@ -322,6 +384,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the video has disabled captions. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyCaptionsDisabled()
         {
@@ -331,6 +397,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the language has changed. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyLanguageChange( string language )
         {
@@ -340,6 +410,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the controls are now hidded. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyControlsHidden()
         {
@@ -349,6 +423,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the controls are now visible. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyControlsShown()
         {
@@ -358,6 +436,10 @@ namespace Blazorise.Video
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Notifies the video component that the player is now ready. Should not be called directly by the user!
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [JSInvokable]
         public Task NotifyReady()
         {
@@ -376,8 +458,14 @@ namespace Blazorise.Video
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
-        protected DotNetObjectReference<Video> DotNetObjectRef { get; set; }
+        /// <summary>
+        /// Reference to the object that should be accessed through JSInterop.
+        /// </summary>
+        protected DotNetObjectReference<Video> DotNetObjectRef { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="JSVideoModule"/> instance.
+        /// </summary>
         protected JSVideoModule JSModule { get; private set; }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }

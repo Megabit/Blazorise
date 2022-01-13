@@ -4,10 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Video
 {
+    /// <summary>
+    /// Defines the player source.
+    /// </summary>
     public record VideoSource
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor for single source.
+        /// </summary>
+        /// <param name="source">Source address.</param>
         public VideoSource( string source )
         {
             Medias = new ValueEqualityList<VideoMedia>
@@ -21,6 +28,10 @@ namespace Blazorise.Video
             Indexed = false;
         }
 
+        /// <summary>
+        /// Default constructor for multiple source.
+        /// </summary>
+        /// <param name="sources">Source addresses.</param>
         public VideoSource( string[] sources )
         {
             if ( sources != null )
@@ -44,6 +55,10 @@ namespace Blazorise.Video
 
         #region Methods
 
+        /// <summary>
+        /// Implicit converted for the string source.
+        /// </summary>
+        /// <param name="source">Single source address.</param>
         public static implicit operator VideoSource( string source )
         {
             return new( source );
@@ -53,6 +68,9 @@ namespace Blazorise.Video
 
         #region Properties
 
+        /// <summary>
+        /// True if the source contains the single address.
+        /// </summary>
         public bool Indexed { get; private set; }
 
         /// <summary>
@@ -67,6 +85,9 @@ namespace Blazorise.Video
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string Title { get; set; }
 
+        /// <summary>
+        /// This is an array of media sources. For HTML5 media, the properties of this object are mapped directly to HTML attributes so more can be added to the object if required.
+        /// </summary>
         [JsonPropertyName( "sources" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public ValueEqualityList<VideoMedia> Medias { get; set; }
