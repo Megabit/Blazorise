@@ -198,11 +198,6 @@ namespace Blazorise.Snackbar
         }
 
         /// <summary>
-        /// Allow snackbar to show multiple lines of text.
-        /// </summary>
-        [Parameter] public bool Multiline { get; set; }
-
-        /// <summary>
         /// Defines the default interval (in milliseconds) after which the snackbars will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
         /// </summary>
         [Parameter] public double? DefaultInterval { get; set; } = Constants.DefaultIntervalBeforeClose;
