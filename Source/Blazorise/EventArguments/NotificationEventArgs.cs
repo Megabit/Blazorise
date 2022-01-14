@@ -40,7 +40,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the notification type.
         /// </summary>
-        public NotificationType NotificationType { get; set; }
+        public NotificationType NotificationType { get; }
 
         /// <summary>
         /// Gets the notification description.
