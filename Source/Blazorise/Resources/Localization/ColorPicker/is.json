@@ -2,18 +2,18 @@
   "culture": "is",
   "translations": {
     "ui:dialog": "valmynd fyrir litaval",
-    "btn:toggle": "valmynd fyrir val á litavali",
+    "btn:toggle": "skipta um valmynd",
     "btn:swatch": "litapróf",
     "btn:last-color": "nota fyrri lit",
     "btn:save": "Vista",
     "btn:cancel": "Hætta",
     "btn:clear": "Hreinsa",
-    "aria:btn:save": "save and close",
+    "aria:btn:save": "vista og loka",
     "aria:btn:cancel": "hætta við og loka",
-    "aria:btn:clear": "skýrt og lokað",
-    "aria:input": "litasláttarsvið",
-    "aria:palette": "svæði fyrir litaval",
-    "aria:hue": "renna fyrir val á litum",
-    "aria:opacity": "valrennibraut"
+    "aria:btn:clear": "hreinsa og lokað",
+    "aria:input": "inntak",
+    "aria:palette": "litatafla",
+    "aria:hue": "litbrigði",
+    "aria:opacity": "ógagnsæi"
   }
 }
