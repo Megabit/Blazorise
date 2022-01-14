@@ -3,18 +3,18 @@
     @ChildContent
     @foreach ( var snackbarInfo in snackbarInfos )
     {
-        <Snackbar @key="@snackbarInfo.Key"
+            <Snackbar @key="@snackbarInfo.Key"
                   Key="@snackbarInfo.Key"
                   Visible="@snackbarInfo.Visible"
                   Color="@snackbarInfo.Color"
-                  Multiline="@Multiline"
+                  Multiline="@snackbarInfo.Multiline"
                   Interval="@(snackbarInfo.IntervalBeforeClose ?? Constants.DefaultIntervalBeforeClose)"
                   DelayCloseOnClick="@DelayCloseOnClick"
                   DelayCloseOnClickInterval="@DelayCloseOnClickInterval"
                   Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">
             @if ( snackbarInfo.Title != null )
             {
-                <SnackbarHeader>
+                        <SnackbarHeader>
                     @snackbarInfo.Title
 
                     @if ( snackbarInfo.ShowCloseButton )
@@ -24,14 +24,14 @@
 
                         var key = snackbarInfo.Key;
 
-                        <SnackbarAction Clicked="@(async ( e ) => await OnSnackbarClosed( key, SnackbarCloseReason.UserClosed ))">
-                            <Icon Name="@closeButtonIcon" />
+                                    <SnackbarAction Clicked="@(async ( e ) => await OnSnackbarClosed( key, SnackbarCloseReason.UserClosed ))">
+                                        <Icon Name="@closeButtonIcon" />
                             @closeButtonText
-                        </SnackbarAction>
+                                    </SnackbarAction>
                     }
-                </SnackbarHeader>
+                        </SnackbarHeader>
             }
-            <SnackbarBody>
+                <SnackbarBody>
                 @if ( snackbarInfo.MessageTemplate != null )
                 {
                     @snackbarInfo.MessageTemplate
@@ -49,15 +49,15 @@
 
                     var key = snackbarInfo.Key;
 
-                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
+                            <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
                         @if ( actionButtonIcon != null )
                         {
-                            <Icon Name="@actionButtonIcon" />
+                                        <Icon Name="@actionButtonIcon" />
                         }
                         @actionButtonText
-                    </SnackbarAction>
+                            </SnackbarAction>
                 }
-            </SnackbarBody>
-        </Snackbar>
+                </SnackbarBody>
+            </Snackbar>
     }
 </div>

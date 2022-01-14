@@ -27,7 +27,8 @@ namespace Blazorise.Snackbar
                 bool showActionButton,
                 string actionButtonText,
                 object actionButtonIcon,
-                double? intervalBeforeClose )
+                double? intervalBeforeClose,
+                bool multiline )
             {
                 Message = message;
                 Title = title;
@@ -41,6 +42,7 @@ namespace Blazorise.Snackbar
                 ActionButtonText = actionButtonText;
                 ActionButtonIcon = actionButtonIcon;
                 IntervalBeforeClose = intervalBeforeClose;
+                Multiline = multiline;
             }
 
             public MarkupString Message { get; }
@@ -68,6 +70,9 @@ namespace Blazorise.Snackbar
             public double? IntervalBeforeClose { get; }
 
             public bool Visible { get; } = true;
+
+            public bool Multiline { get; } = true;
+
         }
 
         private SnackbarStackLocation location = SnackbarStackLocation.Center;
@@ -145,7 +150,8 @@ namespace Blazorise.Snackbar
                 snackbarOptions.ShowActionButton,
                 snackbarOptions.ActionButtonText,
                 snackbarOptions.ActionButtonIcon,
-                snackbarOptions.IntervalBeforeClose ) );
+                snackbarOptions.IntervalBeforeClose,
+                snackbarOptions.Multiline ) );
 
             return InvokeAsync( StateHasChanged );
         }
