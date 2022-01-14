@@ -120,7 +120,15 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _instances || {};
-    delete instances[elementId];
+
+    const instance = instances[elementId];
+
+    if (instance) {
+        instance.editor.toTextArea();
+        instance.editor = null;
+
+        delete instances[elementId];
+    }
 }
 
 export function setValue(elementId, value) {
