@@ -19,11 +19,17 @@ namespace Blazorise
 
         private BarDropdownState parentBarDropdownState;
 
+        /// <summary>
+        /// State object used to holds the dropdown state.
+        /// </summary>
         private BarDropdownState state = new()
         {
             NestedIndex = 1
         };
 
+        /// <summary>
+        /// The direct BarDropdown child of this dropdown.
+        /// </summary>
         private BarDropdown childBarDropdown;
 
         #endregion
@@ -269,6 +275,21 @@ namespace Blazorise
         /// Occurs when the component visibility changes.
         /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
+        /// <summary>
+        /// If true, a dropdown menu will be right aligned.
+        /// </summary>
+        [Parameter]
+        public bool RightAligned
+        {
+            get => state.RightAligned;
+            set
+            {
+                state = state with { RightAligned = value };
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Cascaded <see cref="BarItem"/> component in which this <see cref="BarDropdown"/> is placed.

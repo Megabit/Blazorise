@@ -16,10 +16,10 @@ else
 }
 @code{
     string HorizontalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
+        => $"ant-menu-submenu ant-menu-submenu-popup {( ParentDropdownState?.RightAligned == true ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
 
     string VerticalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
+        => $"ant-menu-submenu ant-menu-submenu-popup {( ParentDropdownState?.RightAligned == true ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
 
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
 }

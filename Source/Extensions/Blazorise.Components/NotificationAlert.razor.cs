@@ -38,17 +38,16 @@ namespace Blazorise.Components
 
         private async void OnNotificationReceived( object sender, NotificationEventArgs e )
         {
-            NotificationType = e.NotificationType;
-            Message = e.Message;
-            Title = e.Title;
-            Options = e.Options;
+            if ( e == null )
+                return;
 
-            var okButtonText = Options?.OkButtonText ?? "OK";
+            var okButtonText = e.Options?.OkButtonText ?? "OK";
 
-            await SnackbarStack.PushAsync( Message, Title, GetSnackbarColor( e.NotificationType ), ( options ) =>
+            await SnackbarStack.PushAsync( e.Message, e.Title, GetSnackbarColor( e.NotificationType ), ( options ) =>
             {
                 options.CloseButtonIcon = IconName.Times;
                 options.ActionButtonText = okButtonText;
+                options.Multiline = e.Options.Multiline;
 
                 if ( e.Options.IntervalBeforeClose > 0 )
                 {
@@ -84,6 +83,19 @@ namespace Blazorise.Components
             };
         }
 
+        /// <summary>
+        /// Gets the snackbar location based on the predefined notification location.
+        /// </summary>
+        protected virtual SnackbarStackLocation GetSnackbarStackLocation( NotificationLocation notificationLocation )
+        {
+            return notificationLocation switch
+            {
+                NotificationLocation.Left => SnackbarStackLocation.Left,
+                NotificationLocation.Right => SnackbarStackLocation.Right,
+                _ => SnackbarStackLocation.Center,
+            };
+        }
+
         #endregion
 
         #region Properties
@@ -99,29 +111,14 @@ namespace Blazorise.Components
         [Inject] protected INotificationService NotificationService { get; set; }
 
         /// <summary>
-        /// Gets or sets the notification type.
+        /// Gets or sets the notification location.
         /// </summary>
-        [Parameter] public NotificationType NotificationType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the message content.
-        /// </summary>
-        [Parameter] public MarkupString Message { get; set; }
-
-        /// <summary>
-        /// Gets or sets the message title.
-        /// </summary>
-        [Parameter] public string Title { get; set; }
+        [Parameter] public NotificationLocation Location { get; set; } = NotificationLocation.Center;
 
         /// <summary>
         /// Defines the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
         /// </summary>
         [Parameter] public double? DefaultInterval { get; set; }
-
-        /// <summary>
-        /// Gets or sets the custom message options.
-        /// </summary>
-        [Parameter] public NotificationOptions Options { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with an OK action.
