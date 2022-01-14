@@ -11,6 +11,11 @@
         public bool Visible { get; init; }
 
         /// <summary>
+        /// If true, a dropdown menu will be right aligned.
+        /// </summary>
+        public bool RightAligned { get; init; }
+
+        /// <summary>
         /// Gets or sets the bar mode in which the dropdown is placed.
         /// </summary>
         public BarMode Mode { get; init; }
