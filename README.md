@@ -122,6 +122,9 @@ Add the following to `index.html` or `_Host.cshtml` in the `body` section.
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 ```
 
+Please note, that these are the Blazorise explicit dependencies, you should still add any needed framework dependencies.
+
+
 ### 3. Using's
 
 In your main `_Imports.razor` add:
