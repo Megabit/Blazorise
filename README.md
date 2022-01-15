@@ -124,6 +124,13 @@ Add the following to `index.html` or `_Host.cshtml` in the `body` section.
 
 Please note, that these are the Blazorise explicit dependencies, you should still add any needed framework dependencies.
 
+#### 2.1 Javascript resources
+Blazorise loads any aditional javascript it needs dynamically once a component needs it. This means that blazorise expects that the resources are available and placed relative to the app, you can configure this by using <code>app.UseStaticFiles();</code> and it does not need any other additional configuration from your part.
+If you're having any difficulties, please refer to the following issues:
+- #3122 
+- #3150 
+
+We are also aware that when dealing with WPA and offline capabilities there might need to be extra setup if you want your app to remain responsive and are working on providing you with clear steps for these use cases.
 
 ### 3. Using's
 
