@@ -57,7 +57,7 @@ foreach ( var enumGroup in enums )
     sb.AppendLine( "<DocsPageSection>" );
     sb.AppendLine( $"\t<DocsPageSectionHeader Title=\"{enumGroup.Key}\">" );
     sb.AppendLine( $"\t\t<Paragraph>{enumGroup.First().Descendants().First().FirstNode.ToString().Trim()}</Paragraph>" );
-    sb.AppendLine( "<\t\tUnorderedList>" );
+    sb.AppendLine( "\t\t<UnorderedList>" );
 
     foreach ( var enumChild in enumGroup.Skip( 1 ) )
     {
@@ -73,9 +73,9 @@ foreach ( var enumGroup in enums )
 
 var outputFileInfo = new FileInfo( outputPath );
 using var sw = new System.IO.StreamWriter( outputFileInfo.FullName );
-sw.WriteLine( sb.ToString() );
+await sw.WriteLineAsync( sb.ToString() );
+sw.Close();
 
-//Console.WriteLine(sb.ToString());
 Console.WriteLine( "Success!" );
 Console.WriteLine( outputFileInfo.FullName );
 Console.ReadKey();
