@@ -64,6 +64,178 @@ html, body * {
   scrollbar-width: thin;
 }
 
+.banner {
+  background-color: #f7f8fa;
+  text-align: center;
+}
+
+.content-wrapper {
+  padding: 27px 0px;
+}
+
+.features-overview .content-header {
+  padding: 78px 0px 48px 0px;
+  text-align: center;
+}
+@media (max-width: 992px) {
+  .features-overview .content-header {
+    padding: 60px 0px;
+  }
+}
+.features-overview .readmore-link {
+  font-size: 13px;
+  color: #97a3be;
+  font-weight: 500;
+  transition: color 0.5s ease-in-out;
+}
+.features-overview .readmore-link:hover {
+  color: #ff0000;
+}
+.features-overview .features-width {
+  flex-basis: 61%;
+}
+@media (max-width: 767px) {
+  .features-overview .features-width {
+    flex-basis: 100%;
+  }
+}
+.features-overview .img-icons {
+  transition: all 0.4s ease-in-out;
+}
+.features-overview .img-icons:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 992px) {
+  .digital-marketing-service .flex-item:nth-of-type(1) {
+    order: 2;
+  }
+  .digital-marketing-service .flex-item:nth-of-type(2) {
+    order: 1;
+  }
+  .digital-marketing-service .img-digital {
+    text-align: center;
+  }
+}
+
+.case-studies .color-cards .card-contents {
+  position: relative;
+  padding: 75px 0px;
+}
+.case-studies .color-cards .card-details p {
+  color: #6e6e6e;
+  font-weight: 500;
+}
+.case-studies .color-cards:hover .card-details {
+  color: rgba(0, 51, 204, 0.8);
+}
+.case-studies .color-cards:hover .card-details p {
+  color: rgba(0, 51, 204, 0.8);
+}
+.case-studies .color-cards:hover .card-desc-box {
+  opacity: 1;
+}
+.case-studies .color-cards .btn {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+.case-studies .case-studies-card-img {
+  height: 106px;
+}
+.case-studies .card-desc-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 51, 204, 0.8);
+  transition: all 0.8s ease-in-out;
+  opacity: 0;
+}
+
+.customer-feedback .customer-cards {
+  background: #f3f7fb;
+  font-size: 18px;
+  margin: 0px 12px;
+  transition: all 0.7s ease-in-out;
+}
+.customer-feedback .customer-cards .img-customer {
+  border-radius: 50%;
+  transition: all 0.7s ease-in-out;
+}
+.customer-feedback .customer-cards:hover {
+  background: #e4e7ea;
+  transform: scale(1.02);
+}
+.customer-feedback .customer-cards:hover .img-customer {
+  transform: scale(1.05);
+}
+.customer-feedback .customer-cards .content-divider {
+  width: 73px;
+  height: 3px;
+}
+
+.contact-us .contact-us-bgimage {
+  background-image: url("../images/gdpr.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  padding: 83px 0px 68px 0px;
+}
+
+/*.contact-details {
+  .mdi {
+    font-size: 14px;
+    color: #6e6e6e;
+    border-radius: 50px;
+    border: 1px solid rgba(151, 151, 151, 0.24);
+    padding: 3px 6px;
+    margin-right: 10px;
+    transition: all 0.6s ease-in-out;
+    &:hover {
+      background: #a6a6a6;
+      color: white;
+    }
+  }
+  a {
+    color: $text-muted;
+    transition: all 0.6s ease-in-out;
+    &:hover {
+      color: #ff0000;
+    } 
+  }
+}*/
+footer a {
+  color: #ff0000;
+}
+footer a:hover {
+  color: black;
+}
+
+.section-subtitle, .customer-designation {
+  font-weight: normal;
+}
+
+.header-small .navbar {
+  background: white;
+  padding: 18px 0px 18px 0px;
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
+}
+.header-small .navbar.fixed-top {
+  top: -50px;
+  margin-top: 50px;
+  transition: margin-top 1s ease;
+}
+@media (min-width: 992px) {
+  .header-small .navbar .btn {
+    padding: 5px 10px;
+    margin-left: 20px;
+  }
+}
+
 .docs-page-title {
   margin-bottom: 1.5rem;
 }

@@ -1,0 +1,219 @@
+﻿.banner {
+    background-color: #f7f8fa;
+    text-align: center;
+}
+
+.content-wrapper {
+    padding: 27px 0px;
+}
+
+// SECTION-2
+.features-overview {
+    .content-header {
+        padding: 78px 0px 48px 0px;
+        text-align: center;
+
+        @media (max-width: 992px) {
+            padding: 60px 0px;
+        }
+    }
+
+    .readmore-link {
+        font-size: 13px;
+        color: #97a3be;
+        font-weight: 500;
+        transition: color 0.5s ease-in-out;
+
+        &:hover {
+            color: #ff0000;
+        }
+    }
+
+    .features-width {
+        flex-basis: 61%;
+
+        @media (max-width: 767px) {
+            flex-basis: 100%;
+        }
+    }
+
+    .img-icons {
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+// SECTION-3
+.digital-marketing-service {
+    @media (max-width: 992px) {
+        .flex-item:nth-of-type(1) {
+            order: 2;
+        }
+
+        .flex-item:nth-of-type(2) {
+            order: 1;
+        }
+
+        .img-digital {
+            text-align: center;
+        }
+    }
+}
+
+// SECTION-4
+.case-studies {
+    .color-cards {
+        .card-contents {
+            position: relative;
+            padding: 75px 0px;
+        }
+
+        .card-details {
+            p {
+                color: #6e6e6e;
+                font-weight: 500;
+            }
+        }
+
+        &:hover {
+            .card-details {
+                color: rgba(0, 51, 204, 0.8);
+
+                p {
+                    color: rgba(0, 51, 204, 0.8);
+                }
+            }
+
+            .card-desc-box {
+                opacity: 1;
+            }
+        }
+
+        .btn {
+            padding: 6px 14px;
+            font-size: 12px;
+        }
+    }
+
+    .case-studies-card-img {
+        height: 106px;
+    }
+
+    .card-desc-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 51, 204, 0.8);
+        transition: all 0.8s ease-in-out;
+        opacity: 0;
+    }
+}
+
+// SECTION-5
+.customer-feedback {
+    .customer-cards {
+        background: #f3f7fb;
+        font-size: 18px;
+        margin: 0px 12px;
+        transition: all 0.7s ease-in-out;
+
+        .img-customer {
+            border-radius: 50%;
+            transition: all 0.7s ease-in-out;
+        }
+
+        &:hover {
+            background: #e4e7ea;
+            transform: scale(1.02);
+
+            .img-customer {
+                transform: scale(1.05);
+            }
+        }
+
+        .content-divider {
+            width: 73px;
+            height: 3px;
+        }
+    }
+}
+
+// SECTION-6
+.contact-us {
+    .contact-us-bgimage {
+        background-image: url('../images/gdpr.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        text-align: center;
+        padding: 83px 0px 68px 0px;
+    }
+}
+
+// SECTION-7
+/*.contact-details {
+  .mdi {
+    font-size: 14px;
+    color: #6e6e6e;
+    border-radius: 50px;
+    border: 1px solid rgba(151, 151, 151, 0.24);
+    padding: 3px 6px;
+    margin-right: 10px;
+    transition: all 0.6s ease-in-out;
+    &:hover {
+      background: #a6a6a6;
+      color: white;
+    }
+  }
+  a {
+    color: $text-muted;
+    transition: all 0.6s ease-in-out;
+    &:hover {
+      color: #ff0000;
+    } 
+  }
+}*/
+
+footer {
+    a {
+        color: #ff0000;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+
+// COMMON
+.section-subtitle, .customer-designation {
+    font-weight: normal;
+}
+
+// SCROLL -SMALL HEADER
+.header-small {
+    .navbar {
+        background: white;
+        padding: 18px 0px 18px 0px;
+        -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
+
+        &.fixed-top {
+            top: -50px;
+            margin-top: 50px;
+            transition: margin-top 1s ease;
+        }
+
+        .btn {
+            @media (min-width: 992px) {
+                padding: 5px 10px;
+                margin-left: 20px;
+            }
+        }
+    }
+}

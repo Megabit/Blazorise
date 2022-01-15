@@ -2,80 +2,189 @@
 
 <Seo Canonical="/" Title="Blazorise Component Library" Description="Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material." />
 
-<Row NoGutters>
-    <Column Class="page-hero-overlay" Style="background-image: url(img/backs/Halftone-background-1080.jpg)">
-        <Container Margin="Margin.IsAuto.FromLeft.IsAuto.FromRight" Width="Width.Is100">
-            <Heading Class="page-title" Size="HeadingSize.Is1" TextColor="TextColor.White">
-                Blazorise Component Library
-            </Heading>
-            <Paragraph Class="page-lead" Color="TextColor.Light" Margin="Margin.Is4.FromTop">
-                Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
-                <br />
-                <small>
-                    <Blazorise.Link To="https://github.com/Megabit/Blazorise" Target="Target.Blank">View it on GitHub</Blazorise.Link>
-                </small>
-            </Paragraph>
-            <Paragraph Margin="Margin.Is4.FromTop">
-                <Button Type="ButtonType.Link" To="docs" Outline Color="Color.Light" Size="Size.Large">
-                    <Icon Name="IconName.Book" />
-                    Get started now
-                </Button>
-                <Button Type="ButtonType.Link" To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank" Outline Color="Color.Light" Size="Size.Large">
-                    <Icon Name="IconName.Tv" />
-                    See it in action
-                </Button>
-            </Paragraph>
-        </Container>
-    </Column>
-</Row>
+<Div Class="banner" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+    <Container>
+        <Heading Size="HeadingSize.Is1" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
+            Blazorise Component Library
+        </Heading>
+        <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
+            A set of 70+ free and open source native Blazor UI controls.
+        </Heading>
+        <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom" class="font-weight-normal text-muted pb-3">
+            Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
+        </Heading>
+        <Div>
+            <Button Color="Color.Primary" Size="Size.Large" Margin="Margin.Is1.FromRight">Get started</Button>
+            <Button Color="Color.Success" Size="Size.Large" Margin="Margin.Is1.FromLeft">Learn more</Button>
+        </Div>
+        <Image Source="img/illustrations/home/Group171.svg" Text="" Fluid />
+    </Container>
+</Div>
 
-<Row NoGutters>
-    <Column Margin="Margin.IsAuto.OnX">
-        <Container Margin="Margin.IsAuto.OnX" Class="page-content">
-            <Row Margin="Margin.IsAuto.OnX">
-                <CardDeck>
-                    <Card Border="Border.Is0">
-                        <CardImage Source="img/illustrations/web-1.jpg" Alt="Card image cap 3"></CardImage>
-                        <CardBody>
-                            <CardTitle Size="4">Blazor</CardTitle>
-                            <CardText Margin="Margin.Is4.OnY">
-                                Built with Blazor and CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
-                            </CardText>
-                            <Button Type="ButtonType.Link" To="docs" Color="Color.Secondary">
-                                Start building
-                            </Button>
-                        </CardBody>
-                    </Card>
-                    <Card Border="Border.Is0">
-                        <CardImage Source="img/illustrations/open-source-2-small.jpg" Alt="Card image cap 9"></CardImage>
-                        <CardBody>
-                            <CardTitle Size="4">
-                                Open-source & free
-                            </CardTitle>
-                            <CardText Margin="Margin.Is4.OnY">
-                                Free to use in a Non-Commercial-Manner, under the Apache License. Clone it, fork it, customize it… whatever!
-                            </CardText>
-                            <Button Type="ButtonType.Link" To="https://github.com/Megabit/Blazorise" Target="Target.Blank" Color="Color.Secondary">
-                                Blazorise on GitHub
-                            </Button>
-                        </CardBody>
-                    </Card>
-                    <Card Border="Border.Is0">
-                        <CardImage Source="img/illustrations/faq-2.jpg" Alt="Card image cap 12"></CardImage>
-                        <CardBody>
-                            <CardTitle Size="4">
-                                FAQ
-                            </CardTitle>
-                            <CardText Margin="Margin.Is4.OnY">
-                                Quickly learn more about Blazorise and what is it used for.
-                            </CardText>
-                            <Button Type="ButtonType.Link" To="docs/faq" Color="Color.Secondary">
-                                What is Blazorise?
-                            </Button>
-                        </CardBody>
-                    </Card>
-                </CardDeck>
+<Div Padding="Padding.Is5.OnY">
+    <Container>
+        <section class="features-overview" id="features-section">
+            <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+                <Heading Size="HeadingSize.Is2">Join our community</Heading>
+                <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                    Do you have questions? Do you want to help others? Just talk or get news? Join one of our channels and become part of the Blazorise community.
+                </Heading>
+            </Column>
+
+            <Div Flex="Flex._.OnDesktop.JustifyContent.Between" Margin="Margin.Is5.FromBottom">
+                <Div Flex="Flex.JustifyContent.Start">
+                    <Div Class="features-width">
+                        <Image Source="img/logos/icons8-twitter.svg" Text="" Class="img-icons" />
+                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Twitter</Heading>
+                        <Paragraph TextColor="TextColor.Muted">For announcements, blog posts, and general Blazorise stuff.</Paragraph>
+                        <Anchor To="#"><Paragraph Class="readmore-link">Follow us</Paragraph></Anchor>
+                    </Div>
+                </Div>
+
+                <Div Flex="Flex.JustifyContent.Center">
+                    <Div Class="features-width">
+                        <Image Source="img/logos/icons8-discord.svg" Text="" Class="img-icons" />
+                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
+                        <Paragraph TextColor="TextColor.Muted">To get involved in the community, ask questions, help others or just talk.</Paragraph>
+                        <Anchor To="#"><Paragraph Class="readmore-link">Come and chat</Paragraph></Anchor>
+                    </Div>
+                </Div>
+
+                <Div Flex="Flex.JustifyContent.End">
+                    <Div Class="features-width">
+                        <Image Source="img/logos/icons8-github.svg" Text="" Class="img-icons" />
+                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
+                        <Paragraph TextColor="TextColor.Muted">To file issues, request features, and contribute, check out our GitHub.</Paragraph>
+                        <Anchor To="#"><Paragraph Class="readmore-link">Fork the code</Paragraph></Anchor>
+                    </Div>
+                </Div>
+            </Div>
+        </section>
+        <section class="digital-marketing-service" id="digital-marketing-section">
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
+                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Free</Heading>
+                    <Column ColumnSize="ColumnSize.Is5.OnWidescreen.Is6.OnFullHD" Padding="Padding.Is0">
+                        <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
+                            Blazorise Components are open source and free for commercial use. You can install them from nuget or build your own copy from source.
+                        </Paragraph>
+                        <Paragraph TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                            Paid support is available as part of the <Anchor To="#">Blazorise Professional subscription</Anchor>.
+                        </Paragraph>
+                    </Column>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-digital aos-init aos-animate" data-aos="fade-left">
+                    <Image Source="img/illustrations/home2/free.png" Text="" Fluid />
+                </Column>
             </Row>
-        </Container>
-    </Column>
-</Row>
+
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="flex-item aos-init aos-animate" data-aos="fade-left">
+                    <Image Source="img/illustrations/home2/native.png" Text="" Fluid />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Class="flex-item">
+                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Native</Heading>
+                    <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is8.IsFull" Padding="Padding.Is0">
+                        <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
+                            The components are implemented in C# and take full advantage of the Blazor framework.
+                            <br /><br />
+                            They do not depend on or wrap existing JavaScript frameworks or libraries.
+                        </Paragraph>
+                        <Paragraph Padding="Padding.Is2.FromBottom" TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                            Both server-side and client-side (WASM) Blazor are supported.
+                        </Paragraph>
+                    </Column>
+                    <Button Color="Color.Info">Readmore</Button>
+                </Column>
+            </Row>
+        </section>
+        <section class="case-studies" id="case-studies-section">
+            <Row Margin="Margin.Is5.FromBottom">
+                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
+                    <Heading Size="HeadingSize.Is2">Our case studies</Heading>
+                    <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">Lorem ipsum dolor sit amet, tincidunt vestibulum.</Heading>
+                </Column>
+
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="200">
+                    <Card Class="color-cards" Border="Border.Is0">
+                        <CardBody Padding="Padding.Is0">
+                            <Div Background="Background.Primary" TextAlignment="TextAlignment.Center" Class="card-contents">
+                                <CardImage Source="img/illustrations/home/Group95.svg" Class="case-studies-card-img" />
+                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
+                                    <Div>
+                                        <Heading Size="HeadingSize.Is6" TextColor="TextColor.White" Padding="Padding.Is2.FromBottom.Is3.OnX">Know more about Web Development</Heading>
+                                        <Button Color="Color.Light">Read More</Button>
+                                    </Div>
+                                </Div>
+                            </Div>
+                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
+                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Online Marketing</Heading>
+                                <Paragraph>Seo, Marketing</Paragraph>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Column>
+
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="200">
+                    <Card Class="color-cards" Border="Border.Is0">
+                        <CardBody Padding="Padding.Is0">
+                            <Div Background="Background.Warning" TextAlignment="TextAlignment.Center" Class="card-contents">
+                                <CardImage Source="img/illustrations/home/Group108.svg" Class="case-studies-card-img" />
+                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
+                                    <Div>
+                                        <Heading Size="HeadingSize.Is6" TextColor="TextColor.White" Padding="Padding.Is2.FromBottom.Is3.OnX">Know more about Web Development</Heading>
+                                        <Button Color="Color.Light">Read More</Button>
+                                    </Div>
+                                </Div>
+                            </Div>
+                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
+                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Web Development</Heading>
+                                <Paragraph>Developing, Designing</Paragraph>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Column>
+
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="200">
+                    <Card Class="color-cards" Border="Border.Is0">
+                        <CardBody Padding="Padding.Is0">
+                            <Div Background="Background.Success" TextAlignment="TextAlignment.Center" Class="card-contents">
+                                <CardImage Source="img/illustrations/home/Group108.svg" Class="case-studies-card-img" />
+                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
+                                    <Div>
+                                        <Heading Size="HeadingSize.Is6" TextColor="TextColor.White" Padding="Padding.Is2.FromBottom.Is3.OnX">Know more about Web Development</Heading>
+                                        <Button Color="Color.Light">Read More</Button>
+                                    </Div>
+                                </Div>
+                            </Div>
+                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
+                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Web Designing</Heading>
+                                <Paragraph>Designing, Developing</Paragraph>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Column>
+
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="200">
+                    <Card Class="color-cards" Border="Border.Is0">
+                        <CardBody Padding="Padding.Is0">
+                            <Div Background="Background.Light" TextAlignment="TextAlignment.Center" Class="card-contents">
+                                <CardImage Source="img/illustrations/home/Group108.svg" Class="case-studies-card-img" />
+                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
+                                    <Div>
+                                        <Heading Size="HeadingSize.Is6" TextColor="TextColor.White" Padding="Padding.Is2.FromBottom.Is3.OnX">Know more about Web Development</Heading>
+                                        <Button Color="Color.Light">Read More</Button>
+                                    </Div>
+                                </Div>
+                            </Div>
+                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
+                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Software Development</Heading>
+                                <Paragraph>Developing, Designing</Paragraph>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Column>
+            </Row>
+        </section>
+    </Container>
+</Div>
