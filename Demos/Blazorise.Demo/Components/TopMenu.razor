@@ -85,9 +85,9 @@
         </BarStart>
         <BarEnd>
             <BarItem>
-                <BarDropdown>
+                <BarDropdown RightAligned="true">
                     <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
-                    <BarDropdownMenu RightAligned="true">
+                    <BarDropdownMenu>
                         @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
                         {
                             <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(()=>SelectCulture(cultureInfo.Name))">
@@ -105,9 +105,9 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
-                <BarDropdown>
+                <BarDropdown RightAligned="true">
                     <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                    <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
+                    <BarDropdownMenu Style="padding: 15px; min-width:550px;">
                         <Row>
                             <Column Margin="Margin.Is2.FromBottom">
                                 <Field>

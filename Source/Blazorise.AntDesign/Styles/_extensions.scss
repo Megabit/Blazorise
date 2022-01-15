@@ -1,3 +1,7 @@
-﻿.snackbar {
+﻿.snackbar-stack {
+    z-index: 1009 !important;
+}
+
+.snackbar {
     z-index: 1010 !important;
 }
