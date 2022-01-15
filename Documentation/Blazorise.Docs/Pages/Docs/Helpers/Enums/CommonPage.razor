@@ -6,6 +6,14 @@
     Enums: Common
 </DocsPageTitle>
 
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> Take note of this caveat when using the following enums:
+		<Code>DisplayType.None</Code> Does not render the html element at all in the page.
+		<Code>Visibility.None</Code> Hides the element, but it still takes up space in the page. It is basically invisible.
+    </AlertDescription>
+</Alert>
+
 <DocsPageSection>
 	<DocsPageSectionHeader Title="AddonType">
 		<Paragraph>Addon element type.</Paragraph>
@@ -45,38 +53,6 @@
 			<UnorderedListItem><Code>Background.White</Code> White color.</UnorderedListItem>
 			<UnorderedListItem><Code>Background.Transparent</Code> Transparent color.</UnorderedListItem>
 			<UnorderedListItem><Code>Background.Body</Code> Body color. Note that body color must be defined through them</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="BarCollapseMode">
-		<Paragraph>Defines how the bar will be collapsed.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>BarCollapseMode.Hide</Code> Bar will be hidden completely when collapsed.</UnorderedListItem>
-			<UnorderedListItem><Code>BarCollapseMode.Small</Code> Bar will be collapsed into smaller version with icons.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="BarMode">
-		<Paragraph>Bar orientation and menu display.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>BarMode.Horizontal</Code> Horizontal navbar with dropdown menus.</UnorderedListItem>
-			<UnorderedListItem><Code>BarMode.VerticalPopout</Code> Vertical navbar with pop-out menus.</UnorderedListItem>
-			<UnorderedListItem><Code>BarMode.VerticalInline</Code> Vertical navbar with inline dropdown menus.</UnorderedListItem>
-			<UnorderedListItem><Code>BarMode.VerticalSmall</Code> Small vertical navbar with pop-out menus.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="BarTogglerMode">
-		<Paragraph>Defines the look and position of the bar toggler.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>BarTogglerMode.Normal</Code> The standard inline bar toggler. Supported by Horizontal and Vertical BarModes.</UnorderedListItem>
-			<UnorderedListItem><Code>BarTogglerMode.Popout</Code> A popout style bar toggler. Supported only on Vertical BarModes.</UnorderedListItem>
 		</UnorderedList>
 	</DocsPageSectionHeader>
 </DocsPageSection>
@@ -164,28 +140,6 @@
 			<UnorderedListItem><Code>Breakpoint.Desktop</Code> Breakpoint on desktop (medium).</UnorderedListItem>
 			<UnorderedListItem><Code>Breakpoint.Widescreen</Code> Breakpoint on widescreen (large).</UnorderedListItem>
 			<UnorderedListItem><Code>Breakpoint.FullHD</Code> Breakpoint on large desktops (extra large).</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="ButtonsRole">
-		<Paragraph>Buttons group behaviour.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>ButtonsRole.Addons</Code> Display buttons as addons.</UnorderedListItem>
-			<UnorderedListItem><Code>ButtonsRole.Toolbar</Code> Display buttons as toolbar buttons.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="ButtonType">
-		<Paragraph>Defines the button type and behaviour.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>ButtonType.Button</Code> The button is a clickable button.</UnorderedListItem>
-			<UnorderedListItem><Code>ButtonType.Submit</Code> The button is a submit button (submits form-data).</UnorderedListItem>
-			<UnorderedListItem><Code>ButtonType.Reset</Code> The button is a reset button (resets the form-data to its initial values).</UnorderedListItem>
-			<UnorderedListItem><Code>ButtonType.Link</Code> The button will be rendered as a link but will appear as a regular button.</UnorderedListItem>
 		</UnorderedList>
 	</DocsPageSectionHeader>
 </DocsPageSection>
@@ -303,34 +257,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-	<DocsPageSectionHeader Title="DateInputMode">
-		<Paragraph>Hints at the type of data that might be entered by the user while editing the</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>DateInputMode.Date</Code> Only date is allowed to be entered.</UnorderedListItem>
-			<UnorderedListItem><Code>DateInputMode.DateTime</Code> Both date and time are allowed to be entered.</UnorderedListItem>
-			<UnorderedListItem><Code>DateInputMode.Month</Code> Allowed to select only year and month.
-            
-            Note that not all browser supports this mode, see</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="Direction">
-		<Paragraph>Direction of an dropdown menu.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>Direction.None</Code> Same as</UnorderedListItem>
-			<UnorderedListItem><Code>Direction.Down</Code> Trigger dropdown menus bellow an element (default behaviour).</UnorderedListItem>
-			<UnorderedListItem><Code>Direction.Up</Code> Trigger dropdown menus above an element.</UnorderedListItem>
-			<UnorderedListItem><Code>Direction.Right</Code> Trigger dropdown menus to the right of an element.</UnorderedListItem>
-			<UnorderedListItem><Code>Direction.Left</Code> Trigger dropdown menus to the left of an element.</UnorderedListItem>
-			<UnorderedListItem><Code>Direction.End</Code> Trigger dropdown menus to the end of an element.</UnorderedListItem>
-			<UnorderedListItem><Code>Direction.Start</Code> Trigger dropdown menus to the start of an element.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
 	<DocsPageSectionHeader Title="DisplayDirection">
 		<Paragraph>Defines direction of flex items in a flex container.</Paragraph>
 		<UnorderedList>
@@ -339,18 +265,6 @@
 			<UnorderedListItem><Code>DisplayDirection.Column</Code> The flex container's main-axis is the same as the block-axis. The main-start and main-end points are the same as the before and after points of the writing-mode.</UnorderedListItem>
 			<UnorderedListItem><Code>DisplayDirection.ReverseRow</Code> Behaves the same as row but the main-start and main-end points are permuted.</UnorderedListItem>
 			<UnorderedListItem><Code>DisplayDirection.ReverseColumn</Code> Behaves the same as column but the main-start and main-end are permuted.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="DisplayHeadingSize">
-		<Paragraph>Defines the display heading size.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>DisplayHeadingSize.Is1</Code> Represents the h1 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>DisplayHeadingSize.Is2</Code> Represents the h2 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>DisplayHeadingSize.Is3</Code> Represents the h3 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>DisplayHeadingSize.Is4</Code> Represents the h4 size element.</UnorderedListItem>
 		</UnorderedList>
 	</DocsPageSectionHeader>
 </DocsPageSection>
@@ -369,18 +283,6 @@
 			<UnorderedListItem><Code>DisplayType.Table</Code> Let the element behave like a table element.</UnorderedListItem>
 			<UnorderedListItem><Code>DisplayType.TableRow</Code> Let the element behave like a tr element.</UnorderedListItem>
 			<UnorderedListItem><Code>DisplayType.TableCell</Code> Let the element behave like a td element.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="DividerType">
-		<Paragraph>Specifies horizontal line style variants.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>DividerType.Solid</Code> Horizontal line will be solid.</UnorderedListItem>
-			<UnorderedListItem><Code>DividerType.Dashed</Code> Horizontal line will be dashed.</UnorderedListItem>
-			<UnorderedListItem><Code>DividerType.Dotted</Code> Horizontal line will be dotted.</UnorderedListItem>
-			<UnorderedListItem><Code>DividerType.TextContent</Code> Horizontal line be separated by text.</UnorderedListItem>
 		</UnorderedList>
 	</DocsPageSectionHeader>
 </DocsPageSection>
@@ -574,53 +476,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-	<DocsPageSectionHeader Title="HeadingSize">
-		<Paragraph>Defines the heading size.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>HeadingSize.Is1</Code> Represents the h1 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>HeadingSize.Is2</Code> Represents the h2 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>HeadingSize.Is3</Code> Represents the h3 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>HeadingSize.Is4</Code> Represents the h4 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>HeadingSize.Is5</Code> Represents the h5 size element.</UnorderedListItem>
-			<UnorderedListItem><Code>HeadingSize.Is6</Code> Represents the h6 size element.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="IconSize">
-		<Paragraph>Defines the size of an</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>IconSize.None</Code> The icon size will not be applied.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.ExtraSmall</Code> The icon will be size 0.75em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.Small</Code> The icon will be size 0.875em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.Large</Code> The icon will be size 1.33em (Also applies vertical-align: -25%).</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x2</Code> The icon will be size 2em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x3</Code> The icon will be size 3em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x4</Code> The icon will be size 4em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x5</Code> The icon will be size 5em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x6</Code> The icon will be size 6em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x7</Code> The icon will be size 7em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x8</Code> The icon will be size 8em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x9</Code> The icon will be size 9em.</UnorderedListItem>
-			<UnorderedListItem><Code>IconSize.x10</Code> The icon will be size 10em.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="IconStyle">
-		<Paragraph>Represents a different look of the same icons.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>IconStyle.Solid</Code> Icon will be filled with single-color.</UnorderedListItem>
-			<UnorderedListItem><Code>IconStyle.Regular</Code> Icon will be outlined with single-color.</UnorderedListItem>
-			<UnorderedListItem><Code>IconStyle.Light</Code> Icon will be slightly lighter.</UnorderedListItem>
-			<UnorderedListItem><Code>IconStyle.DuoTone</Code> Icon will be shown in two-color tones.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
 	<DocsPageSectionHeader Title="InputMaskCaretPosition">
 		<Paragraph>Positioning of the caret on click.</Paragraph>
 		<UnorderedList>
@@ -668,28 +523,6 @@
 			<UnorderedListItem><Code>LabelType.Radio</Code> Style for radio will be applied.</UnorderedListItem>
 			<UnorderedListItem><Code>LabelType.Switch</Code> Style for switch will be applied.</UnorderedListItem>
 			<UnorderedListItem><Code>LabelType.File</Code> Style for file input will be applied.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="ListGroupMode">
-		<Paragraph>Defines the</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>ListGroupMode.Static</Code> List group will act as a static list.</UnorderedListItem>
-			<UnorderedListItem><Code>ListGroupMode.Selectable</Code> List group will act on clicking the items.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="MaskType">
-		<Paragraph>Lists values that specify the type of mask used by an editor.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>MaskType.None</Code> Specifies that the mask feature is disabled.</UnorderedListItem>
-			<UnorderedListItem><Code>MaskType.Numeric</Code> Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.</UnorderedListItem>
-			<UnorderedListItem><Code>MaskType.DateTime</Code> Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.</UnorderedListItem>
-			<UnorderedListItem><Code>MaskType.RegEx</Code> Specifies that the mask should be created using full-functional regular expressions.</UnorderedListItem>
 		</UnorderedList>
 	</DocsPageSectionHeader>
 </DocsPageSection>
@@ -894,17 +727,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-	<DocsPageSectionHeader Title="Screenreader">
-		<Paragraph>Screen reader visibility.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>Screenreader.Always</Code> Default.</UnorderedListItem>
-			<UnorderedListItem><Code>Screenreader.Only</Code> Hide an element to all devices except screen readers.</UnorderedListItem>
-			<UnorderedListItem><Code>Screenreader.OnlyFocusable</Code> Show the element again when it’s focused.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
 	<DocsPageSectionHeader Title="Shadow">
 		<Paragraph>Add or remove shadows to elements with box-shadow utilities.</Paragraph>
 		<UnorderedList>
@@ -1012,41 +834,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-	<DocsPageSectionHeader Title="TableResizeMode">
-		<Paragraph>Defines the resize mode of the Table's columns.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TableResizeMode.Header</Code> The Table can only be resized from the columns header.</UnorderedListItem>
-			<UnorderedListItem><Code>TableResizeMode.Columns</Code> The Table can be resized from the entire column area.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TabPosition">
-		<Paragraph>Defines the placement of a tab items.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TabPosition.Top</Code> Top side.</UnorderedListItem>
-			<UnorderedListItem><Code>TabPosition.Bottom</Code> Bottom side.</UnorderedListItem>
-			<UnorderedListItem><Code>TabPosition.Left</Code> Left side.</UnorderedListItem>
-			<UnorderedListItem><Code>TabPosition.Right</Code> Right side.</UnorderedListItem>
-			<UnorderedListItem><Code>TabPosition.Start</Code> Start side.</UnorderedListItem>
-			<UnorderedListItem><Code>TabPosition.End</Code> End side.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TabsMode">
-		<Paragraph>Defines the Tabs Mode.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TabsMode.Default</Code> Always renders the tabs html content to the DOM.</UnorderedListItem>
-			<UnorderedListItem><Code>TabsMode.LazyLoad</Code> Lazy loads tabs, meaning each tab will only be rendered/loaded the first time it is visited.</UnorderedListItem>
-			<UnorderedListItem><Code>TabsMode.LazyReload</Code> Lazy loads tabs everytime, meaning only the active tab will have it's html rendered to the DOM.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
 	<DocsPageSectionHeader Title="Target">
 		<Paragraph>The target attribute specifies where to open the linked document.</Paragraph>
 		<UnorderedList>
@@ -1060,168 +847,12 @@
 </DocsPageSection>
 
 <DocsPageSection>
-	<DocsPageSectionHeader Title="TextAlignment">
-		<Paragraph>Defines the text alignment.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextAlignment.None</Code> No alignment will be applied.</UnorderedListItem>
-			<UnorderedListItem><Code>TextAlignment.Left</Code> Aligns the text to the left.</UnorderedListItem>
-			<UnorderedListItem><Code>TextAlignment.Right</Code> Aligns the text to the right.</UnorderedListItem>
-			<UnorderedListItem><Code>TextAlignment.Start</Code> Aligns the text to the start.</UnorderedListItem>
-			<UnorderedListItem><Code>TextAlignment.End</Code> Aligns the text to the end.</UnorderedListItem>
-			<UnorderedListItem><Code>TextAlignment.Center</Code> Centers the text.</UnorderedListItem>
-			<UnorderedListItem><Code>TextAlignment.Justified</Code> Stretches the lines so that each line has equal width.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TextColor">
-		<Paragraph>Predefined set of contextual text colors.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextColor.None</Code> No color will be applied to an element.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Primary</Code> Primary color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Secondary</Code> Secondary color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Success</Code> Success color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Danger</Code> Danger color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Warning</Code> Warning color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Info</Code> Info color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Light</Code> Light color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Dark</Code> Dark color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Body</Code> Body color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Muted</Code> Muted color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.White</Code> White color.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.Black50</Code> Black text with 50% opacity on white background.</UnorderedListItem>
-			<UnorderedListItem><Code>TextColor.White50</Code> White text with 50% opacity on black background.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TextInputMode">
-		<Paragraph>Specifies what kind of input mechanism would be most helpful for users entering content.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextInputMode.None</Code> The user agent should not display a virtual keyboard. This keyword is useful for content that renders its own keyboard control.</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Text</Code> The user agent should display a virtual keyboard capable of text input in the user's locale.</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Tel</Code> The user agent should display a virtual keyboard capable of telephone number input. This should including keys for the digits 0 to 9, the "#" character, and the "*" character. In some locales, this can also include alphabetic mnemonic labels (e.g., in the US, the key labeled "2" is historically also labeled with the letters A, B, and C).</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Url</Code> The user agent should display a virtual keyboard capable of text input in the user's locale, with keys for aiding in the input of URLs, such as that for the "/" and "." characters and for quick input of strings commonly found in domain names such as "www." or ".com".</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Email</Code> The user agent should display a virtual keyboard capable of text input in the user's locale, with keys for aiding in the input of e-mail addresses, such as that for the "@@" character and the "." character.</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Numeric</Code> The user agent should display a virtual keyboard capable of numeric input. This keyword is useful for PIN entry.</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Decimal</Code> The user agent should display a virtual keyboard capable of fractional numeric input. Numeric keys and the format separator for the locale should be shown.</UnorderedListItem>
-			<UnorderedListItem><Code>TextInputMode.Search</Code> The user agent should display a virtual keyboard optimized for search.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TextOverflow">
-		<Paragraph>Determines how the text will behave when it is larger than a parent container.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextOverflow.None</Code> No overflow will be applied.</UnorderedListItem>
-			<UnorderedListItem><Code>TextOverflow.Wrap</Code> Text will wrap into a new line when it reaches the end of container.</UnorderedListItem>
-			<UnorderedListItem><Code>TextOverflow.NoWrap</Code> Prevents text from wrapping.</UnorderedListItem>
-			<UnorderedListItem><Code>TextOverflow.Truncate</Code> Truncate the text with an ellipsis.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TextRole">
-		<Paragraph>Defines the behaviour of the text input.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextRole.Text</Code> Defines a default text input field.</UnorderedListItem>
-			<UnorderedListItem><Code>TextRole.Email</Code> Used for input fields that should contain an e-mail address.</UnorderedListItem>
-			<UnorderedListItem><Code>TextRole.Password</Code> Defines a password field.</UnorderedListItem>
-			<UnorderedListItem><Code>TextRole.Url</Code> Used for input fields that should contain a URL address.</UnorderedListItem>
-			<UnorderedListItem><Code>TextRole.Search</Code> Define a search field (like a site search, or Google search).</UnorderedListItem>
-			<UnorderedListItem><Code>TextRole.Telephone</Code> Define a field for entering a telephone number.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TextTransform">
-		<Paragraph>Defines the text transformation.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextTransform.None</Code> No capitalization. The text renders as it is. This is default.</UnorderedListItem>
-			<UnorderedListItem><Code>TextTransform.Lowercase</Code> Transforms all characters to lowercase.</UnorderedListItem>
-			<UnorderedListItem><Code>TextTransform.Uppercase</Code> Transforms all characters to uppercase.</UnorderedListItem>
-			<UnorderedListItem><Code>TextTransform.Capitalize</Code> Transforms the first character of each word to uppercase.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TextWeight">
-		<Paragraph>Defines the text weight.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TextWeight.None</Code> No weight will be applied.</UnorderedListItem>
-			<UnorderedListItem><Code>TextWeight.Normal</Code> Defines normal characters. This is default.</UnorderedListItem>
-			<UnorderedListItem><Code>TextWeight.Bold</Code> Defines thick characters.</UnorderedListItem>
-			<UnorderedListItem><Code>TextWeight.Light</Code> Defines lighter characters.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
 	<DocsPageSectionHeader Title="ThemeContrast">
 		<Paragraph>Adjusts the theme contrast.</Paragraph>
 		<UnorderedList>
 			<UnorderedListItem><Code>ThemeContrast.None</Code> Undefined.</UnorderedListItem>
 			<UnorderedListItem><Code>ThemeContrast.Light</Code> Adjusts the theme for a light colors.</UnorderedListItem>
 			<UnorderedListItem><Code>ThemeContrast.Dark</Code> Adjusts the theme for a dark colors.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TooltipPlacement">
-		<Paragraph>Defines the placement of an element.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TooltipPlacement.Top</Code> Top-center side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.TopStart</Code> Top-left side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.TopEnd</Code> Top-right side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.Bottom</Code> Bottom-center side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.BottomStart</Code> Bottom-left side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.BottomEnd</Code> Bottom-right side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.Left</Code> Left-center side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.LeftStart</Code> Left-top side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.LeftEnd</Code> Left-bottom side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.Right</Code> Right-center side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.RightStart</Code> Right-top side.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipPlacement.RightEnd</Code> Right-bottom side.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="TooltipTrigger">
-		<Paragraph>Determines the events that cause the tooltip to show.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>TooltipTrigger.MouseEnterFocus</Code> Tooltip will show on mouse enter and focus event (default option).</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipTrigger.Click</Code> Tooltip will show on click event only.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipTrigger.Focus</Code> Tooltip will show on focus event only.</UnorderedListItem>
-			<UnorderedListItem><Code>TooltipTrigger.MouseEnterClick</Code> Tooltip will show on mouse enter and click event.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="ValidationMode">
-		<Paragraph>Defines the validation execution mode.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>ValidationMode.Auto</Code> Validation will execute on every input change.</UnorderedListItem>
-			<UnorderedListItem><Code>ValidationMode.Manual</Code> Validation will run only when explicitly called.</UnorderedListItem>
-		</UnorderedList>
-	</DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
-	<DocsPageSectionHeader Title="ValidationStatus">
-		<Paragraph>Defines the validation results.</Paragraph>
-		<UnorderedList>
-			<UnorderedListItem><Code>ValidationStatus.None</Code> No validation.</UnorderedListItem>
-			<UnorderedListItem><Code>ValidationStatus.Success</Code> Validation has passed the check.</UnorderedListItem>
-			<UnorderedListItem><Code>ValidationStatus.Error</Code> Validation has failed.</UnorderedListItem>
 		</UnorderedList>
 	</DocsPageSectionHeader>
 </DocsPageSection>
