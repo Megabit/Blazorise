@@ -130,7 +130,7 @@ If you're having any difficulties, please refer to the following issues:
 - #3122 
 - #3150 
 
-We are also aware that when dealing with WPA and offline capabilities there might need to be extra setup if you want your app to remain responsive. We are working on providing you with clear steps for these use cases.
+We are also aware that when dealing with PWA and offline capabilities there might need to be extra setup if you want your app to remain responsive. We are working on providing you with clear steps for these use cases.
 
 ### 3. Using's
 
