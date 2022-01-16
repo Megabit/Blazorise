@@ -68,6 +68,9 @@ html, body * {
   background-color: #f7f8fa;
   text-align: center;
 }
+.banner img {
+  aspect-ratio: 1.5;
+}
 
 .community .readmore-link {
   font-size: 13px;
