@@ -69,51 +69,38 @@ html, body * {
   text-align: center;
 }
 
-.content-wrapper {
-  padding: 27px 0px;
-}
-
-.features-overview .content-header {
-  padding: 78px 0px 48px 0px;
-  text-align: center;
-}
-@media (max-width: 992px) {
-  .features-overview .content-header {
-    padding: 60px 0px;
-  }
-}
-.features-overview .readmore-link {
+.community .readmore-link {
   font-size: 13px;
   color: #97a3be;
   font-weight: 500;
   transition: color 0.5s ease-in-out;
 }
-.features-overview .readmore-link:hover {
+.community .readmore-link:hover {
   color: #ff0000;
 }
-.features-overview .features-width {
+.community .community-width {
   flex-basis: 61%;
 }
 @media (max-width: 767px) {
-  .features-overview .features-width {
+  .community .community-width {
     flex-basis: 100%;
   }
 }
-.features-overview .img-icons {
+.community .img-icons {
   transition: all 0.4s ease-in-out;
 }
-.features-overview .img-icons:hover {
+.community .img-icons:hover {
   transform: scale(1.1);
 }
 
 @media (max-width: 992px) {
-  .digital-marketing-service .flex-item:nth-of-type(1) {
+  .features .flex-item:nth-of-type(1) {
     order: 2;
   }
-  .digital-marketing-service .flex-item:nth-of-type(2) {
+  .features .flex-item:nth-of-type(2) {
     order: 1;
   }
-  .digital-marketing-service .img-digital {
+  .features .img-digital {
     text-align: center;
   }
 }
@@ -173,67 +160,6 @@ html, body * {
 .customer-feedback .customer-cards .content-divider {
   width: 73px;
   height: 3px;
-}
-
-.contact-us .contact-us-bgimage {
-  background-image: url("../images/gdpr.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-align: center;
-  padding: 83px 0px 68px 0px;
-}
-
-/*.contact-details {
-  .mdi {
-    font-size: 14px;
-    color: #6e6e6e;
-    border-radius: 50px;
-    border: 1px solid rgba(151, 151, 151, 0.24);
-    padding: 3px 6px;
-    margin-right: 10px;
-    transition: all 0.6s ease-in-out;
-    &:hover {
-      background: #a6a6a6;
-      color: white;
-    }
-  }
-  a {
-    color: $text-muted;
-    transition: all 0.6s ease-in-out;
-    &:hover {
-      color: #ff0000;
-    } 
-  }
-}*/
-footer a {
-  color: #ff0000;
-}
-footer a:hover {
-  color: black;
-}
-
-.section-subtitle, .customer-designation {
-  font-weight: normal;
-}
-
-.header-small .navbar {
-  background: white;
-  padding: 18px 0px 18px 0px;
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-}
-.header-small .navbar.fixed-top {
-  top: -50px;
-  margin-top: 50px;
-  transition: margin-top 1s ease;
-}
-@media (min-width: 992px) {
-  .header-small .navbar .btn {
-    padding: 5px 10px;
-    margin-left: 20px;
-  }
 }
 
 .docs-page-title {

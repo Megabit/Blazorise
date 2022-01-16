@@ -3,21 +3,7 @@
     text-align: center;
 }
 
-.content-wrapper {
-    padding: 27px 0px;
-}
-
-// SECTION-2
-.features-overview {
-    .content-header {
-        padding: 78px 0px 48px 0px;
-        text-align: center;
-
-        @media (max-width: 992px) {
-            padding: 60px 0px;
-        }
-    }
-
+.community {
     .readmore-link {
         font-size: 13px;
         color: #97a3be;
@@ -29,7 +15,7 @@
         }
     }
 
-    .features-width {
+    .community-width {
         flex-basis: 61%;
 
         @media (max-width: 767px) {
@@ -46,8 +32,7 @@
     }
 }
 
-// SECTION-3
-.digital-marketing-service {
+.features {
     @media (max-width: 992px) {
         .flex-item:nth-of-type(1) {
             order: 2;
@@ -63,7 +48,6 @@
     }
 }
 
-// SECTION-4
 .case-studies {
     .color-cards {
         .card-contents {
@@ -114,7 +98,6 @@
     }
 }
 
-// SECTION-5
 .customer-feedback {
     .customer-cards {
         background: #f3f7fb;
@@ -139,81 +122,6 @@
         .content-divider {
             width: 73px;
             height: 3px;
-        }
-    }
-}
-
-// SECTION-6
-.contact-us {
-    .contact-us-bgimage {
-        background-image: url('../images/gdpr.jpg');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        text-align: center;
-        padding: 83px 0px 68px 0px;
-    }
-}
-
-// SECTION-7
-/*.contact-details {
-  .mdi {
-    font-size: 14px;
-    color: #6e6e6e;
-    border-radius: 50px;
-    border: 1px solid rgba(151, 151, 151, 0.24);
-    padding: 3px 6px;
-    margin-right: 10px;
-    transition: all 0.6s ease-in-out;
-    &:hover {
-      background: #a6a6a6;
-      color: white;
-    }
-  }
-  a {
-    color: $text-muted;
-    transition: all 0.6s ease-in-out;
-    &:hover {
-      color: #ff0000;
-    } 
-  }
-}*/
-
-footer {
-    a {
-        color: #ff0000;
-
-        &:hover {
-            color: black;
-        }
-    }
-}
-
-// COMMON
-.section-subtitle, .customer-designation {
-    font-weight: normal;
-}
-
-// SCROLL -SMALL HEADER
-.header-small {
-    .navbar {
-        background: white;
-        padding: 18px 0px 18px 0px;
-        -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
-        -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
-        box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
-
-        &.fixed-top {
-            top: -50px;
-            margin-top: 50px;
-            transition: margin-top 1s ease;
-        }
-
-        .btn {
-            @media (min-width: 992px) {
-                padding: 5px 10px;
-                margin-left: 20px;
-            }
         }
     }
 }
