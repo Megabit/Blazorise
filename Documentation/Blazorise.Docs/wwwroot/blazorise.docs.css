@@ -67,9 +67,13 @@ html, body * {
 .banner {
   background-color: #f7f8fa;
   text-align: center;
+  background-image: url("../../img/backs/hero-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
 .banner img {
-  aspect-ratio: 1.5;
+  aspect-ratio: 3;
 }
 
 .community .readmore-link {
@@ -110,7 +114,7 @@ html, body * {
 
 .case-studies .color-cards .card-contents {
   position: relative;
-  padding: 75px 0px;
+  padding: 30px 0px;
 }
 .case-studies .color-cards .card-details p {
   color: #6e6e6e;
@@ -130,7 +134,7 @@ html, body * {
   font-size: 12px;
 }
 .case-studies .case-studies-card-img {
-  height: 106px;
+  height: 150px;
 }
 .case-studies .card-desc-box {
   position: absolute;
