@@ -1,4 +1,4 @@
-﻿.banner {
+﻿.home-banner {
     background-color: #f7f8fa;
     text-align: center;
     background-image: url("../../img/backs/hero-bg.svg");
@@ -6,32 +6,24 @@
     background-size: cover;
     background-position: center center;
 
-    img {
+    &-img {
         aspect-ratio: 3;
     }
 }
 
-.community {
-    .readmore-link {
+.home-community {
+    &-readmore-link {
         font-size: 13px;
-        color: #97a3be;
+        color: var(--b-theme-secondary);
         font-weight: 500;
         transition: color 0.5s ease-in-out;
 
         &:hover {
-            color: #ff0000;
+            color: var(--b-theme-primary);
         }
     }
 
-    .community-width {
-        flex-basis: 61%;
-
-        @media (max-width: 767px) {
-            flex-basis: 100%;
-        }
-    }
-
-    .img-icons {
+    &-img-icons {
         transition: all 0.4s ease-in-out;
 
         &:hover {
@@ -40,7 +32,7 @@
     }
 }
 
-.features {
+.home-features {
     @media (max-width: 992px) {
         .flex-item:nth-of-type(1) {
             order: 2;
@@ -56,7 +48,7 @@
     }
 }
 
-.case-studies {
+.home-case-studies {
     .color-cards {
         .card-contents {
             position: relative;
@@ -72,10 +64,10 @@
 
         &:hover {
             .card-details {
-                color: rgba(0, 51, 204, 0.8);
+                color: var(--b-theme-primary);
 
                 p {
-                    color: rgba(0, 51, 204, 0.8);
+                    color: var(--b-theme-primary);
                 }
             }
 
@@ -106,14 +98,14 @@
     }
 }
 
-.customer-feedback {
-    .customer-cards {
+.home-customer-feedback {
+    &-customer-cards {
         background: #f3f7fb;
         font-size: 18px;
         margin: 0px 12px;
         transition: all 0.7s ease-in-out;
 
-        .img-customer {
+        &-img-customer {
             border-radius: 50%;
             transition: all 0.7s ease-in-out;
         }
@@ -127,7 +119,7 @@
             }
         }
 
-        .content-divider {
+        &-content-divider {
             width: 73px;
             height: 3px;
         }

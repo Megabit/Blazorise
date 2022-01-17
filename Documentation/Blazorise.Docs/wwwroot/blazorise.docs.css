@@ -64,7 +64,7 @@ html, body * {
   scrollbar-width: thin;
 }
 
-.banner {
+.home-banner {
   background-color: #f7f8fa;
   text-align: center;
   background-image: url("../../img/backs/hero-bg.svg");
@@ -72,71 +72,63 @@ html, body * {
   background-size: cover;
   background-position: center center;
 }
-.banner img {
+.home-banner-img {
   aspect-ratio: 3;
 }
 
-.community .readmore-link {
+.home-community-readmore-link {
   font-size: 13px;
-  color: #97a3be;
+  color: var(--b-theme-secondary);
   font-weight: 500;
   transition: color 0.5s ease-in-out;
 }
-.community .readmore-link:hover {
-  color: #ff0000;
+.home-community-readmore-link:hover {
+  color: var(--b-theme-primary);
 }
-.community .community-width {
-  flex-basis: 61%;
-}
-@media (max-width: 767px) {
-  .community .community-width {
-    flex-basis: 100%;
-  }
-}
-.community .img-icons {
+.home-community-img-icons {
   transition: all 0.4s ease-in-out;
 }
-.community .img-icons:hover {
+.home-community-img-icons:hover {
   transform: scale(1.1);
 }
 
 @media (max-width: 992px) {
-  .features .flex-item:nth-of-type(1) {
+  .home-features .flex-item:nth-of-type(1) {
     order: 2;
   }
-  .features .flex-item:nth-of-type(2) {
+  .home-features .flex-item:nth-of-type(2) {
     order: 1;
   }
-  .features .img-digital {
+  .home-features .img-digital {
     text-align: center;
   }
 }
 
-.case-studies .color-cards .card-contents {
+.home-case-studies .color-cards .card-contents {
   position: relative;
   padding: 30px 0px;
 }
-.case-studies .color-cards .card-details p {
+.home-case-studies .color-cards .card-details p {
   color: #6e6e6e;
   font-weight: 500;
 }
-.case-studies .color-cards:hover .card-details {
-  color: rgba(0, 51, 204, 0.8);
+.home-case-studies .color-cards:hover .card-details {
+  color: var(--b-theme-primary);
 }
-.case-studies .color-cards:hover .card-details p {
-  color: rgba(0, 51, 204, 0.8);
+.home-case-studies .color-cards:hover .card-details p {
+  color: var(--b-theme-primary);
 }
-.case-studies .color-cards:hover .card-desc-box {
+.home-case-studies .color-cards:hover .card-desc-box {
   opacity: 1;
 }
-.case-studies .color-cards .btn {
+.home-case-studies .color-cards .btn {
   padding: 6px 14px;
   font-size: 12px;
 }
-.case-studies .case-studies-card-img {
+.home-case-studies .case-studies-card-img {
   height: 150px;
 }
-.case-studies .card-desc-box {
+.home-case-studies .card-desc-box {
   position: absolute;
   top: 0;
   left: 0;
@@ -147,24 +139,24 @@ html, body * {
   opacity: 0;
 }
 
-.customer-feedback .customer-cards {
+.home-customer-feedback-customer-cards {
   background: #f3f7fb;
   font-size: 18px;
   margin: 0px 12px;
   transition: all 0.7s ease-in-out;
 }
-.customer-feedback .customer-cards .img-customer {
+.home-customer-feedback-customer-cards-img-customer {
   border-radius: 50%;
   transition: all 0.7s ease-in-out;
 }
-.customer-feedback .customer-cards:hover {
+.home-customer-feedback-customer-cards:hover {
   background: #e4e7ea;
   transform: scale(1.02);
 }
-.customer-feedback .customer-cards:hover .img-customer {
+.home-customer-feedback-customer-cards:hover .img-customer {
   transform: scale(1.05);
 }
-.customer-feedback .customer-cards .content-divider {
+.home-customer-feedback-customer-cards-content-divider {
   width: 73px;
   height: 3px;
 }
