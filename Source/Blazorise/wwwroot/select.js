@@ -1,33 +1,48 @@
-export function getSelectedOptions(elementId) {
-    const element = document.getElementById(elementId);
-    const len = element.options.length;
-    var opts = [], opt;
+"use strict";
 
-    for (var i = 0; i < len; i++) {
-        opt = element.options[i];
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getSelectedOptions = getSelectedOptions;
+exports.setSelectedOptions = setSelectedOptions;
 
-        if (opt.selected) {
-            opts.push(opt.value);
-        }
+function getSelectedOptions(elementId) {
+  var element = document.getElementById(elementId);
+  var len = element.options.length;
+  var opts = [],
+      opt;
+
+  for (var i = 0; i < len; i++) {
+    opt = element.options[i];
+
+    if (opt.selected) {
+      opts.push(opt.value);
     }
+  }
 
-    return opts;
+  return opts;
 }
 
-export function setSelectedOptions(elementId, values) {
-    const element = document.getElementById(elementId);
+function setSelectedOptions(elementId, values) {
+  var element = document.getElementById(elementId);
 
-    if (element && element.options) {
-        const len = element.options.length;
+  if (element && element.options) {
+    var len = element.options.length;
 
-        for (var i = 0; i < len; i++) {
-            const opt = element.options[i];
+    var _loop = function _loop() {
+      var opt = element.options[i];
 
-            if (values && values.find(x => x !== null && x.toString() === opt.value)) {
-                opt.selected = true;
-            } else {
-                opt.selected = false;
-            }
-        }
+      if (values && values.find(function (x) {
+        return x !== null && x.toString() === opt.value;
+      })) {
+        opt.selected = true;
+      } else {
+        opt.selected = false;
+      }
+    };
+
+    for (var i = 0; i < len; i++) {
+      _loop();
     }
+  }
 }

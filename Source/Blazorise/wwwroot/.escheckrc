@@ -1,0 +1,5 @@
+{
+  "ecmaVersion": "es6",
+  "module": true,
+  "files": "./**/*.js"
+}

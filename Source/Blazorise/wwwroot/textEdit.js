@@ -1,52 +1,56 @@
-﻿import { NumericMaskValidator } from "./validators/NumericMaskValidator.js";
-import { DateTimeMaskValidator } from "./validators/DateTimeMaskValidator.js";
-import { RegExMaskValidator } from "./validators/RegExMaskValidator.js";
-import { NoValidator } from "./validators/NoValidator.js";
-import { getRequiredElement } from "./utilities.js";
+"use strict";
 
-let _instances = [];
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.destroy = destroy;
+exports.initialize = initialize;
 
-export function initialize(element, elementId, maskType, editMask) {
-    element = getRequiredElement(element, elementId);
+var _NumericMaskValidator = require("./validators/NumericMaskValidator.js");
 
-    if (!element)
-        return;
+var _DateTimeMaskValidator = require("./validators/DateTimeMaskValidator.js");
 
-    var instances = _instances = _instances || {};
+var _RegExMaskValidator = require("./validators/RegExMaskValidator.js");
 
-    if (maskType === "numeric") {
-        instances[elementId] = new NumericMaskValidator(null, element, elementId);
-    }
-    else if (maskType === "datetime") {
-        instances[elementId] = new DateTimeMaskValidator(element, elementId);
-    }
-    else if (maskType === "regex") {
-        instances[elementId] = new RegExMaskValidator(element, elementId, editMask);
-    }
-    else {
-        instances[elementId] = new NoValidator();
-    }
+var _NoValidator = require("./validators/NoValidator.js");
 
-    element.addEventListener("keypress", (e) => {
-        keyPress(instances[elementId], e);
-    });
+var _utilities = require("./utilities.js");
 
-    element.addEventListener("paste", (e) => {
-        paste(instances[elementId], e);
-    });
+var _instances = [];
+
+function initialize(element, elementId, maskType, editMask) {
+  element = (0, _utilities.getRequiredElement)(element, elementId);
+  if (!element) return;
+  var instances = _instances = _instances || {};
+
+  if (maskType === "numeric") {
+    instances[elementId] = new _NumericMaskValidator.NumericMaskValidator(null, element, elementId);
+  } else if (maskType === "datetime") {
+    instances[elementId] = new _DateTimeMaskValidator.DateTimeMaskValidator(element, elementId);
+  } else if (maskType === "regex") {
+    instances[elementId] = new _RegExMaskValidator.RegExMaskValidator(element, elementId, editMask);
+  } else {
+    instances[elementId] = new _NoValidator.NoValidator();
+  }
+
+  element.addEventListener("keypress", function (e) {
+    keyPress(instances[elementId], e);
+  });
+  element.addEventListener("paste", function (e) {
+    paste(instances[elementId], e);
+  });
 }
 
-export function destroy(element, elementId) {
-    var instances = _instances || {};
-    delete instances[elementId];
+function destroy(element, elementId) {
+  var instances = _instances || {};
+  delete instances[elementId];
 }
 
 function keyPress(validator, e) {
-    var currentValue = String.fromCharCode(e.which);
-
-    return validator.isValid(currentValue) || e.preventDefault();
+  var currentValue = String.fromCharCode(e.which);
+  return validator.isValid(currentValue) || e.preventDefault();
 }
 
 function paste(validator, e) {
-    return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
+  return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
 }

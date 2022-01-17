@@ -1,81 +1,88 @@
-﻿// holds the list of components that are triggers to breakpoint
-const breakpointComponents = [];
-let lastBreakpoint = null;
+"use strict";
 
-// Recalculate breakpoint on resize
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addBreakpointComponent = addBreakpointComponent;
+exports.findBreakpointComponentIndex = findBreakpointComponentIndex;
+exports.getBreakpoint = getBreakpoint;
+exports.isBreakpointComponent = isBreakpointComponent;
+exports.registerBreakpointComponent = registerBreakpointComponent;
+exports.unregisterBreakpointComponent = unregisterBreakpointComponent;
+// holds the list of components that are triggers to breakpoint
+var breakpointComponents = [];
+var lastBreakpoint = null; // Recalculate breakpoint on resize
+
 if (window.attachEvent) {
-    window.attachEvent('onresize', windowResized);
-}
-else if (window.addEventListener) {
-    window.addEventListener('resize', windowResized, true);
-}
-else {
-    //The browser does not support Javascript event binding
+  window.attachEvent('onresize', windowResized);
+} else if (window.addEventListener) {
+  window.addEventListener('resize', windowResized, true);
+} else {//The browser does not support Javascript event binding
 }
 
 function windowResized() {
-    if (breakpointComponents && breakpointComponents.length > 0) {
-        var currentBreakpoint = getBreakpoint();
+  if (breakpointComponents && breakpointComponents.length > 0) {
+    var currentBreakpoint = getBreakpoint();
 
-        if (lastBreakpoint !== currentBreakpoint) {
-            lastBreakpoint = currentBreakpoint;
+    if (lastBreakpoint !== currentBreakpoint) {
+      lastBreakpoint = currentBreakpoint;
+      var index = 0;
 
-            let index = 0;
-
-            for (index = 0; index < breakpointComponents.length; ++index) {
-                onBreakpoint(breakpointComponents[index].dotnetAdapter, currentBreakpoint);
-            }
-        }
+      for (index = 0; index < breakpointComponents.length; ++index) {
+        onBreakpoint(breakpointComponents[index].dotnetAdapter, currentBreakpoint);
+      }
     }
+  }
+} // Set initial breakpoint
+
+
+lastBreakpoint = getBreakpoint(); // Get the current breakpoint
+
+function getBreakpoint() {
+  return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
 }
 
-// Set initial breakpoint
-lastBreakpoint = getBreakpoint();
-
-// Get the current breakpoint
-export function getBreakpoint() {
-    return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
+function addBreakpointComponent(elementId, dotnetAdapter) {
+  breakpointComponents.push({
+    elementId: elementId,
+    dotnetAdapter: dotnetAdapter
+  });
 }
 
-export function addBreakpointComponent(elementId, dotnetAdapter) {
-    breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
+function findBreakpointComponentIndex(elementId) {
+  var index = 0;
+
+  for (index = 0; index < breakpointComponents.length; ++index) {
+    if (breakpointComponents[index].elementId === elementId) return index;
+  }
+
+  return -1;
 }
 
-export function findBreakpointComponentIndex(elementId) {
-    let index = 0;
+function isBreakpointComponent(elementId) {
+  var index = 0;
 
-    for (index = 0; index < breakpointComponents.length; ++index) {
-        if (breakpointComponents[index].elementId === elementId)
-            return index;
-    }
+  for (index = 0; index < breakpointComponents.length; ++index) {
+    if (breakpointComponents[index].elementId === elementId) return true;
+  }
 
-    return -1;
-}
-
-export function isBreakpointComponent(elementId) {
-    let index = 0;
-
-    for (index = 0; index < breakpointComponents.length; ++index) {
-        if (breakpointComponents[index].elementId === elementId)
-            return true;
-    }
-
-    return false;
+  return false;
 }
 
 function onBreakpoint(dotnetAdapter, currentBreakpoint) {
-    dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
+  dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
 }
 
-export function registerBreakpointComponent(dotnetAdapter, elementId) {
-    if (isBreakpointComponent(elementId) !== true) {
-        addBreakpointComponent(elementId, dotnetAdapter);
-    }
+function registerBreakpointComponent(dotnetAdapter, elementId) {
+  if (isBreakpointComponent(elementId) !== true) {
+    addBreakpointComponent(elementId, dotnetAdapter);
+  }
 }
 
-export function unregisterBreakpointComponent(elementId) {
-    const index = findBreakpointComponentIndex(elementId);
-    if (index !== -1) {
-        breakpointComponents.splice(index, 1);
-    }
+function unregisterBreakpointComponent(elementId) {
+  var index = findBreakpointComponentIndex(elementId);
+
+  if (index !== -1) {
+    breakpointComponents.splice(index, 1);
+  }
 }

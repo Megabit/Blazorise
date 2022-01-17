@@ -1,35 +1,37 @@
-﻿export function addVariable(name, value) {
-    const themeVariablesElement = document.getElementById("b-theme-variables");
+"use strict";
 
-    // make sure that themeVariables element exists and that we don't have the variable already defined
-    if (themeVariablesElement && themeVariablesElement.innerHTML) {
-        const newVariable = "\n" + name + ": " + value + ";";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addVariable = addVariable;
 
-        const variableStartIndex = themeVariablesElement.innerHTML.indexOf(name + ":");
+function addVariable(name, value) {
+  var themeVariablesElement = document.getElementById("b-theme-variables"); // make sure that themeVariables element exists and that we don't have the variable already defined
 
-        if (variableStartIndex >= 0) {
-            const variableEndIndex = themeVariablesElement.innerHTML.indexOf(";", variableStartIndex);
-            const existingVariable = themeVariablesElement.innerHTML.substr(variableStartIndex, variableEndIndex);
+  if (themeVariablesElement && themeVariablesElement.innerHTML) {
+    var newVariable = "\n" + name + ": " + value + ";";
+    var variableStartIndex = themeVariablesElement.innerHTML.indexOf(name + ":");
 
-            const result = themeVariablesElement.innerHTML.replace(existingVariable, newVariable);
+    if (variableStartIndex >= 0) {
+      var variableEndIndex = themeVariablesElement.innerHTML.indexOf(";", variableStartIndex);
+      var existingVariable = themeVariablesElement.innerHTML.substr(variableStartIndex, variableEndIndex);
+      var result = themeVariablesElement.innerHTML.replace(existingVariable, newVariable);
+      themeVariablesElement.innerHTML = result;
+    } else {
+      var innerHTML = themeVariablesElement.innerHTML;
+      var position = innerHTML.lastIndexOf(';');
 
-            themeVariablesElement.innerHTML = result;
-        }
-        else {
-            const innerHTML = themeVariablesElement.innerHTML;
-            const position = innerHTML.lastIndexOf(';');
+      if (position >= 0) {
+        var _result = [innerHTML.slice(0, position + 1), newVariable, innerHTML.slice(position + 1)].join('');
 
-            if (position >= 0) {
-                const result = [innerHTML.slice(0, position + 1), newVariable, innerHTML.slice(position + 1)].join('');
-
-                themeVariablesElement.innerHTML = result;
-            }
-        }
-
-        return;
+        themeVariablesElement.innerHTML = _result;
+      }
     }
 
-    // The fallback mechanism for custom CSS variables where we don't use theme provider
-    // is to apply them to the body element
-    document.body.style.setProperty(name, value);
+    return;
+  } // The fallback mechanism for custom CSS variables where we don't use theme provider
+  // is to apply them to the body element
+
+
+  document.body.style.setProperty(name, value);
 }
