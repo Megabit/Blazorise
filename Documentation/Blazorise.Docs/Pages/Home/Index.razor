@@ -10,12 +10,18 @@
         <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
             A set of 70+ free and open source native Blazor UI controls.
         </Heading>
-        <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom" class="font-weight-normal text-muted pb-3">
+        <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
             Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
         </Heading>
         <Div>
-            <Blazorise.Link Background="Background.Primary" To="docs"><Button Color="Color.Primary" Size="Size.Large">Get started</Button></Blazorise.Link>
-            <Blazorise.Link To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank"><Button Color="Color.Info" Size="Size.Large">Learn more</Button></Blazorise.Link>
+            <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Size="Size.Large">
+                <Icon Name="IconName.Book" />
+                Get started
+            </Button>
+            <Button Type="ButtonType.Link" To="https://blazespark.blazorforest.com/" Target="Target.Blank" Color="Color.Secondary" Size="Size.Large">
+                <Icon Name="IconName.Tv" />
+                See it in action
+            </Button>
         </Div>
         <Image Source="img/illustrations/home3/Code Development _Two Color.svg" Text="" Fluid Padding="Padding.Is5.FromTop" />
     </Container>
@@ -23,44 +29,6 @@
 
 <Div Padding="Padding.Is5.OnY">
     <Container>
-        <section class="community" id="community-section">
-            <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
-                <Heading Size="HeadingSize.Is2">Join our community</Heading>
-                <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                    Do you have questions? Do you want to help others? Just talk or get news? Join one of our channels and become part of the Blazorise community.
-                </Heading>
-            </Column>
-
-            <Div Flex="Flex._.OnDesktop.JustifyContent.Between" Margin="Margin.Is5.FromBottom">
-                <Div Flex="Flex.JustifyContent.Start">
-                    <Div Class="community-width">
-                        <Image Source="img/logos/icons8-twitter.svg" Text="" Class="img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Twitter</Heading>
-                        <Paragraph TextColor="TextColor.Muted">For announcements, blog posts, and general Blazorise stuff.</Paragraph>
-                        <Anchor To="https://twitter.com/Blazorise"><Paragraph Class="readmore-link">Follow us</Paragraph></Anchor>
-                    </Div>
-                </Div>
-
-                <Div Flex="Flex.JustifyContent.Center">
-                    <Div Class="community-width">
-                        <Image Source="img/logos/icons8-discord.svg" Text="" Class="img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
-                        <Paragraph TextColor="TextColor.Muted">To get involved in the community, ask questions, help others or just talk.</Paragraph>
-                        <Anchor To="https://discord.io/blazorise"><Paragraph Class="readmore-link">Come and chat</Paragraph></Anchor>
-                    </Div>
-                </Div>
-
-                <Div Flex="Flex.JustifyContent.End">
-                    <Div Class="community-width">
-                        <Image Source="img/logos/icons8-github.svg" Text="" Class="img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
-                        <Paragraph TextColor="TextColor.Muted">To file issues, request features, and contribute, check out our GitHub.</Paragraph>
-                        <Anchor To="https://github.com/Megabit/Blazorise"><Paragraph Class="readmore-link">Fork the code</Paragraph></Anchor>
-                    </Div>
-                </Div>
-            </Div>
-        </section>
-        <Divider />
         <section class="features" id="features-section">
             <Row Flex="Flex.AlignItems.Center">
                 <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
@@ -123,7 +91,7 @@
             <Row Margin="Margin.Is5.FromBottom">
                 <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
                     <Heading Size="HeadingSize.Is2">Why you need Blazorise</Heading>
-                    <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
                         Blazorise component library provides state-of-the-art solutions for startups and enterprises. It includes more than 70 components that make developers work easier.
                     </Heading>
                 </Column>
@@ -288,6 +256,44 @@
                     </Column>
                 </Row>
             </Container>
+        </section>
+        <Divider />
+        <section class="community" id="community-section">
+            <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+                <Heading Size="HeadingSize.Is2">Join our community</Heading>
+                <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                    Do you have questions? Do you want to help others? Just talk or get news? Join one of our channels and become part of the Blazorise community.
+                </Heading>
+            </Column>
+
+            <Div Flex="Flex._.OnDesktop.JustifyContent.Between" Margin="Margin.Is5.FromBottom">
+                <Div Flex="Flex.JustifyContent.Start">
+                    <Div Class="community-width">
+                        <Image Source="img/logos/icons8-twitter.svg" Text="" Class="img-icons" />
+                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Twitter</Heading>
+                        <Paragraph TextColor="TextColor.Muted">For announcements, blog posts, and general Blazorise stuff.</Paragraph>
+                        <Anchor To="https://twitter.com/Blazorise"><Paragraph Class="readmore-link">Follow us</Paragraph></Anchor>
+                    </Div>
+                </Div>
+
+                <Div Flex="Flex.JustifyContent.Center">
+                    <Div Class="community-width">
+                        <Image Source="img/logos/icons8-discord.svg" Text="" Class="img-icons" />
+                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
+                        <Paragraph TextColor="TextColor.Muted">To get involved in the community, ask questions, help others or just talk.</Paragraph>
+                        <Anchor To="https://discord.io/blazorise"><Paragraph Class="readmore-link">Come and chat</Paragraph></Anchor>
+                    </Div>
+                </Div>
+
+                <Div Flex="Flex.JustifyContent.End">
+                    <Div Class="community-width">
+                        <Image Source="img/logos/icons8-github.svg" Text="" Class="img-icons" />
+                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
+                        <Paragraph TextColor="TextColor.Muted">To file issues, request features, and contribute, check out our GitHub.</Paragraph>
+                        <Anchor To="https://github.com/Megabit/Blazorise"><Paragraph Class="readmore-link">Fork the code</Paragraph></Anchor>
+                    </Div>
+                </Div>
+            </Div>
         </section>
     </Container>
 </Div>
