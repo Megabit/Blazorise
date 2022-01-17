@@ -277,49 +277,38 @@
             <Row>
                 <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center">
                     <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Join our community</Heading>
-                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Do you have questions? Do you want to help others? Just talk or get news? Join one of our channels and become part of the Blazorise community.
+                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.FromBottom" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                        Our mission is to create an environment where developers can help each other with articles, tutorials, case studies, etc. and meet like-minded people.
                     </Heading>
                 </Column>
             </Row>
 
-            <Div Flex="Flex._.OnDesktop.JustifyContent.Between" Margin="Margin.Is5.FromBottom">
-                <Div Flex="Flex.JustifyContent.Start">
-                    <Div>
-                        <Image Source="img/logos/icons8-twitter.svg" Text="" Class="home-community-img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Twitter</Heading>
-                        <Paragraph TextColor="TextColor.Muted">For announcements, blog posts, and general Blazorise stuff.</Paragraph>
-                        <Anchor To="https://twitter.com/Blazorise" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Follow us</Paragraph></Anchor>
-                    </Div>
-                </Div>
-
-                <Div Flex="Flex.JustifyContent.Center">
-                    <Div>
-                        <Image Source="img/logos/icons8-discord.svg" Text="" Class="home-img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
-                        <Paragraph TextColor="TextColor.Muted">To get involved in the community, ask questions, help others or just talk.</Paragraph>
-                        <Anchor To="https://discord.io/blazorise" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Come and chat</Paragraph></Anchor>
-                    </Div>
-                </Div>
-
-                <Div Flex="Flex.JustifyContent.End">
-                    <Div>
-                        <Image Source="img/logos/icons8-reddit.svg" Text="" Class="home-community-img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
-                        <Paragraph TextColor="TextColor.Muted">Subscribe to be notified of any Blazorise news or announcements.</Paragraph>
-                        <Anchor To="https://www.reddit.com/r/Blazorise/" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Subscribe</Paragraph></Anchor>
-                    </Div>
-                </Div>
-
-                <Div Flex="Flex.JustifyContent.End">
-                    <Div>
-                        <Image Source="img/logos/icons8-github.svg" Text="" Class="home-community-img-icons" />
-                        <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
-                        <Paragraph TextColor="TextColor.Muted">To file issues, request features, and contribute, check out our GitHub.</Paragraph>
-                        <Anchor To="https://github.com/Megabit/Blazorise" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Fork the code</Paragraph></Anchor>
-                    </Div>
-                </Div>
-            </Div>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
+                    <Image Source="img/logos/icons8-twitter.svg" Text="" Class="home-community-img-icons" />
+                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Twitter</Heading>
+                    <Paragraph TextColor="TextColor.Muted">For announcements, blog posts, and general Blazorise stuff.</Paragraph>
+                    <Anchor To="https://twitter.com/Blazorise" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Follow us</Paragraph></Anchor>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
+                    <Image Source="img/logos/icons8-discord.svg" Text="" Class="home-img-icons" />
+                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
+                    <Paragraph TextColor="TextColor.Muted">To get involved in the community, ask questions, help others or just talk.</Paragraph>
+                    <Anchor To="https://discord.io/blazorise" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Come and chat</Paragraph></Anchor>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
+                    <Image Source="img/logos/icons8-reddit.svg" Text="" Class="home-community-img-icons" />
+                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
+                    <Paragraph TextColor="TextColor.Muted">Subscribe to be notified of any Blazorise news or announcements.</Paragraph>
+                    <Anchor To="https://www.reddit.com/r/Blazorise/" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Subscribe</Paragraph></Anchor>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
+                    <Image Source="img/logos/icons8-github.svg" Text="" Class="home-community-img-icons" />
+                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
+                    <Paragraph TextColor="TextColor.Muted">To file issues, request features, contribute, or give us a star, check out our GitHub.</Paragraph>
+                    <Anchor To="https://github.com/Megabit/Blazorise" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Fork the code</Paragraph></Anchor>
+                </Column>
+            </Row>
         </section>
     </Container>
 </Div>
