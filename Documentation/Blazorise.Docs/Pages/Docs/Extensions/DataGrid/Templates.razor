@@ -108,13 +108,15 @@
             The template has access to the internal commands so you’re also able to construct your own buttons on the pager that can also trigger the Datagrid’s CRUD and clear filter operations as shown in the example below:
         </Paragraph>
 
-        <Paragraph>
-            Note: <Code>ButtonRowTemplate</Code> is located inside the Datagrid's <Code>Pager</Code>, as such the <Code>ShowPager</Code> Parameter should be set to true.
-        </Paragraph>
+        <Alert Visible Color="Color.Info">
+            <AlertMessage>Note:</AlertMessage>
+            <AlertDescription>If you'd like to setup New and/or Edit buttons inside the Button Row or if <Code>DataGridEditMode</Code> is set to <Code>Inline</Code>, you should take note that if you'd like to customize the Save/Cancel buttons, you should do so by using the <Code>DataGridCommandColumn</Code> as the Save/Cancel buttons are configured/rendered in this column.</AlertDescription>
+        </Alert>
 
-        <Paragraph>
-            Note: If you'd like to provide New/Edit buttons, when <Code>DataGridEditMode</Code> is set to <Code>Inline</Code> you must provide a <Code>DataGridCommandColumn</Code> as the Save / Cancel buttons are rendered in this column.
-        </Paragraph>
+        <Alert Visible Color="Color.Info">
+            <AlertMessage>Note:</AlertMessage>
+            <AlertDescription><Code>ButtonRowTemplate</Code> is located inside the Datagrid's <Code>Pager</Code>, as such the <Code>ShowPager</Code> Parameter should be set to true.</AlertDescription>
+        </Alert>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <DataGridButtonRowExample />

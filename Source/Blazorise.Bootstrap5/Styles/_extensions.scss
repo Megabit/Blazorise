@@ -1,3 +1,7 @@
-﻿.snackbar {
+﻿.snackbar-stack {
+    z-index: calc($zindex-popover - 1) !important;
+}
+
+.snackbar {
     z-index: $zindex-popover !important;
 }
