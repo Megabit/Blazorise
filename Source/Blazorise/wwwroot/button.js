@@ -29,10 +29,6 @@ export function click(buttonInfo, e) {
 }
 
 class ButtonInfo {
-    elementId = null;
-    element = null;
-    options = {};
-
     constructor(element, elementId, options) {
         this.elementId = elementId;
         this.element = element;
