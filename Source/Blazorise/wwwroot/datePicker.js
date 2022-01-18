@@ -61,10 +61,7 @@ export function initialize(element, elementId, options) {
         })]
     } : {};
 
-    const picker = flatpickr(element, {
-        ...defaultOptions,
-        ...pluginOptions
-    });
+    const picker = flatpickr(element, Object.assign({}, defaultOptions, pluginOptions));
 
     if (options) {
         picker.altInput.disabled = options.disabled || false;
