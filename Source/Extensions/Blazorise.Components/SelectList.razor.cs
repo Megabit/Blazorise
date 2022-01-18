@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace Blazorise.Components
         /// </summary>
         private Select<TValue> selectRef;
 
+        private TValue selectedValue;
+
         #endregion
 
         #region Methods
@@ -29,7 +32,7 @@ namespace Blazorise.Components
         protected Task HandleSelectedValueChanged( TValue value )
         {
             SelectedValue = value;
-            return SelectedValueChanged.InvokeAsync( value );
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -40,6 +43,37 @@ namespace Blazorise.Components
         public Task Focus( bool scrollToElement = true )
         {
             return selectRef.Focus( scrollToElement );
+        }
+
+        internal TValue GetValue( TItem item )
+        {
+            if ( ValueField == null )
+            {
+                // use index
+                if ( Data is IList list && typeof(TValue) == typeof(int))
+                {
+                    return (TValue) (list.IndexOf( item ) as object);
+                }
+
+                return default;
+            }
+            else
+            {
+                return ValueField.Invoke( item );
+            }
+        }
+
+        internal string GetKey( TItem item )
+        {
+            if ( ValueField == null )
+                return item.GetHashCode().ToString();
+            else
+                return ValueField.Invoke( item ).ToString();
+        }
+
+        internal string GetText( TItem item )
+        {
+            return TextField != null ? TextField.Invoke( item ) : item.ToString();
         }
 
         #endregion
@@ -69,7 +103,23 @@ namespace Blazorise.Components
         /// <summary>
         /// Currently selected item value.
         /// </summary>
-        [Parameter] public TValue SelectedValue { get; set; }
+        [Parameter]
+        public TValue SelectedValue
+        {
+            get => selectedValue;
+            set
+            {
+                if ( !selectedValue.Equals( value ) )
+                {
+                    selectedValue = value;
+                    SelectedValueChanged.InvokeAsync( selectedValue ).ConfigureAwait( false );
+                    if ( SelectedItemSupported )
+                    {
+                        SelectedItemChanged.InvokeAsync( SelectedItem ).ConfigureAwait( false );
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Occurs after the selected value has changed.
@@ -80,6 +130,44 @@ namespace Blazorise.Components
         /// Gets or sets an expression that identifies the selected value.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
+
+        /// <summary>
+        /// Currently selected item in case <see cref="Data"/> is of type <see cref="IList"/> and no <see cref="ValueField"/> is given. 
+        /// </summary>
+        [Parameter]
+        public TItem SelectedItem
+        {
+            get
+            {
+                if ( SelectedItemSupported )
+                {
+                    var list = (IList) Data;
+                    int index = SelectedValue is int value ? value : -1;
+
+                    if ( index < 0 || index >= list.Count )
+                        return default;
+
+                    return (TItem)list[index];
+                }
+
+                return default;
+            }
+            set
+            {
+                if ( SelectedItemSupported )
+                {
+                    var list = (IList) Data;
+                    var index = list.IndexOf( value );
+                    TValue val = (TValue)( index as object );
+                    SelectedValue = val;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs after the selected item has changed.
+        /// </summary>
+        [Parameter] public EventCallback<TItem> SelectedItemChanged { get; set; }
 
         /// <summary>
         /// Display text of the default select item.
@@ -146,6 +234,13 @@ namespace Blazorise.Components
         /// Specifies the content to be rendered inside this <see cref="SelectList{TItem, TValue}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+
+        /// <summary>
+        /// Returns true if SelectedItem property is supported.
+        /// </summary>
+        public bool SelectedItemSupported =>
+            ValueField == null && Data is IList && typeof(TValue) == typeof(int);
 
         #endregion
     }

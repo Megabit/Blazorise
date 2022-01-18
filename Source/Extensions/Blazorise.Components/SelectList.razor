@@ -10,10 +10,7 @@
         {
             @foreach ( var item in Data )
             {
-                var text = TextField?.Invoke( item );
-                var value = ValueField != null ? ValueField.Invoke( item ) : default;
-
-                <SelectItem @key="@value" TValue="TValue" Value="@value">@text</SelectItem>
+                <SelectItem @key="@GetKey(item)" TValue="TValue" Value="@GetValue(item)">@GetText(item)</SelectItem>
             }
         }
         @ChildContent
