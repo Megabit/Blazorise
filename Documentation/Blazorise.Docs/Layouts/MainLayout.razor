@@ -7,6 +7,7 @@
                 <BarBrand>
                     <BarItem>
                         <BarLink Class="top-bar-brand-link" To="">
+                            <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
                             Blazorise
                         </BarLink>
                     </BarItem>
@@ -23,11 +24,12 @@
         </Bar>
     </LayoutHeader>
     <LayoutContent>
-        <Container Fluid="true" Padding="Padding.Is0.OnX">
-            @Body
-        </Container>
+        @Body
     </LayoutContent>
     <LayoutFooter Padding="Padding.Is4.FromTop.Is5.FromTop.OnDesktop" Margin="Margin.Is5.OnY.OnDesktop" Border="Border.OnTop">
         <Footer />
     </LayoutFooter>
 </Layout>
+@code {
+    RenderFragment customIcon =@<img src="img//logos/blazorise-small.png" style="width:32px; height: 32px" />;
+}
