@@ -23,15 +23,13 @@ namespace Blazorise.Components
         /// </summary>
         private Select<TValue> selectRef;
 
-        private TValue selectedValue;
-
         #endregion
 
         #region Methods
 
         protected Task HandleSelectedValueChanged( TValue value )
         {
-            SelectedValue = value;
+            CurrentSelectedValue = value;
             return Task.CompletedTask;
         }
 
@@ -76,6 +74,25 @@ namespace Blazorise.Components
             return TextField != null ? TextField.Invoke( item ) : item.ToString();
         }
 
+        private TValue MapItemToValue( TItem item )
+        {
+            var list = (IList) Data;
+            var index = list.IndexOf( item );
+            TValue val = (TValue)( index as object );
+            return val;
+        }
+
+        private TItem MapValueToItem( TValue value )
+        {
+            var list = (IList) Data;
+            int index = value is int i ? i : -1;
+
+            if ( index < 0 || index >= list.Count )
+                return default;
+
+            return (TItem)list[index];
+        }
+
         #endregion
 
         #region Properties
@@ -104,18 +121,23 @@ namespace Blazorise.Components
         /// Currently selected item value.
         /// </summary>
         [Parameter]
-        public TValue SelectedValue
+        public TValue SelectedValue { get; set; }
+
+        /// <summary>
+        /// Sets the current selected item and raises change events.
+        /// </summary>
+        protected TValue CurrentSelectedValue
         {
-            get => selectedValue;
+            get => SelectedValue;
             set
             {
-                if ( !selectedValue.Equals( value ) )
+                if ( !SelectedValue.Equals( value ) )
                 {
-                    selectedValue = value;
-                    SelectedValueChanged.InvokeAsync( selectedValue ).ConfigureAwait( false );
+                    SelectedValue = value;
+                    _ = SelectedValueChanged.InvokeAsync( SelectedValue );
                     if ( SelectedItemSupported )
                     {
-                        SelectedItemChanged.InvokeAsync( SelectedItem ).ConfigureAwait( false );
+                        _ = SelectedItemChanged.InvokeAsync( SelectedItem );
                     }
                 }
             }
@@ -141,13 +163,7 @@ namespace Blazorise.Components
             {
                 if ( SelectedItemSupported )
                 {
-                    var list = (IList) Data;
-                    int index = SelectedValue is int value ? value : -1;
-
-                    if ( index < 0 || index >= list.Count )
-                        return default;
-
-                    return (TItem)list[index];
+                    return MapValueToItem( CurrentSelectedValue );
                 }
 
                 return default;
@@ -156,10 +172,11 @@ namespace Blazorise.Components
             {
                 if ( SelectedItemSupported )
                 {
-                    var list = (IList) Data;
-                    var index = list.IndexOf( value );
-                    TValue val = (TValue)( index as object );
-                    SelectedValue = val;
+                    SelectedValue = MapItemToValue( value );
+                }
+                else
+                {
+                    throw new InvalidOperationException( "Cannot set SelectedItem when Data ist not a List and TValue not of type int." );
                 }
             }
         }
