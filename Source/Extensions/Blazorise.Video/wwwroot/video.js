@@ -29,6 +29,34 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         } else if (options.streamingLibrary === "Dash") {
             const dash = dashjs.MediaPlayer().create();
             dash.initialize(element, source, options.autoPlay || false);
+
+            if (options.protection) {
+                if (options.protection && options.protection.type === "PlayReady") {
+                    const protectionData = {
+                        "com.microsoft.playready": {
+                            "serverURL": options.protection.serverUrl,
+                            "httpRequestHeaders": {
+                                "X-AxDRM-Message": options.protection.httpRequestHeaders
+                            }
+                        }
+                    };
+
+                    dash.setProtectionData(protectionData);
+                }
+                else if (options.protection && options.protection.type === "Widevine") {
+                    const protectionData = {
+                        "com.widevine.alpha": {
+                            "serverURL": options.protection.serverUrl,
+                            "httpRequestHeaders": {
+                                "X-AxDRM-Message": options.protection.httpRequestHeaders
+                            }
+                        }
+                    };
+
+                    dash.setProtectionData(protectionData);
+                }
+            }
+
             window.dash = dash;
         }
     }

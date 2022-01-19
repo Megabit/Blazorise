@@ -74,6 +74,12 @@ namespace Blazorise.Video
                     ResetOnEnd,
                     Ratio,
                     InvertTime,
+                    Protection = ProtectionType != VideoProtectionType.None ? new
+                    {
+                        Type = ProtectionType.ToVideoProtectionType(),
+                        ServerUrl = ProtectionServerUrl,
+                        HttpRequestHeaders = ProtectionHttpRequestHeaders
+                    } : null
                 } );
             }
 
@@ -555,6 +561,12 @@ namespace Blazorise.Video
         /// Display the current time as a countdown rather than an incremental counter.
         /// </summary>
         [Parameter] public bool InvertTime { get; set; } = true;
+
+        [Parameter] public VideoProtectionType ProtectionType { get; set; }
+
+        [Parameter] public string ProtectionServerUrl { get; set; }
+
+        [Parameter] public string ProtectionHttpRequestHeaders { get; set; }
 
         /// <summary>
         /// Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute.

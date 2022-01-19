@@ -11,5 +11,16 @@
                 _ => "Html5",
             };
         }
+
+        public static string ToVideoProtectionType( this VideoProtectionType videoProtectionType )
+        {
+            return videoProtectionType switch
+            {
+                VideoProtectionType.PlayReady => "PlayReady",
+                VideoProtectionType.Widevine => "Widevine",
+                VideoProtectionType.FairPlay => "FairPlay",
+                _ => null,
+            };
+        }
     }
 }
