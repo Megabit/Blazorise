@@ -77,6 +77,12 @@ namespace Blazorise.Charts
         public ChartAxisTicks Ticks { get; set; }
 
         /// <summary>
+        /// Time configuration.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public ChartAxisTime Time { get; set; }
+
+        /// <summary>
         /// The weight used to sort the axis. Higher weights are further away from the chart area.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]

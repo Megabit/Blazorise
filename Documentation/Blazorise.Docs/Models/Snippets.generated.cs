@@ -336,12 +336,12 @@ namespace Blazorise.Docs.Models
                 <BarMenu>
                     <BarStart>
                         <BarItem>
-                            <BarDropdown>
+                            <BarDropdown RightAligned=""true"">
                                 <BarDropdownToggle>
                                     <BarIcon IconName=""IconName.Edit"" />
                                     Toggle
                                 </BarDropdownToggle>
-                                <BarDropdownMenu RightAligned=""true"">
+                                <BarDropdownMenu>
                                     <BarDropdownItem>Action</BarDropdownItem>
                                     <BarDropdownItem>Another action</BarDropdownItem>
                                 </BarDropdownMenu>
