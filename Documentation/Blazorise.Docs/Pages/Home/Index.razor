@@ -41,16 +41,20 @@
                             Paid support is available as part of the Blazorise Professional subscription.
                         </Paragraph>
                     </Column>
-                    <Button Color="Color.Info" Type="ButtonType.Link" To="https://commercial.blazorise.com/">Read more</Button>
+                    @*<Button Color="Color.Info" Type="ButtonType.Link" To="https://commercial.blazorise.com/">Read more</Button>*@
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
-                    <Image Source="img/illustrations/home/Finance analytics _Two Color.svg" Text="" Fluid />
+                    <Anchor To="https://commercial.blazorise.com/" Target="Target.Blank">
+                        <Image Source="img/illustrations/home/Finance analytics _Two Color.svg" Text="" Fluid />
+                    </Anchor>
                 </Column>
             </Row>
 
-            <Row Flex="Flex.AlignItems.Center">
+            <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
                 <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-left">
-                    <Image Source="img/illustrations/home/Web development _Two Color.svg" Text="" Fluid />
+                    <Anchor To="docs/start">
+                        <Image Source="img/illustrations/home/Web development _Two Color.svg" Text="" Fluid />
+                    </Anchor>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="flex-item">
                     <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Native</Heading>
@@ -64,11 +68,11 @@
                             Both server-side and client-side (WASM) Blazor are supported.
                         </Paragraph>
                     </Column>
-                    <Button Color="Color.Info">Read more</Button>
+                    @*<Button Color="Color.Info" To="docs/start">Read more</Button>*@
                 </Column>
             </Row>
 
-            <Row Flex="Flex.AlignItems.Center">
+            <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
                 <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
                     <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Multiple CSS Frameworks</Heading>
                     <Column ColumnSize="ColumnSize.Is5.OnWidescreen.Is6.OnFullHD" Padding="Padding.Is0">
@@ -79,16 +83,20 @@
                             Have a try at Bootstrap, Bulma, Material, or AntDesign.
                         </Paragraph>
                     </Column>
-                    <Button Color="Color.Info" Type="ButtonType.Link" To="docs/usage">Read more</Button>
+                    @*<Button Color="Color.Info" Type="ButtonType.Link" To="docs/usage">Read more</Button>*@
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
-                    <Image Source="img/illustrations/home/CSS_Two Color.svg" Text="" Fluid />
+                    <Anchor To="docs/usage">
+                        <Image Source="img/illustrations/home/CSS_Two Color.svg" Text="" Fluid />
+                    </Anchor>
                 </Column>
             </Row>
 
             <Row Flex="Flex.AlignItems.Center">
                 <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-left">
-                    <Image Source="img/illustrations/home/User interface_Two Color.svg" Text="" Fluid />
+                    <Anchor To="docs">
+                        <Image Source="img/illustrations/home/User interface_Two Color.svg" Text="" Fluid />
+                    </Anchor>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="flex-item">
                     <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">70+ Components</Heading>
@@ -100,7 +108,7 @@
                             Extension component are built upon the core components to extend and bring even more features.
                         </Paragraph>
                     </Column>
-                    <Button Color="Color.Info">Read more</Button>
+                    @*<Button Color="Color.Info">Read more</Button>*@
                 </Column>
             </Row>
         </section>
@@ -179,7 +187,7 @@
                                 <CardImage Source="img/illustrations/home/Calendar_Two Color.svg" Class="case-studies-card-img" />
                                 <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
                                     <Div>
-                                        <Button Color="Color.Light">Read More</Button>
+                                        <Anchor To="news"><Button Color="Color.Light">Read More</Button></Anchor>
                                     </Div>
                                 </Div>
                             </Div>
@@ -210,7 +218,7 @@
                         <Div>
                             <Paragraph>
                                 <Blockquote>
-                                    “Blazorise looks great and lets us deliver fast, thanks to their solid API design and documentation - it's refreshing to use a component library where you get everything you need from their site rather than Stack Overflow. We think the upcoming version, with extra themes and customizability, will make Blazorise even more of a game changer. We're extremely grateful to the team for the time and effort spent maintaining the project.”
+                                    “We moved from Radzen to Blazorise a year ago and never looked back.  Being able to target Boostrap on the desktop and Material for mobile with the same markup is amazing.”
                                 </Blockquote>
                             </Paragraph>
                         </Div>
@@ -219,8 +227,8 @@
                                 <Image Source="img/avatars/home/author-03.png" Text="author" />
                             </Div>
                             <Div Class="home-testimonial-meta">
-                                <Heading>William Smith</Heading>
-                                <Paragraph>Founder @@GrayGrids</Paragraph>
+                                <Heading>Mark Davis</Heading>
+                                <Paragraph>@@Dark Matter Consulting</Paragraph>
                             </Div>
                         </Div>
                     </Div>
