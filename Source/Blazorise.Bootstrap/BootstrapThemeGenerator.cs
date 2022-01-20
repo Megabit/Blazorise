@@ -603,7 +603,7 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.ImageTopRadius ) )
-                sb.Append( ".card-image-top" ).Append( "{" )
+                sb.Append( ".card-img-top" ).Append( "{" )
                     .Append( $"border-top-left-radius: {options.ImageTopRadius};" )
                     .Append( $"border-top-right-radius: {options.ImageTopRadius};" )
                     .AppendLine( "}" );
