@@ -19,7 +19,7 @@ export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOpti
         let scalesOptions = getStreamingOptions(dotNetAdapter, vertical, options, streamOptions);
 
         // merge all options
-        const merged = { ...options, ...scalesOptions }
+        const merged = Object.assign({}, options, scalesOptions);
         chart.options = merged;
 
         chart.update();
