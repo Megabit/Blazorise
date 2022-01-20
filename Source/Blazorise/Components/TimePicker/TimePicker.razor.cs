@@ -125,10 +125,10 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.TimeEdit( Plaintext ) );
-            builder.Append( ClassProvider.TimeEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
-            builder.Append( ClassProvider.TimeEditColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.TimePicker( Plaintext ) );
+            builder.Append( ClassProvider.TimePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.TimePickerColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TimePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
