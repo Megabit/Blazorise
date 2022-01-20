@@ -61,10 +61,6 @@ export function reset(element, elementId) {
 }
 
 class FileEditInfo {
-    adapter;
-    element;
-    elementId;
-
     constructor(adapter, element, elementId) {
         this.adapter = adapter;
         this.element = element;
