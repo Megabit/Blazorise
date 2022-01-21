@@ -130,8 +130,8 @@ Blazorise loads any additional JavaScript it needs dynamically once a component 
 
 If you're having any difficulties, please refer to the following issues:
 
-- #3122
-- #3150
+- [#3122](https://github.com/Megabit/Blazorise/issues/3122)
+- [#3150](https://github.com/Megabit/Blazorise/issues/3150)
 
 We are also aware that there might need to be extra setup when dealing with PWA and offline capabilities if you want your app to remain responsive. We are working on providing you with clear steps for these use cases.
 
