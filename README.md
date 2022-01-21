@@ -124,13 +124,16 @@ Add the following to `index.html` or `_Host.cshtml` in the `body` section.
 
 Please note, that these are the Blazorise explicit dependencies, you still need to add framework specific dependencies.
 
-#### 2.1 Javascript resources
-Blazorise loads any aditional javascript it needs dynamically once a component needs it. This means that Blazorise expects that the resources are available and placed relative to the app root, you can configure this by using <code>app.UseStaticFiles();</code> and it does not need any other additional configuration from your part.
-If you're having any difficulties, please refer to the following issues:
-- #3122 
-- #3150 
+#### 2.1 JavaScript resources
 
-We are also aware that when dealing with PWA and offline capabilities there might need to be extra setup if you want your app to remain responsive. We are working on providing you with clear steps for these use cases.
+Blazorise loads any additional JavaScript it needs dynamically once a component needs it. This means that Blazorise expects that the resources are available and placed relative to the app root. You can configure this by using the `app.UseStaticFiles();` and it does not need any other additional configuration from your part. If you're having any difficulties, please refer to the following issues:
+
+If you're having any difficulties, please refer to the following issues:
+
+- #3122
+- #3150
+
+We are also aware that there might need to be extra setup when dealing with PWA and offline capabilities if you want your app to remain responsive. We are working on providing you with clear steps for these use cases.
 
 ### 3. Using's
 
@@ -183,7 +186,7 @@ builder.Services
 
 ## Try Preview
 
-If you're willing to try preview versions of Blazorise all you need to do is to setup Visual Studio so it knows how to use Blazorise [MyGet feed](https://www.myget.org/feed/Details/blazorise). The easies way to do this is to create `NuGet.config` file and place it into your solution root folder. Then you copy the following content and paste it to the `NuGet.config`.
+If you're willing to try preview versions of Blazorise, all you need to do is set up Visual Studio to know how to use Blazorise [MyGet feed](https://www.myget.org/feed/Details/blazorise) feed. The easiest way to do this is to create `NuGet.config` file and place it into your solution root folder. Then you copy the following content and paste it to the `NuGet.config`.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
