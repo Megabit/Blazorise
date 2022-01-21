@@ -119,6 +119,18 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region NumericPicker
+
+        public string NumericPicker( bool plaintext ) => null;
+
+        public string NumericPickerSize( Size size ) => null;
+
+        public string NumericPickerColor( Color color ) => null;
+
+        public string NumericPickerValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
         #region InputMask
 
         public string InputMask( bool plaintext ) => null;

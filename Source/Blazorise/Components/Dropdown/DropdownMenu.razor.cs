@@ -79,6 +79,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Container"/>.
         /// </summary>

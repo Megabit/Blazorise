@@ -13,8 +13,6 @@ namespace Blazorise
     {
         #region Members
 
-        private bool rightAligned;
-
         private BarDropdownState parentDropdownState;
 
         #endregion
@@ -38,7 +36,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.BarDropdownMenu( ParentDropdownState.Mode ) );
             builder.Append( ClassProvider.BarDropdownMenuVisible( ParentDropdownState.Mode, ParentDropdownState.Visible ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), ParentDropdownState.RightAligned );
 
             base.BuildClasses( builder );
         }
@@ -50,7 +48,7 @@ namespace Blazorise
         protected virtual void BuildContainerClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenuContainer( ParentDropdownState.Mode ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), ParentDropdownState.RightAligned );
         }
 
         /// <inheritdoc/>
@@ -79,21 +77,6 @@ namespace Blazorise
         /// Gets the string representation of visibility flag.
         /// </summary>
         protected string VisibleString => ParentDropdownState.Visible.ToString().ToLower();
-
-        /// <summary>
-        /// Makes the dropdown menu to be right-aligned.
-        /// </summary>
-        [Parameter]
-        public bool RightAligned
-        {
-            get => rightAligned;
-            set
-            {
-                rightAligned = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="BarDropdownMenu"/>.

@@ -1,9 +1,8 @@
 ﻿@namespace Blazorise.Components
 @inherits BaseComponent
 <SnackbarStack @ref="SnackbarStack"
-               Location="SnackbarStackLocation.Right"
-               Multiline="true"
                DelayCloseOnClick="true"
                DefaultInterval=@(DefaultInterval ?? Constants.DefaultIntervalBeforeClose)
                DelayCloseOnClickInterval="@Constants.DefaultOnClickIntervalBeforeClose"
-               Closed="@OnSnackbarClosed" />
+               Closed="@OnSnackbarClosed"
+               Location="@GetSnackbarStackLocation(Location)" />

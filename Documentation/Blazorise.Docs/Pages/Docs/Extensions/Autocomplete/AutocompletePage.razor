@@ -116,6 +116,9 @@
     <DocsAttributesItem Name="Validator" Type="Action<ValidatorEventArgs>" Default="null">
         Validation handler used to validate selected value.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="AsyncValidator" Type="Func<ValidatorEventArgs, CancellationToken, Task>" Default="null">
+        Asynchronously validates the selected value.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="NotFoundContent" Type="RenderFragment<string>">
         Render fragment when no value has been found on the data source.
     </DocsAttributesItem>
@@ -148,5 +151,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ItemContent" Type="RenderFragment<ItemContext<TItem,TValue>>">
         Specifies the item content to be rendered inside each dropdown item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CloseOnSelection" Type="bool" Default="true">
+        Specifies whether Autocomplete's dropdown closes on selection. This is only evaluated when the Autocomplete's Multiple is set to true.
+        Defauls to true.
     </DocsAttributesItem>
 </DocsAttributes>

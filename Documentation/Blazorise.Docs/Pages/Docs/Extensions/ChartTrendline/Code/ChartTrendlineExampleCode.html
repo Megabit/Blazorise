@@ -1,0 +1,88 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using Blazorise.Charts
+<span class="atSign">&#64;</span>using Blazorise.Charts.Trendline
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnButtonClicked</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Toggle trendline and redraw<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Chart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">chart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double?</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ChartType</span><span class="enumValue">.Line</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartTrendline</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">chartTrendline</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double?</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Chart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    Chart&lt;<span class="keyword">double</span>?&gt; chart;
+    ChartTrendline&lt;<span class="keyword">double</span>?&gt; chartTrendline;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    {
+        <span class="keyword">if</span> ( firstRender )
+        {
+            <span class="keyword">await</span> HandleRedraw();
+        }
+    }
+
+    <span class="keyword">bool</span> trendlinesOn = <span class="keyword">true</span>;
+    <span class="keyword">async</span> Task OnButtonClicked()
+    {
+        trendlinesOn = !trendlinesOn;
+
+        <span class="keyword">await</span> HandleRedraw();
+    }
+
+    <span class="keyword">async</span> Task HandleRedraw()
+    {
+        <span class="keyword">await</span> chart.Clear();
+
+        <span class="keyword">await</span> chart.AddLabels( Labels );
+        <span class="keyword">await</span> chart.AddDataSet( GetLineChartDataset() );
+        <span class="keyword">await</span> chart.AddDataSet( GetLineChartDataset() );
+
+        <span class="keyword">await</span> chart.Update();
+
+        <span class="comment">// Add the trendline(s) after you have added the datasets and called await chart.Update();</span>
+        <span class="keyword">if</span> ( trendlinesOn )
+        {
+            <span class="comment">// This will add a trendline to the second dataset.</span>
+            <span class="comment">// If you want to add it to the first dataset, set DatasetIndex = 0 (or don&#39;t set it at all as 0 is default)</span>
+            <span class="keyword">var</span> trendlineData = <span class="keyword">new</span> List&lt;ChartTrendlineData&gt;
+            {
+                <span class="keyword">new</span> ChartTrendlineData
+                {
+                    DatasetIndex = <span class="number">1</span>,
+                    Width = <span class="number">10</span>,
+                    Color = ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, .6f )
+                }
+            };
+
+            <span class="keyword">await</span> chartTrendline.AddTrendLineOptions( trendlineData );
+        }
+    }
+
+    LineChartDataset&lt;<span class="keyword">double</span>?&gt; GetLineChartDataset()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span> LineChartDataset&lt;<span class="keyword">double</span>?&gt;
+            {
+                Label = <span class="string">&quot;# of randoms&quot;</span>,
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                Fill = <span class="keyword">true</span>,
+                PointRadius = <span class="number">2</span>,
+                BorderDash = <span class="keyword">new</span> List&lt;<span class="keyword">int</span>&gt; { }
+            };
+    }
+
+    <span class="keyword">string</span>[] Labels = { <span class="string">&quot;0&quot;</span>, <span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;3&quot;</span>, <span class="string">&quot;4&quot;</span>, <span class="string">&quot;5&quot;</span> };
+    List&lt;<span class="keyword">string</span>&gt; backgroundColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, <span class="number">0</span>.2f ) };
+    List&lt;<span class="keyword">string</span>&gt; borderColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, 1f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, 1f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, 1f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, 1f ) };
+
+    List&lt;<span class="keyword">double</span>?&gt; RandomizeData()
+    {
+        <span class="keyword">var</span> r = <span class="keyword">new</span> Random( DateTime.Now.Millisecond );
+
+        <span class="keyword">return</span> <span class="keyword">new</span> List&lt;<span class="keyword">double</span>?&gt; { r.Next( <span class="number">3</span>, <span class="number">20</span> ) * r.NextDouble(), r.Next( <span class="number">3</span>, <span class="number">30</span> ) * r.NextDouble(), r.Next( <span class="number">3</span>, <span class="number">40</span> ) * r.NextDouble(), r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(), r.Next( <span class="number">3</span>, <span class="number">60</span> ) * r.NextDouble(), r.Next( <span class="number">3</span>, <span class="number">70</span> ) * r.NextDouble() };
+    }
+}
+</pre></div>
+</div>
