@@ -215,7 +215,7 @@
                           @bind-SelectedRow="@selectedEmployee"
                           @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+                          DetailRowTrigger="@((context)=> context.Item.Salaries?.Count > 0 && context.Item.Id == selectedEmployee?.Id)"
                           Striped="true"
                           Bordered="true"
                           Hoverable="true"

@@ -705,7 +705,10 @@ namespace Blazorise.DataGrid
                 if ( forceDetailRow )
                     rowInfo.ToggleDetailRow();
                 else if ( DetailRowTrigger is not null )
-                    rowInfo.SetRowDetail( DetailRowTrigger( item ) );
+                {
+                    var detailRowTriggerContext = new DetailRowTriggerContext<TItem>( item );
+                    rowInfo.SetRowDetail( DetailRowTrigger( detailRowTriggerContext ), detailRowTriggerContext.Toggleable );
+                }
                 else
                     rowInfo.ToggleDetailRow();
                 return InvokeAsync( StateHasChanged );
@@ -1807,7 +1810,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// A trigger function used to handle the visibility of detail row.
         /// </summary>
-        [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
+        [Parameter] public Func<DetailRowTriggerContext<TItem>, bool> DetailRowTrigger { get; set; }
 
         /// <summary>
         /// Handles the selection of the DataGrid row.
