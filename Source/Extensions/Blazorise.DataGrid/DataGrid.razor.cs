@@ -698,7 +698,7 @@ namespace Blazorise.DataGrid
         /// <param name="forceDetailRow">Ignores DetailRowTrigger and toggles the DetailRow.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task ToggleDetailRow( TItem item, bool forceDetailRow = false )
-            => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow );
+            => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
 
         protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
         {
