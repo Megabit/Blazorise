@@ -147,7 +147,7 @@ namespace Blazorise
         /// <remarks>
         /// The step attribute is often used together with the max and min attributes to create a range of legal values.
         /// </remarks>
-        [Parameter] public int Step { get; set; } = 0;
+        [Parameter] public int? Step { get; set; }
 
         #endregion
     }
