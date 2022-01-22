@@ -154,7 +154,7 @@
     <DocsAttributesItem Name="RowHoverCursor" Type="Func<TItem,Blazorise.Cursor>">
         Handles the selection of the cursor for a hovered row. If not set, Blazorise.Cursor.Pointer` will be used.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DetailRowTrigger" Type="Func<TItem,bool>">
+    <DocsAttributesItem Name="DetailRowTrigger" Type="Func<DetailRowTriggerContext<TItem>, bool>">
         A trigger function used to handle the visibility of detail row.
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowInserting" Type="EventCallback<CancellableRowChange<TItem, Dictionary<string, object>>>">
@@ -260,7 +260,7 @@
         Sets the Datagrid max height when FixedHeader feature is enabled (defaults to 500px).
     </DocsAttributesItem>
     <DocsAttributesItem Name="DetailRowStartsVisible" Type="bool" Default="true">
-        Controls whether DetailRow will start visible if DetailRowTemplate is set
+        Controls whether DetailRow will start visible if DetailRowTemplate is set. DetailRowTrigger will be evaluated if set.
     </DocsAttributesItem>
 </DocsAttributes>
 

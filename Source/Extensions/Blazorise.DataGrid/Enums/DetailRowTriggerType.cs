@@ -3,7 +3,7 @@
     public enum DetailRowTriggerType
     {
         /// <summary>
-        /// Trigger is manually controlled by invoking the Datagrid's ToggleDetailRow />.
+        /// Trigger is manually controlled by invoking the Datagrid's ToggleDetailRow.
         /// </summary>
         Manual,
 
