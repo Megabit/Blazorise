@@ -698,6 +698,9 @@ namespace Blazorise.DataGrid
         /// <param name="forceDetailRow">Ignores DetailRowTrigger and toggles the DetailRow.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task ToggleDetailRow( TItem item, bool forceDetailRow = false )
+            => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow );
+
+        protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
         {
             var rowInfo = GetRowInfo( item );
             if ( rowInfo is not null )
@@ -707,7 +710,16 @@ namespace Blazorise.DataGrid
                 else if ( DetailRowTrigger is not null )
                 {
                     var detailRowTriggerContext = new DetailRowTriggerContext<TItem>( item );
-                    rowInfo.SetRowDetail( DetailRowTrigger( detailRowTriggerContext ), detailRowTriggerContext.Toggleable );
+                    var detailRowTriggerResult = DetailRowTrigger( detailRowTriggerContext );
+
+                    if ( !skipDetailRowTriggerType && detailRowTriggerType != detailRowTriggerContext.DetailRowTriggerType )
+                        return Task.CompletedTask;
+
+                    rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
+                    if ( rowInfo.HasDetailRow && detailRowTriggerContext.Single )
+                        Rows.Where(x=> !x.IsEqual( rowInfo ))
+                            .ToList()
+                            .ForEach( row => row.SetRowDetail( false, false ));
                 }
                 else
                     rowInfo.ToggleDetailRow();
@@ -2000,7 +2012,7 @@ namespace Blazorise.DataGrid
         [Parameter] public bool SubmitFormOnEnter { get; set; } = true;
 
         /// <summary>
-        /// Controls whether DetailRow will start visible if <see cref="DetailRowTemplate"/> is set
+        /// Controls whether DetailRow will start visible if <see cref="DetailRowTemplate"/> is set. <see cref="DetailRowTrigger"/> will be evaluated if set.
         /// </summary>
         [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
 

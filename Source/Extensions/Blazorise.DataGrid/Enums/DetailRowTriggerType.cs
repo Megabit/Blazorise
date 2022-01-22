@@ -3,13 +3,13 @@
     public enum DetailRowTriggerType
     {
         /// <summary>
-        /// Triggers on row click.
+        /// Trigger is manually controlled by invoking the Datagrid's ToggleDetailRow />.
         /// </summary>
-        TriggerOnRowClick,
+        Manual,
 
         /// <summary>
-        /// Triggers only when an item is actually selected.
+        /// Triggers on row click.
         /// </summary>
-        TriggerOnSelectedItem,
+        RowClick,
     }
 }

@@ -75,7 +75,7 @@ namespace Blazorise.DataGrid
             ParentDataGrid.AddRow( RowInfo );
 
             if ( ParentDataGrid.DetailRowStartsVisible )
-                await ParentDataGrid.ToggleDetailRow( Item );
+                await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.Manual, false, true );
 
             await base.OnInitializedAsync();
         }
@@ -162,7 +162,7 @@ namespace Blazorise.DataGrid
                 await ParentDataGrid.Select( Item );
             }
 
-            await ParentDataGrid.ToggleDetailRow( Item );
+            await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )

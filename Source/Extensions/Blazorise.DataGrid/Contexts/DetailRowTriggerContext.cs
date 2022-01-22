@@ -1,5 +1,9 @@
 ﻿namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// Holds the DetailRowTrigger context configuration.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
     public class DetailRowTriggerContext<TItem>
     {
 
@@ -18,6 +22,17 @@
         /// Defaults to true.
         /// </summary>
         public bool Toggleable { get; set; } = true;
+
+        /// <summary>
+        /// Only a single DetailRow is shown. Visible Detail Rows will be collapsed once a new DetailRow is shown.
+        /// </summary>
+        public bool Single { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the DetailRowTriggerType.
+        /// Defaults to DetailRowTriggerType.RowClick.
+        /// </summary>
+        public DetailRowTriggerType DetailRowTriggerType { get; set; } = DetailRowTriggerType.RowClick;
 
     }
 }
