@@ -19,7 +19,7 @@ input.form-control[type=color] {
     }
 }
 
-.form-control {
+.form-control:not(textarea) {
     height: 36px;
 }
 
