@@ -92,7 +92,26 @@
 </Heading>
 
 <Paragraph>
-    Added ScrollTo Api to Datagrid. You may now use the ScrollToRow and ScrollToPixels API when FixedHeader or Virtualize is set on your DataGrid.
+    Added <Code>ScrollTo</Code> Api to <Code>DataGrid</Code>. You may now use the <Code>ScrollToRow</Code> and <Code>ScrollToPixels</Code> API when <Code>FixedHeader</Code> or <Code>Virtualize</Code> is set on your <Code>DataGrid</Code>.
+</Paragraph>
+
+<Paragraph>
+    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerContext</Code> instead of item. This will enable us to keep providing new features by adding on to this context.
+</Paragraph>
+
+<Paragraph>
+    We've introduced the following <Code>DetailRowTrigger</Code> features:
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>Toggleable</Code> Previously if you selected an item where <Code>DetailRowTemplate</Code> was already showing, and if DetailRowTrigger evaluated to true, it would hide to DetailRow. By setting this to false, it now stays visible.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>Single</Code> By setting this property to true, only one DetailRowTemplate will be displayed at a time.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>DetailRowTriggerType</Code> You may now select between two types, Manual and RowClick. By setting the type to Manual you may further control the DetailRowTemplate display behaviour programatically by using the existing <Code>ToggleDetailRow</Code>.
+        </UnorderedListItem>
+    </UnorderedList>
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -138,4 +157,27 @@
 <Paragraph>
     Introduced <Code>CloseOnSelection</Code> Parameter. You will be able to set this parameter to false, so the auto complete's dropdown does not close on selection.
     <strong>Note:</strong> This feature will only work with multiple selection.
+</Paragraph>
+
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerContext</Code> instead of item. This will enable us to keep providing new features by adding on to this context.
+</Paragraph>
+
+<Paragraph>
+    Whereas before you add:
+    <UnorderedList>
+        <UnorderedListItem><Code>DetailRowTrigger="((item)=> item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"</Code></UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    now you change to:
+    <UnorderedList>
+        <UnorderedListItem><Code>DetailRowTrigger="((context)=> context.Item.Salaries?.Count > 0 && context.Item.Id == selectedEmployee?.Id)"</Code></UnorderedListItem>
+    </UnorderedList>
 </Paragraph>
