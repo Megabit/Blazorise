@@ -3,31 +3,54 @@
     /// <summary>
     /// The target attribute specifies where to open the linked document.
     /// </summary>
-    public enum Target
+    public record struct Target
     {
+        /// <summary>
+        /// Gets the enum named value.
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// A default target contructor.
+        /// </summary>
+        /// <param name="name">Name value of the enum.</param>
+        public Target( string name )
+        {
+            Name = name;
+        }
+
+        /// <summary>
+        /// Creates the new custom target based on the supplied enum value.
+        /// </summary>
+        /// <param name="name">Name value of the enum.</param>
+        public static implicit operator Target( string name )
+        {
+            return new Target( name );
+        }
+
         /// <summary>
         /// No target will be applied. Usually this is the same as <see cref="Target.Self"/>.
         /// </summary>
-        None,
+        public static Target None = new( (string)null );
 
         /// <summary>
         /// Opens the linked document in the same frame as it was clicked (this is default).
         /// </summary>
-        Self,
+        public static Target Self = new( "self" );
 
         /// <summary>
         /// Opens the linked document in a new window or tab.
         /// </summary>
-        Blank,
+        public static Target Blank = new( "blank" );
 
         /// <summary>
         /// Opens the linked document in the parent frame.
         /// </summary>
-        Parent,
+        public static Target Parent = new( "parent" );
 
         /// <summary>
         /// Opens the linked document in the full body of the window.
         /// </summary>
-        Top,
+        public static Target Top = new( "top" );
     }
 }
