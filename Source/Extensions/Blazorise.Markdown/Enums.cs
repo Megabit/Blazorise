@@ -31,5 +31,6 @@
         Guide,
         Undo,
         Redo,
+        UploadImage,
     }
 }
