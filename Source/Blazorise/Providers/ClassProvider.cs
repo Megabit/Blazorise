@@ -1179,19 +1179,7 @@ namespace Blazorise
 
         public virtual string ToColor( Color color )
         {
-            return color switch
-            {
-                Blazorise.Color.Primary => "primary",
-                Blazorise.Color.Secondary => "secondary",
-                Blazorise.Color.Success => "success",
-                Blazorise.Color.Danger => "danger",
-                Blazorise.Color.Warning => "warning",
-                Blazorise.Color.Info => "info",
-                Blazorise.Color.Light => "light",
-                Blazorise.Color.Dark => "dark",
-                Blazorise.Color.Link => "link",
-                _ => null,
-            };
+            return color.Name;
         }
 
         public virtual string ToBackground( Background background )
