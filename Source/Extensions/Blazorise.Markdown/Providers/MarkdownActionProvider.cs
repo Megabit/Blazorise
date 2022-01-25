@@ -39,6 +39,8 @@ namespace Blazorise.Markdown.Providers
                 MarkdownAction.SideBySide => "side-by-side",
                 MarkdownAction.Fullscreen => "fullscreen",
                 MarkdownAction.Guide => "guide",
+                MarkdownAction.Undo => "undo",
+                MarkdownAction.Redo => "redo",
                 _ => name
             };
         }
@@ -71,6 +73,8 @@ namespace Blazorise.Markdown.Providers
                 MarkdownAction.SideBySide => "toggleSideBySide",
                 MarkdownAction.Fullscreen => "toggleFullScreen",
                 MarkdownAction.Guide => "https://www.markdownguide.org/basic-syntax/",
+                MarkdownAction.Undo => "undo",
+                MarkdownAction.Redo => "redo",
                 _ => null
             };
 
@@ -106,6 +110,8 @@ namespace Blazorise.Markdown.Providers
                 MarkdownAction.SideBySide => "fa fa-columns no-disable no-mobile",
                 MarkdownAction.Fullscreen => "fa fa-arrows-alt no-disable no-mobile",
                 MarkdownAction.Guide => "fa fa-question-circle",
+                MarkdownAction.Undo => "fa fa-undo",
+                MarkdownAction.Redo => "fa fa-repeat fa-redo",
                 _ => icon
             };
         }

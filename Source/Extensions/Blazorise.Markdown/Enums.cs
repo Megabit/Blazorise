@@ -3,7 +3,8 @@
     /// <summary>
     /// Markdown toolbar actions.
     /// </summary>
-    /// <seealso href="https://github.com/Ionaru/easy-markdown-editor#toolbar-icons"/>
+    /// <seealso href="https://github.com/Ionaru/easy-markdown-editor#toolbar-icons"/> and
+    /// <seealso href="https://github.com/Ionaru/easy-markdown-editor/blob/master/src/js/easymde.js"/>
     public enum MarkdownAction
     {
         Bold,
@@ -28,5 +29,7 @@
         SideBySide,
         Fullscreen,
         Guide,
+        Undo,
+        Redo,
     }
 }
