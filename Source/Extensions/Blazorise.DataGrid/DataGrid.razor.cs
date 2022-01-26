@@ -1611,6 +1611,11 @@ namespace Blazorise.DataGrid
         [Parameter] public DataGridPagerPosition PagerPosition { get; set; } = DataGridPagerPosition.Bottom;
 
         /// <summary>
+        /// Gets or sets the position of the aggregate row.
+        /// </summary>
+        [Parameter] public DataGridAggregateRowPosition AggregateRowPosition { get; set; } = DataGridAggregateRowPosition.Bottom;
+
+        /// <summary>
         /// Gets or sets whether users can adjust the page size of the datagrid.
         /// </summary>
         [Parameter] public bool ShowPageSizes { get => paginationContext.ShowPageSizes; set => paginationContext.ShowPageSizes = value; }

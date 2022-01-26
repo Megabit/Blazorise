@@ -117,6 +117,10 @@
                         }
                     </TableRow>
                 }
+                @if ( HasAggregates && !Virtualize && ( AggregateRowPosition == DataGridAggregateRowPosition.Top || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom ) )
+                {
+                    @aggregateRowFragment
+                }
             </TableHeader>
             <TableBody>
                 @if ( IsNewItemInGrid )
@@ -178,7 +182,7 @@
                     </_DataGridFullColumnSpanRow>
                 }
             </TableBody>
-            @if ( HasAggregates && !Virtualize )
+            @if ( HasAggregates && !Virtualize && ( AggregateRowPosition == DataGridAggregateRowPosition.Bottom || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom ) )
             {
                 <TableFooter>
                     @aggregateRowFragment
