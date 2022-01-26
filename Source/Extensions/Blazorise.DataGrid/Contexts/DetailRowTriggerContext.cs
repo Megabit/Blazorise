@@ -6,7 +6,6 @@
     /// <typeparam name="TItem"></typeparam>
     public class DetailRowTriggerContext<TItem>
     {
-
         public DetailRowTriggerContext( TItem item )
         {
             Item = item;
@@ -18,8 +17,7 @@
         public TItem Item { get; private set; }
 
         /// <summary>
-        /// If DetailRow is showing, and if the trigger is re-evaluated the DetailRow will be set to false.
-        /// Defaults to true.
+        /// If DetailRow is showing, and if the trigger is re-evaluated the DetailRow will be set to false. Defaults to <c>true</c>.
         /// </summary>
         public bool Toggleable { get; set; } = true;
 
@@ -29,10 +27,8 @@
         public bool Single { get; set; }
 
         /// <summary>
-        /// Gets or Sets the DetailRowTriggerType.
-        /// Defaults to DetailRowTriggerType.RowClick.
+        /// Gets or Sets the DetailRowTriggerType. Defaults to <see cref="DetailRowTriggerType.RowClick"/>.
         /// </summary>
         public DetailRowTriggerType DetailRowTriggerType { get; set; } = DetailRowTriggerType.RowClick;
-
     }
 }
