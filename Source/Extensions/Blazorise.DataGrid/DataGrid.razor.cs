@@ -703,11 +703,10 @@ namespace Blazorise.DataGrid
         protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
         {
             var rowInfo = GetRowInfo( item );
+
             if ( rowInfo is not null )
             {
-                if ( forceDetailRow )
-                    rowInfo.ToggleDetailRow();
-                else if ( DetailRowTrigger is not null )
+                if ( DetailRowTrigger is not null )
                 {
                     var detailRowTriggerContext = new DetailRowTriggerContext<TItem>( item );
                     var detailRowTriggerResult = DetailRowTrigger( detailRowTriggerContext );
@@ -716,13 +715,19 @@ namespace Blazorise.DataGrid
                         return Task.CompletedTask;
 
                     rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
+
                     if ( rowInfo.HasDetailRow && detailRowTriggerContext.Single )
-                        Rows.Where(x=> !x.IsEqual( rowInfo ))
+                    {
+                        Rows.Where( x => !x.IsEqual( rowInfo ) )
                             .ToList()
-                            .ForEach( row => row.SetRowDetail( false, false ));
+                            .ForEach( row => row.SetRowDetail( false, false ) );
+                    }
                 }
                 else
+                {
                     rowInfo.ToggleDetailRow();
+                }
+
                 return InvokeAsync( StateHasChanged );
             }
 
