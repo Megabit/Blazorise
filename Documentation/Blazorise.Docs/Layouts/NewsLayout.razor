@@ -7,6 +7,7 @@
                 <BarBrand>
                     <BarItem>
                         <BarLink Class="top-bar-brand-link" To="">
+                            <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
                             Blazorise
                         </BarLink>
                     </BarItem>
@@ -31,3 +32,6 @@
         <Footer />
     </LayoutFooter>
 </Layout>
+@code {
+    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.png" Style="width:32px; height: 32px" />;
+}

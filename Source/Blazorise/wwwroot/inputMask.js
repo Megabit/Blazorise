@@ -37,8 +37,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     };
 
     const finalOptions = options.alias
-        ? { ...aliasOptions, ...otherOptions }
-        : { ...maskOptions, ...regexOptions, ...otherOptions };
+        ? Object.assign({}, aliasOptions, otherOptions)
+        : Object.assign({}, maskOptions, regexOptions, otherOptions);
 
     var inputMask = new Inputmask(finalOptions);
 

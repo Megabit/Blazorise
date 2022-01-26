@@ -16,7 +16,7 @@ export function parseFunction(str) {
 
         return new Fn();
     }
-    catch {
+    catch (error) {
         return null;
     }
 }

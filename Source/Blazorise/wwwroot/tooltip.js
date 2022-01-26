@@ -29,10 +29,7 @@ export function initialize(element, elementId, options) {
             trigger: "manual"
         } : {};
 
-    const instance = tippy(element, {
-        ...defaultOptions,
-        ...alwaysActiveOptions
-    });
+    const instance = tippy(element, Object.assign({}, defaultOptions, alwaysActiveOptions));
 
     if (options.text) {
         instance.enable();

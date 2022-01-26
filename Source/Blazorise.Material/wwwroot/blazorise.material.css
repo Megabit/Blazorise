@@ -202,7 +202,7 @@ input.form-control[type=color] {
   padding-left: 0;
 }
 
-.form-control {
+.form-control:not(textarea) {
   height: 36px;
 }
 

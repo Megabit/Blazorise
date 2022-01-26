@@ -64,6 +64,103 @@ html, body * {
   scrollbar-width: thin;
 }
 
+.home-banner {
+  background-color: #f7f8fa;
+  text-align: center;
+  background-image: url("../../img/backs/hero-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.home-banner-img {
+  aspect-ratio: 3;
+}
+
+.home-community-readmore-link {
+  font-size: 13px;
+  color: var(--b-theme-secondary);
+  font-weight: 500;
+  transition: color 0.5s ease-in-out;
+}
+.home-community-readmore-link:hover {
+  color: var(--b-theme-primary);
+}
+.home-community-img-icons {
+  transition: all 0.4s ease-in-out;
+}
+.home-community-img-icons:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 992px) {
+  .home-features .flex-item:nth-of-type(1) {
+    order: 2;
+  }
+  .home-features .flex-item:nth-of-type(2) {
+    order: 1;
+  }
+  .home-features .img-digital {
+    text-align: center;
+  }
+}
+
+.home-case-studies .color-cards .card-contents {
+  position: relative;
+  padding: 30px 0px;
+}
+.home-case-studies .color-cards .card-details p {
+  color: #6e6e6e;
+  font-weight: 500;
+}
+.home-case-studies .color-cards:hover .card-details {
+  color: var(--b-theme-primary);
+}
+.home-case-studies .color-cards:hover .card-details p {
+  color: var(--b-theme-primary);
+}
+.home-case-studies .color-cards:hover .card-desc-box {
+  opacity: 1;
+}
+.home-case-studies .color-cards .btn {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+.home-case-studies .case-studies-card-img {
+  height: 150px;
+}
+.home-case-studies .card-desc-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 51, 204, 0.8);
+  transition: all 0.8s ease-in-out;
+  opacity: 0;
+}
+
+.home-customer-feedback-customer-cards {
+  background: #f3f7fb;
+  font-size: 18px;
+  margin: 0px 12px;
+  transition: all 0.7s ease-in-out;
+}
+.home-customer-feedback-customer-cards-img-customer {
+  border-radius: 50%;
+  transition: all 0.7s ease-in-out;
+}
+.home-customer-feedback-customer-cards:hover {
+  background: #e4e7ea;
+  transform: scale(1.02);
+}
+.home-customer-feedback-customer-cards:hover .img-customer {
+  transform: scale(1.05);
+}
+.home-customer-feedback-customer-cards-content-divider {
+  width: 73px;
+  height: 3px;
+}
+
 .docs-page-title {
   margin-bottom: 1.5rem;
 }
