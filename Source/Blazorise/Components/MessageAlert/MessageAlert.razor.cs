@@ -144,6 +144,12 @@ namespace Blazorise
            => Options?.ShowMessageIcon ?? true;
 
         /// <summary>
+        /// If true, the close button will be visible.
+        /// </summary>
+        protected virtual bool ShowCloseButton
+           => Options?.ShowCloseButton ?? false;
+
+        /// <summary>
         /// Gets the message icon based on the predefined message type.
         /// </summary>
         protected virtual object MessageIcon => Options?.MessageIcon ?? MessageType switch
@@ -176,16 +182,52 @@ namespace Blazorise
             => Options?.OkButtonText ?? "OK";
 
         /// <summary>
+        /// Gets the OK button color.
+        /// </summary>
+        protected virtual Color OkButtonColor
+            => Options?.OkButtonColor ?? Color.Primary;
+
+        /// <summary>
+        /// Gets the OK button CSS class.
+        /// </summary>
+        protected virtual string OkButtonClass
+            => Options?.OkButtonClass;
+
+        /// <summary>
         /// Gets the Confirm button text.
         /// </summary>
         protected virtual string ConfirmButtonText
             => Options?.ConfirmButtonText ?? "Confirm";
 
         /// <summary>
+        /// Gets the confirm button color.
+        /// </summary>
+        protected virtual Color ConfirmButtonColor
+            => Options?.ConfirmButtonColor ?? Color.Primary;
+
+        /// <summary>
+        /// Gets the confirm button CSS class.
+        /// </summary>
+        protected virtual string ConfirmButtonClass
+            => Options?.ConfirmButtonClass;
+
+        /// <summary>
         /// Gets the Cancel button text.
         /// </summary>
         protected virtual string CancelButtonText
             => Options?.CancelButtonText ?? "Cancel";
+
+        /// <summary>
+        /// Gets the cancel button color.
+        /// </summary>
+        protected virtual Color CancelButtonColor
+            => Options?.CancelButtonColor ?? Color.Danger;
+
+        /// <summary>
+        /// Gets the cancel button CSS class.
+        /// </summary>
+        protected virtual string CancelButtonClass
+            => Options?.CancelButtonClass;
 
         /// <summary>
         /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
