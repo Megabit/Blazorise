@@ -14,21 +14,28 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     if (!element)
         return;
 
+    const instance = {
+        player: null,
+        hls: null,
+        dash: null,
+    };
+
     if (options.streamingLibrary !== "Html5") {
         const source = extractSingleSourceUrl(options.source);
 
         if (options.streamingLibrary === "Hls") {
             if (Hls.isSupported()) {
-                const hls = new Hls({
+                instance.hls = new Hls({
                     debug: false,
                 });
-                hls.loadSource(source);
-                hls.attachMedia(element);
-                window.hls = hls;
+                instance.hls.loadSource(source);
+                instance.hls.attachMedia(element);
+
+                window.hls = instance.hls;
             }
         } else if (options.streamingLibrary === "Dash") {
-            const dash = dashjs.MediaPlayer().create();
-            dash.initialize(element, source, options.autoPlay || false);
+            instance.dash = dashjs.MediaPlayer().create();
+            instance.dash.initialize(element, source, options.autoPlay || false);
 
             if (options.protection) {
                 if (options.protection && options.protection.type === "PlayReady") {
@@ -41,7 +48,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
                         }
                     };
 
-                    dash.setProtectionData(protectionData);
+                    instance.dash.setProtectionData(protectionData);
                 }
                 else if (options.protection && options.protection.type === "Widevine") {
                     const protectionData = {
@@ -53,15 +60,15 @@ export function initialize(dotNetAdapter, element, elementId, options) {
                         }
                     };
 
-                    dash.setProtectionData(protectionData);
+                    instance.dash.setProtectionData(protectionData);
                 }
             }
 
-            window.dash = dash;
+            window.dash = instance.dash;
         }
     }
 
-    const player = new Plyr(element, {
+    instance.player = new Plyr(element, {
         source: options.source,
         poster: options.poster,
         hideControls: options.automaticallyHideControls,
@@ -85,8 +92,202 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         }
     });
 
-    window.player = player;
+    registerToEvents(instance.player);
 
+    _instances[elementId] = instance;
+
+    window.player = instance.player;
+}
+
+export function destroy(element, elementId) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (instance) {
+        if (instance.player) {
+            instance.player.destroy();
+        }
+
+        if (instance.dash) {
+            instance.dash.destroy();
+        }
+
+        if (instance.hls) {
+            instance.hls.destroy();
+        }
+
+        delete instances[elementId];
+    }
+}
+
+export function updateOptions(element, elementId, options) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player && options) {
+        if (options.source.changed) {
+            instance.player.source = options.source.value;
+        }
+
+        if (options.currentTime.changed) {
+            instance.player.currentTime = options.currentTime.value;
+        }
+
+        if (options.volume.changed) {
+            instance.player.volume = options.volume.value;
+        }
+    }
+}
+
+export function updateSource(element, elementId, source) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.source = source;
+    }
+}
+
+export function play(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.play();
+    }
+}
+
+export function pause(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.pause();
+    }
+}
+
+export function togglePlay(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.togglePlay();
+    }
+}
+
+export function stop(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.stop();
+    }
+}
+
+export function restart(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.restart();
+    }
+}
+
+export function rewind(element, elementId, seekTime) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.rewind(seekTime);
+    }
+}
+
+export function forward(element, elementId, seekTime) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.forward(seekTime);
+    }
+}
+
+export function increaseVolume(element, elementId, step) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.increaseVolume(step);
+    }
+}
+
+export function decreaseVolume(element, elementId, step) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.decreaseVolume(step);
+    }
+}
+
+export function toggleCaptions(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.toggleCaptions();
+    }
+}
+
+export function enterFullscreen(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.fullscreen.enter();
+    }
+}
+
+export function exitFullscreen(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.fullscreen.exit();
+    }
+}
+
+export function toggleFullscreen(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.fullscreen.toggle();
+    }
+}
+
+export function airplay(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.airplay();
+    }
+}
+
+export function toggleControls(element, elementId, toggle) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.toggleControls(toggle);
+    }
+}
+
+function extractSingleSourceUrl(source) {
+    if (!source)
+        return null;
+
+    if (isString(source)) {
+        return source;
+    }
+    else if (source.sources && source.sources.length > 0) {
+        return source.sources[0].src;
+    }
+
+    return null;
+}
+
+function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
+    dotNetAdapter.invokeMethodAsync(methodName, ...args)
+        .catch((reason) => {
+            console.error(reason);
+        });
+}
+
+function registerToEvents(player) {
     player.on('progress', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.plyr.buffered || 0);
     });
@@ -158,184 +359,4 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     player.on('ready', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyReady");
     });
-
-    _instances[elementId] = player;
-}
-
-export function destroy(element, elementId) {
-    const instances = _instances || {};
-    const instance = instances[elementId];
-
-    if (instance) {
-        instance.destroy();
-
-        delete instances[elementId];
-    }
-}
-
-export function updateOptions(element, elementId, options) {
-    const instance = _instances[elementId];
-
-    if (instance && options) {
-        if (options.source.changed) {
-            instance.source = options.source.value;
-        }
-
-        if (options.currentTime.changed) {
-            instance.currentTime = options.currentTime.value;
-        }
-
-        if (options.volume.changed) {
-            instance.volume = options.volume.value;
-        }
-    }
-}
-
-export function updateSource(element, elementId, source) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.source = source;
-    }
-}
-
-export function play(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.play();
-    }
-}
-
-export function pause(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.pause();
-    }
-}
-
-export function togglePlay(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.togglePlay();
-    }
-}
-
-export function stop(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.stop();
-    }
-}
-
-export function restart(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.restart();
-    }
-}
-
-export function rewind(element, elementId, seekTime) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.rewind(seekTime);
-    }
-}
-
-export function forward(element, elementId, seekTime) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.forward(seekTime);
-    }
-}
-
-export function increaseVolume(element, elementId, step) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.increaseVolume(step);
-    }
-}
-
-export function decreaseVolume(element, elementId, step) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.decreaseVolume(step);
-    }
-}
-
-export function toggleCaptions(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.toggleCaptions();
-    }
-}
-
-export function enterFullscreen(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.fullscreen.enter();
-    }
-}
-
-export function exitFullscreen(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.fullscreen.exit();
-    }
-}
-
-export function toggleFullscreen(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.fullscreen.toggle();
-    }
-}
-
-export function airplay(element, elementId) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.airplay();
-    }
-}
-
-export function toggleControls(element, elementId, toggle) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        instance.toggleControls(toggle);
-    }
-}
-
-function extractSingleSourceUrl(source) {
-    if (!source)
-        return null;
-
-    if (isString(source)) {
-        return source;
-    }
-    else if (source.sources && source.sources.length > 0) {
-        return source.sources[0].src;
-    }
-
-    return null;
-}
-
-function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
-    dotNetAdapter.invokeMethodAsync(methodName, ...args)
-        .catch((reason) => {
-            console.error(reason);
-        });
 }
