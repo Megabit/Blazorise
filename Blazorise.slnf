@@ -1,0 +1,27 @@
+{
+  "solution": {
+    "path": "Blazorise.sln",
+    "projects": [
+      "Source\\Blazorise.AntDesign\\Blazorise.AntDesign.csproj",
+      "Source\\Blazorise.Bootstrap5\\Blazorise.Bootstrap5.csproj",
+      "Source\\Blazorise.Bootstrap\\Blazorise.Bootstrap.csproj",
+      "Source\\Blazorise.Bulma\\Blazorise.Bulma.csproj",
+      "Source\\Blazorise.Material\\Blazorise.Material.csproj",
+      "Source\\Blazorise\\Blazorise.csproj",
+      "Source\\Extensions\\Blazorise.Animate\\Blazorise.Animate.csproj",
+      "Source\\Extensions\\Blazorise.Charts.Streaming\\Blazorise.Charts.Streaming.csproj",
+      "Source\\Extensions\\Blazorise.Charts.Trendline\\Blazorise.Charts.Trendline.csproj",
+      "Source\\Extensions\\Blazorise.Charts\\Blazorise.Charts.csproj",
+      "Source\\Extensions\\Blazorise.Components\\Blazorise.Components.csproj",
+      "Source\\Extensions\\Blazorise.DataGrid\\Blazorise.DataGrid.csproj",
+      "Source\\Extensions\\Blazorise.Icons.FontAwesome\\Blazorise.Icons.FontAwesome.csproj",
+      "Source\\Extensions\\Blazorise.Icons.Material\\Blazorise.Icons.Material.csproj",
+      "Source\\Extensions\\Blazorise.Markdown\\Blazorise.Markdown.csproj",
+      "Source\\Extensions\\Blazorise.RichTextEdit\\Blazorise.RichTextEdit.csproj",
+      "Source\\Extensions\\Blazorise.Sidebar\\Blazorise.Sidebar.csproj",
+      "Source\\Extensions\\Blazorise.Snackbar\\Blazorise.Snackbar.csproj",
+      "Source\\Extensions\\Blazorise.SpinKit\\Blazorise.SpinKit.csproj",
+      "Source\\Extensions\\Blazorise.TreeView\\Blazorise.TreeView.csproj"
+    ]
+  }
+}
