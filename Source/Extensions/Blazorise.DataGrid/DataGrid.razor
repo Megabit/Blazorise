@@ -181,7 +181,7 @@
             @if ( HasAggregates && !Virtualize )
             {
                 <TableFooter>
-                    <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
+                    @aggregateRowFragment
                 </TableFooter>
             }
         </Table>
@@ -213,7 +213,7 @@
 
 @code {
 
-    private RenderFragment paginationFragment => __builder =>
+    protected RenderFragment paginationFragment => __builder =>
                         {
                         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
                         };
@@ -231,8 +231,13 @@
             {
                 <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
                     @DetailRowTemplate( item )
-                </_DataGridDetailRow>
+            </_DataGridDetailRow>
             }
         }
+    };
+
+    protected RenderFragment aggregateRowFragment => __builder =>
+    {
+        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
     };
 }
