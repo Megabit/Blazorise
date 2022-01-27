@@ -53,6 +53,9 @@ export function initialize(element, elementId, options) {
         disable: options.disabledDates || []
     };
 
+    if (options.inputMode === 3)
+        defaultOptions.mode = "range";
+
     const pluginOptions = options.inputMode === 2 ? {
         plugins: [new monthSelectPlugin({
             shorthand: false,
