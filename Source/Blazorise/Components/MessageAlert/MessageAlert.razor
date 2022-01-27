@@ -6,6 +6,10 @@
             <ModalTitle>
                 @Title
             </ModalTitle>
+            @if ( ShowCloseButton )
+            {
+                <CloseButton Clicked="@OnCancelClicked" />
+            }
         </ModalHeader>
         <ModalBody>
             @if ( ShowMessageIcon )
@@ -21,14 +25,14 @@
         <ModalFooter>
             @if ( IsConfirmation )
             {
-                <Button Color="Color.Danger" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnCancelClicked">
+                <Button Color="@CancelButtonColor" Class="@CancelButtonClass" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnCancelClicked">
                     @if ( Options?.CancelButtonIcon != null )
                     {
                         <Icon Name="@Options.CancelButtonIcon" Margin="Blazorise.Margin.Is2.FromRight" />
                     }
                     @CancelButtonText
                 </Button>
-                <Button Color="Color.Primary" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnConfirmClicked">
+                <Button Color="@ConfirmButtonColor" Class="@ConfirmButtonClass" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnConfirmClicked">
                     @if ( Options?.ConfirmButtonIcon != null )
                     {
                         <Icon Name="@Options.ConfirmButtonIcon" Margin="Blazorise.Margin.Is2.FromRight" />
@@ -38,7 +42,7 @@
             }
             else
             {
-                <Button Color="Color.Primary" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnOkClicked">
+                <Button Color="@OkButtonColor" Class="@OkButtonClass" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnOkClicked">
                     @if ( Options?.OkButtonIcon != null )
                     {
                         <Icon Name="@Options.OkButtonIcon" Margin="Blazorise.Margin.Is2.FromRight" />
