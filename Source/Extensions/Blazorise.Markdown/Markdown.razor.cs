@@ -429,9 +429,9 @@ namespace Blazorise.Markdown
         /// <summary>
         /// If set to true, enables the image upload functionality, which can be triggered by drag-drop,
         /// copy-paste and through the browse-file window (opened when the user click on the upload-image icon).
-        /// Defaults to false.
+        /// Defaults to true.
         /// </summary>
-        [Parameter] public bool UploadImage { get; set; }
+        [Parameter] public bool UploadImage { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.

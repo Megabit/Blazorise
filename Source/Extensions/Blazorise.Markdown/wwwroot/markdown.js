@@ -62,7 +62,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         toolbar: options.toolbar,
         toolbarTips: options.toolbarTips,
 
-        uploadImage: true,
+        uploadImage: options.uploadImage,
         imageMaxSize: options.imageMaxSize,
         imageAccept: options.imageAccept,
         imageUploadEndpoint: options.imageUploadEndpoint,
