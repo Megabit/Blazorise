@@ -1309,6 +1309,16 @@ namespace Blazorise.DataGrid
         protected bool HasAggregates => Aggregates.Count > 0;
 
         /// <summary>
+        /// If true, aggregates will be shown on top of the table.
+        /// </summary>
+        protected bool ShowAggregatesOnTop => AggregateRowPosition == DataGridAggregateRowPosition.Top || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
+
+        /// <summary>
+        /// If true, aggregates will be shown on bottom of the table.
+        /// </summary>
+        protected bool ShowAggregatesOnBottom => AggregateRowPosition == DataGridAggregateRowPosition.Bottom || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
+
+        /// <summary>
         /// Returns true if data is not empty, data is not loaded, empty and loading template is not set.
         /// </summary>
         protected bool IsDisplayDataVisible => !IsLoadingTemplateVisible && !IsEmptyTemplateVisible;
