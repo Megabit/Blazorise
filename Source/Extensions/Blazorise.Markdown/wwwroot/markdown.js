@@ -106,7 +106,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         },
 
         autofocus: options.autofocus,
-        autoRefresh: options.autoRefresh
+        autoRefresh: options.autoRefresh,
+        autosave: options.autosave
     });
 
     easyMDE.codemirror.on("change", function () {

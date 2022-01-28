@@ -96,7 +96,8 @@ namespace Blazorise.Markdown
                     },
                     ErrorMessages,
                     Autofocus,
-                    AutoRefresh
+                    AutoRefresh,
+                    Autosave
                 } );
 
                 Initialized = true;
@@ -505,6 +506,12 @@ namespace Blazorise.Markdown
         /// it will check every 300 ms if the editor is visible and if positive, call CodeMirror's refresh().
         /// </summary>
         [Parameter] public MarkdownAutoRefresh AutoRefresh { get; set; }
+
+        /// <summary>
+        /// Saves the text that's being written and will load it back in the future.
+        /// It will forget the text when the form it's contained in is submitted.
+        /// </summary>
+        [Parameter] public MarkdownAutosave Autosave { get; set; }
         #endregion
     }
 }
