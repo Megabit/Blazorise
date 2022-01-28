@@ -108,6 +108,7 @@ namespace Blazorise.Markdown
                     PreviewClass,
                     PreviewImagesInEditor,
                     PromptTexts,
+                    PromptURLs,
                 } );
 
                 Initialized = true;
@@ -580,6 +581,12 @@ namespace Blazorise.Markdown
         /// Customize the text used to prompt for URLs.
         /// </summary>
         [Parameter] public MarkdownPromptTexts PromptTexts { get; set; }
+
+        /// <summary>
+        /// If set to true, a JS alert window appears asking for the link or image URL.
+        /// Defaults to false.
+        /// </summary>
+        [Parameter] public bool PromptURLs { get; set; }
         #endregion
     }
 }

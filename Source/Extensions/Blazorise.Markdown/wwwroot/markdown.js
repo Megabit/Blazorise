@@ -117,7 +117,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         parsingConfig: options.parsingConfig,
         previewClass: options.previewClass,
         previewImagesInEditor: options.previewImagesInEditor,
-        promptTexts: options.promptTexts
+        promptTexts: options.promptTexts,
+        promptURLs: options.promptURLs,
     });
 
     easyMDE.codemirror.on("change", function () {
