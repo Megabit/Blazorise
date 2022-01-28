@@ -116,7 +116,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         nativeSpellcheck: options.nativeSpellcheck,
         parsingConfig: options.parsingConfig,
         previewClass: options.previewClass,
-        previewImagesInEditor: options.previewImagesInEditor
+        previewImagesInEditor: options.previewImagesInEditor,
+        promptTexts: options.promptTexts
     });
 
     easyMDE.codemirror.on("change", function () {

@@ -107,6 +107,7 @@ namespace Blazorise.Markdown
                     ParsingConfig,
                     PreviewClass,
                     PreviewImagesInEditor,
+                    PromptTexts,
                 } );
 
                 Initialized = true;
@@ -574,6 +575,11 @@ namespace Blazorise.Markdown
         /// preview for images will appear only for images on separate lines.
         /// </summary>
         [Parameter] public bool PreviewImagesInEditor { get; set; }
+
+        /// <summary>
+        /// Customize the text used to prompt for URLs.
+        /// </summary>
+        [Parameter] public MarkdownPromptTexts PromptTexts { get; set; }
         #endregion
     }
 }
