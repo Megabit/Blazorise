@@ -116,6 +116,7 @@ namespace Blazorise.Markdown
                     SpellChecker,
                     Status,
                     StyleSelectedText,
+                    SyncSideBySidePreviewScroll,
                 } );
 
                 Initialized = true;
@@ -635,6 +636,11 @@ namespace Blazorise.Markdown
         /// If set to false, remove the CodeMirror-selectedtext class from selected lines. Defaults to true.
         /// </summary>
         [Parameter] public bool StyleSelectedText { get; set; } = true;
+
+        /// <summary>
+        /// If set to false, disable syncing scroll in side by side mode. Defaults to true.
+        /// </summary>
+        [Parameter] public bool SyncSideBySidePreviewScroll { get; set; } = true;
         #endregion
     }
 }

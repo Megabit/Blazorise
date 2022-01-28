@@ -123,7 +123,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         sideBySideFullscreen: options.sideBySideFullscreen,
         spellChecker: options.spellChecker,
         status: options.status,
-        styleSelectedText: options.styleSelectedText
+        styleSelectedText: options.styleSelectedText,
+        syncSideBySidePreviewScroll: options.syncSideBySidePreviewScroll
     };
 
     if (!mdeOptions.status) {
