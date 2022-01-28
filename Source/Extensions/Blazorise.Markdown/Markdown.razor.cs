@@ -110,6 +110,7 @@ namespace Blazorise.Markdown
                     PromptTexts,
                     PromptURLs,
                     RenderingConfig,
+                    ScrollbarStyle,
                 } );
 
                 Initialized = true;
@@ -593,6 +594,15 @@ namespace Blazorise.Markdown
         /// Adjust settings for parsing the Markdown during previewing (not editing).
         /// </summary>
         [Parameter] public MarkdownRenderingConfig RenderingConfig { get; set; }
+
+        /// <summary>
+        /// Chooses a scrollbar implementation.
+        /// The default is "native", showing native scrollbars.
+        /// 
+        /// The core library also provides the "null" style, which completely hides the scrollbars.
+        /// Addons can implement additional scrollbar models.
+        /// </summary>
+        [Parameter] public string ScrollbarStyle { get; set; } = "native";
         #endregion
     }
 }

@@ -118,7 +118,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         renderingConfig: options.renderingConfig ? options.renderingConfig : {
             singleLineBreaks: false,
             codeSyntaxHighlighting: true
-        }
+        },
+        scrollbarStyle: options.scrollbarStyle
     });
 
     easyMDE.codemirror.on("change", function () {

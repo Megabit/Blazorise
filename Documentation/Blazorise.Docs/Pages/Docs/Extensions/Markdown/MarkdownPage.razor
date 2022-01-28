@@ -241,4 +241,11 @@
     <DocsAttributesItem Name="RenderingConfig" Type="MarkdownRenderingConfig">
         Adjust settings for parsing the Markdown during previewing (not editing).
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollbarStyle" Type="string" Default="native">
+        Chooses a scrollbar implementation.
+        The default is "native", showing native scrollbars.
+    
+        The core library also provides the "null" style, which completely hides the scrollbars.
+        Addons can implement additional scrollbar models.
+    </DocsAttributesItem>
 </DocsAttributes>
