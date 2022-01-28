@@ -97,7 +97,8 @@ namespace Blazorise.Markdown
                     ErrorMessages,
                     Autofocus,
                     AutoRefresh,
-                    Autosave
+                    Autosave,
+                    BlockStyles,
                 } );
 
                 Initialized = true;
@@ -512,6 +513,11 @@ namespace Blazorise.Markdown
         /// It will forget the text when the form it's contained in is submitted.
         /// </summary>
         [Parameter] public MarkdownAutosave Autosave { get; set; }
+
+        /// <summary>
+        /// Customize how certain buttons that style blocks of text behave.
+        /// </summary>
+        [Parameter] public MarkdownBlockStyles BlockStyles { get; set; }
         #endregion
     }
 }
