@@ -100,6 +100,7 @@ namespace Blazorise.Markdown
                     Autosave,
                     BlockStyles,
                     ForceSync,
+                    IndentWithTabs,
                 } );
 
                 Initialized = true;
@@ -525,6 +526,11 @@ namespace Blazorise.Markdown
         /// Defaults to false.
         /// </summary>
         [Parameter] public bool ForceSync { get; set; }
+
+        /// <summary>
+        /// If set to false, indent using spaces instead of tabs. Defaults to true.
+        /// </summary>
+        [Parameter] public bool IndentWithTabs { get; set; } = true;
         #endregion
     }
 }
