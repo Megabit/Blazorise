@@ -722,9 +722,10 @@ namespace Blazorise.DataGrid
 
                     if ( rowInfo.HasDetailRow && detailRowTriggerContext.Single )
                     {
-                        Rows.Where( x => !x.IsEqual( rowInfo ) )
-                            .ToList()
-                            .ForEach( row => row.SetRowDetail( false, false ) );
+                        foreach ( var row in Rows.Where( x => !x.IsEqual( rowInfo ) ) )
+                        {
+                            row.SetRowDetail( false, false );
+                        }
                     }
                 }
                 else
