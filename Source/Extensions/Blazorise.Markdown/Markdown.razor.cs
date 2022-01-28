@@ -104,6 +104,7 @@ namespace Blazorise.Markdown
                     InputStyle,
                     InsertTexts,
                     NativeSpellcheck,
+                    ParsingConfig,
                 } );
 
                 Initialized = true;
@@ -554,6 +555,11 @@ namespace Blazorise.Markdown
         /// If set to false, disable native spell checker. Defaults to true.
         /// </summary>
         [Parameter] public bool NativeSpellcheck { get; set; } = true;
+
+        /// <summary>
+        /// Adjust settings for parsing the Markdown during editing (not previewing).
+        /// </summary>
+        [Parameter] public MarkdownParsingConfig ParsingConfig { get; set; }
         #endregion
     }
 }
