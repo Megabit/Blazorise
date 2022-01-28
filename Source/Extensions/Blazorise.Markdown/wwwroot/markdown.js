@@ -119,7 +119,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             singleLineBreaks: false,
             codeSyntaxHighlighting: true
         },
-        scrollbarStyle: options.scrollbarStyle
+        scrollbarStyle: options.scrollbarStyle,
+        shortcuts: options.shortcuts
     });
 
     easyMDE.codemirror.on("change", function () {

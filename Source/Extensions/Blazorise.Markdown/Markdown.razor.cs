@@ -111,6 +111,7 @@ namespace Blazorise.Markdown
                     PromptURLs,
                     RenderingConfig,
                     ScrollbarStyle,
+                    Shortcuts,
                 } );
 
                 Initialized = true;
@@ -603,6 +604,12 @@ namespace Blazorise.Markdown
         /// Addons can implement additional scrollbar models.
         /// </summary>
         [Parameter] public string ScrollbarStyle { get; set; } = "native";
+
+        /// <summary>
+        /// Keyboard shortcuts associated with this instance.
+        /// Defaults to the array of <see href="https://github.com/Ionaru/easy-markdown-editor#keyboard-shortcuts">shortcuts</see>.
+        /// </summary>
+        [Parameter] public MarkdownShortcuts Shortcuts { get; set; }
         #endregion
     }
 }
