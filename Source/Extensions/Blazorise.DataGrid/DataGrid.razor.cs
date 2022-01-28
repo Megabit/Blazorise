@@ -706,7 +706,11 @@ namespace Blazorise.DataGrid
 
             if ( rowInfo is not null )
             {
-                if ( DetailRowTrigger is not null )
+                if ( forceDetailRow )
+                {
+                    rowInfo.ToggleDetailRow();
+                }
+                else if ( DetailRowTrigger is not null )
                 {
                     var detailRowTriggerContext = new DetailRowTriggerContext<TItem>( item );
                     var detailRowTriggerResult = DetailRowTrigger( detailRowTriggerContext );
