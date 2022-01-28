@@ -106,6 +106,7 @@ namespace Blazorise.Markdown
                     NativeSpellcheck,
                     ParsingConfig,
                     PreviewClass,
+                    PreviewImagesInEditor,
                 } );
 
                 Initialized = true;
@@ -567,6 +568,12 @@ namespace Blazorise.Markdown
         /// Defaults to "editor-preview".
         /// </summary>
         [Parameter] public string PreviewClass { get; set; } = "editor-preview";
+
+        /// <summary>
+        /// EasyMDE will show preview of images, false by default,
+        /// preview for images will appear only for images on separate lines.
+        /// </summary>
+        [Parameter] public bool PreviewImagesInEditor { get; set; }
         #endregion
     }
 }
