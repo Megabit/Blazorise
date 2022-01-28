@@ -114,6 +114,7 @@ namespace Blazorise.Markdown
                     Shortcuts,
                     SideBySideFullscreen,
                     SpellChecker,
+                    Status,
                 } );
 
                 Initialized = true;
@@ -622,6 +623,12 @@ namespace Blazorise.Markdown
         /// If set to false, disable the spell checker. Defaults to true
         /// </summary>
         [Parameter] public bool SpellChecker { get; set; } = true;
+
+        /// <summary>
+        /// If set to empty array, hide the status bar. Defaults to the array of built-in status bar items.
+        /// Optionally, you can set an array of status bar items to include, and in what order.
+        /// </summary>
+        [Parameter] public string[] Status { get; set; }
         #endregion
     }
 }

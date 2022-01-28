@@ -45,7 +45,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         onError: (e) => { }
     };
 
-    const easyMDE = new EasyMDE({
+    const mdeOptions = {
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
         showIcons: options.showIcons,
@@ -121,8 +121,19 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         scrollbarStyle: options.scrollbarStyle,
         shortcuts: options.shortcuts,
         sideBySideFullscreen: options.sideBySideFullscreen,
-        spellChecker: options.spellChecker
-    });
+        spellChecker: options.spellChecker,
+        status: options.status
+    };
+
+    if (!mdeOptions.status) {
+        // remove empty status so that we can fallback to the default items
+        delete mdeOptions.status;
+    }
+    else if (mdeOptions.status.length === 0) {
+        mdeOptions.status = false;
+    }
+
+    const easyMDE = new EasyMDE(mdeOptions);
 
     easyMDE.codemirror.on("change", function () {
         dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
