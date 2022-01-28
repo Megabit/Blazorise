@@ -588,7 +588,7 @@ namespace Blazorise.Video
         [Parameter] public bool InvertTime { get; set; } = true;
 
         /// <summary>
-        /// Defines the DRM protection type.
+        /// Defines the encoding type used for the DRM protection.
         /// </summary>
         [Parameter] public VideoProtectionType ProtectionType { get; set; }
 

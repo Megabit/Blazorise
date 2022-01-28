@@ -95,4 +95,16 @@
     <DocsAttributesItem Name="InvertTime" Type="bool" Default="true">
         Display the current time as a countdown rather than an incremental counter.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionType" Type="VideoProtectionType" Default="None">
+        Defines the encoding type used for the DRM protection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionData" Type="object" Default="null">
+        Defines the manual structure of the protection data. If defined, it will override the usage of <Code>ProtectionServerUrl</Code> and <Code>ProtectionHttpRequestHeaders</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionServerUrl" Type="string" Default="null">
+        Defines the server url of the DRM protection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionHttpRequestHeaders" Type="string" Default="null">
+        Defines the protection token for the http header that is sent to the server.
+    </DocsAttributesItem>
 </DocsAttributes>
