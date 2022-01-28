@@ -124,7 +124,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         spellChecker: options.spellChecker,
         status: options.status,
         styleSelectedText: options.styleSelectedText,
-        syncSideBySidePreviewScroll: options.syncSideBySidePreviewScroll
+        syncSideBySidePreviewScroll: options.syncSideBySidePreviewScroll,
+        unorderedListStyle: options.unorderedListStyle
     };
 
     if (!mdeOptions.status) {

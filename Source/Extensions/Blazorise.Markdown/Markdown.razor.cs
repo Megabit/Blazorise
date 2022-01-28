@@ -117,6 +117,7 @@ namespace Blazorise.Markdown
                     Status,
                     StyleSelectedText,
                     SyncSideBySidePreviewScroll,
+                    UnorderedListStyle,
                 } );
 
                 Initialized = true;
@@ -641,6 +642,11 @@ namespace Blazorise.Markdown
         /// If set to false, disable syncing scroll in side by side mode. Defaults to true.
         /// </summary>
         [Parameter] public bool SyncSideBySidePreviewScroll { get; set; } = true;
+
+        /// <summary>
+        /// can be *, - or +. Defaults to *.
+        /// </summary>
+        [Parameter] public string UnorderedListStyle { get; set; } = "*";
         #endregion
     }
 }
