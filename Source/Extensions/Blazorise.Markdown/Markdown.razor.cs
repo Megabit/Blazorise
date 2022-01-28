@@ -103,6 +103,7 @@ namespace Blazorise.Markdown
                     IndentWithTabs,
                     InputStyle,
                     InsertTexts,
+                    NativeSpellcheck,
                 } );
 
                 Initialized = true;
@@ -548,6 +549,11 @@ namespace Blazorise.Markdown
         /// For example, this is the default link value: ["[", "](http://)"].
         /// </summary>
         [Parameter] public MarkdownInsertTexts InsertTexts { get; set; }
+
+        /// <summary>
+        /// If set to false, disable native spell checker. Defaults to true.
+        /// </summary>
+        [Parameter] public bool NativeSpellcheck { get; set; } = true;
         #endregion
     }
 }
