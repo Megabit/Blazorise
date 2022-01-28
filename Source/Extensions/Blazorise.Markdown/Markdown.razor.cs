@@ -105,6 +105,7 @@ namespace Blazorise.Markdown
                     InsertTexts,
                     NativeSpellcheck,
                     ParsingConfig,
+                    PreviewClass,
                 } );
 
                 Initialized = true;
@@ -560,6 +561,12 @@ namespace Blazorise.Markdown
         /// Adjust settings for parsing the Markdown during editing (not previewing).
         /// </summary>
         [Parameter] public MarkdownParsingConfig ParsingConfig { get; set; }
+
+        /// <summary>
+        /// A space-separated strings that will be applied to the preview screen when activated.
+        /// Defaults to "editor-preview".
+        /// </summary>
+        [Parameter] public string PreviewClass { get; set; } = "editor-preview";
         #endregion
     }
 }

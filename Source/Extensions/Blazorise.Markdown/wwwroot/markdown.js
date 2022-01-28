@@ -114,7 +114,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         inputStyle: options.inputStyle,
         insertTexts: options.insertTexts,
         nativeSpellcheck: options.nativeSpellcheck,
-        parsingConfig: options.parsingConfig
+        parsingConfig: options.parsingConfig,
+        previewClass: options.previewClass
     });
 
     easyMDE.codemirror.on("change", function () {
