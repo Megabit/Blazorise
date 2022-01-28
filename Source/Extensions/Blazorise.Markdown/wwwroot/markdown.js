@@ -105,7 +105,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             dotNetObjectRef.invokeMethodAsync("NotifyErrorMessage", errorMessage);
         },
 
-        autofocus: options.autofocus
+        autofocus: options.autofocus,
+        autoRefresh: options.autoRefresh
     });
 
     easyMDE.codemirror.on("change", function () {

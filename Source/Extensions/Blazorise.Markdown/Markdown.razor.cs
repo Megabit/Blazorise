@@ -95,7 +95,8 @@ namespace Blazorise.Markdown
                         ImageTexts.SizeUnits,
                     },
                     ErrorMessages,
-                    Autofocus
+                    Autofocus,
+                    AutoRefresh
                 } );
 
                 Initialized = true;
@@ -498,6 +499,12 @@ namespace Blazorise.Markdown
         /// If set to true, focuses the editor automatically. Defaults to false.
         /// </summary>
         [Parameter] public bool Autofocus { get; set; }
+
+        /// <summary>
+        /// Useful, when initializing the editor in a hidden DOM node. If set to { delay: 300 },
+        /// it will check every 300 ms if the editor is visible and if positive, call CodeMirror's refresh().
+        /// </summary>
+        [Parameter] public MarkdownAutoRefresh AutoRefresh { get; set; }
         #endregion
     }
 }
