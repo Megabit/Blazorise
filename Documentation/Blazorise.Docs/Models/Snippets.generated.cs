@@ -4668,6 +4668,20 @@ namespace Blazorise.Docs.Models
 
         public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
 
+        public const string BasicVideoExample = @"<Video Source=""@(""http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"")"" />";
+
+        public const string DRMVideoExample = @"<Video Source=""@(""https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd"")""
+       StreamingLibrary=""StreamingLibrary.Dash""
+       ProtectionType=""VideoProtectionType.Widevine""
+       ProtectionServerUrl=""https://drm-widevine-licensing.axtest.net/AcquireLicense""
+       ProtectionHttpRequestHeaders=""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU"" />";
+
+        public const string ImportVideoExample = @"@using Blazorise.Video";
+
+        public const string StreamingVideoExample = @"<Video Source=""@(""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"")"" StreamingLibrary=""StreamingLibrary.Dash"" />";
+
+        public const string VideoNugetInstallExample = @"Install-Package Blazorise.Video";
+
         public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
 
         public const string AntDesignGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
