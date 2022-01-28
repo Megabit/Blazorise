@@ -101,6 +101,7 @@ namespace Blazorise.Markdown
                     BlockStyles,
                     ForceSync,
                     IndentWithTabs,
+                    InputStyle,
                 } );
 
                 Initialized = true;
@@ -531,6 +532,13 @@ namespace Blazorise.Markdown
         /// If set to false, indent using spaces instead of tabs. Defaults to true.
         /// </summary>
         [Parameter] public bool IndentWithTabs { get; set; } = true;
+
+        /// <summary>
+        /// textarea or contenteditable.
+        /// Defaults to textarea for desktop and contenteditable for mobile.
+        /// contenteditable option is necessary to enable nativeSpellcheck.
+        /// </summary>
+        [Parameter] public string InputStyle { get; set; }
         #endregion
     }
 }

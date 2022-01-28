@@ -110,7 +110,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         autosave: options.autosave,
         blockStyles: options.blockStyles,
         forceSync: options.forceSync,
-        indentWithTabs: options.indentWithTabs
+        indentWithTabs: options.indentWithTabs,
+        inputStyle: options.inputStyle
     });
 
     easyMDE.codemirror.on("change", function () {
