@@ -49,10 +49,6 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
         showIcons: options.showIcons,
-        renderingConfig: {
-            singleLineBreaks: false,
-            codeSyntaxHighlighting: true
-        },
         initialValue: options.value,
         sideBySideFullscreen: false,
         autoDownloadFontAwesome: options.autoDownloadFontAwesome,
@@ -119,6 +115,10 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         previewImagesInEditor: options.previewImagesInEditor,
         promptTexts: options.promptTexts,
         promptURLs: options.promptURLs,
+        renderingConfig: options.renderingConfig ? options.renderingConfig : {
+            singleLineBreaks: false,
+            codeSyntaxHighlighting: true
+        }
     });
 
     easyMDE.codemirror.on("change", function () {

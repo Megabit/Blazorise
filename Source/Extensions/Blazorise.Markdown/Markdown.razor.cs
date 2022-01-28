@@ -109,6 +109,7 @@ namespace Blazorise.Markdown
                     PreviewImagesInEditor,
                     PromptTexts,
                     PromptURLs,
+                    RenderingConfig,
                 } );
 
                 Initialized = true;
@@ -587,6 +588,11 @@ namespace Blazorise.Markdown
         /// Defaults to false.
         /// </summary>
         [Parameter] public bool PromptURLs { get; set; }
+
+        /// <summary>
+        /// Adjust settings for parsing the Markdown during previewing (not editing).
+        /// </summary>
+        [Parameter] public MarkdownRenderingConfig RenderingConfig { get; set; }
         #endregion
     }
 }
