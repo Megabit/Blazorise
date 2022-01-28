@@ -120,7 +120,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         },
         scrollbarStyle: options.scrollbarStyle,
         shortcuts: options.shortcuts,
-        sideBySideFullscreen: options.sideBySideFullscreen
+        sideBySideFullscreen: options.sideBySideFullscreen,
+        spellChecker: options.spellChecker
     });
 
     easyMDE.codemirror.on("change", function () {

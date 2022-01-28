@@ -113,6 +113,7 @@ namespace Blazorise.Markdown
                     ScrollbarStyle,
                     Shortcuts,
                     SideBySideFullscreen,
+                    SpellChecker,
                 } );
 
                 Initialized = true;
@@ -616,6 +617,11 @@ namespace Blazorise.Markdown
         /// If set to false, allows side-by-side editing without going into fullscreen. Defaults to false.
         /// </summary>
         [Parameter] public bool SideBySideFullscreen { get; set; }
+
+        /// <summary>
+        /// If set to false, disable the spell checker. Defaults to true
+        /// </summary>
+        [Parameter] public bool SpellChecker { get; set; } = true;
         #endregion
     }
 }
