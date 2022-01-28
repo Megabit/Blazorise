@@ -1,0 +1,48 @@
+﻿@page "/tests/video"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Video player</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Buttons>
+                    <Button Color="Color.Primary" Clicked="@(()=>videoRef.Play())">
+                        <Icon Name="IconName.Play" />
+                    </Button>
+                    <Button Color="Color.Primary" Clicked="@(()=>videoRef.Pause())">
+                        <Icon Name="IconName.Pause" />
+                    </Button>
+                    <Button Color="Color.Primary" Clicked="@(()=>videoRef.Stop())">
+                        <Icon Name="IconName.Stop" />
+                    </Button>
+                </Buttons>
+                <Button Color="Color.Primary" Clicked="@OnChangeVideoUrl">Change Video</Button>
+                <Button Color="Color.Primary" Clicked="@OnChangeCurrentTime">Go to 20 seconds</Button>
+            </CardBody>
+            <CardBody>
+                <Video @ref="@videoRef" Source="@videoUrl" CurrentTime="@currentTime" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    Video videoRef;
+    string videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    double currentTime = 10;
+
+    Task OnChangeVideoUrl()
+    {
+        videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+        currentTime = 0;
+
+        return Task.CompletedTask;
+    }
+
+    Task OnChangeCurrentTime()
+    {
+        currentTime = 20;
+
+        return Task.CompletedTask;
+    }
+}
