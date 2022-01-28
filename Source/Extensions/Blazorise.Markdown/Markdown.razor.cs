@@ -99,6 +99,7 @@ namespace Blazorise.Markdown
                     AutoRefresh,
                     Autosave,
                     BlockStyles,
+                    ForceSync,
                 } );
 
                 Initialized = true;
@@ -518,6 +519,12 @@ namespace Blazorise.Markdown
         /// Customize how certain buttons that style blocks of text behave.
         /// </summary>
         [Parameter] public MarkdownBlockStyles BlockStyles { get; set; }
+
+        /// <summary>
+        /// If set to true, force text changes made in EasyMDE to be immediately stored in original text area.
+        /// Defaults to false.
+        /// </summary>
+        [Parameter] public bool ForceSync { get; set; }
         #endregion
     }
 }
