@@ -112,6 +112,7 @@ namespace Blazorise.Markdown
                     RenderingConfig,
                     ScrollbarStyle,
                     Shortcuts,
+                    SideBySideFullscreen,
                 } );
 
                 Initialized = true;
@@ -610,6 +611,11 @@ namespace Blazorise.Markdown
         /// Defaults to the array of <see href="https://github.com/Ionaru/easy-markdown-editor#keyboard-shortcuts">shortcuts</see>.
         /// </summary>
         [Parameter] public MarkdownShortcuts Shortcuts { get; set; }
+
+        /// <summary>
+        /// If set to false, allows side-by-side editing without going into fullscreen. Defaults to false.
+        /// </summary>
+        [Parameter] public bool SideBySideFullscreen { get; set; }
         #endregion
     }
 }

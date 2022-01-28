@@ -50,7 +50,6 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         hideIcons: options.hideIcons,
         showIcons: options.showIcons,
         initialValue: options.value,
-        sideBySideFullscreen: false,
         autoDownloadFontAwesome: options.autoDownloadFontAwesome,
         lineNumbers: options.lineNumbers,
         lineWrapping: options.lineWrapping,
@@ -120,7 +119,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             codeSyntaxHighlighting: true
         },
         scrollbarStyle: options.scrollbarStyle,
-        shortcuts: options.shortcuts
+        shortcuts: options.shortcuts,
+        sideBySideFullscreen: options.sideBySideFullscreen
     });
 
     easyMDE.codemirror.on("change", function () {
