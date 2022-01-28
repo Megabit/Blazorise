@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Markdown.Providers;
 using Blazorise.Modules;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -96,6 +95,7 @@ namespace Blazorise.Markdown
                         ImageTexts.SizeUnits,
                     },
                     ErrorMessages,
+                    Autofocus
                 } );
 
                 Initialized = true;
@@ -494,6 +494,10 @@ namespace Blazorise.Markdown
         /// </summary>
         [Parameter] public Func<string, Task> ErrorCallback { get; set; }
 
+        /// <summary>
+        /// If set to true, focuses the editor automatically. Defaults to false.
+        /// </summary>
+        [Parameter] public bool Autofocus { get; set; }
         #endregion
     }
 }
