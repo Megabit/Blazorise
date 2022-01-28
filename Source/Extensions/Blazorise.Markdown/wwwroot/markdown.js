@@ -111,7 +111,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         blockStyles: options.blockStyles,
         forceSync: options.forceSync,
         indentWithTabs: options.indentWithTabs,
-        inputStyle: options.inputStyle
+        inputStyle: options.inputStyle,
+        insertTexts: options.insertTexts
     });
 
     easyMDE.codemirror.on("change", function () {

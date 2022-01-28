@@ -211,4 +211,10 @@
         Defaults to textarea for desktop and contenteditable for mobile.
         contenteditable option is necessary to enable nativeSpellcheck.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="InsertTexts" Type="MarkdownInsertTexts">
+        Customize how certain buttons that insert text behave. Takes an array with two elements.
+        The first element will be the text inserted before the cursor or highlight, and the second
+        element will be inserted after.
+        For example, this is the default link value: ["[", "](http://)"].
+    </DocsAttributesItem>
 </DocsAttributes>

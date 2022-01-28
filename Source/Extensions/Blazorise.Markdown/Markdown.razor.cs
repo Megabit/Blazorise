@@ -102,6 +102,7 @@ namespace Blazorise.Markdown
                     ForceSync,
                     IndentWithTabs,
                     InputStyle,
+                    InsertTexts,
                 } );
 
                 Initialized = true;
@@ -539,6 +540,14 @@ namespace Blazorise.Markdown
         /// contenteditable option is necessary to enable nativeSpellcheck.
         /// </summary>
         [Parameter] public string InputStyle { get; set; }
+
+        /// <summary>
+        /// Customize how certain buttons that insert text behave. Takes an array with two elements.
+        /// The first element will be the text inserted before the cursor or highlight, and the second
+        /// element will be inserted after.
+        /// For example, this is the default link value: ["[", "](http://)"].
+        /// </summary>
+        [Parameter] public MarkdownInsertTexts InsertTexts { get; set; }
         #endregion
     }
 }
