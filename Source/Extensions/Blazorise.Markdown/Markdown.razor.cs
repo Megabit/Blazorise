@@ -115,6 +115,7 @@ namespace Blazorise.Markdown
                     SideBySideFullscreen,
                     SpellChecker,
                     Status,
+                    StyleSelectedText,
                 } );
 
                 Initialized = true;
@@ -629,6 +630,11 @@ namespace Blazorise.Markdown
         /// Optionally, you can set an array of status bar items to include, and in what order.
         /// </summary>
         [Parameter] public string[] Status { get; set; }
+
+        /// <summary>
+        /// If set to false, remove the CodeMirror-selectedtext class from selected lines. Defaults to true.
+        /// </summary>
+        [Parameter] public bool StyleSelectedText { get; set; } = true;
         #endregion
     }
 }

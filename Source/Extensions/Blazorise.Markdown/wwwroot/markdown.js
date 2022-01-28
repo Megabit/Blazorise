@@ -122,7 +122,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         shortcuts: options.shortcuts,
         sideBySideFullscreen: options.sideBySideFullscreen,
         spellChecker: options.spellChecker,
-        status: options.status
+        status: options.status,
+        styleSelectedText: options.styleSelectedText
     };
 
     if (!mdeOptions.status) {
