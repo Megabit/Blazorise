@@ -10,6 +10,7 @@ namespace Blazorise.Video
     /// <summary>
     /// Default implementation of the video JS module.
     /// </summary>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class JSVideoModule : BaseJSModule,
         IJSDestroyableModule
     {
@@ -50,11 +51,11 @@ namespace Blazorise.Video
             await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
         }
 
-        public virtual async ValueTask UpdateSource( ElementReference elementRef, string elementId, object source )
+        public virtual async ValueTask UpdateSource( ElementReference elementRef, string elementId, object source, object protection )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "updateSource", elementRef, elementId, source );
+            await moduleInstance.InvokeVoidAsync( "updateSource", elementRef, elementId, source, protection );
         }
 
         public virtual async ValueTask Play( ElementReference elementRef, string elementId )
@@ -171,4 +172,5 @@ namespace Blazorise.Video
 
         #endregion
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

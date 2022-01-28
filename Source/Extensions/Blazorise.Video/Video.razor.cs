@@ -21,6 +21,12 @@ namespace Blazorise.Video
             if ( Rendered )
             {
                 var sourceChanged = parameters.TryGetValue<VideoSource>( nameof( Source ), out var paramSource ) && !Source.Equals( paramSource );
+
+                var protectionTypeChanged = parameters.TryGetValue<VideoProtectionType>( nameof( ProtectionType ), out var paramProtectionType ) && !ProtectionType.IsEqual( paramProtectionType );
+                var protectionDataChanged = parameters.TryGetValue<object>( nameof( ProtectionData ), out var paramProtectionData ) && !ProtectionData.IsEqual( paramProtectionData );
+                var protectionServerUrlChanged = parameters.TryGetValue<string>( nameof( ProtectionServerUrl ), out var paramProtectionServerUrl ) && !ProtectionServerUrl.IsEqual( paramProtectionServerUrl );
+                var protectionHttpRequestHeadersChanged = parameters.TryGetValue<string>( nameof( ProtectionHttpRequestHeaders ), out var paramProtectionHttpRequestHeaders ) && !ProtectionHttpRequestHeaders.IsEqual( paramProtectionHttpRequestHeaders );
+
                 var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
                 var volumeChanged = parameters.TryGetValue<double>( nameof( Volume ), out var paramVolume ) && !Volume.IsEqual( paramVolume );
 
@@ -29,6 +35,10 @@ namespace Blazorise.Video
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
                         Source = new { Changed = sourceChanged, Value = paramSource },
+                        ProtectionType = new { Changed = protectionTypeChanged, Value = paramProtectionType },
+                        ProtectionData = new { Changed = protectionDataChanged, Value = paramProtectionData },
+                        ProtectionServerUrl = new { Changed = protectionServerUrlChanged, Value = paramProtectionServerUrl },
+                        ProtectionHttpRequestHeaders = new { Changed = protectionHttpRequestHeadersChanged, Value = paramProtectionHttpRequestHeaders },
                         CurrentTime = new { Changed = currentTimeChanged, Value = paramCurrentTime },
                         Volume = new { Changed = volumeChanged, Value = paramVolume },
                     } ) );
@@ -76,6 +86,7 @@ namespace Blazorise.Video
                     InvertTime,
                     Protection = ProtectionType != VideoProtectionType.None ? new
                     {
+                        Data = ProtectionData,
                         Type = ProtectionType.ToVideoProtectionType(),
                         ServerUrl = ProtectionServerUrl,
                         HttpRequestHeaders = ProtectionHttpRequestHeaders
@@ -109,14 +120,28 @@ namespace Blazorise.Video
         /// Updates the media source.
         /// </summary>
         /// <param name="source">New media source.</param>
+        /// <param name="protectionType"></param>
+        /// <param name="protectionData"></param>
+        /// <param name="protectionServerUrl"></param>
+        /// <param name="protectionHttpRequestHeaders"></param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public async Task UpdateSource( VideoSource source )
+        public async Task UpdateSource( VideoSource source, VideoProtectionType protectionType = VideoProtectionType.None, object protectionData = null, string protectionServerUrl = null, string protectionHttpRequestHeaders = null )
         {
             if ( Rendered )
             {
                 Source = source;
+                ProtectionData = protectionData;
+                ProtectionType = protectionType;
+                ProtectionServerUrl = protectionServerUrl;
+                ProtectionHttpRequestHeaders = protectionHttpRequestHeaders;
 
-                await JSModule.UpdateSource( ElementRef, ElementId, source );
+                await JSModule.UpdateSource( ElementRef, ElementId, source: Source, protection: ProtectionType != VideoProtectionType.None ? new
+                {
+                    Data = protectionData,
+                    Type = ProtectionType.ToVideoProtectionType(),
+                    ServerUrl = ProtectionServerUrl,
+                    HttpRequestHeaders = ProtectionHttpRequestHeaders
+                } : null );
             }
         }
 
@@ -562,10 +587,24 @@ namespace Blazorise.Video
         /// </summary>
         [Parameter] public bool InvertTime { get; set; } = true;
 
+        /// <summary>
+        /// Defines the DRM protection type.
+        /// </summary>
         [Parameter] public VideoProtectionType ProtectionType { get; set; }
 
+        /// <summary>
+        /// Defines the manual structure of the protection data. If defined, it will override the usage of <see cref="ProtectionServerUrl"/> and <see cref="ProtectionHttpRequestHeaders"/>.
+        /// </summary>
+        [Parameter] public object ProtectionData { get; set; }
+
+        /// <summary>
+        /// Defines the server url of the DRM protection.
+        /// </summary>
         [Parameter] public string ProtectionServerUrl { get; set; }
 
+        /// <summary>
+        /// Defines the protection token for the http header that is sent to the server.
+        /// </summary>
         [Parameter] public string ProtectionHttpRequestHeaders { get; set; }
 
         /// <summary>

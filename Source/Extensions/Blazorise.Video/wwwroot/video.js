@@ -15,6 +15,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         return;
 
     const instance = {
+        options: options,
         player: null,
         hls: null,
         dash: null,
@@ -23,48 +24,10 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     if (options.streamingLibrary !== "Html5") {
         const source = extractSingleSourceUrl(options.source);
 
-        if (options.streamingLibrary === "Hls") {
-            if (Hls.isSupported()) {
-                instance.hls = new Hls({
-                    debug: false,
-                });
-                instance.hls.loadSource(source);
-                instance.hls.attachMedia(element);
-
-                window.hls = instance.hls;
-            }
-        } else if (options.streamingLibrary === "Dash") {
-            instance.dash = dashjs.MediaPlayer().create();
-            instance.dash.initialize(element, source, options.autoPlay || false);
-
-            if (options.protection) {
-                if (options.protection && options.protection.type === "PlayReady") {
-                    const protectionData = {
-                        "com.microsoft.playready": {
-                            "serverURL": options.protection.serverUrl,
-                            "httpRequestHeaders": {
-                                "X-AxDRM-Message": options.protection.httpRequestHeaders
-                            }
-                        }
-                    };
-
-                    instance.dash.setProtectionData(protectionData);
-                }
-                else if (options.protection && options.protection.type === "Widevine") {
-                    const protectionData = {
-                        "com.widevine.alpha": {
-                            "serverURL": options.protection.serverUrl,
-                            "httpRequestHeaders": {
-                                "X-AxDRM-Message": options.protection.httpRequestHeaders
-                            }
-                        }
-                    };
-
-                    instance.dash.setProtectionData(protectionData);
-                }
-            }
-
-            window.dash = instance.dash;
+        if (options.streamingLibrary === "Hls" && Hls.isSupported()) {
+            instance.hls = createHls(element, source, options);
+        } else if (options.streamingLibrary === "Dash" && dashjs.supportsMediaSource()) {
+            instance.dash = createDash(element, source, options);
         }
     }
 
@@ -92,11 +55,9 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         }
     });
 
-    registerToEvents(instance.player);
+    registerToEvents(dotNetAdapter, instance.player);
 
     _instances[elementId] = instance;
-
-    window.player = instance.player;
 }
 
 export function destroy(element, elementId) {
@@ -125,7 +86,16 @@ export function updateOptions(element, elementId, options) {
 
     if (instance && instance.player && options) {
         if (options.source.changed) {
-            instance.player.source = options.source.value;
+            updateSource(element, elementId, options.source.value);
+        }
+
+        if (options.protectionType.changed || options.protectionServerUrl.changed || options.protectionHttpRequestHeaders.changed) {
+            updateProtection(element, elementId, {
+                data: options.protectionData ? options.protectionData.value : null,
+                type: options.protectionType ? options.protectionType.value : null,
+                serverUrl: options.protectionServerUrl ? options.protectionServerUrl.value : null,
+                httpRequestHeaders: options.protectionHttpRequestHeaders ? options.protectionHttpRequestHeaders.value : null
+            });
         }
 
         if (options.currentTime.changed) {
@@ -138,11 +108,39 @@ export function updateOptions(element, elementId, options) {
     }
 }
 
-export function updateSource(element, elementId, source) {
+export function updateSource(element, elementId, source, protection) {
     const instance = _instances[elementId];
 
-    if (instance && instance.player) {
-        instance.player.source = source;
+    if (instance) {
+        if (instance.player) {
+            instance.player.source = source;
+        }
+
+        if (instance.dash) {
+            const source = extractSingleSourceUrl(source);
+
+            instance.dash.attachSource(source);
+        }
+
+        if (instance.hls) {
+            const sourceUrl = extractSingleSourceUrl(source);
+
+            instance.hls.loadSource(sourceUrl);
+        }
+    }
+
+    if (protection) {
+        updateProtection(element, elementId, protection);
+    }
+}
+
+export function updateProtection(element, elementId, protection) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        if (instance.dash) {
+            applyDashProtectionData(instance.dash, protection);
+        }
     }
 }
 
@@ -280,6 +278,56 @@ function extractSingleSourceUrl(source) {
     return null;
 }
 
+function createHls(element, sourceUrl, options) {
+    const hls = new Hls({
+        debug: false,
+    });
+
+    hls.loadSource(sourceUrl);
+    hls.attachMedia(element);
+
+    return hls;
+}
+
+function createDash(element, sourceUrl, options) {
+    const dash = dashjs.MediaPlayer().create();
+
+    dash.initialize(element, sourceUrl, options.autoPlay || false);
+
+    applyDashProtectionData(dash, options.protection);
+
+    return dash;
+}
+
+function applyDashProtectionData(dash, protection) {
+    if (protection) {
+        if (protection.type === "PlayReady") {
+            const protectionData = protection.data ? protection.data : {
+                "com.microsoft.playready": {
+                    "serverURL": protection.serverUrl,
+                    "httpRequestHeaders": {
+                        "X-AxDRM-Message": protection.httpRequestHeaders
+                    }
+                }
+            };
+
+            dash.setProtectionData(protectionData);
+        }
+        else if (protection.type === "Widevine") {
+            const protectionData = protection.data ? protection.data : {
+                "com.widevine.alpha": {
+                    "serverURL": protection.serverUrl,
+                    "httpRequestHeaders": {
+                        "X-AxDRM-Message": protection.httpRequestHeaders
+                    }
+                }
+            };
+
+            dash.setProtectionData(protectionData);
+        }
+    }
+}
+
 function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
     dotNetAdapter.invokeMethodAsync(methodName, ...args)
         .catch((reason) => {
@@ -287,7 +335,7 @@ function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
         });
 }
 
-function registerToEvents(player) {
+function registerToEvents(dotNetAdapter, player) {
     player.on('progress', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.plyr.buffered || 0);
     });
