@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -28,8 +29,8 @@ namespace Blazorise.Components
 
         protected Task HandleSelectedValueChanged( TValue value )
         {
-            SelectedValue = value;
-            return SelectedValueChanged.InvokeAsync( value );
+            CurrentSelectedValue = value;
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -40,6 +41,56 @@ namespace Blazorise.Components
         public Task Focus( bool scrollToElement = true )
         {
             return selectRef.Focus( scrollToElement );
+        }
+
+        internal TValue GetValue( TItem item )
+        {
+            if ( ValueField == null )
+            {
+                // use index
+                if ( Data is IList list && typeof(TValue) == typeof(int))
+                {
+                    return (TValue) (list.IndexOf( item ) as object);
+                }
+
+                return default;
+            }
+            else
+            {
+                return ValueField.Invoke( item );
+            }
+        }
+
+        internal string GetKey( TItem item )
+        {
+            if ( ValueField == null )
+                return item.GetHashCode().ToString();
+            else
+                return ValueField.Invoke( item ).ToString();
+        }
+
+        internal string GetText( TItem item )
+        {
+            return TextField != null ? TextField.Invoke( item ) : item.ToString();
+        }
+
+        private TValue MapItemToValue( TItem item )
+        {
+            var list = (IList) Data;
+            var index = list.IndexOf( item );
+            TValue val = (TValue)( index as object );
+            return val;
+        }
+
+        private TItem MapValueToItem( TValue value )
+        {
+            var list = (IList) Data;
+            int index = value is int i ? i : -1;
+
+            if ( index < 0 || index >= list.Count )
+                return default;
+
+            return (TItem)list[index];
         }
 
         #endregion
@@ -69,7 +120,28 @@ namespace Blazorise.Components
         /// <summary>
         /// Currently selected item value.
         /// </summary>
-        [Parameter] public TValue SelectedValue { get; set; }
+        [Parameter]
+        public TValue SelectedValue { get; set; }
+
+        /// <summary>
+        /// Sets the current selected item and raises change events.
+        /// </summary>
+        protected TValue CurrentSelectedValue
+        {
+            get => SelectedValue;
+            set
+            {
+                if ( !SelectedValue.Equals( value ) )
+                {
+                    SelectedValue = value;
+                    _ = SelectedValueChanged.InvokeAsync( SelectedValue );
+                    if ( SelectedItemSupported )
+                    {
+                        _ = SelectedItemChanged.InvokeAsync( SelectedItem );
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Occurs after the selected value has changed.
@@ -80,6 +152,39 @@ namespace Blazorise.Components
         /// Gets or sets an expression that identifies the selected value.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
+
+        /// <summary>
+        /// Currently selected item in case <see cref="Data"/> is of type <see cref="IList"/> and no <see cref="ValueField"/> is given. 
+        /// </summary>
+        [Parameter]
+        public TItem SelectedItem
+        {
+            get
+            {
+                if ( SelectedItemSupported )
+                {
+                    return MapValueToItem( CurrentSelectedValue );
+                }
+
+                return default;
+            }
+            set
+            {
+                if ( SelectedItemSupported )
+                {
+                    SelectedValue = MapItemToValue( value );
+                }
+                else
+                {
+                    throw new InvalidOperationException( "Cannot set SelectedItem when Data ist not a List and TValue not of type int." );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs after the selected item has changed.
+        /// </summary>
+        [Parameter] public EventCallback<TItem> SelectedItemChanged { get; set; }
 
         /// <summary>
         /// Display text of the default select item.
@@ -146,6 +251,13 @@ namespace Blazorise.Components
         /// Specifies the content to be rendered inside this <see cref="SelectList{TItem, TValue}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+
+        /// <summary>
+        /// Returns true if SelectedItem property is supported.
+        /// </summary>
+        public bool SelectedItemSupported =>
+            ValueField == null && Data is IList && typeof(TValue) == typeof(int);
 
         #endregion
     }
