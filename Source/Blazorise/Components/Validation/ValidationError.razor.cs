@@ -22,8 +22,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            ErrorMessages = ParentValidation?.Messages?.Count() > 0
-                 ? ParentValidation?.Messages?.ToArray()
+            ErrorMessages = ParentValidation?.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.Count() > 0
+                 ? ParentValidation?.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray()
                  : null;
 
             base.OnInitialized();
@@ -45,8 +45,8 @@ namespace Blazorise
         {
             if ( eventArgs.Status == ValidationStatus.Error )
             {
-                ErrorMessages = eventArgs.Messages?.Count() > 0
-                    ? eventArgs.Messages?.ToArray()
+                ErrorMessages = eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.Count() > 0
+                    ? eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray()
                     : null;
             }
 
