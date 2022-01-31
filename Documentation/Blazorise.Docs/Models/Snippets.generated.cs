@@ -1681,21 +1681,21 @@ namespace Blazorise.Docs.Models
 </Progress>";
 
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
         public const string RadioGroupButtonsExample = @"<RadioGroup TValue=""string"" Name=""colors"" Buttons=""true"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
         public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-CheckedValue=""@checkedValue"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>
 
 @code{
@@ -1706,9 +1706,9 @@ namespace Blazorise.Docs.Models
             Name=""colors""
             CheckedValue=""@checkedValue""
             CheckedValueChanged=""@OnCheckedValueChanged"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>
 
 @code{
