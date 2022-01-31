@@ -1,14 +1,19 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @if ( HasErrorMessages )
-    {
+@if ( HasErrorMessages )
+{
+    <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @Label
-    }
 
-    @foreach ( var errorMessage in ErrorMessages )
-    {
-        <li class="@ErrorClassNames">@errorMessage</li>
-    }
-    @ChildContent
-</ul>
+        @foreach ( var errorMessage in ErrorMessages )
+        {
+            @if ( string.IsNullOrEmpty( errorMessage ) )
+            {
+                continue;
+            }
+
+            <li class="@ErrorClassNames">@errorMessage</li>
+        }
+        @ChildContent
+    </ul>
+}

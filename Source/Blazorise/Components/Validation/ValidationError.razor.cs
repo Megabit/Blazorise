@@ -22,9 +22,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            ErrorText = ParentValidation?.Messages?.Count() > 0
-                ? string.Join( ";", ParentValidation?.Messages )
-                : null;
+            ErrorMessages = ParentValidation?.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.Count() > 0
+                 ? ParentValidation?.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray()
+                 : null;
 
             base.OnInitialized();
         }
@@ -45,10 +45,11 @@ namespace Blazorise
         {
             if ( eventArgs.Status == ValidationStatus.Error )
             {
-                ErrorText = eventArgs.Messages?.Count() > 0
-                    ? string.Join( ";", eventArgs.Messages )
+                ErrorMessages = eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.Count() > 0
+                    ? eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray()
                     : null;
             }
+
             await InvokeAsync( StateHasChanged );
         }
 
@@ -57,12 +58,17 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Custom error type that will override default content.
+        /// Custom error messages that will override a default content.
         /// </summary>
-        protected string ErrorText { get; set; }
+        protected string[] ErrorMessages { get; set; }
 
         /// <summary>
-        /// Shows the tooltip instead of label.
+        /// If true, shows the multiline error messages.
+        /// </summary>
+        [Parameter] public bool Multiline { get; set; }
+
+        /// <summary>
+        /// If true, shows the tooltip instead of label.
         /// </summary>
         [Parameter]
         public bool Tooltip
