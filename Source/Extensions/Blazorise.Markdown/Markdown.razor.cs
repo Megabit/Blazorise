@@ -647,6 +647,7 @@ namespace Blazorise.Markdown
         /// can be *, - or +. Defaults to *.
         /// </summary>
         [Parameter] public string UnorderedListStyle { get; set; } = "*";
+
         #endregion
     }
 }
