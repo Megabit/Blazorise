@@ -87,7 +87,7 @@ namespace Blazorise
 
         private async void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
         {
-            internalErrorMessages = eventArgs.Messages;
+            internalErrorMessages = eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray();
             await InvokeAsync( StateHasChanged );
         }
 
