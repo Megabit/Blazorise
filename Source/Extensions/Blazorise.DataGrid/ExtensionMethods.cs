@@ -50,7 +50,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="type">Type to check.</param>
         /// <returns>True if <paramref name="type"/> is the collection or a list.</returns>
-        public static bool IsListOrCollection( this Type type )
+        public static bool IsCollection( this Type type )
             => typeof( System.Collections.IList ).IsAssignableFrom( type )
             || typeof( System.Collections.ICollection ).IsAssignableFrom( type )
             || typeof( IEnumerable<> ).IsAssignableFrom( type );
