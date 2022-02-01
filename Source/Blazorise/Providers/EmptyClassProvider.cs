@@ -119,6 +119,18 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region NumericPicker
+
+        public string NumericPicker( bool plaintext ) => null;
+
+        public string NumericPickerSize( Size size ) => null;
+
+        public string NumericPickerColor( Color color ) => null;
+
+        public string NumericPickerValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
         #region InputMask
 
         public string InputMask( bool plaintext ) => null;
@@ -753,6 +765,8 @@ namespace Blazorise.Providers
 
         public string ModalFade() => null;
 
+        public string ModalFade( bool animation ) => null;
+
         public string ModalVisible( bool visible ) => null;
 
         public string ModalBackdrop() => null;
@@ -924,6 +938,12 @@ namespace Blazorise.Providers
         public string TextOverflow( TextOverflow textOverflow ) => null;
 
         public string TextItalic() => null;
+
+        #endregion
+
+        #region Code
+
+        public string Code() => null;
 
         #endregion
 

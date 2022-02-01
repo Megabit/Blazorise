@@ -118,6 +118,18 @@ namespace Blazorise
 
         #endregion
 
+        #region NumericPicker
+
+        public abstract string NumericPicker( bool plaintext );
+
+        public abstract string NumericPickerSize( Size size );
+
+        public abstract string NumericPickerColor( Color color );
+
+        public abstract string NumericPickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region InputMask
 
         public abstract string InputMask( bool plaintext );
@@ -752,6 +764,8 @@ namespace Blazorise
 
         public abstract string ModalFade();
 
+        public abstract string ModalFade( bool animation );
+
         public abstract string ModalVisible( bool visible );
 
         public abstract string ModalBackdrop();
@@ -923,6 +937,12 @@ namespace Blazorise
         public abstract string TextOverflow( TextOverflow textOverflow );
 
         public abstract string TextItalic();
+
+        #endregion
+
+        #region Code
+
+        public abstract string Code();
 
         #endregion
 
@@ -1609,6 +1629,20 @@ namespace Blazorise
                 Blazorise.BorderSide.Left => "left",
                 Blazorise.BorderSide.Right => "right",
                 _ => "top",
+            };
+        }
+
+        public virtual string ToBorderSize( BorderSize borderSize )
+        {
+            return borderSize switch
+            {
+                Blazorise.BorderSize.Is5 => "5",
+                Blazorise.BorderSize.Is4 => "4",
+                Blazorise.BorderSize.Is3 => "3",
+                Blazorise.BorderSize.Is2 => "2",
+                Blazorise.BorderSize.Is1 => "1",
+                Blazorise.BorderSize.Is0 => "0",
+                _ => "0",
             };
         }
 

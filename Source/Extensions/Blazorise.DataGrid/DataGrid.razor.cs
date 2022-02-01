@@ -714,6 +714,22 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// If <see cref="FixedHeader"/> or <see cref="Virtualize"/> is enabled, it will scroll position to the provided pixels.
+        /// </summary>
+        /// <param name="pixels">Offset in pixels from the top of the DataGrid.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public ValueTask ScrollToPixels( int pixels )
+            => tableRef.ScrollToPixels( pixels );
+
+        /// <summary>
+        /// If <see cref="FixedHeader"/> or <see cref="Virtualize"/> is enabled, it will scroll position to the provided row.
+        /// </summary>
+        /// <param name="row">Zero-based index of DataGrid row to scroll to.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public ValueTask ScrollToRow( int row )
+            => tableRef.ScrollToRow( row );
+
         #endregion
 
         #region Editing
@@ -1499,7 +1515,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data after all of the filters have being applied.
         /// </summary>
-        protected internal IEnumerable<TItem> FilteredData
+        public IEnumerable<TItem> FilteredData
         {
             get
             {
@@ -1518,7 +1534,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
         /// </summary>
-        internal IEnumerable<TItem> DisplayData
+        public IEnumerable<TItem> DisplayData
         {
             get
             {

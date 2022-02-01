@@ -39,7 +39,7 @@ namespace Blazorise.Charts
                 canvasId,
                 ToChartTypeString( type ),
                 ToChartData( data ),
-                options,
+                (object)options,
                 dataJsonString,
                 optionsJsonString,
                 optionsObject );
@@ -172,11 +172,12 @@ namespace Blazorise.Charts
             return type switch
             {
                 ChartType.Bar => "bar",
-                ChartType.HorizontalBar => "horizontalBar",
                 ChartType.Pie => "pie",
                 ChartType.Doughnut => "doughnut",
                 ChartType.Radar => "radar",
                 ChartType.PolarArea => "polarArea",
+                ChartType.Scatter => "scatter",
+                ChartType.Bubble => "bubble",
                 _ => "line",
             };
         }

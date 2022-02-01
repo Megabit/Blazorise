@@ -58,7 +58,11 @@ export function destroyTableFixedHeader(element, elementId) {
 
 export function fixedHeaderScrollTableToPixels(element, elementId, pixels) {
     if (element && element.parentElement) {
-        element.parentElement.scrollTop = pixels;
+
+        element.parentElement.scroll({
+            top: pixels,
+            behavior: "smooth"
+        });
     }
 }
 

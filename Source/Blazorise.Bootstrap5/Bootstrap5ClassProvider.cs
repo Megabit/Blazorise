@@ -118,6 +118,18 @@ namespace Blazorise.Bootstrap5
 
         #endregion
 
+        #region NumericPicker
+
+        public override string NumericPicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string NumericPickerColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region InputMask
 
         public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
@@ -787,6 +799,8 @@ namespace Blazorise.Bootstrap5
 
         public override string ModalFade() => Fade();
 
+        public override string ModalFade( bool animation ) => animation ? Fade() : null;
+
         public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
         public override string ModalBackdrop() => "modal-backdrop";
@@ -961,6 +975,12 @@ namespace Blazorise.Bootstrap5
 
         #endregion
 
+        #region Code
+
+        public override string Code() => null;
+
+        #endregion
+
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
@@ -1084,13 +1104,11 @@ namespace Blazorise.Bootstrap5
             if ( borderSide != BorderSide.All )
                 sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
-            if ( borderSize == BorderSize.Is0 )
-                sb.Append( "-0" );
+            if ( borderSize != BorderSize.None )
+                sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
             if ( borderColor != BorderColor.None )
-            {
                 sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
-            }
 
             return sb.ToString();
         }

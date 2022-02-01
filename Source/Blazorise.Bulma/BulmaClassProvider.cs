@@ -118,6 +118,18 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region NumericPicker
+
+        public override string NumericPicker( bool plaintext ) => plaintext ? "input is-static" : "input";
+
+        public override string NumericPickerSize( Size size ) => $"is-{ToSize( size )}";
+
+        public override string NumericPickerColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region InputMask
 
         public override string InputMask( bool plaintext ) => plaintext ? "input is-static" : "input";
@@ -805,7 +817,9 @@ namespace Blazorise.Bulma
 
         public override string Modal() => "modal";
 
-        public override string ModalFade() => null;
+        public override string ModalFade() => Fade();
+
+        public override string ModalFade( bool animation ) => animation ? Fade() : null;
 
         public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
@@ -981,6 +995,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Code
+
+        public override string Code() => null;
+
+        #endregion
+
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => $"title is-{ToHeadingSize( headingSize )}";
@@ -1105,13 +1125,11 @@ namespace Blazorise.Bulma
             if ( borderSide != BorderSide.All )
                 sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
-            if ( borderSize == BorderSize.Is0 )
-                sb.Append( "-0" );
+            if ( borderSize != BorderSize.None )
+                sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
             if ( borderColor != BorderColor.None )
-            {
                 sb.Append( " has-border-" ).Append( ToBorderColor( borderColor ) );
-            }
 
             return sb.ToString();
         }

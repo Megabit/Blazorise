@@ -336,12 +336,12 @@ namespace Blazorise.Docs.Models
                 <BarMenu>
                     <BarStart>
                         <BarItem>
-                            <BarDropdown>
+                            <BarDropdown RightAligned=""true"">
                                 <BarDropdownToggle>
                                     <BarIcon IconName=""IconName.Edit"" />
                                     Toggle
                                 </BarDropdownToggle>
-                                <BarDropdownMenu RightAligned=""true"">
+                                <BarDropdownMenu>
                                     <BarDropdownItem>Action</BarDropdownItem>
                                     <BarDropdownItem>Another action</BarDropdownItem>
                                 </BarDropdownMenu>
@@ -1450,7 +1450,7 @@ namespace Blazorise.Docs.Models
         public const string ModalFullscreenExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
 <Modal @ref=""modalRef"">
-    <ModalContent Fullscreen>
+    <ModalContent Size=""ModalSize.Fullscreen"">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />
@@ -1489,7 +1489,19 @@ namespace Blazorise.Docs.Models
 
         public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
 
+        public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
+
         public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
+
+        public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
+
+        public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
+
+        public const string NumericPickerStepExample = @"<NumericPicker @bind-Value=""@value"" Step=""10"" />
+
+@code{
+    decimal value;
+}";
 
         public const string BasicPaginationExample = @"<Pagination>
     <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
@@ -2833,7 +2845,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string ChartExample = @"<Button Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
+        public const string ChartExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
 <LineChart @ref=""lineChart"" TItem=""double"" />
 
@@ -2864,8 +2876,8 @@ namespace Blazorise.Docs.Models
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
+            PointRadius = 3,
+            CubicInterpolationMode = ""monotone"",
         };
     }
 
@@ -2877,7 +2889,13 @@ namespace Blazorise.Docs.Models
     {
         var r = new Random( DateTime.Now.Millisecond );
 
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        return new List<double> { 
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
     }
 }";
 
@@ -2885,7 +2903,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
-        public const string ChartResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>";
+        public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js""></script>";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -2910,30 +2928,20 @@ namespace Blazorise.Docs.Models
 
     object horizontalLineChartOptions = new
     {
-        Title = new
-        {
-            Display = true,
-            Text = ""Line chart (horizontal scroll) sample""
-        },
         Scales = new
         {
-            YAxes = new object[]
+            Y = new
             {
-                new {
-                    ScaleLabel = new {
-                    Display = true, LabelString = ""value"" }
+                Title = new
+                {
+                    Display = true,
+                    Text = ""Value""
                 }
-                    }
+            }
         },
-        Tooltips = new
+        Interaction = new
         {
-            Mode = ""nearest"",
-            Intersect = false
-        },
-        Hover = new
-        {
-            Mode = ""nearest"",
-            Intersect = false
+            intersect = false
         }
     };
 
@@ -2965,7 +2973,7 @@ namespace Blazorise.Docs.Models
             BackgroundColor = backgroundColors[0],
             BorderColor = borderColors[0],
             Fill = false,
-            LineTension = 0,
+            Tension = 0,
             BorderDash = new List<int> { 8, 4 },
         };
     }
@@ -2989,9 +2997,98 @@ namespace Blazorise.Docs.Models
 
         public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
 
-        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chart.js@2.8.0""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0""></script>";
+        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.27.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0""></script>";
+
+        public const string ChartTrendlineExample = @"@using Blazorise.Charts
+@using Blazorise.Charts.Trendline
+
+<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Toggle trendline and redraw</Button>
+
+<Chart @ref=""chart"" TItem=""double?"" Type=""ChartType.Line"">
+    <ChartTrendline @ref=""chartTrendline"" TItem=""double?"" />
+</Chart>
+
+@code {
+    Chart<double?> chart;
+    ChartTrendline<double?> chartTrendline;
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    bool trendlinesOn = true;
+    async Task OnButtonClicked()
+    {
+        trendlinesOn = !trendlinesOn;
+
+        await HandleRedraw();
+    }
+
+    async Task HandleRedraw()
+    {
+        await chart.Clear();
+
+        await chart.AddLabels( Labels );
+        await chart.AddDataSet( GetLineChartDataset() );
+        await chart.AddDataSet( GetLineChartDataset() );
+
+        await chart.Update();
+
+        // Add the trendline(s) after you have added the datasets and called await chart.Update();
+        if ( trendlinesOn )
+        {
+            // This will add a trendline to the second dataset.
+            // If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)
+            var trendlineData = new List<ChartTrendlineData>
+            {
+                new ChartTrendlineData
+                {
+                    DatasetIndex = 1,
+                    Width = 10,
+                    Color = ChartColor.FromRgba( 54, 162, 235, .6f )
+                }
+            };
+
+            await chartTrendline.AddTrendLineOptions( trendlineData );
+        }
+    }
+
+    LineChartDataset<double?> GetLineChartDataset()
+    {
+        return new LineChartDataset<double?>
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                Fill = true,
+                PointRadius = 2,
+                BorderDash = new List<int> { }
+            };
+    }
+
+    string[] Labels = { ""0"", ""1"", ""2"", ""3"", ""4"", ""5"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double?> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double?> { r.Next( 3, 20 ) * r.NextDouble(), r.Next( 3, 30 ) * r.NextDouble(), r.Next( 3, 40 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 60 ) * r.NextDouble(), r.Next( 3, 70 ) * r.NextDouble() };
+    }
+}";
+
+        public const string ChartTrendlineNugetInstallExample = @"Install-Package Blazorise.Charts.Trendline";
+
+        public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
@@ -3850,6 +3947,50 @@ namespace Blazorise.Docs.Models
         => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;
 }";
 
+        public const string DataGridScrollToExample = @"<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToRow"">Scroll To Row</Button>
+<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToPixels"">Scroll To Pixels</Button>
+
+<DataGrid @ref=""dataGridRef""
+          TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          ShowPager
+          FixedHeader
+          FixedHeaderDataGridMaxHeight=""250px""
+          PageSize=""50"">
+    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private DataGrid<Employee> dataGridRef;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private Task ScrollToRow()
+         => dataGridRef.ScrollToRow(30).AsTask();
+
+    private Task ScrollToPixels()
+        => dataGridRef.ScrollToPixels(500).AsTask();
+}";
+
         public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           RowSelectable=@((x)=> x.Item.FirstName != ""John"")
@@ -4526,6 +4667,20 @@ namespace Blazorise.Docs.Models
         public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
 
         public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
+
+        public const string BasicVideoExample = @"<Video Source=""@(""http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"")"" />";
+
+        public const string DRMVideoExample = @"<Video Source=""@(""https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd"")""
+       StreamingLibrary=""StreamingLibrary.Dash""
+       ProtectionType=""VideoProtectionType.Widevine""
+       ProtectionServerUrl=""https://drm-widevine-licensing.axtest.net/AcquireLicense""
+       ProtectionHttpRequestHeaders=""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU"" />";
+
+        public const string ImportVideoExample = @"@using Blazorise.Video";
+
+        public const string StreamingVideoExample = @"<Video Source=""@(""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"")"" StreamingLibrary=""StreamingLibrary.Dash"" />";
+
+        public const string VideoNugetInstallExample = @"Install-Package Blazorise.Video";
 
         public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
 

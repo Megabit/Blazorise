@@ -94,6 +94,36 @@
             _ => "none",
         };
 
+        public static string ToCurrencySymbolPlacement( this CurrencySymbolPlacement currencySymbolPlacement ) => currencySymbolPlacement switch
+        {
+            CurrencySymbolPlacement.Suffix => "s",
+            CurrencySymbolPlacement.Prefix => "p",
+        };
+
+        public static string ToNumericRoundingMethod( this NumericRoundingMethod numericRoundingMethod ) => numericRoundingMethod switch
+        {
+            NumericRoundingMethod.HalfUpSymmetric => "S",
+            NumericRoundingMethod.HalfUpAsymmetric => "A",
+            NumericRoundingMethod.HalfDownSymmetric => "s",
+            NumericRoundingMethod.HalfDownAsymmetric => "a",
+            NumericRoundingMethod.HalfEvenBankersRounding => "B",
+            NumericRoundingMethod.UpRoundAwayFromZero => "U",
+            NumericRoundingMethod.DownRoundTowardZero => "D",
+            NumericRoundingMethod.ToCeilingTowardPositiveInfinity => "C",
+            NumericRoundingMethod.ToFloorTowardNegativeInfinity => "F",
+            NumericRoundingMethod.ToNearest05 => "N05",
+            NumericRoundingMethod.ToNearest05Alt => "CHF",
+            NumericRoundingMethod.UpToNext05 => "U05",
+            NumericRoundingMethod.DownToNext05 => "D05",
+        };
+
+        public static object ToNumericDecimalPadding( this NumericAllowDecimalPadding numericAllowDecimalPadding ) => numericAllowDecimalPadding switch
+        {
+            NumericAllowDecimalPadding.Always => true,
+            NumericAllowDecimalPadding.Never => false,
+            NumericAllowDecimalPadding.Floats => "floats",
+        };
+
         /// <summary>
         /// Indicates whether the specified enum size is null or a default value.
         /// </summary>

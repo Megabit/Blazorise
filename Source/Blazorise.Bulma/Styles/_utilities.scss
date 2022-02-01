@@ -185,6 +185,33 @@
     border-radius: 0 !important;
 }
 
+$border-sides: ("top", "right", "bottom", "left");
+$border-sizes: (1, 2, 3, 4, 5);
+
+@each $size in $border-sizes {
+    .has-border-#{$size} {
+        border: #{$size}px solid $border-color !important;
+    }
+
+    @each $color-name, $color-value in $theme-colors {
+        .has-border-#{$color-name}-#{$size} {
+            border: #{$size}px solid $color-value !important;
+        }
+    }
+
+    @each $side in $border-sides {
+        .has-border-#{$side}-#{$size} {
+            border-#{$side}: #{$size}px solid $border-color !important;
+        }
+
+        @each $color-name, $color-value in $theme-colors {
+            .has-border-#{$color-name}-#{$side}-#{$size} {
+                border-#{$side}: #{$size}px solid $color-value !important;
+            }
+        }
+    }
+}
+
 @each $breakpoint in map-keys($grid-breakpoints) {
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);

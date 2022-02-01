@@ -1,0 +1,39 @@
+﻿@page "/docs/extensions/chart-trendline"
+
+<Seo Canonical="/docs/extensions/chart-trendline" Title="Blazorise Chart Trendline" Description="Learn how to use Blazorise trendline extension components." />
+
+<DocsPageTitle>
+    Chart Trendline
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Trendline">
+        Trendline is made possible with the help of <Blazorise.Link To="https://github.com/Makanz/chartjs-plugin-trendline" Target="Target.Blank">chartjs-plugin-trendline</Blazorise.Link>.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install chart trendline extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartTrendlineNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        If you’re using Blazor WebAssembly, include these script references in your <Code>index.html</Code>. If you're using Blazor Server, include them in your <Code>_Host.cshtml</Code> file. Note: you may already have the chartjs reference in there. If so, only include the trendline script.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartTrendlineResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example" />
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartTrendlineExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartTrendlineExample" />
+</DocsPageSection>

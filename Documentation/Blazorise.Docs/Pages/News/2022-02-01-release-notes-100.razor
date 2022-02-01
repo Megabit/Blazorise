@@ -1,0 +1,157 @@
+﻿@page "/news/release-notes/100"
+
+<Seo Canonical="news/release-notes/100" Title="Blazorise v1.0" Description="Blazorise v1.0" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.0.0
+</NewsPageTitle>
+
+<Paragraph>
+    Today, we are happy to announce the release of Blazorise 1.0.0. In this post, we’re covering a lot of the new Blazorise features
+    that will make your app development easier to build and use.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.0.0 Highlights 💡
+</NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        ...
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Migration 🛠
+</NewsPageSubtitle>
+
+<OrderedList>
+    <UnorderedListItem>
+        All <Code>NumericEdit</Code> formating features are moved to the new <Code>NumericPicker</Code> component.
+        <Code>NumericEdit</Code> is now used only as a native HTML numeric input.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Renamed <Code>DecimalsSeparator</Code> to <Code>DecimalSeparator</Code> on the <Code>DataGridColumn</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Renamed <Code>MaxMessageSize</Code> to <Code>MaxChunkSize</Code> to better convey the Parameter meaning.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>Fullscreen</Code> parameter on <Code Tag>ModalContent</Code> component is moved to be part of <Code>Size</Code> parameter.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameter removed from <Code Tag>NotificationAlert</Code> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>RightAligned</Code> parameter moved from <Code Tag>BarDropdownMenu</Code> to <Code Tag>BarDropdown</Code> component.
+    </UnorderedListItem>
+</OrderedList>
+
+<Paragraph>
+    No big release can be done without some breaking changes and this release is no exception...
+</Paragraph>
+
+<Paragraph>
+    <Strong>1.</Strong> Since a lot was changed to support ChartJS v3 the migration would take too long to explain so it is best to follow the the migration guide at https://www.chartjs.org/docs/latest/getting-started/v3-migration.html as a general rule.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Chart v3
+</Heading>
+
+<Paragraph>
+    In this release, we bring long-awaited support for ChartJS v3. Unfortunately, it was not possible to leave support for previous versions considering there were too many breaking changes between the version.
+</Paragraph>
+
+<Paragraph>
+    With Chart v3 we now support almost all of the <Code>v3</Code> configuration settings. We took great care to document most of the dataset and option fields so that IntelliSense will give you suggestions on how to properly define the chart.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Highlights 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Video
+</Heading>
+
+<Paragraph>
+    We worked hard to bring you very new <Code Tag>Video</Code> component which is based upon the excellent <Anchor To="https://plyr.io/" Target="Target.Blank">Plyr</Anchor> video player. The new component fully supports streaming media by implementing both <Anchor To="https://github.com/video-dev/hls.js/">HLS</Anchor> and <Anchor To="https://github.com/Dash-Industry-Forum/dash.js">DASH</Anchor> playback media format.
+</Paragraph>
+
+<Paragraph>
+    The component is fairly flexible to use and has most of the video control methods like <Code>Play()</Code>, <Code>Pause()</Code>, and <Code>Stop()</Code>, and many others; including also events that can give you current state of the player.
+</Paragraph>
+
+<Paragraph>
+    The new component and it's usage can be seen at <Anchor To="docs/extensions/video">Video page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Modal
+</Heading>
+
+<Paragraph>
+    We reworked animations so you can have more control. We added two new Parameters:
+    <UnorderedList>
+        <UnorderedListItem>
+            IsAnimated : Controls whether the modal should animate.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            AnimationDuration : Sets the modal animation duration in ms.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    Added ScrollTo Api to Datagrid. You may now use the ScrollToRow and ScrollToPixels API when FixedHeader or Virtualize is set on your DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FileEdit
+</Heading>
+
+<Paragraph>
+    Added MaxFileSize Parameter, this will default to long.MaxValue
+</Paragraph>
+
+<Paragraph>
+    Added FileInvalidReason to the FileEndedEventArgs so you may track what went wrong in case the file upload was not successfull.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>None</UnorderedListItem>
+    <UnorderedListItem>MaxLengthExceeded</UnorderedListItem>
+    <UnorderedListItem>UnexpectedBufferChunkLength</UnorderedListItem>
+    <UnorderedListItem>TaskCancelled</UnorderedListItem>
+    <UnorderedListItem>UnexpectedError</UnorderedListItem>
+</UnorderedList>
+
+<Heading Size="HeadingSize.Is3">
+    NumericPicker
+</Heading>
+
+<Paragraph>
+    The new <Code>NumericPicker</Code> component is created as an alternative to the <Code>NumericEdit</Code> component.
+    All the formating features from <Code>NumericEdit</Code> are moved to the component. This breaking change was needed because
+    we felt there was no need to support two similar  behavior components. So, <Code>NumericEdit</Code> is left to serve as
+    a native HTML input element, and all the custom and advanced stuff is not part of the new <Code>NumericPicker</Code>.
+</Paragraph>
+
+<Paragraph>
+    The new <Code>NumericPicker</Code> component has many new features like currency mask, group separators, configurable
+    rounding methods, proper min and max input mode, and many more. So we hope the new <Code>NumericPicker</Code> will serve you well.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Auto Complete
+</Heading>
+
+<Paragraph>
+    Introduced <Code>CloseOnSelection</Code> Parameter. You will be able to set this parameter to false, so the auto complete's dropdown does not close on selection.
+    <strong>Note:</strong> This feature will only work with multiple selection.
+</Paragraph>

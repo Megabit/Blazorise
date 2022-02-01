@@ -117,6 +117,18 @@ namespace Blazorise
 
         #endregion
 
+        #region NumericPicker
+
+        string NumericPicker( bool plaintext );
+
+        string NumericPickerSize( Size size );
+
+        string NumericPickerColor( Color color );
+
+        string NumericPickerValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region InputMask
 
         string InputMask( bool plaintext );
@@ -745,6 +757,8 @@ namespace Blazorise
 
         string ModalFade();
 
+        string ModalFade( bool animation );
+
         string ModalVisible( bool visible );
 
         string ModalBackdrop();
@@ -916,6 +930,12 @@ namespace Blazorise
         string TextOverflow( TextOverflow textOverflow );
 
         string TextItalic();
+
+        #endregion
+
+        #region Code
+
+        string Code();
 
         #endregion
 

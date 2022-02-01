@@ -1,0 +1,7 @@
+﻿@namespace Blazorise
+@inherits BaseTypographyComponent
+<code @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
+    @if ( Tag )
+    {<span>&lt;</span>}@ChildContent@if ( Tag )
+    {<span>&gt;</span>}
+</code>

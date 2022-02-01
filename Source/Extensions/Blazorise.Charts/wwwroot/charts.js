@@ -1,28 +1,34 @@
+import { parseFunction, deepClone } from "./utilities.js";
+
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
-const _ChartTitleCallbacks = function (item, data) {
-    return data.datasets[item[0].datasetIndex].label;
+const _ChartTitleCallbacks = function (item) {
+    return item[0].dataset.label;
 };
 
-const _ChartLabelCallback = function (item, data) {
-    const label = data.labels[item.index];
-    const value = data.datasets[item.datasetIndex].data[item.index];
+const _ChartLabelCallback = function (item) {
+    const label = item.label;
+    const value = item.dataset.data[item.dataIndex];
     return label + ': ' + value;
 };
 
-if (!Chart.defaults.pie.tooltips.callbacks.title) {
-    Chart.defaults.pie.tooltips.callbacks.title = _ChartTitleCallbacks;
+// In Chart v3 callbacks are now defined by default. So to override them by the Blazorise the user
+// would have to first set them to null immediately after charts.js is loaded for this workaround
+// to have any effect.
+
+if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
+    Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
 }
 
-if (!Chart.defaults.pie.tooltips.callbacks.label) {
-    Chart.defaults.pie.tooltips.callbacks.label = _ChartLabelCallback;
+if (!Chart.overrides.pie.plugins.tooltip.callbacks.label) {
+    Chart.overrides.pie.plugins.tooltip.callbacks.label = _ChartLabelCallback;
 }
 
-if (!Chart.defaults.doughnut.tooltips.callbacks.title) {
-    Chart.defaults.doughnut.tooltips.callbacks.title = _ChartTitleCallbacks;
+if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.title) {
+    Chart.overrides.doughnut.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
 }
 
-if (!Chart.defaults.doughnut.tooltips.callbacks.label) {
-    Chart.defaults.doughnut.tooltips.callbacks.label = _ChartLabelCallback;
+if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
+    Chart.overrides.doughnut.plugins.tooltip.callbacks.label = _ChartLabelCallback;
 }
 
 const _instances = [];
@@ -55,8 +61,8 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     }
 
     if (options && options.scales) {
-        processTicksCallback(options.scales, 'xAxes');
-        processTicksCallback(options.scales, 'yAxes');
+        processTicksCallback(options.scales, 'x');
+        processTicksCallback(options.scales, 'y');
     }
 
     // search for canvas element
@@ -80,7 +86,7 @@ export function changeChartType(canvas, canvasId, type) {
 
     if (chart) {
         const data = chart.data;
-        const options = chart.options;
+        const options = deepClone(chart.options);
 
         if (data && data.datasets) {
             data.datasets.forEach((ds) => {
@@ -97,15 +103,36 @@ export function changeChartType(canvas, canvasId, type) {
 }
 
 function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options) {
+    // save the copy of the received options
+    const originalOptions = deepClone(options);
+
+    options = compileOptionCallbacks(options);
+
     const chart = new Chart(canvas, {
         type: type,
         data: data,
         options: options
     });
 
+    chart.originalOptions = originalOptions;
+
     wireEvents(dotnetAdapter, eventOptions, canvas, chart);
 
     return chart;
+}
+
+export function compileOptionCallbacks(options) {
+    if (options && options.scales) {
+        if (options.scales.x && options.scales.x.ticks && options.scales.x.ticks.callback) {
+            options.scales.x.ticks.callback = parseFunction(options.scales.x.ticks.callback);
+        }
+
+        if (options.scales.y && options.scales.y.ticks && options.scales.y.ticks.callback) {
+            options.scales.y.ticks.callback = parseFunction(options.scales.y.ticks.callback);
+        }
+    }
+
+    return options;
 }
 
 export function destroy(canvas, canvasId) {
@@ -131,7 +158,13 @@ export function setOptions(canvasId, options, optionsJsonString, optionsObject) 
     const chart = getChart(canvasId);
 
     if (chart) {
+        // save the copy of the received options
+        const originalOptions = deepClone(options);
+
+        options = compileOptionCallbacks(options);
+
         chart.options = options;
+        chart.originalOptions = originalOptions;
 
         // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
         // instead of through the options.
@@ -275,7 +308,7 @@ export function popData(canvasId, datasetIndex) {
 export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
     if (eventOptions.hasClickEvent) {
         canvas.onclick = function (evt) {
-            const activePoint = chart.getElementAtEvent(evt);
+            const activePoint = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
             if (activePoint && activePoint.length > 0) {
                 const datasetIndex = activePoint[0]._datasetIndex;
@@ -290,7 +323,7 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
     if (eventOptions.hasHoverEvent) {
         chart.config.options.onHover = function (evt) {
             if (evt.type === "mousemove") {
-                const activePoint = chart.getElementAtEvent(evt);
+                const activePoint = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
                 if (activePoint && activePoint.length > 0) {
                     const datasetIndex = activePoint[0]._datasetIndex;
@@ -311,8 +344,8 @@ export function getChart(canvasId) {
     let chart = null;
 
     Chart.helpers.each(Chart.instances, function (instance) {
-        if (instance.chart.canvas.id === canvasId) {
-            chart = instance.chart;
+        if (instance.canvas.id === canvasId) {
+            chart = instance;
         }
     });
 

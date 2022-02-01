@@ -36,6 +36,16 @@
         public object OkButtonIcon { get; set; }
 
         /// <summary>
+        /// Custom color of the Ok button.
+        /// </summary>
+        public Color OkButtonColor { get; set; }
+
+        /// <summary>
+        /// Custom OK button CSS class.
+        /// </summary>
+        public string OkButtonClass { get; set; }
+
+        /// <summary>
         /// Custom text for the Confirmation button.
         /// </summary>
         public string ConfirmButtonText { get; set; }
@@ -44,6 +54,16 @@
         /// Custom icon for the Confirmation button.
         /// </summary>
         public object ConfirmButtonIcon { get; set; }
+
+        /// <summary>
+        /// Custom color of the Confirmation button.
+        /// </summary>
+        public Color ConfirmButtonColor { get; set; }
+
+        /// <summary>
+        /// Custom Confirmation button CSS class.
+        /// </summary>
+        public string ConfirmButtonClass { get; set; }
 
         /// <summary>
         /// Custom text for the Cancel button.
@@ -56,6 +76,21 @@
         public object CancelButtonIcon { get; set; }
 
         /// <summary>
+        /// Custom color of the Cancel button.
+        /// </summary>
+        public Color CancelButtonColor { get; set; }
+
+        /// <summary>
+        /// Custom Cancel button CSS class.
+        /// </summary>
+        public string CancelButtonClass { get; set; }
+
+        /// <summary>
+        /// If true, the modal close button will be visible.
+        /// </summary>
+        public bool ShowCloseButton { get; set; }
+
+        /// <summary>
         /// Creates the default message options.
         /// </summary>
         /// <returns>Default message options.</returns>
@@ -64,9 +99,13 @@
             CenterMessage = true,
             ScrollableMessage = true,
             ShowMessageIcon = true,
+            ShowCloseButton = true,
             OkButtonText = "Ok",
+            OkButtonColor = Color.Primary,
             CancelButtonText = "Cancel",
+            CancelButtonColor = Color.Danger,
             ConfirmButtonText = "Yes",
+            ConfirmButtonColor = Color.Primary,
         };
     }
 }

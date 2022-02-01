@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
@@ -58,6 +59,11 @@ namespace Blazorise.Components
         /// Holds internal selected value.
         /// </summary>
         private TValue selectedValue;
+
+        /// <summary>
+        /// When CloseOnSelection is set to false, tracks whether the auto complete is in a state where it can actually close.
+        /// </summary>
+        private bool closeOnSelectionAllowClose = true;
 
         #endregion
 
@@ -221,14 +227,17 @@ namespace Blazorise.Components
 
         private async Task OnDropdownItemClicked( object value )
         {
-            CurrentSearch = null;
-
-            var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
+            if ( !CloseOnSelection )
+                closeOnSelectionAllowClose = false;
+            else
+            {
+                CurrentSearch = null;
+                await SearchChanged.InvokeAsync( CurrentSearch );
+            }
 
             SelectedValue = Converters.ChangeType<TValue>( value );
-
             await SelectedValueChanged.InvokeAsync( SelectedValue );
-            await SearchChanged.InvokeAsync( CurrentSearch );
+
 
             if ( Multiple )
             {
@@ -238,6 +247,8 @@ namespace Blazorise.Components
             }
             else
             {
+                var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
+
                 SelectedText = GetDisplayText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
@@ -268,10 +279,23 @@ namespace Blazorise.Components
             return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
         }
 
-        private Task ResetSelectedText()
+
+        private bool ShouldNotClose()
+            => Multiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
+
+        private async Task ResetSelectedText()
         {
-            SelectedText = string.Empty;
-            return SelectedTextChanged.InvokeAsync( string.Empty );
+            if ( ShouldNotClose() )
+            {
+                dirtyFilter = true;
+                await Focus();
+                await InvokeAsync( StateHasChanged );
+            }
+            else
+            {
+                SelectedText = string.Empty;
+                await SelectedTextChanged.InvokeAsync( string.Empty );
+            }
         }
         private async Task AddMultipleValue( TValue value )
         {
@@ -422,7 +446,9 @@ namespace Blazorise.Components
         /// <returns>True if Autocomplete can be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
         {
-            return Task.FromResult( ElementId == elementId && closeReason == CloseReason.EscapeClosing );
+            closeOnSelectionAllowClose = ( DropdownMenuRef.ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
+                ( closeReason == CloseReason.FocusLostClosing && !isChild );
+            return Task.FromResult( closeOnSelectionAllowClose );
         }
 
         /// <inheritdoc/>
@@ -510,6 +536,11 @@ namespace Blazorise.Components
         public ElementReference ElementRef => DropdownMenuRef.ElementRef;
 
         /// <summary>
+        /// Gets the DropdownMenu ElementId.
+        /// </summary>
+        public string DropdownElementId { get; set; }
+
+        /// <summary>
         /// Gets the dropdown CSS styles.
         /// </summary>
         protected string CssStyle
@@ -545,9 +576,10 @@ namespace Blazorise.Components
 
         /// <summary>
         /// True if the dropdown menu should be visible.
+        /// Takes into account whether menu was open and whether CloseOnSelection is set to false.
         /// </summary>
         protected bool DropdownVisible
-            => CanSearch && TextField != null;
+            => ( CanSearch || ShouldNotClose() ) && TextField != null;
 
         /// <summary>
         /// True if the not found content should be visible.
@@ -751,6 +783,11 @@ namespace Blazorise.Components
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <summary>
+        /// Asynchronously validates the selected value.
+        /// </summary>
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
+
+        /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.
         /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
@@ -810,6 +847,13 @@ namespace Blazorise.Components
         /// Specifies the item content to be rendered inside each dropdown item.
         /// </summary>
         [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
+
+
+        /// <summary>
+        /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when the <see cref="Multiple"/> is set to true.
+        /// Defauls to true.
+        /// </summary>
+        [Parameter] public bool CloseOnSelection { get; set; } = true;
 
         #endregion
     }
