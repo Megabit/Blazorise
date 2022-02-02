@@ -60,7 +60,7 @@
                             </DisplayTemplate>
                             <EditTemplate>
                                 <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
-                                    <SelectItem TValue="string" Value="null"></SelectItem>
+                                    <SelectItem Value="(string)null"></SelectItem>
                                     <SelectItem Value="@("M")">Male</SelectItem>
                                     <SelectItem Value="@("F")">Female</SelectItem>
                                     <SelectItem Value="@("D")">Diverse</SelectItem>
