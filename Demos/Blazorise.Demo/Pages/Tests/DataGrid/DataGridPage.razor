@@ -241,7 +241,7 @@
                         </Span>
                     </EmptyFilterTemplate>
                     <DataGridAggregates>
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
+                        <DataGridAggregate Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
                             <DisplayTemplate>
                                 @($"Total Emails: {context.Value}")
                             </DisplayTemplate>
@@ -254,7 +254,7 @@
                                            AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
                     </DataGridAggregates>
                     <DataGridColumns>
-                        <DataGridMultiSelectColumn TItem="Employee" Width="30px">
+                        <DataGridMultiSelectColumn Width="30px">
                             <FilterTemplate>
                                 <Button Clicked="@Reset" title="Reload">
                                     <Icon Name="IconName.Sync" />
@@ -264,7 +264,7 @@
                                 <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
-                        <DataGridCommandColumn TItem="Employee" Width="170px">
+                        <DataGridCommandColumn Width="170px">
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </NewCommandTemplate>
@@ -284,15 +284,15 @@
                                 <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
+                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
+                        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
+                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
@@ -314,9 +314,9 @@
                                 <Icon Name="@( context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp )" />
                             </SortDirectionTemplate>
                         </DataGridColumn>
-                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
+                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
+                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <FilterTemplate>
                                 @{
                                     selectedGenderFilter = @context.SearchValue?.ToString() ?? "";
@@ -355,12 +355,12 @@
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                             <EditTemplate>
                                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
                             <DisplayTemplate>
                                 <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
                             </DisplayTemplate>
@@ -374,9 +374,9 @@
                                   Data="salaries"
                                   Sortable="false"
                                   ShowCaptions="false">
-                                <DataGridCommandColumn TItem="Salary" />
-                                <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
-                                <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
+                                <DataGridCommandColumn />
+                                <DataGridDateColumn Field="@nameof(Salary.Date)" Caption="Date" />
+                                <DataGridNumericColumn Field="@nameof(Salary.Total)" Caption="Total" />
                             </DataGrid>
                         }
                     </DetailRowTemplate>
