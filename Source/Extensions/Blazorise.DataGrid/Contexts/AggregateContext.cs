@@ -3,7 +3,7 @@
     /// <summary>
     /// Context for calculated aggregate value.
     /// </summary>
-    public class AggregateContext
+    public class AggregateContext<TItem>
     {
         /// <summary>
         /// Default context constructor.
