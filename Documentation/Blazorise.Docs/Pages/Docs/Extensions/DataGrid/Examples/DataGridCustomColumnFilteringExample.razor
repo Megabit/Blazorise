@@ -4,8 +4,8 @@
           Data="@employeeList"
           Filterable
           Responsive>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
-    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
         <FilterTemplate>
             <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
                 <SelectItem Value="@("*")">All</SelectItem>
