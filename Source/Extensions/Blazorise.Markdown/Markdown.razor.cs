@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Markdown.Providers;
 using Blazorise.Modules;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -96,6 +95,29 @@ namespace Blazorise.Markdown
                         ImageTexts.SizeUnits,
                     },
                     ErrorMessages,
+                    Autofocus,
+                    AutoRefresh,
+                    Autosave,
+                    BlockStyles,
+                    ForceSync,
+                    IndentWithTabs,
+                    InputStyle,
+                    InsertTexts,
+                    NativeSpellcheck,
+                    ParsingConfig,
+                    PreviewClass,
+                    PreviewImagesInEditor,
+                    PromptTexts,
+                    PromptURLs,
+                    RenderingConfig,
+                    ScrollbarStyle,
+                    Shortcuts,
+                    SideBySideFullscreen,
+                    SpellChecker,
+                    Status,
+                    StyleSelectedText,
+                    SyncSideBySidePreviewScroll,
+                    UnorderedListStyle,
                 } );
 
                 Initialized = true;
@@ -407,9 +429,9 @@ namespace Blazorise.Markdown
         /// <summary>
         /// If set to true, enables the image upload functionality, which can be triggered by drag-drop,
         /// copy-paste and through the browse-file window (opened when the user click on the upload-image icon).
-        /// Defaults to false.
+        /// Defaults to true.
         /// </summary>
-        [Parameter] public bool UploadImage { get; set; }
+        [Parameter] public bool UploadImage { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.
@@ -493,6 +515,138 @@ namespace Blazorise.Markdown
         /// A callback function used to define how to display an error message. Defaults to (errorMessage) => alert(errorMessage).
         /// </summary>
         [Parameter] public Func<string, Task> ErrorCallback { get; set; }
+
+        /// <summary>
+        /// If set to true, focuses the editor automatically. Defaults to false.
+        /// </summary>
+        [Parameter] public bool Autofocus { get; set; }
+
+        /// <summary>
+        /// Useful, when initializing the editor in a hidden DOM node. If set to { delay: 300 },
+        /// it will check every 300 ms if the editor is visible and if positive, call CodeMirror's refresh().
+        /// </summary>
+        [Parameter] public MarkdownAutoRefresh AutoRefresh { get; set; }
+
+        /// <summary>
+        /// Saves the text that's being written and will load it back in the future.
+        /// It will forget the text when the form it's contained in is submitted.
+        /// </summary>
+        [Parameter] public MarkdownAutosave Autosave { get; set; }
+
+        /// <summary>
+        /// Customize how certain buttons that style blocks of text behave.
+        /// </summary>
+        [Parameter] public MarkdownBlockStyles BlockStyles { get; set; }
+
+        /// <summary>
+        /// If set to true, force text changes made in EasyMDE to be immediately stored in original text area.
+        /// Defaults to false.
+        /// </summary>
+        [Parameter] public bool ForceSync { get; set; }
+
+        /// <summary>
+        /// If set to false, indent using spaces instead of tabs. Defaults to true.
+        /// </summary>
+        [Parameter] public bool IndentWithTabs { get; set; } = true;
+
+        /// <summary>
+        /// textarea or contenteditable.
+        /// Defaults to textarea for desktop and contenteditable for mobile.
+        /// contenteditable option is necessary to enable nativeSpellcheck.
+        /// </summary>
+        [Parameter] public string InputStyle { get; set; }
+
+        /// <summary>
+        /// Customize how certain buttons that insert text behave. Takes an array with two elements.
+        /// The first element will be the text inserted before the cursor or highlight, and the second
+        /// element will be inserted after.
+        /// For example, this is the default link value: ["[", "](http://)"].
+        /// </summary>
+        [Parameter] public MarkdownInsertTexts InsertTexts { get; set; }
+
+        /// <summary>
+        /// If set to false, disable native spell checker. Defaults to true.
+        /// </summary>
+        [Parameter] public bool NativeSpellcheck { get; set; } = true;
+
+        /// <summary>
+        /// Adjust settings for parsing the Markdown during editing (not previewing).
+        /// </summary>
+        [Parameter] public MarkdownParsingConfig ParsingConfig { get; set; }
+
+        /// <summary>
+        /// A space-separated strings that will be applied to the preview screen when activated.
+        /// Defaults to "editor-preview".
+        /// </summary>
+        [Parameter] public string PreviewClass { get; set; } = "editor-preview";
+
+        /// <summary>
+        /// EasyMDE will show preview of images, false by default,
+        /// preview for images will appear only for images on separate lines.
+        /// </summary>
+        [Parameter] public bool PreviewImagesInEditor { get; set; }
+
+        /// <summary>
+        /// Customize the text used to prompt for URLs.
+        /// </summary>
+        [Parameter] public MarkdownPromptTexts PromptTexts { get; set; }
+
+        /// <summary>
+        /// If set to true, a JS alert window appears asking for the link or image URL.
+        /// Defaults to false.
+        /// </summary>
+        [Parameter] public bool PromptURLs { get; set; }
+
+        /// <summary>
+        /// Adjust settings for parsing the Markdown during previewing (not editing).
+        /// </summary>
+        [Parameter] public MarkdownRenderingConfig RenderingConfig { get; set; }
+
+        /// <summary>
+        /// Chooses a scrollbar implementation.
+        /// The default is "native", showing native scrollbars.
+        /// 
+        /// The core library also provides the "null" style, which completely hides the scrollbars.
+        /// Addons can implement additional scrollbar models.
+        /// </summary>
+        [Parameter] public string ScrollbarStyle { get; set; } = "native";
+
+        /// <summary>
+        /// Keyboard shortcuts associated with this instance.
+        /// Defaults to the array of <see href="https://github.com/Ionaru/easy-markdown-editor#keyboard-shortcuts">shortcuts</see>.
+        /// </summary>
+        [Parameter] public MarkdownShortcuts Shortcuts { get; set; }
+
+        /// <summary>
+        /// If set to false, allows side-by-side editing without going into fullscreen. Defaults to false.
+        /// </summary>
+        [Parameter] public bool SideBySideFullscreen { get; set; }
+
+        /// <summary>
+        /// If set to false, disable the spell checker. Defaults to true
+        /// </summary>
+        [Parameter] public bool SpellChecker { get; set; } = true;
+
+        /// <summary>
+        /// If set to empty array, hide the status bar. Defaults to the array of built-in status bar items.
+        /// Optionally, you can set an array of status bar items to include, and in what order.
+        /// </summary>
+        [Parameter] public string[] Status { get; set; }
+
+        /// <summary>
+        /// If set to false, remove the CodeMirror-selectedtext class from selected lines. Defaults to true.
+        /// </summary>
+        [Parameter] public bool StyleSelectedText { get; set; } = true;
+
+        /// <summary>
+        /// If set to false, disable syncing scroll in side by side mode. Defaults to true.
+        /// </summary>
+        [Parameter] public bool SyncSideBySidePreviewScroll { get; set; } = true;
+
+        /// <summary>
+        /// can be *, - or +. Defaults to *.
+        /// </summary>
+        [Parameter] public string UnorderedListStyle { get; set; } = "*";
 
         #endregion
     }
