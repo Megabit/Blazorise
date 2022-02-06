@@ -94,7 +94,7 @@
             These will work:
         </Paragraph>
         <Paragraph Class="m-0">
-            <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@((x,y) => DataGridAggregate<Employee>.TrueCount(x,y)) /&gt;</Code>
+            <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@((x,y) => DataGridAggregate&lt;Employee&gt;.TrueCount(x,y)) /&gt;</Code>
         </Paragraph>
         <Paragraph Class="m-0">
             <Code>&lt;DataGridAggregate TItem="Employee" Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>

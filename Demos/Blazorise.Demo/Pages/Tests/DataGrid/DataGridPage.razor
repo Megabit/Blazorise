@@ -250,8 +250,7 @@
                                            AggregationFunction=@((values,col)=>values?.Where(v=>v.IsActive)?.Sum(v=>v.Salary) ?? 0m)
                                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
                         </DataGridAggregate>
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )"
-                                           AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
                     </DataGridAggregates>
                     <DataGridColumns>
                         <DataGridMultiSelectColumn Width="30px">
