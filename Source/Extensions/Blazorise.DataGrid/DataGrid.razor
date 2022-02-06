@@ -197,15 +197,15 @@
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
         <_DataGridModal TItem="TItem"
-                    TitleTemplate="@PopupTitleTemplate"
-                    EditItem="@editItem"
-                    ValidationItem="@validationItem"
-                    EditItemCellValues="@editItemCellValues"
-                    Columns="@Columns"
-                    PopupVisible="@PopupVisible"
-                    PopupClosing="@PopupClosing"
-                    PopupSize="@PopupSize"
-                    EditState="@editState" />
+                        TitleTemplate="@PopupTitleTemplate"
+                        EditItem="@editItem"
+                        ValidationItem="@validationItem"
+                        EditItemCellValues="@editItemCellValues"
+                        Columns="@Columns"
+                        PopupVisible="@PopupVisible"
+                        PopupClosing="@PopupClosing"
+                        PopupSize="@PopupSize"
+                        EditState="@editState" />
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
@@ -218,9 +218,9 @@
 @code {
 
     protected RenderFragment paginationFragment => __builder =>
-                        {
-                            <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
-                        };
+    {
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
+    };
 
     protected RenderFragment<TItem> rowFragment => item => __builder =>
     {
