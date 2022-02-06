@@ -25,7 +25,7 @@ namespace Blazorise.DataGrid
         public TItem Item { get; set; }
     }
 
-    public class NewCommandContext : CommandContext
+    public class NewCommandContext<TItem> : CommandContext
     {
     }
 
@@ -39,9 +39,9 @@ namespace Blazorise.DataGrid
 
     public class ButtonRowContext<TItem>
     {
-        public NewCommandContext NewCommand { get; set; }
+        public NewCommandContext<TItem> NewCommand { get; set; }
         public EditCommandContext<TItem> EditCommand { get; set; }
         public DeleteCommandContext<TItem> DeleteCommand { get; set; }
-        public CommandContext ClearFilterCommand { get; set; }
+        public CommandContext<TItem> ClearFilterCommand { get; set; }
     }
 }

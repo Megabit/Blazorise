@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
+    [CascadingTypeParameter( nameof( TItem ) )]
     public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     {
         #region Methods

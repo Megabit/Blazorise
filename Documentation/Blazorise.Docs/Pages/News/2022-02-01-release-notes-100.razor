@@ -72,6 +72,47 @@
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
+    Cascading Type Parameter
+</Heading>
+
+<Paragraph>
+    .NET6 brought us a new feature, <Code>CascadingTypeParameter</Code>, that reduces the boilerplate code we need to write for Generic Parent/Child components.
+    Please refer to : <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/templated-components?view=aspnetcore-6.0#infer-generic-types-based-on-ancestor-components">CascadingTypeParameter Microsoft Docs</Blazorise.Link>
+    for more information.
+</Paragraph>
+
+<Paragraph>
+    The following components now have <Code>CascadingTypeParameter</Code> support:
+</Paragraph>
+<UnorderedList>
+    <UnorderedListItem>RadioGroup</UnorderedListItem>
+    <UnorderedListItem>Select</UnorderedListItem>
+    <UnorderedListItem>DataGrid</UnorderedListItem>
+</UnorderedList>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <strong>Note:</strong> We've found out, that there might be a few caveats when using the feature. For most cases you'll be just fine with removing the explicit references to the Generic Type on the children component. But for the very few cases that Blazor complains that it cannot compile, just explicitly define the Generic Type.
+        Here's an example:
+        <Paragraph Class="mb-0">
+            This will not work:
+        </Paragraph>
+        <Paragraph>
+            <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>
+        </Paragraph>
+        <Paragraph Class="mb-0">
+            These will work:
+        </Paragraph>
+        <Paragraph Class="m-0">
+            <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@((x,y) => DataGridAggregate&lt;Employee&gt;.TrueCount(x,y)) /&gt;</Code>
+        </Paragraph>
+        <Paragraph Class="m-0">
+            <Code>&lt;DataGridAggregate TItem="Employee" Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>
+        </Paragraph>
+    </AlertDescription>
+</Alert>
+
+<Heading Size="HeadingSize.Is3">
     Video
 </Heading>
 
@@ -109,6 +150,10 @@
 
 <Paragraph>
     Added ScrollTo Api to Datagrid. You may now use the ScrollToRow and ScrollToPixels API when FixedHeader or Virtualize is set on your DataGrid.
+</Paragraph>
+
+<Paragraph>
+    Added <Code>AggregateRowPosition</Code> Parameter to <Code>Datagrid</Code>. By setting the DataGridAggregateRowPosition, you will now be able to position the aggregate row, just like the pager.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
