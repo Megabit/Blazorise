@@ -1310,6 +1310,16 @@ namespace Blazorise.DataGrid
         protected bool HasAggregates => Aggregates.Count > 0;
 
         /// <summary>
+        /// If true, aggregates will be shown on top of the table.
+        /// </summary>
+        protected bool ShowAggregatesOnTop => AggregateRowPosition == DataGridAggregateRowPosition.Top || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
+
+        /// <summary>
+        /// If true, aggregates will be shown on bottom of the table.
+        /// </summary>
+        protected bool ShowAggregatesOnBottom => AggregateRowPosition == DataGridAggregateRowPosition.Bottom || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
+
+        /// <summary>
         /// Returns true if data is not empty, data is not loaded, empty and loading template is not set.
         /// </summary>
         protected bool IsDisplayDataVisible => !IsLoadingTemplateVisible && !IsEmptyTemplateVisible;
@@ -1610,6 +1620,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets the position of the pager.
         /// </summary>
         [Parameter] public DataGridPagerPosition PagerPosition { get; set; } = DataGridPagerPosition.Bottom;
+
+        /// <summary>
+        /// Gets or sets the position of the aggregate row.
+        /// </summary>
+        [Parameter] public DataGridAggregateRowPosition AggregateRowPosition { get; set; } = DataGridAggregateRowPosition.Bottom;
 
         /// <summary>
         /// Gets or sets whether users can adjust the page size of the datagrid.
