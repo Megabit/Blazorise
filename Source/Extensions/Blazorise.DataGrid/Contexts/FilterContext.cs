@@ -3,7 +3,7 @@
     /// <summary>
     /// Context for editors in datagrid filter section.
     /// </summary>
-    public class FilterContext
+    public class FilterContext<TItem>
     {
         #region Members
 

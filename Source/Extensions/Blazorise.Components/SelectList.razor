@@ -4,7 +4,7 @@
     <ChildContent>
         @if ( DefaultItemText != null )
         {
-            <SelectItem @key="@DefaultItemValue" TValue="TValue" Value="@DefaultItemValue" Disabled="@DefaultItemDisabled" Hidden="@DefaultItemHidden">@DefaultItemText</SelectItem>
+            <SelectItem @key="@DefaultItemValue" Value="@DefaultItemValue" Disabled="@DefaultItemDisabled" Hidden="@DefaultItemHidden">@DefaultItemText</SelectItem>
         }
         @if ( Data != null )
         {
@@ -13,7 +13,7 @@
                 var text = TextField?.Invoke( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-                <SelectItem @key="@value" TValue="TValue" Value="@value">@text</SelectItem>
+                <SelectItem @key="@value" Value="@value">@text</SelectItem>
             }
         }
         @ChildContent

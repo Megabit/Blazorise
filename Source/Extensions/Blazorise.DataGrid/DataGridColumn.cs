@@ -275,7 +275,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Filter value for this column.
         /// </summary>
-        [Parameter] public FilterContext Filter { get; set; } = new();
+        [Parameter] public FilterContext<TItem> Filter { get; set; } = new();
 
         /// <summary>
         /// Custom filter function used to override internal filtering.
@@ -431,7 +431,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template for custom column filter rendering.
         /// </summary>
-        [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
+        [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
 
         /// <summary>
         /// Defines the size of field for popup modal.

@@ -1,0 +1,65 @@
+﻿<DataGrid TItem="Employee"
+          Data="InMemoryData"
+          @bind-SelectedRow="selectedEmployee"
+          AggregateRowPosition="AggregateRowPosition">
+    <DataGridColumns>
+        <DataGridColumn TextAlignment="TextAlignment.Center"
+                        TItem="Employee"
+                        Field="@nameof( Employee.Fraction )"
+                        Caption="Fraction"
+                        SortField="@nameof( Employee.FractionValue )"
+                        SortDirection="SortDirection.Ascending"
+                        Editable="false" />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name"
+                        Editable />
+    </DataGridColumns>
+    <DataGridAggregates>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Name )" Aggregate="DataGridAggregateType.Count">
+            <DisplayTemplate>
+                @($"Total employees: {context.Value}")
+            </DisplayTemplate>
+        </DataGridAggregate>
+    </DataGridAggregates>
+</DataGrid>
+
+@code {
+    private Employee selectedEmployee;
+
+    [Parameter] public DataGridAggregateRowPosition AggregateRowPosition { get; set; }
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public string Fraction { get; set; }
+
+        public decimal FractionValue
+        {
+            get
+            {
+                if ( !string.IsNullOrWhiteSpace( Fraction ) )
+                {
+                    var split = Fraction.Split( "/" );
+                    if ( split.Length == 2 )
+                    {
+                        return decimal.Parse( split[0] ) / decimal.Parse( split[1] );
+                    }
+                }
+
+                return 0;
+
+            }
+        }
+
+    }
+
+    public List<Employee> InMemoryData { get; set; } = new()
+        {
+            new() { Name = "John", Fraction = "1/2" },
+            new() { Name = "Sarah", Fraction = "1/4" },
+            new() { Name = "Paul", Fraction = "1/8" },
+            new() { Name = "Ana", Fraction = "3/4" }
+        };
+}

@@ -48,10 +48,10 @@
                             </DisplayTemplate>
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
-                                    <SelectItem TValue="string" Value="@("*")">All</SelectItem>
-                                    <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
-                                    <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
-                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                    <SelectItem Value="@("*")">All</SelectItem>
+                                    <SelectItem Value="@("M")">Male</SelectItem>
+                                    <SelectItem Value="@("F")">Female</SelectItem>
+                                    <SelectItem Value="@("D")">Diverse</SelectItem>
                                 </Select>
                             </FilterTemplate>
                         </DataGridSelectColumn>
