@@ -285,12 +285,6 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the column initial sort direction.
         /// </summary>
-        [Obsolete( "This property will likely be removed in the future. Please use " + nameof( SortDirection ) + " instead." )]
-        [Parameter] public SortDirection Direction { get => SortDirection; set => SortDirection = value; }
-
-        /// <summary>
-        /// Gets or sets the column initial sort direction.
-        /// </summary>
         [Parameter] public SortDirection SortDirection { get; set; }
 
         /// <summary>
