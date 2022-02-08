@@ -56,7 +56,7 @@
 }
 else if ( EditState == DataGridEditState.None && ParentDataGrid.IsCommandVisible )
 {
-    <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display">
+    <TableRowCell @onclick:stopPropagation="ParentDataGrid.CommandColumn?.PreventRowClick ?? false" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display">
         @if ( ParentDataGrid.CommandColumn?.EditCommandAllowed == true )
         {
             var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
