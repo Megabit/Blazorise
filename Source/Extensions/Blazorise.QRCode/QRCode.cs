@@ -10,8 +10,10 @@ using QRCoder;
 
 namespace Blazorise.QRCode
 {
-
-    public class QRCode : BaseComponent
+    /// <summary>
+    /// Component used to generate QR code.
+    /// </summary>
+    public class QRCode : BaseComponent, IAsyncDisposable
     {
         #region Members
 
@@ -21,12 +23,18 @@ namespace Blazorise.QRCode
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override ValueTask DisposeAsync( bool disposing )
         {
-            generator?.Dispose();
+            if ( disposing )
+            {
+                generator?.Dispose();
+            }
+
             return base.DisposeAsync( disposing );
         }
 
+        /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
             if ( AsAnchor )
@@ -59,6 +67,7 @@ namespace Blazorise.QRCode
             }
 
             var builder = new UriBuilder( Text );
+
             if ( ( builder.Scheme == Uri.UriSchemeHttp && builder.Port == 80 ) ||
                  ( builder.Scheme == Uri.UriSchemeHttps && builder.Port == 443 ) )
             {
@@ -101,6 +110,7 @@ namespace Blazorise.QRCode
         private static byte[] GetColorBytes( string color )
         {
             byte[] bytes = null;
+
             if ( HtmlColorCodeParser.TryParse( color, out var red, out var green, out var blue ) )
             {
                 bytes = new[] { red, green, blue, byte.MaxValue };
@@ -119,39 +129,39 @@ namespace Blazorise.QRCode
         [Parameter] public string Text { get; set; }
 
         /// <summary>
-        /// Payload used of QR code generation
+        /// Payload used of QR code generation.
         /// </summary>
         [Parameter] public PayloadGenerator.Payload Payload { get; set; }
 
         /// <summary>
-        /// Image alt text
+        /// Image alt text.
         /// </summary>
         [Parameter] public string Alt { get; set; }
 
         /// <summary>
-        /// Error correction level
+        /// Error correction level.
         /// </summary>
         [Parameter] public EccLevel EccLevel { get; set; } = EccLevel.L;
 
         /// <summary>
-        /// Color used as dark color
+        /// Color used as dark color.
         /// </summary>
-        [Parameter] public string DarkColor { get; set; } = "black";
+        [Parameter] public string DarkColor { get; set; } = "#000000";
 
         /// <summary>
-        /// Color used as light color
+        /// Color used as light color.
         /// </summary>
-        [Parameter] public string LightColor { get; set; } = "white";
+        [Parameter] public string LightColor { get; set; } = "#ffffff";
 
         /// <summary>
-        /// Generate QR code image as anchor
+        /// Generate QR code image as anchor.
         /// </summary>
         [Parameter] public bool AsAnchor { get; set; }
 
         /// <summary>
-        /// Pixels per module
+        /// Pixels per module.
         /// </summary>
-        [Parameter] public int PixelsPerModule { get; set; } = 5;
+        [Parameter] public int PixelsPerModule { get; set; } = 10;
 
         /// <summary>
         /// Draw quiet zones (blank margins around QR Code image)
