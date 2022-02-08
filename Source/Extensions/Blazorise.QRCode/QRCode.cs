@@ -124,7 +124,7 @@ namespace Blazorise.QRCode
         #region Properties
 
         /// <summary>
-        /// Text input or URL for QR code generation.
+        /// Value used for QR code generation.
         /// </summary>
         [Parameter] public string Value { get; set; }
 
@@ -164,7 +164,7 @@ namespace Blazorise.QRCode
         [Parameter] public int PixelsPerModule { get; set; } = 10;
 
         /// <summary>
-        /// Draw quiet zones (blank margins around QR Code image)
+        /// Draw quiet zones (blank margins around QR Code image).
         /// </summary>
         [Parameter] public bool DrawQuietZones { get; set; } = true;
 

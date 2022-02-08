@@ -4357,6 +4357,12 @@ namespace Blazorise.Docs.Models
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
+        public const string BasicQRCodeExample = @"<QRCode Value=""blazorise.com"" />";
+
+        public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
+
+        public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
+
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
 @* Define this configuration in a javascript file
