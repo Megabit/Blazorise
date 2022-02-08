@@ -14,7 +14,7 @@
                                     Text
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="text"/>
+                                    <TextEdit @bind-Text="text" />
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -22,12 +22,12 @@
                                     ECC Level
                                 </FieldLabel>
                                 <FieldBody>
-                                    <RadioGroup Buttons="true" @bind-CheckedValue="eccLevel">
-                                        <Radio Value="EccLevel.L">L</Radio>
-                                        <Radio Value="EccLevel.M">M</Radio>
-                                        <Radio Value="EccLevel.Q">Q</Radio>
-                                        <Radio Value="EccLevel.H">H</Radio>
-                                    </RadioGroup>
+                                    <Select @bind-SelectedValue="@eccLevel">
+                                        <SelectItem Value="EccLevel.L">L</SelectItem>
+                                        <SelectItem Value="EccLevel.M">M</SelectItem>
+                                        <SelectItem Value="EccLevel.Q">Q</SelectItem>
+                                        <SelectItem Value="EccLevel.H">H</SelectItem>
+                                    </Select>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -35,7 +35,7 @@
                                     Dark Color
                                 </FieldLabel>
                                 <FieldBody>
-                                    <ColorPicker @bind-Color="darkColor"/>
+                                    <ColorPicker @bind-Color="darkColor" />
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -43,18 +43,16 @@
                                     Light Color
                                 </FieldLabel>
                                 <FieldBody>
-                                    <ColorPicker @bind-Color="lightColor"/>
+                                    <ColorPicker @bind-Color="lightColor" />
                                 </FieldBody>
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Is Anchor
+                                    As Anchor
                                 </FieldLabel>
                                 <FieldBody>
-                                    <RadioGroup Buttons="true" @bind-CheckedValue="asAnchor">
-                                        <Radio Value="true">Yes</Radio>
-                                        <Radio Value="false">No</Radio>
-                                    </RadioGroup>
+                                    <Switch @bind-Checked="asAnchor">
+                                    </Switch>
                                 </FieldBody>
                             </Field>
                         </Fields>
