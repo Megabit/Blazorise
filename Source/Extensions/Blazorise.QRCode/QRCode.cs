@@ -37,7 +37,7 @@ namespace Blazorise.QRCode
         /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
-            if ( AsAnchor )
+            if ( Anchor )
             {
                 builder.OpenElement( "a" )
                     .Attribute( "href", BuildUrl() )
@@ -53,7 +53,7 @@ namespace Blazorise.QRCode
                 .Attributes( Attributes )
                 .CloseElement();
 
-            if ( AsAnchor )
+            if ( Anchor )
             {
                 builder.CloseElement(); // </a>
             }
@@ -156,7 +156,7 @@ namespace Blazorise.QRCode
         /// <summary>
         /// Generate QR code image as anchor.
         /// </summary>
-        [Parameter] public bool AsAnchor { get; set; }
+        [Parameter] public bool Anchor { get; set; }
 
         /// <summary>
         /// Pixels per module.
