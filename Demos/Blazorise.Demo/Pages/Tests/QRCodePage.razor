@@ -11,7 +11,7 @@
                         <Fields>
                             <Field>
                                 <FieldLabel>
-                                    Text
+                                    Value
                                 </FieldLabel>
                                 <FieldBody>
                                     <TextEdit @bind-Text="text" />
@@ -62,7 +62,7 @@
             <CardBody>
                 <Row>
                     <Column>
-                        <QRCode Text="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" Anchor="@asAnchor" />
+                        <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" Anchor="@asAnchor" />
                     </Column>
                 </Row>
             </CardBody>

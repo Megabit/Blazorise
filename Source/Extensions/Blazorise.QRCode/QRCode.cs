@@ -61,12 +61,12 @@ namespace Blazorise.QRCode
 
         private string BuildUrl()
         {
-            if ( Uri.IsWellFormedUriString( Text, UriKind.Absolute ) )
+            if ( Uri.IsWellFormedUriString( Value, UriKind.Absolute ) )
             {
-                return Text;
+                return Value;
             }
 
-            var builder = new UriBuilder( Text );
+            var builder = new UriBuilder( Value );
 
             if ( ( builder.Scheme == Uri.UriSchemeHttp && builder.Port == 80 ) ||
                  ( builder.Scheme == Uri.UriSchemeHttps && builder.Port == 443 ) )
@@ -97,7 +97,7 @@ namespace Blazorise.QRCode
             var lightColor = GetColorBytes( LightColor );
 
             using var data = Payload == null
-                ? generator.CreateQrCode( Text, eccLevel )
+                ? generator.CreateQrCode( Value, eccLevel )
                 : generator.CreateQrCode( Payload, eccLevel );
 
             var code = new PngByteQRCode( data );
@@ -124,12 +124,12 @@ namespace Blazorise.QRCode
         #region Properties
 
         /// <summary>
-        /// Text input or URL for QR code generation
+        /// Text input or URL for QR code generation.
         /// </summary>
-        [Parameter] public string Text { get; set; }
+        [Parameter] public string Value { get; set; }
 
         /// <summary>
-        /// Payload used of QR code generation.
+        /// Custom payload used for QR code generation.
         /// </summary>
         [Parameter] public PayloadGenerator.Payload Payload { get; set; }
 
