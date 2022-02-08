@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.props" />
+
+  <PropertyGroup>
+    <PackageTags>blazorise blazor components qrcode</PackageTags>
+    <Authors>$(Authors);Niek Jannink</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="QRCoder" Version="1.4.3" />
+  </ItemGroup>
+
+</Project>
