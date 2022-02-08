@@ -410,4 +410,7 @@
     <DocsAttributesItem Name="PreventRowClick" Type="bool">
         Will set @@onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
+        Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+    </DocsAttributesItem>
 </DocsAttributes>
