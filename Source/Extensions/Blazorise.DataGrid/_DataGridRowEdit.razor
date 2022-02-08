@@ -32,55 +32,55 @@
                 {
                     <Row>
                         <Column>
-                                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
-                                {
-                                    var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
+                            @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
+                            {
+                                var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                                    @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
+                                @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
+                                {
+                                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                                     {
-                                        @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
-                                        {
-                                            Clicked = callbackFactory.Create( this, SaveWithValidation ),
-                                            LocalizationString = saveButtonString,
-                                            Item = Item,
-                                        });
-                                    }
-                                    else
-                                    {
-                                        @if ( ParentDataGrid.SubmitFormOnEnter )
-                                        {
-                                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
-                                                @saveButtonString
-                                            </Button>
-                                        }
-                                        else
-                                        {
-                                            <Button Color="Color.Link" Clicked="@SaveWithValidation">
-                                                @saveButtonString
-                                            </Button>
-                                        }
-                                    }
+                                        Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                                        LocalizationString = saveButtonString,
+                                        Item = Item,
+                                    });
                                 }
-                                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
+                                else
                                 {
-                                    var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
-
-                                    @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                                    @if ( ParentDataGrid.SubmitFormOnEnter )
                                     {
-                                        @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                                        {
-                                            Clicked = Cancel,
-                                            LocalizationString = cancelButtonString,
-                                            Item = Item,
-                                        });
+                                        <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
+                                            @saveButtonString
+                                        </Button>
                                     }
                                     else
                                     {
-                                        <Button Color="Color.Link" Clicked="@Cancel">
-                                            @cancelButtonString
+                                        <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                                            @saveButtonString
                                         </Button>
                                     }
                                 }
+                            }
+                            @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
+                            {
+                                var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
+
+                                @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                                {
+                                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
+                                    {
+                                        Clicked = Cancel,
+                                        LocalizationString = cancelButtonString,
+                                        Item = Item,
+                                    });
+                                }
+                                else
+                                {
+                                    <Button Color="Color.Link" Clicked="@Cancel">
+                                        @cancelButtonString
+                                    </Button>
+                                }
+                            }
                         </Column>
                     </Row>
                 }
@@ -104,15 +104,19 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( column.IsCommandColumn )
                 {
-                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="column" Save="@SaveWithValidation" />
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="column" Save="@SaveWithValidation" />
                 }
-                else if ( column.IsMultiSelectColumn && ParentDataGrid.MultiSelect )
+                else if ( column.IsMultiSelectColumn )
                 {
+                    if ( ParentDataGrid.MultiSelect )
+                    {
                         <TableRowCell Class="@column.CellClass?.Invoke(Item)"
                                       Style="@column.BuildCellStyle(Item)"
                                       TextAlignment="@column.TextAlignment"
                                       VerticalAlignment="@column.VerticalAlignment"
-                                      Display="@column.Display"></TableRowCell>
+                                      Display="@column.Display">
+                        </TableRowCell>
+                    }
                 }
                 else if ( column.Displayable )
                 {
