@@ -777,7 +777,7 @@ namespace Blazorise.DataGrid
             editItemCellValues = new();
 
             validationItem = UseValidation
-                ? RecursiveObjectActivator.CreateInstance<TItem>()
+                ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
                 : default;
 
             foreach ( var column in EditableColumns )
@@ -1876,6 +1876,11 @@ namespace Blazorise.DataGrid
         /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
         /// </summary>
         [Parameter] public Func<TItem> NewItemCreator { get; set; }
+
+        /// <summary>
+        /// Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+        /// </summary>
+        [Parameter] public Func<TItem> ValidationItemCreator { get; set; }
 
         /// <summary>
         /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
