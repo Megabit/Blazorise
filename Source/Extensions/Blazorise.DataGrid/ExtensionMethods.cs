@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Blazorise.Localization;
 #endregion
@@ -45,14 +46,24 @@ namespace Blazorise.DataGrid
             return textLocalizer[name, arguments];
         }
 
+
         /// <summary>
-        /// Checks if a type is a collection or a list.
+        /// Checks if a type is a collection.
         /// </summary>
         /// <param name="type">Type to check.</param>
-        /// <returns>True if <paramref name="type"/> is the collection or a list.</returns>
-        public static bool IsListOrCollection( this Type type )
-            => typeof( System.Collections.IList ).IsAssignableFrom( type )
-            || typeof( System.Collections.ICollection ).IsAssignableFrom( type )
-            || typeof( IEnumerable<> ).IsAssignableFrom( type );
+        /// <returns>True if <paramref name="type"/> is a collection.</returns>
+        public static bool IsCollection( this Type type )
+            => typeof( ICollection ).IsAssignableFrom( type )
+                || type.IsGenericCollection()
+                || type.IsGenericIEnumerable()
+                || Array.Find( type.GetInterfaces(), IsGenericCollection ) != null;
+
+        private static bool IsGenericCollection( this Type type )
+            => type.IsGenericType
+                && type.GetGenericTypeDefinition() == typeof( ICollection<> );
+
+        private static bool IsGenericIEnumerable( this Type type )
+            => type.IsGenericType
+                && type.GetGenericTypeDefinition() == typeof( IEnumerable<> );
     }
 }
