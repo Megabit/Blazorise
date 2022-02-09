@@ -3,9 +3,21 @@
 @if ( ParentValidation?.Status == ValidationStatus.Error )
 {
     <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @if ( ErrorText != null )
+        @if ( ErrorMessages != null && ErrorMessages.Any() )
         {
-            @ErrorText
+            @if ( Multiline )
+            {
+                <OrderedList Unstyled>
+                    @foreach ( var errorMessage in ErrorMessages )
+                    {
+                        <OrderedListItem @key="@errorMessage">@errorMessage</OrderedListItem>
+                    }
+                </OrderedList>
+            }
+            else
+            {
+                @string.Join(";", ErrorMessages)
+            }
         }
         else
         {

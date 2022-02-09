@@ -6,8 +6,8 @@
           EditMode="DataGridEditMode.Inline"
           Responsive
           ShowPager>
-    <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+    <DataGridCommandColumn />
+    <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
         <EditTemplate>
             <NumericEdit TValue="decimal"
                          Value="@((decimal)context.CellValue)"
@@ -17,7 +17,7 @@
                          })" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.Tax )" Caption="Tax" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+    <DataGridColumn Field="@nameof( Employee.Tax )" Caption="Tax" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
         <EditTemplate>
             <NumericEdit TValue="decimal"
                          Value="@((decimal)context.CellValue)"

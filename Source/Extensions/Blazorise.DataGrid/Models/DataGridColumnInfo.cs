@@ -49,12 +49,6 @@ namespace Blazorise.DataGrid
         public SortDirection SortDirection { get; }
 
         /// <summary>
-        /// Gets the column sort direction.
-        /// </summary>
-        [Obsolete( "This property will likely be removed in the future. Please use " + nameof( SortDirection ) + " instead." )]
-        public SortDirection Direction => SortDirection;
-
-        /// <summary>
         /// Gets the index by which the columns should be sorted.
         /// </summary>
         public int SortIndex { get; }

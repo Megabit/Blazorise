@@ -15,10 +15,10 @@
                 </Paragraph>
                 <Paragraph>
                     <Select TValue="int" @bind-SelectedValue="@selectedEmployeeIdForDetailRow">
-                        <SelectItem TValue="int" Value="0"></SelectItem>
+                        <SelectItem Value="0"></SelectItem>
                         @foreach ( var item in inMemoryData )
                         {
-                            <SelectItem TValue="int" Value="item.Id">@item.FirstName</SelectItem>
+                            <SelectItem Value="item.Id">@item.FirstName</SelectItem>
                         }
                     </Select>
                     <Button Clicked="ToggleDetailRow"> Toggle Detail Row</Button>

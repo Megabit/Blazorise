@@ -1683,21 +1683,21 @@ namespace Blazorise.Docs.Models
 </Progress>";
 
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
         public const string RadioGroupButtonsExample = @"<RadioGroup TValue=""string"" Name=""colors"" Buttons=""true"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
         public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-CheckedValue=""@checkedValue"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>
 
 @code{
@@ -1708,9 +1708,9 @@ namespace Blazorise.Docs.Models
             Name=""colors""
             CheckedValue=""@checkedValue""
             CheckedValueChanged=""@OnCheckedValueChanged"">
-    <Radio TValue=""string"" Value=""@(""red"")"">Red</Radio>
-    <Radio TValue=""string"" Value=""@(""green"")"">Green</Radio>
-    <Radio TValue=""string"" Value=""@(""blue"")"">Blue</Radio>
+    <Radio Value=""@(""red"")"">Red</Radio>
+    <Radio Value=""@(""green"")"">Green</Radio>
+    <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>
 
 @code{
@@ -3094,20 +3094,20 @@ namespace Blazorise.Docs.Models
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
-        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
+        <DataGridAggregate Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
             <DisplayTemplate>
                 @($""Total emails: {context.Value}"")
             </DisplayTemplate>
         </DataGridAggregate>
-        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
-        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
+        <DataGridAggregate Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
+        <DataGridAggregate Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
     </DataGridAggregates>
     <DataGridColumns>
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
             <EditTemplate>
                 <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
@@ -3134,20 +3134,20 @@ namespace Blazorise.Docs.Models
           AggregateData=""@employeeSummary""
           Responsive>
     <DataGridAggregates>
-        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
+        <DataGridAggregate Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
             <DisplayTemplate>
                 @($""Total emails: {context.Value}"")
             </DisplayTemplate>
         </DataGridAggregate>
-        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
-        <DataGridAggregate TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
+        <DataGridAggregate Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
+        <DataGridAggregate Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
     </DataGridAggregates>
     <DataGridColumns>
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
             <EditTemplate>
                 <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
@@ -3214,11 +3214,11 @@ namespace Blazorise.Docs.Models
           ShowPager
           CommandMode=""DataGridCommandMode.ButtonRow"">
     <DataGridColumns>
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
             <EditTemplate>
                 <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
@@ -3249,7 +3249,7 @@ namespace Blazorise.Docs.Models
           @bind-SelectedRow=""@selectedEmployee""
           Editable
           Responsive>
-    <DataGridCommandColumn TItem=""Employee"">
+    <DataGridCommandColumn>
         <NewCommandTemplate>
             <Button Color=""Color.Success"" Clicked=""@context.Clicked"">New</Button>
         </NewCommandTemplate>
@@ -3257,11 +3257,11 @@ namespace Blazorise.Docs.Models
             <Button Color=""Color.Primary"" Clicked=""@context.Clicked"">Edit</Button>
         </EditCommandTemplate>
     </DataGridCommandColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3285,14 +3285,14 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           Filterable
           Responsive>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
-    <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable=""true"">
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+    <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable=""true"">
         <FilterTemplate>
             <Select TValue=""string"" SelectedValue=""@selectedGenderFilter"" SelectedValueChanged=""@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })"">
-                <SelectItem TValue=""string"" Value=""@(""*"")"">All</SelectItem>
-                <SelectItem TValue=""string"" Value=""@(""M"")"">Male</SelectItem>
-                <SelectItem TValue=""string"" Value=""@(""F"")"">Female</SelectItem>
-                <SelectItem TValue=""string"" Value=""@(""D"")"">Diverse</SelectItem>
+                <SelectItem Value=""@(""*"")"">All</SelectItem>
+                <SelectItem Value=""@(""M"")"">Male</SelectItem>
+                <SelectItem Value=""@(""F"")"">Female</SelectItem>
+                <SelectItem Value=""@(""D"")"">Diverse</SelectItem>
             </Select>
         </FilterTemplate>
     </DataGridSelectColumn>
@@ -3321,7 +3321,7 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           CustomFilter=""@OnCustomFilter""
           Responsive>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
 @code{
@@ -3347,12 +3347,12 @@ namespace Blazorise.Docs.Models
           RowStyling=""@OnRowStyling""
           SelectedRowStyling=""@OnSelectedRowStyling""
           Responsive>
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3389,8 +3389,8 @@ namespace Blazorise.Docs.Models
           DetailRowTrigger=""@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)""
           Responsive>
     <DataGridColumns>
-        <DataGridCommandColumn TItem=""Employee"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" />
+        <DataGridCommandColumn />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" />
     </DataGridColumns>
     <DetailRowTemplate>
         @{
@@ -3400,9 +3400,9 @@ namespace Blazorise.Docs.Models
                       Data=""salaries""
                       Sortable=""false""
                       ShowCaptions=""false"">
-                <DataGridCommandColumn TItem=""Salary"" />
-                <DataGridDateColumn TItem=""Salary"" Field=""@nameof(Salary.Date)"" Caption=""Date"" />
-                <DataGridNumericColumn TItem=""Salary"" Field=""@nameof(Salary.Total)"" Caption=""Total"" />
+                <DataGridCommandColumn />
+                <DataGridDateColumn Field=""@nameof(Salary.Date)"" Caption=""Date"" />
+                <DataGridNumericColumn Field=""@nameof(Salary.Total)"" Caption=""Total"" />
             </DataGrid>
         }
     </DetailRowTemplate>
@@ -3424,7 +3424,7 @@ namespace Blazorise.Docs.Models
         public const string DataGridDisplayTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive>
-    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable=""true"">
+    <DataGridNumericColumn Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable=""true"">
     <DisplayTemplate>
         @{
             var date = ( context as Employee )?.DateOfBirth;
@@ -3473,7 +3473,7 @@ namespace Blazorise.Docs.Models
           CommandMode=""DataGridCommandMode.ButtonRow""
           EditMode=""editMode"">
     <DataGridColumns>
-        <DataGridCommandColumn TItem=""Employee"" NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
+        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
             <SaveCommandTemplate>
                 <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
             </SaveCommandTemplate>
@@ -3481,11 +3481,11 @@ namespace Blazorise.Docs.Models
                 <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
             </CancelCommandTemplate>
         </DataGridCommandColumn>
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
             <EditTemplate>
                 <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
@@ -3517,8 +3517,8 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           Editable
           Responsive>
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3544,12 +3544,12 @@ namespace Blazorise.Docs.Models
           ReadData=""@LoadEmployeesFromService""
           Responsive>
     <DataGridColumns>
-        <DataGridCommandColumn TItem=""Employee"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <DataGridCommandColumn />
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
             <EditTemplate>
                 <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
@@ -3600,12 +3600,12 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive>
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3630,7 +3630,7 @@ namespace Blazorise.Docs.Models
           Filterable
           FilterMethod=""DataGridFilterMethod.StartsWith""
           Responsive>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
 @code{
@@ -3644,12 +3644,12 @@ namespace Blazorise.Docs.Models
           PageSize=""100""
           FixedHeader
           FixedHeaderDataGridMaxHeight=""300px"">
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3678,11 +3678,11 @@ namespace Blazorise.Docs.Models
           PageSize=""1""
           ShowPager
           Responsive>
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3734,12 +3734,12 @@ namespace Blazorise.Docs.Models
           ReadData=""@LoadEmployeesFromService""
           Responsive>
     <DataGridColumns>
-        <DataGridCommandColumn TItem=""Employee"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+        <DataGridCommandColumn />
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
             <EditTemplate>
                 <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
@@ -3801,13 +3801,13 @@ namespace Blazorise.Docs.Models
           SelectionMode=""DataGridSelectionMode.Multiple""
           @bind-SelectedRows=""selectedEmployees""
           Responsive>
-    <DataGridMultiSelectColumn TItem=""Employee"" Width=""30px""></DataGridMultiSelectColumn>
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridMultiSelectColumn Width=""30px""></DataGridMultiSelectColumn>
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3835,12 +3835,12 @@ namespace Blazorise.Docs.Models
           Editable
           Responsive
           ShowPager>
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3886,12 +3886,12 @@ namespace Blazorise.Docs.Models
           Responsive
           Resizable
           ResizeMode=""@resizeMode"">
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3921,11 +3921,11 @@ namespace Blazorise.Docs.Models
           RowSelectable=""RowSelectableHandler"">
     <DataGridMultiSelectColumn TItem=""Employee"" Width=""30px""></DataGridMultiSelectColumn>
     <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3961,12 +3961,12 @@ namespace Blazorise.Docs.Models
           FixedHeader
           FixedHeaderDataGridMaxHeight=""250px""
           PageSize=""50"">
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -3997,7 +3997,7 @@ namespace Blazorise.Docs.Models
           Data=""@employeeList""
           RowSelectable=@((x)=> x.Item.FirstName != ""John"")
           Responsive>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
 @code{
@@ -4010,8 +4010,8 @@ namespace Blazorise.Docs.Models
           EditMode=""DataGridEditMode.Inline""
           Responsive
           ShowPager>
-    <DataGridCommandColumn TItem=""Employee""></DataGridCommandColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
             <NumericEdit TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
@@ -4021,7 +4021,7 @@ namespace Blazorise.Docs.Models
                          })"" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
+    <DataGridColumn Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
             <NumericEdit TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
@@ -4048,7 +4048,7 @@ namespace Blazorise.Docs.Models
           Editable
           UseValidation
           ShowValidationsSummary=""false"">
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""true"">
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""true"">
         <EditTemplate>
             <Validation Validator=""@CheckName"">
                 <TextEdit Text=""@((string)context.CellValue)"" TextChanged=""(value => context.CellValue = value)"">
@@ -4059,7 +4059,7 @@ namespace Blazorise.Docs.Models
             </Validation>
         </EditTemplate>
     </DataGridColumn>
-    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code{
@@ -4081,8 +4081,8 @@ namespace Blazorise.Docs.Models
           Responsive
           Editable
           UseValidation>
-    <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Validator=""@CheckName"" Editable=""true"" />
-    <DataGridCommandColumn TItem=""Employee"" />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Validator=""@CheckName"" Editable=""true"" />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code{
@@ -4105,12 +4105,12 @@ namespace Blazorise.Docs.Models
           Responsive
           Virtualize
           VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
-    <DataGridCommandColumn TItem=""Employee"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
-    <DataGridColumn TItem=""Employee"" Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable=""true"" />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable=""true"">
         <EditTemplate>
             <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -4297,6 +4297,8 @@ namespace Blazorise.Docs.Models
 
         public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
 
+        public const string MarkdownShortcutsExample = @"<Markdown Shortcuts=""@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = ""Cmd+E"" })"" />";
+
         public const string MarkdownUploadImageExample = @"<Markdown ImageUploadChanged=""@OnImageUploadChanged""
           ImageUploadStarted=""@OnImageUploadStarted""
           ImageUploadProgressed=""@OnImageUploadProgressed""
@@ -4356,6 +4358,12 @@ namespace Blazorise.Docs.Models
         public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
+
+        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" />";
+
+        public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
+
+        public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 

@@ -275,18 +275,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Filter value for this column.
         /// </summary>
-        [Parameter] public FilterContext Filter { get; set; } = new();
+        [Parameter] public FilterContext<TItem> Filter { get; set; } = new();
 
         /// <summary>
         /// Custom filter function used to override internal filtering.
         /// </summary>
         [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
-
-        /// <summary>
-        /// Gets or sets the column initial sort direction.
-        /// </summary>
-        [Obsolete( "This property will likely be removed in the future. Please use " + nameof( SortDirection ) + " instead." )]
-        [Parameter] public SortDirection Direction { get => SortDirection; set => SortDirection = value; }
 
         /// <summary>
         /// Gets or sets the column initial sort direction.
@@ -431,7 +425,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template for custom column filter rendering.
         /// </summary>
-        [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
+        [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
 
         /// <summary>
         /// Defines the size of field for popup modal.

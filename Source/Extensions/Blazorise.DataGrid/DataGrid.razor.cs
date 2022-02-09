@@ -20,6 +20,7 @@ namespace Blazorise.DataGrid
     /// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
     /// </summary>
     /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
+    [CascadingTypeParameter( nameof( TItem ) )]
     public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
@@ -751,7 +752,7 @@ namespace Blazorise.DataGrid
             editItemCellValues = new();
 
             validationItem = UseValidation
-                ? RecursiveObjectActivator.CreateInstance<TItem>()
+                ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
                 : default;
 
             foreach ( var column in EditableColumns )
@@ -1309,6 +1310,16 @@ namespace Blazorise.DataGrid
         protected bool HasAggregates => Aggregates.Count > 0;
 
         /// <summary>
+        /// If true, aggregates will be shown on top of the table.
+        /// </summary>
+        protected bool ShowAggregatesOnTop => AggregateRowPosition == DataGridAggregateRowPosition.Top || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
+
+        /// <summary>
+        /// If true, aggregates will be shown on bottom of the table.
+        /// </summary>
+        protected bool ShowAggregatesOnBottom => AggregateRowPosition == DataGridAggregateRowPosition.Bottom || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
+
+        /// <summary>
         /// Returns true if data is not empty, data is not loaded, empty and loading template is not set.
         /// </summary>
         protected bool IsDisplayDataVisible => !IsLoadingTemplateVisible && !IsEmptyTemplateVisible;
@@ -1611,6 +1622,11 @@ namespace Blazorise.DataGrid
         [Parameter] public DataGridPagerPosition PagerPosition { get; set; } = DataGridPagerPosition.Bottom;
 
         /// <summary>
+        /// Gets or sets the position of the aggregate row.
+        /// </summary>
+        [Parameter] public DataGridAggregateRowPosition AggregateRowPosition { get; set; } = DataGridAggregateRowPosition.Bottom;
+
+        /// <summary>
         /// Gets or sets whether users can adjust the page size of the datagrid.
         /// </summary>
         [Parameter] public bool ShowPageSizes { get => paginationContext.ShowPageSizes; set => paginationContext.ShowPageSizes = value; }
@@ -1835,6 +1851,11 @@ namespace Blazorise.DataGrid
         /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
         /// </summary>
         [Parameter] public Func<TItem> NewItemCreator { get; set; }
+
+        /// <summary>
+        /// Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+        /// </summary>
+        [Parameter] public Func<TItem> ValidationItemCreator { get; set; }
 
         /// <summary>
         /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
