@@ -62,7 +62,16 @@
             <CardBody>
                 <Row>
                     <Column>
-                        <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" Anchor="@asAnchor" />
+                        @if ( asAnchor )
+                        {
+                            <Anchor To="@text" Target="Target.Blank">
+                                <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                            </Anchor>
+                        }
+                        else
+                        {
+                            <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                        }
                     </Column>
                 </Row>
             </CardBody>
@@ -71,7 +80,7 @@
 </Row>
 
 @code {
-    private string text = "blazorise.com";
+    private string text = "https://blazorise.com";
     private EccLevel eccLevel = EccLevel.L;
     private string darkColor = "black";
     private string lightColor = "white";

@@ -37,13 +37,6 @@ namespace Blazorise.QRCode
         /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
-            if ( Anchor )
-            {
-                builder.OpenElement( "a" )
-                    .Attribute( "href", BuildUrl() )
-                    .Attribute( "target", "_blank" );
-            }
-
             builder.OpenElement( "img" )
                 .Id( ElementId )
                 .Attribute( "src", GetAsBase64Image() )
@@ -52,29 +45,6 @@ namespace Blazorise.QRCode
                 .Style( StyleNames )
                 .Attributes( Attributes )
                 .CloseElement();
-
-            if ( Anchor )
-            {
-                builder.CloseElement(); // </a>
-            }
-        }
-
-        private string BuildUrl()
-        {
-            if ( Uri.IsWellFormedUriString( Value, UriKind.Absolute ) )
-            {
-                return Value;
-            }
-
-            var builder = new UriBuilder( Value );
-
-            if ( ( builder.Scheme == Uri.UriSchemeHttp && builder.Port == 80 ) ||
-                 ( builder.Scheme == Uri.UriSchemeHttps && builder.Port == 443 ) )
-            {
-                builder.Port = -1;
-            }
-
-            return builder.ToString();
         }
 
         /// <summary>
@@ -152,11 +122,6 @@ namespace Blazorise.QRCode
         /// Color used as light color.
         /// </summary>
         [Parameter] public string LightColor { get; set; } = "#ffffff";
-
-        /// <summary>
-        /// Generate QR code image as anchor.
-        /// </summary>
-        [Parameter] public bool Anchor { get; set; }
 
         /// <summary>
         /// Pixels per module.
