@@ -21,7 +21,5 @@
         /// Note that not all browser supports this mode, see <see href="https://caniuse.com/input-datetime" /> for more info.
         /// </summary>
         Month,
-
-        Range
     }
 }

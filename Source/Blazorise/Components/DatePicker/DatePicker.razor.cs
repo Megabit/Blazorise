@@ -18,32 +18,36 @@ namespace Blazorise
     /// An editor that displays a date value and allows a user to edit the value.
     /// </summary>
     /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
-    public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposable
+    public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable
     {
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var date ) && !Date.Equals( date );
-            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? min ) && !Min.IsEqual( min );
-            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? max ) && !Max.IsEqual( max );
-            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
-            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
-            var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
-            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
-            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
-            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> disabledDates ) && !DisabledDates.AreEqual( disabledDates );
+            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !Date.Equals( paramDate );
+            var datesChanged = parameters.TryGetValue( nameof( Dates ), out IEnumerable<TValue> paramDates ) && !Dates.AreEqual( paramDates );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
+            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
+            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string paramDisplayFormat ) && DisplayFormat != paramDisplayFormat;
+            var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool paramTimeAs24hr ) && TimeAs24hr != paramTimeAs24hr;
+            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
+            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
+            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
+            var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
 
-            if ( dateChanged )
+            if ( dateChanged || datesChanged )
             {
-                var dateString = FormatValueAsString( date );
+                var formatedDateString = SelectionMode != DateInputSelectionMode.Single
+                    ? FormatValueAsString( paramDates?.ToArray() )
+                    : FormatValueAsString( new TValue[] { paramDate } );
 
-                await CurrentValueHandler( dateString );
+                await CurrentValueHandler( formatedDateString );
 
                 if ( Rendered )
                 {
-                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, dateString ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, formatedDateString ) );
                 }
             }
 
@@ -54,18 +58,20 @@ namespace Blazorise
                 || timeAs24hrChanged
                 || disabledChanged
                 || readOnlyChanged
-                || disabledDatesChanged ) )
+                || disabledDatesChanged
+                || selectionModeChanged ) )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
-                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = (int)firstDayOfWeek },
-                    DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
-                    TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
-                    Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
-                    Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
-                    Disabled = new { Changed = disabledChanged, Value = disabled },
-                    ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
-                    DisabledDates = new { Changed = disabledDatesChanged, Value = disabledDates?.Select( x => FormatValueAsString( x ) ) },
+                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = (int)paramFirstDayOfWeek },
+                    DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( paramDisplayFormat ) },
+                    TimeAs24hr = new { Changed = timeAs24hrChanged, Value = paramTimeAs24hr },
+                    Min = new { Changed = minChanged, Value = paramMin?.ToString( DateFormat ) },
+                    Max = new { Changed = maxChanged, Value = paramMax?.ToString( DateFormat ) },
+                    Disabled = new { Changed = disabledChanged, Value = paramDisabled },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
+                    DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
+                    SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                 } ) );
             }
 
@@ -81,7 +87,7 @@ namespace Blazorise
                 {
                     // make sure we get the newest value
                     var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
-                        ? inDate
+                        ? new TValue[] { inDate }
                         : InternalValue;
 
                     await ParentValidation.InitializeInputPattern( pattern, value );
@@ -105,15 +111,16 @@ namespace Blazorise
             await JSModule.Initialize( ElementRef, ElementId, new
             {
                 InputMode,
+                SelectionMode = SelectionMode.ToDateInputSelectionMode(),
                 FirstDayOfWeek = (int)FirstDayOfWeek,
                 DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
                 TimeAs24hr,
-                Default = FormatValueAsString( Date ),
+                Default = FormatValueAsString( SelectionMode != DateInputSelectionMode.Single ? Dates : new TValue[] { Date } ),
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
                 Disabled,
                 ReadOnly,
-                DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
+                DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
                 Localization = GetLocalizationObject()
             } );
 
@@ -160,33 +167,88 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override Task OnInternalValueChanged( TValue value )
+        protected override Task OnInternalValueChanged( IReadOnlyList<TValue> value )
         {
-            return DateChanged.InvokeAsync( value );
+            if ( SelectionMode != DateInputSelectionMode.Single )
+                return DatesChanged.InvokeAsync( value );
+            else
+                return DateChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
         }
 
         /// <inheritdoc/>
-        protected override string FormatValueAsString( TValue value )
+        protected override string FormatValueAsString( IReadOnlyList<TValue> values )
         {
-            return value switch
-            {
-                null => null,
-                DateTime datetime => datetime.ToString( DateFormat ),
-                DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
-                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
-            };
-        }
+            if ( values == null || values.Count == 0 )
+                return null;
 
-        /// <inheritdoc/>
-        protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
-        {
-            if ( Parsers.TryParseDate<TValue>( value, InputMode, out var result ) )
+            if ( SelectionMode != DateInputSelectionMode.Single )
             {
-                return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
+                var results = new List<string>();
+
+                foreach ( var value in values )
+                {
+                    var result = value switch
+                    {
+                        null => null,
+                        DateTime datetime => datetime.ToString( DateFormat ),
+                        DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
+                        _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+                    };
+
+                    results.Add( result );
+                }
+
+                return String.Join( SelectionMode == DateInputSelectionMode.Multiple ? ", " : " to ", results );
             }
             else
             {
-                return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
+                if ( values[0] == null )
+                    return null;
+
+                return values[0] switch
+                {
+                    null => null,
+                    DateTime datetime => datetime.ToString( DateFormat ),
+                    DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
+                    _ => throw new InvalidOperationException( $"Unsupported type {values.GetType()}" ),
+                };
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
+        {
+            if ( SelectionMode != DateInputSelectionMode.Single )
+            {
+                var values = value?.Split( SelectionMode == DateInputSelectionMode.Multiple ? ", " : " to " );
+
+                if ( values?.Length > 0 )
+                {
+                    var result = new List<TValue>();
+
+                    foreach ( var part in values )
+                    {
+                        if ( Parsers.TryParseDate<TValue>( part, InputMode, out var resultValue ) )
+                        {
+                            result.Add( resultValue );
+                        }
+                    }
+
+                    return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, result.ToArray(), null ) );
+                }
+
+                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( false, new TValue[] { default, default }, null ) );
+            }
+            else
+            {
+                if ( Parsers.TryParseDate<TValue>( value, InputMode, out var result ) )
+                {
+                    return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null ) );
+                }
+                else
+                {
+                    return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( false, new TValue[] { default }, null ) );
+                }
             }
         }
 
@@ -330,7 +392,21 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <inheritdoc/>
-        protected override TValue InternalValue { get => Date; set => Date = value; }
+        protected override IReadOnlyList<TValue> InternalValue
+        {
+            get => SelectionMode != DateInputSelectionMode.Single ? Dates : new TValue[] { Date };
+            set
+            {
+                if ( SelectionMode != DateInputSelectionMode.Single )
+                {
+                    Dates = value;
+                }
+                else
+                {
+                    Date = value == null ? default : value.FirstOrDefault();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the string representation of the input mode.
@@ -368,6 +444,11 @@ namespace Blazorise
         [Parameter] public DateInputMode InputMode { get; set; } = DateInputMode.Date;
 
         /// <summary>
+        /// Defines the mode in which the dates can be selected.
+        /// </summary>
+        [Parameter] public DateInputSelectionMode SelectionMode { get; set; } = DateInputSelectionMode.Single;
+
+        /// <summary>
         /// Gets or sets the input date value.
         /// </summary>
         [Parameter] public TValue Date { get; set; }
@@ -381,6 +462,21 @@ namespace Blazorise
         /// Gets or sets an expression that identifies the date value.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> DateExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets the input date value.
+        /// </summary>
+        [Parameter] public IReadOnlyList<TValue> Dates { get; set; }
+
+        /// <summary>
+        /// Occurs when the date has changed.
+        /// </summary>
+        [Parameter] public EventCallback<IReadOnlyList<TValue>> DatesChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the date value.
+        /// </summary>
+        [Parameter] public Expression<Func<IReadOnlyList<TValue>>> DatesExpression { get; set; }
 
         /// <summary>
         /// The earliest date to accept.

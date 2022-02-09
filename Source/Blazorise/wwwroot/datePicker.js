@@ -53,8 +53,8 @@ export function initialize(element, elementId, options) {
         disable: options.disabledDates || []
     };
 
-    if (options.inputMode === 3)
-        defaultOptions.mode = "range";
+    if (options.selectionMode)
+        defaultOptions.mode = options.selectionMode;
 
     const pluginOptions = options.inputMode === 2 ? {
         plugins: [new monthSelectPlugin({
@@ -122,6 +122,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.disabledDates.changed) {
             picker.set("disable", options.disabledDates.value || []);
+        }
+
+        if (options.selectionMode.changed) {
+            picker.set("mode", options.selectionMode.value);
         }
     }
 }
