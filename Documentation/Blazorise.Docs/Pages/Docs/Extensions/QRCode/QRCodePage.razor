@@ -1,0 +1,74 @@
+﻿@page "/docs/extensions/qrcode"
+
+<Seo Canonical="/docs/extensions/qrcode" Title="Blazorise QRCode Component" Description="A component used to generate QR codes." />
+
+<DocsPageTitle>
+    QRCode component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    A component used to generate QR codes.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="QRCodeNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main Imports.razor add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ImportQRCodeExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        To generate a QR code you only need to define a <Code>Value</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicQRCodeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicQRCodeExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is2">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Value" Type="string">
+        Value used for QR code generation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Payload" Type="PayloadGenerator.Payload" Default="null">
+        Custom payload used for QR code generation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Alt" Type="string" Default="null">
+        Image alt text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EccLevel" Type="EccLevel" Default="L">
+        Error correction level.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DarkColor" Type="" Default="#000000">
+        Color used as dark color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LightColor" Type="" Default="#ffffff">
+        Color used as light color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PixelsPerModule" Type="int" Default="10">
+        Pixels per module.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DrawQuietZones" Type="bool" Default="true">
+        Draw quiet zones (blank margins around QR Code image).
+    </DocsAttributesItem>
+</DocsAttributes>
