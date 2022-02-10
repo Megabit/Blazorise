@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Localization;
@@ -47,7 +48,7 @@ namespace Blazorise.Tests.Mocks
 
         public string ClickedId { get; private set; }
 
-        public async Task<ParseValue<T>> ParseValueAsync( string value )
+        public async Task<ParseValue<IReadOnlyList<T>>> ParseValueAsync( string value )
         {
             return await base.ParseValueFromStringAsync( value );
         }

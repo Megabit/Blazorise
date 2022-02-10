@@ -75,7 +75,7 @@ namespace Blazorise.Tests
 
             // validate
             Assert.True( result.Success );
-            Assert.Equal( expected, result.ParsedValue );
+            Assert.Equal( expected, result.ParsedValue[0] );
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace Blazorise.Tests
 
             // validate
             Assert.False( result.Success );
-            Assert.Equal( default, result.ParsedValue );
+            Assert.Equal( default, result.ParsedValue[0] );
         }
 
         [Fact]
