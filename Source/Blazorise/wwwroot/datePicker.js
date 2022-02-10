@@ -42,7 +42,7 @@ export function initialize(element, elementId, options) {
         allowInput: true,
         altInput: true,
         altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
-        defaultValue: options.default,
+        defaultDate: options.defaultDate,
         minDate: options.min,
         maxDate: options.max,
         locale: options.localization || {

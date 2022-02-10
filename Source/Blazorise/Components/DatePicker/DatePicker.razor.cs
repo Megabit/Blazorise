@@ -108,6 +108,14 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
+            object defaultDate = null;
+
+            // for multiple mode default dates must be set as array
+            if ( SelectionMode != DateInputSelectionMode.Single )
+                defaultDate = Dates?.Select( x => FormatValueAsString( new TValue[] { x } ) )?.ToArray();
+            else
+                defaultDate = FormatValueAsString( new TValue[] { Date } );
+
             await JSModule.Initialize( ElementRef, ElementId, new
             {
                 InputMode,
@@ -115,7 +123,7 @@ namespace Blazorise
                 FirstDayOfWeek = (int)FirstDayOfWeek,
                 DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
                 TimeAs24hr,
-                Default = FormatValueAsString( SelectionMode != DateInputSelectionMode.Single ? Dates : new TValue[] { Date } ),
+                DefaultDate = defaultDate,
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
                 Disabled,

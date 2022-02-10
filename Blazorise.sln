@@ -100,7 +100,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Video", "Source\E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Icons.Bootstrap", "Source\Extensions\Blazorise.Icons.Bootstrap\Blazorise.Icons.Bootstrap.csproj", "{7D4C9E83-5211-41C4-BB10-AB4599CA6C3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.QRCode", "Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj", "{81EDE0C8-05A4-4B5C-88AC-BD100FEC0471}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.QRCode", "Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj", "{81EDE0C8-05A4-4B5C-88AC-BD100FEC0471}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Generator", "Documentation\Blazorise.Docs.Generator\Blazorise.Docs.Generator.csproj", "{F4C121CA-C204-43C4-AF1D-DEE56392526F}"
 EndProject
