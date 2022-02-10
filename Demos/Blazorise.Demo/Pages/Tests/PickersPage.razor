@@ -64,12 +64,12 @@
                 </Div>
             </CardBody>
             @code {
-        DateTime? d1;
-        DateTime? dt1;
-        IReadOnlyList<DateTime?> d2;
-        IReadOnlyList<DateTime?> dt2;
-        IReadOnlyList<DateTime?> d3;
-        IReadOnlyList<DateTime?> dt3;
+                DateTime? d1;
+                DateTime? dt1 = DateTime.Now;
+                IReadOnlyList<DateTime?> d2;
+                IReadOnlyList<DateTime?> dt2 = new DateTime?[] { DateTime.Now.AddDays( -3 ), DateTime.Now.AddDays( 3 ) };
+                IReadOnlyList<DateTime?> d3;
+                IReadOnlyList<DateTime?> dt3 = new DateTime?[] { DateTime.Now, DateTime.Now.AddDays( 1 ) };
             }
         </Card>
     </Column>
