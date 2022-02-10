@@ -51,22 +51,22 @@ var enums = doc.Descendants( "member" ).Where( x => enumFileNames
 //</DocsPageSection>
 
 var sb = new StringBuilder();
-
+var tabAsSpaces = "    ";
 foreach ( var enumGroup in enums )
 {
     sb.AppendLine( "<DocsPageSection>" );
-    sb.AppendLine( $"\t<DocsPageSectionHeader Title=\"{enumGroup.Key}\">" );
-    sb.AppendLine( $"\t\t<Paragraph>{enumGroup.First().Descendants().First().FirstNode.ToString().Trim()}</Paragraph>" );
-    sb.AppendLine( "\t\t<UnorderedList>" );
+    sb.AppendLine( $"{tabAsSpaces}<DocsPageSectionHeader Title=\"{enumGroup.Key}\">" );
+    sb.AppendLine( $"{tabAsSpaces}{tabAsSpaces}<Paragraph>{enumGroup.First().Descendants().First().FirstNode.ToString().Trim()}</Paragraph>" );
+    sb.AppendLine( $"{tabAsSpaces}{tabAsSpaces}<UnorderedList>" );
 
     foreach ( var enumChild in enumGroup.Skip( 1 ) )
     {
         var enumChildName = enumChild.FirstAttribute.Value.Replace( "F:Blazorise.", "" );
-        sb.AppendLine( $"\t\t\t<UnorderedListItem><Code>{enumChildName}</Code> {enumChild.Descendants().First().FirstNode.ToString().Trim()}</UnorderedListItem>" );
+        sb.AppendLine( $"{tabAsSpaces}{tabAsSpaces}{tabAsSpaces}<UnorderedListItem><Code>{enumChildName}</Code> {enumChild.Descendants().First().FirstNode.ToString().Trim()}</UnorderedListItem>" );
     }
 
-    sb.AppendLine( "\t\t</UnorderedList>" );
-    sb.AppendLine( "\t</DocsPageSectionHeader>" );
+    sb.AppendLine( $"{tabAsSpaces}{tabAsSpaces}</UnorderedList>" );
+    sb.AppendLine( $"{tabAsSpaces}</DocsPageSectionHeader>" );
     sb.AppendLine( "</DocsPageSection>" );
     sb.AppendLine();
 }
