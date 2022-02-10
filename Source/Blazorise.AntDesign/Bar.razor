@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Bar
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" direction="ltr" role="menu" @attributes="@Attributes">
             @ChildContent

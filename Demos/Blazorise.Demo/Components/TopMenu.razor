@@ -85,7 +85,7 @@
         </BarStart>
         <BarEnd>
             <BarItem>
-                <BarDropdown RightAligned="true">
+                <BarDropdown RightAligned>
                     <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
                     <BarDropdownMenu>
                         @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
@@ -105,7 +105,7 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
-                <BarDropdown RightAligned="true">
+                <BarDropdown RightAligned>
                     <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
                     <BarDropdownMenu Style="padding: 15px; min-width:550px;">
                         <Row>
@@ -127,7 +127,7 @@
                         </Row>
                         <Row>
                             <Column>
-                                <Container Fluid="true">
+                                <Container Fluid>
                                     <ThemeColorSelector Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@ThemeColorChanged"></ThemeColorSelector>
                                 </Container>
                             </Column>

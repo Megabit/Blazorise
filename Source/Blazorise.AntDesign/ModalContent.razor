@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.ModalContent
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     <div id="@WrapperElementId" class="ant-modal-wrap" role="dialog" style="@(ParentModal?.IsVisible == true ? "" : "display: none;")">
         <div class="@DialogClassNames" role="document">
             <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">

@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     <li id="@ElementId" class="@ClassNames" style="@StyleNames" aria-current="@(Active ? "page" : null)" @attributes="@Attributes">
         @ChildContent
     </li>

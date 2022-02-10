@@ -1,5 +1,5 @@
 ﻿@inherits BaseTodoItems
-<Container Fluid="true">
+<Container Fluid>
     <Row>
         <Column>
             <Card Margin="Margin.Is4.FromTop">
@@ -30,7 +30,7 @@
                     </Fields>
                 </CardBody>
                 <CardBody Padding="Padding.Is0.OnY">
-                    <ListGroup Flush="true">
+                    <ListGroup Flush>
                         @foreach ( var todo in Todos )
                         {
                             <TodoItem Todo="@todo" StatusChanged="@OnTodoStatusChanged" />
@@ -38,7 +38,7 @@
                     </ListGroup>
                 </CardBody>
                 <CardFooter Padding="Padding.Is3.FromBottom">
-                    <Field Horizontal="true">
+                    <Field Horizontal>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Buttons Role="ButtonsRole.Addons">
                                 <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.All ))" Active="@(filter == Filter.All)">All</Button>

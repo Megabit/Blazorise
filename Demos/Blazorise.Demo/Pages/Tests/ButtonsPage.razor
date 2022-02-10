@@ -33,16 +33,16 @@
                 <CardText>In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the <code>Outline</code> ones to remove all background images and colors on any button.</CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true">PRIMARY</Button>
-                <Button Color="Color.Secondary" Outline="true">SECONDARY</Button>
-                <Button Color="Color.Success" Outline="true">SUCCESS</Button>
-                <Button Color="Color.Danger" Outline="true">DANGER</Button>
-                <Button Color="Color.Warning" Outline="true">WARNING</Button>
-                <Button Color="Color.Info" Outline="true">INFO</Button>
-                <Button Color="Color.Light" Outline="true">LIGHT</Button>
-                <Button Color="Color.Dark" Outline="true">DARK</Button>
-                <Button Color="Color.Link" Outline="true">LINK</Button>
-                <Button Outline="true">NONE</Button>
+                <Button Color="Color.Primary" Outline>PRIMARY</Button>
+                <Button Color="Color.Secondary" Outline>SECONDARY</Button>
+                <Button Color="Color.Success" Outline>SUCCESS</Button>
+                <Button Color="Color.Danger" Outline>DANGER</Button>
+                <Button Color="Color.Warning" Outline>WARNING</Button>
+                <Button Color="Color.Info" Outline>INFO</Button>
+                <Button Color="Color.Light" Outline>LIGHT</Button>
+                <Button Color="Color.Dark" Outline>DARK</Button>
+                <Button Color="Color.Link" Outline>LINK</Button>
+                <Button Outline>NONE</Button>
             </CardBody>
         </Card>
     </Column>
@@ -74,11 +74,11 @@
                 <CardTitle>Block</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Create block level buttons by adding <code>Block="true"</code></CardText>
+                <CardText>Create block level buttons by adding <code>Block</code></CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Block="true">BLOCK PRIMARY</Button>
-                <Button Color="Color.Secondary" Block="true">BLOCK SECONDARY</Button>
+                <Button Color="Color.Primary" Block>BLOCK PRIMARY</Button>
+                <Button Color="Color.Secondary" Block>BLOCK SECONDARY</Button>
             </CardBody>
         </Card>
     </Column>
@@ -93,8 +93,8 @@
                 <CardText>Add the <code>Active</code> attribute to buttons.</CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Active="true">PRIMARY</Button>
-                <Button Color="Color.Link" Active="true">LINK</Button>
+                <Button Color="Color.Primary" Active>PRIMARY</Button>
+                <Button Color="Color.Link" Active>LINK</Button>
             </CardBody>
         </Card>
     </Column>
@@ -107,15 +107,15 @@
                 <CardText>Add the <code>Disabled</code> attribute to buttons.</CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Disabled="true">PRIMARY</Button>
-                <Button Color="Color.Secondary" Disabled="true">SECONDARY</Button>
-                <Button Color="Color.Success" Disabled="true">SUCCESS</Button>
-                <Button Color="Color.Danger" Disabled="true">DANGER</Button>
-                <Button Color="Color.Warning" Disabled="true">WARNING</Button>
-                <Button Color="Color.Info" Disabled="true">INFO</Button>
-                <Button Color="Color.Light" Disabled="true">LIGHT</Button>
-                <Button Color="Color.Dark" Disabled="true">DARK</Button>
-                <Button Color="Color.Link" Disabled="true">LINK</Button>
+                <Button Color="Color.Primary" Disabled>PRIMARY</Button>
+                <Button Color="Color.Secondary" Disabled>SECONDARY</Button>
+                <Button Color="Color.Success" Disabled>SUCCESS</Button>
+                <Button Color="Color.Danger" Disabled>DANGER</Button>
+                <Button Color="Color.Warning" Disabled>WARNING</Button>
+                <Button Color="Color.Info" Disabled>INFO</Button>
+                <Button Color="Color.Light" Disabled>LIGHT</Button>
+                <Button Color="Color.Dark" Disabled>DARK</Button>
+                <Button Color="Color.Link" Disabled>LINK</Button>
             </CardBody>
         </Card>
     </Column>
@@ -130,15 +130,15 @@
                 <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place. Use <code>@("<LoadingTemplate>")</code> to add a custom loading template</CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Loading="true">PRIMARY</Button>
-                <Button Color="Color.Secondary" Loading="true">SECONDARY</Button>
-                <Button Color="Color.Success" Loading="true">SUCCESS</Button>
-                <Button Color="Color.Danger" Loading="true">DANGER</Button>
-                <Button Color="Color.Warning" Loading="true">WARNING</Button>
-                <Button Color="Color.Info" Loading="true">INFO</Button>
-                <Button Color="Color.Light" Loading="true">LIGHT</Button>
-                <Button Color="Color.Dark" Loading="true">DARK</Button>
-                <Button Color="Color.Link" Loading="true">LINK</Button>
+                <Button Color="Color.Primary" Loading>PRIMARY</Button>
+                <Button Color="Color.Secondary" Loading>SECONDARY</Button>
+                <Button Color="Color.Success" Loading>SUCCESS</Button>
+                <Button Color="Color.Danger" Loading>DANGER</Button>
+                <Button Color="Color.Warning" Loading>WARNING</Button>
+                <Button Color="Color.Info" Loading>INFO</Button>
+                <Button Color="Color.Light" Loading>LIGHT</Button>
+                <Button Color="Color.Dark" Loading>DARK</Button>
+                <Button Color="Color.Link" Loading>LINK</Button>
                 <Button Color="Color.Primary" Clicked="ShowLoading" Loading="@isLoading">
                     <LoadingTemplate>
                         This is a custom loading template
@@ -275,15 +275,15 @@
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Action</DropdownItem>
-                        <DropdownItem Active="true">Active item</DropdownItem>
-                        <DropdownItem Disabled="true">Disabled item</DropdownItem>
+                        <DropdownItem Active>Active item</DropdownItem>
+                        <DropdownItem Disabled>Disabled item</DropdownItem>
                         <DropdownDivider />
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 <Dropdown>
                     <Button Color="Color.Secondary">SPLIT DROPDOWN</Button>
-                    <DropdownToggle Color="Color.Secondary" Split="true"></DropdownToggle>
+                    <DropdownToggle Color="Color.Secondary" Split></DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
                         <DropdownItem>Action</DropdownItem>
