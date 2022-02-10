@@ -61,8 +61,8 @@
         Transparent,
 
         /// <summary>
-        /// Body color. Note that body color must be defined through them <see cref="Theme"/> options and
-        /// not all providers supports it!
+        /// Body color. Note that body color must be defined through the <see cref="Theme"/> options and
+        /// not every provider supports it!
         /// </summary>
         Body,
     }
