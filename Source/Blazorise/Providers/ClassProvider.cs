@@ -1606,19 +1606,7 @@ namespace Blazorise
 
         public virtual string ToBorderColor( BorderColor borderColor )
         {
-            return borderColor switch
-            {
-                Blazorise.BorderColor.Primary => "primary",
-                Blazorise.BorderColor.Secondary => "secondary",
-                Blazorise.BorderColor.Success => "success",
-                Blazorise.BorderColor.Danger => "danger",
-                Blazorise.BorderColor.Warning => "warning",
-                Blazorise.BorderColor.Info => "info",
-                Blazorise.BorderColor.Light => "light",
-                Blazorise.BorderColor.Dark => "dark",
-                Blazorise.BorderColor.White => "white",
-                _ => null,
-            };
+            return borderColor.Name;
         }
 
         public virtual string ToDirection( FlexDirection direction )
