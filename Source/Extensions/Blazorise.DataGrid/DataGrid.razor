@@ -5,7 +5,7 @@
 @using Blazorise.DataGrid.Models
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
         @paginationFragment
@@ -209,7 +209,7 @@
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     @DataGridAggregates
     @DataGridColumns
     @ChildContent

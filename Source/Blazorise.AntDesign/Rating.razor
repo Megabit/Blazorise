@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Rating
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     <ul id="@ElementId" class="@ClassNames" style="@StyleNames" role="radiogroup" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
         @for ( int i = 1; i <= MaxValue; i++ )
         {

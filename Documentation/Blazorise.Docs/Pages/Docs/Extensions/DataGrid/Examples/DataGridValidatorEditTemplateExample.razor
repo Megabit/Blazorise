@@ -6,7 +6,7 @@
           Editable
           UseValidation
           ShowValidationsSummary="false">
-    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="true">
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable>
         <EditTemplate>
             <Validation Validator="@CheckName">
                 <TextEdit Text="@((string)context.CellValue)" TextChanged="(value => context.CellValue = value)">

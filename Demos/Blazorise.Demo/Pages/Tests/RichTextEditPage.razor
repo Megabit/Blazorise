@@ -55,7 +55,7 @@
                             <RichTextEditToolbarGroup>
                                 <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
                                     <RichTextEditToolbarSelectItem Value="small" />
-                                    <RichTextEditToolbarSelectItem Selected="true" />
+                                    <RichTextEditToolbarSelectItem Selected />
                                     <RichTextEditToolbarSelectItem Value="large" />
                                     <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
                                 </RichTextEditToolbarSelect>
@@ -130,7 +130,7 @@
                 <CardTitle>Bubble theme</CardTitle>
             </CardHeader>
             <CardBody>
-                <Alert Visible="true">
+                <Alert Visible>
                     <AlertMessage>Note:</AlertMessage>
                     <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
                 </Alert>
@@ -157,7 +157,7 @@
     </Column>
 </Row>
 <Modal @ref="modalRef">
-    <ModalContent Size="ModalSize.Default" Centered="true">
+    <ModalContent Size="ModalSize.Default" Centered>
         <ModalHeader>
             <ModalTitle>Saved content</ModalTitle>
             <CloseButton />

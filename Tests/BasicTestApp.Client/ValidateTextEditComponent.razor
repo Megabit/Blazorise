@@ -67,7 +67,7 @@
 <h2>Using pattern:</h2>
 <p id="validate-text-using-pattern-initially-blank">
     Initially blank:
-    <Validation UsePattern="true">
+    <Validation UsePattern>
         <TextEdit Pattern="[A-Za-z]{1}" @bind-Text="@textUsingPatternInitiallyBlank">
             <Feedback>
                 <ValidationError>error</ValidationError>
@@ -77,7 +77,7 @@
 </p>
 <p id="validate-text-using-pattern-initially-populated">
     Initially populated:
-    <Validation UsePattern="true">
+    <Validation UsePattern>
         <TextEdit Pattern="[A-Za-z]{1}" @bind-Text="@textUsingPatternInitiallyPopulated">
             <Feedback>
                 <ValidationError>error</ValidationError>
