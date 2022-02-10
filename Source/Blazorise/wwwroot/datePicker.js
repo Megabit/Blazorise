@@ -42,7 +42,7 @@ export function initialize(element, elementId, options) {
         allowInput: true,
         altInput: true,
         altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
-        defaultValue: options.default,
+        defaultDate: options.defaultDate,
         minDate: options.min,
         maxDate: options.max,
         locale: options.localization || {
@@ -52,6 +52,9 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || []
     };
+
+    if (options.selectionMode)
+        defaultOptions.mode = options.selectionMode;
 
     const pluginOptions = options.inputMode === 2 ? {
         plugins: [new monthSelectPlugin({
@@ -119,6 +122,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.disabledDates.changed) {
             picker.set("disable", options.disabledDates.value || []);
+        }
+
+        if (options.selectionMode.changed) {
+            picker.set("mode", options.selectionMode.value);
         }
     }
 }
