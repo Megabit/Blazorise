@@ -13,12 +13,10 @@
     current URL.
 </DocsPageParagraph>
 
-<Alert Color="Color.Warning" Visible>
+<Alert Color="Color.Info" Visible>
     <AlertDescription>
         <Strong>Note:</Strong> due to a <Blazorise.Link To="https://github.com/dotnet/aspnetcore/issues/18685">bug</Blazorise.Link>
         in VisualStudio tooling you should write <Code Tag>Link</Code> as <Code Tag>Blazorise.Link</Code> until the issue is resolved.
-        <br />
-        <br />
         Or if you prefer the alternative, you can also use the <Code Tag>Anchor</Code> alias.
     </AlertDescription>
 </Alert>
@@ -50,6 +48,23 @@
         <AnchorLinkExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="AnchorLinkExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Target">
+        If you want to open link in a new tab or window you can use the <Code>Target</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LinkTargetExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LinkTargetExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Target iframe">
+        By assigning a name to a frame via the name attribute, you can refer to it as the "target" of links defined by other elements. Our <Code>Target</Code> parameter can also accept string values.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CustomLinkTargetExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
