@@ -30,7 +30,7 @@
     public bool DetailRowStartsVisible { get; set; } = true;
 
     [Parameter]
-    public Func<DetailRowTriggerContext<Employee>, bool> DetailRowTrigger { get; set; }
+    public Func<DetailRowTriggerEventArgs<Employee>, bool> DetailRowTrigger { get; set; }
 
     public class Employee
     {

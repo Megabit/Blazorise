@@ -4,9 +4,9 @@
     /// Holds the DetailRowTrigger context configuration.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
-    public class DetailRowTriggerContext<TItem>
+    public class DetailRowTriggerEventArgs<TItem>
     {
-        public DetailRowTriggerContext( TItem item )
+        public DetailRowTriggerEventArgs( TItem item )
         {
             Item = item;
         }
