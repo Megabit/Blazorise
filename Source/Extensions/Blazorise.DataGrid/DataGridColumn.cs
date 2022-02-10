@@ -457,6 +457,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public string SortField { get; set; }
 
+        /// <summary>
+        /// Will set @onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
+        /// </summary>
+        [Parameter] public bool PreventRowClick { get; set; }
+
         #endregion
     }
 }
