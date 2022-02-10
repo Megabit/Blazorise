@@ -1,5 +1,8 @@
 ﻿namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// Defines the DetailRowTriggerType of the DataGrid's DetailRow.
+    /// </summary>
     public enum DetailRowTriggerType
     {
         /// <summary>
