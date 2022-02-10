@@ -61,8 +61,6 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 
 - [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
 
-[Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/304)
-
 ## Documentation
 
 For full documentation, please visit the [Blazorise official documentation page](https://blazorise.com/docs/).
