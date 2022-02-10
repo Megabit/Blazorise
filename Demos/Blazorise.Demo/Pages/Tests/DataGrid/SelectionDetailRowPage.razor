@@ -31,7 +31,7 @@
                           ShowPager
                           ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0)"
+                          DetailRowTrigger="@((e)=>e.Item.Salaries?.Count > 0)"
                           DetailRowStartsVisible="false">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />

@@ -3388,7 +3388,7 @@ namespace Blazorise.Docs.Models
         public const string DataGridDetailRowTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          DetailRowTrigger=""@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)""
+          DetailRowTrigger=""@((e) => e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)""
           Responsive>
     <DataGridColumns>
         <DataGridCommandColumn />

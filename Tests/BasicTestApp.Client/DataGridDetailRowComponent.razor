@@ -5,7 +5,8 @@
           ShowPageSizes
           Sortable
           SortMode="DataGridSortMode.Single"
-          DetailRowStartsVisible="DetailRowStartsVisible">
+          DetailRowStartsVisible="DetailRowStartsVisible"
+          DetailRowTrigger="DetailRowTrigger">
     <DataGridColumns>
         <DataGridColumn TextAlignment="TextAlignment.Center"
                         TItem="Employee"
@@ -24,8 +25,13 @@
 
 @code {
     public DataGrid<Employee> DataGridRef;
+
     [Parameter]
     public bool DetailRowStartsVisible { get; set; } = true;
+
+    [Parameter]
+    public Func<DetailRowTriggerEventArgs<Employee>, bool> DetailRowTrigger { get; set; }
+
     public class Employee
     {
         public string Name { get; set; }

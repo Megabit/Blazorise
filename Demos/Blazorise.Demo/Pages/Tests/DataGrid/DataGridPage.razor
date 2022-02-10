@@ -215,7 +215,7 @@
                           @bind-SelectedRow="@selectedEmployee"
                           @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+                          DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"                          
                           Striped
                           Bordered
                           Hoverable
