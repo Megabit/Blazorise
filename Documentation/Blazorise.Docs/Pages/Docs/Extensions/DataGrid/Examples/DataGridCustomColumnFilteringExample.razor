@@ -4,14 +4,14 @@
           Data="@employeeList"
           Filterable
           Responsive>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
-    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
         <FilterTemplate>
             <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
-                <SelectItem TValue="string" Value="@("*")">All</SelectItem>
-                <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
-                <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
-                <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                <SelectItem Value="@("*")">All</SelectItem>
+                <SelectItem Value="@("M")">Male</SelectItem>
+                <SelectItem Value="@("F")">Female</SelectItem>
+                <SelectItem Value="@("D")">Diverse</SelectItem>
             </Select>
         </FilterTemplate>
     </DataGridSelectColumn>

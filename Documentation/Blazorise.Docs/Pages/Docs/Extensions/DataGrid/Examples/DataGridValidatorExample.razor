@@ -5,8 +5,8 @@
           Responsive
           Editable
           UseValidation>
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Validator="@CheckName" Editable="true" />
-    <DataGridCommandColumn TItem="Employee" />
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Validator="@CheckName" Editable />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code{

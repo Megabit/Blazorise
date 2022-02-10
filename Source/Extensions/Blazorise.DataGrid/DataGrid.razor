@@ -5,7 +5,7 @@
 @using Blazorise.DataGrid.Models
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
         @paginationFragment
@@ -117,6 +117,10 @@
                         }
                     </TableRow>
                 }
+                @if ( HasAggregates && !Virtualize && ShowAggregatesOnTop )
+                {
+                    @aggregateRowFragment
+                }
             </TableHeader>
             <TableBody>
                 @if ( IsNewItemInGrid )
@@ -178,10 +182,10 @@
                     </_DataGridFullColumnSpanRow>
                 }
             </TableBody>
-            @if ( HasAggregates && !Virtualize )
+            @if ( HasAggregates && !Virtualize && ShowAggregatesOnBottom )
             {
                 <TableFooter>
-                    <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
+                    @aggregateRowFragment
                 </TableFooter>
             }
         </Table>
@@ -205,7 +209,7 @@
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     @DataGridAggregates
     @DataGridColumns
     @ChildContent
@@ -213,10 +217,10 @@
 
 @code {
 
-    private RenderFragment paginationFragment => __builder =>
-                        {
-                        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
-                        };
+    protected RenderFragment paginationFragment => __builder =>
+    {
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
+    };
 
     protected RenderFragment<TItem> rowFragment => item => __builder =>
     {
@@ -234,5 +238,10 @@
                 </_DataGridDetailRow>
             }
         }
+    };
+
+    protected RenderFragment aggregateRowFragment => __builder =>
+    {
+        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
     };
 }

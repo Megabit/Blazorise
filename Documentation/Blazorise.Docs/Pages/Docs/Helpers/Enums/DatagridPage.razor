@@ -47,21 +47,21 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DataGridCommandMode">
-        <UnorderedList>
-            <UnorderedListItem><Code>Default</Code> Default state which means that both defined commands and button row will render.</UnorderedListItem>
-            <UnorderedListItem><Code>Commands</Code> Only defined commands will render.</UnorderedListItem>
-            <UnorderedListItem><Code>ButtonRow</Code> Only button row will render.</UnorderedListItem>
-        </UnorderedList>
-    </DocsPageSectionHeader>
-</DocsPageSection>
-
-<DocsPageSection>
     <DocsPageSectionHeader Title="DataGridPagerPosition">
         <UnorderedList>
             <UnorderedListItem><Code>Top</Code> Positions the pagination above the table.</UnorderedListItem>
             <UnorderedListItem><Code>Bottom</Code> Positions the pagination below the table.</UnorderedListItem>
             <UnorderedListItem><Code>TopAndBottom</Code> Positions the pagination on above and below the table.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataGridAggregateRowPosition">
+        <UnorderedList>
+            <UnorderedListItem><Code>Top</Code> Positions the aggregate row above the table data as the last table header row.</UnorderedListItem>
+            <UnorderedListItem><Code>Bottom</Code> Positions the aggregate row in the footer of the table.</UnorderedListItem>
+            <UnorderedListItem><Code>TopAndBottom</Code> Positions the aggregate row with both Top and Bottom definition.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
@@ -85,6 +85,16 @@
             <UnorderedListItem><Code>RowClick</Code> Row has been clicked.</UnorderedListItem>
             <UnorderedListItem><Code>MultiSelectClick</Code> Multi select has been triggered.</UnorderedListItem>
             <UnorderedListItem><Code>MultiSelectAll</Code> Multi select all has been triggered.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DetailRowTriggerType">
+        <Paragraph>Defines the DetailRowTriggerType of the DataGrid's DetailRow.</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>Manual</Code> Trigger is manually controlled by invoking the Datagrid's <Code>ToggleDetailRow</Code></UnorderedListItem>
+            <UnorderedListItem><Code>RowClick</Code> Triggers on row click.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>

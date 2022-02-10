@@ -15,10 +15,10 @@
                 </Paragraph>
                 <Paragraph>
                     <Select TValue="int" @bind-SelectedValue="@selectedEmployeeIdForDetailRow">
-                        <SelectItem TValue="int" Value="0"></SelectItem>
+                        <SelectItem Value="0"></SelectItem>
                         @foreach ( var item in inMemoryData )
                         {
-                            <SelectItem TValue="int" Value="item.Id">@item.FirstName</SelectItem>
+                            <SelectItem Value="item.Id">@item.FirstName</SelectItem>
                         }
                     </Select>
                     <Button Clicked="ToggleDetailRow"> Toggle Detail Row</Button>
@@ -31,7 +31,7 @@
                           ShowPager
                           ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0)"
+                          DetailRowTrigger="@((e)=>e.Item.Salaries?.Count > 0)"
                           DetailRowStartsVisible="false">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
@@ -46,9 +46,9 @@
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
                         </DataGridColumn>
-                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
@@ -68,11 +68,11 @@
                                 }
                             </DisplayTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

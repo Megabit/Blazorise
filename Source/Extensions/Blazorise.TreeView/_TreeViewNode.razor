@@ -1,6 +1,6 @@
 ﻿@typeparam TNode
 @inherits BaseComponent
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
         {

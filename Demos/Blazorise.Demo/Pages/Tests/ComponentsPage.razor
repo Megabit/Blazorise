@@ -8,7 +8,7 @@
                 <CardTitle>Select List</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <SelectList TItem="Country"
@@ -20,7 +20,7 @@
                                     DefaultItemText="Choose your country" />
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected value: @selectedListValue
                     </FieldBody>
@@ -34,7 +34,7 @@
                 <CardTitle>Dropdown List</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <DropdownList TItem="Country"
@@ -49,7 +49,7 @@
                         </DropdownList>
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected value: @selectedDropValue
                     </FieldBody>
@@ -70,7 +70,7 @@
                         <Check @bind-Checked="@autocompleteFreeTyping">FreeTyping</Check>
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Autocomplete TItem="Country"
@@ -95,7 +95,7 @@
                         </Autocomplete>
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected search value: @selectedAutoCompleteSearchValue
                     </FieldBody>
@@ -117,7 +117,7 @@
                         <Check @bind-Checked="@multipleAutocompleteFreeTyping">FreeTyping</Check>
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Autocomplete TItem="Country"
@@ -135,7 +135,7 @@
                         </Autocomplete>
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected Values: @string.Join(',', multipleSelectionData)
                     </FieldBody>
@@ -156,7 +156,7 @@
                 <CardTitle>Repeater</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is6">
                         <Buttons>
                             <Button Color="Color.Primary" Clicked="@(() => items.Add( items.Count + 1 ) )">Add</Button>
@@ -178,7 +178,7 @@
                         </Dropdown>
                     </FieldBody>
                 </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is12">
                         <ul>
                             <Repeater Items="@items">

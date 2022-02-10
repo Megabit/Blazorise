@@ -80,6 +80,28 @@
     </DocsPageSectionHeader>
 </DocsPageSection>
 
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <strong>Note:</strong> DataGrid supports the <Code>CascadingTypeParameter</Code> feature. We've found out, that there might be a few caveats when using the feature. For most cases you'll be just fine with removing the explicit references to the Generic Type on the children component. But for the very few cases that Blazor complains that it cannot compile, just explicitly define the Generic Type.
+        Here's an example:
+        <Paragraph Class="mb-0">
+            This will not work:
+        </Paragraph>
+        <Paragraph>
+            <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>
+        </Paragraph>
+        <Paragraph Class="mb-0">
+            These will work:
+        </Paragraph>
+        <Paragraph Class="m-0">
+            <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@((x,y) => DataGridAggregate&lt;Employee&gt;.TrueCount(x,y)) /&gt;</Code>
+        </Paragraph>
+        <Paragraph Class="m-0">
+            <Code>&lt;DataGridAggregate TItem="Employee" Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>
+        </Paragraph>
+    </AlertDescription>
+</Alert>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -154,7 +176,7 @@
     <DocsAttributesItem Name="RowHoverCursor" Type="Func<TItem,Blazorise.Cursor>">
         Handles the selection of the cursor for a hovered row. If not set, Blazorise.Cursor.Pointer` will be used.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DetailRowTrigger" Type="Func<TItem,bool>">
+    <DocsAttributesItem Name="DetailRowTrigger" Type="Func<DetailRowTriggerEventArgs<TItem>, bool>">
         A trigger function used to handle the visibility of detail row.
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowInserting" Type="EventCallback<CancellableRowChange<TItem, Dictionary<string, object>>>">
@@ -235,6 +257,9 @@
     <DocsAttributesItem Name="PagerPosition" Type="DataGridPagerPosition" Default="Bottom">
         Defines the position of the pager.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateRowPosition" Type="DataGridAggregateRowPosition" Default="Bottom">
+        Gets or sets the position of the aggregate row.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="ShowPageSizes" Type="bool" Default="false">
         Defines whether users can adjust the page size of the datagrid.
     </DocsAttributesItem>
@@ -260,7 +285,7 @@
         Sets the Datagrid max height when FixedHeader feature is enabled (defaults to 500px).
     </DocsAttributesItem>
     <DocsAttributesItem Name="DetailRowStartsVisible" Type="bool" Default="true">
-        Controls whether DetailRow will start visible if DetailRowTemplate is set
+        Controls whether DetailRow will start visible if DetailRowTemplate is set. DetailRowTrigger will be evaluated if set.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -381,5 +406,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="HeaderDisplay" Type="IFluentDisplay">
         Specifies the display behavior of a header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PreventRowClick" Type="bool">
+        Will set @@onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
+        Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
     </DocsAttributesItem>
 </DocsAttributes>

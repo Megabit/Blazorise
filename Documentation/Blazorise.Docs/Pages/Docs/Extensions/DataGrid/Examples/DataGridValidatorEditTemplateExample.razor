@@ -6,7 +6,7 @@
           Editable
           UseValidation
           ShowValidationsSummary="false">
-    <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="Name" Editable="true">
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable>
         <EditTemplate>
             <Validation Validator="@CheckName">
                 <TextEdit Text="@((string)context.CellValue)" TextChanged="(value => context.CellValue = value)">
@@ -17,7 +17,7 @@
             </Validation>
         </EditTemplate>
     </DataGridColumn>
-    <DataGridCommandColumn TItem="Employee" />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code{

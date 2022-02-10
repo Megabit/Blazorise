@@ -11,10 +11,10 @@
             <CardBody>
                 <Validations Mode="ValidationMode.Auto" ValidateOnLoad="false">
                     <Validation AsyncValidator="@ValidateNameAsync">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <TextEdit Autofocus="true" Placeholder="First and last name">
+                                <TextEdit Autofocus Placeholder="First and last name">
                                     <Feedback>
                                         <ValidationError>Enter full name!</ValidationError>
                                     </Feedback>
@@ -23,7 +23,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidationRule.IsEmail">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email address</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email">
@@ -36,7 +36,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidatePassword">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@passwordAuto">
@@ -48,7 +48,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidatePassword2Auto">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
 
@@ -61,7 +61,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidationRule.IsSelected">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="int?">
@@ -80,7 +80,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidateDateOfBirth">
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <DateEdit TValue="DateTime?">
@@ -91,8 +91,8 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation UsePattern="true">
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <Validation UsePattern>
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Pattern</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Pattern="[A-Za-z]{3}">
@@ -104,7 +104,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="ValidationRule.IsChecked">
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check TValue="bool">
                                     <ChildContent>
@@ -118,7 +118,7 @@
                         </Field>
                     </Validation>
                 </Validations>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         <Button Color="Color.Primary">Submit</Button>
                     </FieldBody>
@@ -137,7 +137,7 @@
             <CardBody>
                 <Validations @ref="validations" Mode="ValidationMode.Manual">
                     <Validation AsyncValidator="@ValidateNameAsync">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="First and last name">
@@ -149,7 +149,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidationRule.IsEmail">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email address</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email">
@@ -162,7 +162,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidatePassword">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@passwordManual">
@@ -174,7 +174,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidatePassword2Manual">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
@@ -186,7 +186,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidationRule.IsSelected">
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="int?">
@@ -205,7 +205,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidateDateOfBirth">
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <DateEdit TValue="DateTime?">
@@ -216,8 +216,8 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Validation UsePattern="true">
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <Validation UsePattern>
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Pattern</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Pattern="[A-Za-z]{3}">
@@ -229,7 +229,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="ValidationRule.IsChecked">
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check TValue="bool">
                                     <ChildContent>
@@ -242,7 +242,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal JustifyContent="JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
                         </FieldBody>
@@ -264,7 +264,7 @@
             <CardBody>
                 <Validations Mode="ValidationMode.Auto" Model="@user">
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
@@ -276,7 +276,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
@@ -288,7 +288,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
@@ -300,19 +300,19 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
                                     <Feedback>
-                                        <ValidationError />
+                                        <ValidationError Multiline />
                                     </Feedback>
                                 </TextEdit>
                             </FieldBody>
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Title</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="string" @bind-SelectedValue="@user.Title">
@@ -329,7 +329,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check @bind-Checked="@user.TermsAndConditions">
                                     <ChildContent>
@@ -342,7 +342,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal JustifyContent="JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary">Submit</Button>
                         </FieldBody>
@@ -362,7 +362,7 @@
             <CardBody>
                 <Validations @ref="annotationsValidations" Mode="ValidationMode.Manual" Model="@manualUser">
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="First and last name" @bind-Text="@manualUser.Name">
@@ -374,7 +374,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email" @bind-Text="@manualUser.Email">
@@ -386,7 +386,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@manualUser.Password">
@@ -398,7 +398,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@manualUser.ConfirmPassword">
@@ -410,7 +410,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true">
+                        <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Title</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="string" @bind-SelectedValue="@manualUser.Title">
@@ -427,7 +427,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check @bind-Checked="@manualUser.TermsAndConditions">
                                     <ChildContent>
@@ -440,7 +440,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal JustifyContent="JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary" Clicked="@AnnotationsSubmit">Submit</Button>
                         </FieldBody>
@@ -464,7 +464,7 @@
             </CardBody>
         </Card>
         <Modal @ref="modalRef">
-            <ModalContent Centered="true">
+            <ModalContent Centered>
                 <ModalHeader>
                     <ModalTitle>
                         <Icon Name="IconName.Edit" />
@@ -475,7 +475,7 @@
                 <ModalBody>
                     <Validations @ref="modalValidations" Model="@modalUser" ValidateOnLoad="false">
                         <Validation>
-                            <Field Horizontal="true">
+                            <Field Horizontal>
                                 <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                     <TextEdit Placeholder="First and last name" @bind-Text="@modalUser.Name">
@@ -487,7 +487,7 @@
                             </Field>
                         </Validation>
                         <Validation>
-                            <Field Horizontal="true">
+                            <Field Horizontal>
                                 <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                     <TextEdit Placeholder="Enter email" @bind-Text="@modalUser.Email">

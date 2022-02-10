@@ -234,7 +234,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Optional display template for aggregate values.
         /// </summary>
-        [Parameter] public RenderFragment<AggregateContext> DisplayTemplate { get; set; }
+        [Parameter] public RenderFragment<AggregateContext<TItem>> DisplayTemplate { get; set; }
 
         /// <summary>
         /// Defines the format for display value.

@@ -73,6 +73,16 @@
             };
         }
 
+        public static string ToDateInputSelectionMode( this DateInputSelectionMode dateInputSelectionMode )
+        {
+            return dateInputSelectionMode switch
+            {
+                DateInputSelectionMode.Range => "range",
+                DateInputSelectionMode.Multiple => "multiple",
+                _ => null,
+            };
+        }
+
         /// <summary>
         /// Gets the link target name.
         /// </summary>

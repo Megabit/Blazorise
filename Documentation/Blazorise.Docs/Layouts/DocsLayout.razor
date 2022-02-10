@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<Layout Sider="true" Class="b-docs">
+<Layout Sider Class="b-docs">
     <LayoutSider>
         <LayoutSiderContent>
             <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light"
@@ -264,6 +264,9 @@
                                             </BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
+                                    <BarDropdownItem To="docs/extensions/list-view">
+                                        ListView
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">
                                         Markdown
                                     </BarDropdownItem>
@@ -285,8 +288,11 @@
                                     <BarDropdownItem To="docs/extensions/treeview">
                                         TreeView
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/list-view">
-                                        ListView
+                                    <BarDropdownItem To="docs/extensions/video">
+                                        Video
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/qrcode">
+                                        QRCode
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>

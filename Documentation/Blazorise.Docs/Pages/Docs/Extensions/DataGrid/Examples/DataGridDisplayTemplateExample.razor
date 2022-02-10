@@ -3,7 +3,7 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           Responsive>
-    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable="true">
+    <DataGridNumericColumn Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable>
     <DisplayTemplate>
         @{
             var date = ( context as Employee )?.DateOfBirth;

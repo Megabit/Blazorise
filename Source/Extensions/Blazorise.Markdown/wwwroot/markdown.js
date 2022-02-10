@@ -45,16 +45,11 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         onError: (e) => { }
     };
 
-    const easyMDE = new EasyMDE({
+    const mdeOptions = {
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
         showIcons: options.showIcons,
-        renderingConfig: {
-            singleLineBreaks: false,
-            codeSyntaxHighlighting: true
-        },
         initialValue: options.value,
-        sideBySideFullscreen: false,
         autoDownloadFontAwesome: options.autoDownloadFontAwesome,
         lineNumbers: options.lineNumbers,
         lineWrapping: options.lineWrapping,
@@ -67,7 +62,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         toolbar: options.toolbar,
         toolbarTips: options.toolbarTips,
 
-        uploadImage: true,
+        uploadImage: options.uploadImage,
         imageMaxSize: options.imageMaxSize,
         imageAccept: options.imageAccept,
         imageUploadEndpoint: options.imageUploadEndpoint,
@@ -103,8 +98,45 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         errorMessages: options.errorMessages,
         errorCallback: (errorMessage) => {
             dotNetObjectRef.invokeMethodAsync("NotifyErrorMessage", errorMessage);
-        }
-    });
+        },
+
+        autofocus: options.autofocus,
+        autoRefresh: options.autoRefresh,
+        autosave: options.autosave,
+        blockStyles: options.blockStyles,
+        forceSync: options.forceSync,
+        indentWithTabs: options.indentWithTabs,
+        inputStyle: options.inputStyle,
+        insertTexts: options.insertTexts,
+        nativeSpellcheck: options.nativeSpellcheck,
+        parsingConfig: options.parsingConfig,
+        previewClass: options.previewClass,
+        previewImagesInEditor: options.previewImagesInEditor,
+        promptTexts: options.promptTexts,
+        promptURLs: options.promptURLs,
+        renderingConfig: options.renderingConfig ? options.renderingConfig : {
+            singleLineBreaks: false,
+            codeSyntaxHighlighting: true
+        },
+        scrollbarStyle: options.scrollbarStyle,
+        shortcuts: options.shortcuts,
+        sideBySideFullscreen: options.sideBySideFullscreen,
+        spellChecker: options.spellChecker,
+        status: options.status,
+        styleSelectedText: options.styleSelectedText,
+        syncSideBySidePreviewScroll: options.syncSideBySidePreviewScroll,
+        unorderedListStyle: options.unorderedListStyle
+    };
+
+    if (!mdeOptions.status) {
+        // remove empty status so that we can fallback to the default items
+        delete mdeOptions.status;
+    }
+    else if (mdeOptions.status.length === 0) {
+        mdeOptions.status = false;
+    }
+
+    const easyMDE = new EasyMDE(mdeOptions);
 
     easyMDE.codemirror.on("change", function () {
         dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());

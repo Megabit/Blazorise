@@ -3,11 +3,11 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
-          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+          DetailRowTrigger="@((e) => e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"
           Responsive>
     <DataGridColumns>
-        <DataGridCommandColumn TItem="Employee" />
-        <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" />
+        <DataGridCommandColumn />
+        <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" />
     </DataGridColumns>
     <DetailRowTemplate>
         @{
@@ -17,9 +17,9 @@
                       Data="salaries"
                       Sortable="false"
                       ShowCaptions="false">
-                <DataGridCommandColumn TItem="Salary" />
-                <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
-                <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
+                <DataGridCommandColumn />
+                <DataGridDateColumn Field="@nameof(Salary.Date)" Caption="Date" />
+                <DataGridNumericColumn Field="@nameof(Salary.Total)" Caption="Total" />
             </DataGrid>
         }
     </DetailRowTemplate>
