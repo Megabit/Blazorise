@@ -1,0 +1,88 @@
+﻿@page "/tests/qrcode"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>QR Code Component (based on <Anchor To="https://github.com/codebude/QRCoder">QRCoder</Anchor>)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Value
+                                </FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="text" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    ECC Level
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@eccLevel">
+                                        <SelectItem Value="EccLevel.L">L</SelectItem>
+                                        <SelectItem Value="EccLevel.M">M</SelectItem>
+                                        <SelectItem Value="EccLevel.Q">Q</SelectItem>
+                                        <SelectItem Value="EccLevel.H">H</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Dark Color
+                                </FieldLabel>
+                                <FieldBody>
+                                    <ColorPicker @bind-Color="darkColor" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Light Color
+                                </FieldLabel>
+                                <FieldBody>
+                                    <ColorPicker @bind-Color="lightColor" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    As Anchor
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Switch @bind-Checked="asAnchor">
+                                    </Switch>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        @if ( asAnchor )
+                        {
+                            <Anchor To="@text" Target="Target.Blank">
+                                <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                            </Anchor>
+                        }
+                        else
+                        {
+                            <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                        }
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private string text = "https://blazorise.com";
+    private EccLevel eccLevel = EccLevel.L;
+    private string darkColor = "black";
+    private string lightColor = "white";
+    private bool asAnchor = false;
+}
