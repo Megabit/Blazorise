@@ -1184,21 +1184,7 @@ namespace Blazorise
 
         public virtual string ToBackground( Background background )
         {
-            return background switch
-            {
-                Blazorise.Background.Primary => "primary",
-                Blazorise.Background.Secondary => "secondary",
-                Blazorise.Background.Success => "success",
-                Blazorise.Background.Danger => "danger",
-                Blazorise.Background.Warning => "warning",
-                Blazorise.Background.Info => "info",
-                Blazorise.Background.Light => "light",
-                Blazorise.Background.Dark => "dark",
-                Blazorise.Background.White => "white",
-                Blazorise.Background.Transparent => "transparent",
-                Blazorise.Background.Body => "body",
-                _ => null,
-            };
+            return background.Name;
         }
 
         public virtual string ToTextColor( TextColor textColor )

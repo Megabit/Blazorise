@@ -1362,33 +1362,12 @@ namespace Blazorise.Bulma
 
         public override string ToBackground( Background background )
         {
-            switch ( background )
-            {
-                case Blazorise.Background.Primary:
-                    return "primary";
-                case Blazorise.Background.Secondary:
-                    return "light";
-                case Blazorise.Background.Success:
-                    return "success";
-                case Blazorise.Background.Danger:
-                    return "danger";
-                case Blazorise.Background.Warning:
-                    return "warning";
-                case Blazorise.Background.Info:
-                    return "info";
-                case Blazorise.Background.Light:
-                    return "light";
-                case Blazorise.Background.Dark:
-                    return "dark";
-                case Blazorise.Background.White:
-                    return "white";
-                case Blazorise.Background.Transparent:
-                    return "transparent";
-                case Blazorise.Background.Body:
-                    return "body";
-                default:
-                    return null;
-            }
+            var name = background.Name;
+
+            if ( name == "secondary" )
+                return "light";
+
+            return name;
         }
 
         public override string ToTextColor( TextColor textColor )

@@ -3,67 +3,81 @@
     /// <summary>
     /// Predefined set of contextual background colors.
     /// </summary>
-    public enum Background
+    public record struct Background
     {
+        /// <summary>
+        /// Gets the enum name.
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// A default target contructor.
+        /// </summary>
+        /// <param name="name">Named value of the enum.</param>
+        public Background( string name )
+        {
+            Name = name;
+        }
+
         /// <summary>
         /// No color will be applied to an element.
         /// </summary>
-        None,
+        public static readonly Background None = new( (string)null );
 
         /// <summary>
         /// Primary color.
         /// </summary>
-        Primary,
+        public static readonly Background Primary = new( "primary" );
 
         /// <summary>
         /// Secondary color.
         /// </summary>
-        Secondary,
+        public static readonly Background Secondary = new( "secondary" );
 
         /// <summary>
         /// Success color.
         /// </summary>
-        Success,
+        public static readonly Background Success = new( "success" );
 
         /// <summary>
         /// Danger color.
         /// </summary>
-        Danger,
+        public static readonly Background Danger = new( "danger" );
 
         /// <summary>
         /// Warning color.
         /// </summary>
-        Warning,
+        public static readonly Background Warning = new( "warning" );
 
         /// <summary>
         /// Info color.
         /// </summary>
-        Info,
+        public static readonly Background Info = new( "info" );
 
         /// <summary>
         /// Light color.
         /// </summary>
-        Light,
+        public static readonly Background Light = new( "light" );
 
         /// <summary>
         /// Dark color.
         /// </summary>
-        Dark,
+        public static readonly Background Dark = new( "dark" );
 
         /// <summary>
         /// White color.
         /// </summary>
-        White,
+        public static readonly Background White = new( "white" );
 
         /// <summary>
         /// Transparent color.
         /// </summary>
-        Transparent,
+        public static readonly Background Transparent = new( "transparent" );
 
         /// <summary>
         /// Body color. Note that body color must be defined through the <see cref="Theme"/> options and
         /// not every provider supports it!
         /// </summary>
-        Body,
+        public static readonly Background Body = new( "body" );
     }
 }
