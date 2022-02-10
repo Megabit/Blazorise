@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<CascadingValue Value="@this" IsFixed="true">
+<CascadingValue Value="@this" IsFixed>
     <span id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
         @for ( int i = 1; i <= MaxValue; i++ )
         {

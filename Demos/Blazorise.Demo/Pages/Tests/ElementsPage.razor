@@ -14,13 +14,13 @@
                         <Tooltip Text="Hello tooltip">
                             <Button Color="Color.Primary">Tooltip</Button>
                         </Tooltip>
-                        <Tooltip Text="Tooltip with a long Text. So we use Multiline modifier to force multiline display." Multiline="true">
+                        <Tooltip Text="Tooltip with a long Text. So we use Multiline modifier to force multiline display." Multiline>
                             <Button Color="Color.Primary">Multiline Tooltip</Button>
                         </Tooltip>
-                        <Tooltip Text="Hello faded tooltip" Fade="true">
+                        <Tooltip Text="Hello faded tooltip" Fade>
                             <Button Color="Color.Primary">Fade Tooltip</Button>
                         </Tooltip>
-                        <Tooltip Text="Tooltip text" AlwaysActive="true">
+                        <Tooltip Text="Tooltip text" AlwaysActive>
                             <Button Color="Color.Primary">Always Active</Button>
                         </Tooltip>
                         <Tooltip Text="Tooltip text" ShowArrow="false">
@@ -118,14 +118,14 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Badge Color="Color.Primary" Pill="true">Primary</Badge>
-                <Badge Color="Color.Secondary" Pill="true">Secondary</Badge>
-                <Badge Color="Color.Success" Pill="true">Success</Badge>
-                <Badge Color="Color.Danger" Pill="true">Danger</Badge>
-                <Badge Color="Color.Warning" Pill="true">Warning</Badge>
-                <Badge Color="Color.Info" Pill="true">Info</Badge>
-                <Badge Color="Color.Light" Pill="true">Light</Badge>
-                <Badge Color="Color.Dark" Pill="true">Dark</Badge>
+                <Badge Color="Color.Primary" Pill>Primary</Badge>
+                <Badge Color="Color.Secondary" Pill>Secondary</Badge>
+                <Badge Color="Color.Success" Pill>Success</Badge>
+                <Badge Color="Color.Danger" Pill>Danger</Badge>
+                <Badge Color="Color.Warning" Pill>Warning</Badge>
+                <Badge Color="Color.Info" Pill>Info</Badge>
+                <Badge Color="Color.Light" Pill>Light</Badge>
+                <Badge Color="Color.Dark" Pill>Dark</Badge>
             </CardBody>
         </Card>
     </Column>
@@ -153,7 +153,7 @@
                             1
                         </PaginationLink>
                     </PaginationItem>
-                    <PaginationItem Active="true">
+                    <PaginationItem Active>
                         <PaginationLink>
                             2
                         </PaginationLink>
@@ -214,7 +214,7 @@
                             3
                         </PaginationLink>
                     </PaginationItem>
-                    <PaginationItem Active="true">
+                    <PaginationItem Active>
                         <PaginationLink>
                             4
                         </PaginationLink>
@@ -247,7 +247,7 @@
             </CardBody>
             <CardBody>
                 <Breadcrumb>
-                    <BreadcrumbItem Active="true">
+                    <BreadcrumbItem Active>
                         <BreadcrumbLink To="#">Home</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
@@ -255,7 +255,7 @@
                     <BreadcrumbItem>
                         <BreadcrumbLink To="#">Home</BreadcrumbLink>
                     </BreadcrumbItem>
-                    <BreadcrumbItem Active="true">
+                    <BreadcrumbItem Active>
                         <BreadcrumbLink To="#">Library</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
@@ -266,7 +266,7 @@
                     <BreadcrumbItem>
                         <BreadcrumbLink To="#">Library</BreadcrumbLink>
                     </BreadcrumbItem>
-                    <BreadcrumbItem Active="true">
+                    <BreadcrumbItem Active>
                         <BreadcrumbLink To="#">Data</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
@@ -331,7 +331,7 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Field Horizontal="true">
+                <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Interval(ms)</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
@@ -377,29 +377,29 @@
                 <CardText>Alerts are available for any length of text, as well as an optional dismiss button.</CardText>
             </CardBody>
             <CardBody>
-                <Alert Color="Color.Success" Visible="true">
+                <Alert Color="Color.Success" Visible>
                     <AlertMessage>Well done!</AlertMessage>
                     <AlertDescription>You successfully read this important alert message.</AlertDescription>
                 </Alert>
-                <Alert Color="Color.Info" Visible="true">
+                <Alert Color="Color.Info" Visible>
                     <AlertMessage>Heads up!</AlertMessage>
                     <AlertDescription>
                         This alert needs your attention, but it's not super important.
                     </AlertDescription>
                 </Alert>
-                <Alert Color="Color.Warning" Visible="true">
+                <Alert Color="Color.Warning" Visible>
                     <AlertMessage> Warning!</AlertMessage>
                     <AlertDescription>
                         Better check yourself, you're not looking too good.
                     </AlertDescription>
                 </Alert>
-                <Alert Color="Color.Danger" Visible="true">
+                <Alert Color="Color.Danger" Visible>
                     <AlertMessage>Oh snap!</AlertMessage>
                     <AlertDescription>
                         Change a few things up and try submitting again.
                     </AlertDescription>
                 </Alert>
-                <Alert Color="Color.Success" Visible="true">
+                <Alert Color="Color.Success" Visible>
                     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">Big one!</Heading>
                     <Paragraph>
                         <AlertMessage>Well done!</AlertMessage>
@@ -426,7 +426,7 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Alert Color="Color.Success" @bind-Visible="@dismisableAlert1" Dismisable="true">
+                <Alert Color="Color.Success" @bind-Visible="@dismisableAlert1" Dismisable>
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
@@ -435,7 +435,7 @@
                     </AlertMessage>
                     <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert2" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert2" Dismisable>
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
@@ -444,7 +444,7 @@
                     </AlertMessage>
                     <CloseButton />
                 </Alert>
-                <Alert Color="Color.Warning" @bind-Visible="@dismisableAlert3" Dismisable="true">
+                <Alert Color="Color.Warning" @bind-Visible="@dismisableAlert3" Dismisable>
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
@@ -453,14 +453,14 @@
                     </AlertMessage>
                     <CloseButton />
                 </Alert>
-                <Alert Color="Color.Danger" @bind-Visible="@dismisableAlert4" Dismisable="true">
+                <Alert Color="Color.Danger" @bind-Visible="@dismisableAlert4" Dismisable>
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>Alert Link.</AlertMessage>
                     <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable>
                     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
                         Big one!
                         <CloseButton />
@@ -488,7 +488,7 @@
         <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarMultiline" Multiline="true">
+<Snackbar @ref="snackbarMultiline" Multiline>
     <SnackbarBody>
         When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
         <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
@@ -556,7 +556,7 @@
 <SnackbarStack @ref="snackbarStack"
                Location="SnackbarStackLocation.Right"
                Interval="3000"
-               DelayCloseOnClick="true" />
+               DelayCloseOnClick />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;

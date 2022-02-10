@@ -6,10 +6,10 @@
                 <CardTitle>Line</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</Button>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async ()=> await ShiftLineChart())">Shift</Button>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async ()=> await PopLineChart())">Pop</Button>
-                <Button Color="Color.Danger" Outline="true" Clicked="@(async ()=> await lineChart.ChangeType(ChartType.Bar))">Change Type</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async ()=> await ShiftLineChart())">Shift</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async ()=> await PopLineChart())">Pop</Button>
+                <Button Color="Color.Danger" Outline Clicked="@(async ()=> await lineChart.ChangeType(ChartType.Bar))">Change Type</Button>
             </CardBody>
             <CardBody>
                 <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions" />
@@ -22,7 +22,7 @@
                 <CardTitle>Bar</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" Options="@chartOptions" />
@@ -35,7 +35,7 @@
                 <CardTitle>Pie</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" Options="@chartOptions" />
@@ -48,7 +48,7 @@
                 <CardTitle>Scatter</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( scatterChart, GetScatterChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( scatterChart, GetScatterChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="scatterChart" Type="ChartType.Scatter" TItem="ScatterChartPoint" Options="@chartOptions" />
@@ -61,7 +61,7 @@
                 <CardTitle>Bubble</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( bubbleChart, GetBubbleChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( bubbleChart, GetBubbleChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="bubbleChart" Type="ChartType.Bubble" TItem="BubbleChartPoint" Options="@chartOptions" />
@@ -74,7 +74,7 @@
                 <CardTitle>Polar Area</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" Options="@chartOptions" />
@@ -87,7 +87,7 @@
                 <CardTitle>Radar</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="radarChart" Type="ChartType.Radar" TItem="double" Options="@chartOptions" />
@@ -100,7 +100,7 @@
                 <CardTitle>Doughnut</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</Button>
             </CardBody>
             <CardBody>
                 <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" Options="@chartOptions" />
@@ -113,7 +113,7 @@
                 <CardTitle>Line</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await SetDataAndUpdate( lineChartWithData, RandomizeData ))">Change Data</Button>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await SetDataAndUpdate( lineChartWithData, RandomizeData ))">Change Data</Button>
             </CardBody>
             <CardBody>
                 <LineChart @ref="lineChartWithData" TItem="double" Options="@line2ChartOptions" />

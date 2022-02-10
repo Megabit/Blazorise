@@ -211,21 +211,21 @@
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
                           RowRemoved="@OnRowRemoved"
-                          UseInternalEditing="true"
+                          UseInternalEditing
                           @bind-SelectedRow="@selectedEmployee"
                           @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
-                          Striped="true"
-                          Bordered="true"
-                          Hoverable="true"
-                          Responsive="true"
+                          Striped
+                          Bordered
+                          Hoverable
+                          Responsive
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
                           CurrentPage="currentPage"
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
-                          UseValidation="true"
+                          UseValidation
                           SortChanged="@OnSortChanged"
                           HeaderThemeContrast="@ThemeContrast.Light">
                     <EmptyTemplate>
@@ -284,14 +284,14 @@
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
-                        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
+                        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable>
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
-                        <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
+                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
@@ -308,14 +308,14 @@
                                 }
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable>
                             <SortDirectionTemplate>
                                 <Icon Name="@( context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp )" />
                             </SortDirectionTemplate>
                         </DataGridColumn>
-                        <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
-                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
+                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
+                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
                             <FilterTemplate>
                                 @{
                                     selectedGenderFilter = @context.SearchValue?.ToString() ?? "";
@@ -354,14 +354,14 @@
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                             <EditTemplate>
                                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
@@ -420,24 +420,24 @@
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextEdit ReadOnly Text="@selectedEmployee?.FirstName"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
+                        <TextEdit ReadOnly Text="@selectedEmployee?.LastName"></TextEdit>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
+                            <TextEdit ReadOnly Text="@selectedEmployee?.Email"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
+                        <TextEdit ReadOnly Text="@selectedEmployee?.City"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>
@@ -463,24 +463,24 @@
                                 <Field>
                                     <FieldLabel>First Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                        <TextEdit ReadOnly Text="@employee?.FirstName"></TextEdit>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>Last Name</FieldLabel>
-                                    <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
+                                    <TextEdit ReadOnly Text="@employee?.LastName"></TextEdit>
                                 </Field>
                             </Fields>
                             <Fields>
                                 <Field>
                                     <FieldLabel>Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly="true" Text="@employee?.Email"></TextEdit>
+                                        <TextEdit ReadOnly Text="@employee?.Email"></TextEdit>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>City</FieldLabel>
-                                    <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
+                                    <TextEdit ReadOnly Text="@employee?.City"></TextEdit>
                                 </Field>
                             </Fields>
                         </CardBody>
@@ -502,7 +502,7 @@
                             <Field>
                                 <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly="true" Text="@selectedEmployees.Count.ToString()"></TextEdit>
+                                    <TextEdit ReadOnly Text="@selectedEmployees.Count.ToString()"></TextEdit>
                                 </FieldBody>
                             </Field>
                         </Fields>

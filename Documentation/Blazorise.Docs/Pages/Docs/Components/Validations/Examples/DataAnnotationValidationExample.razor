@@ -3,7 +3,7 @@
 
 <Validations Mode="ValidationMode.Auto" Model="@user">
     <Validation>
-        <Field Horizontal="true">
+        <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
@@ -15,7 +15,7 @@
         </Field>
     </Validation>
     <Validation>
-        <Field Horizontal="true">
+        <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
@@ -27,7 +27,7 @@
         </Field>
     </Validation>
     <Validation>
-        <Field Horizontal="true">
+        <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
@@ -39,7 +39,7 @@
         </Field>
     </Validation>
     <Validation>
-        <Field Horizontal="true">
+        <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">

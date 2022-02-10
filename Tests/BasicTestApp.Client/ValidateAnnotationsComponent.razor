@@ -3,7 +3,7 @@
 <h2>Auto name validation</h2>
 <div id="auto-validate-name-initially-blank">
     Initially blank:
-    <Validations Model="@autoModelForName" ValidateOnLoad="true">
+    <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation>
             <TextEdit @bind-Text="@autoModelForName.Name">
                 <Feedback>
@@ -15,7 +15,7 @@
 </div>
 <div id="auto-validate-name-initially-populated">
     Initially populated:
-    <Validations Model="@autoModelForName2" ValidateOnLoad="true">
+    <Validations Model="@autoModelForName2" ValidateOnLoad>
         <Validation>
             <TextEdit @bind-Text="@autoModelForName2.Name">
                 <Feedback>
@@ -29,7 +29,7 @@
 <h2>Auto password validation</h2>
 <div id="auto-validate-password-initially-blank">
     Initially blank:
-    <Validations Model="@autoModelForName" ValidateOnLoad="true">
+    <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation>
             <TextEdit @bind-Text="@autoModelForName.Password">
                 <Feedback>
@@ -41,7 +41,7 @@
 </div>
 <div id="auto-validate-password-initially-populated">
     Initially populated:
-    <Validations Model="@autoModelForName2" ValidateOnLoad="true">
+    <Validations Model="@autoModelForName2" ValidateOnLoad>
         <Validation>
             <TextEdit @bind-Text="@autoModelForName2.Password">
                 <Feedback>
@@ -56,7 +56,7 @@
 <h2>Auto password validation with custom display name</h2>
 <div id="auto-validate-password-with-display-initially-blank">
     Initially blank:
-    <Validations Model="@autoModelForName" ValidateOnLoad="true">
+    <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation MessageLocalizer="@((m,a)=>a?.Count() > 0 ? string.Format(m,a?.ToArray()) : m)">
             <TextEdit @bind-Text="@autoModelForName.PasswordWithDisplay">
                 <Feedback>
@@ -71,7 +71,7 @@
 <h2>Manual name validation</h2>
 <div id="manually-validate-name-initially-blank">
     Initially blank:
-    <Validations @ref="@manualValidationsNameRef" Model="@manualModelForName" Mode="ValidationMode.Manual" ValidateOnLoad="true">
+    <Validations @ref="@manualValidationsNameRef" Model="@manualModelForName" Mode="ValidationMode.Manual" ValidateOnLoad>
         <Validation>
             <TextEdit @bind-Text="@manualModelForName.Name">
                 <Feedback>
@@ -84,7 +84,7 @@
 </div>
 <div id="manually-validate-name-initially-populated">
     Initially populated:
-    <Validations @ref="@manualValidationsName2Ref" Model="@manualModelForName2" Mode="ValidationMode.Manual" ValidateOnLoad="true">
+    <Validations @ref="@manualValidationsName2Ref" Model="@manualModelForName2" Mode="ValidationMode.Manual" ValidateOnLoad>
         <Validation>
             <TextEdit @bind-Text="@manualModelForName2.Name">
                 <Feedback>

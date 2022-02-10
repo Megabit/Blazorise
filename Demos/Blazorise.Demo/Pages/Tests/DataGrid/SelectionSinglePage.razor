@@ -24,8 +24,8 @@
             <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
-                          ShowPager="true"
-                          ShowPageSizes="true"
+                          ShowPager
+                          ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
                           RowSelectable="@((x) => !x.Item.FirstName.StartsWith("A"))">
                     <DataGridColumns>
@@ -41,9 +41,9 @@
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
                         </DataGridColumn>
-                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
@@ -63,11 +63,11 @@
                                 }
                             </DisplayTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
@@ -88,24 +88,24 @@
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextEdit ReadOnly Text="@selectedEmployee?.FirstName"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
+                        <TextEdit ReadOnly Text="@selectedEmployee?.LastName"></TextEdit>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.Email"></TextEdit>
+                            <TextEdit ReadOnly Text="@selectedEmployee?.Email"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
+                        <TextEdit ReadOnly Text="@selectedEmployee?.City"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>
