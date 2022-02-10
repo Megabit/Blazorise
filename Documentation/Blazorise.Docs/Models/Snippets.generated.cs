@@ -687,6 +687,10 @@ namespace Blazorise.Docs.Models
     DatePicker<DateTime?> datePicker;
 }";
 
+        public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
+
+        public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
+
         public const string DashedDividerExample = @"<Divider DividerType=""DividerType.Dashed"" />";
 
         public const string DottedDividerExample = @"<Divider DividerType=""DividerType.Dotted"" />";

@@ -38,7 +38,7 @@
             }
             else
             {
-                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment"  Display="@column.Display">
+                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment"  Display="@column.Display">
                     @if ( column.DisplayTemplate != null )
                     {
                         @column.DisplayTemplate( Item )

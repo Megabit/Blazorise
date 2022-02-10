@@ -42,6 +42,26 @@
     <DocsPageSectionSource Code="DatePickerDisabledDatesExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Range example">
+        Select a range of dates using the range calendar.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RangeDatePickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RangeDatePickerExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple example">
+        It is possible to select multiple dates.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MultipleDatePickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MultipleDatePickerExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Format
 </DocsPageSubtitle>
@@ -192,6 +212,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="InputMode" Type="DateInputMode" Default="Date">
         Hints at the type of data that might be entered by the user while editing the element or its contents.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="DateInputSelectionMode" Default="Single">
+        Defines the mode in which the dates can be selected.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Min" Type="DateTimeOffset?" Default="null">
         The earliest date to accept.

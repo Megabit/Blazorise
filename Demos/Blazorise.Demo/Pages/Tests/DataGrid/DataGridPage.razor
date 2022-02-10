@@ -263,7 +263,7 @@
                                 <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
-                        <DataGridCommandColumn Width="170px">
+                        <DataGridCommandColumn Width="170px" PreventRowClick>
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </NewCommandTemplate>
@@ -283,7 +283,7 @@
                                 <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" PreventRowClick />
                         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable>
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />

@@ -8,37 +8,53 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="TextAlignment">
-        <Paragraph>Defines the alignment of an text within element.</Paragraph>
+        <Paragraph>Defines the text alignment.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> No alignment will be applied.</UnorderedListItem>
-            <UnorderedListItem><Code>Start</Code> Aligns the text to the left.</UnorderedListItem>
-            <UnorderedListItem><Code>Center</Code> Centers the text.</UnorderedListItem>
-            <UnorderedListItem><Code>End</Code> Aligns the text to the right.</UnorderedListItem>
-            <UnorderedListItem><Code>Justified</Code> Stretches the lines so that each line has equal width.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.None</Code> No alignment will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.Left</Code> Aligns the text to the left.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.Right</Code> Aligns the text to the right.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.Start</Code> Aligns the text to the start.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.End</Code> Aligns the text to the end.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.Center</Code> Centers the text.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.Justified</Code> Stretches the lines so that each line has equal width.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="TextTransform">
-        <Paragraph>Defines the text transformation.</Paragraph>
+    <DocsPageSectionHeader Title="TextColor">
+        <Paragraph>Predefined set of contextual text colors.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> No capitalization. The text renders as it is. This is default.</UnorderedListItem>
-            <UnorderedListItem><Code>Lowercase</Code> Transforms all characters to lowercase.</UnorderedListItem>
-            <UnorderedListItem><Code>Uppercase</Code> Transforms all characters to uppercase.</UnorderedListItem>
-            <UnorderedListItem><Code>Capitalize</Code> Transforms the first character of each word to uppercase.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.None</Code> No color will be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Primary</Code> Primary color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Secondary</Code> Secondary color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Success</Code> Success color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Danger</Code> Danger color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Warning</Code> Warning color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Info</Code> Info color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Light</Code> Light color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Dark</Code> Dark color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Body</Code> Body color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Muted</Code> Muted color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.White</Code> White color.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Black50</Code> Black text with 50% opacity on white background.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.White50</Code> White text with 50% opacity on black background.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="TextWeight">
-        <Paragraph>Defines the text weight.</Paragraph>
+    <DocsPageSectionHeader Title="TextInputMode">
+        <Paragraph>Specifies what kind of input mechanism would be most helpful for users entering content.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> No weight will be applied.</UnorderedListItem>
-            <UnorderedListItem><Code>Normal</Code> Defines normal characters. This is default.</UnorderedListItem>
-            <UnorderedListItem><Code>Bold</Code> Defines thick characters.</UnorderedListItem>
-            <UnorderedListItem><Code>Light</Code> Defines lighter characters.</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.None</Code> The user agent should not display a virtual keyboard. This keyword is useful for content that renders its own keyboard control.</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Text</Code> The user agent should display a virtual keyboard capable of text input in the user's locale.</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Tel</Code> The user agent should display a virtual keyboard capable of telephone number input. This should including keys for the digits 0 to 9, the "#" character, and the "*" character. In some locales, this can also include alphabetic mnemonic labels (e.g., in the US, the key labeled "2" is historically also labeled with the letters A, B, and C).</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Url</Code> The user agent should display a virtual keyboard capable of text input in the user's locale, with keys for aiding in the input of URLs, such as that for the "/" and "." characters and for quick input of strings commonly found in domain names such as "www." or ".com".</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Email</Code> The user agent should display a virtual keyboard capable of text input in the user's locale, with keys for aiding in the input of e-mail addresses, such as that for the "@@" character and the "." character.</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Numeric</Code> The user agent should display a virtual keyboard capable of numeric input. This keyword is useful for PIN entry.</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Decimal</Code> The user agent should display a virtual keyboard capable of fractional numeric input. Numeric keys and the format separator for the locale should be shown.</UnorderedListItem>
+            <UnorderedListItem><Code>TextInputMode.Search</Code> The user agent should display a virtual keyboard optimized for search.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
@@ -47,21 +63,59 @@
     <DocsPageSectionHeader Title="TextOverflow">
         <Paragraph>Determines how the text will behave when it is larger than a parent container.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> No overflow will be applied.</UnorderedListItem>
-            <UnorderedListItem><Code>Wrap</Code> Text will wrap into a new line when it reaches the end of container.</UnorderedListItem>
-            <UnorderedListItem><Code>NoWrap</Code> Prevents text from wrapping.</UnorderedListItem>
-            <UnorderedListItem><Code>Truncate</Code> Truncate the text with an ellipsis.</UnorderedListItem>
+            <UnorderedListItem><Code>TextOverflow.None</Code> No overflow will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>TextOverflow.Wrap</Code> Text will wrap into a new line when it reaches the end of container.</UnorderedListItem>
+            <UnorderedListItem><Code>TextOverflow.NoWrap</Code> Prevents text from wrapping.</UnorderedListItem>
+            <UnorderedListItem><Code>TextOverflow.Truncate</Code> Truncate the text with an ellipsis.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextRole">
+        <Paragraph>Defines the behaviour of the text input.</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>TextRole.Text</Code> Defines a default text input field.</UnorderedListItem>
+            <UnorderedListItem><Code>TextRole.Email</Code> Used for input fields that should contain an e-mail address.</UnorderedListItem>
+            <UnorderedListItem><Code>TextRole.Password</Code> Defines a password field.</UnorderedListItem>
+            <UnorderedListItem><Code>TextRole.Url</Code> Used for input fields that should contain a URL address.</UnorderedListItem>
+            <UnorderedListItem><Code>TextRole.Search</Code> Define a search field (like a site search, or Google search).</UnorderedListItem>
+            <UnorderedListItem><Code>TextRole.Telephone</Code> Define a field for entering a telephone number.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextTransform">
+        <Paragraph>Defines the text transformation.</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>TextTransform.None</Code> No capitalization. The text renders as it is. This is default.</UnorderedListItem>
+            <UnorderedListItem><Code>TextTransform.Lowercase</Code> Transforms all characters to lowercase.</UnorderedListItem>
+            <UnorderedListItem><Code>TextTransform.Uppercase</Code> Transforms all characters to uppercase.</UnorderedListItem>
+            <UnorderedListItem><Code>TextTransform.Capitalize</Code> Transforms the first character of each word to uppercase.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="TextWeight">
+        <Paragraph>Defines the text weight.</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>TextWeight.None</Code> No weight will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>TextWeight.Normal</Code> Defines normal characters. This is default.</UnorderedListItem>
+            <UnorderedListItem><Code>TextWeight.Bold</Code> Defines thick characters.</UnorderedListItem>
+            <UnorderedListItem><Code>TextWeight.Light</Code> Defines lighter characters.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Screenreader">
-        <Paragraph>Defines the visibility for screen readers.</Paragraph>
+        <Paragraph>Screen reader visibility.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Always</Code> Default.</UnorderedListItem>
-            <UnorderedListItem><Code>Only</Code> Hide an element to all devices except screen readers.</UnorderedListItem>
-            <UnorderedListItem><Code>OnlyFocusable</Code> Show the element again when it’s focused.</UnorderedListItem>
+            <UnorderedListItem><Code>Screenreader.Always</Code> Default.</UnorderedListItem>
+            <UnorderedListItem><Code>Screenreader.Only</Code> Hide an element to all devices except screen readers.</UnorderedListItem>
+            <UnorderedListItem><Code>Screenreader.OnlyFocusable</Code> Show the element again when it’s focused.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
@@ -70,10 +124,10 @@
     <DocsPageSectionHeader Title="MaskType">
         <Paragraph>Lists values that specify the type of mask used by an editor.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> Specifies that the mask feature is disabled.</UnorderedListItem>
-            <UnorderedListItem><Code>Numeric</Code> Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.</UnorderedListItem>
-            <UnorderedListItem><Code>DateTime</Code> Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.</UnorderedListItem>
-            <UnorderedListItem><Code>RegEx</Code> Specifies that the mask should be created using full-functional regular expressions.</UnorderedListItem>
+            <UnorderedListItem><Code>MaskType.None</Code> Specifies that the mask feature is disabled.</UnorderedListItem>
+            <UnorderedListItem><Code>MaskType.Numeric</Code> Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.</UnorderedListItem>
+            <UnorderedListItem><Code>MaskType.DateTime</Code> Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.</UnorderedListItem>
+            <UnorderedListItem><Code>MaskType.RegEx</Code> Specifies that the mask should be created using full-functional regular expressions.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
