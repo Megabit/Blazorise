@@ -1189,23 +1189,7 @@ namespace Blazorise
 
         public virtual string ToTextColor( TextColor textColor )
         {
-            return textColor switch
-            {
-                Blazorise.TextColor.Primary => "primary",
-                Blazorise.TextColor.Secondary => "secondary",
-                Blazorise.TextColor.Success => "success",
-                Blazorise.TextColor.Danger => "danger",
-                Blazorise.TextColor.Warning => "warning",
-                Blazorise.TextColor.Info => "info",
-                Blazorise.TextColor.Light => "light",
-                Blazorise.TextColor.Dark => "dark",
-                Blazorise.TextColor.Body => "body",
-                Blazorise.TextColor.Muted => "muted",
-                Blazorise.TextColor.White => "white",
-                Blazorise.TextColor.Black50 => "black-50",
-                Blazorise.TextColor.White50 => "white-50",
-                _ => null,
-            };
+            return textColor.Name;
         }
 
         public virtual string ToThemeContrast( ThemeContrast themeContrast )
