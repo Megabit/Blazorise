@@ -1,24 +1,23 @@
-﻿using System;
+﻿#region Using directives
+using System;
+#endregion
 
 namespace Blazorise
 {
+
     /// <summary>
     /// Predefined set of contextual colors.
     /// </summary>
-    public record struct Color
+    public record Color : Enumeration<Color>
     {
-        /// <summary>
-        /// Gets the enum name.
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// A default target contructor.
-        /// </summary>
-        /// <param name="name">Named value of the enum.</param>
-        public Color( string name )
+        /// <inheritdoc/>
+        public Color( string name ) : base( name )
         {
-            Name = name;
+        }
+
+        /// <inheritdoc/>
+        private Color( Color parent, string name ) : base( parent, name )
+        {
         }
 
         /// <summary>
