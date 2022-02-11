@@ -1179,7 +1179,7 @@ namespace Blazorise
 
         public virtual string ToColor( Color color )
         {
-            return color.Name;
+            return color?.Name;
         }
 
         public virtual string ToBackground( Background background )
