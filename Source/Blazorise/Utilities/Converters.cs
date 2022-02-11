@@ -159,6 +159,8 @@ namespace Blazorise.Utilities
                     result = theEnum;
                 else if ( conversionType == typeof( Guid ) )
                     result = (TValue)Convert.ChangeType( Guid.Parse( value.ToString() ), conversionType );
+                else if ( conversionType == typeof( DateOnly ) )
+                    result = (TValue)Convert.ChangeType( DateOnly.Parse( value.ToString() ), conversionType );
                 else if ( conversionType == typeof( DateTimeOffset ) )
                     result = (TValue)Convert.ChangeType( DateTimeOffset.Parse( value.ToString() ), conversionType );
                 else

@@ -147,6 +147,46 @@ namespace Blazorise.Tests
         }
 
         [Fact]
+        public void ChangeValue_DateOnly()
+        {
+            // setup
+            var edit = new MockDatePicker<DateOnly>();
+            var expected = new DateOnly( 2007, 1, 5 );
+
+            // test
+            edit.OnChange( new() { Value = expected } );
+
+            // validate
+            Assert.Equal( expected, edit.Date );
+        }
+
+        [Fact]
+        public void ChangeValue_DateOnly_NullValue()
+        {
+            // setup
+            var edit = new MockDatePicker<DateOnly?>();
+
+            // test
+            edit.OnChange( new() );
+
+            // validate
+            Assert.Null( edit.Date );
+        }
+
+        [Fact]
+        public void ChangeValue_DateOnly_NullEventArgs()
+        {
+            // setup
+            var edit = new MockDatePicker<DateOnly?>();
+
+            // test
+            edit.OnChange( null );
+
+            // validate
+            Assert.Null( edit.Date );
+        }
+
+        [Fact]
         public void ChangeValue_DateTimeOffset()
         {
             // setup
