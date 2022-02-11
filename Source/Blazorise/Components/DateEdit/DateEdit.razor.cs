@@ -68,15 +68,7 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
-        {
-            return value switch
-            {
-                null => null,
-                DateTime datetime => datetime.ToString( DateFormat ),
-                DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
-                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
-            };
-        }
+            => Formaters.FormatDateValueAsString( value, DateFormat );
 
         /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )

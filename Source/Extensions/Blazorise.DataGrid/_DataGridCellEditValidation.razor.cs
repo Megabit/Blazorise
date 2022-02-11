@@ -35,11 +35,17 @@ namespace Blazorise.DataGrid
         private Expression<Func<DateTime>> dateTimeExpression;
         private Expression<Func<DateTime?>> nullableDateTimeExpression;
 
+        private Expression<Func<DateOnly>> dateOnlyExpression;
+        private Expression<Func<DateOnly?>> nullableDateOnlyExpression;
+
         private Expression<Func<DateTimeOffset>> dateTimeOffsetExpression;
         private Expression<Func<DateTimeOffset?>> nullableDateTimeOffsetExpression;
 
         private Expression<Func<TimeSpan>> timeSpanExpression;
         private Expression<Func<TimeSpan?>> nullableTimeSpanExpression;
+
+        private Expression<Func<TimeOnly>> timeOnlyExpression;
+        private Expression<Func<TimeOnly?>> nullableTimeOnlyExpression;
 
         #endregion
 
@@ -77,6 +83,10 @@ namespace Blazorise.DataGrid
                 dateTimeExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, DateTime>( ValidationItem, Field );
             else if ( ValueType == typeof( DateTime? ) )
                 nullableDateTimeExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, DateTime?>( ValidationItem, Field );
+            else if ( ValueType == typeof( DateOnly ) )
+                dateOnlyExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, DateOnly>( ValidationItem, Field );
+            else if ( ValueType == typeof( DateOnly? ) )
+                nullableDateOnlyExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, DateOnly?>( ValidationItem, Field );
             else if ( ValueType == typeof( DateTimeOffset ) )
                 dateTimeOffsetExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, DateTimeOffset>( ValidationItem, Field );
             else if ( ValueType == typeof( DateTimeOffset? ) )
@@ -85,6 +95,10 @@ namespace Blazorise.DataGrid
                 timeSpanExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, TimeSpan>( ValidationItem, Field );
             else if ( ValueType == typeof( TimeSpan? ) )
                 nullableTimeSpanExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, TimeSpan?>( ValidationItem, Field );
+            else if ( ValueType == typeof( TimeOnly ) )
+                timeOnlyExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, TimeOnly>( ValidationItem, Field );
+            else if ( ValueType == typeof( TimeOnly? ) )
+                nullableTimeOnlyExpression = FunctionCompiler.CreateValidationExpressionGetter<TItem, TimeOnly?>( ValidationItem, Field );
 
             return base.OnInitializedAsync();
         }

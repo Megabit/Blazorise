@@ -25,7 +25,9 @@ namespace Blazorise.Utilities
             typeof(decimal),
             typeof(DateTime),
             typeof(DateTimeOffset),
+            typeof(DateOnly),
             typeof(TimeSpan),
+            typeof(TimeOnly),
             typeof(Guid)
         };
 
@@ -280,6 +282,10 @@ namespace Blazorise.Utilities
         public static string FormatValue( DateTimeOffset value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
 
         public static string FormatValue( DateTimeOffset? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( DateOnly value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( DateOnly? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
