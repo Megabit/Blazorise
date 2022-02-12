@@ -1798,6 +1798,14 @@
   left: 6px;
 }
 
+textarea.ant-input.ant-input-static {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .ant-row {
   margin-left: -15px;
   margin-right: -15px;

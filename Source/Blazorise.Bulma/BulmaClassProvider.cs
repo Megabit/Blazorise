@@ -22,7 +22,7 @@ namespace Blazorise.Bulma
 
         #region MemoEdit
 
-        public override string MemoEdit() => "textarea";
+        public override string MemoEdit( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
 
         public override string MemoEditSize( Size size ) => $"is-{ToSize( size )}";
 

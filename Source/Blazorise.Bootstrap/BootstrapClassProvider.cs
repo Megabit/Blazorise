@@ -22,7 +22,7 @@ namespace Blazorise.Bootstrap
 
         #region MemoEdit
 
-        public override string MemoEdit() => "form-control";
+        public override string MemoEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
         public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
 

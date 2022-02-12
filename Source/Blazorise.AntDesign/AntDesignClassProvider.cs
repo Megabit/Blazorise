@@ -22,7 +22,7 @@ namespace Blazorise.AntDesign
 
         #region MemoEdit
 
-        public override string MemoEdit() => "ant-input";
+        public override string MemoEdit( bool plaintext ) => plaintext ? "ant-input ant-input-static" : "ant-input";
 
         public override string MemoEditSize( Size size ) => $"ant-input-{ToSize( size )}";
 

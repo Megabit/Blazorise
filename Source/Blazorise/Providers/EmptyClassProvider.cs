@@ -23,7 +23,7 @@ namespace Blazorise.Providers
 
         #region MemoEdit
 
-        public string MemoEdit() => null;
+        public string MemoEdit( bool plaintext ) => null;
 
         public string MemoEditSize( Size size ) => null;
 
