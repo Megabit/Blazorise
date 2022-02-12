@@ -301,3 +301,11 @@
 @include radio('md', $radio-md-height);
 @include radio('lg', $radio-lg-height);
 @include radio('xl', $radio-xl-height);
+
+textarea.ant-input.ant-input-static {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    padding-left: 0;
+    padding-right: 0;
+}
