@@ -303,6 +303,33 @@ namespace Blazorise.Tests.Utils
         }
 
         [Theory]
+        [InlineData( "2020-08-24", true )]
+        [InlineData( "not a date", false )]
+        public void TryChangeType_With_DateOnly_String_As_Value_Should_BeExpected( string value, bool expected )
+        {
+            // Arrange
+
+            // Act
+            var result = Converters.TryChangeType<DateOnly>( value, out var _ );
+
+            // Assert
+            Assert.Equal( expected, result );
+        }
+
+        [Fact]
+        public void TryChangeType_With_DateOnly_Current_Culture()
+        {
+            // Arrange
+            var test = DateOnly.FromDateTime( DateTime.Now ).ToString();
+
+            // Act
+            Converters.TryChangeType<DateOnly>( test, out var result );
+
+            // Assert
+            Assert.Equal( test, result.ToString() );
+        }
+
+        [Theory]
         [InlineData( "2020-08-24T17:48:00-04:00", true )]
         [InlineData( "not a date", false )]
         public void TryChangeType_With_DateTimeOffset_String_As_Value_Should_BeExpected( string value, bool expected )

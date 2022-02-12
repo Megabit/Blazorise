@@ -153,6 +153,12 @@ namespace Blazorise.Utilities
                 return true;
             }
 
+            if ( type == typeof( DateOnly ) && DateOnly.TryParse( value, out var parsedDto3 ) )
+            {
+                result = (TValue)(object)parsedDto3;
+                return true;
+            }
+
             if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var parsedDto2 ) )
             {
                 result = (TValue)(object)parsedDto2;
@@ -181,15 +187,21 @@ namespace Blazorise.Utilities
 
             var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-            if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var time ) )
+            if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var timeSpan ) )
             {
-                result = (TValue)(object)time;
+                result = (TValue)(object)timeSpan;
                 return true;
             }
 
-            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
+            if ( type == typeof( TimeOnly ) && TimeOnly.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var timeOnly ) )
             {
-                result = (TValue)(object)dt;
+                result = (TValue)(object)timeOnly;
+                return true;
+            }
+
+            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime ) )
+            {
+                result = (TValue)(object)dateTime;
                 return true;
             }
 

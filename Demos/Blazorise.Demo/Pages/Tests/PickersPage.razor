@@ -9,7 +9,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateTime?" @bind-Date="@d1" Placeholder="Select date..." />
+                        <DatePicker TValue="DateOnly?" @bind-Date="@d1" Placeholder="Select date..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -21,7 +21,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date Range</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateTime?" @bind-Dates="@d2" Placeholder="Select range..." SelectionMode="DateInputSelectionMode.Range" />
+                        <DatePicker TValue="DateOnly?" @bind-Dates="@d2" Placeholder="Select range..." SelectionMode="DateInputSelectionMode.Range" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -33,7 +33,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date Range</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateTime?" @bind-Dates="@d3" Placeholder="Select multiple date..." SelectionMode="DateInputSelectionMode.Multiple" />
+                        <DatePicker TValue="DateOnly?" @bind-Dates="@d3" Placeholder="Select multiple date..." SelectionMode="DateInputSelectionMode.Multiple" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -64,11 +64,11 @@
                 </Div>
             </CardBody>
             @code {
-                DateTime? d1;
+                DateOnly? d1;
                 DateTime? dt1 = DateTime.Now;
-                IReadOnlyList<DateTime?> d2;
+                IReadOnlyList<DateOnly?> d2;
                 IReadOnlyList<DateTime?> dt2 = new DateTime?[] { DateTime.Now.AddDays( -3 ), DateTime.Now.AddDays( 3 ) };
-                IReadOnlyList<DateTime?> d3;
+                IReadOnlyList<DateOnly?> d3;
                 IReadOnlyList<DateTime?> dt3 = new DateTime?[] { DateTime.Now, DateTime.Now.AddDays( 1 ) };
             }
         </Card>
@@ -80,17 +80,47 @@
             </CardHeader>
             <CardBody>
                 <Field Horizontal>
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Time</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">TimeOnly</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <TimePicker TValue="TimeSpan?" Placeholder="Select time..." />
+                        <TimePicker TValue="TimeOnly?" @bind-Time="@t1" Placeholder="Select time..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">24h Format</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <TimePicker TValue="TimeSpan?" Placeholder="Select time in 24h format..." TimeAs24hr />
+                        <TimePicker TValue="TimeOnly?" @bind-Time="@t2" Placeholder="Select time in 24h format..." TimeAs24hr />
                     </FieldBody>
                 </Field>
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">TimeSpan</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                        <TimePicker TValue="TimeSpan?" @bind-Time="@ts1" Placeholder="Select time..." />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">24h Format</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                        <TimePicker TValue="TimeSpan?" @bind-Time="@ts2" Placeholder="Select time in 24h format..." TimeAs24hr />
+                    </FieldBody>
+                </Field>
+                <Div>
+                    TimeOnly 1: @t1
+                </Div>
+                <Div>
+                    TimeOnly 1 (24h): @t2
+                </Div>
+                <Div>
+                    TimeSpan 2: @ts1
+                </Div>
+                <Div>
+                    TimeSpan 2 (24h): @ts2
+                </Div>
+            @code {
+                TimeOnly? t1;
+                TimeOnly? t2;
+                TimeSpan? ts1;
+                TimeSpan? ts2;
+            }
             </CardBody>
         </Card>
     </Column>

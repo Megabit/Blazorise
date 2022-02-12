@@ -164,6 +164,7 @@ namespace Blazorise
             {
                 null => null,
                 TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
+                TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
                 DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
                 _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
             };
