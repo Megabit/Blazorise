@@ -6271,6 +6271,14 @@ label.radio.button input[type=radio] {
   font-size: 2rem;
 }
 
+.textarea.is-static {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 select[readonly] {
   pointer-events: none;
 }

@@ -26,6 +26,11 @@
         public object MessageIcon { get; set; }
 
         /// <summary>
+        /// Overrides the build-in message icon color.
+        /// </summary>
+        public TextColor? MessageIconColor { get; set; }
+
+        /// <summary>
         /// Custom text for the Ok button.
         /// </summary>
         public string OkButtonText { get; set; }
@@ -34,6 +39,11 @@
         /// Custom icon for the Ok button.
         /// </summary>
         public object OkButtonIcon { get; set; }
+
+        /// <summary>
+        /// Custom icon color for the Ok button.
+        /// </summary>
+        public TextColor? OkButtonIconColor { get; set; }
 
         /// <summary>
         /// Custom color of the Ok button.
@@ -56,6 +66,11 @@
         public object ConfirmButtonIcon { get; set; }
 
         /// <summary>
+        /// Custom icon color for the Confirmation button.
+        /// </summary>
+        public TextColor? ConfirmButtonIconColor { get; set; }
+
+        /// <summary>
         /// Custom color of the Confirmation button.
         /// </summary>
         public Color ConfirmButtonColor { get; set; }
@@ -74,6 +89,11 @@
         /// Custom icon for the Cancel button.
         /// </summary>
         public object CancelButtonIcon { get; set; }
+
+        /// <summary>
+        /// Custom icon color for the Cancel button.
+        /// </summary>
+        public TextColor? CancelButtonIconColor { get; set; }
 
         /// <summary>
         /// Custom color of the Cancel button.

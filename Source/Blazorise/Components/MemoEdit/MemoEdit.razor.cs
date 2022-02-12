@@ -102,7 +102,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.MemoEdit() );
+            builder.Append( ClassProvider.MemoEdit( Plaintext ) );
             builder.Append( ClassProvider.MemoEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
             builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
@@ -236,6 +236,11 @@ namespace Blazorise
         /// Sets the placeholder for the empty text.
         /// </summary>
         [Parameter] public string Placeholder { get; set; }
+
+        /// <summary>
+        /// Sets the class to remove the default form field styling and preserve the correct margin and padding.
+        /// </summary>
+        [Parameter] public bool Plaintext { get; set; }
 
         /// <summary>
         /// Gets or sets the text inside the input field.
