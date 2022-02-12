@@ -69,11 +69,5 @@ namespace Blazorise
         /// Link color.
         /// </summary>
         public static readonly Color Link = new( "link" );
-
-        public Color Accent1 => new Color( this, "accent-1" );
-
-        public Color Accent2 => new Color( this, "accent-2" );
-
-        public Color Accent3 => new Color( this, "accent-3" );
     }
 }
