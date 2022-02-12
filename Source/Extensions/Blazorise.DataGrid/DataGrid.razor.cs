@@ -2047,6 +2047,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
 
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
+
         #endregion
     }
 }

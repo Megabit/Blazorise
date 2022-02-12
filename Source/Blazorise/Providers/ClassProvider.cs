@@ -22,7 +22,7 @@ namespace Blazorise
 
         #region MemoEdit
 
-        public abstract string MemoEdit();
+        public abstract string MemoEdit( bool plaintext );
 
         public abstract string MemoEditSize( Size size );
 

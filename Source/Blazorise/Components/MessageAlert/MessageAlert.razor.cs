@@ -165,7 +165,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the icon color based on the predefined message type.
         /// </summary>
-        protected virtual TextColor MessageIconColor => MessageType switch
+        protected virtual TextColor MessageIconColor => Options?.MessageIconColor ?? MessageType switch
         {
             MessageType.Info => TextColor.Info,
             MessageType.Success => TextColor.Success,
