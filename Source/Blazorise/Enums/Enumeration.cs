@@ -47,15 +47,6 @@ namespace Blazorise
         #region Methods
 
         /// <summary>
-        /// Creates the new custom target based on the supplied enum value.
-        /// </summary>
-        /// <param name="name">Name value of the enum.</param>
-        public static implicit operator Enumeration<T>( string name )
-        {
-            return new Enumeration<T>( name );
-        }
-
-        /// <summary>
         /// Build an enumeration while traversing up to the parent.
         /// </summary>
         /// <returns></returns>

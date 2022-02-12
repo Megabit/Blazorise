@@ -16,6 +16,15 @@
         }
 
         /// <summary>
+        /// Creates the new custom target based on the supplied enum value.
+        /// </summary>
+        /// <param name="name">Name value of the enum.</param>
+        public static implicit operator Target( string name )
+        {
+            return new Target( name );
+        }
+
+        /// <summary>
         /// No target will be applied. Usually this is the same as <see cref="Target.Self"/>.
         /// </summary>
         public static readonly Target None = new( (string)null );

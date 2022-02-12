@@ -16,6 +16,15 @@
         }
 
         /// <summary>
+        /// Creates the new custom background color based on the supplied enum value.
+        /// </summary>
+        /// <param name="name">Name value of the enum.</param>
+        public static implicit operator Background( string name )
+        {
+            return new Background( name );
+        }
+
+        /// <summary>
         /// No color will be applied to an element.
         /// </summary>
         public static readonly Background None = new( (string)null );

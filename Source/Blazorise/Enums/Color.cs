@@ -21,6 +21,15 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Creates the new custom color based on the supplied enum value.
+        /// </summary>
+        /// <param name="name">Name value of the enum.</param>
+        public static implicit operator Color( string name )
+        {
+            return new Color( name );
+        }
+
+        /// <summary>
         /// No color will be applied to an element.
         /// </summary>
         public static readonly Color None = new( (string)null );

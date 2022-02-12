@@ -16,6 +16,15 @@
         }
 
         /// <summary>
+        /// Creates the new custom text color based on the supplied enum value.
+        /// </summary>
+        /// <param name="name">Name value of the enum.</param>
+        public static implicit operator TextColor( string name )
+        {
+            return new TextColor( name );
+        }
+
+        /// <summary>
         /// No color will be applied to an element.
         /// </summary>
         public static readonly TextColor None = new( (string)null );
