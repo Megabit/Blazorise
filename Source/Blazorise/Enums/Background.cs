@@ -3,20 +3,16 @@
     /// <summary>
     /// Predefined set of contextual background colors.
     /// </summary>
-    public record struct Background
+    public record Background : Enumeration<Background>
     {
-        /// <summary>
-        /// Gets the enum name.
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// A default target contructor.
-        /// </summary>
-        /// <param name="name">Named value of the enum.</param>
-        public Background( string name )
+        /// <inheritdoc/>
+        public Background( string name ) : base( name )
         {
-            Name = name;
+        }
+
+        /// <inheritdoc/>
+        private Background( Background parent, string name ) : base( parent, name )
+        {
         }
 
         /// <summary>

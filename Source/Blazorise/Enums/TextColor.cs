@@ -3,20 +3,16 @@
     /// <summary>
     /// Predefined set of contextual text colors.
     /// </summary>
-    public record struct TextColor
+    public record TextColor : Enumeration<TextColor>
     {
-        /// <summary>
-        /// Gets the enum name.
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// A default target contructor.
-        /// </summary>
-        /// <param name="name">Named value of the enum.</param>
-        public TextColor( string name )
+        /// <inheritdoc/>
+        public TextColor( string name ) : base( name )
         {
-            Name = name;
+        }
+
+        /// <inheritdoc/>
+        private TextColor( TextColor parent, string name ) : base( parent, name )
+        {
         }
 
         /// <summary>
