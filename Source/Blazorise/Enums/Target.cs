@@ -3,29 +3,16 @@
     /// <summary>
     /// The target attribute specifies where to open the linked document.
     /// </summary>
-    public record struct Target
+    public record Target : Enumeration<Target>
     {
-        /// <summary>
-        /// Gets the enum named value.
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// A default target contructor.
-        /// </summary>
-        /// <param name="name">Name value of the enum.</param>
-        public Target( string name )
+        /// <inheritdoc/>
+        public Target( string name ) : base( name )
         {
-            Name = name;
         }
 
-        /// <summary>
-        /// Creates the new custom target based on the supplied enum value.
-        /// </summary>
-        /// <param name="name">Name value of the enum.</param>
-        public static implicit operator Target( string name )
+        /// <inheritdoc/>
+        private Target( Target parent, string name ) : base( parent, name )
         {
-            return new Target( name );
         }
 
         /// <summary>
