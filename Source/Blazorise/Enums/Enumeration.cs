@@ -28,18 +28,18 @@ namespace Blazorise
         public Enumeration( string name )
         {
             Name = name;
-            Parent = default;
+            ParentEnumeration = default;
         }
 
         /// <summary>
         /// A default enumeration contructor that accepts the parent object.
         /// </summary>
-        /// <param name="parent">Parent enumeration.</param>
+        /// <param name="parentEnumeration">Parent enumeration.</param>
         /// <param name="name">Named value of the enum.</param>
-        protected Enumeration( T parent, string name )
+        protected Enumeration( T parentEnumeration, string name )
         {
             this.Name = name;
-            this.Parent = parent;
+            this.ParentEnumeration = parentEnumeration;
         }
 
         #endregion
@@ -55,12 +55,16 @@ namespace Blazorise
             return new Enumeration<T>( name );
         }
 
+        /// <summary>
+        /// Build an enumeration while traversing up to the parent.
+        /// </summary>
+        /// <returns></returns>
         private string BuildName()
         {
             var sb = new StringBuilder();
 
-            if ( Parent != null )
-                sb.Append( Parent.Name ).Append( ' ' );
+            if ( ParentEnumeration != null )
+                sb.Append( ParentEnumeration.Name ).Append( ' ' );
 
             sb.Append( name );
 
@@ -96,7 +100,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the parent enumeration.
         /// </summary>
-        public T Parent { get; private set; }
+        public T ParentEnumeration { get; private set; }
 
         #endregion
     }
