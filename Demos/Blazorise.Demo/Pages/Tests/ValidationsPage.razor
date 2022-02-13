@@ -83,7 +83,7 @@
                         <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <DateEdit TValue="DateTime?">
+                                <DateEdit TValue="DateOnly?">
                                     <Feedback>
                                         <ValidationError>You must enter date of birth!</ValidationError>
                                     </Feedback>
@@ -208,7 +208,7 @@
                         <Field Horizontal JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <DateEdit TValue="DateTime?">
+                                <DateEdit TValue="DateOnly?">
                                     <Feedback>
                                         <ValidationError>You must enter date of birth!</ValidationError>
                                     </Feedback>
@@ -580,7 +580,7 @@
 
     void ValidateDateOfBirth( ValidatorEventArgs e )
     {
-        var date = e.Value as DateTime?;
+        var date = e.Value as DateOnly?;
 
         if ( date == null )
         {

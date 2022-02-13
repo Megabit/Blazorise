@@ -195,15 +195,7 @@ namespace Blazorise
 
                 foreach ( var value in values )
                 {
-                    var result = value switch
-                    {
-                        null => null,
-                        DateTime datetime => datetime.ToString( DateFormat ),
-                        DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
-                        _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
-                    };
-
-                    results.Add( result );
+                    results.Add( Formaters.FormatDateValueAsString( value, DateFormat ) );
                 }
 
                 return String.Join( SelectionMode == DateInputSelectionMode.Multiple ? ", " : " to ", results );
@@ -213,13 +205,7 @@ namespace Blazorise
                 if ( values[0] == null )
                     return null;
 
-                return values[0] switch
-                {
-                    null => null,
-                    DateTime datetime => datetime.ToString( DateFormat ),
-                    DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
-                    _ => throw new InvalidOperationException( $"Unsupported type {values.GetType()}" ),
-                };
+                return Formaters.FormatDateValueAsString( values[0], DateFormat );
             }
         }
 
