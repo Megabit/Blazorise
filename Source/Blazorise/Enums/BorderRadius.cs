@@ -8,7 +8,7 @@
         /// <summary>
         /// Don't apply any borders.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Makes the element rounded on all sides.
