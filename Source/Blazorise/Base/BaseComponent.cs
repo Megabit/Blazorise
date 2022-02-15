@@ -48,7 +48,7 @@ namespace Blazorise
 
         private TextColor textColor = TextColor.None;
 
-        private TextAlignment textAlignment = TextAlignment.None;
+        private TextAlignment textAlignment = TextAlignment.Default;
 
         private TextTransform textTransform = TextTransform.None;
 
@@ -221,7 +221,7 @@ namespace Blazorise
             if ( TextColor != TextColor.None )
                 builder.Append( ClassProvider.TextColor( TextColor ) );
 
-            if ( TextAlignment != TextAlignment.None )
+            if ( TextAlignment != TextAlignment.Default )
                 builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
 
             if ( TextTransform != TextTransform.None )
