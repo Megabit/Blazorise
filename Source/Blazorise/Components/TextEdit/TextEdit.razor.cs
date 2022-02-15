@@ -65,7 +65,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.TextEdit( Plaintext ) );
             builder.Append( ClassProvider.TextEditColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.TextEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.TextEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );

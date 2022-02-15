@@ -47,7 +47,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DateEdit( Plaintext ) );
-            builder.Append( ClassProvider.DateEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.DateEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.DateEditColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 

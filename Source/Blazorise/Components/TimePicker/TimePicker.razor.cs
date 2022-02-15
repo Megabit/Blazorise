@@ -126,7 +126,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TimePicker( Plaintext ) );
-            builder.Append( ClassProvider.TimePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.TimePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.TimePickerColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TimePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 

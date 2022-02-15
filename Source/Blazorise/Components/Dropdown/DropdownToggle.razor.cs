@@ -56,7 +56,7 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true ) );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
             builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
@@ -224,7 +224,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the size based on the theme settings.
         /// </summary>
-        protected Size ThemeSize => Size ?? Theme?.DropdownOptions?.Size ?? Blazorise.Size.None;
+        protected Size ThemeSize => Size ?? Theme?.DropdownOptions?.Size ?? Blazorise.Size.Default;
 
         /// <summary>
         /// Gets the data-boundary value.

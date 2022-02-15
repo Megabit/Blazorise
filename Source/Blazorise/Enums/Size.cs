@@ -8,7 +8,7 @@
         /// <summary>
         /// Don't resize an element.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Makes an element extra small size.

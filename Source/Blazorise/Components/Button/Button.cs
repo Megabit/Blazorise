@@ -51,7 +51,7 @@ namespace Blazorise
             builder.Append( ClassProvider.Button() );
             builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
             builder.Append( ClassProvider.ButtonDisabled(), Disabled );
@@ -273,7 +273,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the size based on the theme settings.
         /// </summary>
-        protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.None;
+        protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.Default;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSButtonModule"/> instance.
