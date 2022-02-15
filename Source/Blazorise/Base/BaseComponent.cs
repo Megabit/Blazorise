@@ -52,7 +52,7 @@ namespace Blazorise
 
         private TextTransform textTransform = TextTransform.Default;
 
-        private TextWeight textWeight = TextWeight.None;
+        private TextWeight textWeight = TextWeight.Default;
 
         private TextOverflow textOverflow = TextOverflow.Default;
 
@@ -227,7 +227,7 @@ namespace Blazorise
             if ( TextTransform != TextTransform.Default )
                 builder.Append( ClassProvider.TextTransform( TextTransform ) );
 
-            if ( TextWeight != TextWeight.None )
+            if ( TextWeight != TextWeight.Default )
                 builder.Append( ClassProvider.TextWeight( TextWeight ) );
 
             if ( TextOverflow != TextOverflow.Default )
