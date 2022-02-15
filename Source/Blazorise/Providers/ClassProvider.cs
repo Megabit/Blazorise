@@ -1179,59 +1179,17 @@ namespace Blazorise
 
         public virtual string ToColor( Color color )
         {
-            return color switch
-            {
-                Blazorise.Color.Primary => "primary",
-                Blazorise.Color.Secondary => "secondary",
-                Blazorise.Color.Success => "success",
-                Blazorise.Color.Danger => "danger",
-                Blazorise.Color.Warning => "warning",
-                Blazorise.Color.Info => "info",
-                Blazorise.Color.Light => "light",
-                Blazorise.Color.Dark => "dark",
-                Blazorise.Color.Link => "link",
-                _ => null,
-            };
+            return color?.Name;
         }
 
         public virtual string ToBackground( Background background )
         {
-            return background switch
-            {
-                Blazorise.Background.Primary => "primary",
-                Blazorise.Background.Secondary => "secondary",
-                Blazorise.Background.Success => "success",
-                Blazorise.Background.Danger => "danger",
-                Blazorise.Background.Warning => "warning",
-                Blazorise.Background.Info => "info",
-                Blazorise.Background.Light => "light",
-                Blazorise.Background.Dark => "dark",
-                Blazorise.Background.White => "white",
-                Blazorise.Background.Transparent => "transparent",
-                Blazorise.Background.Body => "body",
-                _ => null,
-            };
+            return background.Name;
         }
 
         public virtual string ToTextColor( TextColor textColor )
         {
-            return textColor switch
-            {
-                Blazorise.TextColor.Primary => "primary",
-                Blazorise.TextColor.Secondary => "secondary",
-                Blazorise.TextColor.Success => "success",
-                Blazorise.TextColor.Danger => "danger",
-                Blazorise.TextColor.Warning => "warning",
-                Blazorise.TextColor.Info => "info",
-                Blazorise.TextColor.Light => "light",
-                Blazorise.TextColor.Dark => "dark",
-                Blazorise.TextColor.Body => "body",
-                Blazorise.TextColor.Muted => "muted",
-                Blazorise.TextColor.White => "white",
-                Blazorise.TextColor.Black50 => "black-50",
-                Blazorise.TextColor.White50 => "white-50",
-                _ => null,
-            };
+            return textColor.Name;
         }
 
         public virtual string ToThemeContrast( ThemeContrast themeContrast )
@@ -1648,19 +1606,7 @@ namespace Blazorise
 
         public virtual string ToBorderColor( BorderColor borderColor )
         {
-            return borderColor switch
-            {
-                Blazorise.BorderColor.Primary => "primary",
-                Blazorise.BorderColor.Secondary => "secondary",
-                Blazorise.BorderColor.Success => "success",
-                Blazorise.BorderColor.Danger => "danger",
-                Blazorise.BorderColor.Warning => "warning",
-                Blazorise.BorderColor.Info => "info",
-                Blazorise.BorderColor.Light => "light",
-                Blazorise.BorderColor.Dark => "dark",
-                Blazorise.BorderColor.White => "white",
-                _ => null,
-            };
+            return borderColor.Name;
         }
 
         public virtual string ToDirection( FlexDirection direction )

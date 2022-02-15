@@ -1362,68 +1362,22 @@ namespace Blazorise.Bulma
 
         public override string ToBackground( Background background )
         {
-            switch ( background )
-            {
-                case Blazorise.Background.Primary:
-                    return "primary";
-                case Blazorise.Background.Secondary:
-                    return "light";
-                case Blazorise.Background.Success:
-                    return "success";
-                case Blazorise.Background.Danger:
-                    return "danger";
-                case Blazorise.Background.Warning:
-                    return "warning";
-                case Blazorise.Background.Info:
-                    return "info";
-                case Blazorise.Background.Light:
-                    return "light";
-                case Blazorise.Background.Dark:
-                    return "dark";
-                case Blazorise.Background.White:
-                    return "white";
-                case Blazorise.Background.Transparent:
-                    return "transparent";
-                case Blazorise.Background.Body:
-                    return "body";
-                default:
-                    return null;
-            }
+            var name = background.Name;
+
+            if ( name == "secondary" )
+                return "light";
+
+            return name;
         }
 
         public override string ToTextColor( TextColor textColor )
         {
-            switch ( textColor )
-            {
-                case Blazorise.TextColor.Primary:
-                    return "primary";
-                //case Blazorise.TextColor.Secondary:
-                //    return "secondary";
-                case Blazorise.TextColor.Success:
-                    return "success";
-                case Blazorise.TextColor.Danger:
-                    return "danger";
-                case Blazorise.TextColor.Warning:
-                    return "warning";
-                case Blazorise.TextColor.Info:
-                    return "info";
-                case Blazorise.TextColor.Light:
-                    return "light";
-                case Blazorise.TextColor.Dark:
-                    return "dark";
-                //case Blazorise.TextColor.Body:
-                //    return "body";
-                //case Blazorise.TextColor.Muted:
-                //    return "muted";
-                case Blazorise.TextColor.White:
-                    return "white";
-                //case Blazorise.TextColor.Black50:
-                //    return "black-50";
-                //case Blazorise.TextColor.White50:
-                //    return "white-50";
-                default:
-                    return null;
-            }
+            var name = textColor.Name;
+
+            if ( name == "secondary" )
+                return "light";
+
+            return name;
         }
 
         public override string ToColumnWidth( ColumnWidth columnWidth )

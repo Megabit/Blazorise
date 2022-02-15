@@ -3,56 +3,70 @@
     /// <summary>
     /// Predefined set of contextual border colors.
     /// </summary>
-    public enum BorderColor
+    public record struct BorderColor
     {
+        /// <summary>
+        /// Gets the enum name.
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// A default target contructor.
+        /// </summary>
+        /// <param name="name">Named value of the enum.</param>
+        public BorderColor( string name )
+        {
+            Name = name;
+        }
+
         /// <summary>
         /// No color will be applied to an element.
         /// </summary>
-        None,
+        public static readonly BorderColor None = new( (string)null );
 
         /// <summary>
         /// Primary color.
         /// </summary>
-        Primary,
+        public static readonly BorderColor Primary = new( "primary" );
 
         /// <summary>
         /// Secondary color.
         /// </summary>
-        Secondary,
+        public static readonly BorderColor Secondary = new( "secondary" );
 
         /// <summary>
         /// Success color.
         /// </summary>
-        Success,
+        public static readonly BorderColor Success = new( "success" );
 
         /// <summary>
         /// Danger color.
         /// </summary>
-        Danger,
+        public static readonly BorderColor Danger = new( "danger" );
 
         /// <summary>
         /// Warning color.
         /// </summary>
-        Warning,
+        public static readonly BorderColor Warning = new( "warning" );
 
         /// <summary>
         /// Info color.
         /// </summary>
-        Info,
+        public static readonly BorderColor Info = new( "info" );
 
         /// <summary>
         /// Light color.
         /// </summary>
-        Light,
+        public static readonly BorderColor Light = new( "light" );
 
         /// <summary>
         /// Dark color.
         /// </summary>
-        Dark,
+        public static readonly BorderColor Dark = new( "dark" );
 
         /// <summary>
         /// White color.
         /// </summary>
-        White,
+        public static readonly BorderColor White = new( "white" );
     }
 }

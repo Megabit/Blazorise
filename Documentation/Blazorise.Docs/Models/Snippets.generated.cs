@@ -1177,6 +1177,16 @@ namespace Blazorise.Docs.Models
     Link
 </Link>";
 
+        public const string CustomLinkTargetExample = @"<Link To=""some-url"" Target=""@(""example"")"">
+    This link can lead to iframe
+</Link>
+
+<iframe name=""example"" src=""init_fixed.html""></iframe>";
+
+        public const string LinkTargetExample = @"<Link To=""https://github.com/Megabit/Blazorise"" Target=""Target.Blank"">
+    Blazorise
+</Link>";
+
         public const string BasicListGroupExample = @"<ListGroup>
     <ListGroupItem>An item</ListGroupItem>
     <ListGroupItem>A second item</ListGroupItem>
