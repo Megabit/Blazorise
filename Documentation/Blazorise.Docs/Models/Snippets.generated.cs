@@ -4189,7 +4189,7 @@ namespace Blazorise.Docs.Models
         public const string IconSizeExample = @"<Div Flex=""Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start"">
     @foreach ( var iconSize in Enum.GetValues<IconSize>() )
     {
-        @if ( iconSize == IconSize.None )
+        @if ( iconSize == IconSize.Default )
             continue;
 
         <Div Flex=""Flex.Column.JustifyContent.Center"">

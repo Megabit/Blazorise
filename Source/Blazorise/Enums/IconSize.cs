@@ -8,7 +8,7 @@
         /// <summary>
         /// The icon size will not be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// The icon will be size 0.75em.
