@@ -6,9 +6,9 @@
     public enum ColumnWidth
     {
         /// <summary>
-        /// No sizing.
+        /// No sizing, meaning the default spacing will be used.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// One column width.

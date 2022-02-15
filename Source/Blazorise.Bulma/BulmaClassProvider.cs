@@ -761,7 +761,7 @@ namespace Blazorise.Bulma
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
-                if ( columnWidth == Blazorise.ColumnWidth.None )
+                if ( columnWidth == Blazorise.ColumnWidth.Default )
                     return $"column is-{baseClass}{ToBreakpoint( breakpoint )}";
 
                 return $"column is-{ToColumnWidth( columnWidth )}-{baseClass}{ToBreakpoint( breakpoint )}";
