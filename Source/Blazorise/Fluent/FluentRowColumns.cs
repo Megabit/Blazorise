@@ -144,7 +144,7 @@ namespace Blazorise
             {
                 void BuildClasses( ClassBuilder builder )
                 {
-                    if ( rules.Any( x => x.Key != RowColumnsSize.None ) )
+                    if ( rules.Any( x => x.Key != RowColumnsSize.Default ) )
                         builder.Append( string.Join( " ", rules.Select( r => classProvider.RowColumns( r.Key, r.Value ) ) ) );
                 }
 
