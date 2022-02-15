@@ -6,7 +6,7 @@
     public enum BorderRadius
     {
         /// <summary>
-        /// Don't apply any borders.
+        /// No particular rule will be applied, meaning a default borders will be used.
         /// </summary>
         Default,
 

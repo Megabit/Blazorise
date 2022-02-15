@@ -6,7 +6,7 @@
     public enum Size
     {
         /// <summary>
-        /// Don't resize an element.
+        /// No particular size rule will be applied, meaning a default size will be used.
         /// </summary>
         Default,
 
