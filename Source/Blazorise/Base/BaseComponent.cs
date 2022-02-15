@@ -54,7 +54,7 @@ namespace Blazorise
 
         private TextWeight textWeight = TextWeight.None;
 
-        private TextOverflow textOverflow = TextOverflow.None;
+        private TextOverflow textOverflow = TextOverflow.Default;
 
         private VerticalAlignment verticalAlignment = VerticalAlignment.None;
 
@@ -230,7 +230,7 @@ namespace Blazorise
             if ( TextWeight != TextWeight.None )
                 builder.Append( ClassProvider.TextWeight( TextWeight ) );
 
-            if ( TextOverflow != TextOverflow.None )
+            if ( TextOverflow != TextOverflow.Default )
                 builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
             if ( Background != Background.None )
