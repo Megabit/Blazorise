@@ -10,7 +10,7 @@
                     return "left";
                 case SnackbarLocation.Right:
                     return "right";
-                case SnackbarLocation.None:
+                case SnackbarLocation.Default:
                 default:
                     return null;
             }
