@@ -767,7 +767,7 @@ namespace Blazorise.AntDesign
                 ? $"ant-display-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"ant-display-{ToDisplayType( displayType )}";
 
-            if ( displayDefinition.Direction != DisplayDirection.None )
+            if ( displayDefinition.Direction != DisplayDirection.Default )
                 return $"{baseClass} ant-flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;

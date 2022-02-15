@@ -783,7 +783,7 @@ namespace Blazorise.Bulma
                 ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}"
                 : $"is-{ToDisplayType( displayType )}";
 
-            if ( displayDefinition.Direction != DisplayDirection.None )
+            if ( displayDefinition.Direction != DisplayDirection.Default )
                 return $"{baseClass} is-flex-direction-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;

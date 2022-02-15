@@ -770,7 +770,7 @@ namespace Blazorise.Bootstrap
                 ? $"d-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"d-{ToDisplayType( displayType )}";
 
-            if ( displayDefinition.Direction != DisplayDirection.None )
+            if ( displayDefinition.Direction != DisplayDirection.Default )
                 return $"{baseClass} flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
