@@ -8,7 +8,7 @@
         /// <summary>
         /// No order will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// A default order.

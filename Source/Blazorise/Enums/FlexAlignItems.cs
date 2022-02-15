@@ -8,7 +8,7 @@
         /// <summary>
         /// Align-items will not be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Items are placed at the start of the cross axis. The difference between these is subtle,

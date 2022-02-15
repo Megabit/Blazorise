@@ -1122,7 +1122,7 @@ namespace Blazorise.Bootstrap5
 
         public override string Flex( FlexType flexType )
         {
-            return flexType != FlexType.None
+            return flexType != FlexType.Default
                 ? $"d-{ToFlexType( flexType )}"
                 : null;
         }
@@ -1135,28 +1135,28 @@ namespace Blazorise.Bootstrap5
                 ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
                 : null;
 
-            if ( flexDefinition.Direction != FlexDirection.None )
+            if ( flexDefinition.Direction != FlexDirection.Default )
                 sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
 
-            if ( flexDefinition.JustifyContent != FlexJustifyContent.None )
+            if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
                 sb.Append( "justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
 
-            if ( flexDefinition.AlignItems != FlexAlignItems.None )
+            if ( flexDefinition.AlignItems != FlexAlignItems.Default )
                 sb.Append( "align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
 
-            if ( flexDefinition.AlignSelf != FlexAlignSelf.None )
+            if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
                 sb.Append( "align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
 
-            if ( flexDefinition.AlignContent != FlexAlignContent.None )
+            if ( flexDefinition.AlignContent != FlexAlignContent.Default )
                 sb.Append( "align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
-            if ( flexDefinition.GrowShrink != FlexGrowShrink.None && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.None )
+            if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
                 sb.Append( "flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
-            if ( flexDefinition.Wrap != FlexWrap.None )
+            if ( flexDefinition.Wrap != FlexWrap.Default )
                 sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
 
-            if ( flexDefinition.Order != FlexOrder.None )
+            if ( flexDefinition.Order != FlexOrder.Default )
                 sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
 
             if ( flexDefinition.Fill )
@@ -1169,7 +1169,7 @@ namespace Blazorise.Bootstrap5
         {
             var sb = new StringBuilder();
 
-            if ( flexType != FlexType.None )
+            if ( flexType != FlexType.Default )
                 sb.Append( $"d-{ToFlexType( flexType )}" ).Append( ' ' );
 
             sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
