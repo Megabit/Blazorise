@@ -1247,9 +1247,9 @@ namespace Blazorise.AntDesign
 
         #region Overflow
 
-        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
-                 ? $"ant-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
-                 : $"ant-overflow-{ToOverflowType( overflowType )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
+            ? $"ant-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+            : $"ant-overflow-{ToOverflowType( overflowType )}";
 
         #endregion
 
