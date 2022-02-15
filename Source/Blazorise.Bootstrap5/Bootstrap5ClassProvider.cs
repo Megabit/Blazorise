@@ -1104,7 +1104,7 @@ namespace Blazorise.Bootstrap5
             if ( borderSide != BorderSide.All )
                 sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
-            if ( borderSize != BorderSize.None )
+            if ( borderSize != BorderSize.Default )
                 sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
             if ( borderColor != BorderColor.None )
