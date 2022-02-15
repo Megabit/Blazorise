@@ -24,7 +24,7 @@ namespace Blazorise
 
         private bool clearfix;
 
-        private Visibility visibility = Visibility.None;
+        private Visibility visibility = Visibility.Default;
 
         private IFluentSizing width;
 
@@ -203,7 +203,7 @@ namespace Blazorise
             if ( Clearfix )
                 builder.Append( ClassProvider.Clearfix() );
 
-            if ( Visibility != Visibility.None )
+            if ( Visibility != Visibility.Default )
                 builder.Append( ClassProvider.Visibility( Visibility ) );
 
             if ( VerticalAlignment != VerticalAlignment.Default )
