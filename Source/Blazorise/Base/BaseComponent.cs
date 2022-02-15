@@ -50,7 +50,7 @@ namespace Blazorise
 
         private TextAlignment textAlignment = TextAlignment.Default;
 
-        private TextTransform textTransform = TextTransform.None;
+        private TextTransform textTransform = TextTransform.Default;
 
         private TextWeight textWeight = TextWeight.None;
 
@@ -224,7 +224,7 @@ namespace Blazorise
             if ( TextAlignment != TextAlignment.Default )
                 builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
 
-            if ( TextTransform != TextTransform.None )
+            if ( TextTransform != TextTransform.Default )
                 builder.Append( ClassProvider.TextTransform( TextTransform ) );
 
             if ( TextWeight != TextWeight.None )
