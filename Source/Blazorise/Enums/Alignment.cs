@@ -8,7 +8,7 @@
         /// <summary>
         /// No alignment will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Aligns an element to the left.

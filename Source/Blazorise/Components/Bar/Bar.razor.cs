@@ -39,7 +39,7 @@ namespace Blazorise
             Breakpoint = Breakpoint.None,
             NavigationBreakpoint = Breakpoint.None,
             ThemeContrast = ThemeContrast.Light,
-            Alignment = Alignment.None,
+            Alignment = Alignment.Default,
         };
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarInitial( initial && Mode != BarMode.Horizontal ) );
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
-            builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
+            builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.Default );
             builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );
