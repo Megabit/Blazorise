@@ -484,7 +484,7 @@ namespace Blazorise
         /// <summary>
         /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
         /// </summary>
-        [Parameter] public Target Target { get; set; } = Target.None;
+        [Parameter] public Target Target { get; set; } = Target.Default;
 
         /// <summary>
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.

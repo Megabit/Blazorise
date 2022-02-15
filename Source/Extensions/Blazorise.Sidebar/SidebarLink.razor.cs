@@ -98,7 +98,7 @@ namespace Blazorise.Sidebar
         /// <summary>
         /// The target attribute specifies where to open the linked document.
         /// </summary>
-        [Parameter] public Target Target { get; set; } = Target.None;
+        [Parameter] public Target Target { get; set; } = Target.Default;
 
         /// <summary>
         /// URL matching behavior for a link.
