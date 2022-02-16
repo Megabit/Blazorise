@@ -59,6 +59,12 @@ namespace Blazorise.DataGrid
                     case nameof( ParentDataGrid ):
                         ParentDataGrid = (DataGrid<TItem>)parameter.Value;
                         break;
+                    case nameof( SelectedRow ):
+                        SelectedRow = (TItem)parameter.Value;
+                        break;
+                    case nameof( SelectedRows ):
+                        SelectedRows = (List<TItem>)parameter.Value;
+                        break;
                     default:
                         throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
                 }
@@ -247,6 +253,16 @@ namespace Blazorise.DataGrid
         [Parameter] public TItem Item { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets currently selected row.
+        /// </summary>
+        [Parameter] public TItem SelectedRow { get; set; }
+
+        /// <summary>
+        /// Gets or sets currently selected rows.
+        /// </summary>
+        [Parameter] public List<TItem> SelectedRows { get; set; }
 
         #endregion
     }
