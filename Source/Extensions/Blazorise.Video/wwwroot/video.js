@@ -22,12 +22,12 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     };
 
     if (options.streamingLibrary !== "Html5") {
-        const source = extractSingleSourceUrl(options.source);
+        const sourceUrl = extractSingleSourceUrl(options.source);
 
         if (options.streamingLibrary === "Hls" && Hls.isSupported()) {
-            instance.hls = createHls(element, source, options);
+            instance.hls = createHls(element, sourceUrl, options);
         } else if (options.streamingLibrary === "Dash" && dashjs.supportsMediaSource()) {
-            instance.dash = createDash(element, source, options);
+            instance.dash = createDash(element, sourceUrl, options);
         }
     }
 
@@ -117,9 +117,9 @@ export function updateSource(element, elementId, source, protection) {
         }
 
         if (instance.dash) {
-            const source = extractSingleSourceUrl(source);
+            const sourceUrl = extractSingleSourceUrl(source);
 
-            instance.dash.attachSource(source);
+            instance.dash.attachSource(sourceUrl);
         }
 
         if (instance.hls) {
