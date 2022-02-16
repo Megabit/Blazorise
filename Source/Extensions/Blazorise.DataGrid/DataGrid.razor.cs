@@ -846,7 +846,7 @@ namespace Blazorise.DataGrid
 
                 if ( RowSelectable is not null )
                 {
-                    foreach ( var item in viewData )
+                    foreach ( var item in DisplayData )
                     {
                         if ( RowSelectable.Invoke( new( item, DataGridSelectReason.MultiSelectAll ) ) )
                         {
@@ -856,7 +856,7 @@ namespace Blazorise.DataGrid
                 }
                 else
                 {
-                    SelectedRows.AddRange( viewData );
+                    SelectedRows.AddRange( DisplayData );
                 }
             }
             else
@@ -1447,9 +1447,9 @@ namespace Blazorise.DataGrid
 
                 if ( hasSelectedRows )
                 {
-                    var unselectedRows = viewData.Except( SelectedRows ).Count();
+                    var unselectedRows = DisplayData.Except( SelectedRows ).Count();
 
-                    return MultiSelect && hasSelectedRows && unselectedRows > 0 && unselectedRows < viewData.Count();
+                    return MultiSelect && hasSelectedRows && unselectedRows > 0 && unselectedRows < DisplayData.Count();
                 }
 
                 return false;
