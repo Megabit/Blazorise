@@ -172,7 +172,7 @@ namespace Blazorise
             MessageType.Warning => TextColor.Warning,
             MessageType.Error => TextColor.Danger,
             MessageType.Confirmation => TextColor.Secondary,
-            _ => TextColor.None,
+            _ => TextColor.Default,
         };
 
         /// <summary>

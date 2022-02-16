@@ -23,7 +23,7 @@ namespace Blazorise.TreeView
             nodeStyling = new()
             {
                 Background = Background.Default,
-                TextColor = TextColor.None
+                TextColor = TextColor.Default
             };
         }
 

@@ -46,7 +46,7 @@ namespace Blazorise
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
-        private TextColor textColor = TextColor.None;
+        private TextColor textColor = TextColor.Default;
 
         private TextAlignment textAlignment = TextAlignment.Default;
 
@@ -218,7 +218,7 @@ namespace Blazorise
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
 
-            if ( TextColor != TextColor.None )
+            if ( TextColor != TextColor.Default )
                 builder.Append( ClassProvider.TextColor( TextColor ) );
 
             if ( TextAlignment != TextAlignment.Default )
