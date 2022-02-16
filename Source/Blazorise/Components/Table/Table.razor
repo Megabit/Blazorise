@@ -5,7 +5,7 @@
     {
         <div class="@ContainerClassNames" style="@ContainerStyleNames">
             <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
-                   draggable="@Draggable"
+                   draggable="@DraggableString"
                    @ondrag="@OnDragHandler"
                    @ondrag:preventDefault="@DragPreventDefault"
                    @ondragend="@OnDragEndHandler"
@@ -28,7 +28,7 @@
     else
     {
         <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
-               draggable="@Draggable"
+               draggable="@DraggableString"
                @ondrag="@OnDragHandler"
                @ondrag:preventDefault="@DragPreventDefault"
                @ondragend="@OnDragEndHandler"

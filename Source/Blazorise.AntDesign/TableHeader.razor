@@ -4,7 +4,7 @@
     <div class="ant-table-header" style="overflow: hidden;">
         <table style="table-layout: fixed;">
             <thead id="@ElementId" class="@ClassNames" style="@StyleNames"
-                   draggable="@Draggable"
+                   draggable="@DraggableString"
                    @ondrag="@OnDragHandler"
                    @ondrag:preventDefault="@DragPreventDefault"
                    @ondragend="@OnDragEndHandler"
@@ -28,7 +28,7 @@
 else
 {
     <thead id="@ElementId" class="@ClassNames" style="@StyleNames"
-           draggable="@Draggable"
+           draggable="@DraggableString"
            @ondrag="@OnDragHandler"
            @ondrag:preventDefault="@DragPreventDefault"
            @ondragend="@OnDragEndHandler"

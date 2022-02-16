@@ -88,6 +88,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the valid draggable attribute value if <see cref="Draggable"/> is enabled.
+        /// </summary>
+        protected string DraggableString => Draggable ? "true" : null;
+
+        /// <summary>
         /// Indicates whether the element can be dragged.
         /// </summary>
         [Parameter] public bool Draggable { get; set; }
