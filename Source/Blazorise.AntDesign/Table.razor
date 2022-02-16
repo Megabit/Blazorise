@@ -6,7 +6,7 @@
             <div class="ant-table-container" style="@ContainerStyleNames">
                 <div class="ant-table-header">
                     <table @ref="@ElementRef" style="table-layout: fixed;"
-                           draggable="@Draggable"
+                           draggable="@DraggableString"
                            @ondrag="@OnDragHandler"
                            @ondrag:preventDefault="@DragPreventDefault"
                            @ondragend="@OnDragEndHandler"
@@ -33,7 +33,7 @@
             <div class="ant-table-container">
                 <div class="ant-table-content">
                     <table @ref="@ElementRef" style="table-layout: auto;"
-                           draggable="@Draggable"
+                           draggable="@DraggableString"
                            @ondrag="@OnDragHandler"
                            @ondrag:preventDefault="@DragPreventDefault"
                            @ondragend="@OnDragEndHandler"

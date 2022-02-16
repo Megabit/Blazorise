@@ -4,7 +4,7 @@
     <div class="ant-table-body" style="@($"overflow-y: scroll; max-height: {(ParentTable?.FixedHeaderTableHeight ?? "300px")};")">
         <table style="table-layout: fixed;">
             <tbody id="@ElementId" class="@ClassNames" style="@StyleNames"
-                   draggable="@Draggable"
+                   draggable="@DraggableString"
                    @ondrag="@OnDragHandler"
                    @ondrag:preventDefault="@DragPreventDefault"
                    @ondragend="@OnDragEndHandler"
@@ -28,7 +28,7 @@
 else
 {
     <tbody id="@ElementId" class="@ClassNames" style="@StyleNames"
-           draggable="@Draggable"
+           draggable="@DraggableString"
            @ondrag="@OnDragHandler"
            @ondrag:preventDefault="@DragPreventDefault"
            @ondragend="@OnDragEndHandler"
