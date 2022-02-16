@@ -22,11 +22,9 @@ namespace Blazorise.TreeView
 
             nodeStyling = new()
             {
-                Background = Background.None,
+                Background = Background.Default,
                 TextColor = TextColor.None
             };
-
-
         }
 
         #endregion

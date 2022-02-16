@@ -58,7 +58,7 @@ namespace Blazorise
 
         private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
-        private Background background = Background.None;
+        private Background background = Background.Default;
 
         private Shadow shadow = Shadow.None;
 
@@ -233,7 +233,7 @@ namespace Blazorise
             if ( TextOverflow != TextOverflow.Default )
                 builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
-            if ( Background != Background.None )
+            if ( Background != Background.Default )
                 builder.Append( ClassProvider.BackgroundColor( Background ) );
 
             if ( Shadow != Shadow.None )

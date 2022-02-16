@@ -213,7 +213,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
             ? selectedStyling?.Background
-            : styling?.Background ) ?? Blazorise.Background.None;
+            : styling?.Background ) ?? Blazorise.Background.Default;
 
         /// <summary>
         /// Gets the row color.
