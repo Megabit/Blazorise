@@ -456,8 +456,8 @@ namespace Blazorise.Bootstrap
         public override string DropdownDirection( Direction direction ) => direction switch
         {
             Direction.Up => "dropup",
-            Direction.Right or Direction.End => "dropright",
-            Direction.Left or Direction.Start => "dropleft",
+            Direction.End => "dropright",
+            Direction.Start => "dropleft",
             _ => null,
         };
 

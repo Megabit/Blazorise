@@ -23,18 +23,6 @@ namespace Blazorise
         Bottom,
 
         /// <summary>
-        /// Left side.
-        /// </summary>
-        [Obsolete( "This parameter will soon be deprecated. Use Start instead." )]
-        Left,
-
-        /// <summary>
-        /// Right side.
-        /// </summary>
-        [Obsolete( "This parameter will soon be deprecated. Use End instead." )]
-        Right,
-
-        /// <summary>
         /// Start side.
         /// </summary>
         Start,
