@@ -214,9 +214,9 @@
 @code {
 
     private RenderFragment paginationFragment => __builder =>
-                        {
-                        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
-                        };
+    {
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
+    };
 
     protected RenderFragment<TItem> rowFragment => item => __builder =>
     {
@@ -226,7 +226,7 @@
         }
         else
         {
-            <_DataGridRow @key="@item" TItem="TItem" Item="@item" />
+            <_DataGridRow @key="@item" TItem="TItem" Item="@item" SelectedRows="SelectedRows" SelectedRow="SelectedRow" />
             if ( DetailRowTemplate != null && ( GetRowInfo( item )?.HasDetailRow ?? false ) )
             {
                 <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
