@@ -19,7 +19,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         private Size? size;
 
@@ -49,8 +49,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Button() );
-            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
-            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
+            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.Default && !Outline );
+            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.Default && Outline );
             builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );

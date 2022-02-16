@@ -37,7 +37,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ProgressBar() );
-            builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );

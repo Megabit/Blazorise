@@ -1211,7 +1211,7 @@ namespace Blazorise.Docs.Models
 </ListGroup>";
 
         public const string ListGroupContextualExample = @"<ListGroup>
-    <ListGroupItem Color=""Color.None"">None</ListGroupItem>
+    <ListGroupItem Color=""Color.Default"">Default</ListGroupItem>
     <ListGroupItem Color=""Color.Primary"">Primary</ListGroupItem>
     <ListGroupItem Color=""Color.Secondary"">Secondary</ListGroupItem>
     <ListGroupItem Color=""Color.Success"">Success</ListGroupItem>
@@ -1223,7 +1223,7 @@ namespace Blazorise.Docs.Models
 </ListGroup>";
 
         public const string ListGroupContextualSelectableExample = @"<ListGroup Mode=""ListGroupMode.Selectable"">
-    <ListGroupItem Name=""none"" Color=""Color.None"">None</ListGroupItem>
+    <ListGroupItem Name=""none"" Color=""Color.Default"">Default</ListGroupItem>
     <ListGroupItem Name=""primary"" Color=""Color.Primary"">Primary</ListGroupItem>
     <ListGroupItem Name=""secondary"" Color=""Color.Secondary"">Secondary</ListGroupItem>
     <ListGroupItem Name=""success"" Color=""Color.Success"">Success</ListGroupItem>

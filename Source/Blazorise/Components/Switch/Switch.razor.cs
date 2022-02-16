@@ -16,7 +16,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Switch() );
-            builder.Append( ClassProvider.SwitchColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.SwitchColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.SwitchSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.SwitchChecked( IsChecked ) );
             builder.Append( ClassProvider.SwitchCursor( Cursor ), Cursor != Cursor.Default );

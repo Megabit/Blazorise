@@ -102,7 +102,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.InputMask( Plaintext ) );
             builder.Append( ClassProvider.InputMaskSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-            builder.Append( ClassProvider.InputMaskColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.InputMaskColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.InputMaskValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );

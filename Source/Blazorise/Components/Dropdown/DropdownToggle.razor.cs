@@ -54,8 +54,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true ) );
-            builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
-            builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
+            builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.Default && !Outline );
+            builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.Default && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
             builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
@@ -245,7 +245,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the dropdown color.
         /// </summary>
-        [Parameter] public Color Color { get; set; } = Color.None;
+        [Parameter] public Color Color { get; set; } = Color.Default;
 
         /// <summary>
         /// Gets or sets the dropdown size.

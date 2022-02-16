@@ -175,7 +175,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.NumericPicker( Plaintext ) );
             builder.Append( ClassProvider.NumericPickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-            builder.Append( ClassProvider.NumericPickerColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.NumericPickerColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );

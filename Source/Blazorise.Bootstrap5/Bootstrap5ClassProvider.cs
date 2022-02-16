@@ -366,7 +366,7 @@ namespace Blazorise.Bootstrap5
 
         public override string ButtonColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
-        public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+        public override string ButtonOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
         public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
@@ -437,7 +437,7 @@ namespace Blazorise.Bootstrap5
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
-        public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+        public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
         public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
 

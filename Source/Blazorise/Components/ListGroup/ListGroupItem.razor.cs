@@ -27,7 +27,7 @@ namespace Blazorise
         /// <summary>
         /// The list-group-item color.
         /// </summary>
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace Blazorise
             builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
             builder.Append( ClassProvider.ListGroupItemActive(), Active );
             builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
-            builder.Append( ClassProvider.ListGroupItemColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.ListGroupItemColor( Color ), Color != Color.Default );
 
             base.BuildClasses( builder );
         }
