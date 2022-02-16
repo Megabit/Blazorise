@@ -20,7 +20,7 @@ namespace Blazorise
 
         private string customStyle;
 
-        private Float @float = Float.None;
+        private Float @float = Float.Default;
 
         private bool clearfix;
 
@@ -197,7 +197,7 @@ namespace Blazorise
             if ( Overflow != null )
                 builder.Append( Overflow.Class( ClassProvider ) );
 
-            if ( Float != Float.None )
+            if ( Float != Float.Default )
                 builder.Append( ClassProvider.Float( Float ) );
 
             if ( Clearfix )
