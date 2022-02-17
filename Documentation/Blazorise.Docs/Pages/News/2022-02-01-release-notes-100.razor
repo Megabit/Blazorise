@@ -168,10 +168,25 @@
     We reworked animations so you can have more control. We added two new Parameters:
     <UnorderedList>
         <UnorderedListItem>
-            IsAnimated : Controls whether the modal should animate.
+            <Strong>IsAnimated</Strong>: Controls whether the modal should animate.
         </UnorderedListItem>
         <UnorderedListItem>
-            AnimationDuration : Sets the modal animation duration in ms.
+            <Strong>AnimationDuration</Strong>: Sets the modal animation duration in ms.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    You can now choose from three different loading modes on <Code>Modal</Code> component, similar to the what we already have on the <Code>Tabs</Code> component.
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Default</Strong>: Always renders the modal html content to the DOM.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>LazyLoad</Strong>: Lazy loads modal, meaning the modal html content will only be rendered/loaded the first time it is visited.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>LazyReload</Strong>: Lazy loads modal everytime, meaning the modal html content will have it's html re-rendered to the DOM everytime.
         </UnorderedListItem>
     </UnorderedList>
 </Paragraph>
@@ -201,9 +216,6 @@
             <Code>DetailRowTriggerType</Code> You may now select between two types, Manual and RowClick. By setting the type to Manual you may further control the DetailRowTemplate display behaviour programatically by using the existing <Code>ToggleDetailRow</Code>.
         </UnorderedListItem>
     </UnorderedList>
-<Paragraph>
-  
-</Paragraph>  
     Added PreventRowClick to <Code>DataGridColumn</Code> / <Code>DataGridCommandColumn</Code>. By setting this parameter to true, the column cell will not longer trigger the <Code>RowClicked</Code> and subsequent events.
 </Paragraph>
 
