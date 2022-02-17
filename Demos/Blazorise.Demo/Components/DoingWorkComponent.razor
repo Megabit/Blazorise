@@ -1,0 +1,27 @@
+﻿@using Blazorise;
+
+@if ( loading )
+{
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>Doing some work, please wait...</AlertDescription>
+    </Alert>
+}
+else
+{
+    <Alert Color="Color.Success" Visible>
+        <AlertDescription>Loaded!</AlertDescription>
+    </Alert>
+}
+
+@code {
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay( 3000 );
+
+        loading = false;
+
+        await base.OnInitializedAsync();
+    }
+}
