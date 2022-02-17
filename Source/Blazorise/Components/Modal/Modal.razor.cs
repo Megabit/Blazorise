@@ -534,6 +534,11 @@ namespace Blazorise
         /// inheritdoc
         [Parameter] public int AnimationDuration { get; set; } = 150;
 
+        /// <summary>
+        /// Gets or sets the Modal Render Mode.
+        /// </summary>
+        [Parameter] public ModalRenderMode RenderMode { get; set; }
+
         #endregion
     }
 }
