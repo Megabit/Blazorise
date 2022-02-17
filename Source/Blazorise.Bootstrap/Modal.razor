@@ -1,13 +1,13 @@
 ﻿@inherits Blazorise.Modal
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        @if (RenderMode == ModalRenderMode.Default || (RenderMode == ModalRenderMode.LazyReload && IsVisible) || (RenderMode == ModalRenderMode.LazyLoad && lazyLoaded))
-        {
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
+            @if ( RenderMode == ModalRenderMode.Default || ( RenderMode == ModalRenderMode.LazyReload && IsVisible ) || ( RenderMode == ModalRenderMode.LazyLoad && lazyLoaded ) )
+            {
                 @ChildContent
-            </div>
-        }
-        @if (ShowBackdrop && IsVisible)
+            }
+        </div>
+        @if ( ShowBackdrop && IsVisible )
         {
             <_ModalBackdrop CloseActivatorDisabled />
         }
