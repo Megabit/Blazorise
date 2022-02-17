@@ -74,6 +74,33 @@
         </Card>
     </Column>
 </Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Modals (Render Modes)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Example of modal render modes.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>ShowDefaultModal())">
+                    Default Load Modal
+                </Button>
+                <Button Color="Color.Success" Clicked="@(()=>ShowLazyModal())">
+                    Lazy Load Modal
+                </Button>
+                <Button Color="Color.Info" Clicked="@(()=>ShowLazyReloadModal())">
+                    Lazy Reload Modal
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 <Modal @ref="modalRef" IsAnimated="animation" AnimationDuration="animationDuration">
     <ModalContent Size="@modalSize" Centered="@centered">
         <ModalHeader>
@@ -122,9 +149,81 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
+
+<Modal @ref="defaultModalRef" IsAnimated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.Default">
+    <ModalContent Size="ModalSize.Small" Centered>
+        <ModalHeader>
+            <ModalTitle>
+                Default Load
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph>
+                The component below started loading as soon as the page loaded.
+            </Paragraph>
+            <Paragraph>You will notice that after it has finished loading, if you open the modal back again it will not load back again.</Paragraph>
+            <DoingWorkComponent />
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideDefaultModal">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+
+<Modal @ref="lazyModalRef" IsAnimated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyLoad">
+    <ModalContent Size="ModalSize.Small" Centered>
+        <ModalHeader>
+            <ModalTitle>
+                Lazy Load
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph>
+                The component below starts loading the first time you visit it...
+            </Paragraph>
+            <Paragraph>
+                You will notice that after it has finished loading, if you open the modal back again it will not load back again.
+            </Paragraph>
+            <DoingWorkComponent />
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideLazyModal">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+
+<Modal @ref="lazyReloadModalRef" IsAnimated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyReload">
+    <ModalContent Size="ModalSize.Small" Centered>
+        <ModalHeader>
+            <ModalTitle>
+                Lazy Reload
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph>
+                The component below has just started loading...
+            </Paragraph>
+            <Paragraph>
+                You will notice that after it has finished loading, if you open the modal back again it will reload back again.
+            </Paragraph>
+            <DoingWorkComponent />
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideLazyReloadModal">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 @code {
     private Modal modalRef;
     private Modal modalRef2;
+    private Modal defaultModalRef;
+    private Modal lazyModalRef;
+    private Modal lazyReloadModalRef;
     private bool centered = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
@@ -154,4 +253,35 @@
     {
         return modalRef2.Hide();
     }
+
+    private Task ShowLazyModal()
+    {
+        return lazyModalRef.Show();
+    }
+
+    private Task HideLazyModal()
+    {
+        return lazyModalRef.Hide();
+    }
+
+    private Task ShowDefaultModal()
+    {
+        return defaultModalRef.Show();
+    }
+
+    private Task HideDefaultModal()
+    {
+        return defaultModalRef.Hide();
+    }
+
+    private Task ShowLazyReloadModal()
+    {
+        return lazyReloadModalRef.Show();
+    }
+
+    private Task HideLazyReloadModal()
+    {
+        return lazyReloadModalRef.Hide();
+    }
+
 }

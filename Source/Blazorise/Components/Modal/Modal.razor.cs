@@ -20,6 +20,11 @@ namespace Blazorise
         #region Members
 
         /// <summary>
+        /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
+        /// </summary>
+        protected bool lazyLoaded;
+
+        /// <summary>
         /// Holds the state of this modal dialog.
         /// </summary>
         private ModalState state = new()
@@ -415,6 +420,9 @@ namespace Blazorise
         /// <param name="visible">Visible state.</param>
         private async Task SetVisibleState( bool visible )
         {
+            if ( visible )
+                lazyLoaded = ( RenderMode == ModalRenderMode.LazyLoad );
+
             state = state with { Visible = visible };
 
             await HandleVisibilityStyles( visible );
