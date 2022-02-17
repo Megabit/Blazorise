@@ -54,9 +54,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && Text != paramText )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, text ) );
+                ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, paramText ) );
             }
 
             // autodetect inline mode only if Inline parameter is not explicitly defined
