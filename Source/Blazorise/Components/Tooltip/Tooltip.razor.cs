@@ -81,6 +81,7 @@ namespace Blazorise
                     Fade,
                     FadeDuration,
                     Trigger = ToTippyTrigger( Trigger ),
+                    TriggerTargetId,
                     MaxWidth = Theme?.TooltipOptions?.MaxWidth,
                     AutodetectInline = autodetectInline,
                 } );
@@ -247,6 +248,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Which element the trigger event listeners are applied to (instead of the reference element).
+        /// </summary>
+        [Parameter] public string TriggerTargetId { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
