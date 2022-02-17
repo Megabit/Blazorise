@@ -1300,8 +1300,8 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }";
 
@@ -2344,8 +2344,8 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }";
 

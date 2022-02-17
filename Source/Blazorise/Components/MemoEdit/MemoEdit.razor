@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseInputComponent<string>
-@if ( IsImmediate && IsDelayTextOnKeyPress )
+@if ( IsImmediate && IsDebounce )
 {
     <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" value="@CurrentValue" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
 }

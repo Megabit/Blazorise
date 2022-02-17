@@ -765,12 +765,12 @@ namespace Blazorise.Components
         /// <summary>
         /// If true the entered text will be slightly delayed before submitting it to the internal value.
         /// </summary>
-        [Parameter] public bool? DelayTextOnKeyPress { get; set; }
+        [Parameter] public bool? Debounce { get; set; }
 
         /// <summary>
         /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
         /// </summary>
-        [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
+        [Parameter] public int? DebounceInterval { get; set; }
 
         /// <summary>
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
