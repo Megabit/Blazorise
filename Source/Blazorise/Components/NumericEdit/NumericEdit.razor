@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @typeparam TValue
 @inherits Blazorise.BaseTextInput<TValue>
-@if ( IsChangeTextOnKeyPress && IsDelayTextOnKeyPress )
+@if ( IsImmediate && IsDelayTextOnKeyPress )
 {
     <input @ref="@ElementRef" id="@ElementId" type="number" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
 }

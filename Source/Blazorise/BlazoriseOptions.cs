@@ -36,7 +36,7 @@ namespace Blazorise
         /// <summary>
         /// If true the text in <see cref="TextEdit"/> will be changed after each key press.
         /// </summary>
-        public bool ChangeTextOnKeyPress { get; set; } = true;
+        public bool Immediate { get; set; } = true;
 
         /// <summary>
         /// If true the entered into <see cref="TextEdit"/> will be slightly delayed before submitting it to the internal value.

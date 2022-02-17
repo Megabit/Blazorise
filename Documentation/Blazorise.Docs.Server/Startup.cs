@@ -29,7 +29,7 @@ namespace Blazorise.Docs.Server
             services
               .AddBlazorise( options =>
               {
-                  options.ChangeTextOnKeyPress = true; // optional
+                  options.Immediate = true; // optional
               } )
               .AddBootstrap5Providers()
               .AddFontAwesomeIcons()

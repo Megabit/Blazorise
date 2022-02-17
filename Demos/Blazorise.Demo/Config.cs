@@ -12,7 +12,7 @@ namespace Blazorise.Demo
             services
                 .AddBlazorise( options =>
                 {
-                    options.ChangeTextOnKeyPress = true;
+                    options.Immediate = true;
                 } )
                 .AddBlazoriseRichTextEdit( options =>
                 {

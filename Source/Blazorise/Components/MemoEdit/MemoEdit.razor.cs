@@ -124,7 +124,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected Task OnChangeHandler( ChangeEventArgs e )
         {
-            if ( !IsChangeTextOnKeyPress )
+            if ( !IsImmediate )
             {
                 return CurrentValueHandler( e?.Value?.ToString() );
             }
@@ -135,7 +135,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected async Task OnInputHandler( ChangeEventArgs e )
         {
-            if ( IsChangeTextOnKeyPress )
+            if ( IsImmediate )
             {
                 if ( IsDelayTextOnKeyPress )
                 {
@@ -155,7 +155,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
         {
-            if ( IsChangeTextOnKeyPress
+            if ( IsImmediate
                 && IsDelayTextOnKeyPress
                 && ( eventArgs?.Key?.Equals( "Enter", StringComparison.OrdinalIgnoreCase ) ?? false ) )
             {
@@ -168,7 +168,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task OnBlurHandler( FocusEventArgs eventArgs )
         {
-            if ( IsChangeTextOnKeyPress
+            if ( IsImmediate
                 && IsDelayTextOnKeyPress )
             {
                 inputValueDebouncer?.Flush();
@@ -206,8 +206,8 @@ namespace Blazorise
         /// <summary>
         /// Returns true if internal value should be updated with each key press.
         /// </summary>
-        protected bool IsChangeTextOnKeyPress
-            => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
+        protected bool IsImmediate
+            => Immediate.GetValueOrDefault( Options?.Immediate ?? true );
 
         /// <summary>
         /// Returns true if updating of internal value should be delayed.
@@ -225,7 +225,7 @@ namespace Blazorise
         /// The name of the event for the textarea element.
         /// </summary>
         protected string BindValueEventName
-            => IsChangeTextOnKeyPress ? "oninput" : "onchange";
+            => IsImmediate ? "oninput" : "onchange";
 
         /// <summary>
         /// Gets or sets the <see cref="IJSMemoEditModule"/> instance.
@@ -271,9 +271,9 @@ namespace Blazorise
         /// If true the text in will be changed after each key press.
         /// </summary>
         /// <remarks>
-        /// Note that setting this will override global settings in <see cref="BlazoriseOptions.ChangeTextOnKeyPress"/>.
+        /// Note that setting this will override global settings in <see cref="BlazoriseOptions.Immediate"/>.
         /// </remarks>
-        [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
+        [Parameter] public bool? Immediate { get; set; }
 
         /// <summary>
         /// If true the entered text will be slightly delayed before submitting it to the internal value.

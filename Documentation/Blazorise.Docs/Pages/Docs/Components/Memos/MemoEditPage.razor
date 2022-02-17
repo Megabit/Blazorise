@@ -76,7 +76,7 @@
     <DocsPageSectionHeader Title="Text Changed mode">
         By default the <Code>TextChanged</Code> event will be raised on every keypress.
         To override default behavior of <Code>TextChanged</Code> event and to disable the change on every
-        keypress you must set the <Code>ChangeTextOnKeyPress</Code> to <Code>false</Code> on application start.
+        keypress you must set the <Code>Immediate</Code> to <Code>false</Code> on application start.
         After setting it to <Code>false</Code> the event will be raised only after the input loses focus.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="MemoEditTextChangedModeExample" />
@@ -84,7 +84,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text Delay mode">
-        Because of some limitations in Blazor, sometimes there can be problems when <Code>ChangeTextOnKeyPress</Code> is enabled.
+        Because of some limitations in Blazor, sometimes there can be problems when <Code>Immediate</Code> is enabled.
         Basically if you try to type too fast into the text field the caret can jump randomly from current selection
         to the end of the text. To prevent that behaviour you need to enable <Code>DelayTextOnKeyPress</Code>. Once enabled it will
         slightly delay every value entered into the field to allow the Blazor engine to do it’s thing.
@@ -132,7 +132,7 @@
     <DocsAttributesItem Name="Size" Type="Size" Default="">
         Component size variations.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ChangeTextOnKeyPress" Type="bool?" Default="null">
+    <DocsAttributesItem Name="Immediate" Type="bool?" Default="null">
         If true the text in will be changed after each key press (overrides global settings).
     </DocsAttributesItem>
     <DocsAttributesItem Name="DelayTextOnKeyPress" Type="bool?" Default="null">
