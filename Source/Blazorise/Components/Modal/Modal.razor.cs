@@ -543,7 +543,7 @@ namespace Blazorise
         [Parameter] public int AnimationDuration { get; set; } = 150;
 
         /// <summary>
-        /// Gets or sets the Modal Render Mode.
+        /// Defines how the modal content will be rendered.
         /// </summary>
         [Parameter] public ModalRenderMode RenderMode { get; set; }
 

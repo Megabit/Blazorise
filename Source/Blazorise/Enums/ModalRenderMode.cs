@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Defines the Modal Render Mode.
+    /// Defines how the modal content will be rendered.
     /// </summary>
     public enum ModalRenderMode
     {
