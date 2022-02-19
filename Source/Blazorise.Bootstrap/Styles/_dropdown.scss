@@ -86,6 +86,16 @@
                     margin-top: 0;
                     margin-bottom: .125rem;
                 }
+
+                > .dropdown-toggle {
+                    width: 100%;
+
+                    &::after {
+                        position: absolute;
+                        right: 10%;
+                        top: 45%;
+                    }
+                }
             }
 
             &.dropleft {
@@ -97,6 +107,17 @@
                     margin-top: 0;
                     margin-right: .125rem;
                 }
+
+                > .dropdown-toggle {
+                    width: 100%;
+
+                    &::after {
+                        transform: rotate(0deg);
+                        position: absolute;
+                        right: 10%;
+                        top: 45%;
+                    }
+                }
             }
 
             &.dropright {
@@ -107,6 +128,17 @@
                     bottom: auto;
                     margin-top: 0;
                     margin-left: .125rem;
+                }
+
+                > .dropdown-toggle {
+                    width: 100%;
+
+                    &::after {
+                        transform: rotate(360deg);
+                        position: absolute;
+                        right: 10%;
+                        top: 45%;
+                    }
                 }
             }
         }

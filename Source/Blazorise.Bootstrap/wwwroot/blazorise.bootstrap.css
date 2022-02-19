@@ -213,6 +213,14 @@
   margin-top: 0;
   margin-bottom: 0.125rem;
 }
+.dropdown > .dropdown-menu > .dropdown.dropup > .dropdown-toggle {
+  width: 100%;
+}
+.dropdown > .dropdown-menu > .dropdown.dropup > .dropdown-toggle::after {
+  position: absolute;
+  right: 10%;
+  top: 45%;
+}
 .dropdown > .dropdown-menu > .dropdown.dropleft > .dropdown-menu {
   top: 0%;
   right: 100%;
@@ -221,6 +229,15 @@
   margin-top: 0;
   margin-right: 0.125rem;
 }
+.dropdown > .dropdown-menu > .dropdown.dropleft > .dropdown-toggle {
+  width: 100%;
+}
+.dropdown > .dropdown-menu > .dropdown.dropleft > .dropdown-toggle::after {
+  transform: rotate(0deg);
+  position: absolute;
+  right: 10%;
+  top: 45%;
+}
 .dropdown > .dropdown-menu > .dropdown.dropright > .dropdown-menu {
   top: 0%;
   right: auto;
@@ -228,6 +245,15 @@
   bottom: auto;
   margin-top: 0;
   margin-left: 0.125rem;
+}
+.dropdown > .dropdown-menu > .dropdown.dropright > .dropdown-toggle {
+  width: 100%;
+}
+.dropdown > .dropdown-menu > .dropdown.dropright > .dropdown-toggle::after {
+  transform: rotate(360deg);
+  position: absolute;
+  right: 10%;
+  top: 45%;
 }
 
 .snackbar-stack {
