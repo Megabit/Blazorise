@@ -203,6 +203,8 @@
 .dropdown > .dropdown-menu > .dropdown > .dropdown-menu {
   top: 100%;
   left: 0;
+  right: auto;
+  bottom: auto;
 }
 .dropdown > .dropdown-menu > .dropdown.dropup > .dropdown-menu {
   top: auto;
@@ -212,16 +214,18 @@
   margin-bottom: 0.125rem;
 }
 .dropdown > .dropdown-menu > .dropdown.dropleft > .dropdown-menu {
-  top: 0;
+  top: 0%;
   right: 100%;
   left: auto;
+  bottom: auto;
   margin-top: 0;
   margin-right: 0.125rem;
 }
 .dropdown > .dropdown-menu > .dropdown.dropright > .dropdown-menu {
-  top: 0;
+  top: 0%;
   right: auto;
   left: 100%;
+  bottom: auto;
   margin-top: 0;
   margin-left: 0.125rem;
 }

@@ -74,36 +74,40 @@
             > .dropdown-menu {
                 top: 100%;
                 left: 0;
-            }
-        }
-
-        > .dropdown.dropup {
-            > .dropdown-menu {
-                top: auto;
-                left: auto;
-                bottom: 100%;
-                margin-top: 0;
-                margin-bottom: .125rem;
-            }
-        }
-
-        > .dropdown.dropleft {
-            > .dropdown-menu {
-                top: 0;
-                right: 100%;
-                left: auto;
-                margin-top: 0;
-                margin-right: .125rem;
-            }
-        }
-
-        > .dropdown.dropright {
-            > .dropdown-menu {
-                top: 0;
                 right: auto;
-                left: 100%;
-                margin-top: 0;
-                margin-left: .125rem;
+                bottom: auto;
+            }
+
+            &.dropup {
+                > .dropdown-menu {
+                    top: auto;
+                    left: auto;
+                    bottom: 100%;
+                    margin-top: 0;
+                    margin-bottom: .125rem;
+                }
+            }
+
+            &.dropleft {
+                > .dropdown-menu {
+                    top: 0%;
+                    right: 100%;
+                    left: auto;
+                    bottom: auto;
+                    margin-top: 0;
+                    margin-right: .125rem;
+                }
+            }
+
+            &.dropright {
+                > .dropdown-menu {
+                    top: 0%;
+                    right: auto;
+                    left: 100%;
+                    bottom: auto;
+                    margin-top: 0;
+                    margin-left: .125rem;
+                }
             }
         }
     }
