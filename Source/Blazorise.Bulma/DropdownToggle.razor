@@ -39,19 +39,49 @@
 
 @code {
     private RenderFragment<DropdownToggle> iconFragment => dropdown => __builder =>
-            {
-            @if (dropdown.IsToggleIconVisible)
                 {
+                @if (dropdown.IsToggleIconVisible)
+                    {
                     <span class="icon is-small">
                         @if (dropdown.ParentDropdownState.Visible)
                             {
+                                if (dropdown.ParentDropdown.Direction == Direction.Up)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Down)
+                                {
                                 <Icon Name="IconName.AngleUp" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Start)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.End)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
                             }
                             else
                             {
+                                if (dropdown.ParentDropdown.Direction == Direction.Up)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Down)
+                                {
                                 <Icon Name="IconName.AngleDown" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Start)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.End)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
                             }
                     </span>
-            }
-        };
+                    }
+                };
 }
