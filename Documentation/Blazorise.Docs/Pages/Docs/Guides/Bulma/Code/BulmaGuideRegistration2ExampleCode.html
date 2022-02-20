@@ -12,7 +12,7 @@ public class Startup
     services
       .AddBlazorise( options =&gt;
       {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();

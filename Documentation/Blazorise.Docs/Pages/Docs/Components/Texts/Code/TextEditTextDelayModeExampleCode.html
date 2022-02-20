@@ -5,8 +5,8 @@ public void ConfigureServices( IServiceCollection services )
   services
     .AddBlazorise( options =&gt;
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }
 </pre></div>

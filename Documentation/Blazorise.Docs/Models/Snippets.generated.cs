@@ -1291,7 +1291,7 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.ChangeTextOnKeyPress = false;
+      options.Immediate = false;
     } );
 }";
 
@@ -1300,8 +1300,8 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }";
 
@@ -2335,7 +2335,7 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.ChangeTextOnKeyPress = false;
+      options.Immediate = false;
     } );
 }";
 
@@ -2344,8 +2344,8 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }";
 
@@ -4729,7 +4729,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddAntDesignProviders()
       .AddFontAwesomeIcons();
@@ -4759,7 +4759,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
       } )
       .AddAntDesignProviders()
       .AddFontAwesomeIcons();
@@ -4806,7 +4806,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
@@ -4836,7 +4836,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true; // optional
+        options.Immediate = true; // optional
       } )
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
@@ -4897,7 +4897,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBootstrap5Providers()
       .AddFontAwesomeIcons();
@@ -4927,7 +4927,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true; // optional
+        options.Immediate = true; // optional
       } )
       .AddBootstrap5Providers()
       .AddFontAwesomeIcons();
@@ -4986,7 +4986,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
@@ -5016,7 +5016,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
@@ -5064,7 +5064,7 @@ public class Startup
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddMaterialProviders()
       .AddMaterialIcons();
@@ -5094,7 +5094,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true; // optional
+        options.Immediate = true; // optional
       } )
       .AddMaterialProviders()
       .AddMaterialIcons();
