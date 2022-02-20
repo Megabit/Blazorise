@@ -14,7 +14,7 @@ namespace Blazorise.Tests
         }
 
         [Theory]
-        [InlineData( null, RowColumnsSize.None )]
+        [InlineData( null, RowColumnsSize.Default )]
         [InlineData( "row-cols-1", RowColumnsSize.Are1 )]
         [InlineData( "row-cols-2", RowColumnsSize.Are2 )]
         [InlineData( "row-cols-3", RowColumnsSize.Are3 )]

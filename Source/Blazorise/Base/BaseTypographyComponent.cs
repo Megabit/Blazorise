@@ -49,50 +49,6 @@ namespace Blazorise
         [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
-        /// Gets or sets the text color.
-        /// </summary>
-        [Obsolete( "The Color parameter will be removed. Please use TextColor instead!", true )]
-        [Parameter]
-        public TextColor Color
-        {
-            get => TextColor;
-            set => TextColor = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the text alignment.
-        /// </summary>
-        [Obsolete( "The Alignment parameter will be removed. Please use TextAlignment instead!", true )]
-        [Parameter]
-        public TextAlignment Alignment
-        {
-            get => TextAlignment;
-            set => TextAlignment = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the text transformation.
-        /// </summary>
-        [Obsolete( "The Transform parameter will be removed. Please use TextTransform instead!", true )]
-        [Parameter]
-        public TextTransform Transform
-        {
-            get => TextTransform;
-            set => TextTransform = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the text weight.
-        /// </summary>
-        [Obsolete( "The Weight parameter will be removed. Please use TextWeight instead!", true )]
-        [Parameter]
-        public TextWeight Weight
-        {
-            get => TextWeight;
-            set => TextWeight = value;
-        }
-
-        /// <summary>
         /// Italicize text if set to true.
         /// </summary>
         [Parameter]

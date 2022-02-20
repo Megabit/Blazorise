@@ -28,14 +28,14 @@
                 <Button Color="@CancelButtonColor" Class="@CancelButtonClass" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnCancelClicked">
                     @if ( Options?.CancelButtonIcon != null )
                     {
-                        <Icon Name="@Options.CancelButtonIcon" TextColor="@(Options.CancelButtonIconColor ?? TextColor.None)" Margin="Blazorise.Margin.Is2.FromRight" />
+                        <Icon Name="@Options.CancelButtonIcon" TextColor="@(Options.CancelButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromRight" />
                     }
                     @CancelButtonText
                 </Button>
                 <Button Color="@ConfirmButtonColor" Class="@ConfirmButtonClass" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnConfirmClicked">
                     @if ( Options?.ConfirmButtonIcon != null )
                     {
-                        <Icon Name="@Options.ConfirmButtonIcon" TextColor="@(Options.ConfirmButtonIconColor ?? TextColor.None)" Margin="Blazorise.Margin.Is2.FromRight" />
+                        <Icon Name="@Options.ConfirmButtonIcon" TextColor="@(Options.ConfirmButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromRight" />
                     }
                     @ConfirmButtonText
                 </Button>
@@ -45,7 +45,7 @@
                 <Button Color="@OkButtonColor" Class="@OkButtonClass" Padding="Blazorise.Padding.Is2.OnX" Clicked="@OnOkClicked">
                     @if ( Options?.OkButtonIcon != null )
                     {
-                        <Icon Name="@Options.OkButtonIcon" TextColor="@(Options.OkButtonIconColor ?? TextColor.None)" Margin="Blazorise.Margin.Is2.FromRight" />
+                        <Icon Name="@Options.OkButtonIcon" TextColor="@(Options.OkButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromRight" />
                     }
                     @OkButtonText
                 </Button>

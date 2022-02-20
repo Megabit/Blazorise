@@ -8,7 +8,7 @@
         /// <summary>
         /// No sorting will be applied.
         /// </summary>
-        None = 0,
+        Default = 0,
 
         /// <summary>
         /// Sorts in ascending order.

@@ -25,7 +25,7 @@ namespace Blazorise
             var hovered = Rating.IsHoveredRange( Value );
 
             builder.Append( ClassProvider.RatingItem() );
-            builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.RatingItemSelected( selected ) );
             builder.Append( ClassProvider.RatingItemHovered( hovered ) );
 

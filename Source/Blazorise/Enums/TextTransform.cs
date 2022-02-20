@@ -8,7 +8,7 @@
         /// <summary>
         /// No capitalization. The text renders as it is. This is default.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Transforms all characters to lowercase.

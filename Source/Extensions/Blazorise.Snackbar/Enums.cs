@@ -11,7 +11,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Default behavior.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Show the snackbar on the left side of the screen.

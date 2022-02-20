@@ -8,7 +8,7 @@
         /// <summary>
         /// Align-self will not be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Equals to the value specified in the align-items property for the flex container (it’s the default value).

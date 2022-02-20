@@ -184,7 +184,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
         public Task<List<Employee>> FilterData( IEnumerable<DataGridColumnInfo> dataGridColumns )
         {
             var filteredData = dataModels.ToList();
-            var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.None );
+            var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.Default );
             var firstSort = true;
             if ( sortByColumns?.Any() ?? false )
             {

@@ -51,6 +51,21 @@
     <UnorderedListItem>
         Rename any usage of <Code>DelayTextOnKeyPress</Code> parameter into <Code>Debounce</Code> and <Code>DelayTextOnKeyPressInterval</Code> into <Code>DebounceInterval</Code>.
     </UnorderedListItem>
+    <UnorderedListItem>
+        Replace all <Code>Left</Code> and <Code>Right</Code> enums with <Code>Start</Code> and <Code>End</Code> for the following enum types: <Code>Direction</Code>, <Code>Float</Code>, <Code>Placement</Code>, <Code>Side</Code>, <Code>TabPosition</Code>, and <Code>TextAlignment</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Replace all <Code>AddLabel</Code> with <Code>AddLabels</Code> method on chart instance.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Change enum value from <Code>None</Code> to <Code>Default</Code> for the following enum types: <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, <Code>Alignment</Code>, <Code>BorderRadius</Code>, <Code>BorderSize</Code>, <Code>Direction</Code>, <Code>DisplayDirection</Code>, <Code>FigureSize</Code>, <Code>IconSize</Code>, <Code>JustifyContent</Code>, <Code>OverflowType</Code>, <Code>Target</Code>, <Code>TextAlignment</Code>, <Code>TextOverflow</Code>, <Code>TextTransform</Code>, <Code>TextWeight</Code>, <Code>VerticalAlignment</Code>, <Code>Visibility</Code>, <Code>Size</Code>, and <Code>SnackbarLocation</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Obsolete typography parameters <Code>Alignment</Code>, <Code>Color</Code>, <Code>Transform</Code>, and <Code>Weight</Code> are removed in favor of <Code>TextAlignment</Code>, <Code>TextColor</Code>, <Code>TextTransform</Code>, and <Code>TextWeight</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Remove any use of an obsolete component <Code Tag>InlineField</Code>.
+    </UnorderedListItem>
 </OrderedList>
 
 <Paragraph>
@@ -222,6 +237,9 @@
             <Code>DetailRowTriggerType</Code> You may now select between two types, Manual and RowClick. By setting the type to Manual you may further control the DetailRowTemplate display behaviour programatically by using the existing <Code>ToggleDetailRow</Code>.
         </UnorderedListItem>
     </UnorderedList>
+</Paragraph>
+
+<Paragraph>
     Added PreventRowClick to <Code>DataGridColumn</Code> / <Code>DataGridCommandColumn</Code>. By setting this parameter to true, the column cell will not longer trigger the <Code>RowClicked</Code> and subsequent events.
 </Paragraph>
 

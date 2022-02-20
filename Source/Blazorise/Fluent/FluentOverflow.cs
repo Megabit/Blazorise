@@ -86,7 +86,7 @@ namespace Blazorise
         {
             if ( dirty )
             {
-                if ( overflowType != OverflowType.None )
+                if ( overflowType != OverflowType.Default )
                 {
                     classNames = classProvider.Overflow( overflowType, secondOverflowType );
                 }

@@ -258,7 +258,7 @@ namespace Blazorise
         /// <summary>
         /// Rule for border radius.
         /// </summary>
-        private BorderRadius borderRadius = BorderRadius.None;
+        private BorderRadius borderRadius = BorderRadius.Default;
 
         /// <summary>
         /// Indicates if the rules have changed.
@@ -287,7 +287,7 @@ namespace Blazorise
                             builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => (v.Side, v.Color) ) ) ) );
                     }
 
-                    if ( borderRadius != BorderRadius.None )
+                    if ( borderRadius != BorderRadius.Default )
                     {
                         builder.Append( classProvider.BorderRadius( borderRadius ) );
                     }

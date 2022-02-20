@@ -14,7 +14,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableRowCell() );
-            builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.Default );
 
             base.BuildClasses( builder );
         }

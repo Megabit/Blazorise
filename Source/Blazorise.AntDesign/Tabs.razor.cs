@@ -32,16 +32,16 @@ namespace Blazorise.AntDesign
 
         protected string ItemsPositionClassNames => TabPosition switch
         {
-            TabPosition.Left or TabPosition.Start => "ant-tabs-left-bar",
-            TabPosition.Right or TabPosition.End => "ant-tabs-right-bar",
+            TabPosition.Start => "ant-tabs-left-bar",
+            TabPosition.End => "ant-tabs-right-bar",
             TabPosition.Bottom => "ant-tabs-bottom-bar",
             _ => "ant-tabs-top-bar",
         };
 
         protected string ContentPositionClassNames => TabPosition switch
         {
-            TabPosition.Left or TabPosition.Start => "ant-tabs-left-content",
-            TabPosition.Right or TabPosition.End => "ant-tabs-right-content",
+            TabPosition.Start => "ant-tabs-left-content",
+            TabPosition.End => "ant-tabs-right-content",
             TabPosition.Bottom => "ant-tabs-bottom-content",
             _ => "ant-tabs-top-content",
         };
@@ -54,7 +54,7 @@ namespace Blazorise.AntDesign
                     ? IndexOfSelectedTab * -100
                     : 0;
 
-                var margin = TabPosition == TabPosition.Left || TabPosition == TabPosition.Right || TabPosition == TabPosition.Start || TabPosition == TabPosition.End
+                var margin = TabPosition == TabPosition.Start || TabPosition == TabPosition.End
                     ? "margin-top"
                     : "margin-left";
 

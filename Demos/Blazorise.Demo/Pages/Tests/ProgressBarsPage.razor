@@ -103,12 +103,12 @@
 </Row>
 @code{
     PageProgress pageProgress;
-    Color pageProgressColor = Color.None;
+    Color pageProgressColor = Color.Default;
     bool pageProgressVisible = false;
 
     private async Task OnShowPageProgress()
     {
-        pageProgressColor = Color.None;
+        pageProgressColor = Color.Default;
         pageProgressVisible = true;
 
         for ( int i = 0; i <= 100; i += 10 )
@@ -125,7 +125,7 @@
 
     private async Task OnShowPageProgressIndeterminate()
     {
-        pageProgressColor = Color.None;
+        pageProgressColor = Color.Default;
         pageProgressVisible = true;
 
         await Task.Delay( TimeSpan.FromSeconds( 4 ) );
