@@ -19,7 +19,7 @@ namespace Blazorise
 
         private IFluentColumn columnSize;
 
-        private JustifyContent justifyContent = JustifyContent.None;
+        private JustifyContent justifyContent = JustifyContent.Default;
 
         private List<BaseComponent> hookables;
 
@@ -93,7 +93,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Field() );
             builder.Append( ClassProvider.FieldHorizontal(), Horizontal );
-            builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ), JustifyContent != JustifyContent.None );
+            builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ), JustifyContent != JustifyContent.Default );
             builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation != null );
 
             base.BuildClasses( builder );

@@ -217,7 +217,7 @@ namespace Blazorise
             {
                 void BuildClasses( ClassBuilder builder )
                 {
-                    if ( rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
+                    if ( rules.Count( x => x.Key != ColumnWidth.Default ) > 0 )
                         builder.Append( rules.Select( r => classProvider.Column( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
 
                     if ( customRules?.Count > 0 )

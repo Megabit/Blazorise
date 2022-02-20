@@ -8,7 +8,7 @@
         /// <summary>
         /// Justify-content will not be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Items are packed toward the start of the flex-direction.

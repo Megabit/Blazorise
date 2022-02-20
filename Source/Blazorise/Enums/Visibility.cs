@@ -8,7 +8,7 @@
         /// <summary>
         /// No visibility will be applied to an element.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Default value. The element is visible

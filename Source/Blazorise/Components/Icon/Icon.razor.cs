@@ -18,7 +18,7 @@ namespace Blazorise
 
         private IconStyle iconStyle = IconStyle.Solid;
 
-        private IconSize iconSize = IconSize.None;
+        private IconSize iconSize = IconSize.Default;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( IconProvider.Icon( Name, IconStyle ) );
-            builder.Append( IconProvider.IconSize( IconSize ), IconSize != IconSize.None );
+            builder.Append( IconProvider.IconSize( IconSize ), IconSize != IconSize.Default );
 
             base.BuildClasses( builder );
         }

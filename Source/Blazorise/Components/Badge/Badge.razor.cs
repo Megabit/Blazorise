@@ -15,7 +15,7 @@ namespace Blazorise
 
         private bool pill;
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         private string link;
 
@@ -39,7 +39,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Badge() );
-            builder.Append( ClassProvider.BadgeColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.BadgeColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.BadgePill(), Pill );
 
             base.BuildClasses( builder );

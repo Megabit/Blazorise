@@ -17,7 +17,7 @@ namespace Blazorise
 
         private int? value;
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace Blazorise
         protected virtual void BuildIndicatorClasses( ClassBuilder builder )
         {
             builder.Append( "b-page-progress-indicator" );
-            builder.Append( $"b-page-progress-indicator-{ClassProvider.ToColor( Color )}", Color != Color.None );
+            builder.Append( $"b-page-progress-indicator-{ClassProvider.ToColor( Color )}", Color != Color.Default );
             builder.Append( "b-page-progress-indicator-indeterminate", Value == null );
         }
 

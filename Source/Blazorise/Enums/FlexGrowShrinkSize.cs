@@ -8,7 +8,7 @@
         /// <summary>
         /// No size will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Element uses a default space.

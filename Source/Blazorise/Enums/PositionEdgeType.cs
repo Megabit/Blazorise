@@ -8,7 +8,7 @@
         /// <summary>
         /// Edge type will not be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// For the vertical top position.

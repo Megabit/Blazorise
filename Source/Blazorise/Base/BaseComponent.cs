@@ -20,11 +20,11 @@ namespace Blazorise
 
         private string customStyle;
 
-        private Float @float = Float.None;
+        private Float @float = Float.Default;
 
         private bool clearfix;
 
-        private Visibility visibility = Visibility.None;
+        private Visibility visibility = Visibility.Default;
 
         private IFluentSizing width;
 
@@ -46,19 +46,19 @@ namespace Blazorise
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
-        private TextColor textColor = TextColor.None;
+        private TextColor textColor = TextColor.Default;
 
-        private TextAlignment textAlignment = TextAlignment.None;
+        private TextAlignment textAlignment = TextAlignment.Default;
 
-        private TextTransform textTransform = TextTransform.None;
+        private TextTransform textTransform = TextTransform.Default;
 
-        private TextWeight textWeight = TextWeight.None;
+        private TextWeight textWeight = TextWeight.Default;
 
-        private TextOverflow textOverflow = TextOverflow.None;
+        private TextOverflow textOverflow = TextOverflow.Default;
 
-        private VerticalAlignment verticalAlignment = VerticalAlignment.None;
+        private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
-        private Background background = Background.None;
+        private Background background = Background.Default;
 
         private Shadow shadow = Shadow.None;
 
@@ -197,16 +197,16 @@ namespace Blazorise
             if ( Overflow != null )
                 builder.Append( Overflow.Class( ClassProvider ) );
 
-            if ( Float != Float.None )
+            if ( Float != Float.Default )
                 builder.Append( ClassProvider.Float( Float ) );
 
             if ( Clearfix )
                 builder.Append( ClassProvider.Clearfix() );
 
-            if ( Visibility != Visibility.None )
+            if ( Visibility != Visibility.Default )
                 builder.Append( ClassProvider.Visibility( Visibility ) );
 
-            if ( VerticalAlignment != VerticalAlignment.None )
+            if ( VerticalAlignment != VerticalAlignment.Default )
                 builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
 
             if ( Width != null )
@@ -218,22 +218,22 @@ namespace Blazorise
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
 
-            if ( TextColor != TextColor.None )
+            if ( TextColor != TextColor.Default )
                 builder.Append( ClassProvider.TextColor( TextColor ) );
 
-            if ( TextAlignment != TextAlignment.None )
+            if ( TextAlignment != TextAlignment.Default )
                 builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
 
-            if ( TextTransform != TextTransform.None )
+            if ( TextTransform != TextTransform.Default )
                 builder.Append( ClassProvider.TextTransform( TextTransform ) );
 
-            if ( TextWeight != TextWeight.None )
+            if ( TextWeight != TextWeight.Default )
                 builder.Append( ClassProvider.TextWeight( TextWeight ) );
 
-            if ( TextOverflow != TextOverflow.None )
+            if ( TextOverflow != TextOverflow.Default )
                 builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
-            if ( Background != Background.None )
+            if ( Background != Background.Default )
                 builder.Append( ClassProvider.BackgroundColor( Background ) );
 
             if ( Shadow != Shadow.None )

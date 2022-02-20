@@ -16,7 +16,7 @@ namespace Blazorise
 
         private Orientation orientation = Orientation.Horizontal;
 
-        private Size size = Size.None;
+        private Size size = Size.Default;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Buttons( Role, Orientation ) );
-            builder.Append( ClassProvider.ButtonsSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.ButtonsSize( Size ), Size != Size.Default );
 
             base.BuildClasses( builder );
         }

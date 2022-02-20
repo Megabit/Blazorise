@@ -76,8 +76,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Progress() );
-            builder.Append( ClassProvider.ProgressSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
-            builder.Append( ClassProvider.ProgressColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.ProgressSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+            builder.Append( ClassProvider.ProgressColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.ProgressStriped(), Striped );
             builder.Append( ClassProvider.ProgressAnimated(), Animated );
 
@@ -91,12 +91,12 @@ namespace Blazorise
         private void BuildProgressBarClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ProgressBar() );
-            builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
 
-            if ( ThemeSize != Blazorise.Size.None )
+            if ( ThemeSize != Blazorise.Size.Default )
                 builder.Append( ClassProvider.ProgressBarSize( ThemeSize ) );
         }
 
@@ -190,7 +190,7 @@ namespace Blazorise
         /// Gets the size based on the theme settings.
         /// </summary>
         protected internal Size ThemeSize
-            => Size ?? Theme?.ProgressOptions?.Size ?? Blazorise.Size.None;
+            => Size ?? Theme?.ProgressOptions?.Size ?? Blazorise.Size.Default;
 
         /// <summary>
         /// Progress bar class builder.

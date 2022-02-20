@@ -8,7 +8,7 @@
         /// <summary>
         /// No wrap will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Flex items will wrap onto multiple lines, from top to bottom.

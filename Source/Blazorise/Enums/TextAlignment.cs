@@ -10,7 +10,7 @@ namespace Blazorise
         /// <summary>
         /// No alignment will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Aligns the text to the left.

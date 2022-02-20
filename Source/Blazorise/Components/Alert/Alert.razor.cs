@@ -19,7 +19,7 @@ namespace Blazorise
         /// </summary>
         private AlertState state = new()
         {
-            Color = Color.None,
+            Color = Color.Default,
         };
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Alert() );
-            builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.AlertColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.AlertDismisable(), Dismisable );
             builder.Append( ClassProvider.AlertFade(), Dismisable );
             builder.Append( ClassProvider.AlertShow(), Dismisable && Visible );

@@ -64,7 +64,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Select() );
             builder.Append( ClassProvider.SelectMultiple(), Multiple );
-            builder.Append( ClassProvider.SelectSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.SelectSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );

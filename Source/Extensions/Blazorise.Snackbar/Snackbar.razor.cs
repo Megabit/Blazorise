@@ -67,7 +67,7 @@ namespace Blazorise.Snackbar
             builder.Append( "snackbar" );
             builder.Append( "snackbar-show", Visible );
             builder.Append( "snackbar-multi-line", Multiline );
-            builder.Append( $"snackbar-{ Location.GetName()}", Location != SnackbarLocation.None );
+            builder.Append( $"snackbar-{ Location.GetName()}", Location != SnackbarLocation.Default );
             builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.None );
 
             base.BuildClasses( builder );

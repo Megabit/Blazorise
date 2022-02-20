@@ -67,7 +67,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addons() );
-            builder.Append( ClassProvider.AddonsSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.AddonsSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
             base.BuildClasses( builder );
@@ -130,7 +130,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the size based on the theme settings.
         /// </summary>
-        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
+        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
         /// <summary>
         /// Determines how much space will be used by the addons inside of the grid row.

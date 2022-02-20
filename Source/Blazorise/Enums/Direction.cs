@@ -8,9 +8,9 @@ namespace Blazorise
     public enum Direction
     {
         /// <summary>
-        /// Same as <see cref="Down"/>.
+        /// A default direction will be used, in most cases it is the same as <see cref="Down"/>.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Trigger dropdown menus bellow an element (default behaviour).

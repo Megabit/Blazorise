@@ -384,7 +384,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the size based on the theme settings.
         /// </summary>
-        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.None );
+        protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
         /// <summary>
         /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.

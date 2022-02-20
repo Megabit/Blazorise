@@ -30,9 +30,9 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// No color will be applied to an element.
+        /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
         /// </summary>
-        public static readonly Color None = new( (string)null );
+        public static readonly Color Default = new( (string)null );
 
         /// <summary>
         /// Primary color.

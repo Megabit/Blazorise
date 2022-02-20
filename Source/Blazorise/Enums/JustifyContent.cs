@@ -8,7 +8,7 @@
         /// <summary>
         /// Sets this property to its default value.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Items are positioned at the beginning of the container.
