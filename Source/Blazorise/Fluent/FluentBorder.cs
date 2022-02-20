@@ -70,7 +70,7 @@ namespace Blazorise
         /// <summary>
         /// Shows the border on right side of the element.
         /// </summary>
-        IFluentBorderWithAll OnRight { get; }
+        IFluentBorderWithAll OnEnd { get; }
 
         /// <summary>
         /// Shows the border on bottom side of the element.
@@ -80,7 +80,7 @@ namespace Blazorise
         /// <summary>
         /// Shows the border on left side of the element.
         /// </summary>
-        IFluentBorderWithAll OnLeft { get; }
+        IFluentBorderWithAll OnStart { get; }
 
         /// <summary>
         /// Shows the border on all sides of the element.
@@ -159,7 +159,7 @@ namespace Blazorise
         /// <summary>
         /// Makes the element rounded on right side of the element.
         /// </summary>
-        IFluentBorderWithAll RoundedRight { get; }
+        IFluentBorderWithAll RoundedEnd { get; }
 
         /// <summary>
         /// Makes the element rounded on bottom side of the element.
@@ -169,7 +169,7 @@ namespace Blazorise
         /// <summary>
         /// Makes the element rounded on left side of the element.
         /// </summary>
-        IFluentBorderWithAll RoundedLeft { get; }
+        IFluentBorderWithAll RoundedStart { get; }
 
         /// <summary>
         /// Makes the element as circle shaped.
@@ -398,13 +398,13 @@ namespace Blazorise
         public IFluentBorderWithAll OnTop => WithSide( BorderSide.Top );
 
         /// <inheritdoc/>
-        public IFluentBorderWithAll OnRight => WithSide( BorderSide.Right );
+        public IFluentBorderWithAll OnEnd => WithSide( BorderSide.End );
 
         /// <inheritdoc/>
         public IFluentBorderWithAll OnBottom => WithSide( BorderSide.Bottom );
 
         /// <inheritdoc/>
-        public IFluentBorderWithAll OnLeft => WithSide( BorderSide.Left );
+        public IFluentBorderWithAll OnStart => WithSide( BorderSide.Start );
 
         /// <inheritdoc/>
         public IFluentBorderWithAll OnAll => WithSide( BorderSide.All );
@@ -443,13 +443,13 @@ namespace Blazorise
         public IFluentBorderWithAll RoundedTop => WithRadius( BorderRadius.RoundedTop );
 
         /// <inheritdoc/>
-        public IFluentBorderWithAll RoundedRight => WithRadius( BorderRadius.RoundedRight );
+        public IFluentBorderWithAll RoundedEnd => WithRadius( BorderRadius.RoundedEnd );
 
         /// <inheritdoc/>
         public IFluentBorderWithAll RoundedBottom => WithRadius( BorderRadius.RoundedBottom );
 
         /// <inheritdoc/>
-        public IFluentBorderWithAll RoundedLeft => WithRadius( BorderRadius.RoundedLeft );
+        public IFluentBorderWithAll RoundedStart => WithRadius( BorderRadius.RoundedStart );
 
         /// <inheritdoc/>
         public IFluentBorderWithAll RoundedCircle => WithRadius( BorderRadius.RoundedCircle );
@@ -510,7 +510,7 @@ namespace Blazorise
         /// <summary>
         /// Shows the 1px wide border on the right side of the element.
         /// </summary>
-        public static IFluentBorderWithAll OnRight => new FluentBorder().Is1.OnRight;
+        public static IFluentBorderWithAll OnEnd => new FluentBorder().Is1.OnEnd;
 
         /// <summary>
         /// Shows the 1px wide border on the bottom side of the element.
@@ -520,7 +520,7 @@ namespace Blazorise
         /// <summary>
         /// Shows the 1px wide border on the left side of the element.
         /// </summary>
-        public static IFluentBorderWithAll OnLeft => new FluentBorder().Is1.OnLeft;
+        public static IFluentBorderWithAll OnStart => new FluentBorder().Is1.OnStart;
 
         /// <summary>
         /// Defines the border primary color on all sided of an element.
@@ -580,7 +580,7 @@ namespace Blazorise
         /// <summary>
         /// Makes the element rounded on right side of the element.
         /// </summary>
-        public static IFluentBorderWithAll RoundedRight => new FluentBorder().RoundedRight;
+        public static IFluentBorderWithAll RoundedEnd => new FluentBorder().RoundedEnd;
 
         /// <summary>
         /// Makes the element rounded on bottom side of the element.
@@ -590,7 +590,7 @@ namespace Blazorise
         /// <summary>
         /// Makes the element rounded on left side of the element.
         /// </summary>
-        public static IFluentBorderWithAll RoundedLeft => new FluentBorder().RoundedLeft;
+        public static IFluentBorderWithAll RoundedStart => new FluentBorder().RoundedStart;
 
         /// <summary>
         /// Makes the element as circle shaped.

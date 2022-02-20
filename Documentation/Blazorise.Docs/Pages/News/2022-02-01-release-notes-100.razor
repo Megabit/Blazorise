@@ -25,6 +25,10 @@
     Migration 🛠
 </NewsPageSubtitle>
 
+<Paragraph>
+    No big release can be done without some breaking changes and this release is no exception...
+</Paragraph>
+
 <OrderedList>
     <UnorderedListItem>
         All <Code>NumericEdit</Code> formating features are moved to the new <Code>NumericPicker</Code> component.
@@ -52,13 +56,19 @@
         Rename any usage of <Code>DelayTextOnKeyPress</Code> parameter into <Code>Debounce</Code> and <Code>DelayTextOnKeyPressInterval</Code> into <Code>DebounceInterval</Code>.
     </UnorderedListItem>
     <UnorderedListItem>
-        Replace all <Code>Left</Code> and <Code>Right</Code> enums with <Code>Start</Code> and <Code>End</Code> for the following enum types: <Code>Direction</Code>, <Code>Float</Code>, <Code>Placement</Code>, <Code>Side</Code>, <Code>TabPosition</Code>, and <Code>TextAlignment</Code>.
+        Replace all <Code>Left</Code> and <Code>Right</Code> enums with <Code>Start</Code> and <Code>End</Code> for the following enum types: <Code>Direction</Code>, <Code>Float</Code>, <Code>Placement</Code>, <Code>NotificationLocation</Code>, <Code>Side</Code>, <Code>SnackbarLocation</Code>, <Code>SnackbarStackLocation</Code>, <Code>TabPosition</Code>, and <Code>TextAlignment</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Replace all <Code>FromLeft</Code>, <Code>FromRight</Code>, <Code>RoundedLeft</Code>, and <Code>RoundedRight</Code> enums with <Code>FromStart</Code>, <Code>FromEnd</Code>, <Code>RoundedStart</Code>, and <Code>RoundedEnd</Code> for the <Code>Border</Code> utilities.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Replace all <Code>FromLeft</Code> and <Code>FromRight</Code> with <Code>FromStart</Code>, <Code>FromEnd</Code> for the <Code>Margin</Code> and <Code>Padding</Code> utilities.
     </UnorderedListItem>
     <UnorderedListItem>
         Replace all <Code>AddLabel</Code> with <Code>AddLabels</Code> method on chart instance.
     </UnorderedListItem>
     <UnorderedListItem>
-        Change enum value from <Code>None</Code> to <Code>Default</Code> for the following enum types: <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, <Code>Alignment</Code>, <Code>BorderRadius</Code>, <Code>BorderSize</Code>, <Code>Direction</Code>, <Code>DisplayDirection</Code>, <Code>FigureSize</Code>, <Code>IconSize</Code>, <Code>JustifyContent</Code>, <Code>OverflowType</Code>, <Code>Target</Code>, <Code>TextAlignment</Code>, <Code>TextOverflow</Code>, <Code>TextTransform</Code>, <Code>TextWeight</Code>, <Code>VerticalAlignment</Code>, <Code>Visibility</Code>, <Code>Size</Code>, and <Code>SnackbarLocation</Code>.
+        Change enum value from <Code>None</Code> to <Code>Default</Code> for the following enum types: <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, <Code>Alignment</Code>, <Code>BorderRadius</Code>, <Code>BorderSize</Code>, <Code>Direction</Code>, <Code>DisplayDirection</Code>, <Code>FigureSize</Code>, <Code>IconSize</Code>, <Code>JustifyContent</Code>, <Code>OverflowType</Code>, <Code>SnackbarColor</Code>, <Code>Target</Code>, <Code>TextAlignment</Code>, <Code>TextOverflow</Code>, <Code>TextTransform</Code>, <Code>TextWeight</Code>, <Code>VerticalAlignment</Code>, <Code>Visibility</Code>, <Code>Size</Code>, and <Code>SnackbarLocation</Code>.
     </UnorderedListItem>
     <UnorderedListItem>
         Obsolete typography parameters <Code>Alignment</Code>, <Code>Color</Code>, <Code>Transform</Code>, and <Code>Weight</Code> are removed in favor of <Code>TextAlignment</Code>, <Code>TextColor</Code>, <Code>TextTransform</Code>, and <Code>TextWeight</Code>.
@@ -67,10 +77,6 @@
         Remove any use of an obsolete component <Code Tag>InlineField</Code>.
     </UnorderedListItem>
 </OrderedList>
-
-<Paragraph>
-    No big release can be done without some breaking changes and this release is no exception...
-</Paragraph>
 
 <Paragraph>
     <Strong>1.</Strong> Since a lot was changed to support ChartJS v3 the migration would take too long to explain so it is best to follow the the migration guide at https://www.chartjs.org/docs/latest/getting-started/v3-migration.html as a general rule.

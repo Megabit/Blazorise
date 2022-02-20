@@ -36,7 +36,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Snackbar color.
         /// </summary>
-        private SnackbarColor snackbarColor = SnackbarColor.None;
+        private SnackbarColor snackbarColor = SnackbarColor.Default;
 
         /// <summary>
         /// Timer used to countdown the close event.
@@ -68,7 +68,7 @@ namespace Blazorise.Snackbar
             builder.Append( "snackbar-show", Visible );
             builder.Append( "snackbar-multi-line", Multiline );
             builder.Append( $"snackbar-{ Location.GetName()}", Location != SnackbarLocation.Default );
-            builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.None );
+            builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.Default );
 
             base.BuildClasses( builder );
         }

@@ -79,7 +79,7 @@ namespace Blazorise.Components
                 NotificationType.Success => SnackbarColor.Success,
                 NotificationType.Warning => SnackbarColor.Warning,
                 NotificationType.Error => SnackbarColor.Danger,
-                _ => SnackbarColor.None,
+                _ => SnackbarColor.Default,
             };
         }
 
@@ -90,8 +90,8 @@ namespace Blazorise.Components
         {
             return notificationLocation switch
             {
-                NotificationLocation.Left => SnackbarStackLocation.Left,
-                NotificationLocation.Right => SnackbarStackLocation.Right,
+                NotificationLocation.Start => SnackbarStackLocation.Start,
+                NotificationLocation.End => SnackbarStackLocation.End,
                 _ => SnackbarStackLocation.Center,
             };
         }
