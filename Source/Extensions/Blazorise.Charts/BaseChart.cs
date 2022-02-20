@@ -60,16 +60,6 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="labels">Label name(s).</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        [Obsolete( "This method will likely be removed in the future. Please use " + nameof( AddLabels ) + " instead." )]
-        public Task AddLabel( params object[] labels )
-        {
-            return AddLabels( labels );
-        }
-
-        /// <summary>
-        /// Adds a new label to the chart.
-        /// </summary>
-        /// <param name="labels">Label name(s).</param>
         public async Task AddLabels( params object[] labels )
         {
             dirty = true;

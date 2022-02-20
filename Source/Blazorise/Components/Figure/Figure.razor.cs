@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private FigureSize size = FigureSize.None;
+        private FigureSize size = FigureSize.Default;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Figure() );
-            builder.Append( ClassProvider.FigureSize( Size ), Size != FigureSize.None );
+            builder.Append( ClassProvider.FigureSize( Size ), Size != FigureSize.Default );
 
             base.BuildClasses( builder );
         }

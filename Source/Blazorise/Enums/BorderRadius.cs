@@ -6,9 +6,9 @@
     public enum BorderRadius
     {
         /// <summary>
-        /// Don't apply any borders.
+        /// No particular rule will be applied, meaning a default borders will be used.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Makes the element rounded on all sides.

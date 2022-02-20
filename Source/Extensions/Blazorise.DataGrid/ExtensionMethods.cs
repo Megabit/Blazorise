@@ -21,12 +21,12 @@ namespace Blazorise.DataGrid
         {
             switch ( direction )
             {
-                case SortDirection.None:
+                case SortDirection.Default:
                     return SortDirection.Ascending;
                 case SortDirection.Ascending:
                     return SortDirection.Descending;
                 default:
-                    return SortDirection.None;
+                    return SortDirection.Default;
             }
         }
 

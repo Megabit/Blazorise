@@ -8,7 +8,7 @@
         /// <summary>
         /// No overflow will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Text will wrap into a new line when it reaches the end of container.

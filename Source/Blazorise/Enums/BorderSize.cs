@@ -6,9 +6,9 @@
     public enum BorderSize
     {
         /// <summary>
-        /// Border size will not be applied.
+        /// No particular size rule will be applied, meaning a default size will be used.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Makes the element borderless.

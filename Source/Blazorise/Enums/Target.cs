@@ -27,7 +27,7 @@
         /// <summary>
         /// No target will be applied. Usually this is the same as <see cref="Target.Self"/>.
         /// </summary>
-        public static readonly Target None = new( (string)null );
+        public static readonly Target Default = new( (string)null );
 
         /// <summary>
         /// Opens the linked document in the same frame as it was clicked (this is default).

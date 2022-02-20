@@ -8,7 +8,7 @@
         /// <summary>
         /// Nothing will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// One column per row.

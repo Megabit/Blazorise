@@ -10,19 +10,7 @@ namespace Blazorise
         /// <summary>
         /// No alignment will be applied.
         /// </summary>
-        None,
-
-        /// <summary>
-        /// Aligns the text to the left.
-        /// </summary>
-        [Obsolete( "This parameter will soon be deprecated. Use Start instead." )]
-        Left,
-
-        /// <summary>
-        /// Aligns the text to the right.
-        /// </summary>
-        [Obsolete( "This parameter will soon be deprecated. Use End instead." )]
-        Right,
+        Default,
 
         /// <summary>
         /// Aligns the text to the start.

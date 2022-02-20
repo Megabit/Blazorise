@@ -219,14 +219,14 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
             ? selectedStyling?.Background
-            : styling?.Background ) ?? Blazorise.Background.None;
+            : styling?.Background ) ?? Blazorise.Background.Default;
 
         /// <summary>
         /// Gets the row color.
         /// </summary>
         protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
             ? selectedStyling?.Color
-            : styling?.Color ) ?? Blazorise.Color.None;
+            : styling?.Color ) ?? Blazorise.Color.Default;
 
         /// <summary>
         /// Gets the row classnames.

@@ -188,7 +188,7 @@ namespace Blazorise.DataGrid
         {
             Columns.Add( column );
 
-            if ( column.CurrentSortDirection != SortDirection.None )
+            if ( column.CurrentSortDirection != SortDirection.Default )
                 HandleSortColumn( column, false );
 
             // save command column reference for later
@@ -1054,7 +1054,7 @@ namespace Blazorise.DataGrid
                     // in single-mode we need to reset all other columns to default state
                     foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
                     {
-                        c.CurrentSortDirection = SortDirection.None;
+                        c.CurrentSortDirection = SortDirection.Default;
                     }
 
                     // and also remove any column sort info except for current one
@@ -1068,7 +1068,7 @@ namespace Blazorise.DataGrid
                 {
                     SortByColumns.Add( column );
                 }
-                else if ( column.CurrentSortDirection == SortDirection.None )
+                else if ( column.CurrentSortDirection == SortDirection.Default )
                     SortByColumns.Remove( column );
 
                 if ( changeSortDirection )

@@ -10,19 +10,7 @@ namespace Blazorise
         /// <summary>
         /// Don't float on all viewport sizes.
         /// </summary>
-        None,
-
-        /// <summary>
-        /// Float left on all viewport sizes.
-        /// </summary>
-        [Obsolete( "This parameter will soon be deprecated. Use Start instead." )]
-        Left,
-
-        /// <summary>
-        /// Float right on all viewport sizes.
-        /// </summary>
-        [Obsolete( "This parameter will soon be deprecated. Use End instead." )]
-        Right,
+        Default,
 
         /// <summary>
         /// Float start on all viewport sizes.

@@ -19,7 +19,7 @@ namespace Blazorise
 
         private bool completed;
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         #endregion
 
@@ -63,7 +63,7 @@ namespace Blazorise
             builder.Append( ClassProvider.StepItem() );
             builder.Append( ClassProvider.StepItemActive( Active ) );
             builder.Append( ClassProvider.StepItemCompleted( Completed ) );
-            builder.Append( ClassProvider.StepItemColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.StepItemColor( Color ), Color != Color.Default );
 
             base.BuildClasses( builder );
         }

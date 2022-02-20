@@ -14,7 +14,7 @@ namespace Blazorise.Tests
         }
 
         [Theory]
-        [InlineData( null, ColumnWidth.None )]
+        [InlineData( null, ColumnWidth.Default )]
         [InlineData( "col-1", ColumnWidth.Is1 )]
         [InlineData( "col-2", ColumnWidth.Is2 )]
         [InlineData( "col-3", ColumnWidth.Is3 )]
