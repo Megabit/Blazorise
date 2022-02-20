@@ -2490,6 +2490,13 @@ namespace Blazorise.Docs.Models
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
 </Tooltip>";
 
+        public const string TooltipTriggerTargetExample = @"<Div ElementId=""tooltip-custom-target"">
+    Trigger target vs
+    <Tooltip Text=""I'm a tooltip!"" TriggerTargetId=""tooltip-custom-target"" Inline>
+        <Badge Color=""Color.Warning"">positioning target</Badge>
+    </Tooltip>
+</Div>";
+
         public const string TypographyDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"">Display 1</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is2"">Display 2</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is3"">Display 3</DisplayHeading>

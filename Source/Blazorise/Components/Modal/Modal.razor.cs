@@ -144,11 +144,9 @@ namespace Blazorise
                     catch when ( unregisterClosableTask.IsCanceled )
                     {
                     }
-#if NET6_0_OR_GREATER
                     catch ( Microsoft.JSInterop.JSDisconnectedException )
                     {
                     }
-#endif
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
@@ -168,11 +166,9 @@ namespace Blazorise
                 catch when ( closeModalTask.IsCanceled )
                 {
                 }
-#if NET6_0_OR_GREATER
                 catch ( Microsoft.JSInterop.JSDisconnectedException )
                 {
                 }
-#endif
 
                 if ( focusableComponents != null )
                 {

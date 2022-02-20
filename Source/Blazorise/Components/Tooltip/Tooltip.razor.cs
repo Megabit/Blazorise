@@ -54,9 +54,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && Text != paramText )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, text ) );
+                ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, paramText ) );
             }
 
             // autodetect inline mode only if Inline parameter is not explicitly defined
@@ -81,6 +81,7 @@ namespace Blazorise
                     Fade,
                     FadeDuration,
                     Trigger = ToTippyTrigger( Trigger ),
+                    TriggerTargetId,
                     MaxWidth = Theme?.TooltipOptions?.MaxWidth,
                     AutodetectInline = autodetectInline,
                 } );
@@ -247,6 +248,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Which element the trigger event listeners are applied to (instead of the reference element).
+        /// </summary>
+        [Parameter] public string TriggerTargetId { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
