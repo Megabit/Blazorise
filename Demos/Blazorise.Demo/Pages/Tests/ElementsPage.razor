@@ -502,12 +502,12 @@
         <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Left">
+<Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Start">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarRight" Location="SnackbarLocation.Right">
+<Snackbar @ref="snackbarRight" Location="SnackbarLocation.End">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
@@ -562,8 +562,8 @@
     </SnackbarBody>
 </Snackbar>
 <SnackbarStack @ref="snackbarStack"
-               Location="SnackbarStackLocation.Right"
-               Interval="3000"
+               Location="SnackbarStackLocation.End"
+               DefaultInterval="3000"
                DelayCloseOnClick />
 @code {
     Snackbar snackbar;

@@ -13,11 +13,11 @@
         /// <summary>
         /// Show the notification on the left side of the screen.
         /// </summary>
-        Left,
+        Start,
 
         /// <summary>
         /// Show the notification on the right side of the screen.
         /// </summary>
-        Right,
+        End,
     }
 }

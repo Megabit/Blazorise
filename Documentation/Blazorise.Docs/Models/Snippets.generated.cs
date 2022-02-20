@@ -4609,7 +4609,7 @@ namespace Blazorise.Docs.Models
 
 <Button Color=""Color.Info"" Clicked=""@(()=>snackbarStack.PushAsync(""Some info message! Timeout: "" + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))"">Show Info</Button>
 
-<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.Right"" />
+<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.End"" />
 
 @code{
     SnackbarStack snackbarStack;
