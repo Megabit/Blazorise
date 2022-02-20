@@ -11,6 +11,8 @@ export function initialize(element, elementId, options) {
     if (!element)
         return;
 
+    const triggerTarget = options.triggerTargetId ? document.getElementById(options.triggerTargetId) : null;
+
     const defaultOptions = {
         theme: 'blazorise',
         content: options.text,
@@ -19,7 +21,8 @@ export function initialize(element, elementId, options) {
         duration: options.fade ? [options.fadeDuration, options.fadeDuration] : [0, 0],
         arrow: options.showArrow,
         allowHTML: true,
-        trigger: options.trigger
+        trigger: options.trigger,
+        triggerTarget: triggerTarget
     };
 
     const alwaysActiveOptions = options.alwaysActive

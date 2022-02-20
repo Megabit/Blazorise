@@ -226,7 +226,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
             ? selectedStyling?.Color
-            : styling?.Color ) ?? Blazorise.Color.Primary;
+            : styling?.Color ) ?? Blazorise.Color.None;
 
         /// <summary>
         /// Gets the row classnames.

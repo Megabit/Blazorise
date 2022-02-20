@@ -3,11 +3,14 @@
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
-            @if ( ShowBackdrop )
+            @if ( RenderMode == ModalRenderMode.Default || ( RenderMode == ModalRenderMode.LazyReload && IsVisible ) || ( RenderMode == ModalRenderMode.LazyLoad && lazyLoaded ) )
             {
-                <_ModalBackdrop />
+                @if ( ShowBackdrop )
+                {
+                    <_ModalBackdrop />
+                }
+                @ChildContent
             }
-            @ChildContent
         </div>
     </CascadingValue>
 </CascadingValue>

@@ -20,6 +20,11 @@ namespace Blazorise
         #region Members
 
         /// <summary>
+        /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
+        /// </summary>
+        protected bool lazyLoaded;
+
+        /// <summary>
         /// Holds the state of this modal dialog.
         /// </summary>
         private ModalState state = new()
@@ -139,11 +144,9 @@ namespace Blazorise
                     catch when ( unregisterClosableTask.IsCanceled )
                     {
                     }
-#if NET6_0_OR_GREATER
                     catch ( Microsoft.JSInterop.JSDisconnectedException )
                     {
                     }
-#endif
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
@@ -163,11 +166,9 @@ namespace Blazorise
                 catch when ( closeModalTask.IsCanceled )
                 {
                 }
-#if NET6_0_OR_GREATER
                 catch ( Microsoft.JSInterop.JSDisconnectedException )
                 {
                 }
-#endif
 
                 if ( focusableComponents != null )
                 {
@@ -415,6 +416,9 @@ namespace Blazorise
         /// <param name="visible">Visible state.</param>
         private async Task SetVisibleState( bool visible )
         {
+            if ( visible )
+                lazyLoaded = ( RenderMode == ModalRenderMode.LazyLoad );
+
             state = state with { Visible = visible };
 
             await HandleVisibilityStyles( visible );
@@ -533,6 +537,11 @@ namespace Blazorise
 
         /// inheritdoc
         [Parameter] public int AnimationDuration { get; set; } = 150;
+
+        /// <summary>
+        /// Defines how the modal content will be rendered.
+        /// </summary>
+        [Parameter] public ModalRenderMode RenderMode { get; set; }
 
         #endregion
     }
