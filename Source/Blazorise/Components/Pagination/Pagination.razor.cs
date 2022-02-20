@@ -16,7 +16,7 @@ namespace Blazorise
 
         private Size? size;
 
-        private Alignment alignment = Alignment.None;
+        private Alignment alignment = Alignment.Default;
 
         #endregion
 
@@ -51,9 +51,9 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Pagination() );
-            builder.Append( ClassProvider.PaginationSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
-            builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
-            builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.None );
+            builder.Append( ClassProvider.PaginationSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+            builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.Default );
+            builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.Default );
 
             base.BuildClasses( builder );
         }
@@ -78,7 +78,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the size based on the theme settings.
         /// </summary>
-        protected Size ThemeSize => Size ?? Theme?.PaginationOptions?.Size ?? Blazorise.Size.None;
+        protected Size ThemeSize => Size ?? Theme?.PaginationOptions?.Size ?? Blazorise.Size.Default;
 
         /// <summary>
         /// Gets or sets the pagination size.

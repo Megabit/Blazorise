@@ -8,7 +8,7 @@
         /// <summary>
         /// Position will not be applied to an element.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// An element is not positioned in any special way; it is always positioned according to the normal flow of the page.

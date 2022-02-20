@@ -8,7 +8,7 @@
         /// <summary>
         /// No overflow will be applied
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// The overflow is not clipped. The content renders outside the element's box.

@@ -37,7 +37,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ColorEdit() );
-            builder.Append( ClassProvider.ColorEditSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.ColorEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
 
             base.BuildClasses( builder );
         }

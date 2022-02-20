@@ -10,7 +10,7 @@ namespace Blazorise
         /// <summary>
         /// Don't float on all viewport sizes.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Float start on all viewport sizes.

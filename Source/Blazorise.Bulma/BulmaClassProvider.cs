@@ -761,7 +761,7 @@ namespace Blazorise.Bulma
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
-                if ( columnWidth == Blazorise.ColumnWidth.None )
+                if ( columnWidth == Blazorise.ColumnWidth.Default )
                     return $"column is-{baseClass}{ToBreakpoint( breakpoint )}";
 
                 return $"column is-{ToColumnWidth( columnWidth )}-{baseClass}{ToBreakpoint( breakpoint )}";
@@ -783,7 +783,7 @@ namespace Blazorise.Bulma
                 ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}"
                 : $"is-{ToDisplayType( displayType )}";
 
-            if ( displayDefinition.Direction != DisplayDirection.None )
+            if ( displayDefinition.Direction != DisplayDirection.Default )
                 return $"{baseClass} is-flex-direction-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
@@ -1125,7 +1125,7 @@ namespace Blazorise.Bulma
             if ( borderSide != BorderSide.All )
                 sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
-            if ( borderSize != BorderSize.None )
+            if ( borderSize != BorderSize.Default )
                 sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
             if ( borderColor != BorderColor.None )
@@ -1146,7 +1146,7 @@ namespace Blazorise.Bulma
 
         public override string Flex( FlexType flexType )
         {
-            return flexType != FlexType.None
+            return flexType != FlexType.Default
                 ? $"is-{ToFlexType( flexType )}"
                 : null;
         }
@@ -1159,28 +1159,28 @@ namespace Blazorise.Bulma
                 ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
                 : null;
 
-            if ( flexDefinition.Direction != FlexDirection.None )
+            if ( flexDefinition.Direction != FlexDirection.Default )
                 sb.Append( "is-flex-direction-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
 
-            if ( flexDefinition.JustifyContent != FlexJustifyContent.None )
+            if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
                 sb.Append( "is-justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
 
-            if ( flexDefinition.AlignItems != FlexAlignItems.None )
+            if ( flexDefinition.AlignItems != FlexAlignItems.Default )
                 sb.Append( "is-align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
 
-            if ( flexDefinition.AlignSelf != FlexAlignSelf.None )
+            if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
                 sb.Append( "is-align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
 
-            if ( flexDefinition.AlignContent != FlexAlignContent.None )
+            if ( flexDefinition.AlignContent != FlexAlignContent.Default )
                 sb.Append( "is-align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
-            if ( flexDefinition.GrowShrink != FlexGrowShrink.None && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.None )
+            if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
                 sb.Append( "is-flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
-            if ( flexDefinition.Wrap != FlexWrap.None )
+            if ( flexDefinition.Wrap != FlexWrap.Default )
                 sb.Append( "is-flex-wrap-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
 
-            if ( flexDefinition.Order != FlexOrder.None )
+            if ( flexDefinition.Order != FlexOrder.Default )
                 sb.Append( "is-flex-order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
 
             if ( flexDefinition.Fill )
@@ -1193,7 +1193,7 @@ namespace Blazorise.Bulma
         {
             var sb = new StringBuilder();
 
-            if ( flexType != FlexType.None )
+            if ( flexType != FlexType.Default )
                 sb.Append( $"is-{ToFlexType( flexType )}" ).Append( ' ' );
 
             sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
@@ -1272,9 +1272,9 @@ namespace Blazorise.Bulma
 
         #region Overflow
 
-        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.None
-                ? $"is-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
-                : $"is-overflow-{ToOverflowType( overflowType )}";
+        public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
+            ? $"is-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+            : $"is-overflow-{ToOverflowType( overflowType )}";
 
         #endregion
 

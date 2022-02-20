@@ -72,17 +72,13 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the items data-source.
         /// </summary>
-#if NET6_0_OR_GREATER
         [EditorRequired]
-#endif
         [Parameter] public IEnumerable<TItem> Data { get; set; }
 
         /// <summary>
         /// Method used to get the display field from the supplied data source.
         /// </summary>
-#if NET6_0_OR_GREATER
         [EditorRequired]
-#endif
         [Parameter] public Func<TItem, string> TextField { get; set; }
 
         /// <summary>

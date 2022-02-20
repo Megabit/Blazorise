@@ -39,11 +39,9 @@ namespace Blazorise.Extensions
             catch when ( disposableTask.IsCanceled )
             {
             }
-#if NET6_0_OR_GREATER
             catch ( Microsoft.JSInterop.JSDisconnectedException )
             {
             }
-#endif
         }
     }
 }

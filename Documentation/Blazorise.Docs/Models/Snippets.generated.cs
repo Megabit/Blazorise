@@ -1211,7 +1211,7 @@ namespace Blazorise.Docs.Models
 </ListGroup>";
 
         public const string ListGroupContextualExample = @"<ListGroup>
-    <ListGroupItem Color=""Color.None"">None</ListGroupItem>
+    <ListGroupItem Color=""Color.Default"">Default</ListGroupItem>
     <ListGroupItem Color=""Color.Primary"">Primary</ListGroupItem>
     <ListGroupItem Color=""Color.Secondary"">Secondary</ListGroupItem>
     <ListGroupItem Color=""Color.Success"">Success</ListGroupItem>
@@ -1223,7 +1223,7 @@ namespace Blazorise.Docs.Models
 </ListGroup>";
 
         public const string ListGroupContextualSelectableExample = @"<ListGroup Mode=""ListGroupMode.Selectable"">
-    <ListGroupItem Name=""none"" Color=""Color.None"">None</ListGroupItem>
+    <ListGroupItem Name=""none"" Color=""Color.Default"">Default</ListGroupItem>
     <ListGroupItem Name=""primary"" Color=""Color.Primary"">Primary</ListGroupItem>
     <ListGroupItem Name=""secondary"" Color=""Color.Secondary"">Secondary</ListGroupItem>
     <ListGroupItem Name=""success"" Color=""Color.Success"">Success</ListGroupItem>
@@ -2489,6 +2489,13 @@ namespace Blazorise.Docs.Models
 <Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Bottom"">
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
 </Tooltip>";
+
+        public const string TooltipTriggerTargetExample = @"<Div ElementId=""tooltip-custom-target"">
+    Trigger target vs
+    <Tooltip Text=""I'm a tooltip!"" TriggerTargetId=""tooltip-custom-target"" Inline>
+        <Badge Color=""Color.Warning"">positioning target</Badge>
+    </Tooltip>
+</Div>";
 
         public const string TypographyDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"">Display 1</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is2"">Display 2</DisplayHeading>
@@ -4189,7 +4196,7 @@ namespace Blazorise.Docs.Models
         public const string IconSizeExample = @"<Div Flex=""Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start"">
     @foreach ( var iconSize in Enum.GetValues<IconSize>() )
     {
-        @if ( iconSize == IconSize.None )
+        @if ( iconSize == IconSize.Default )
             continue;
 
         <Div Flex=""Flex.Column.JustifyContent.Center"">

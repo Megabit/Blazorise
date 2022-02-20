@@ -20,7 +20,8 @@ namespace Blazorise
             { "warning", () => Warning },
             { "danger", () => Danger },
             { "light", () => Light },
-            { "dark", () => Dark }
+            { "dark", () => Dark },
+            { "link", () => Link },
         };
 
         /// <inheritdoc/>
@@ -81,5 +82,10 @@ namespace Blazorise
         /// Gets or sets the dark theme color.
         /// </summary>
         public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
+
+        /// <summary>
+        /// Gets or sets the link theme color.
+        /// </summary>
+        public string Link { get; set; } = ThemeColors.Blue.Shades["400"].Value;
     }
 }

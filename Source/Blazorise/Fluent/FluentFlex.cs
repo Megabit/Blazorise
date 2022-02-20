@@ -635,7 +635,7 @@ namespace Blazorise
                     {
                         builder.Append( classProvider.Flex( currentFlexDefinition ) );
                     }
-                    else if ( currentFlexType != FlexType.None )
+                    else if ( currentFlexType != FlexType.Default )
                     {
                         // In some cases we will have no definitions but flex type can still be defined.
                         // We need to also cover those situations.
@@ -739,7 +739,7 @@ namespace Blazorise
         public IFluentFlexJustifyContentPositions WithJustifyContent()
         {
             currentFlexDefinition = CreateDefinition();
-            currentFlexDefinition.JustifyContent = FlexJustifyContent.None;
+            currentFlexDefinition.JustifyContent = FlexJustifyContent.Default;
             Dirty();
 
             return this;
@@ -766,7 +766,7 @@ namespace Blazorise
         public IFluentFlexAlignItemsPosition WithAlignItems()
         {
             currentFlexDefinition = CreateDefinition();
-            currentFlexDefinition.AlignItems = FlexAlignItems.None;
+            currentFlexDefinition.AlignItems = FlexAlignItems.Default;
             Dirty();
 
             return this;
@@ -793,7 +793,7 @@ namespace Blazorise
         public IFluentFlexAlignSelfPosition WithAlignSelf()
         {
             currentFlexDefinition = CreateDefinition();
-            currentFlexDefinition.AlignSelf = FlexAlignSelf.None;
+            currentFlexDefinition.AlignSelf = FlexAlignSelf.Default;
             Dirty();
 
             return this;
@@ -820,7 +820,7 @@ namespace Blazorise
         public IFluentFlexAlignContentPosition WithAlignContent()
         {
             currentFlexDefinition = CreateDefinition();
-            currentFlexDefinition.AlignContent = FlexAlignContent.None;
+            currentFlexDefinition.AlignContent = FlexAlignContent.Default;
             Dirty();
 
             return this;
@@ -887,7 +887,7 @@ namespace Blazorise
         public IFluentFlexOrderNumber WithOrder()
         {
             currentFlexDefinition = CreateDefinition();
-            currentFlexDefinition.Order = FlexOrder.None;
+            currentFlexDefinition.Order = FlexOrder.Default;
             Dirty();
 
             return this;

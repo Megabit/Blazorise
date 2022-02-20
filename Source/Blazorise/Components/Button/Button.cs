@@ -19,7 +19,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         private Size? size;
 
@@ -49,9 +49,9 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Button() );
-            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
-            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
+            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.Default && !Outline );
+            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.Default && Outline );
+            builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
             builder.Append( ClassProvider.ButtonDisabled(), Disabled );
@@ -273,7 +273,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the size based on the theme settings.
         /// </summary>
-        protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.None;
+        protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.Default;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSButtonModule"/> instance.
@@ -484,7 +484,7 @@ namespace Blazorise
         /// <summary>
         /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
         /// </summary>
-        [Parameter] public Target Target { get; set; } = Target.None;
+        [Parameter] public Target Target { get; set; } = Target.Default;
 
         /// <summary>
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.

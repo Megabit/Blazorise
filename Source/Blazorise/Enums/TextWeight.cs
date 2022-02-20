@@ -8,7 +8,7 @@
         /// <summary>
         /// No weight will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Defines normal characters. This is default.

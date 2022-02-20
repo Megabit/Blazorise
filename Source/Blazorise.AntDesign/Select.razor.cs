@@ -281,7 +281,7 @@ namespace Blazorise.AntDesign
             {
                 var sb = new StringBuilder( "ant-select ant-select-show-arrow" );
 
-                if ( ThemeSize != Blazorise.Size.None )
+                if ( ThemeSize != Blazorise.Size.Default )
                     sb.Append( $" ant-select-{ClassProvider.ToSize( ThemeSize )}" );
 
                 if ( Multiple )
