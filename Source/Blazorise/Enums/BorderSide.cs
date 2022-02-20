@@ -18,7 +18,7 @@
         /// <summary>
         /// Shows the border on right side of the element.
         /// </summary>
-        Right,
+        End,
 
         /// <summary>
         /// Shows the border on bottom side of the element.
@@ -28,6 +28,6 @@
         /// <summary>
         /// Shows the border on left side of the element.
         /// </summary>
-        Left,
+        Start,
     }
 }

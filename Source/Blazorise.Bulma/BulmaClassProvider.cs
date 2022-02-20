@@ -1504,9 +1504,9 @@ namespace Blazorise.Bulma
             {
                 Blazorise.BorderRadius.Rounded => "rounded-border",
                 Blazorise.BorderRadius.RoundedTop => "rounded-border-top",
-                Blazorise.BorderRadius.RoundedRight => "rounded-border-right",
+                Blazorise.BorderRadius.RoundedEnd => "rounded-border-right",
                 Blazorise.BorderRadius.RoundedBottom => "rounded-border-bottom",
-                Blazorise.BorderRadius.RoundedLeft => "rounded-border-left",
+                Blazorise.BorderRadius.RoundedStart => "rounded-border-left",
                 Blazorise.BorderRadius.RoundedCircle => "rounded-border-circle",
                 Blazorise.BorderRadius.RoundedPill => "rounded-border-pill",
                 Blazorise.BorderRadius.RoundedZero => "rounded-border-0",
