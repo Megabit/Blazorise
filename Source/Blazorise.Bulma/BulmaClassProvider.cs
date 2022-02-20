@@ -460,8 +460,8 @@ namespace Blazorise.Bulma
         public override string DropdownDirection( Direction direction ) => direction switch
         {
             Direction.Up => "is-up",
-            Direction.Right or Direction.End => "is-right",
-            Direction.Left or Direction.Start => "is-left",
+            Direction.End => "is-right",
+            Direction.Start => "is-left",
             _ => null,
         };
 
@@ -1429,9 +1429,9 @@ namespace Blazorise.Bulma
 
         public override string ToTextAlignment( TextAlignment textAlignment ) => textAlignment switch
         {
-            Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "left",
+            Blazorise.TextAlignment.Start => "left",
             Blazorise.TextAlignment.Center => "centered",
-            Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "right",
+            Blazorise.TextAlignment.End => "right",
             Blazorise.TextAlignment.Justified => "justified",
             _ => null,
         };

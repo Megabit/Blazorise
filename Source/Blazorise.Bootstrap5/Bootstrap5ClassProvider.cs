@@ -450,8 +450,8 @@ namespace Blazorise.Bootstrap5
             return direction switch
             {
                 Direction.Up => "dropup",
-                Direction.Right or Direction.End => "dropend",
-                Direction.Left or Direction.Start => "dropstart",
+                Direction.End => "dropend",
+                Direction.Start => "dropstart",
                 _ => null,
             };
         }
@@ -1294,8 +1294,8 @@ namespace Blazorise.Bootstrap5
         {
             return @float switch
             {
-                Blazorise.Float.Left or Blazorise.Float.Start => "start",
-                Blazorise.Float.Right or Blazorise.Float.End => "end",
+                Blazorise.Float.Start => "start",
+                Blazorise.Float.End => "end",
                 _ => null,
             };
         }
@@ -1320,9 +1320,9 @@ namespace Blazorise.Bootstrap5
         {
             return textAlignment switch
             {
-                Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "start",
+                Blazorise.TextAlignment.Start => "start",
                 Blazorise.TextAlignment.Center => "center",
-                Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "end",
+                Blazorise.TextAlignment.End => "end",
                 Blazorise.TextAlignment.Justified => "justify",
                 _ => null,
             };
@@ -1333,8 +1333,8 @@ namespace Blazorise.Bootstrap5
             return placement switch
             {
                 Blazorise.Placement.Bottom => "bottom",
-                Blazorise.Placement.Left or Blazorise.Placement.Start => "start",
-                Blazorise.Placement.Right or Blazorise.Placement.End => "end",
+                Blazorise.Placement.Start => "start",
+                Blazorise.Placement.End => "end",
                 _ => "top",
             };
         }
@@ -1356,8 +1356,8 @@ namespace Blazorise.Bootstrap5
             {
                 Blazorise.Side.Top => "t",
                 Blazorise.Side.Bottom => "b",
-                Blazorise.Side.Left or Blazorise.Side.Start => "s",
-                Blazorise.Side.Right or Blazorise.Side.End => "e",
+                Blazorise.Side.Start => "s",
+                Blazorise.Side.End => "e",
                 Blazorise.Side.X => "x",
                 Blazorise.Side.Y => "y",
                 _ => null,
