@@ -441,6 +441,9 @@ namespace Blazorise.DataGrid
                     {
                         if ( data.Contains( item ) )
                             data.Remove( item );
+
+                        if ( editState == DataGridEditState.Edit && SelectedRow.IsEqual( item ) )
+                            editState = DataGridEditState.None;
                     }
 
                     await RowRemoved.InvokeAsync( item );
