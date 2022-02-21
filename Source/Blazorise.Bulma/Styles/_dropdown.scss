@@ -64,16 +64,17 @@
 }
 
 .dropdown {
-    .dropdown-menu > .dropdown-content {
-        > .dropdown:not(.is-up, .is-right, .is-left) {
-            width: 100%;
 
-            &::after {
-                transform: rotate(-90deg);
-                position: absolute;
-                right: 6px;
-                top: .8em;
-            }
+    .dropdown-menu > .dropdown-content {
+        .dropdown {
+            width: 100%;
+        }
+
+        .dropdown-trigger {
+            width: 100%;
+        }
+
+        > .dropdown:not(.is-up, .is-right, .is-left) {
 
             > .dropdown-trigger {
                 width: 100%;
@@ -122,6 +123,7 @@
         > .dropdown-menu {
             display: none !important;
             left: auto;
+            bottom: auto;
             right: 0;
         }
 
@@ -134,6 +136,9 @@
 
     &.is-left {
         > .dropdown-menu {
+            left: 0;
+            right: auto;
+            bottom: auto;
             display: none !important;
         }
 

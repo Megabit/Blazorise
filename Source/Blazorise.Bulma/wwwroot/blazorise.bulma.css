@@ -6130,14 +6130,11 @@ ol.is-ordered-list-upper-roman {
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
-.dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left) {
+.dropdown .dropdown-menu > .dropdown-content .dropdown {
   width: 100%;
 }
-.dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left)::after {
-  transform: rotate(-90deg);
-  position: absolute;
-  right: 6px;
-  top: 0.8em;
+.dropdown .dropdown-menu > .dropdown-content .dropdown-trigger {
+  width: 100%;
 }
 .dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left) > .dropdown-trigger {
   width: 100%;
@@ -6171,12 +6168,16 @@ ol.is-ordered-list-upper-roman {
 .dropdown.is-right > .dropdown-menu {
   display: none !important;
   left: auto;
+  bottom: auto;
   right: 0;
 }
 .dropdown.is-right.is-active > .dropdown-menu {
   display: block !important;
 }
 .dropdown.is-left > .dropdown-menu {
+  left: 0;
+  right: auto;
+  bottom: auto;
   display: none !important;
 }
 .dropdown.is-left.is-active > .dropdown-menu {
