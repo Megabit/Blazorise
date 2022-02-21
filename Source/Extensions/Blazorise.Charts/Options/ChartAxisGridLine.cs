@@ -117,7 +117,7 @@ namespace Blazorise.Charts
         public double? TickWidth { get; set; }
 
         /// <summary>
-        /// z-index of gridline layer. Values <= 0 are drawn under datasets, > 0 on top.
+        /// z-index of gridline layer. Values &lt;= 0 are drawn under datasets, > 0 on top.
         /// </summary>
         [JsonPropertyName( "y" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]

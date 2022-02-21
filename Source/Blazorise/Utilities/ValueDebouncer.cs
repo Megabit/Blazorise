@@ -25,7 +25,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Event raised after the interval has passed and with new updated value.
         /// </summary>
-        public event EventHandler<string> Debounced;
+        public event EventHandler<string> Debounce;
 
         #endregion
 
@@ -47,13 +47,13 @@ namespace Blazorise.Utilities
         #region Events
 
         /// <summary>
-        /// Invokes the <see cref="Debounced"/> event.
+        /// Invokes the <see cref="Debounce"/> event.
         /// </summary>
         /// <param name="source">Reference to the object tha raised the event.</param>
         /// <param name="eventArgs">Timer event arguments.</param>
         private void OnElapsed( object source, ElapsedEventArgs eventArgs )
         {
-            Debounced?.Invoke( this, value );
+            Debounce?.Invoke( this, value );
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
-        /// Stops the debouncer and raises the <see cref="Debounced"/> event if <see cref="Running"/> is enabled.
+        /// Stops the debouncer and raises the <see cref="Debounce"/> event if <see cref="Running"/> is enabled.
         /// </summary>
         public void Flush()
         {
@@ -82,7 +82,7 @@ namespace Blazorise.Utilities
             {
                 timer.Stop();
 
-                Debounced?.Invoke( this, value );
+                Debounce?.Invoke( this, value );
             }
         }
 

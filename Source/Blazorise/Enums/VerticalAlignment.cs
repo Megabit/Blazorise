@@ -8,7 +8,7 @@
         /// <summary>
         /// Alignment will not be set.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Aligns the baseline of the element with the baseline of its parent.

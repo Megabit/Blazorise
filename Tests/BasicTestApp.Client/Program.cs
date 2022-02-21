@@ -20,7 +20,7 @@ namespace BasicTestApp.Client
             builder.Services
                 .AddBlazorise( options =>
                 {
-                    options.ChangeTextOnKeyPress = true;
+                    options.Immediate = true;
                 } )
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();

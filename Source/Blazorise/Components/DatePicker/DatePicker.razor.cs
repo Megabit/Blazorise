@@ -152,8 +152,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DatePicker( Plaintext ) );
-            builder.Append( ClassProvider.DatePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.None );
-            builder.Append( ClassProvider.DatePickerColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.DatePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+            builder.Append( ClassProvider.DatePickerColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );

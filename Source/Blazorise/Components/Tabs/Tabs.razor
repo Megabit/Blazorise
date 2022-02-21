@@ -32,7 +32,7 @@
                 </ul>
             }
         }
-        else if ( TabPosition == TabPosition.Left || TabPosition == TabPosition.Start )
+        else if ( TabPosition == TabPosition.Start )
         {
             <Row>
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
@@ -53,7 +53,7 @@
                 </Column>
             </Row>
         }
-        else if ( TabPosition == TabPosition.Right || TabPosition == TabPosition.End )
+        else if ( TabPosition == TabPosition.End )
         {
             <Row>
                 <Column>

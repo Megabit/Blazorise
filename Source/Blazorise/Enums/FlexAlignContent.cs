@@ -9,7 +9,7 @@
         /// <summary>
         /// Align-content will not be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Lines are packed toward the start of the flex container.

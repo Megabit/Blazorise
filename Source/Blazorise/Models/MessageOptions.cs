@@ -28,7 +28,7 @@
         /// <summary>
         /// Overrides the build-in message icon color.
         /// </summary>
-        public TextColor? MessageIconColor { get; set; }
+        public TextColor MessageIconColor { get; set; }
 
         /// <summary>
         /// Custom text for the Ok button.
@@ -43,7 +43,7 @@
         /// <summary>
         /// Custom icon color for the Ok button.
         /// </summary>
-        public TextColor? OkButtonIconColor { get; set; }
+        public TextColor OkButtonIconColor { get; set; }
 
         /// <summary>
         /// Custom color of the Ok button.
@@ -68,7 +68,7 @@
         /// <summary>
         /// Custom icon color for the Confirmation button.
         /// </summary>
-        public TextColor? ConfirmButtonIconColor { get; set; }
+        public TextColor ConfirmButtonIconColor { get; set; }
 
         /// <summary>
         /// Custom color of the Confirmation button.
@@ -93,7 +93,7 @@
         /// <summary>
         /// Custom icon color for the Cancel button.
         /// </summary>
-        public TextColor? CancelButtonIconColor { get; set; }
+        public TextColor CancelButtonIconColor { get; set; }
 
         /// <summary>
         /// Custom color of the Cancel button.
@@ -123,7 +123,7 @@
             OkButtonText = "Ok",
             OkButtonColor = Color.Primary,
             CancelButtonText = "Cancel",
-            CancelButtonColor = Color.Danger,
+            CancelButtonColor = Color.Secondary,
             ConfirmButtonText = "Yes",
             ConfirmButtonColor = Color.Primary,
         };

@@ -192,7 +192,7 @@ namespace Blazorise
             {
                 void BuildClasses( ClassBuilder builder )
                 {
-                    if ( currentSizingSize != SizingSize.None && currentSizingDefinition != null )
+                    if ( currentSizingSize != SizingSize.Default && currentSizingDefinition != null )
                     {
                         builder.Append( classProvider.Sizing( sizingType, currentSizingSize, currentSizingDefinition ) );
                     }

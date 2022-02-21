@@ -8,7 +8,7 @@
         /// <summary>
         /// No grow or shrink will be applied.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Grow rule will be applied.

@@ -1206,8 +1206,8 @@ namespace Blazorise
         {
             return @float switch
             {
-                Blazorise.Float.Left or Blazorise.Float.Start => "left",
-                Blazorise.Float.Right or Blazorise.Float.End => "right",
+                Blazorise.Float.Start => "left",
+                Blazorise.Float.End => "right",
                 _ => null,
             };
         }
@@ -1218,9 +1218,9 @@ namespace Blazorise
             {
                 Blazorise.BorderRadius.Rounded => "rounded",
                 Blazorise.BorderRadius.RoundedTop => "rounded-top",
-                Blazorise.BorderRadius.RoundedRight => "rounded-right",
+                Blazorise.BorderRadius.RoundedEnd => "rounded-right",
                 Blazorise.BorderRadius.RoundedBottom => "rounded-bottom",
-                Blazorise.BorderRadius.RoundedLeft => "rounded-left",
+                Blazorise.BorderRadius.RoundedStart => "rounded-left",
                 Blazorise.BorderRadius.RoundedCircle => "rounded-circle",
                 Blazorise.BorderRadius.RoundedPill => "rounded-pill",
                 Blazorise.BorderRadius.RoundedZero => "rounded-0",
@@ -1244,8 +1244,8 @@ namespace Blazorise
             {
                 Blazorise.Side.Top => "t",
                 Blazorise.Side.Bottom => "b",
-                Blazorise.Side.Left or Blazorise.Side.Start => "l",
-                Blazorise.Side.Right or Blazorise.Side.End => "r",
+                Blazorise.Side.Start => "l",
+                Blazorise.Side.End => "r",
                 Blazorise.Side.X => "x",
                 Blazorise.Side.Y => "y",
                 _ => null,
@@ -1267,9 +1267,9 @@ namespace Blazorise
         {
             return textAlignment switch
             {
-                Blazorise.TextAlignment.Left or Blazorise.TextAlignment.Start => "left",
+                Blazorise.TextAlignment.Start => "left",
                 Blazorise.TextAlignment.Center => "center",
-                Blazorise.TextAlignment.Right or Blazorise.TextAlignment.End => "right",
+                Blazorise.TextAlignment.End => "right",
                 Blazorise.TextAlignment.Justified => "justify",
                 _ => null,
             };
@@ -1474,8 +1474,8 @@ namespace Blazorise
             return placement switch
             {
                 Blazorise.Placement.Bottom => "bottom",
-                Blazorise.Placement.Left or Blazorise.Placement.Start => "left",
-                Blazorise.Placement.Right or Blazorise.Placement.End => "right",
+                Blazorise.Placement.Start => "left",
+                Blazorise.Placement.End => "right",
                 _ => "top",
             };
         }
@@ -1584,8 +1584,8 @@ namespace Blazorise
             return borderSide switch
             {
                 Blazorise.BorderSide.Bottom => "bottom",
-                Blazorise.BorderSide.Left => "left",
-                Blazorise.BorderSide.Right => "right",
+                Blazorise.BorderSide.Start => "left",
+                Blazorise.BorderSide.End => "right",
                 _ => "top",
             };
         }

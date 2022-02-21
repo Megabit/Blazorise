@@ -12,7 +12,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();

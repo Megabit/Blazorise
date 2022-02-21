@@ -14,7 +14,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Color color = Color.None;
+        private Color color = Color.Default;
 
         private bool selected;
 
@@ -28,7 +28,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableRow() );
-            builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.Default );
             builder.Append( ClassProvider.TableRowIsSelected(), Selected );
             builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 

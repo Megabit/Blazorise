@@ -8,7 +8,7 @@
         /// <summary>
         /// Display will not be defined.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Displays an element as a block-level flex container.

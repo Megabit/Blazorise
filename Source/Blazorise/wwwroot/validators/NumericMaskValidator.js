@@ -11,7 +11,7 @@
     this.max = options.max;
     this.typeMin = options.typeMin;
     this.typeMax = options.typeMax;
-    this.changeTextOnKeyPress = options.changeTextOnKeyPress || true;
+    this.immediate = options.immediate || true;
     this.selectAllOnFocus = options.selectAllOnFocus || false;
 
     this.regex = function () {
@@ -54,7 +54,7 @@
                 this.element.value = value;
 
                 // Trigger event so that Blazor can pick it up.
-                let eventName = this.changeTextOnKeyPress ? 'input' : 'change';
+                let eventName = this.immediate ? 'input' : 'change';
 
                 if ("createEvent" in document) {
                     let event = document.createEvent("HTMLEvents");

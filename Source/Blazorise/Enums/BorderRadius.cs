@@ -6,9 +6,9 @@
     public enum BorderRadius
     {
         /// <summary>
-        /// Don't apply any borders.
+        /// No particular rule will be applied, meaning a default borders will be used.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Makes the element rounded on all sides.
@@ -23,7 +23,7 @@
         /// <summary>
         /// Makes the element rounded on right side of the element.
         /// </summary>
-        RoundedRight,
+        RoundedEnd,
 
         /// <summary>
         /// Makes the element rounded on bottom side of the element.
@@ -33,7 +33,7 @@
         /// <summary>
         /// Makes the element rounded on left side of the element.
         /// </summary>
-        RoundedLeft,
+        RoundedStart,
 
         /// <summary>
         /// Makes the element as circle shaped.

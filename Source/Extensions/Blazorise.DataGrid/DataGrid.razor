@@ -15,7 +15,7 @@
             <TableHeader ThemeContrast="HeaderThemeContrast">
                 @if ( ShowCaptions )
                 {
-                    <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.None)" Color="@(HeaderRowStyling?.Color ?? Color.None)">
+                    <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
                         @foreach ( var column in DisplayableColumns )
                         {
                             @if ( column.ColumnType == DataGridColumnType.Command )
@@ -53,7 +53,7 @@
                                             @column.Caption
                                         }
                                     }
-                                    @if ( Sortable && column.Sortable && column.CurrentSortDirection != SortDirection.None )
+                                    @if ( Sortable && column.Sortable && column.CurrentSortDirection != SortDirection.Default )
                                     {
                                         @if ( column.SortDirectionTemplate != null )
                                         {
@@ -71,7 +71,7 @@
                 }
                 @if ( Filterable )
                 {
-                    <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
+                    <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
                         @foreach ( var column in DisplayableColumns )
                         {
                             if ( column.ColumnType == DataGridColumnType.MultiSelect )
@@ -242,6 +242,6 @@
 
     protected RenderFragment aggregateRowFragment => __builder =>
     {
-        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
+        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.Default)" Color="@(GroupRowStyling?.Color ?? Color.Default)" />
     };
 }

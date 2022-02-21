@@ -105,7 +105,7 @@ namespace Blazorise.Extensions
 
         public static RenderTreeBuilder Target( this RenderTreeBuilder builder, Target target, [CallerLineNumber] int line = 0 )
         {
-            if ( target != Blazorise.Target.None )
+            if ( target != Blazorise.Target.Default )
             {
                 builder.AddAttribute( GetSequence( line ), "target", target.ToTargetString() );
             }

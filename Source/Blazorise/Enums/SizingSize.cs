@@ -9,7 +9,7 @@
         /// <summary>
         /// No size will be defined.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// An element will occupy 25% of its parent space.

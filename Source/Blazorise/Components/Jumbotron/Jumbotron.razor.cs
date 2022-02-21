@@ -16,7 +16,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Jumbotron() );
-            builder.Append( ClassProvider.JumbotronBackground( Background ), Background != Background.None );
+            builder.Append( ClassProvider.JumbotronBackground( Background ), Background != Background.Default );
 
             base.BuildClasses( builder );
         }
