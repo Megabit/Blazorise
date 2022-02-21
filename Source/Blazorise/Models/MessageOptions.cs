@@ -123,7 +123,7 @@
             OkButtonText = "Ok",
             OkButtonColor = Color.Primary,
             CancelButtonText = "Cancel",
-            CancelButtonColor = Color.Danger,
+            CancelButtonColor = Color.Secondary,
             ConfirmButtonText = "Yes",
             ConfirmButtonColor = Color.Primary,
         };

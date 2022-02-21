@@ -221,7 +221,7 @@ namespace Blazorise
         /// Gets the cancel button color.
         /// </summary>
         protected virtual Color CancelButtonColor
-            => Options?.CancelButtonColor ?? Color.Danger;
+            => Options?.CancelButtonColor ?? Color.Secondary;
 
         /// <summary>
         /// Gets the cancel button CSS class.
