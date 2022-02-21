@@ -63,17 +63,14 @@
 
             > .dropdown-toggle {
                 width: 100%;
-
-                &::after {
-                    transform: rotate(90deg);
-                }
+                @include caret(down);
             }
 
             > .dropdown-menu {
                 top: auto;
                 left: auto;
-                bottom:auto;
-                right:auto;
+                bottom: auto;
+                right: auto;
             }
         }
     }
