@@ -44,6 +44,26 @@
                 </Validations>
             </ModalBody>
             <ModalFooter>
+                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
+                {
+                    var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
+
+                    @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                    {
+                        @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
+                        {
+                            Clicked = EventCallback.Factory.Create( this, CloseModal ),
+                            LocalizationString = cancelButtonString,
+                            Item = EditItem,
+                        } )
+                    }
+                    else
+                    {
+                        <Button Color="Color.Link" Clicked="@CloseModal">
+                            @cancelButtonString
+                        </Button>
+                    }
+                }
                 @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
                 {
                     var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
@@ -71,26 +91,6 @@
                                 @saveButtonString
                             </Button>
                         }
-                    }
-                }
-                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
-                {
-                    var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
-
-                    @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
-                    {
-                        @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                        {
-                            Clicked = EventCallback.Factory.Create( this, CloseModal ),
-                            LocalizationString = cancelButtonString,
-                            Item = EditItem,
-                        } )
-                    }
-                    else
-                    {
-                        <Button Color="Color.Link" Clicked="@CloseModal">
-                            @cancelButtonString
-                        </Button>
                     }
                 }
             </ModalFooter>
