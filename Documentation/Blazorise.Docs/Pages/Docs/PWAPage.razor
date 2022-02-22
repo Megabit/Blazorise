@@ -1,0 +1,104 @@
+﻿@page "/docs/pwa"
+
+<Seo Canonical="/docs/pwa" Title="Blazorise PWA" Description="Blazorise pwa." />
+
+<DocsPageTitle>
+    Progressive Web Applications
+</DocsPageTitle>
+
+
+<DocsPageParagraph>
+    You should know that there are always caveats when using PWA's and having offline support.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    When building PWA's you should be familar with these <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/progressive-web-app?view=aspnetcore-6.0&tabs=visual-studio#caveats-for-offline-pwas" Target="Target.Blank">Blazor caveats</Blazorise.Link>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    As for Blazorise, you should take into consideration that we dynamically load our javascript dependencies once a component requests it. As a workaround to make these available under offline usage, you should readily load these on your index page so they can be cached.
+</DocsPageParagraph>
+
+
+<DocsPageParagraph>
+    Below you will find our dependencies:
+</DocsPageParagraph>
+
+<Tabs SelectedTab="Common" TabPosition="TabPosition.Start" Pills>
+    <Items>
+        <Tab Name="Common">Common</Tab>
+        <Tab Name="AntDesign">AntDesign</Tab>
+        <Tab Name="Bootstrap">Bootstrap</Tab>
+        <Tab Name="Bootstrap 5">Bootstrap 5</Tab>
+        <Tab Name="Bulma">Bulma</Tab>
+        <Tab Name="Material">Material</Tab>
+        <Tab Name="Charts">Charts</Tab>
+        <Tab Name="ChartsStreaming">Charts : Streaming</Tab>
+        <Tab Name="ChartsTrendline">Charts : Trendline</Tab>
+        <Tab Name="Datagrid">Datagrid</Tab>
+        <Tab Name="RichTextEdit">Rich Text Edit</Tab>
+        <Tab Name="Video">Video</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="Common">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="CommonScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="AntDesign">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="AntDesignScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Bootstrap">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="BootstrapScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Bootstrap5">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="Bootstrap5ScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Bulma">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="BulmaScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Material">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="MaterialScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Charts">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="ChartsScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="ChartsStreaming">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="ChartsStreamingScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="ChartsTrendline">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="ChartsTrendlineScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Datagrid">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="DatagridScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="RichTextEdit">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="RichTextEditScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+        <TabPanel Name="Video">
+            <DocsPageSection>
+                <DocsPageSectionSource Code="VideoScriptsExample" />
+            </DocsPageSection>
+        </TabPanel>
+    </Content>
+</Tabs>
