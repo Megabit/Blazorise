@@ -1,0 +1,63 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<LineChart @ref="lineChart" TItem="WatcherEvent" Options="@lineChartOptions" />
+
+@code {
+    private LineChart<WatcherEvent> lineChart;
+
+    LineChartOptions lineChartOptions = new()
+    {
+        Parsing = new ChartParsing
+        {
+            XAxisKey = "sector",
+            YAxisKey = "count",
+        }
+    };
+
+    private List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    private List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    private bool isAlreadyInitialised;
+
+    public class WatcherEvent
+    {
+        public string Sector { get; set; }
+
+        public int Count { get; set; }
+
+        public DateTime Date { get; } = DateTime.Now;
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( !isAlreadyInitialised )
+        {
+            isAlreadyInitialised = true;
+
+            await lineChart.Clear();
+            await lineChart.AddDataSet( GetLineChartDataset() );
+        }
+    }
+
+    private LineChartDataset<WatcherEvent> GetLineChartDataset()
+    {
+        return new()
+        {
+            Label = "# of randoms",
+            Data = new List<WatcherEvent>
+            {
+                new WatcherEvent { Sector = "A", Count = 1400 },
+                new WatcherEvent { Sector = "B", Count = 900 },
+                new WatcherEvent { Sector = "C", Count = 1800 },
+                new WatcherEvent { Sector = "D", Count = 1300 },
+            },
+            BackgroundColor = backgroundColors[0], // line chart can only have one color
+            BorderColor = borderColors[0],
+            Fill = true,
+            PointRadius = 3,
+            BorderWidth = 1,
+            PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList(),
+            CubicInterpolationMode = "monotone",
+        };
+    }
+}
