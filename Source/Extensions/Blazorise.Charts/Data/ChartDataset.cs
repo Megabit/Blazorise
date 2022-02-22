@@ -48,7 +48,6 @@ namespace Blazorise.Charts
         /// List of data items.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        [JsonNumberHandling( JsonNumberHandling.AllowNamedFloatingPointLiterals )]
         public List<T> Data { get; set; }
 
         /// <summary>
