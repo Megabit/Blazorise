@@ -6,9 +6,9 @@
         {
             switch ( snackbarLocation )
             {
-                case SnackbarLocation.Left:
+                case SnackbarLocation.Start:
                     return "left";
-                case SnackbarLocation.Right:
+                case SnackbarLocation.End:
                     return "right";
                 case SnackbarLocation.Default:
                 default:
@@ -20,9 +20,9 @@
         {
             switch ( snackbarStackLocation )
             {
-                case SnackbarStackLocation.Left:
+                case SnackbarStackLocation.Start:
                     return "left";
-                case SnackbarStackLocation.Right:
+                case SnackbarStackLocation.End:
                     return "right";
                 case SnackbarStackLocation.Center:
                 default:
@@ -50,7 +50,7 @@
                     return "light";
                 case SnackbarColor.Dark:
                     return "dark";
-                case SnackbarColor.None:
+                case SnackbarColor.Default:
                 default:
                     return null;
             }

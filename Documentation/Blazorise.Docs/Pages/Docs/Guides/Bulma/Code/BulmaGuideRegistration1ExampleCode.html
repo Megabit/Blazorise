@@ -14,7 +14,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =&gt;
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();

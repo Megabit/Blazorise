@@ -1306,9 +1306,9 @@ namespace Blazorise.Bootstrap5
             {
                 Blazorise.BorderRadius.Rounded => "rounded",
                 Blazorise.BorderRadius.RoundedTop => "rounded-top",
-                Blazorise.BorderRadius.RoundedRight => "rounded-end",
+                Blazorise.BorderRadius.RoundedEnd => "rounded-end",
                 Blazorise.BorderRadius.RoundedBottom => "rounded-bottom",
-                Blazorise.BorderRadius.RoundedLeft => "rounded-start",
+                Blazorise.BorderRadius.RoundedStart => "rounded-start",
                 Blazorise.BorderRadius.RoundedCircle => "rounded-circle",
                 Blazorise.BorderRadius.RoundedPill => "rounded-pill",
                 Blazorise.BorderRadius.RoundedZero => "rounded-0",
@@ -1344,8 +1344,8 @@ namespace Blazorise.Bootstrap5
             return borderSide switch
             {
                 Blazorise.BorderSide.Bottom => "bottom",
-                Blazorise.BorderSide.Left => "start",
-                Blazorise.BorderSide.Right => "end",
+                Blazorise.BorderSide.Start => "start",
+                Blazorise.BorderSide.End => "end",
                 _ => "top",
             };
         }

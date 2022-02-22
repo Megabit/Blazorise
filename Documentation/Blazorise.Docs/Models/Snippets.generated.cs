@@ -503,7 +503,7 @@ namespace Blazorise.Docs.Models
 </Form>";
 
         public const string ToolbarButtonsExample = @"<Buttons Role=""ButtonsRole.Toolbar"">
-    <Buttons Margin=""Margin.Is2.FromRight"">
+    <Buttons Margin=""Margin.Is2.FromEnd"">
         <Button Color=""Color.Primary"">Primary</Button>
         <Button Color=""Color.Secondary"">Secondary</Button>
         <Button Color=""Color.Info"">Info</Button>
@@ -1291,7 +1291,7 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.ChangeTextOnKeyPress = false;
+      options.Immediate = false;
     } );
 }";
 
@@ -1300,8 +1300,8 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }";
 
@@ -1366,7 +1366,7 @@ namespace Blazorise.Docs.Models
 
         public const string ModalBindingExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
-<Span Margin=""Margin.Is3.FromLeft"">Modal is visible: @modalVisible</Span>
+<Span Margin=""Margin.Is3.FromStart"">Modal is visible: @modalVisible</Span>
 
 <Modal @bind-Visible=""@modalVisible"">
     <ModalContent Centered>
@@ -2335,7 +2335,7 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.ChangeTextOnKeyPress = false;
+      options.Immediate = false;
     } );
 }";
 
@@ -2344,8 +2344,8 @@ namespace Blazorise.Docs.Models
   services
     .AddBlazorise( options =>
     {
-      options.DelayTextOnKeyPress = true;
-      options.DelayTextOnKeyPressInterval = 300;
+      options.Debounce = true;
+      options.DebounceInterval = 300;
     } );
 }";
 
@@ -4589,12 +4589,12 @@ namespace Blazorise.Docs.Models
             <SidebarLabel>Main</SidebarLabel>
             <SidebarItem>
                 <SidebarLink To=""#"" Title=""Home"">
-                    <Icon Name=""IconName.Home"" Margin=""Margin.Is3.FromRight"" />Home
+                    <Icon Name=""IconName.Home"" Margin=""Margin.Is3.FromEnd"" />Home
                 </SidebarLink>
             </SidebarItem>
             <SidebarItem>
                 <SidebarLink Toggled=""(isOpen)=> mailSidebarSubItems.Toggle(isOpen)"" IsShow>
-                    <Icon Name=""IconName.Mail"" Margin=""Margin.Is3.FromRight"" />Email
+                    <Icon Name=""IconName.Mail"" Margin=""Margin.Is3.FromEnd"" />Email
                 </SidebarLink>
                 <SidebarSubItem @ref=""mailSidebarSubItems"" IsShow>
                     <SidebarItem>
@@ -4608,7 +4608,7 @@ namespace Blazorise.Docs.Models
             </SidebarItem>
             <SidebarItem>
                 <SidebarLink Toggled=""(isOpen)=> appsSidebarSubItems.Toggle(isOpen)"" IsShow>
-                    <Icon Name=""IconName.Smartphone"" Margin=""Margin.Is3.FromRight"" />Apps
+                    <Icon Name=""IconName.Smartphone"" Margin=""Margin.Is3.FromEnd"" />Apps
                 </SidebarLink>
                 <SidebarSubItem @ref=""appsSidebarSubItems"" IsShow>
                     <SidebarItem>
@@ -4657,7 +4657,7 @@ namespace Blazorise.Docs.Models
 
 <Button Color=""Color.Info"" Clicked=""@(()=>snackbarStack.PushAsync(""Some info message! Timeout: "" + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))"">Show Info</Button>
 
-<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.Right"" />
+<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.End"" />
 
 @code{
     SnackbarStack snackbarStack;
@@ -4777,7 +4777,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddAntDesignProviders()
       .AddFontAwesomeIcons();
@@ -4807,7 +4807,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
       } )
       .AddAntDesignProviders()
       .AddFontAwesomeIcons();
@@ -4854,7 +4854,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
@@ -4884,7 +4884,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true; // optional
+        options.Immediate = true; // optional
       } )
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
@@ -4945,7 +4945,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBootstrap5Providers()
       .AddFontAwesomeIcons();
@@ -4975,7 +4975,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true; // optional
+        options.Immediate = true; // optional
       } )
       .AddBootstrap5Providers()
       .AddFontAwesomeIcons();
@@ -5034,7 +5034,7 @@ public class Program
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
@@ -5064,7 +5064,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
       } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
@@ -5112,7 +5112,7 @@ public class Startup
     builder.Services
       .AddBlazorise( options =>
       {
-          options.ChangeTextOnKeyPress = true;
+          options.Immediate = true;
       } )
       .AddMaterialProviders()
       .AddMaterialIcons();
@@ -5142,7 +5142,7 @@ public class Startup
     services
       .AddBlazorise( options =>
       {
-        options.ChangeTextOnKeyPress = true; // optional
+        options.Immediate = true; // optional
       } )
       .AddMaterialProviders()
       .AddMaterialIcons();
@@ -5432,16 +5432,16 @@ public class Startup
 }";
 
         public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
-    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
         This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
     </Div>
-    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
         This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
     </Div>
-    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
         This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
     </Div>
-    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromRight.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
         This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
     </Div>
 </Div>";

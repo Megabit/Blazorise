@@ -9,12 +9,12 @@
             <SidebarLabel>Main</SidebarLabel>
             <SidebarItem>
                 <SidebarLink To="#" Title="Home">
-                    <Icon Name="IconName.Home" Margin="Margin.Is3.FromRight" />Home
+                    <Icon Name="IconName.Home" Margin="Margin.Is3.FromEnd" />Home
                 </SidebarLink>
             </SidebarItem>
             <SidebarItem>
                 <SidebarLink Toggled="(isOpen)=> mailSidebarSubItems.Toggle(isOpen)" IsShow>
-                    <Icon Name="IconName.Mail" Margin="Margin.Is3.FromRight" />Email
+                    <Icon Name="IconName.Mail" Margin="Margin.Is3.FromEnd" />Email
                 </SidebarLink>
                 <SidebarSubItem @ref="mailSidebarSubItems" IsShow>
                     <SidebarItem>
@@ -28,7 +28,7 @@
             </SidebarItem>
             <SidebarItem>
                 <SidebarLink Toggled="(isOpen)=> appsSidebarSubItems.Toggle(isOpen)" IsShow>
-                    <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
+                    <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromEnd" />Apps
                 </SidebarLink>
                 <SidebarSubItem @ref="appsSidebarSubItems" IsShow>
                     <SidebarItem>

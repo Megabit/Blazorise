@@ -16,12 +16,12 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Show the snackbar on the left side of the screen.
         /// </summary>
-        Left,
+        Start,
 
         /// <summary>
         /// Show the snackbar on the right side of the screen.
         /// </summary>
-        Right,
+        End,
     }
 
     /// <summary>
@@ -37,12 +37,12 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Show the snackbar stack on the left side of the screen.
         /// </summary>
-        Left,
+        Start,
 
         /// <summary>
         /// Show the snackbar stack on the right side of the screen.
         /// </summary>
-        Right,
+        End,
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// No color will be applied to an element.
         /// </summary>
-        None,
+        Default,
 
         /// <summary>
         /// Primary color.

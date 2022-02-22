@@ -98,7 +98,7 @@ namespace Blazorise.Snackbar
         /// <param name="color">Message color.</param>
         /// <param name="options">Additional message options.</param>
         /// <returns>Returns awaitable task.</returns>
-        public Task PushAsync( string message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
+        public Task PushAsync( string message, SnackbarColor color = SnackbarColor.Default, Action<SnackbarOptions> options = null )
         {
             return PushAsync( (MarkupString)message, null, color, options );
         }
@@ -110,7 +110,7 @@ namespace Blazorise.Snackbar
         /// <param name="color">Message color.</param>
         /// <param name="options">Additional message options.</param>
         /// <returns>Returns awaitable task.</returns>
-        public Task PushAsync( MarkupString message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
+        public Task PushAsync( MarkupString message, SnackbarColor color = SnackbarColor.Default, Action<SnackbarOptions> options = null )
         {
             return PushAsync( message, null, color, options );
         }
@@ -123,7 +123,7 @@ namespace Blazorise.Snackbar
         /// <param name="color">Message color.</param>
         /// <param name="options">Additional message options.</param>
         /// <returns>Returns awaitable task.</returns>
-        public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
+        public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.Default, Action<SnackbarOptions> options = null )
         {
             return PushAsync( (MarkupString)message, title, color, options );
         }
@@ -136,7 +136,7 @@ namespace Blazorise.Snackbar
         /// <param name="color">Message color.</param>
         /// <param name="options">Additional message options.</param>
         /// <returns>Returns awaitable task.</returns>
-        public Task PushAsync( MarkupString message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
+        public Task PushAsync( MarkupString message, string title = null, SnackbarColor color = SnackbarColor.Default, Action<SnackbarOptions> options = null )
         {
             var snackbarOptions = CreateDefaultOptions();
             options?.Invoke( snackbarOptions );

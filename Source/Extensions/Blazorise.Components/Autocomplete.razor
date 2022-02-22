@@ -9,7 +9,7 @@
         {
             @foreach ( var selectedText in SelectedTexts )
             {
-                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromLeft" CloseClicked="async () => await RemoveMultipleText( selectedText )">@selectedText</Badge>
+                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleText( selectedText )">@selectedText</Badge>
             }
         }
 
@@ -24,9 +24,9 @@
                   KeyDown="@OnTextKeyDownHandler"
                   FocusIn="@OnTextFocusInHandler"
                   Blur="@OnTextBlurHandler"
-                  ChangeTextOnKeyPress="@ChangeTextOnKeyPress"
-                  DelayTextOnKeyPress="@DelayTextOnKeyPress"
-                  DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval"
+                  Immediate="@Immediate"
+                  Debounce="@Debounce"
+                  DebounceInterval="@DebounceInterval"
                   CustomValidationValue="@GetValidationValue">
             <Feedback>
                 <ValidationError />
