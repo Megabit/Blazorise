@@ -32,21 +32,21 @@
         /// <summary>
         /// Opens the linked document in the same frame as it was clicked (this is default).
         /// </summary>
-        public static readonly Target Self = new( "self" );
+        public static readonly Target Self = new( "_self" );
 
         /// <summary>
         /// Opens the linked document in a new window or tab.
         /// </summary>
-        public static readonly Target Blank = new( "blank" );
+        public static readonly Target Blank = new( "_blank" );
 
         /// <summary>
         /// Opens the linked document in the parent frame.
         /// </summary>
-        public static readonly Target Parent = new( "parent" );
+        public static readonly Target Parent = new( "_parent" );
 
         /// <summary>
         /// Opens the linked document in the full body of the window.
         /// </summary>
-        public static readonly Target Top = new( "top" );
+        public static readonly Target Top = new( "_top" );
     }
 }
