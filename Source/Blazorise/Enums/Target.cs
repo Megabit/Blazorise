@@ -48,5 +48,12 @@
         /// Opens the linked document in the full body of the window.
         /// </summary>
         public static readonly Target Top = new( "_top" );
+
+        /// <summary>
+        /// Opens the linked document in the named iframe.
+        /// </summary>
+        /// <param name="name">Name of the frame element.</param>
+        /// <returns>Returns the new target.</returns>
+        public static Target Frame( string name ) => new( name );
     }
 }
