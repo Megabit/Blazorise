@@ -53,7 +53,7 @@
                                             @column.Caption
                                         }
                                     }
-                                    @if ( Sortable && column.Sortable && column.CurrentSortDirection != SortDirection.Default )
+                                    @if ( Sortable && column.Sortable )
                                     {
                                         @if ( column.SortDirectionTemplate != null )
                                         {
@@ -61,7 +61,7 @@
                                         }
                                         else
                                         {
-                                            <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                            <Icon Name="@(column.CurrentSortDirection == SortDirection.Default ? IconName.Sort : ( column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp ) )" />
                                         }
                                     }
                                 </TableHeaderCell>
