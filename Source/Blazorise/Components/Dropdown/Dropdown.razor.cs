@@ -21,7 +21,7 @@ namespace Blazorise
         /// </summary>
         private DropdownState state = new()
         {
-            Direction = Direction.Down,
+            Direction = Direction.Default,
         };
 
         /// <summary>
