@@ -1,0 +1,53 @@
+﻿@page "/tests/dragdrop"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone)=>item.DropZoneName == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
+            <ChildContent>
+                <DropZone TItem="DropItem" Name="Basket" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Basket</Heading>
+                </DropZone>
+                <DropZone TItem="DropItem" Name="Fruit" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Fruit</Heading>
+                </DropZone>
+                <DropZone TItem="DropItem" Name="Vegetable" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Vegetable</Heading>
+                </DropZone>
+            </ChildContent>
+            <ItemTemplate>
+                <Card Shadow="Shadow.Default" Margin="Margin.Is3.OnY">
+                    <CardBody>
+                        <Image Source="@context.Image" Style="width:48px;height:48px;" />
+                        @context.Name
+                    </CardBody>
+                </Card>
+            </ItemTemplate>
+        </DropContainer>
+    </Column>
+</Row>
+@code {
+    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    {
+        dropItem.Item.DropZoneName = dropItem.DropZoneName;
+    }
+
+    private List<DropItem> items = new()
+    {
+        new DropItem() { Name = "Apple", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/apple.png" },
+        new DropItem() { Name = "Bananas", DropZoneName = "Fruit", Image = "_content/Blazorise.Demo/img/fruit/bananas.png" },
+        new DropItem() { Name = "Lemon", DropZoneName = "Fruit", Image = "_content/Blazorise.Demo/img/fruit/lemon.png" },
+        new DropItem() { Name = "Broccoli", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/broccoli.png" },
+        new DropItem() { Name = "Strawberry", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/strawberry.png" },
+        new DropItem() { Name = "Cherry", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cherry.png" },
+        new DropItem() { Name = "Cabbage", DropZoneName = "Vegetable", Image = "_content/Blazorise.Demo/img/fruit/cabbage.png" },
+    };
+
+    public class DropItem
+    {
+        public string Name { get; init; }
+
+        public string DropZoneName { get; set; }
+
+        public string Image { get; set; }
+    }
+}
