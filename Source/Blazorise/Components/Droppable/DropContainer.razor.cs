@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper component for the draggable items and dropzones.
+    /// </summary>
+    /// <typeparam name="TItem">Type of the draggable item.</typeparam>
     public partial class DropContainer<TItem> : BaseComponent
     {
         #region Members

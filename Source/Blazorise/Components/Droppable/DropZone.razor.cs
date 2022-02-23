@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper component that are actiong as a drop area for the drop items.
+    /// </summary>
+    /// <typeparam name="TItem">Type of the draggable item.</typeparam>
     public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     {
         #region Members
