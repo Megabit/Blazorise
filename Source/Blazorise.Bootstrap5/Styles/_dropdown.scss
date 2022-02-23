@@ -64,6 +64,12 @@
             > .dropdown-toggle {
                 width: 100%;
                 @include caret(down);
+
+                &::after {
+                    position: absolute;
+                    right: 10%;
+                    top: 45%;
+                }
             }
 
             > .dropdown-menu {
@@ -85,6 +91,12 @@
 
         > .dropdown-toggle {
             @include caret(up);
+
+            &::after {
+                position: absolute;
+                right: 10%;
+                top: 45%;
+            }
         }
     }
 
@@ -102,6 +114,9 @@
 
             &::after {
                 vertical-align: 0;
+                position: absolute;
+                right: 10%;
+                top: 45%;
             }
         }
     }
