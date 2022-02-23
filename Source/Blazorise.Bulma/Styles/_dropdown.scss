@@ -64,7 +64,6 @@
 }
 
 .dropdown {
-
     .dropdown-menu > .dropdown-content {
         .dropdown {
             width: 100%;
@@ -74,17 +73,13 @@
             width: 100%;
         }
 
+        .dropdown-item {
+            padding-right: .5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
         > .dropdown:not(.is-up, .is-right, .is-left) {
-
-            > .dropdown-trigger {
-                width: 100%;
-
-                > .dropdown-item {
-                    padding-right: .5rem;
-                    display: flex;
-                    justify-content: space-between;
-                }
-            }
 
             > .dropdown-menu {
                 display: none;

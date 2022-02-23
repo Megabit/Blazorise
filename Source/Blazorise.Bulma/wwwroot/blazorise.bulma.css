@@ -6136,10 +6136,7 @@ ol.is-ordered-list-upper-roman {
 .dropdown .dropdown-menu > .dropdown-content .dropdown-trigger {
   width: 100%;
 }
-.dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left) > .dropdown-trigger {
-  width: 100%;
-}
-.dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left) > .dropdown-trigger > .dropdown-item {
+.dropdown .dropdown-menu > .dropdown-content .dropdown-item {
   padding-right: 0.5rem;
   display: flex;
   justify-content: space-between;
