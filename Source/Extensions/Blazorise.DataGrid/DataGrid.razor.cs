@@ -438,11 +438,21 @@ namespace Blazorise.DataGrid
             {
                 if ( await IsSafeToProceed( RowRemoving, item ) )
                 {
+                    var itemIsSelected = SelectedRow.IsEqual( item );
                     if ( UseInternalEditing )
                     {
                         if ( data.Contains( item ) )
                             data.Remove( item );
+
+                        if ( itemIsSelected )
+                        {
+                            SelectedRow = default;
+                            await SelectedRowChanged.InvokeAsync( SelectedRow );
+                        }
                     }
+
+                    if ( editState == DataGridEditState.Edit && itemIsSelected )
+                        editState = DataGridEditState.None;
 
                     await RowRemoved.InvokeAsync( item );
 
