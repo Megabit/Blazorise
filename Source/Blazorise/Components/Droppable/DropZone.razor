@@ -12,7 +12,10 @@
                     var renderer = ItemTemplate ?? ParentContainer?.ItemTemplate;
                 }
 
-                @renderer(item)
+                @if ( renderer != null )
+                {
+                    @renderer(item)
+                }
             </_Draggable>
         }
     </div>
