@@ -20,11 +20,6 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Indicates that the parent container is initialized.
-        /// </summary>
-        private bool parentContainerInitialized;
-
-        /// <summary>
         /// Indicates that the drop operation is allowed.
         /// </summary>
         private bool dropAllowed;
@@ -44,18 +39,16 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override void OnParametersSet()
+        protected override void OnInitialized()
         {
-            if ( ParentContainer != null && !parentContainerInitialized )
+            if ( ParentContainer != null )
             {
-                parentContainerInitialized = true;
-
                 ParentContainer.TransactionStarted += OnContainerTransactionStarted;
                 ParentContainer.TransactionEnded += OnContainerTransactionEnded;
                 ParentContainer.RefreshRequested += OnContainerRefreshRequested;
             }
 
-            base.OnParametersSet();
+            base.OnInitialized();
         }
 
         /// <inheritdoc/>
@@ -139,6 +132,8 @@ namespace Blazorise
 
             itemOnDropZone = true;
             dropAllowed = canBeDropped;
+
+            DirtyClasses();
         }
 
         private void OnDragLeaveHandler()
@@ -151,6 +146,8 @@ namespace Blazorise
             }
 
             itemOnDropZone = false;
+
+            DirtyClasses();
         }
 
         private async Task OnDropHandler()
@@ -172,6 +169,8 @@ namespace Blazorise
             }
 
             await ParentContainer.CommitTransaction( Name );
+
+            DirtyClasses();
         }
 
         private (TItem, bool) ItemCanBeDropped()
