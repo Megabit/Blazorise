@@ -53,6 +53,16 @@ namespace Blazorise
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
                     await ParentValidation.InitializeInputExpression( expression );
 
+                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+                {
+                    // make sure we get the newest value
+                    var value = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
+                        ? paramText
+                        : InternalValue;
+
+                    await ParentValidation.InitializeInputPattern( pattern, value );
+                }
+
                 await InitializeValidation();
             }
         }
@@ -266,6 +276,14 @@ namespace Blazorise
         /// Specifies the number lines in the input element.
         /// </summary>
         [Parameter] public int? Rows { get; set; }
+
+        /// <summary>
+        /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
+        /// </summary>
+        /// <remarks>
+        /// Please be aware that <see cref="Pattern"/> on <see cref="MemoEdit"/> is used only for the validation process.
+        /// </remarks>
+        [Parameter] public string Pattern { get; set; }
 
         /// <summary>
         /// If true the text in will be changed after each key press.

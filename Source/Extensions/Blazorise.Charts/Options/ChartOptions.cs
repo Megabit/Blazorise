@@ -19,6 +19,9 @@ namespace Blazorise.Charts
         public ChartInteractions Interactions { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public ChartParsing Parsing { get; set; }
+
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string IndexAxis { get; set; }
 
         /// <summary>

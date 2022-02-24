@@ -30,8 +30,8 @@ namespace Blazorise
                 if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
                 {
                     // make sure we get the newest value
-                    var value = parameters.TryGetValue<string>( nameof( Text ), out var inText )
-                        ? inText
+                    var value = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
+                        ? paramText
                         : InternalValue;
 
                     await ParentValidation.InitializeInputPattern( pattern, value );
