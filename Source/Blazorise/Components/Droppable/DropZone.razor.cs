@@ -69,7 +69,7 @@ namespace Blazorise
             builder.Append( "b-drop-zone-drag-block", TransactionInProgress && TransactionSourceZoneName != Name );
             builder.Append( DropAllowedClass ?? ParentContainer?.DropAllowedClass ?? "b-drop-zone-drop-allowed", TransactionInProgress && TransactionSourceZoneName != Name && dropAllowed && ( itemOnDropZone || GetApplyDropClassesOnDragStarted() ) );
             builder.Append( DropNotAllowedClass ?? ParentContainer?.DropNotAllowedClass ?? "b-drop-zone-drop-not-allowed", TransactionInProgress && TransactionSourceZoneName != Name && !dropAllowed && ( itemOnDropZone || GetApplyDropClassesOnDragStarted() ) );
-            builder.Append( GetItemDraggingClass(), dragging );
+            builder.Append( GetDraggingClass(), dragging );
 
             base.BuildClasses( builder );
         }
@@ -227,14 +227,19 @@ namespace Blazorise
             return disabled;
         }
 
+        private string GetDraggingClass()
+        {
+            return DraggingClass ?? ParentContainer?.DraggingClass;
+        }
+
+        private string GetItemDisabledClass()
+        {
+            return DisabledClass ?? ParentContainer?.DisabledClass;
+        }
+
         private string GetItemDraggingClass()
         {
-            if ( !string.IsNullOrEmpty( ItemDraggingClass ) )
-            {
-                return ItemDraggingClass;
-            }
-
-            return ParentContainer?.ItemDraggingClass ?? null;
+            return ItemDraggingClass ?? ParentContainer?.ItemDraggingClass;
         }
 
         private bool GetApplyDropClassesOnDragStarted() => ( ApplyDropClassesOnDragStarted ?? ParentContainer?.ApplyDropClassesOnDragStarted ) ?? false;
