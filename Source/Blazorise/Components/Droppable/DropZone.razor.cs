@@ -99,7 +99,7 @@ namespace Blazorise
         {
             itemOnDropZone = false;
 
-            if ( GetApplyDropClassesOnDragStarted() == true )
+            if ( GetApplyDropClassesOnDragStarted() )
             {
                 dropAllowed = false;
             }
@@ -109,7 +109,7 @@ namespace Blazorise
 
         private void OnContainerTransactionStarted( object sender, DraggableTransaction<TItem> e )
         {
-            if ( GetApplyDropClassesOnDragStarted() == true )
+            if ( GetApplyDropClassesOnDragStarted() )
             {
                 var dropResult = ItemCanBeDropped();
 
