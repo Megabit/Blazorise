@@ -2,7 +2,7 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.IsFull">
-        <DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone)=>item.DropZoneName == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
+        <DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
             <ChildContent>
                 <DropZone TItem="DropItem" Name="Basket" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
                     <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Basket</Heading>
@@ -26,30 +26,30 @@
     </Column>
 </Row>
 @code {
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
-    {
-        dropItem.Item.DropZoneName = dropItem.DropZoneName;
-    }
-
-    private List<DropItem> items = new()
-        {
-            new DropItem() { Name = "Apple", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/apple.png", Fruit = true },
-            new DropItem() { Name = "Bananas", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/bananas.png", Fruit = true },
-            new DropItem() { Name = "Lemon", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/lemon.png", Fruit = true },
-            new DropItem() { Name = "Broccoli", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/broccoli.png" },
-            new DropItem() { Name = "Strawberry", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/strawberry.png", Fruit = true },
-            new DropItem() { Name = "Cherry", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cherry.png", Fruit = true },
-            new DropItem() { Name = "Cabbage", DropZoneName = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cabbage.png" },
-        };
-
     public class DropItem
     {
         public string Name { get; init; }
 
-        public string DropZoneName { get; set; }
+        public string Group { get; set; }
 
         public string Image { get; set; }
 
         public bool Fruit { get; set; }
+    }
+
+    private List<DropItem> items = new()
+    {
+        new DropItem() { Name = "Apple", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/apple.png", Fruit = true },
+        new DropItem() { Name = "Bananas", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/bananas.png", Fruit = true },
+        new DropItem() { Name = "Lemon", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/lemon.png", Fruit = true },
+        new DropItem() { Name = "Broccoli", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/broccoli.png" },
+        new DropItem() { Name = "Strawberry", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/strawberry.png", Fruit = true },
+        new DropItem() { Name = "Cherry", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cherry.png", Fruit = true },
+        new DropItem() { Name = "Cabbage", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cabbage.png" },
+    };
+
+    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    {
+        dropItem.Item.Group = dropItem.DropZoneName;
     }
 }
