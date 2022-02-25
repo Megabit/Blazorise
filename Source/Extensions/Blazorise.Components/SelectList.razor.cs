@@ -51,6 +51,12 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public string ElementId { get; set; }
 
+
+        /// <summary>
+        /// Specifies that multiple items can be selected.
+        /// </summary>
+        [Parameter] public bool Multiple { get; set; }
+
         /// <summary>
         /// Gets or sets the select data-source.
         /// </summary>
