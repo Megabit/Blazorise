@@ -221,6 +221,9 @@
     <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
         Template for custom title of edit popup dialog
     </DocsAttributesItem>
+    <DocsAttributesItem Name="NewItemCreator" Type="Func<TItem>">
+        Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemDefaultSetter" Type="Action<TItem>">
         Action will be called for setting default values of property, when create new entry
     </DocsAttributesItem>
