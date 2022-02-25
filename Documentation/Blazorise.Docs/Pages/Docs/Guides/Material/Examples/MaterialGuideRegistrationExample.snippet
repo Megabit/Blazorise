@@ -1,0 +1,11 @@
+﻿using Blazorise;
+using Blazorise.Material;
+using Blazorise.Icons.Material;
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddMaterialProviders()
+    .AddMaterialIcons();
