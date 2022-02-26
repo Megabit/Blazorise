@@ -1,0 +1,11 @@
+﻿using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddBootstrap5Providers()
+    .AddFontAwesomeIcons();
