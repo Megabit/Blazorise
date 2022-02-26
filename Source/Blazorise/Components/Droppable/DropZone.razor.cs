@@ -95,18 +95,6 @@ namespace Blazorise
             await base.DisposeAsync( disposing );
         }
 
-        private void OnContainerTransactionEnded( object sender, EventArgs e )
-        {
-            itemOnDropZone = false;
-
-            if ( GetApplyDropClassesOnDragStarted() )
-            {
-                dropAllowed = false;
-            }
-
-            InvokeAsync( StateHasChanged );
-        }
-
         private void OnContainerTransactionStarted( object sender, DraggableTransaction<TItem> e )
         {
             if ( GetApplyDropClassesOnDragStarted() )
@@ -119,7 +107,26 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
-        private void OnContainerRefreshRequested( object sender, EventArgs e ) => InvokeAsync( StateHasChanged );
+        private void OnContainerTransactionEnded( object sender, EventArgs e )
+        {
+            itemOnDropZone = false;
+
+            if ( GetApplyDropClassesOnDragStarted() )
+            {
+                dropAllowed = false;
+            }
+
+            DirtyClasses();
+
+            InvokeAsync( StateHasChanged );
+        }
+
+        private void OnContainerRefreshRequested( object sender, EventArgs e )
+        {
+            DirtyClasses();
+
+            InvokeAsync( StateHasChanged );
+        }
 
         private void OnDragEnterHandler()
         {
@@ -163,6 +170,8 @@ namespace Blazorise
 
             if ( !canBeDropped )
             {
+                DirtyClasses();
+
                 await ParentContainer.CancelTransaction();
 
                 return;
