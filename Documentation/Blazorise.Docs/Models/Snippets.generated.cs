@@ -4825,71 +4825,17 @@ namespace Blazorise.Docs.Models
 
         public const string AntDesignGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
 
-        public const string AntDesignGuideRegistration1Example = @"// other usings
-using Blazorise;
+        public const string AntDesignGuideRegistrationExample = @"using Blazorise;
 using Blazorise.AntDesign;
 using Blazorise.Icons.FontAwesome;
 
-public class Program
-{
-  public static async Task Main( string[] args )
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault( args );
-
-    builder.Services
-      .AddBlazorise( options =>
-      {
-          options.Immediate = true;
-      } )
-      .AddAntDesignProviders()
-      .AddFontAwesomeIcons();
-
-    builder.Services.AddSingleton( new HttpClient
+builder.Services
+    .AddBlazorise( options =>
     {
-      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-    } );
-
-    builder.RootComponents.Add<App>( ""#app"" );
-
-    var host = builder.Build();
-
-    await host.RunAsync();
-  }
-}";
-
-        public const string AntDesignGuideRegistration2Example = @"// other usings
-using Blazorise;
-using Blazorise.AntDesign;
-using Blazorise.Icons.FontAwesome;
-
-public class Startup
-{
-  public void ConfigureServices( IServiceCollection services )
-  {
-    services
-      .AddBlazorise( options =>
-      {
-        options.Immediate = true;
-      } )
-      .AddAntDesignProviders()
-      .AddFontAwesomeIcons();
-
-    // other services
-  }
-
-  public void Configure( IComponentsApplicationBuilder app )
-  {
-    // other settings
-    
-    app.UseRouting();
-    
-    app.UseEndpoints( endpoints =>
-    {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage( ""/_Host"" );
-    } );
-  }
-}";
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddAntDesignProviders()
+    .AddFontAwesomeIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
 <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
@@ -4902,71 +4848,17 @@ public class Startup
 
         public const string BootstrapGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
 
-        public const string BootstrapGuideRegistration1Example = @"// other usings
-using Blazorise;
+        public const string BootstrapGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 
-public class Program
-{
-  public static async Task Main( string[] args )
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault( args );
-
-    builder.Services
-      .AddBlazorise( options =>
-      {
-          options.Immediate = true;
-      } )
-      .AddBootstrapProviders()
-      .AddFontAwesomeIcons();
-    
-    builder.Services.AddSingleton( new HttpClient
+builder.Services
+    .AddBlazorise( options =>
     {
-      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-    } );
-
-    builder.RootComponents.Add<App>( ""#app"" );
-
-    var host = builder.Build();
-
-    await host.RunAsync();
-  }
-}";
-
-        public const string BootstrapGuideRegistration2Example = @"// other usings
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
-
-public class Startup
-{
-  public void ConfigureServices( IServiceCollection services )
-  {
-    services
-      .AddBlazorise( options =>
-      {
-        options.Immediate = true; // optional
-      } )
-      .AddBootstrapProviders()
-      .AddFontAwesomeIcons();
-
-    // other services
-  }
-
-  public void Configure( IComponentsApplicationBuilder app )
-  {
-    // other settings
-    
-    app.UseRouting();
-    
-    app.UseEndpoints( endpoints =>
-    {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage( ""/_Host"" );
-    } );
-  }
-}";
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();";
 
         public const string BootstrapGuideSourceFilesExample = @"<html>
 <head>
@@ -4993,71 +4885,17 @@ public class Startup
 
         public const string Bootstrap5GuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
 
-        public const string Bootstrap5GuideRegistration1Example = @"// other usings
-using Blazorise;
+        public const string Bootstrap5GuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 
-public class Program
-{
-  public static async Task Main( string[] args )
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault( args );
-
-    builder.Services
-      .AddBlazorise( options =>
-      {
-          options.Immediate = true;
-      } )
-      .AddBootstrap5Providers()
-      .AddFontAwesomeIcons();
-    
-    builder.Services.AddSingleton( new HttpClient
+builder.Services
+    .AddBlazorise( options =>
     {
-      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-    } );
-
-    builder.RootComponents.Add<App>( ""#app"" );
-
-    var host = builder.Build();
-
-    await host.RunAsync();
-  }
-}";
-
-        public const string Bootstrap5GuideRegistration2Example = @"// other usings
-using Blazorise;
-using Blazorise.Bootstrap5;
-using Blazorise.Icons.FontAwesome;
-
-public class Startup
-{
-  public void ConfigureServices( IServiceCollection services )
-  {
-    services
-      .AddBlazorise( options =>
-      {
-        options.Immediate = true; // optional
-      } )
-      .AddBootstrap5Providers()
-      .AddFontAwesomeIcons();
-
-    // other services
-  }
-
-  public void Configure( IComponentsApplicationBuilder app )
-  {
-    // other settings
-    
-    app.UseRouting();
-    
-    app.UseEndpoints( endpoints =>
-    {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage( ""/_Host"" );
-    } );
-  }
-}";
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddBootstrap5Providers()
+    .AddFontAwesomeIcons();";
 
         public const string Bootstrap5GuideSourceFilesExample = @"<html>
 <head>
@@ -5082,71 +4920,17 @@ public class Startup
 
         public const string BulmaGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
 
-        public const string BulmaGuideRegistration1Example = @"// other usings
-using Blazorise;
+        public const string BulmaGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bulma;
 using Blazorise.Icons.FontAwesome;
 
-public class Program
-{
-  public static async Task Main( string[] args )
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault( args );
-
-    builder.Services
-      .AddBlazorise( options =>
-      {
-          options.Immediate = true;
-      } )
-      .AddBulmaProviders()
-      .AddFontAwesomeIcons();
-
-    builder.Services.AddSingleton( new HttpClient
+builder.Services
+    .AddBlazorise( options =>
     {
-      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-    } );
-
-    builder.RootComponents.Add<App>( ""#app"" );
-
-    var host = builder.Build();
-
-    await host.RunAsync();
-  }
-}";
-
-        public const string BulmaGuideRegistration2Example = @"// other usings
-using Blazorise;
-using Blazorise.Bulma;
-using Blazorise.Icons.FontAwesome;
-
-public class Startup
-{
-  public void ConfigureServices( IServiceCollection services )
-  {
-    services
-      .AddBlazorise( options =>
-      {
-        options.Immediate = true;
-      } )
-      .AddBulmaProviders()
-      .AddFontAwesomeIcons();
-
-    // other services
-  }
-
-  public void Configure( IComponentsApplicationBuilder app )
-  {
-    // other settings
-    
-    app.UseRouting();
-    
-    app.UseEndpoints( endpoints =>
-    {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage( ""/_Host"" );
-    } );
-  }
-}";
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddBulmaProviders()
+    .AddFontAwesomeIcons();";
 
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"" />
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
@@ -5165,66 +4949,17 @@ public class Startup
 
         public const string MaterialGuideNuget2Example = @"Install-Package Blazorise.Icons.Material";
 
-        public const string MaterialGuideRegistration1Example = @"public class Program
-{
-  public static async Task Main( string[] args )
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault( args );
-
-    builder.Services
-      .AddBlazorise( options =>
-      {
-          options.Immediate = true;
-      } )
-      .AddMaterialProviders()
-      .AddMaterialIcons();
-
-    builder.Services.AddSingleton( new HttpClient
-    {
-      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
-    } );
-
-    builder.RootComponents.Add<App>( ""#app"" );
-
-    var host = builder.Build();
-
-    await host.RunAsync();
-  }
-}";
-
-        public const string MaterialGuideRegistration2Example = @"// other usings
-using Blazorise;
+        public const string MaterialGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Material;
-using Blazorise.Icons.FontAwesome;
+using Blazorise.Icons.Material;
 
-public class Startup
-{
-  public void ConfigureServices( IServiceCollection services )
-  {
-    services
-      .AddBlazorise( options =>
-      {
-        options.Immediate = true; // optional
-      } )
-      .AddMaterialProviders()
-      .AddMaterialIcons();
-
-    // other services
-  }
-
-  public void Configure( IComponentsApplicationBuilder app )
-  {
-    // other settings
-    
-    app.UseRouting();
-    
-    app.UseEndpoints( endpoints =>
+builder.Services
+    .AddBlazorise( options =>
     {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage( ""/_Host"" );
-    } );
-  }
-}";
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddMaterialProviders()
+    .AddMaterialIcons();";
 
         public const string MaterialGuideSourceFilesExample = @"<!-- Material CSS -->
 <link href=""css/material.min.css"" rel=""stylesheet"">

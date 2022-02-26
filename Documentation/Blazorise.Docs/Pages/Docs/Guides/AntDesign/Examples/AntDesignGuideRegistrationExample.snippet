@@ -1,0 +1,11 @@
+﻿using Blazorise;
+using Blazorise.AntDesign;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddAntDesignProviders()
+    .AddFontAwesomeIcons();

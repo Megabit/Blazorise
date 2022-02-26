@@ -56,50 +56,21 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        In your main _Imports.razor add:
+        In your main <Code>_Imports.razor</Code> add:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="AntDesignGuideUsingExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    4. Registrations
+    4. Register Services
 </DocsPageSubtitle>
 
-<DocsPageParagraph>
-    Depending on the hosting model of your Blazor project you only need to apply either step <Strong>4.a</Strong> or <Strong>4.b</Strong>.
-    You should not include both of them as that is generally not supported.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    To Learn more about the different project types you can go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models" Target="Target.Blank">official documentation</Blazorise.Link>.
-</DocsPageParagraph>
-
-<Tabs @bind-SelectedTab="@selectedSection4">
-    <Items>
-        <Tab Name="4a" TextWeight="TextWeight.Bold">4.a Blazor WebAssembly</Tab>
-        <Tab Name="4b" TextWeight="TextWeight.Bold">4.b Blazor Server</Tab>
-    </Items>
-    <Content>
-        <TabPanel Name="4a" Padding="Padding.Is2.FromTop">
-            <DocsPageSection>
-                <DocsPageSectionHeader>
-                    This step is mandatory for <Strong>Blazor WebAssembly</Strong> (client-side).
-                    You should place the code into the <Strong>Program.cs</Strong> of your client project injecting the required Blazorise dependencies.
-                </DocsPageSectionHeader>
-                <DocsPageSectionSource Code="AntDesignGuideRegistration1Example" />
-            </DocsPageSection>
-        </TabPanel>
-        <TabPanel Name="4b" Padding="Padding.Is2.FromTop">
-            <DocsPageSection>
-                <DocsPageSectionHeader>
-                    For <Strong>Blazor Server</Strong> project, or any regular <Strong>ASP.NET Core hosted</Strong> project types.
-                    You should place the code into the <Strong>Startup.cs</Strong> injecting the required Blazorise dependencies.
-                </DocsPageSectionHeader>
-                <DocsPageSectionSource Code="AntDesignGuideRegistration2Example" />
-            </DocsPageSection>
-        </TabPanel>
-    </Content>
-</Tabs>
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Add the following lines to the relevant sections of <Code>Program.cs</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="AntDesignGuideRegistrationExample" />
+</DocsPageSection>
 
 <DocsPageSubtitle>
     5. PWA & Offline Support
