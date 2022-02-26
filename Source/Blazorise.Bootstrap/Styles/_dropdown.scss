@@ -81,6 +81,14 @@
                 right: auto;
             }
         }
+
+        > .dropdown.dropup, > .dropdown.dropleft, > .dropdown.dropright {
+            .dropdown-toggle::after {
+                position: absolute;
+                right: 10%;
+                top: 45%;
+            }
+        }
     }
 
     &.dropup {
@@ -101,9 +109,6 @@
             border-right: .3em solid transparent;
             border-bottom: .3em solid;
             border-left: .3em solid transparent;
-            position: absolute;
-            right: 10%;
-            top: 45%;
         }
     }
 
@@ -127,9 +132,6 @@
             border-bottom: .3em solid transparent;
             border-left: .3em solid;
             vertical-align: 0;
-            position: absolute;
-            right: 10%;
-            top: 45%;
         }
     }
 
@@ -152,9 +154,6 @@
             border-right: .3em solid;
             border-bottom: .3em solid transparent;
             vertical-align: 0;
-            position: absolute;
-            right: 10%;
-            top: 45%;
         }
     }
 }
