@@ -79,6 +79,21 @@
                 right: auto;
             }
         }
+
+        > .dropdown.dropup, > .dropdown.dropend {
+            .dropdown-toggle::after {
+                vertical-align: 0;
+                position: absolute;
+                right: 10%;
+                top: 45%;
+            }
+        }
+
+        > .dropdown.dropstart {
+            .dropdown-toggle::after {
+                vertical-align: 0;
+            }
+        }
     }
 
     &.dropup {
@@ -91,12 +106,6 @@
 
         > .dropdown-toggle {
             @include caret(up);
-
-            &::after {
-                position: absolute;
-                right: 10%;
-                top: 45%;
-            }
         }
     }
 
@@ -114,9 +123,6 @@
 
             &::after {
                 vertical-align: 0;
-                position: absolute;
-                right: 10%;
-                top: 45%;
             }
         }
     }

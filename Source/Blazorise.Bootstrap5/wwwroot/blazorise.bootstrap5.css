@@ -233,6 +233,15 @@ input[type=button].btn-block {
   bottom: auto;
   right: auto;
 }
+.dropdown > .dropdown-menu > .dropdown.dropup .dropdown-toggle::after, .dropdown > .dropdown-menu > .dropdown.dropend .dropdown-toggle::after {
+  vertical-align: 0;
+  position: absolute;
+  right: 10%;
+  top: 45%;
+}
+.dropdown > .dropdown-menu > .dropdown.dropstart .dropdown-toggle::after {
+  vertical-align: 0;
+}
 .dropdown.dropup > .dropdown-menu {
   top: auto;
   bottom: 100%;
@@ -251,11 +260,6 @@ input[type=button].btn-block {
 }
 .dropdown.dropup > .dropdown-toggle:empty::after {
   margin-left: 0;
-}
-.dropdown.dropup > .dropdown-toggle::after {
-  position: absolute;
-  right: 10%;
-  top: 45%;
 }
 .dropdown.dropend > .dropdown-menu {
   top: 0;
@@ -279,9 +283,6 @@ input[type=button].btn-block {
 }
 .dropdown.dropend > .dropdown-toggle::after {
   vertical-align: 0;
-  position: absolute;
-  right: 10%;
-  top: 45%;
 }
 .dropdown.dropstart > .dropdown-menu {
   top: 0;
