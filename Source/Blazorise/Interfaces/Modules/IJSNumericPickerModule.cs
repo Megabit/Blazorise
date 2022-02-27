@@ -31,6 +31,14 @@ namespace Blazorise.Modules
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
 
+        /// <summary>
+        /// Updates the <see cref="NumericPicker{TValue}"/> value.
+        /// </summary>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <param name="value">New value.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask UpdateValue<TValue>( ElementReference elementRef, string elementId, TValue value );
     }
 }

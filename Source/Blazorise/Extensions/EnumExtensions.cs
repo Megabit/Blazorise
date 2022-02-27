@@ -101,6 +101,7 @@
         {
             CurrencySymbolPlacement.Suffix => "s",
             CurrencySymbolPlacement.Prefix => "p",
+            _ => "p",
         };
 
         public static string ToNumericRoundingMethod( this NumericRoundingMethod numericRoundingMethod ) => numericRoundingMethod switch
@@ -118,6 +119,7 @@
             NumericRoundingMethod.ToNearest05Alt => "CHF",
             NumericRoundingMethod.UpToNext05 => "U05",
             NumericRoundingMethod.DownToNext05 => "D05",
+            _ => "S",
         };
 
         public static object ToNumericDecimalPadding( this NumericAllowDecimalPadding numericAllowDecimalPadding ) => numericAllowDecimalPadding switch
@@ -125,6 +127,7 @@
             NumericAllowDecimalPadding.Always => true,
             NumericAllowDecimalPadding.Never => false,
             NumericAllowDecimalPadding.Floats => "floats",
+            _ => true
         };
 
         /// <summary>
