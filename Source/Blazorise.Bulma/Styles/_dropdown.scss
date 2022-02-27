@@ -63,40 +63,83 @@
     }
 }
 
-.dropdown.is-active {
+.dropdown {
     .dropdown-menu > .dropdown-content {
-        > .dropdown {
+        .dropdown {
             width: 100%;
+        }
 
-            &::after {
-                transform: rotate(-90deg);
-                position: absolute;
-                right: 6px;
-                top: .8em;
-            }
+        .dropdown-trigger {
+            width: 100%;
+        }
 
-            > .dropdown-trigger {
-                width: 100%;
+        .dropdown-item {
+            padding-right: .5rem;
+            display: flex;
+            justify-content: space-between;
+        }
 
-                > .dropdown-item {
-                    padding-right: .5rem;
-                    display: flex;
-                    justify-content: space-between;
-                }
-            }
+        > .dropdown:not(.is-up, .is-right, .is-left) {
 
             > .dropdown-menu {
                 display: none;
-                top: 0;
-                left: 100%;
-                margin-left: 0rem;
-                margin-right: .1rem;
+                left: 0;
+                min-width: 12rem;
+                padding-top: 4px;
+                position: absolute;
+                top: 100%;
             }
 
             &.is-active {
                 > .dropdown-menu {
                     display: block;
                 }
+            }
+        }
+    }
+
+    &.is-up {
+        > .dropdown-menu {
+            display: none !important;
+            bottom: 100%;
+            padding-bottom: 4px;
+            padding-top: initial;
+            top: auto;
+        }
+
+        &.is-active {
+            > .dropdown-menu {
+                display: block !important;
+            }
+        }
+    }
+
+    &.is-right {
+        > .dropdown-menu {
+            display: none !important;
+            left: auto;
+            bottom: auto;
+            right: 0;
+        }
+
+        &.is-active {
+            > .dropdown-menu {
+                display: block !important;
+            }
+        }
+    }
+
+    &.is-left {
+        > .dropdown-menu {
+            left: 0;
+            right: auto;
+            bottom: auto;
+            display: none !important;
+        }
+
+        &.is-active {
+            > .dropdown-menu {
+                display: block !important;
             }
         }
     }

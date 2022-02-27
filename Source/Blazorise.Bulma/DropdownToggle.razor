@@ -1,74 +1,87 @@
 ﻿@inherits Blazorise.DropdownToggle
 <div class="dropdown-trigger">
-    @if ( IsGroup )
+    @if (IsGroup)
     {
         <div class="control">
             <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
-                @if ( ChildContent != null )
+                @if (ChildContent != null)
                 {
                     <span>@ChildContent</span>
                 }
-                @if ( IsToggleIconVisible )
-                {
-                    <span class="icon is-small">
-                        @if ( ParentDropdownState.Visible )
-                        {
-                            <Icon Name="IconName.AngleUp" />
-                        }
-                        else
-                        {
-                            <Icon Name="IconName.AngleDown" />
-                        }
-                    </span>
-                }
+                @iconFragment(this)
             </button>
         </div>
     }
     else
     {
-        @if ( ParentDropdown?.IsDropdownSubmenu == true )
+        @if (ParentDropdown?.IsDropdownSubmenu == true)
         {
             <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
-                @if ( ChildContent != null )
+                @if (ChildContent != null)
                 {
                     <span>@ChildContent</span>
                 }
-                @if ( IsToggleIconVisible )
-                {
-                    <span class="icon is-small">
-                        @if ( ParentDropdownState.Visible )
-                        {
-                            <Icon Name="IconName.AngleLeft" />
-                        }
-                        else
-                        {
-                            <Icon Name="IconName.AngleRight" />
-                        }
-                    </span>
-                }
+                @iconFragment(this)
             </a>
         }
         else
         {
             <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
-                @if ( ChildContent != null )
+                @if (ChildContent != null)
                 {
                     <span>@ChildContent</span>
                 }
-                @if ( IsToggleIconVisible )
-                {
-                    <span class="icon is-small">
-                        @if ( ParentDropdownState.Visible )
-                        {
-                            <Icon Name="IconName.AngleUp" />
-                        }
-                        else
-                        {
-                            <Icon Name="IconName.AngleDown" />
-                        }
-                    </span>
-                }
+                @iconFragment(this)
             </button>
         }
     }
 </div>
+
+@code {
+    private RenderFragment<DropdownToggle> iconFragment => dropdown => __builder =>
+                {
+                @if (dropdown.IsToggleIconVisible)
+                    {
+                    <span class="icon is-small">
+                        @if (dropdown.ParentDropdownState.Visible)
+                            {
+                                if (dropdown.ParentDropdown.Direction == Direction.Up)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Down || dropdown.ParentDropdown.Direction == Direction.Default)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Start)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.End)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
+                            }
+                            else
+                            {
+                                if (dropdown.ParentDropdown.Direction == Direction.Up)
+                                {
+                                <Icon Name="IconName.AngleUp" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Down || dropdown.ParentDropdown.Direction == Direction.Default)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.Start)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
+                                else if (dropdown.ParentDropdown.Direction == Direction.End)
+                                {
+                                <Icon Name="IconName.AngleDown" />
+                                }
+                            }
+                    </span>
+                    }
+                };
+}

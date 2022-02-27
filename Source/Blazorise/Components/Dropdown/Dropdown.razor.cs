@@ -21,7 +21,7 @@ namespace Blazorise
         /// </summary>
         private DropdownState state = new()
         {
-            Direction = Direction.Down,
+            Direction = Direction.Default,
         };
 
         /// <summary>
@@ -94,11 +94,14 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
             builder.Append( ClassProvider.DropdownShow(), Visible );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
-            builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
+            builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
             builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
 
             base.BuildClasses( builder );
         }
+
+        private Direction GetDropdownDirection()
+            => IsDropdownSubmenu && Direction == Direction.Default ? Direction.End : Direction;
 
         /// <inheritdoc/>
         protected override void Dispose( bool disposing )

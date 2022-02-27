@@ -6130,32 +6130,55 @@ ol.is-ordered-list-upper-roman {
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
-.dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown {
+.dropdown .dropdown-menu > .dropdown-content .dropdown {
   width: 100%;
 }
-.dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown::after {
-  transform: rotate(-90deg);
-  position: absolute;
-  right: 6px;
-  top: 0.8em;
-}
-.dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown > .dropdown-trigger {
+.dropdown .dropdown-menu > .dropdown-content .dropdown-trigger {
   width: 100%;
 }
-.dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown > .dropdown-trigger > .dropdown-item {
+.dropdown .dropdown-menu > .dropdown-content .dropdown-item {
   padding-right: 0.5rem;
   display: flex;
   justify-content: space-between;
 }
-.dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown > .dropdown-menu {
+.dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left) > .dropdown-menu {
   display: none;
-  top: 0;
-  left: 100%;
-  margin-left: 0rem;
-  margin-right: 0.1rem;
+  left: 0;
+  min-width: 12rem;
+  padding-top: 4px;
+  position: absolute;
+  top: 100%;
 }
-.dropdown.is-active .dropdown-menu > .dropdown-content > .dropdown.is-active > .dropdown-menu {
+.dropdown .dropdown-menu > .dropdown-content > .dropdown:not(.is-up, .is-right, .is-left).is-active > .dropdown-menu {
   display: block;
+}
+.dropdown.is-up > .dropdown-menu {
+  display: none !important;
+  bottom: 100%;
+  padding-bottom: 4px;
+  padding-top: initial;
+  top: auto;
+}
+.dropdown.is-up.is-active > .dropdown-menu {
+  display: block !important;
+}
+.dropdown.is-right > .dropdown-menu {
+  display: none !important;
+  left: auto;
+  bottom: auto;
+  right: 0;
+}
+.dropdown.is-right.is-active > .dropdown-menu {
+  display: block !important;
+}
+.dropdown.is-left > .dropdown-menu {
+  left: 0;
+  right: auto;
+  bottom: auto;
+  display: none !important;
+}
+.dropdown.is-left.is-active > .dropdown-menu {
+  display: block !important;
 }
 
 label.radio.button {
