@@ -1,0 +1,22 @@
+﻿@namespace Blazorise
+@typeparam TItem
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @ondragenter="@OnDragEnterHandler" @ondragleave="@OnDragLeaveHandler" @ondrop="@OnDropHandler" @attributes="@Attributes">
+        @ChildContent
+
+        @foreach ( var item in GetItems() )
+        {
+            <_Draggable @key="@item" TItem="TItem" Item="@item" ZoneName="@Name" DraggingClass="@GetItemDraggingClass()" Disabled="@GetItemDisabled(item)" DisabledClass="@GetItemDisabledClass()" DragStarted="@OnDragStarted" DragEnded="@OnDragEnded">
+                @{
+                    var renderer = ItemTemplate ?? ParentContainer?.ItemTemplate;
+                }
+
+                @if ( renderer != null )
+                {
+                    @renderer(item)
+                }
+            </_Draggable>
+        }
+    </div>
+</CascadingValue>

@@ -1,0 +1,123 @@
+﻿@page "/docs/components/dragdrop"
+
+<Seo Canonical="/docs/components/dropzone" Title="Blazorise DropZone system" Description="The DropZone component allows you to easily drag and drop any component or HTML element." />
+
+<DocsPageTitle>
+    Drag & Drop
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The Drag & Drop is comprised of <Code>DropContainer</Code> and <Code>DropZone</Code> components. The <Code>DropContainer</Code> is used as a container for all items that are being dragged,
+    along with the <Code>DropZone</Code>'s that are basically an areas to drag the items.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>DropContainer</Code>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>DropZone</Code>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        <Paragraph>
+            To start, first define a <Code>DropContainer</Code> and assign the <Code>Items</Code> to it.
+        </Paragraph>
+        <Paragraph>
+            Next you define <Code>DropZone</Code>'s and assign them a unique <Code>Name</Code>. The <Code>Name</Code>, along with the <Code>ItemsFilter</Code> parameter is used to determine to which <Code>DropZone</Code> an item will belong.
+        </Paragraph>
+        <Paragraph>
+            The callback <Code>ItemDropped</Code> is used to update the data item, when a drag operation has finished.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicDragDropExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicDragDropExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes Title="DropContainer">
+    <DocsAttributesItem Name="TItem" Type="generic">
+        <Code>Items</Code> data type.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Items" Type="IEnumerable<TItem>">
+        Items that are used for the drag&amp;drop withing the container.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsFilter" Type="Func<TItem, string, bool>">
+        The method used to determine if the item belongs to the dropzone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemTemplate" Type="RenderFragment<TItem>">
+        The render method that is used to render the items withing the dropzone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemDropped" Type="EventCallback<DraggableDroppedEventArgs<TItem>>">
+        Callback that indicates that an item has been dropped on a drop zone. Should be used to update the "status" of the data item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropAllowed" Type="Func<TItem, string, bool>" Default="null">
+        Determines if the item is allowed to be dropped to the specified zone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropAllowedClass" Type="string" Default="null">
+        Classname that is applied if dropping to the current zone is allowed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropNotAllowedClass" Type="string" Default="null">
+        Classname that is applied if dropping to the current zone is not allowed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemDisabled" Type="Func<TItem, bool>" Default="null">
+        Determines if the item is disabled for dragging and dropping.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisabledClass" Type="string" Default="null">
+        Classname that is applied to the dropzone if the result of <Code>ItemDisabled</Code> is false.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DraggingClass" Type="string" Default="null">
+        Classname that is applied to the dropzone when the drag operation has started.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemDraggingClass" Type="string" Default="null">
+        Classname that is applied to the drag item when it is being dragged.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DropZone">
+    <DocsAttributesItem Name="Name" Type="string" Default="null">
+        Gets or sets the unique name of the dropzone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsFilter" Type="Func<TItem, bool>">
+        The method used to determine if the item belongs to the dropzone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemTemplate" Type="RenderFragment<TItem>">
+        The render method that is used to render the items withing the dropzone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropAllowed" Type="Func<TItem, string, bool>" Default="null">
+        Determines if the item is allowed to be dropped to the specified zone.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropAllowedClass" Type="string" Default="null">
+        Classname that is applied if dropping to the current zone is allowed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropNotAllowedClass" Type="string" Default="null">
+        Classname that is applied if dropping to the current zone is not allowed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemDisabled" Type="Func<TItem, bool>" Default="null">
+        Determines if the item is disabled for dragging and dropping.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisabledClass" Type="string" Default="null">
+        Classname that is applied to the dropzone if the result of <Code>ItemDisabled</Code> is false.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DraggingClass" Type="string" Default="null">
+        Classname that is applied to the dropzone when the drag operation has started.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemDraggingClass" Type="string" Default="null">
+        Classname that is applied to the drag item when it is being dragged.
+    </DocsAttributesItem>
+</DocsAttributes>

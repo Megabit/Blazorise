@@ -1,0 +1,11 @@
+﻿using Blazorise;
+using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.ChangeTextOnKeyPress = true;
+    } )
+    .AddBulmaProviders()
+    .AddFontAwesomeIcons();
