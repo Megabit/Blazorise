@@ -12,7 +12,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets whether the component has any animations.
         /// </summary>
-        public bool IsAnimated { get; set; }
+        public bool Animated { get; set; }
 
         /// <summary>
         /// Gets or sets the animation duration.

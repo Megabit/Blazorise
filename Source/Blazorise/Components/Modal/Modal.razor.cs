@@ -110,7 +110,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Modal() );
-            builder.Append( ClassProvider.ModalFade( IsAnimated ) );
+            builder.Append( ClassProvider.ModalFade( Animated ) );
             builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
             base.BuildClasses( builder );
@@ -193,7 +193,7 @@ namespace Blazorise
             {
                 await SetVisibleState( true );
 
-                if ( !IsAnimated )
+                if ( !Animated )
                 {
                     DirtyClasses();
                     DirtyStyles();
@@ -228,7 +228,7 @@ namespace Blazorise
             {
                 await SetVisibleState( false );
 
-                if ( !IsAnimated )
+                if ( !Animated )
                 {
                     DirtyClasses();
                     DirtyStyles();
@@ -532,10 +532,10 @@ namespace Blazorise
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        /// inheritdoc
-        [Parameter] public bool IsAnimated { get; set; } = true;
+        /// <inheritdoc/>
+        [Parameter] public bool Animated { get; set; } = true;
 
-        /// inheritdoc
+        /// <inheritdoc/>
         [Parameter] public int AnimationDuration { get; set; } = 150;
 
         /// <summary>

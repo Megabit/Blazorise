@@ -27,7 +27,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Run( bool visible )
         {
-            if ( component is IAnimatedComponent animatedComponent && animatedComponent.IsAnimated )
+            if ( component is IAnimatedComponent animatedComponent && animatedComponent.Animated )
             {
                 await animatedComponent.BeginAnimation( visible );
 
