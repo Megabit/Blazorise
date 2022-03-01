@@ -3,21 +3,42 @@
 <Seo Canonical="news/release-notes/100" Title="Blazorise v1.0" Description="Blazorise v1.0" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.0.0
+    Announcing Blazorise 1.0
 </NewsPageTitle>
 
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 1st, 2022" Read="4 min" />
+
 <Paragraph>
-    Today, we are happy to announce the release of Blazorise 1.0.0. In this post, we’re covering a lot of the new Blazorise features
-    that will make your app development easier to build and use.
+    Today, we are happy to announce the long-awaited release of Blazorise 1.0. In this post, we're covering many new Blazorise features that will make your app development easier to build and use, along with some of the API changes required to get you started.
+</Paragraph>
+
+<Paragraph>
+    The new year is often the time for new beginnings, and 2022 is on schedule to mark a new chapter in Blazorise's history. Slowly but steadily, we were getting to release the latest major version of the library — Blazorise 1.0; The road to getting here was not easy.
+</Paragraph>
+
+<Paragraph>
+    Throughout the last three years, the core of the Blazorise has seen a lot of improvements and refactoring to bring it to the next level in terms of maintainability, reliability, and performance. We have started as an early Blazor adaptor and covered all its changes starting from early previews to the latest .NET 6. In addition, a lot of refactoring and API changes were done.
 </Paragraph>
 
 <NewsPageSubtitle>
-    Blazorise 1.0.0 Highlights 💡
+    Blazorise 1.0 Highlights 💡
 </NewsPageSubtitle>
 
 <UnorderedList>
     <UnorderedListItem>
-        ...
+        <Strong>Drag & Drop</Strong>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Chart v3</Strong>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Cascading Type Parameter</Strong> making it easier to write and defined components
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>DatePicker</Strong>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Video</Strong>
     </UnorderedListItem>
 </UnorderedList>
 
@@ -38,7 +59,7 @@
         Renamed <Code>DecimalsSeparator</Code> to <Code>DecimalSeparator</Code> on the <Code>DataGridColumn</Code>.
     </UnorderedListItem>
     <UnorderedListItem>
-        Renamed <Code>MaxMessageSize</Code> to <Code>MaxChunkSize</Code> to better convey the Parameter meaning.
+        <Code>MaxMessageSize</Code> is renamed to <Code>MaxChunkSize</Code> to convey the parameter meaning better.
     </UnorderedListItem>
     <UnorderedListItem>
         <Code>Fullscreen</Code> parameter on <Code Tag>ModalContent</Code> component is moved to be part of <Code>Size</Code> parameter.
@@ -50,7 +71,7 @@
         <Code>RightAligned</Code> parameter moved from <Code Tag>BarDropdownMenu</Code> to <Code Tag>BarDropdown</Code> component.
     </UnorderedListItem>
     <UnorderedListItem>
-        Rename any usage of <Code>ChangeTextOnKeyPress</Code> parameter into <Code>Immediate</Code>.
+        Rename any usage of the <Code>ChangeTextOnKeyPress</Code> parameter into <Code>Immediate</Code>.
     </UnorderedListItem>
     <UnorderedListItem>
         Rename any usage of <Code>DelayTextOnKeyPress</Code> parameter into <Code>Debounce</Code> and <Code>DelayTextOnKeyPressInterval</Code> into <Code>DebounceInterval</Code>.
@@ -76,35 +97,30 @@
     <UnorderedListItem>
         Remove any use of an obsolete component <Code Tag>InlineField</Code>.
     </UnorderedListItem>
+    <UnorderedListItem>
+        The Datagrid's obsolete <Code>Direction</Code> parameter has now been removed. Instead, please use the <Code>SortDirection</Code> parameter if you weren't already..
+    </UnorderedListItem>
 </OrderedList>
 
-<Paragraph>
-    <Strong>1.</Strong> Since a lot was changed to support ChartJS v3 the migration would take too long to explain so it is best to follow the the migration guide at https://www.chartjs.org/docs/latest/getting-started/v3-migration.html as a general rule.
-</Paragraph>
+<NewsPageSubtitle>
+    Highlights 🚀
+</NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
     Chart v3
 </Heading>
 
 <Paragraph>
-    In this release, we bring long-awaited support for ChartJS v3. Unfortunately, it was not possible to leave support for previous versions considering there were too many breaking changes between the version.
+    In this release, we bring long-awaited support for ChartJS v3. Unfortunately, it was impossible to leave support for previous versions considering there were too many breaking changes between v2 and v3.
 </Paragraph>
 
 <Paragraph>
-    With Chart v3 we now support almost all of the <Code>v3</Code> configuration settings. We took great care to document most of the dataset and option fields so that IntelliSense will give you suggestions on how to properly define the chart.
+    With Chart v3, we now support almost all v3 configuration settings. In addition, we took great care to document most of the dataset and option fields so that IntelliSense will give you suggestions on how to define the chart correctly.
 </Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    DataGrid
-</Heading>
 
 <Paragraph>
-    The Datagrid's obsolete <Code>Direction</Code> parameter has now been removed. Please use the <Code>SortDirection</Code> Parameter if you weren't already..
+    Since a lot was changed to support ChartJS v3 the migration would take too long to explain so it is best to follow the the <Anchor To="https://www.chartjs.org/docs/latest/getting-started/v3-migration.html" Target="Target.Blank">Chart.js migration guide</Anchor> as a general rule.
 </Paragraph>
-
-<NewsPageSubtitle>
-    Highlights 🚀
-</NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
     Cascading Type Parameter
@@ -112,7 +128,7 @@
 
 <Paragraph>
     .NET6 brought us a new feature, <Code>CascadingTypeParameter</Code>, that reduces the boilerplate code we need to write for Generic Parent/Child components.
-    Please refer to : <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/templated-components?view=aspnetcore-6.0#infer-generic-types-based-on-ancestor-components">CascadingTypeParameter Microsoft Docs</Blazorise.Link>
+    Please refer to <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/templated-components?view=aspnetcore-6.0#infer-generic-types-based-on-ancestor-components">CascadingTypeParameter Microsoft Docs</Blazorise.Link>
     for more information.
 </Paragraph>
 
@@ -127,7 +143,7 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        <strong>Note:</strong> We've found out, that there might be a few caveats when using the feature. For most cases you'll be just fine with removing the explicit references to the Generic Type on the children component. But for the very few cases that Blazor complains that it cannot compile, just explicitly define the Generic Type.
+        <Strong>Note:</Strong> We've found out there might be a few caveats when using the feature. You'll be just fine with removing the explicit references to the Generic Type on the children component for most cases. But for the very few instances that Blazor complains, it cannot compile, explicitly define the Generic Type.
         Here's an example:
         <Paragraph Class="mb-0">
             This will not work:
@@ -152,11 +168,11 @@
 </Heading>
 
 <Paragraph>
-    It is now possible to use date picker to select range of dates and also to pick multiple dates. The new feature can be enabled with <Code>SelectionMode</Code> parameter. Once enabled, you need to use <Code>Dates</Code> parameters to read or set the days.
+    It is now possible to use date picker to select a range of dates and pick multiple dates. The new feature can be enabled with <Code>SelectionMode</Code> parameter. Once enabled, you need to use <Code>Dates</Code> parameters to read or set the days.
 </Paragraph>
 
 <Paragraph>
-    The new component with examples can be seen at <Anchor To="docs/components/date-picker">DatePicker page</Anchor>.
+    The new component with examples can be seen on <Anchor To="docs/components/date-picker">DatePicker page</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -164,15 +180,15 @@
 </Heading>
 
 <Paragraph>
-    We worked hard to bring you very new <Code Tag>Video</Code> component which is based upon the excellent <Anchor To="https://plyr.io/" Target="Target.Blank">Plyr</Anchor> video player. The new component fully supports streaming media by implementing both <Anchor To="https://github.com/video-dev/hls.js/">HLS</Anchor> and <Anchor To="https://github.com/Dash-Industry-Forum/dash.js">DASH</Anchor> playback media format.
+    We worked hard to bring you a very new <Code Tag>Video</Code> component based upon the excellent <Anchor To="https://plyr.io/" Target="Target.Blank">Plyr</Anchor> video player. The new component fully supports streaming media by implementing <Anchor To="https://github.com/video-dev/hls.js/">HLS</Anchor> and <Anchor To="https://github.com/Dash-Industry-Forum/dash.js">DASH</Anchor> playback media format.
 </Paragraph>
 
 <Paragraph>
-    The component is fairly flexible to use and has most of the video control methods like <Code>Play()</Code>, <Code>Pause()</Code>, and <Code>Stop()</Code>, and many others; including also events that can give you current state of the player.
+    The component is pretty flexible to use and has most of the video control methods like <Code>Play()</Code>, <Code>Pause()</Code>, <Code>Stop()</Code>, and many others, including also events that can give you the current state of the player.
 </Paragraph>
 
 <Paragraph>
-    The new component and it's usage can be seen at <Anchor To="docs/extensions/video">Video page</Anchor>.
+    The new component and its usage can be seen on <Anchor To="docs/extensions/video">Video page</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -180,11 +196,11 @@
 </Heading>
 
 <Paragraph>
-    With this release we are preparing ground for some advanced scenarios with our color and other enum utilities. <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, and <Code>Target</Code> enums are converted to be <Anchor To="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/enumeration-classes-over-enum-types" Target="Target.Blank">complex enums</Anchor>. This means that it is now possible to define colors with custom names eg. <Code>Color="btn-purple"</Code>.
+    We are preparing the ground for some advanced scenarios with our color and other enum utilities with this release. <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, and <Code>Target</Code> enums are converted to be <Anchor To="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/enumeration-classes-over-enum-types" Target="Target.Blank">complex enums</Anchor>. This means that it is now possible to define colors with custom names eg. <Code>Color="btn-purple"</Code>.
 </Paragraph>
 
 <Paragraph>
-    While at the moment they only contains the existing, already knows values, in the future we will introduce some more advanced value, eg. <Code>Color="Color.Primary.WithGradient"</Code>.
+    While they only contain the existing, already knows values, in the future, we will introduce some more advanced values, eg. <Code>Color="Color.Primary.WithGradient"</Code>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -195,7 +211,7 @@
     We reworked animations so you can have more control. We added two new Parameters:
     <UnorderedList>
         <UnorderedListItem>
-            <Strong>IsAnimated</Strong>: Controls whether the modal should animate.
+            <Strong>Animated</Strong>: Controls whether the modal should animate.
         </UnorderedListItem>
         <UnorderedListItem>
             <Strong>AnimationDuration</Strong>: Sets the modal animation duration in ms.
@@ -204,16 +220,16 @@
 </Paragraph>
 
 <Paragraph>
-    You can now choose from three different loading modes on <Code>Modal</Code> component, similar to the what we already have on the <Code>Tabs</Code> component.
+    You can now choose from three different loading modes on the <Code>Modal</Code> component, similar to what we already have on the <Code>Tabs</Code> component.
     <UnorderedList>
         <UnorderedListItem>
-            <Strong>Default</Strong>: Always renders the modal html content to the DOM.
+            <Strong>Default</Strong>: Always renders the modal HTML content to the DOM.
         </UnorderedListItem>
         <UnorderedListItem>
-            <Strong>LazyLoad</Strong>: Lazy loads modal, meaning the modal html content will only be rendered/loaded the first time it is visited.
+            <Strong>LazyLoad</Strong>: Lazy loads modal, meaning the modal HTML content will only be rendered/loaded the first time it is visited.
         </UnorderedListItem>
         <UnorderedListItem>
-            <Strong>LazyReload</Strong>: Lazy loads modal everytime, meaning the modal html content will have it's html re-rendered to the DOM everytime.
+            <Strong>LazyReload</Strong>: Lazy loads modal every time, meaning the modal HTML content will have its HTML re-rendered to the DOM every time.
         </UnorderedListItem>
     </UnorderedList>
 </Paragraph>
@@ -227,20 +243,20 @@
 </Paragraph>
 
 <Paragraph>
-    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerEventArgs</Code> instead of item. This will enable us to keep providing new features by adding on to this context.
+    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerEventArgs</Code> instead of an item. This will enable us to keep providing new features by adding to this context.
 </Paragraph>
 
 <Paragraph>
     We've introduced the following <Code>DetailRowTrigger</Code> features:
     <UnorderedList>
         <UnorderedListItem>
-            <Code>Toggleable</Code> Previously if you selected an item where <Code>DetailRowTemplate</Code> was already showing, and if DetailRowTrigger evaluated to true, it would hide to DetailRow. By setting this to false, it now stays visible.
+            <Code>Toggleable</Code> Previously, if you selected an item where <Code>DetailRowTemplate</Code> was already showing, and if DetailRowTrigger evaluated to true, it would hide to DetailRow. By setting this to false, it now stays visible.
         </UnorderedListItem>
         <UnorderedListItem>
             <Code>Single</Code> By setting this property to true, only one DetailRowTemplate will be displayed at a time.
         </UnorderedListItem>
         <UnorderedListItem>
-            <Code>DetailRowTriggerType</Code> You may now select between two types, Manual and RowClick. By setting the type to Manual you may further control the DetailRowTemplate display behaviour programatically by using the existing <Code>ToggleDetailRow</Code>.
+            <Code>DetailRowTriggerType</Code> You may now select between two types, Manual and RowClick. By setting the type to Manual, you may further control the DetailRowTemplate display behavior programmatically by using the existing <Code>ToggleDetailRow</Code>.
         </UnorderedListItem>
     </UnorderedList>
 </Paragraph>
@@ -270,7 +286,7 @@
 </Paragraph>
 
 <Paragraph>
-    Added FileInvalidReason to the FileEndedEventArgs so you may track what went wrong in case the file upload was not successfull.
+    Added FileInvalidReason to the FileEndedEventArgs so you may track what went wrong in case the file upload was not successful.
 </Paragraph>
 
 <UnorderedList>
@@ -302,11 +318,11 @@
 </Heading>
 
 <Paragraph>
-    In this release we're finally bringing support for a long-time requested drag & drop feature. The new feature is comprised of <Code>DropContainer</Code> and <Code>DropZone</Code> components, and is designed to be flexible and easy to use. It supports item templating, selectors for drop items, styling and more.
+    We're finally bringing support for a long-time requested drag & drop feature in this release. The new feature is comprised of <Code>DropContainer</Code> and <Code>DropZone</Code> components and is designed to be flexible and easy to use. It supports item templating, selectors for drop items, styling, and more.
 </Paragraph>
 
 <Paragraph>
-    The new component and it's usage can be seen at <Anchor To="docs/components/dragdrop">Drag & Drop page</Anchor>.
+    The new component and its usage can be seen on <Anchor To="docs/components/dragdrop">Drag & Drop page</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -314,8 +330,12 @@
 </Heading>
 
 <Paragraph>
-    Introduced <Code>CloseOnSelection</Code> Parameter. You will be able to set this parameter to false, so the auto complete's dropdown does not close on selection.
-    <strong>Note:</strong> This feature will only work with multiple selection.
+    Introduced <Code>CloseOnSelection</Code> Parameter. You will be able to set this parameter to false, so the auto complete's dropdown does not close on selections.
+    <Alert Color="Color.Info" Visible Margin="Margin.Is3.FromTop">
+        <AlertDescription>
+            <Strong>Note:</Strong> This feature will only work with multiple selection.
+        </AlertDescription>
+    </Alert>
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -323,7 +343,7 @@
 </Heading>
 
 <Paragraph>
-    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerEventArgs</Code> instead of item. This will enable us to keep providing new features by adding on to this context.
+    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerEventArgs</Code> instead of an item. This will enable us to keep providing new features by adding to this context.
 </Paragraph>
 
 <Paragraph>
@@ -354,11 +374,11 @@
 </Heading>
 
 <Paragraph>
-    <Anchor To="https://github.com/Xeevis">Xeevis</Anchor> made a great work by creating new <Code>Blazorise.Icons.Bootstrap</Code> package to map <Anchor To="https://icons.getbootstrap.com/#install" Target="Target.Blank">Bootstrap icons</Anchor>. The list of mapped icons is covering almost 100% icons, except for some rarely used. We have already requested them on the Bootstrap official repository and hopefully they will be included soon.
+    <Anchor To="https://github.com/Xeevis">Xeevis</Anchor> did great work by creating a new <Code>Blazorise.Icons.Bootstrap</Code> package to map <Anchor To="https://icons.getbootstrap.com/#install" Target="Target.Blank">Bootstrap icons</Anchor>. The list of mapped icons covers almost 100% of icons, except for some rarely used. We have already requested them on the Bootstrap official repository, and hopefully, they will be included soon.
 </Paragraph>
 
 <Paragraph>
-    <Anchor To="https://github.com/njannink">njannink</Anchor> created an excelent new component for generating the QR Code images. The new component is based on <Anchor To="https://github.com/codebude/QRCoder" Target="Target.Blank">QRCoder</Anchor> and it is fully running on .NET code without any trace of JavaScript.
+    <Anchor To="https://github.com/njannink">njannink</Anchor> created an excellent new component for generating the QR Code images. The new component is based on <Anchor To="https://github.com/codebude/QRCoder" Target="Target.Blank">QRCoder</Anchor>, and it is fully running on .NET code without any trace of JavaScript.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
