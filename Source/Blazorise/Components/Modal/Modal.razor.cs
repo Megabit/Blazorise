@@ -527,11 +527,6 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool ShowBackdrop { get; set; } = true;
 
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="Modal"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
         /// <inheritdoc/>
         [Parameter] public bool Animated { get; set; } = true;
 
@@ -542,6 +537,11 @@ namespace Blazorise
         /// Defines how the modal content will be rendered.
         /// </summary>
         [Parameter] public ModalRenderMode RenderMode { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Modal"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

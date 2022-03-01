@@ -2347,7 +2347,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string LazyLoadTabExample = @"<Tabs Mode=""TabsMode.LazyLoad"" SelectedTab=""tab1"">
+        public const string LazyLoadTabExample = @"<Tabs RenderMode=""TabsRenderMode.LazyLoad"" SelectedTab=""tab1"">
     <Items>
         <Tab Name=""tab1"">Tab 1</Tab>
         <Tab Name=""tab2"">Tab 2</Tab>
@@ -2364,7 +2364,7 @@ namespace Blazorise.Docs.Models
     </Content>
 </Tabs>";
 
-        public const string LazyReloadTabExample = @"<Tabs Mode=""TabsMode.LazyReload"" SelectedTab=""tab1"">
+        public const string LazyReloadTabExample = @"<Tabs RenderMode=""TabsRenderMode.LazyReload"" SelectedTab=""tab1"">
     <Items>
         <Tab Name=""tab1"">Tab 1</Tab>
         <Tab Name=""tab2"">Tab 2</Tab>

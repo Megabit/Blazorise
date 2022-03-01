@@ -25,11 +25,10 @@
         /// </summary>
         public TabPosition TabPosition { get; init; }
 
-
         /// <summary>
-        /// Gets or sets the TabsMode.
+        /// Gets or sets the tabs rendering mode.
         /// </summary>
-        public TabsMode Mode { get; init; }
+        public TabsRenderMode RenderMode { get; init; }
 
         /// <summary>
         /// Gets or sets currently selected tab name.

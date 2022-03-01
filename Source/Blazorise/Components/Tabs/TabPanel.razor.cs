@@ -57,7 +57,7 @@ namespace Blazorise
         protected override Task OnParametersSetAsync()
         {
             if ( Active )
-                lazyLoaded = ( Mode == TabsMode.LazyLoad );
+                lazyLoaded = ( RenderMode == TabsRenderMode.LazyLoad );
             return base.OnParametersSetAsync();
         }
 
@@ -84,9 +84,9 @@ namespace Blazorise
         protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
 
         /// <summary>
-        /// Gets the current TabsMode.
+        /// Gets the current render mode.
         /// </summary>
-        protected TabsMode Mode => ParentTabsState?.Mode ?? TabsMode.Default;
+        protected TabsRenderMode RenderMode => ParentTabsState?.RenderMode ?? TabsRenderMode.Default;
 
         /// <summary>
         /// Defines the panel name. Must match the corresponding tab name.

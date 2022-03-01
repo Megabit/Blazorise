@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the Tabs Mode.
     /// </summary>
-    public enum TabsMode
+    public enum TabsRenderMode
     {
         /// <summary>
         /// Always renders the tabs html content to the DOM.
