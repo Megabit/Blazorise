@@ -2,7 +2,7 @@
 @inherits BaseComponent
 
 <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @if ( Mode == TabsMode.Default || ( Mode == TabsMode.LazyReload && Active ) || ( Mode == TabsMode.LazyLoad && lazyLoaded ) )
+    @if ( RenderMode == TabsRenderMode.Default || ( RenderMode == TabsRenderMode.LazyReload && Active ) || ( RenderMode == TabsRenderMode.LazyLoad && lazyLoaded ) )
     {
         @ChildContent
     }

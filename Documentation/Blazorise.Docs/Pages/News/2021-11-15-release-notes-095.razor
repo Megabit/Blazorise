@@ -459,19 +459,19 @@
 </Heading>
 
 <Paragraph>
-    Introduced a new Parameter <Code>TabsMode</Code> which essentially defines how the tab content will load.
+    Introduced a new Parameter <Code>TabsRenderMode</Code> which essentially defines how the tab content will load.
 </Paragraph>
 
 <DescriptionList>
-    <DescriptionListTerm><Code>TabsMode.Default</Code></DescriptionListTerm>
+    <DescriptionListTerm><Code>TabsRenderMode.Default</Code></DescriptionListTerm>
     <DescriptionListDefinition>
         Will keep the same behaviour, we've had until now. Every tab is always rendered to the DOM and hidden if not active.
     </DescriptionListDefinition>
-    <DescriptionListTerm><Code>TabsMode.LazyLoad</Code></DescriptionListTerm>
+    <DescriptionListTerm><Code>TabsRenderMode.LazyLoad</Code></DescriptionListTerm>
     <DescriptionListDefinition>
         Each tab will only be rendered/loaded the first time it is visited.
     </DescriptionListDefinition>
-    <DescriptionListTerm><Code>TabsMode.LazyReload</Code></DescriptionListTerm>
+    <DescriptionListTerm><Code>TabsRenderMode.LazyReload</Code></DescriptionListTerm>
     <DescriptionListDefinition>
         Only the active tab will have it's html rendered at a time. This also means that the content will always be re-calculated upon switching tabs.
     </DescriptionListDefinition>

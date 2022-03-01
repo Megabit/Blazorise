@@ -222,15 +222,15 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the TabsMode.
+        /// Defines how the tabs content will be rendered.
         /// </summary>
         [Parameter]
-        public TabsMode Mode
+        public TabsRenderMode RenderMode
         {
-            get => state.Mode;
+            get => state.RenderMode;
             set
             {
-                state = state with { Mode = value };
+                state = state with { RenderMode = value };
 
                 DirtyClasses();
             }
