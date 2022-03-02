@@ -59,6 +59,7 @@ namespace Blazorise
 
                 var minChanged = parameters.TryGetValue<TValue>( nameof( Min ), out var paramMin ) && !Min.IsEqual( paramMin );
                 var maxChanged = parameters.TryGetValue<TValue>( nameof( Max ), out var paramMax ) && !Max.IsEqual( paramMax );
+                var minMaxLimitsOverrideChanged = parameters.TryGetValue<NumericMinMaxLimitsOverride>( nameof( MinMaxLimitsOverride ), out var paramMinMaxLimitsOverride ) && !MinMaxLimitsOverride.IsEqual( paramMinMaxLimitsOverride );
 
                 var selectAllOnFocusChanged = parameters.TryGetValue<bool>( nameof( SelectAllOnFocus ), out var paramSelectAllOnFocus ) && !SelectAllOnFocus.IsEqual( paramSelectAllOnFocus );
 
@@ -87,6 +88,7 @@ namespace Blazorise
                         AlwaysAllowDecimalSeparator = new { Changed = alwaysAllowDecimalSeparatorChanged, Value = paramAlwaysAllowDecimalSeparator },
                         Min = new { Changed = minChanged, Value = paramMin },
                         Max = new { Changed = maxChanged, Value = paramMax },
+                        MinMaxLimitsOverride = new { Changed = minMaxLimitsOverrideChanged, Value = paramMinMaxLimitsOverride },
                         SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
                     } ) );
                 }
@@ -147,6 +149,7 @@ namespace Blazorise
                 AlwaysAllowDecimalSeparator,
                 Min = MinDefined ? (object)Min : null,
                 Max = MaxDefined ? (object)Max : null,
+                MinMaxLimitsOverride = MinMaxLimitsOverride.ToNumericMinMaxLimitsOverride(),
                 TypeMin = minFromType,
                 TypeMax = maxFromType,
                 Step,
@@ -462,6 +465,11 @@ namespace Blazorise
         /// The maximum value to accept for this input.
         /// </summary>
         [Parameter] public TValue Max { get; set; }
+
+        /// <summary>
+        /// Override the minimum and maximum limits.
+        /// </summary>
+        [Parameter] public NumericMinMaxLimitsOverride MinMaxLimitsOverride { get; set; } = NumericMinMaxLimitsOverride.Ignore;
 
         /// <summary>
         /// The size attribute specifies the visible width, in characters, of an input element. https://www.w3schools.com/tags/att_input_size.asp

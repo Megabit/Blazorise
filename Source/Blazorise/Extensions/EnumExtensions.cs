@@ -130,6 +130,15 @@
             _ => true
         };
 
+        public static object ToNumericMinMaxLimitsOverride( this NumericMinMaxLimitsOverride numericMinMaxLimitsOverride ) => numericMinMaxLimitsOverride switch
+        {
+            NumericMinMaxLimitsOverride.Ceiling => "ceiling",
+            NumericMinMaxLimitsOverride.Floor => "floor",
+            NumericMinMaxLimitsOverride.Ignore => "ignore",
+            NumericMinMaxLimitsOverride.DoNotOverride => null,
+            _ => null
+        };
+
         /// <summary>
         /// Indicates whether the specified enum size is null or a default value.
         /// </summary>
