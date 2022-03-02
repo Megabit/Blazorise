@@ -54,8 +54,8 @@ namespace Blazorise
                 {
                     DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
-                    Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
-                    Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
+                    Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
                     Disabled = new { Changed = disabledChanged, Value = disabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 } ) );
@@ -99,8 +99,8 @@ namespace Blazorise
                 DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
                 TimeAs24hr,
                 Default = FormatValueAsString( Time ),
-                Min = Min?.ToString( Parsers.InternalTimeFormat ),
-                Max = Max?.ToString( Parsers.InternalTimeFormat ),
+                Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
+                Max = Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
                 Disabled,
                 ReadOnly,
                 Localization = GetLocalizationObject()
