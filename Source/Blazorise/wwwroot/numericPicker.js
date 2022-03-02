@@ -24,7 +24,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         wheelStep: options.step || 1,
         minimumValue: fromExponential(options.min || options.typeMin) || AutoNumeric.options.minimumValue.tenTrillions,
         maximumValue: fromExponential(options.max || options.typeMax) || AutoNumeric.options.maximumValue.tenTrillions,
-        overrideMinMaxLimits: "ignore",
+        overrideMinMaxLimits: options.minMaxLimitsOverride || AutoNumeric.options.overrideMinMaxLimits.doNotOverride,
         roundingMethod: options.roundingMethod || AutoNumeric.options.roundingMethod.halfUpSymmetric,
 
         currencySymbol: options.currencySymbol || AutoNumeric.options.currencySymbol.none,
@@ -96,6 +96,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.max.changed) {
             instance.options.maximumValue(options.max.value || AutoNumeric.options.maximumValue.tenTrillions);
+        }
+
+        if (options.minMaxLimitsOverride.changed) {
+            instance.options.overrideMinMaxLimits(options.minMaxLimitsOverride.value || AutoNumeric.options.overrideMinMaxLimits.doNotOverride);
         }
 
         if (options.selectAllOnFocus.changed) {
