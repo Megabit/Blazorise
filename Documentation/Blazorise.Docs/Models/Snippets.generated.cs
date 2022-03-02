@@ -1589,6 +1589,18 @@ namespace Blazorise.Docs.Models
 
         public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
 
+        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" Decimals=""0"" />
+
+@code{
+    int value;
+}";
+
+        public const string NumericPickerMinMaxExample = @"<NumericPicker @bind-Value=""@value"" Min=""10"" Max=""20"" />
+
+@code{
+    decimal value = 15;
+}";
+
         public const string NumericPickerStepExample = @"<NumericPicker @bind-Value=""@value"" Step=""10"" />
 
 @code{
