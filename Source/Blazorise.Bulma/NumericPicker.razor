@@ -4,7 +4,7 @@
 {
     <div class="field">
         <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+            @InputTemplate
             @ChildContent
         </div>
         @Feedback
@@ -13,8 +13,22 @@
 else
 {
     <div class="control">
-        <input @ref="@ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        @InputTemplate
         @ChildContent
     </div>
     @Feedback
+}
+@code
+{
+    protected RenderFragment InputTemplate => __builder =>
+    {
+        @if ( IsImmediate && IsDebounce )
+        {
+            <input @ref="@ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        }
+        else
+        {
+            <input @ref="@ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" @bind-value="@CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        }
+    };
 }

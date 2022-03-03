@@ -246,3 +246,10 @@ export function isString(value) {
     const type = typeof value
     return type === 'string' || (type === 'object' && value != null && !Array.isArray(value) && getTag(value) == '[object String]')
 }
+
+export function firstNonNull(value, fallbackValue) {
+    if (value === null || value === undefined)
+        return fallbackValue;
+
+    return value;
+}
