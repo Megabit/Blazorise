@@ -6,7 +6,9 @@
     Announcing Blazorise 1.0
 </NewsPageTitle>
 
-<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 1st, 2022" Read="4 min" />
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 4st, 2022" Read="7 min" />
+
+<NewsPageImage Source="img/news/100/v100.png" Text="Blazorise v1.0" />
 
 <Paragraph>
     Today, we are happy to announce the long-awaited release of Blazorise 1.0. In this post, we're covering many new Blazorise features that will make your app development easier to build and use, along with some of the API changes required to get you started.
@@ -17,7 +19,7 @@
 </Paragraph>
 
 <Paragraph>
-    Throughout the last three years, the core of the Blazorise has seen a lot of improvements and refactoring to bring it to the next level in terms of maintainability, reliability, and performance. We have started as an early Blazor adaptor and covered all its changes starting from early previews to the latest .NET 6. In addition, a lot of refactoring and API changes were done.
+    Throughout the last three years, the core of the Blazorise has seen a lot of improvements and refactoring to bring it to the next level in terms of maintainability, reliability, and performance. We have started as an early Blazor adaptor and covered all its changes starting from early previews to the latest .NET 6. In addition, a lot of refactoring and API changes had to be done.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -26,19 +28,25 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Strong>Drag & Drop</Strong>
+        <Strong>Chart</Strong> support for Chart.js v3.x
     </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>Chart v3</Strong>
+        <Strong>NumericPicker</Strong> completely new input component for numeric values
     </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>Cascading Type Parameter</Strong> making it easier to write and defined components
+        <Strong>Video</Strong> extension to play HLS and DASH media with DRM protection
     </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>DatePicker</Strong>
+        <Strong>QRCode</Strong> extension to generate QR codes
     </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>Video</Strong>
+        <Strong>DatePicker</Strong> improvements and fixes
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Drag & Drop</Strong> components to drag & drop any content
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Cascading Type Parameter</Strong> making it easier to write and define nested components
     </UnorderedListItem>
 </UnorderedList>
 
@@ -47,28 +55,31 @@
 </NewsPageSubtitle>
 
 <Paragraph>
-    No big release can be done without some breaking changes and this release is no exception...
+    Since this is a big release, we had to clear all the APIs left so far. Starting from now, we plan to have a long-term-support, and we want to have a stable API. As a result, many steps need to be done to migrate from 0.9.5 to 1.0. Based on our experience with some of our partners, it shouldn't be too problematic to migrate since not everyone uses all the features. We hope this will be the same for you and that there will not be too many issues on your side.
+</Paragraph>
+
+<Paragraph>
+    So, let's start.
 </Paragraph>
 
 <OrderedList>
     <UnorderedListItem>
-        All <Code>NumericEdit</Code> formating features are moved to the new <Code>NumericPicker</Code> component.
-        <Code>NumericEdit</Code> is now used only as a native HTML numeric input.
+        Replace <Code>NumericEdit</Code> with <Code>NumericPicker</Code>. <Code>NumericEdit</Code> is now made around the native <Code>input type="number"</Code> so a lot of its formating features are moved to the new <Code>NumericPicker</Code> component.
     </UnorderedListItem>
     <UnorderedListItem>
-        Renamed <Code>DecimalsSeparator</Code> to <Code>DecimalSeparator</Code> on the <Code>DataGridColumn</Code>.
+        Rename <Code>DecimalsSeparator</Code> to <Code>DecimalSeparator</Code> on the <Code>DataGridColumn</Code> and <Code>NumericPicker</Code>.
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code>MaxMessageSize</Code> is renamed to <Code>MaxChunkSize</Code> to convey the parameter meaning better.
+        Rename <Code>MaxMessageSize</Code> to <Code>MaxChunkSize</Code>. (changed to convey the parameter meaning better)
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code>Fullscreen</Code> parameter on <Code Tag>ModalContent</Code> component is moved to be part of <Code>Size</Code> parameter.
+        Remove <Code>Fullscreen</Code> parameter on <Code Tag>ModalContent</Code> and replace it with <Code>Size="ModalSize.Fullscreen"</Code> parameter.
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameter removed from <Code Tag>NotificationAlert</Code> component.
+        Remove <Code>NotificationType</Code>, <Code>Message</Code>, and <Code>Title</Code> parameter from <Code Tag>NotificationAlert</Code> component.
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code>RightAligned</Code> parameter moved from <Code Tag>BarDropdownMenu</Code> to <Code Tag>BarDropdown</Code> component.
+        Move <Code>RightAligned</Code> parameter from <Code Tag>BarDropdownMenu</Code> to <Code Tag>BarDropdown</Code> component.
     </UnorderedListItem>
     <UnorderedListItem>
         Rename any usage of the <Code>ChangeTextOnKeyPress</Code> parameter into <Code>Immediate</Code>.
@@ -126,6 +137,146 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    NumericPicker
+</Heading>
+
+<Paragraph>
+    The completely new <Code>NumericPicker</Code> component is created as a replacement for the <Code>NumericEdit</Code> component.
+    All the formating features from <Code>NumericEdit</Code> are moved to the new component. This breaking change was needed because
+    we felt there was no need to support two similar  behavior components. So, <Code>NumericEdit</Code> is left to serve as
+    a native HTML input element, and all the custom and advanced stuff are now part of the new <Code>NumericPicker</Code>.
+</Paragraph>
+
+<Paragraph>
+    <Code>NumericPicker</Code> component has many new features like:
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>currency mask and symbols</OrderedListItem>
+    <OrderedListItem>thousand group separators</OrderedListItem>
+    <OrderedListItem>configurable rounding methods</OrderedListItem>
+    <OrderedListItem>floating zeros</OrderedListItem>
+    <OrderedListItem>proper min and max input mode</OrderedListItem>
+</OrderedList>
+
+<Paragraph>
+    , and many more. We hope the new <Code>NumericPicker</Code> will serve you well.
+</Paragraph>
+
+<Paragraph>
+    It can be seen in action on the <Anchor To="docs/components/numeric-picker">NumericPicker page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Video
+</Heading>
+
+<Paragraph>
+    We worked hard to bring you a very new <Code Tag>Video</Code> component based upon the excellent <Anchor To="https://plyr.io/" Target="Target.Blank">Plyr</Anchor> video player. The new component fully supports streaming media by implementing <Anchor To="https://github.com/video-dev/hls.js/">HLS</Anchor> and <Anchor To="https://github.com/Dash-Industry-Forum/dash.js">DASH</Anchor> playback media formats.
+</Paragraph>
+
+<Paragraph>
+    The component is pretty flexible to use and has most of the video control methods like <Code>Play()</Code>, <Code>Pause()</Code>, <Code>Stop()</Code>, and many others, including also events that can give you the current state of the player.
+</Paragraph>
+
+<Paragraph>
+    The new component and its usage can be seen on <Anchor To="docs/extensions/video">Video page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DatePicker
+</Heading>
+
+<Paragraph>
+    It is now possible to use date picker to select a range of dates and pick multiple dates. The new feature can be enabled with <Code>SelectionMode</Code> parameter. Once enabled, you need to use <Code>Dates</Code> parameters to read or set the days.
+</Paragraph>
+
+<Paragraph>
+    The new component with examples can be seen on <Anchor To="docs/components/date-picker">DatePicker page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    QRCode
+</Heading>
+
+<Paragraph>
+    This component is created with the help from one of our community members, <Anchor To="https://github.com/njannink">njannink</Anchor>. The QRCode component is based on <Anchor To="https://github.com/codebude/QRCoder" Target="Target.Blank">QRCoder</Anchor>, and it is fully running on .NET code without any trace of JavaScript.
+</Paragraph>
+
+<Paragraph>
+    You can see it in action on <Anchor To="docs/extensions/qrcode">QRCode page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Charts Trendline
+</Heading>
+
+<Paragraph>
+    Charts.Trendline is a new extension and is used to draws a linear trendline in your Chart.
+</Paragraph>
+
+<Paragraph>
+    You can see it in action on <Anchor To="docs/extensions/chart-trendline">Trendline page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Utilities
+</Heading>
+
+<Paragraph>
+    There were  some changes in our color utilities. To prepare them for some advanced scenarios in the future, they are converted to be <Anchor To="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/enumeration-classes-over-enum-types" Target="Target.Blank">complex enums</Anchor>. The affected enums are <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, and <Code>Target</Code>. This change brings a new way of defining enums values, and it is now possible to define colors with custom names, e.g., <Code>Color="btn-purple"</Code>.
+</Paragraph>
+
+<Paragraph>
+    While at the moment they still have the same API, in the future, we will introduce some more advanced features that will allow us to chain options, e.g., <Code>Color="Color.Primary.WithGradient"</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Modal
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Animations
+</Heading>
+
+<Paragraph>
+    We reworked animations, and they are now calculated dynamically in Blazor without the need for any JavaScript. Also, with an additional API, you now have more control over the animation.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Animated</Strong>: Controls whether the modal should animate.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>AnimationDuration</Strong>: Sets the modal animation duration in ms.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Render Mode
+</Heading>
+
+<Paragraph>
+    You can now choose from three different rendering modes on the <Code Tag>Modal</Code> component, similar to what we already have on the <Code>Tabs</Code> component.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Default</Strong>: Always renders the modal HTML content to the DOM.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>LazyLoad</Strong>: Lazy loads modal, meaning the modal HTML content will only be rendered/loaded the first time it is visited.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>LazyReload</Strong>: Lazy loads modal every time, meaning the modal HTML content will have its HTML re-rendered to the DOM every time.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Cascading Type Parameter
 </Heading>
 
@@ -139,9 +290,9 @@
     The following components now have <Code>CascadingTypeParameter</Code> support:
 </Paragraph>
 <UnorderedList>
-    <UnorderedListItem>RadioGroup</UnorderedListItem>
-    <UnorderedListItem>Select</UnorderedListItem>
     <UnorderedListItem>DataGrid</UnorderedListItem>
+    <UnorderedListItem>Select</UnorderedListItem>
+    <UnorderedListItem>RadioGroup</UnorderedListItem>
 </UnorderedList>
 
 <Alert Color="Color.Info" Visible>
@@ -167,86 +318,37 @@
 </Alert>
 
 <Heading Size="HeadingSize.Is3">
-    DatePicker
-</Heading>
-
-<Paragraph>
-    It is now possible to use date picker to select a range of dates and pick multiple dates. The new feature can be enabled with <Code>SelectionMode</Code> parameter. Once enabled, you need to use <Code>Dates</Code> parameters to read or set the days.
-</Paragraph>
-
-<Paragraph>
-    The new component with examples can be seen on <Anchor To="docs/components/date-picker">DatePicker page</Anchor>.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Video
-</Heading>
-
-<Paragraph>
-    We worked hard to bring you a very new <Code Tag>Video</Code> component based upon the excellent <Anchor To="https://plyr.io/" Target="Target.Blank">Plyr</Anchor> video player. The new component fully supports streaming media by implementing <Anchor To="https://github.com/video-dev/hls.js/">HLS</Anchor> and <Anchor To="https://github.com/Dash-Industry-Forum/dash.js">DASH</Anchor> playback media format.
-</Paragraph>
-
-<Paragraph>
-    The component is pretty flexible to use and has most of the video control methods like <Code>Play()</Code>, <Code>Pause()</Code>, <Code>Stop()</Code>, and many others, including also events that can give you the current state of the player.
-</Paragraph>
-
-<Paragraph>
-    The new component and its usage can be seen on <Anchor To="docs/extensions/video">Video page</Anchor>.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Utilities
-</Heading>
-
-<Paragraph>
-    We are preparing the ground for some advanced scenarios with our color and other enum utilities with this release. <Code>Color</Code>, <Code>Background</Code>, <Code>TextColor</Code>, and <Code>Target</Code> enums are converted to be <Anchor To="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/enumeration-classes-over-enum-types" Target="Target.Blank">complex enums</Anchor>. This means that it is now possible to define colors with custom names eg. <Code>Color="btn-purple"</Code>.
-</Paragraph>
-
-<Paragraph>
-    While they only contain the existing, already knows values, in the future, we will introduce some more advanced values, eg. <Code>Color="Color.Primary.WithGradient"</Code>.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Modal
-</Heading>
-
-<Paragraph>
-    We reworked animations so you can have more control. We added two new Parameters:
-    <UnorderedList>
-        <UnorderedListItem>
-            <Strong>Animated</Strong>: Controls whether the modal should animate.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Strong>AnimationDuration</Strong>: Sets the modal animation duration in ms.
-        </UnorderedListItem>
-    </UnorderedList>
-</Paragraph>
-
-<Paragraph>
-    You can now choose from three different loading modes on the <Code>Modal</Code> component, similar to what we already have on the <Code>Tabs</Code> component.
-    <UnorderedList>
-        <UnorderedListItem>
-            <Strong>Default</Strong>: Always renders the modal HTML content to the DOM.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Strong>LazyLoad</Strong>: Lazy loads modal, meaning the modal HTML content will only be rendered/loaded the first time it is visited.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Strong>LazyReload</Strong>: Lazy loads modal every time, meaning the modal HTML content will have its HTML re-rendered to the DOM every time.
-        </UnorderedListItem>
-    </UnorderedList>
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
     DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Scroll API
 </Heading>
 
 <Paragraph>
     Added <Code>ScrollTo</Code> Api to <Code>DataGrid</Code>. You may now use the <Code>ScrollToRow</Code> and <Code>ScrollToPixels</Code> API when <Code>FixedHeader</Code> or <Code>Virtualize</Code> is set on your <Code>DataGrid</Code>.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    Detail Row Trigger
+</Heading>
+
 <Paragraph>
     <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerEventArgs</Code> instead of an item. This will enable us to keep providing new features by adding to this context.
+</Paragraph>
+
+<Paragraph>
+    Whereas before you add:
+    <UnorderedList>
+        <UnorderedListItem><Code>DetailRowTrigger="((item)=> item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"</Code></UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    now you change to:
+    <UnorderedList>
+        <UnorderedListItem><Code>DetailRowTrigger="((context)=> context.Item.Salaries?.Count > 0 && context.Item.Id == selectedEmployee?.Id)"</Code></UnorderedListItem>
+    </UnorderedList>
 </Paragraph>
 
 <Paragraph>
@@ -264,17 +366,25 @@
     </UnorderedList>
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    Click behavior
+</Heading>
+
 <Paragraph>
-    Added PreventRowClick to <Code>DataGridColumn</Code> / <Code>DataGridCommandColumn</Code>. By setting this parameter to true, the column cell will not longer trigger the <Code>RowClicked</Code> and subsequent events.
+    Added <Code>PreventRowClick</Code> to <Code>DataGridColumn</Code> / <Code>DataGridCommandColumn</Code>. By setting this parameter to true, the column cell will not longer trigger the <Code>RowClicked</Code> and subsequent events.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Validation
+</Heading>
 
 <Paragraph>
     Added <Code>ValidationItemCreator</Code> Parameter. You may use this parameter to provide and override the way to instantiate an item for validation purposes.
 </Paragraph>
 
-<Paragraph>
-    Added ScrollTo Api to Datagrid. You may now use the ScrollToRow and ScrollToPixels API when FixedHeader or Virtualize is set on your DataGrid.
-</Paragraph>
+<Heading Size="HeadingSize.Is4">
+    Aggregates
+</Heading>
 
 <Paragraph>
     Added <Code>AggregateRowPosition</Code> Parameter to <Code>Datagrid</Code>. By setting the DataGridAggregateRowPosition, you will now be able to position the aggregate row, just like the pager.
@@ -299,22 +409,6 @@
     <UnorderedListItem>TaskCancelled</UnorderedListItem>
     <UnorderedListItem>UnexpectedError</UnorderedListItem>
 </UnorderedList>
-
-<Heading Size="HeadingSize.Is3">
-    NumericPicker
-</Heading>
-
-<Paragraph>
-    The new <Code>NumericPicker</Code> component is created as an alternative to the <Code>NumericEdit</Code> component.
-    All the formating features from <Code>NumericEdit</Code> are moved to the component. This breaking change was needed because
-    we felt there was no need to support two similar  behavior components. So, <Code>NumericEdit</Code> is left to serve as
-    a native HTML input element, and all the custom and advanced stuff is not part of the new <Code>NumericPicker</Code>.
-</Paragraph>
-
-<Paragraph>
-    The new <Code>NumericPicker</Code> component has many new features like currency mask, group separators, configurable
-    rounding methods, proper min and max input mode, and many more. So we hope the new <Code>NumericPicker</Code> will serve you well.
-</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     Drag & Drop
@@ -342,28 +436,6 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    DataGrid
-</Heading>
-
-<Paragraph>
-    <Code>DetailRowTrigger</Code> has been changed to now have an argument of <Code>DetailRowTriggerEventArgs</Code> instead of an item. This will enable us to keep providing new features by adding to this context.
-</Paragraph>
-
-<Paragraph>
-    Whereas before you add:
-    <UnorderedList>
-        <UnorderedListItem><Code>DetailRowTrigger="((item)=> item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"</Code></UnorderedListItem>
-    </UnorderedList>
-</Paragraph>
-
-<Paragraph>
-    now you change to:
-    <UnorderedList>
-        <UnorderedListItem><Code>DetailRowTrigger="((context)=> context.Item.Salaries?.Count > 0 && context.Item.Id == selectedEmployee?.Id)"</Code></UnorderedListItem>
-    </UnorderedList>
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
     Dropdown
 </Heading>
 
@@ -371,24 +443,47 @@
     When using nested dropdowns, the nested dropdowns will now consider the configured direction.
 </Paragraph>
 
-
-<Heading Size="HeadingSize.Is3">
-    PRs
-</Heading>
+<NewsPageSubtitle>
+    Let's stop here!
+</NewsPageSubtitle>
 
 <Paragraph>
-    <Anchor To="https://github.com/Xeevis">Xeevis</Anchor> did great work by creating a new <Code>Blazorise.Icons.Bootstrap</Code> package to map <Anchor To="https://icons.getbootstrap.com/#install" Target="Target.Blank">Bootstrap icons</Anchor>. The list of mapped icons covers almost 100% of icons, except for some rarely used. We have already requested them on the Bootstrap official repository, and hopefully, they will be included soon.
+    Writing all-new features wouldn't make sense, as that would make this post way too long. If you want to see a full list of all that has changed, go to our <Anchor To="https://github.com/Megabit/Blazorise/issues/3127" Target="Target.Blank">GitHub page</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Community PRs
+</NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Anchor To="https://github.com/Xeevis">Xeevis</Anchor> did great work by creating a new <Code>Blazorise.Icons.Bootstrap</Code> package to map <Anchor To="https://icons.getbootstrap.com/#install" Target="Target.Blank">Bootstrap icons</Anchor>. The list of mapped icons covers almost 100% of icons, except for some rarely used. We have already requested them on the Bootstrap official repository, and hopefully, they will be included soon.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Anchor To="https://github.com/njannink">njannink</Anchor> created a QRCode images. The new component is based on <Anchor To="https://github.com/codebude/QRCoder" Target="Target.Blank">QRCoder</Anchor>, and it is fully running on .NET code without any trace of JavaScript.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Anchor To="https://github.com/WolfgangKluge">WolfgangKluge</Anchor> helped to add a missing actions to our Markdown component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Anchor To="https://github.com/ledpup">ledpup</Anchor> Added support for the trendline plugin to the Chart extension.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Anchor To="https://github.com/soenneker">soenneker</Anchor> helped to add a a range option to the DatePicker component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Anchor To="https://github.com/gkochera">gkochera</Anchor> fixed the sort templates in DataGrid extension.
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Thanks, and stay tuned for more
+</NewsPageSubtitle>
+
+<Paragraph>
+    We would like to say a sincere thanks to all our contributors who helped in making this release. Special thanks to our partners at Volosoft for being a great partner and supporting us so far.
 </Paragraph>
 
 <Paragraph>
-    <Anchor To="https://github.com/njannink">njannink</Anchor> created an excellent new component for generating the QR Code images. The new component is based on <Anchor To="https://github.com/codebude/QRCoder" Target="Target.Blank">QRCoder</Anchor>, and it is fully running on .NET code without any trace of JavaScript.
+    Finally, this successful release wouldn't have been possible without our amazing community—so thank you for being part of it. And that's a wrap. We'll be back again with another exciting release soon, so stay tuned.
 </Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    PWA && Offline Support
-</Heading>
-
-<Paragraph>
-    We understand that setting up a PWA and offline support can have some caveats... so we've introduced documentation for this feature on our StartPage.
-</Paragraph>
-
