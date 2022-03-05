@@ -35,7 +35,22 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         allowDecimalPadding: firstNonNull(options.allowDecimalPadding, AutoNumeric.options.allowDecimalPadding.always),
         alwaysAllowDecimalCharacter: firstNonNull(options.alwaysAllowDecimalSeparator, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow),
 
-        onInvalidPaste: 'ignore',
+        onInvalidPaste: 'ignore'
+    });
+
+    instance.set(options.value);
+
+
+    element.addEventListener('autoNumeric:rawValueModified', e => {
+        if (typeof e.detail.newRawValue !== "undefined" && (options.immediate || (options.immediate === false && e.detail.newRawValue === e.detail.aNElement.settings.receivedRawValue))) {
+            dotnetAdapter.invokeMethodAsync('SetValue', e.detail.newRawValue);
+        }
+    });
+
+    element.addEventListener('blur', e => {
+        if (!options.immediate) {
+            dotnetAdapter.invokeMethodAsync('SetValue', instance.get());
+        }
     });
 
     _instances[elementId] = instance;
@@ -120,6 +135,8 @@ export function updateValue(element, elementId, value) {
     const instance = _instances[elementId];
 
     if (instance) {
-        instance.set(value);
+        instance.set(value, {
+            receivedRawValue: value
+        });
     }
 }

@@ -137,6 +137,10 @@ namespace Blazorise
 
             await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
             {
+                Value,
+                Immediate = IsImmediate,
+                Debounce = IsDebounce,
+                DebounceInterval = DebounceIntervalValue,
                 Decimals,
                 DecimalSeparator,
                 AlternativeDecimalSeparator,
@@ -185,9 +189,16 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task SetValue( string value )
+        public async Task SetValue( string value )
         {
-            return CurrentValueHandler( value );
+            if ( IsImmediate && IsDebounce )
+            {
+                InputValueDebouncer?.Update( value );
+            }
+            else
+            {
+                await CurrentValueHandler( value );
+            }
         }
 
         /// <inheritdoc/>
