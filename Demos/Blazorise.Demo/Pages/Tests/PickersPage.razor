@@ -64,12 +64,12 @@
                 </Div>
             </CardBody>
             @code {
-        DateOnly? d1;
-        DateTime? dt1 = DateTime.Now;
-        IReadOnlyList<DateOnly?> d2;
-        IReadOnlyList<DateTime?> dt2 = new DateTime?[] { DateTime.Now.AddDays( -3 ), DateTime.Now.AddDays( 3 ) };
-        IReadOnlyList<DateOnly?> d3;
-        IReadOnlyList<DateTime?> dt3 = new DateTime?[] { DateTime.Now, DateTime.Now.AddDays( 1 ) };
+                DateOnly? d1;
+                DateTime? dt1 = DateTime.Now;
+                IReadOnlyList<DateOnly?> d2;
+                IReadOnlyList<DateTime?> dt2 = new DateTime?[] { DateTime.Now.AddDays( -3 ), DateTime.Now.AddDays( 3 ) };
+                IReadOnlyList<DateOnly?> d3;
+                IReadOnlyList<DateTime?> dt3 = new DateTime?[] { DateTime.Now, DateTime.Now.AddDays( 1 ) };
             }
         </Card>
     </Column>
@@ -116,10 +116,10 @@
                     TimeSpan 2 (24h): @ts2
                 </Div>
                 @code {
-        TimeOnly? t1;
-        TimeOnly? t2;
-        TimeSpan? ts1;
-        TimeSpan? ts2;
+                    TimeOnly? t1;
+                    TimeOnly? t2;
+                    TimeSpan? ts1;
+                    TimeSpan? ts2;
                 }
             </CardBody>
         </Card>
