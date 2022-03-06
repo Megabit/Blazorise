@@ -87,5 +87,11 @@ namespace Blazorise.Charts
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public double? Weight { get; set; } = 0d;
+
+        /// <summary>
+        /// Defines options for the scale title. Note that this only applies to cartesian axes.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public ChartScaleTitle Title { get; set; }
     }
 }
