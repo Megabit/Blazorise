@@ -30,6 +30,11 @@ namespace Blazorise.Demo.Pages.Tests
             {
                 Y = new()
                 {
+                    Title = new()
+                    {
+                        Display = true,
+                        Text = "Kelvins"
+                    },
                     Ticks = new ChartAxisTicks
                     {
                         Callback = ( value, index, values ) => value / 1000 + "K"
