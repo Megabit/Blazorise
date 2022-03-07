@@ -505,13 +505,19 @@ namespace Blazorise.Components
         private string GetDisplayText( TValue value )
         {
             var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
+
             return item is null
                 ? string.Empty
                 : GetDisplayText( item );
         }
 
         private string GetDisplayText( TItem item )
-            => TextField?.Invoke( item ) ?? string.Empty;
+        {
+            if ( item is null )
+                return string.Empty;
+
+            return TextField?.Invoke( item ) ?? string.Empty;
+        }
 
         private TItem GetItemByValue( TValue value )
             => Data != null
