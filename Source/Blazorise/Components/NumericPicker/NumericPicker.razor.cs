@@ -36,6 +36,16 @@ namespace Blazorise
         /// </summary>
         private bool MaxDefined = false;
 
+        /// <summary>
+        /// Saves the last received value from the JS. 
+        /// </summary>
+        private string valueToChangeOnBlur;
+
+        /// <summary>
+        /// True if we have received the value from JS.
+        /// </summary>
+        private bool hasValueToChangeOnBlur;
+
         #endregion
 
         #region Methods
@@ -191,13 +201,19 @@ namespace Blazorise
         /// <inheritdoc/>
         public async Task SetValue( string value )
         {
-            if ( IsImmediate && IsDebounce )
+            if ( IsImmediate )
             {
-                InputValueDebouncer?.Update( value );
+                if ( IsDebounce )
+                {
+                    InputValueDebouncer?.Update( value );
+                }
+                else
+                    await CurrentValueHandler( value );
             }
             else
             {
-                await CurrentValueHandler( value );
+                valueToChangeOnBlur = value;
+                hasValueToChangeOnBlur = true;
             }
         }
 
@@ -246,6 +262,13 @@ namespace Blazorise
         {
             await base.OnBlurHandler( eventArgs );
 
+            if ( !IsImmediate && hasValueToChangeOnBlur )
+            {
+                hasValueToChangeOnBlur = false;
+
+                await CurrentValueHandler( valueToChangeOnBlur );
+            }
+
             if ( !string.IsNullOrEmpty( CurrentValueAsString ) )
             {
                 await ProcessNumber( CurrentValue );
@@ -257,6 +280,13 @@ namespace Blazorise
         {
             await base.OnKeyDownHandler( eventArgs );
 
+            if ( !IsImmediate && hasValueToChangeOnBlur && ( eventArgs.Code == "ArrowUp" || eventArgs.Code == "ArrowDown" ) )
+            {
+                hasValueToChangeOnBlur = false;
+
+                await CurrentValueHandler( valueToChangeOnBlur );
+            }
+
             if ( eventArgs.Code == "ArrowUp" )
             {
                 await OnSpinUpClicked();
@@ -264,6 +294,19 @@ namespace Blazorise
             else if ( eventArgs.Code == "ArrowDown" )
             {
                 await OnSpinDownClicked();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override async Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+        {
+            await base.OnKeyPressHandler( eventArgs );
+
+            if ( !IsImmediate && hasValueToChangeOnBlur && ( eventArgs?.Key?.Equals( "Enter", StringComparison.OrdinalIgnoreCase ) ?? false ) )
+            {
+                hasValueToChangeOnBlur = false;
+
+                await CurrentValueHandler( valueToChangeOnBlur );
             }
         }
 
