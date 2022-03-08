@@ -10,7 +10,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
-    const instance = new AutoNumeric(element, {
+    const instance = new AutoNumeric(element, options.value, {
         decimalPlaces: firstNonNull(options.decimals, AutoNumeric.options.decimalPlaces.two),
         decimalPlacesRawValue: firstNonNull(options.decimals, AutoNumeric.options.decimalPlaces.two),
         decimalPlacesShownOnBlur: firstNonNull(options.decimals, AutoNumeric.options.decimalPlaces.two),
@@ -35,7 +35,13 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         allowDecimalPadding: firstNonNull(options.allowDecimalPadding, AutoNumeric.options.allowDecimalPadding.always),
         alwaysAllowDecimalCharacter: firstNonNull(options.alwaysAllowDecimalSeparator, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow),
 
-        onInvalidPaste: 'ignore',
+        onInvalidPaste: 'ignore'
+    });
+
+    element.addEventListener('autoNumeric:rawValueModified', e => {
+        if (typeof e.detail.newRawValue !== "undefined") {
+            dotnetAdapter.invokeMethodAsync('SetValue', e.detail.newRawValue);
+        }
     });
 
     _instances[elementId] = instance;
