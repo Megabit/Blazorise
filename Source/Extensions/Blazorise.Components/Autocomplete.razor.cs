@@ -85,7 +85,7 @@ namespace Blazorise.Components
                 {
                     var item = GetItemByValue( paramSelectedValue );
 
-                    SelectedText = GetDisplayText( item );
+                    SelectedText = GetItemText( item );
                     await SelectedTextChanged.InvokeAsync( SelectedText );
 
                     if ( textEditRef != null )
@@ -249,7 +249,7 @@ namespace Blazorise.Components
             {
                 var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
-                SelectedText = GetDisplayText( item );
+                SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
 
@@ -264,7 +264,7 @@ namespace Blazorise.Components
             List<string> textsToAdd = new();
             if ( SelectedValues is not null )
                 foreach ( var selectedValue in SelectedValues )
-                    textsToAdd.Add( GetDisplayText( selectedValue ) );
+                    textsToAdd.Add( GetItemText( selectedValue ) );
 
             if ( SelectedTexts != null )
                 foreach ( var selectedText in SelectedTexts )
@@ -314,7 +314,7 @@ namespace Blazorise.Components
         }
 
         private Task AddMultipleText( TValue value )
-            => AddMultipleText( GetDisplayText( value ) );
+            => AddMultipleText( GetItemText( value ) );
 
         private Task AddMultipleText( string text )
         {
@@ -377,14 +377,14 @@ namespace Blazorise.Components
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                        let text = GetDisplayText( q )
+                        let text = GetItemText( q )
                         where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
-                        let text = GetDisplayText( q )
+                        let text = GetItemText( q )
                         where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
@@ -424,7 +424,7 @@ namespace Blazorise.Components
             {
                 var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = GetDisplayText( item );
+                SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
@@ -502,16 +502,30 @@ namespace Blazorise.Components
                     : SelectedValue?.ToString();
         }
 
-        private string GetDisplayText( TValue value )
+        private string GetItemText( TValue value )
         {
             var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
+
             return item is null
                 ? string.Empty
-                : GetDisplayText( item );
+                : GetItemText( item );
         }
 
-        private string GetDisplayText( TItem item )
-            => TextField?.Invoke( item ) ?? string.Empty;
+        private string GetItemText( TItem item )
+        {
+            if ( item is null )
+                return string.Empty;
+
+            return TextField?.Invoke( item ) ?? string.Empty;
+        }
+
+        private TValue GetItemValue( TItem item )
+        {
+            if ( item is null || ValueField == null )
+                return default;
+
+            return ValueField.Invoke( item );
+        }
 
         private TItem GetItemByValue( TValue value )
             => Data != null
@@ -519,7 +533,7 @@ namespace Blazorise.Components
                    : default;
 
         private TValue GetValueByText( string text )
-            => SelectedValues.FirstOrDefault( x => GetDisplayText( x ) == text );
+            => SelectedValues.FirstOrDefault( x => GetItemText( x ) == text );
 
         #endregion
 
