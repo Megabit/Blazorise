@@ -39,14 +39,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     });
 
     element.addEventListener('autoNumeric:rawValueModified', e => {
-        if (typeof e.detail.newRawValue !== "undefined" && (options.immediate || (options.immediate === false && e.detail.newRawValue === e.detail.aNElement.settings.receivedRawValue))) {
+        if (typeof e.detail.newRawValue !== "undefined") {
             dotnetAdapter.invokeMethodAsync('SetValue', e.detail.newRawValue);
-        }
-    });
-
-    element.addEventListener('blur', e => {
-        if (!options.immediate) {
-            dotnetAdapter.invokeMethodAsync('SetValue', instance.get());
         }
     });
 
@@ -132,8 +126,6 @@ export function updateValue(element, elementId, value) {
     const instance = _instances[elementId];
 
     if (instance) {
-        instance.set(value, {
-            receivedRawValue: value
-        });
+        instance.set(value);
     }
 }
