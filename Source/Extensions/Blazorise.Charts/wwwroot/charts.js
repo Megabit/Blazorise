@@ -116,7 +116,7 @@ function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, 
 
     chart.originalOptions = originalOptions;
 
-    wireEvents(dotnetAdapter, eventOptions, canvas, chart);
+    wireEvents(dotnetAdapter, eventOptions, canvas, type, chart);
 
     return chart;
 }
@@ -305,15 +305,124 @@ export function popData(canvasId, datasetIndex) {
     }
 }
 
-export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
+function toModel(element, type) {
+    if (type == "line") {
+        return {
+            x: element.x,
+            y: element.y,
+            label: element.options.label,
+            backgroundColor: element.options.backgroundColor,
+            borderColor: element.options.borderColor,
+            borderWidth: element.options.borderWidth,
+            controlPointNextX: element.cp1x,
+            controlPointNextY: element.cp1y,
+            controlPointPreviousX: element.cp2x,
+            controlPointPreviousY: element.cp2y,
+            hitRadius: element.options.hitRadius,
+            pointStyle: element.options.pointStyle,
+            radius: element.options.radius,
+            skip: element.skip,
+            stop: element.stop,
+            steppedLine: element.options.steppedLine,
+            tension: element.options.tension
+        };
+    }
+    else if (type == "bar") {
+        return {
+            x: element.x,
+            y: element.y,
+            backgroundColor: element.options.backgroundColor,
+            borderColor: element.options.borderColor,
+            borderRadius: element.options.borderRadius,
+            borderSkipped: element.options.borderSkipped,
+            borderWidth: element.options.borderWidth,
+            inflateAmount: element.options.inflateAmount,
+            pointStyle: element.options.pointStyle,
+            datasetLabel: element.options.datasetLabel,
+            base: element.base,
+            horizontal: element.horizontal,
+            width: element.width,
+            height: element.height
+        };
+    }
+    else if (type == "pie" || type == "polarArea" || type == "doughnut") {
+        return {
+            x: element.x,
+            y: element.y,
+
+            backgroundColor: element.options.backgroundColor,
+            borderAlign: element.options.borderAlign,
+            borderColor: element.options.borderColor,
+            borderRadius: element.options.borderRadius,
+            borderWidth: element.options.borderWidth,
+            offset: element.options.offset,
+            spacing: element.options.spacing,
+            circumference: element.circumference,
+            startAngle: element.startAngle,
+            endAngle: element.endAngle,
+            innerRadius: element.innerRadius,
+            outerRadius: element.outerRadius,
+            pixelMargin: element.pixelMargin,
+            fullCircles: element.fullCircles
+        };
+    }
+    else if (type == "scatter" || type == "bubble") {
+        return {
+            x: element.x,
+            y: element.y,
+
+            backgroundColor: element.options.backgroundColor,
+            borderColor: element.options.borderColor,
+            borderWidth: element.options.borderWidth,
+            hitRadius: element.options.hitRadius,
+            hoverBorderWidth: element.options.hoverBorderWidth,
+            hoverRadius: element.options.hoverRadius,
+            pointStyle: element.options.pointStyle,
+            radius: element.options.radius,
+            rotation: element.options.rotation,
+            skip: element.skip,
+            stop: element.stop
+        };
+    }
+    else if (type == "radar") {
+        return {
+            x: element.x,
+            y: element.y,
+
+            angle: element.angle,
+            backgroundColor: element.options.backgroundColor,
+            borderColor: element.options.borderColor,
+            borderWidth: element.options.borderWidth,
+            hitRadius: element.options.hitRadius,
+            hoverBorderWidth: element.options.hoverBorderWidth,
+            hoverRadius: element.options.hoverRadius,
+            pointStyle: element.options.pointStyle,
+            radius: element.options.radius,
+            rotation: element.options.rotation,
+            skip: element.skip,
+            stop: element.stop
+        };
+    }
+
+    return {
+        x: element.x,
+        y: element.y,
+        backgroundColor: element.options.backgroundColor,
+        borderColor: element.options.borderColor,
+        borderWidth: element.options.borderWidth
+    };
+}
+
+export function wireEvents(dotnetAdapter, eventOptions, canvas, type, chart) {
     if (eventOptions.hasClickEvent) {
         canvas.onclick = function (evt) {
             const activePoint = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
             if (activePoint && activePoint.length > 0) {
-                const datasetIndex = activePoint[0]._datasetIndex;
-                const index = activePoint[0]._index;
-                const model = activePoint[0]._model;
+                const datasetIndex = activePoint[0].datasetIndex;
+                const index = activePoint[0].index;
+                const model = toModel(activePoint[0].element, type);
+                model.datasetLabel = chart.data.labels[index];
 
                 dotnetAdapter.invokeMethodAsync("Event", "click", datasetIndex, index, JSON.stringify(model));
             }
@@ -326,9 +435,10 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, chart) {
                 const activePoint = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
                 if (activePoint && activePoint.length > 0) {
-                    const datasetIndex = activePoint[0]._datasetIndex;
-                    const index = activePoint[0]._index;
-                    const model = activePoint[0]._model;
+                    const datasetIndex = activePoint[0].datasetIndex;
+                    const index = activePoint[0].index;
+                    const model = toModel(activePoint[0].element, type);
+                    model.datasetLabel = chart.data.labels[index];
 
                     dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
                 }
