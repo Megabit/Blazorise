@@ -258,9 +258,67 @@ namespace Blazorise.Charts
 
     public class ScatterChartModel : ChartModel
     {
+        [JsonPropertyName( "backgroundColor" )]
+        public string BackgroundColor { get; set; }
+
+        [JsonPropertyName( "borderColor" )]
+        public string BorderColor { get; set; }
+
+        [JsonPropertyName( "borderWidth" )]
+        public double BorderWidth { get; set; }
+
+        [JsonPropertyName( "hitRadius" )]
+        public double HitRadius { get; set; }
+
+        [JsonPropertyName( "hoverBorderWidth" )]
+        public double HoverBorderWidth { get; set; }
+
+        [JsonPropertyName( "hoverRadius" )]
+        public double HoverRadius { get; set; }
+
+        [JsonPropertyName( "pointStyle" )]
+        public string PointStyle { get; set; }
+
+        [JsonPropertyName( "radius" )]
+        public double Radius { get; set; }
+
+        [JsonPropertyName( "skip" )]
+        public bool Skip { get; set; }
+
+        [JsonPropertyName( "stop" )]
+        public bool Stop { get; set; }
     }
 
     public class BubbleChartModel : ChartModel
     {
+        [JsonPropertyName( "backgroundColor" )]
+        public string BackgroundColor { get; set; }
+
+        [JsonPropertyName( "borderColor" )]
+        public string BorderColor { get; set; }
+
+        [JsonPropertyName( "borderWidth" )]
+        public double BorderWidth { get; set; }
+
+        [JsonPropertyName( "hitRadius" )]
+        public double HitRadius { get; set; }
+
+        [JsonPropertyName( "hoverBorderWidth" )]
+        public double HoverBorderWidth { get; set; }
+
+        [JsonPropertyName( "hoverRadius" )]
+        public double HoverRadius { get; set; }
+
+        [JsonPropertyName( "pointStyle" )]
+        public string PointStyle { get; set; }
+
+        [JsonPropertyName( "radius" )]
+        public double Radius { get; set; }
+
+        [JsonPropertyName( "skip" )]
+        public bool Skip { get; set; }
+
+        [JsonPropertyName( "stop" )]
+        public bool Stop { get; set; }
     }
 }
