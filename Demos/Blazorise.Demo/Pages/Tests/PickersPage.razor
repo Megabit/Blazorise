@@ -115,12 +115,12 @@
                 <Div>
                     TimeSpan 2 (24h): @ts2
                 </Div>
-            @code {
-                TimeOnly? t1;
-                TimeOnly? t2;
-                TimeSpan? ts1;
-                TimeSpan? ts2;
-            }
+                @code {
+                    TimeOnly? t1;
+                    TimeOnly? t2;
+                    TimeSpan? ts1;
+                    TimeSpan? ts2;
+                }
             </CardBody>
         </Card>
     </Column>
@@ -137,6 +137,107 @@
                     </FieldBody>
                 </Field>
             </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Numeric Picker</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validation Validator="@ValidateNumber">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Bind with Immediate enabled</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                            <Addons>
+                                <Addon AddonType="AddonType.Body">
+                                    <NumericPicker @bind-Value="@num1" Immediate="true" />
+                                </Addon>
+                                <Addon AddonType="AddonType.End">
+                                    <Button Color="Color.Primary" Clicked="@(()=>num1=5.1m)">Set</Button>
+                                </Addon>
+                            </Addons>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidateNumber">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Bind with Immediate disabled</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                            <Addons>
+                                <Addon AddonType="AddonType.Body">
+                                    <NumericPicker @bind-Value="@num2" Immediate="false" />
+                                </Addon>
+                                <Addon AddonType="AddonType.End">
+                                    <Button Color="Color.Primary" Clicked="@(()=>num2=6.2m)">Set</Button>
+                                </Addon>
+                            </Addons>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidateNumber">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Bind with Debounce enabled</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                            <Addons>
+                                <Addon AddonType="AddonType.Body">
+                                    <NumericPicker @bind-Value="@num3" Debounce="true" />
+                                </Addon>
+                                <Addon AddonType="AddonType.End">
+                                    <Button Color="Color.Primary" Clicked="@(()=>num3=7.3m)">Set</Button>
+                                </Addon>
+                            </Addons>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidateNumber">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Currency</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                            <Addons>
+                                <Addon AddonType="AddonType.Body">
+                                    <NumericPicker @bind-Value="@num4" CurrencySymbol="$" />
+                                </Addon>
+                                <Addon AddonType="AddonType.End">
+                                    <Button Color="Color.Primary" Clicked="@(()=>num4=8.4m)">Set</Button>
+                                </Addon>
+                            </Addons>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Div>
+                    Num 1: @num1
+                </Div>
+                <Div>
+                    Num 2: @num2
+                </Div>
+                <Div>
+                    Num 3: @num3
+                </Div>
+                <Div>
+                    Num 4: @num4
+                </Div>
+            </CardBody>
+            @code {
+                decimal? num1 = 1m;
+                decimal? num2 = 2m;
+                decimal? num3 = 3m;
+                decimal? num4 = 4m;
+
+                void ValidateNumber( ValidatorEventArgs e )
+                {
+                    var date = e.Value as decimal?;
+
+                    if ( date == null )
+                    {
+                        e.Status = ValidationStatus.Error;
+                    }
+                    else
+                    {
+                        e.Status = ValidationStatus.Success;
+                    }
+                }
+            }
         </Card>
     </Column>
 </Row>

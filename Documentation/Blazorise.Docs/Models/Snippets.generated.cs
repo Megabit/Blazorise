@@ -4922,7 +4922,7 @@ using Blazorise.Icons.FontAwesome;
 builder.Services
     .AddBlazorise( options =>
     {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
     } )
     .AddAntDesignProviders()
     .AddFontAwesomeIcons();";
@@ -4945,7 +4945,7 @@ using Blazorise.Icons.FontAwesome;
 builder.Services
     .AddBlazorise( options =>
     {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
     } )
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();";
@@ -4982,7 +4982,7 @@ using Blazorise.Icons.FontAwesome;
 builder.Services
     .AddBlazorise( options =>
     {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
     } )
     .AddBootstrap5Providers()
     .AddFontAwesomeIcons();";
@@ -5017,7 +5017,7 @@ using Blazorise.Icons.FontAwesome;
 builder.Services
     .AddBlazorise( options =>
     {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
     } )
     .AddBulmaProviders()
     .AddFontAwesomeIcons();";
@@ -5046,7 +5046,7 @@ using Blazorise.Icons.Material;
 builder.Services
     .AddBlazorise( options =>
     {
-        options.ChangeTextOnKeyPress = true;
+        options.Immediate = true;
     } )
     .AddMaterialProviders()
     .AddMaterialIcons();";

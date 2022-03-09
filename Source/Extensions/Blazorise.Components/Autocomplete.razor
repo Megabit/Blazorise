@@ -61,8 +61,8 @@
             {
                 var item = FilteredData[i];
 
-                var text = GetDisplayText( item );
-                var value = ValueField != null ? ValueField.Invoke( item ) : default;
+                var text = GetItemText( item );
+                var value = GetItemValue( item );
 
                 @if ( ItemContent is not null )
                 {

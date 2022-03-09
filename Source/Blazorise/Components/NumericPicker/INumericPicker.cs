@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Blazorise
 {
     /// <summary>
-    /// Base interface for <see cref="NumericEdit{TValue}"/> to be updated from javascript.
+    /// Base interface for <see cref="NumericPicker{TValue}"/> to be updated from javascript.
     /// </summary>
     /// <remarks>
     /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
@@ -13,7 +13,7 @@ namespace Blazorise
     public interface INumericPicker
     {
         /// <summary>
-        /// Updates the <see cref="NumericEdit{TValue}"/> with the new value.
+        /// Updates the <see cref="NumericPicker{TValue}"/> with the new value.
         /// </summary>
         /// <param name="value">New value.</param>
         /// <returns>Returns awaitable task.</returns>

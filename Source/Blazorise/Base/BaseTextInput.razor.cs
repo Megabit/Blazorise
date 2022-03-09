@@ -180,6 +180,11 @@ namespace Blazorise
             => IsImmediate ? "oninput" : "onchange";
 
         /// <summary>
+        /// Gets the debouncer reference.
+        /// </summary>
+        protected ValueDebouncer InputValueDebouncer => inputValueDebouncer;
+
+        /// <summary>
         /// Sets the placeholder for the empty text.
         /// </summary>
         [Parameter] public string Placeholder { get; set; }
