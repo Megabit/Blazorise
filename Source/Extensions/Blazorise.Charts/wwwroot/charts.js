@@ -422,6 +422,7 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, type, chart) {
                 const datasetIndex = activePoint[0].datasetIndex;
                 const index = activePoint[0].index;
                 const model = toModel(activePoint[0].element, type);
+                model.datasetLabel = chart.data.labels[index];
 
                 dotnetAdapter.invokeMethodAsync("Event", "click", datasetIndex, index, JSON.stringify(model));
             }
@@ -437,6 +438,7 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, type, chart) {
                     const datasetIndex = activePoint[0].datasetIndex;
                     const index = activePoint[0].index;
                     const model = toModel(activePoint[0].element, type);
+                    model.datasetLabel = chart.data.labels[index];
 
                     dotnetAdapter.invokeMethodAsync("Event", "hover", datasetIndex, index, JSON.stringify(model));
                 }
