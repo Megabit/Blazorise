@@ -8,6 +8,12 @@ namespace Blazorise
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class ClassProvider : IClassProvider
     {
+        #region DataGrid
+
+        public abstract bool DataGridRowMultiSelectPreventClick();
+
+        #endregion
+
         #region TextEdit
 
         public abstract string TextEdit( bool plaintext );

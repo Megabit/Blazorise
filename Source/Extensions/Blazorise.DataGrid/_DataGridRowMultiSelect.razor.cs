@@ -69,13 +69,10 @@ namespace Blazorise.DataGrid
             return sb.ToString().TrimStart( ' ', ';' );
         }
 
-        public bool IsBS5Provider()
-            => ClassProvider.Provider == "Bootstrap5";
-
         #endregion
 
         #region Properties
-        [Inject] IClassProvider ClassProvider { get; set; }
+        [Inject] public IClassProvider ClassProvider { get; set; }
 
         [Parameter] public TItem Item { get; set; }
 

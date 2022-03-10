@@ -9,6 +9,12 @@ namespace Blazorise.Providers
     /// </summary>
     class EmptyClassProvider : IClassProvider
     {
+        #region DataGrid
+
+        public bool DataGridRowMultiSelectPreventClick() => true;
+
+        #endregion
+
         #region TextEdit
 
         public string TextEdit( bool plaintext ) => null;

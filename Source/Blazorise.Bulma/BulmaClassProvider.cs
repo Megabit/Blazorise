@@ -8,6 +8,12 @@ namespace Blazorise.Bulma
 {
     public class BulmaClassProvider : ClassProvider
     {
+        #region DataGrid
+
+        public override bool DataGridRowMultiSelectPreventClick() => true;
+
+        #endregion
+
         #region TextEdit
 
         public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
