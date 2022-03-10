@@ -85,6 +85,11 @@ namespace Blazorise
         public bool? EnableNumericStep { get; set; }
 
         /// <summary>
+        /// If true, modal will keep input focus.
+        /// </summary>
+        public bool? ActivateModalFocusTrap { get; set; } = true;
+
+        /// <summary>
         /// Gets the service provider.
         /// </summary>
         public IServiceProvider Services => serviceProvider;

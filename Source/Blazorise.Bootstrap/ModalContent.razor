@@ -2,7 +2,9 @@
 <CascadingValue Value="@this" IsFixed>
     <div class="@DialogClassNames" role="document">
         <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
+            <FocusTrap @ref="@FocusTrapRef" Active="@ActivateFocusTrap">
+                @ChildContent
+            </FocusTrap>
         </div>
     </div>
 </CascadingValue>

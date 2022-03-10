@@ -3,7 +3,9 @@
     <div id="@WrapperElementId" class="ant-modal-wrap" role="dialog" style="@(ParentModal?.IsVisible == true ? "" : "display: none;")">
         <div class="@DialogClassNames" role="document">
             <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
+                <FocusTrap @ref="@FocusTrapRef" Active="@ActivateFocusTrap">
+                    @ChildContent
+                </FocusTrap>
             </div>
         </div>
     </div>

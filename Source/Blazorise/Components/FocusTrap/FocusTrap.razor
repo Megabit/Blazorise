@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<div class="blazored-modal-focus-trap" @ref="containerRef" @onkeydown="HandleKeyPresses" @onkeyup="HandleKeyPresses">
+    <div tabindex="@(Active ? 0 : -1)" @ref="startSecondRef" @onfocus="FocusEndAsync"></div>
+    <div tabindex="@(Active ? 0 : -1)" @ref="startFirstRef" @onfocus="FocusEndAsync"></div>
+    @ChildContent
+    <div tabindex="@(Active ? 0 : -1)" @ref="endFirstRef" @onfocus="FocusStartAsync"></div>
+    <div tabindex="@(Active ? 0 : -1)" @ref="endSecondRef" @onfocus="FocusStartAsync"></div>
+</div>

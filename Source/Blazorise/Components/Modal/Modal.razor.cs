@@ -68,6 +68,16 @@ namespace Blazorise
         /// </summary>
         private CloseableAdapter closeableAdapter;
 
+        /// <summary>
+        /// Internal event that is raised after the modal has opened.
+        /// </summary>
+        internal event Action _Opened;
+
+        /// <summary>
+        /// Internal event that is raised after the modal has closed.
+        /// </summary>
+        internal event Action _Closed;
+
         #endregion
 
         #region Methods
@@ -346,10 +356,14 @@ namespace Blazorise
         {
             if ( visible )
             {
+                _Opened?.Invoke();
+
                 await Opened.InvokeAsync();
             }
             else
             {
+                _Closed?.Invoke();
+
                 await Closed.InvokeAsync();
             }
 
@@ -475,6 +489,12 @@ namespace Blazorise
         /// </summary>
         public IEnumerable<string> CloseActivatorElementIds
             => closeActivatorElementIds;
+
+        /// <summary>
+        /// Returns true if modal contains and component that should be autofocused.
+        /// </summary>
+        public bool HasAutofocusComponent
+            => FocusableComponents.Any( x => x.Autofocus );
 
         /// <summary>
         /// Gets or sets the <see cref="IJSModalModule"/> instance.
