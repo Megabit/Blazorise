@@ -70,6 +70,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the focusable element tab index.
+        /// </summary>
+        protected int FocusableTabIndex => Active ? 0 : -1;
+
+        /// <summary>
         /// If true the TAB focus will be activated.
         /// </summary>
         [Parameter] public bool Active { get; set; }
