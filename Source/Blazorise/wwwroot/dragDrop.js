@@ -6,11 +6,24 @@ export function initialize(element, elementId) {
     if (!element)
         return;
 
-    element.addEventListener('dragover', function (e) {
-        e.preventDefault();
-    });
+    element.addEventListener('dragover', dragOverHandler);
+    element.addEventListener('dragstart', dragStartHandler);
+}
 
-    element.addEventListener('dragstart', function (e) {
-        e.dataTransfer.setData('', e.target.id);
-    });
+export function destroy(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    element.removeEventListener('dragover', dragOverHandler);
+    element.removeEventListener('dragstart', dragStartHandler);
+}
+
+function dragOverHandler(e) {
+    e.preventDefault();
+}
+
+function dragStartHandler(e) {
+    e.dataTransfer.setData('', e.target.id);
 }
