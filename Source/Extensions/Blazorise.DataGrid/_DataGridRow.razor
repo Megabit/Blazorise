@@ -49,7 +49,16 @@
                     }
                     else
                     {
-                        @column.FormatDisplayValue( Item )
+                        var displayValue = column.FormatDisplayValue( Item );
+
+                        @if ( column.ColumnType == DataGridColumnType.Check )
+                        {
+                            <Check TValue="bool" ReadOnly Disabled Checked="@(displayValue == bool.TrueString)" />
+                        }
+                        else
+                        {
+                            @displayValue
+                        }
                     }
                 </TableRowCell>
             }
