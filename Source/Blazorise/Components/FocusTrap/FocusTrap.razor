@@ -1,9 +1,9 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<div @ref="@containerRef" @onkeydown="@HandleKeyPresses" @onkeyup="@HandleKeyPresses">
-    <div tabindex="@FocusableTabIndex" @ref="@startSecondRef" @onfocus="@FocusEndAsync"></div>
-    <div tabindex="@FocusableTabIndex" @ref="@startFirstRef" @onfocus="@FocusEndAsync"></div>
+<div @ref="@containerRef" @onkeydown="@OnKeyPressesHandler" @onkeyup="@OnKeyPressesHandler">
+    <div tabindex="@FocusableTabIndex" @ref="@startSecondRef" @onfocus="@OnFocusEndHandler"></div>
+    <div tabindex="@FocusableTabIndex" @ref="@startFirstRef" @onfocus="@OnFocusEndHandler"></div>
     @ChildContent
-    <div tabindex="@FocusableTabIndex" @ref="@endFirstRef" @onfocus="@FocusStartAsync"></div>
-    <div tabindex="@FocusableTabIndex" @ref="@endSecondRef" @onfocus="@FocusStartAsync"></div>
+    <div tabindex="@FocusableTabIndex" @ref="@endFirstRef" @onfocus="@OnFocusStartHandler"></div>
+    <div tabindex="@FocusableTabIndex" @ref="@endSecondRef" @onfocus="@OnFocusStartHandler"></div>
 </div>

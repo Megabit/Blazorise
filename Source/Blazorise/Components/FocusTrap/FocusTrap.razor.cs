@@ -38,10 +38,19 @@ namespace Blazorise
             }
         }
 
-        internal async Task SetFocus()
+        /// <summary>
+        /// Sets the focus trap.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task SetFocus()
             => await startFirstRef.FocusAsync();
 
-        private async Task FocusStartAsync( FocusEventArgs args )
+        /// <summary>
+        /// Handles the focus start event.
+        /// </summary>
+        /// <param name="args">Supplies information about a focus event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual async Task OnFocusStartHandler( FocusEventArgs args )
         {
             if ( !shiftTabPressed )
             {
@@ -49,7 +58,12 @@ namespace Blazorise
             }
         }
 
-        private async Task FocusEndAsync( FocusEventArgs args )
+        /// <summary>
+        /// Handles the focus end event.
+        /// </summary>
+        /// <param name="args">Supplies information about a focus event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual async Task OnFocusEndHandler( FocusEventArgs args )
         {
             if ( shiftTabPressed )
             {
@@ -57,7 +71,12 @@ namespace Blazorise
             }
         }
 
-        private void HandleKeyPresses( KeyboardEventArgs args )
+        /// <summary>
+        /// Handles the focus start event.
+        /// </summary>
+        /// <param name="args">Supplies information about a keyboard event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual void OnKeyPressesHandler( KeyboardEventArgs args )
         {
             if ( args.Key == "Tab" )
             {
