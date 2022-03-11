@@ -31,6 +31,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         currencySymbolPlacement: firstNonNull(options.currencySymbolPlacement, AutoNumeric.options.currencySymbolPlacement.suffix),
 
         selectOnFocus: firstNonNull(options.selectAllOnFocus, AutoNumeric.options.selectOnFocus.doNotSelect),
+        caretPositionOnFocus: AutoNumeric.options.caretPositionOnFocus.doNoForceCaretPosition,
 
         allowDecimalPadding: firstNonNull(options.allowDecimalPadding, AutoNumeric.options.allowDecimalPadding.always),
         alwaysAllowDecimalCharacter: firstNonNull(options.alwaysAllowDecimalSeparator, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow),
