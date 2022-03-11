@@ -54,7 +54,7 @@ namespace Blazorise.Modules
 
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "updateContent", elementId );
+            await moduleInstance.InvokeVoidAsync( "updateContent", elementRef, elementId, content );
         }
 
         #endregion
