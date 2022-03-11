@@ -23,7 +23,7 @@ namespace Blazorise
 
         private ElementReference endSecondRef;
 
-        private bool _shiftPressed;
+        private bool shiftTabPressed;
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace Blazorise
 
         private async Task FocusStartAsync( FocusEventArgs args )
         {
-            if ( !_shiftPressed )
+            if ( !shiftTabPressed )
             {
                 await startFirstRef.FocusAsync();
             }
@@ -51,7 +51,7 @@ namespace Blazorise
 
         private async Task FocusEndAsync( FocusEventArgs args )
         {
-            if ( _shiftPressed )
+            if ( shiftTabPressed )
             {
                 await endFirstRef.FocusAsync();
             }
@@ -61,7 +61,7 @@ namespace Blazorise
         {
             if ( args.Key == "Tab" )
             {
-                _shiftPressed = args.ShiftKey;
+                shiftTabPressed = args.ShiftKey;
             }
         }
 
