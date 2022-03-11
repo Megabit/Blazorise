@@ -111,7 +111,7 @@ namespace Blazorise
         /// <summary>
         /// True if modal should keep the input focus.
         /// </summary>
-        protected bool ActivateFocusTrap => Options?.ActivateModalFocusTrap == true;
+        protected bool IsFocusTrap => ParentModal?.FocusTrap ?? Options?.ModalFocusTrap ?? true;
 
         /// <summary>
         /// Gets or sets the <see cref="FocusTrap"/> reference.

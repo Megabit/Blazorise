@@ -87,7 +87,7 @@ namespace Blazorise
         /// <summary>
         /// If true, modal will keep input focus.
         /// </summary>
-        public bool? ActivateModalFocusTrap { get; set; } = true;
+        public bool? ModalFocusTrap { get; set; } = true;
 
         /// <summary>
         /// Gets the service provider.

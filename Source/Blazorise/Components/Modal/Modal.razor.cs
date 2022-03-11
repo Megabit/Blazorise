@@ -559,6 +559,11 @@ namespace Blazorise
         [Parameter] public ModalRenderMode RenderMode { get; set; }
 
         /// <summary>
+        /// Defines if the modal should keep the input focus at all times.
+        /// </summary>
+        [Parameter] public bool? FocusTrap { get; set; }
+
+        /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Modal"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
