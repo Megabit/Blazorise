@@ -119,6 +119,7 @@ namespace Blazorise
         {
             serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
+            serviceCollection.AddSingleton<IBehaviourProvider, EmptyBehaviourProvider>();
 
             return serviceCollection;
         }

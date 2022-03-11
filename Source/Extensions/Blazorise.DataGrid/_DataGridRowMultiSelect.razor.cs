@@ -72,7 +72,8 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
-        [Inject] public IClassProvider ClassProvider { get; set; }
+
+        [Inject] protected IBehaviourProvider BehaviourProvider { get; set; }
 
         [Parameter] public TItem Item { get; set; }
 
