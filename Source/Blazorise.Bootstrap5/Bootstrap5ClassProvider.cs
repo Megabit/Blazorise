@@ -8,12 +8,6 @@ namespace Blazorise.Bootstrap5
 {
     public class BootstrapClassProvider : ClassProvider
     {
-        #region DataGrid
-
-        public override bool DataGridRowMultiSelectPreventClick() => false;
-
-        #endregion
-
         #region TextEdit
 
         public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";

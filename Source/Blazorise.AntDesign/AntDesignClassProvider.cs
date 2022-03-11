@@ -8,12 +8,6 @@ namespace Blazorise.AntDesign
 {
     public class AntDesignClassProvider : ClassProvider
     {
-        #region DataGrid
-
-        public override bool DataGridRowMultiSelectPreventClick() => true;
-
-        #endregion
-
         #region TextEdit
 
         public override string TextEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
