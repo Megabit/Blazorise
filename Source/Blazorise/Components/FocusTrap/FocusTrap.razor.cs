@@ -72,11 +72,11 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Handles the focus start event.
+        /// Handles the keyboard events.
         /// </summary>
         /// <param name="args">Supplies information about a keyboard event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected virtual void OnKeyPressesHandler( KeyboardEventArgs args )
+        protected virtual void OnKeyPressedHandler( KeyboardEventArgs args )
         {
             if ( args.Key == "Tab" )
             {
