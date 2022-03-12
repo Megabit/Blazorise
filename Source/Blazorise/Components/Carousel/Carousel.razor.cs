@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Blazorise.Localization;
@@ -31,14 +32,14 @@ namespace Blazorise
         };
 
         /// <summary>
-        /// A times used to activate the slide animation.
+        /// A timer used to activate the slide animation.
         /// </summary>
-        public System.Timers.Timer Timer { get; set; }
+        public PeriodicTimer Timer { get; set; }
 
         /// <summary>
-        /// A times used to animate the slide transition.
+        /// A timer used to animate the slide transition.
         /// </summary>
-        public System.Timers.Timer TransitionTimer { get; set; }
+        public PeriodicTimer TransitionTimer { get; set; }
 
         /// <summary>
         /// A list of slides placed inside of this carousel.
@@ -63,27 +64,25 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
-            SetTimer();
+            await SetTimer();
 
-            base.OnParametersSet();
+            await base.OnParametersSetAsync();
         }
 
         /// <inheritdoc/>
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            SetTimer();
+            await SetTimer();
 
-            if ( TransitionTimer == null )
-            {
-                InitializeTransitionTimer();
-            }
+            await InitializeTransitionTimer();
 
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
-            base.OnInitialized();
+            await base.OnInitializedAsync();
         }
+
 
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -101,19 +100,8 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( Timer is not null )
-                {
-                    Timer.Stop();
-                    Timer.Elapsed -= OnTimerEvent;
-                    Timer.Dispose();
-                }
-
-                if ( TransitionTimer is not null )
-                {
-                    TransitionTimer.Stop();
-                    TransitionTimer.Elapsed -= OnTransitionTimerEvent;
-                    TransitionTimer.Dispose();
-                }
+                Timer?.Dispose();
+                TransitionTimer?.Dispose();
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
@@ -220,29 +208,29 @@ namespace Blazorise
         /// <summary>
         /// Selects the next slide in a sequence, relative to the current slide.
         /// </summary>
-        public Task SelectNext()
+        public async Task SelectNext()
         {
             if ( AnimationRunning )
-                return Task.CompletedTask;
+                return;
 
-            ResetTimer();
+            await ResetTimer();
             SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
-            return RunAnimations();
+            await RunAnimations();
         }
 
         /// <summary>
         /// Selects the previous slide in a sequence, relative to the current slide.
         /// </summary>
-        public Task SelectPrevious()
+        public async Task SelectPrevious()
         {
             if ( AnimationRunning )
-                return Task.CompletedTask;
+                return;
 
-            ResetTimer();
+            await ResetTimer();
             SelectedSlide = FindPreviousSlide( SelectedSlide )?.Name;
 
-            return RunAnimations();
+            await RunAnimations();
         }
 
         /// <summary>
@@ -250,13 +238,13 @@ namespace Blazorise
         /// </summary>
         /// <param name="name">Name of the slide.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Select( string name )
+        public async Task Select( string name )
         {
-            ResetTimer();
+            await ResetTimer();
 
             SelectedSlide = name;
 
-            return RunAnimations();
+            await RunAnimations();
         }
 
         /// <summary>
@@ -269,79 +257,71 @@ namespace Blazorise
             await InvokeAsync( StateHasChanged );
         }
 
-        private void InitializeTimer()
+        private Task InitializeTimer( double? interval = null )
         {
-            Timer = new( Interval );
-            Timer.Elapsed += OnTimerEvent;
-            Timer.AutoReset = true;
+            Timer = new( TimeSpan.FromMilliseconds( interval ?? Interval ) );
+
+            Task.Run( async () =>
+            {
+                while ( await Timer.WaitForNextTickAsync() )
+                {
+                    if ( AutoPlayEnabled )
+                        await OnTimerEvent( this, null );
+                };
+            } );
+            return Task.CompletedTask;
         }
 
-        private void InitializeTransitionTimer()
+        private Task InitializeTransitionTimer()
         {
-            TransitionTimer = new( 2000 );
-            TransitionTimer.Elapsed += OnTransitionTimerEvent;
-            TransitionTimer.AutoReset = false;
+            TransitionTimer = new( TimeSpan.FromMilliseconds( 2000 ) );
+
+            Task.Run( async () =>
+            {
+                while ( await TransitionTimer.WaitForNextTickAsync() )
+                {
+                    //await OnTransitionTimerEvent( this, null );
+                };
+            } );
+            return Task.CompletedTask;
         }
 
-        private void SetTimer()
+        private async Task SetTimer()
         {
             TimerEnabled = ( Interval > 0 );
 
-            if ( Timer == null && TimerEnabled )
+            if ( Timer is null && TimerEnabled )
             {
-                InitializeTimer();
-            }
-
-            if ( AutoPlayEnabled )
-            {
-                Timer.Start();
+                await InitializeTimer();
             }
         }
 
-        private void ResetTimer()
+        private async Task ResetTimer()
         {
-            if ( Timer != null )
-            {
-                Timer.Stop();
-
-                if ( AutoPlayEnabled )
-                {
-                    Timer.Interval = GetSelectedCarouselSlide()?.Interval ?? Interval;
-                    // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
-                    InitializeTimer();
-                    Timer.Start();
-                }
-            }
+            if ( Timer is not null && AutoPlayEnabled )
+                await InitializeTimer();
         }
 
-        private void ResetTransitionTimer()
-        {
-            if ( TransitionTimer != null )
-            {
-                TransitionTimer.Stop();
-                // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
-                InitializeTransitionTimer();
-                TransitionTimer.Start();
-            }
-        }
+        private Task ResetTransitionTimer()
+            => InitializeTransitionTimer();
 
-        private async void OnTimerEvent( object source, ElapsedEventArgs e )
+        private Task OnTimerEvent( object source, ElapsedEventArgs e )
         {
             if ( AnimationRunning )
-                return;
+                return Task.CompletedTask;
 
             if ( SelectedSlideIndex == NumberOfSlides - 1 && !AutoRepeat )
             {
-                Timer.Stop();
-                return;
+                Timer.Dispose();
+                return Task.CompletedTask;
             }
 
             SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
 
-            await InvokeAsync( RunAnimations );
+            return InvokeAsync( RunAnimations );
         }
 
-        private async void OnTransitionTimerEvent( object source, ElapsedEventArgs e )
+        private async Task OnTransitionTimerEvent( object source, ElapsedEventArgs e )
         {
             if ( !AnimationRunning )
                 return;
@@ -382,7 +362,7 @@ namespace Blazorise
 
                 if ( TimerEnabled )
                 {
-                    ResetTimer();
+                    await ResetTimer();
                 }
 
                 await SelectedSlideChanged.InvokeAsync( SelectedSlide );
@@ -403,8 +383,7 @@ namespace Blazorise
 
             if ( TimerEnabled )
             {
-                Timer.Stop();
-                Timer.Interval = selectedSlide?.Interval ?? Interval;
+                await InitializeTimer( selectedSlide?.Interval ?? Interval );
             }
 
             AnimationRunning = true;
@@ -429,7 +408,17 @@ namespace Blazorise
 
             await InvokeAsync( StateHasChanged );
 
-            ResetTransitionTimer();
+            await ResetTransitionTimer();
+
+            await Task.Delay( TimeSpan.FromMilliseconds( 2000 ) );
+            selectedSlide = GetSelectedCarouselSlide();
+            if ( !selectedSlide?.Active ?? false )
+            {
+                await InvokeAsync( async () =>
+                {
+                    await AnimationEnd( selectedSlide );
+                } );
+            }
         }
 
         private void SetSlideDirection( CarouselSlide slide )
