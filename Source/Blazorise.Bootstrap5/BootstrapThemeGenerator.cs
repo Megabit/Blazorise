@@ -381,6 +381,21 @@ namespace Blazorise.Bootstrap5
                 //    .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )
                 //    .AppendLine( "}" );
             }
+
+            sb.Append( $".form-range::-webkit-slider-thumb" )
+                    .Append( "{" )
+                    .Append( $"background-color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+
+            sb.Append( $".form-range:focus::-webkit-slider-thumb" )
+                    .Append( "{" )
+                    .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) )};" )
+                    .AppendLine( "}" );
+
+            sb.Append( $".form-range::-webkit-slider-thumb:active" )
+                    .Append( "{" )
+                    .Append( $"background-color: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 70f ) )};" )
+                    .AppendLine( "}" );
         }
 
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
