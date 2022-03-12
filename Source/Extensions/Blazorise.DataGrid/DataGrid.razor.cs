@@ -2060,7 +2060,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether default sort icon should display.
         /// </summary>
-        [Parameter] public bool ShowDefaultSortIcon { get; set; } = false;
+        [Parameter] public bool ShowDefaultSortIcon { get; set; }
 
         /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.
