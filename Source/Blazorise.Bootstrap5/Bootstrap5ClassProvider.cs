@@ -1390,6 +1390,6 @@ namespace Blazorise.Bootstrap5
 
         public override bool UseCustomInputStyles { get; set; } = true;
 
-        public override string Provider => "Bootstrap";
+        public override string Provider => "Bootstrap5";
     }
 }

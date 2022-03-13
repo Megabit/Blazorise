@@ -17,6 +17,7 @@ namespace Blazorise.Bulma
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
+            serviceCollection.AddSingleton<IBehaviourProvider, BulmaBehaviourProvider>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )

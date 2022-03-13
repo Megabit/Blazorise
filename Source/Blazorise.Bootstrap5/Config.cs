@@ -22,6 +22,7 @@ namespace Blazorise.Bootstrap5
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, Bootstrap5StyleProvider>();
+            serviceCollection.AddSingleton<IBehaviourProvider, BootstrapBehaviourProvider>();
             serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
 
             serviceCollection.AddBootstrap5Components();
