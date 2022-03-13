@@ -2058,6 +2058,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets whether default sort icon should display.
+        /// </summary>
+        [Parameter] public bool ShowDefaultSortIcon { get; set; }
+
+        /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.
         /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
