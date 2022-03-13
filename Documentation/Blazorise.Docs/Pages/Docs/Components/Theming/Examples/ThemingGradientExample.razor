@@ -1,10 +1,13 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Blazorise.ThemeProvider Theme="@theme">
-    <Router AppAssembly="typeof(App).Assembly" />
+    <Router AppAssembly="typeof(App).Assembly">
+        <Found>...</Found>
+        <NotFound>...</NotFound>
+    </Router>
 </Blazorise.ThemeProvider>
 
-@code{
+@code {
     private Theme theme = new Theme
     {
         IsGradient = true,
