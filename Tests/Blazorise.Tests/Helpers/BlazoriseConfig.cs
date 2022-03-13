@@ -22,6 +22,7 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IEditContextValidator>( new EditContextValidator( new ValidationMessageLocalizerAttributeFinder() ) );
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
+            services.AddSingleton<IBehaviourProvider>( new BootstrapBehaviourProvider() );
             services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator( new Mock<IThemeCache>().Object ) );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
             services.AddSingleton<IValidationHandlerFactory, ValidationHandlerFactory>();
