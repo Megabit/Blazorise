@@ -122,10 +122,13 @@
             ShowCloseButton = true,
             OkButtonText = "Ok",
             OkButtonColor = Color.Primary,
+            OkButtonClass = "px-2",
             CancelButtonText = "Cancel",
             CancelButtonColor = Color.Secondary,
+            CancelButtonClass = "px-2",
             ConfirmButtonText = "Yes",
             ConfirmButtonColor = Color.Primary,
+            ConfirmButtonClass = "px-2"
         };
     }
 }
