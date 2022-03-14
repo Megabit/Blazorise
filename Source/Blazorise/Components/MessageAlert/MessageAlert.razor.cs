@@ -230,6 +230,22 @@ namespace Blazorise
             => Options?.CancelButtonClass;
 
         /// <summary>
+        /// Gets the OK button padding.
+        /// </summary>
+        protected virtual IFluentSpacing OkButtonPadding
+            => Options?.OkButtonPadding ?? Blazorise.Padding.Is2.OnX;
+        /// <summary>
+        /// Gets the cancel button padding.
+        /// </summary>
+        protected virtual IFluentSpacing CancelButtonPadding
+            => Options?.CancelButtonPadding ?? Blazorise.Padding.Is2.OnX;
+        /// <summary>
+        /// Gets the confirm button padding.
+        /// </summary>
+        protected virtual IFluentSpacing ConfirmButtonPadding
+            => Options?.ConfirmButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
+        /// <summary>
         /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
         /// </summary>
         [Inject] protected IMessageService MessageService { get; set; }
