@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// The focus trap component allows to restrict TAB key navigation inside the component.
     /// </summary>
-    public partial class FocusTrap : BaseComponent
+    public partial class FocusTrap : BaseFocusableContainerComponent
     {
         #region Members
 
@@ -30,12 +30,25 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override async Task OnAfterRenderAsync( bool firstRender )
+        public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( firstRender )
+            if ( Rendered && parameters.TryGetValue<bool>( nameof( Active ), out var activeParam ) && Active != activeParam && activeParam )
             {
-                await startFirstRef.FocusAsync();
+                ExecuteAfterRender( SetFocus );
             }
+
+            await base.SetParametersAsync( parameters );
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender && Active )
+            {
+                ExecuteAfterRender( SetFocus );
+            }
+
+            return base.OnAfterRenderAsync( firstRender );
         }
 
         /// <summary>
@@ -43,7 +56,15 @@ namespace Blazorise
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetFocus()
-            => await startFirstRef.FocusAsync();
+        {
+            if ( Rendered )
+            {
+                if ( HasFocusableComponents )
+                    await HandleFocusableComponent();
+                else
+                    await startFirstRef.FocusAsync();
+            }
+        }
 
         /// <summary>
         /// Handles the focus start event.

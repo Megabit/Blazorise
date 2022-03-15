@@ -78,8 +78,7 @@ namespace Blazorise
 
         private void OnModalOpened()
         {
-            if ( ParentModal != null && !ParentModal.HasAutofocusComponent )
-                ExecuteAfterRender( FocusTrapRef.SetFocus );
+            ExecuteAfterRender( FocusTrapRef.SetFocus );
         }
 
         #endregion
