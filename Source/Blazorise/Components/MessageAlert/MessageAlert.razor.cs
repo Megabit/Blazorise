@@ -1,9 +1,7 @@
 ﻿#region Using directives
-
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise
@@ -107,7 +105,7 @@ namespace Blazorise
         protected virtual Task OnModalClosing( ModalClosingEventArgs eventArgs )
         {
             eventArgs.Cancel = BackgroundCancel && ( eventArgs.CloseReason == CloseReason.EscapeClosing
-                                                     || eventArgs.CloseReason == CloseReason.FocusLostClosing );
+                || eventArgs.CloseReason == CloseReason.FocusLostClosing );
 
             return Task.CompletedTask;
         }
