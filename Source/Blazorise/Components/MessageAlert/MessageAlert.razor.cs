@@ -199,13 +199,13 @@ namespace Blazorise
         /// Gets the css class for the title.
         /// </summary>
         protected virtual string TitleClass
-            => Options?.TitleClass ?? "";
+            => Options?.TitleClass;
 
         /// <summary>
         /// Gets the css class for the message text.
         /// </summary>
         protected virtual string MessageClass
-            => Options?.MessageClass ?? "";
+            => Options?.MessageClass;
 
         /// <summary>
         /// Gets the Confirm button text.
