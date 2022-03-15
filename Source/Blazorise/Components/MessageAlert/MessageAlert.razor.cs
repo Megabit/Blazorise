@@ -264,63 +264,53 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
         /// </summary>
-        [Inject]
-        protected IMessageService MessageService { get; set; }
+        [Inject] protected IMessageService MessageService { get; set; }
 
         /// <summary>
         /// Gets or sets the message type.
         /// </summary>
-        [Parameter]
-        public MessageType MessageType { get; set; }
+        [Parameter] public MessageType MessageType { get; set; }
 
         /// <summary>
         /// Gets or sets the message title.
         /// </summary>
-        [Parameter]
-        public string Title { get; set; }
+        [Parameter] public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the message content.
         /// </summary>
-        [Parameter]
-        public MarkupString Message { get; set; }
+        [Parameter] public MarkupString Message { get; set; }
 
         /// <summary>
         /// Gets or sets the custom message options.
         /// </summary>
-        [Parameter]
-        public MessageOptions Options { get; set; }
+        [Parameter] public MessageOptions Options { get; set; }
 
         /// <summary>
         /// Occurs after the user respond with an action button.
         /// </summary>
-        [Parameter]
-        public TaskCompletionSource<bool> Callback { get; set; }
+        [Parameter] public TaskCompletionSource<bool> Callback { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with an OK action.
         /// </summary>
-        [Parameter]
-        public EventCallback Okayed { get; set; }
+        [Parameter] public EventCallback Okayed { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with a Confirm action.
         /// </summary>
-        [Parameter]
-        public EventCallback Confirmed { get; set; }
+        [Parameter] public EventCallback Confirmed { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with a Cancel action.
         /// </summary>
-        [Parameter]
-        public EventCallback Canceled { get; set; }
+        [Parameter] public EventCallback Canceled { get; set; }
 
         /// <summary>
         /// By default, a modal is cancelled if the user clicks anywhere outside the modal.
         /// This behavior can be disabled by setting <see cref="BackgroundCancel"/> to false.
         /// </summary>
-        [Parameter]
-        public bool BackgroundCancel { get; set; } = true;
+        [Parameter] public bool BackgroundCancel { get; set; } = true;
 
         #endregion
     }
