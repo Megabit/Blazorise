@@ -1,0 +1,23 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Animate @ref="animateRef" Auto="false" Animation="Animations.FadeIn" DelayMilliseconds="500">
+    <Card Margin="Margin.Is4.OnY">
+        <CardBody>
+            <CardTitle Size="5">Fade Example</CardTitle>
+            <CardText>
+                Some content.
+            </CardText>
+        </CardBody>
+    </Card>
+</Animate>
+<Button Color="Color.Primary" Clicked="@Animate">Animate!</Button>
+
+@code {
+    //TODO : Dropdown to select animations
+    //TODO : Re-animate
+    private Animate animateRef;
+
+    private void Animate()
+        => animateRef.Run();
+
+}

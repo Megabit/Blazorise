@@ -2873,6 +2873,28 @@ namespace Blazorise.Docs.Models
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
 
+        public const string AnimateExample = @"<Animate @ref=""animateRef"" Auto=""false"" Animation=""Animations.FadeIn"" DelayMilliseconds=""500"">
+    <Card Margin=""Margin.Is4.OnY"">
+        <CardBody>
+            <CardTitle Size=""5"">Fade Example</CardTitle>
+            <CardText>
+                Some content.
+            </CardText>
+        </CardBody>
+    </Card>
+</Animate>
+<Button Color=""Color.Primary"" Clicked=""@Animate"">Animate!</Button>
+
+@code {
+    private Animate animateRef;
+
+    private void Animate()
+        => animateRef.Run();
+
+}";
+
+        public const string AnimateResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js""></script>";
+
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
@@ -3124,7 +3146,7 @@ namespace Blazorise.Docs.Models
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
-        public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js""></script>";
+        public const string ChartResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.0.0""></script>";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
