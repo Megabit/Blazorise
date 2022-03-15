@@ -3,7 +3,7 @@
 <Modal @ref="@ModalRef" Closing="@OnModalClosing">
     <ModalContent Centered="@CenterMessage" Scrollable="@ScrollableMessage">
         <ModalHeader>
-            <ModalTitle>
+            <ModalTitle Class="@TitleClass">
                 @Title
             </ModalTitle>
             @if ( ShowCloseButton )
@@ -18,7 +18,7 @@
                     <Icon Name="@MessageIcon" TextColor="@MessageIconColor" />
                 </Heading>
             }
-            <Text TextAlignment="TextAlignment.Center">
+            <Text TextAlignment="TextAlignment.Center" Class="@MessageClass" >
                 @Message
             </Text>
         </ModalBody>

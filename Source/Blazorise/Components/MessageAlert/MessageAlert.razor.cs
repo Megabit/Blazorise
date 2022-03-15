@@ -1,7 +1,9 @@
 ﻿#region Using directives
+
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise
@@ -105,7 +107,7 @@ namespace Blazorise
         protected virtual Task OnModalClosing( ModalClosingEventArgs eventArgs )
         {
             eventArgs.Cancel = BackgroundCancel && ( eventArgs.CloseReason == CloseReason.EscapeClosing
-                || eventArgs.CloseReason == CloseReason.FocusLostClosing );
+                                                     || eventArgs.CloseReason == CloseReason.FocusLostClosing );
 
             return Task.CompletedTask;
         }
@@ -129,25 +131,25 @@ namespace Blazorise
         /// If true, message will be centered.
         /// </summary>
         protected virtual bool CenterMessage
-           => Options?.CenterMessage ?? true;
+            => Options?.CenterMessage ?? true;
 
         /// <summary>
         /// If true, message will be scrollable.
         /// </summary>
         protected virtual bool ScrollableMessage
-           => Options?.ScrollableMessage ?? true;
+            => Options?.ScrollableMessage ?? true;
 
         /// <summary>
         /// If true, an icon will be shown along with the message.
         /// </summary>
         protected virtual bool ShowMessageIcon
-           => Options?.ShowMessageIcon ?? true;
+            => Options?.ShowMessageIcon ?? true;
 
         /// <summary>
         /// If true, the close button will be visible.
         /// </summary>
         protected virtual bool ShowCloseButton
-           => Options?.ShowCloseButton ?? false;
+            => Options?.ShowCloseButton ?? false;
 
         /// <summary>
         /// Gets the message icon based on the predefined message type.
@@ -194,6 +196,18 @@ namespace Blazorise
             => Options?.OkButtonClass;
 
         /// <summary>
+        /// Gets the css class for the title.
+        /// </summary>
+        protected virtual string TitleClass
+            => Options?.TitleClass ?? "";
+
+        /// <summary>
+        /// Gets the css class for the message text.
+        /// </summary>
+        protected virtual string MessageClass
+            => Options?.MessageClass ?? "";
+
+        /// <summary>
         /// Gets the Confirm button text.
         /// </summary>
         protected virtual string ConfirmButtonText
@@ -234,11 +248,13 @@ namespace Blazorise
         /// </summary>
         protected virtual IFluentSpacing OkButtonPadding
             => Options?.OkButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
         /// <summary>
         /// Gets the cancel button padding.
         /// </summary>
         protected virtual IFluentSpacing CancelButtonPadding
             => Options?.CancelButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
         /// <summary>
         /// Gets the confirm button padding.
         /// </summary>
@@ -248,53 +264,63 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
         /// </summary>
-        [Inject] protected IMessageService MessageService { get; set; }
+        [Inject]
+        protected IMessageService MessageService { get; set; }
 
         /// <summary>
         /// Gets or sets the message type.
         /// </summary>
-        [Parameter] public MessageType MessageType { get; set; }
+        [Parameter]
+        public MessageType MessageType { get; set; }
 
         /// <summary>
         /// Gets or sets the message title.
         /// </summary>
-        [Parameter] public string Title { get; set; }
+        [Parameter]
+        public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the message content.
         /// </summary>
-        [Parameter] public MarkupString Message { get; set; }
+        [Parameter]
+        public MarkupString Message { get; set; }
 
         /// <summary>
         /// Gets or sets the custom message options.
         /// </summary>
-        [Parameter] public MessageOptions Options { get; set; }
+        [Parameter]
+        public MessageOptions Options { get; set; }
 
         /// <summary>
         /// Occurs after the user respond with an action button.
         /// </summary>
-        [Parameter] public TaskCompletionSource<bool> Callback { get; set; }
+        [Parameter]
+        public TaskCompletionSource<bool> Callback { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with an OK action.
         /// </summary>
-        [Parameter] public EventCallback Okayed { get; set; }
+        [Parameter]
+        public EventCallback Okayed { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with a Confirm action.
         /// </summary>
-        [Parameter] public EventCallback Confirmed { get; set; }
+        [Parameter]
+        public EventCallback Confirmed { get; set; }
 
         /// <summary>
         /// Occurs after the user has responded with a Cancel action.
         /// </summary>
-        [Parameter] public EventCallback Canceled { get; set; }
+        [Parameter]
+        public EventCallback Canceled { get; set; }
 
         /// <summary>
         /// By default, a modal is cancelled if the user clicks anywhere outside the modal.
         /// This behavior can be disabled by setting <see cref="BackgroundCancel"/> to false.
         /// </summary>
-        [Parameter] public bool BackgroundCancel { get; set; } = true;
+        [Parameter]
+        public bool BackgroundCancel { get; set; } = true;
 
         #endregion
     }

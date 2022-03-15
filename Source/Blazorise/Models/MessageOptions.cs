@@ -126,6 +126,15 @@
         public bool ShowCloseButton { get; set; }
 
         /// <summary>
+        /// Custom title CSS class.
+        /// </summary>
+        public string TitleClass { get; set; }
+        /// <summary>
+        /// Custom message CSS class.
+        /// </summary>
+        public string MessageClass { get; set; }
+
+        /// <summary>
         /// Creates the default message options.
         /// </summary>
         /// <returns>Default message options.</returns>
