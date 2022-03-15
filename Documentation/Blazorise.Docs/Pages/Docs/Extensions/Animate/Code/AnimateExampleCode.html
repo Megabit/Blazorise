@@ -1,6 +1,13 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Animate</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">animateRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Auto</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Animation</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Animations</span><span class="enumValue">.FadeIn</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DelayMilliseconds</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">500</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Select</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">IAnimation</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">_selectedAnimation</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+
+         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Animations</span><span class="enumValue">.Fade</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>fade<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Animations</span><span class="enumValue">.FlipUp</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>FlipUp<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Select</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Animate</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">animateRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Auto</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Animation</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">_selectedAnimation</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DelayMilliseconds</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">500</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is4.OnY</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardTitle</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Fade Example<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardTitle</span><span class="htmlTagDelimiter">&gt;</span>
@@ -14,8 +21,11 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
+    <span class="comment">//TODO : Re-animate</span>
     <span class="keyword">private</span> Animate animateRef;
+    <span class="keyword">private</span> IAnimation _selectedAnimation = Animations.FadeIn;
 
+    
     <span class="keyword">private</span> <span class="keyword">void</span> Animate()
         =&gt; animateRef.Run();
 
