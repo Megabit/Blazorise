@@ -2459,7 +2459,10 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string ThemingColorsExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"" />
+    <Router AppAssembly=""typeof(App).Assembly"">
+        <Found>...</Found>
+        <NotFound>...</NotFound>
+    </Router>
 </Blazorise.ThemeProvider>
 
 @code{
@@ -2475,10 +2478,13 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string ThemingGradientExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"" />
+    <Router AppAssembly=""typeof(App).Assembly"">
+        <Found>...</Found>
+        <NotFound>...</NotFound>
+    </Router>
 </Blazorise.ThemeProvider>
 
-@code{
+@code {
     private Theme theme = new Theme
     {
         IsGradient = true,
@@ -2486,7 +2492,10 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string ThemingRoundedExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"" />
+    <Router AppAssembly=""typeof(App).Assembly"">
+        <Found>...</Found>
+        <NotFound>...</NotFound>
+    </Router>
 </Blazorise.ThemeProvider>
 
 @code{
@@ -2516,7 +2525,10 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string ThemingStartExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"" />
+    <Router AppAssembly=""typeof(App).Assembly"">
+        <Found>...</Found>
+        <NotFound>...</NotFound>
+    </Router>
 </Blazorise.ThemeProvider>
 
 @code{
@@ -3827,6 +3839,8 @@ namespace Blazorise.Docs.Models
 
     public Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
+        totalEmployees = 10;
+
         /*
         * This can be call to anything like calling api for load employees
         * and while execution 'LoadingTemplate' will be displayed.
@@ -5438,7 +5452,8 @@ builder.Services
 }";
 
         public const string MessageServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
-    ...
+    <Found>...</Found>
+    <NotFound>...</NotFound>
 </Router>
 
 <MessageAlert />";
@@ -5457,7 +5472,8 @@ builder.Services
         public const string NotificationServiceInstallationExample = @"Install-Package Blazorise.Components";
 
         public const string NotificationServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
-    ...
+    <Found>...</Found>
+    <NotFound>...</NotFound>
 </Router>
 
 <NotificationAlert />";
@@ -5507,7 +5523,8 @@ builder.Services
 }";
 
         public const string PageProgressServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
-    ...
+    <Found>...</Found>
+    <NotFound>...</NotFound>
 </Router>
 
 <PageProgressAlert />";

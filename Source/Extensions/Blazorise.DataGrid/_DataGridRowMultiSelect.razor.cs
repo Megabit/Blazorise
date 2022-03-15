@@ -73,6 +73,8 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] protected IBehaviourProvider BehaviourProvider { get; set; }
+
         [Parameter] public TItem Item { get; set; }
 
         /// <summary>
