@@ -30,6 +30,7 @@ namespace Blazorise
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
+            var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
 
             if ( timeChanged )
             {
@@ -48,7 +49,8 @@ namespace Blazorise
                 || displayFormatChanged
                 || timeAs24hrChanged
                 || disabledChanged
-                || readOnlyChanged ) )
+                || readOnlyChanged
+                || inlineChanged ) )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
@@ -58,6 +60,7 @@ namespace Blazorise
                     Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
                     Disabled = new { Changed = disabledChanged, Value = disabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
+                    Inline = new { Changed = inlineChanged, Value = paramInline },
                 } ) );
             }
 
@@ -103,7 +106,8 @@ namespace Blazorise
                 Max = Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
                 Disabled,
                 ReadOnly,
-                Localization = GetLocalizationObject()
+                Localization = GetLocalizationObject(),
+                Inline,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -322,6 +326,11 @@ namespace Blazorise
         /// Displays time picker in 24 hour mode without AM/PM selection when enabled.
         /// </summary>
         [Parameter] public bool TimeAs24hr { get; set; }
+
+        /// <summary>
+        /// Display the time menu in an always-open state with the inline option.
+        /// </summary>
+        [Parameter] public bool Inline { get; set; }
 
         #endregion
     }

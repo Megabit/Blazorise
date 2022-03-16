@@ -2544,6 +2544,8 @@ namespace Blazorise.Docs.Models
 
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
 
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
