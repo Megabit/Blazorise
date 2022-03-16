@@ -5,10 +5,7 @@ export function addTrendlines(canvasId, trendlines) {
     const chart = getChart(canvasId);
 
     if (chart && trendlines) {
-
         trendlines.forEach(element => addTrendline(chart, element));
-        chart.update();
-
     }
     return true;
 
