@@ -687,6 +687,8 @@ namespace Blazorise.Docs.Models
     DatePicker<DateTime?> datePicker;
 }";
 
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
+
         public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
 
         public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
@@ -2541,6 +2543,8 @@ namespace Blazorise.Docs.Models
         public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
+
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
 
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
