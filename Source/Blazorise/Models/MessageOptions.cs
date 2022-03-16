@@ -129,10 +129,16 @@
         /// Custom title CSS class.
         /// </summary>
         public string TitleClass { get; set; }
+
         /// <summary>
         /// Custom message CSS class.
         /// </summary>
         public string MessageClass { get; set; }
+
+        /// <summary>
+        /// Defines the message dialog size.
+        /// </summary>
+        public ModalSize Size { get; set; }
 
         /// <summary>
         /// Creates the default message options.
@@ -152,7 +158,8 @@
             CancelButtonPadding = Padding.Is2.OnX,
             ConfirmButtonText = "Yes",
             ConfirmButtonColor = Color.Primary,
-            ConfirmButtonPadding = Padding.Is2.OnX
+            ConfirmButtonPadding = Padding.Is2.OnX,
+            Size = ModalSize.Default,
         };
     }
 }
