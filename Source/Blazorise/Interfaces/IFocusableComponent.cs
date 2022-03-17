@@ -15,5 +15,10 @@ namespace Blazorise
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         Task Focus( bool scrollToElement = true );
+
+        /// <summary>
+        /// Gets the value that indicates if the component should autofocus.
+        /// </summary>
+        bool Autofocus { get; }
     }
 }

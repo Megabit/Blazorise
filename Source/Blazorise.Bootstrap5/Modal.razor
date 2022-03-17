@@ -4,7 +4,9 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
             @if ( RenderMode == ModalRenderMode.Default || ( RenderMode == ModalRenderMode.LazyReload && IsVisible ) || ( RenderMode == ModalRenderMode.LazyLoad && lazyLoaded ) )
             {
-                @ChildContent
+                <FocusTrap Active>
+                    @ChildContent
+                </FocusTrap>
             }
         </div>
         @if ( ShowBackdrop && IsVisible )
