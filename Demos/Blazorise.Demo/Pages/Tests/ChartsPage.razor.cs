@@ -37,7 +37,8 @@ namespace Blazorise.Demo.Pages.Tests
                     },
                     Ticks = new ChartAxisTicks
                     {
-                        Callback = ( value, index, values ) => value / 1000 + "K"
+                        Callback = ( value, index, values ) => value / 1000 + "K",
+                        StepSize = 10000
                     }
                 }
             }
