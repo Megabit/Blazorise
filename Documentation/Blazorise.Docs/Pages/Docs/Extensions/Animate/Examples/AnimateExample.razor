@@ -1,55 +1,60 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Select TValue="IAnimation" @bind-SelectedValue="selectedAnimation">
-    <SelectItem Value="Animations.Fade">Fade</SelectItem>
-    <SelectItem Value="Animations.FadeIn">FadeIn</SelectItem>
-    <SelectItem Value="Animations.FadeUp">FadeUp</SelectItem>
-    <SelectItem Value="Animations.FadeDown">FadeDown</SelectItem>
-    <SelectItem Value="Animations.FadeLeft">FadeLeft</SelectItem>
-    <SelectItem Value="Animations.FadeRight">FadeRight</SelectItem>
-    <SelectItem Value="Animations.FadeUpRight">FadeUpRight</SelectItem>
-    <SelectItem Value="Animations.FadeUpLeft">FadeUpLeft</SelectItem>
-    <SelectItem Value="Animations.FadeDownRight">FadeDownRight</SelectItem>
-    <SelectItem Value="Animations.FadeDownLeft">FadeDownLeft</SelectItem>
-    <SelectItem Value="Animations.FlipUp">FlipUp</SelectItem>
-    <SelectItem Value="Animations.FlipDown">FlipDown</SelectItem>
-    <SelectItem Value="Animations.FlipLeft">FlipLeft</SelectItem>
-    <SelectItem Value="Animations.FlipRight">FlipRight</SelectItem>
-    <SelectItem Value="Animations.SlideUp">SlideUp</SelectItem>
-    <SelectItem Value="Animations.SlideDown">SlideDown</SelectItem>
-    <SelectItem Value="Animations.SlideLeft">SlideLeft</SelectItem>
-    <SelectItem Value="Animations.SlideRight">SlideRight</SelectItem>
-    <SelectItem Value="Animations.ZoomIn">ZoomIn</SelectItem>
-    <SelectItem Value="Animations.ZoomInUp">ZoomInUp</SelectItem>
-    <SelectItem Value="Animations.ZoomInDown">ZoomInDown</SelectItem>
-    <SelectItem Value="Animations.ZoomInLeft">ZoomInLeft</SelectItem>
-    <SelectItem Value="Animations.ZoomInRight">ZoomInRight</SelectItem>
-    <SelectItem Value="Animations.ZoomOut">ZoomOut</SelectItem>
-    <SelectItem Value="Animations.ZoomOutUp">ZoomOutUp</SelectItem>
-    <SelectItem Value="Animations.ZoomOutDown">ZoomOutDown</SelectItem>
-    <SelectItem Value="Animations.ZoomOutLeft">ZoomOutLeft</SelectItem>
-    <SelectItem Value="Animations.ZoomOutRight">ZoomOutRight</SelectItem>
+@if (availableAnimations is not null)
+{
+    <Select TValue="string" SelectedValueChanged="SelectedAnimationChanged">
+        @foreach (var availableAnimation in availableAnimations)
+        {
+            <SelectItem Value="@availableAnimation">@availableAnimation</SelectItem>
+        }
+
 </Select>
+}
 
 @if (showAnimate)
 {
-    <Animate Auto Animation="selectedAnimation" DelayMilliseconds="500">
-        <Card Margin="Margin.Is4.OnY">
-            <CardBody>
-                <CardTitle Size="5">Fade Example</CardTitle>
-                <CardText>
-                    Some content.
-                </CardText>
-            </CardBody>
-        </Card>
-    </Animate>
+    <Div ElementId="#b-animate">
+        <Animate Anchor="#b-animate" Auto Animation="selectedAnimation" DelayMilliseconds="500">
+            <Card Margin="Margin.Is4.OnY">
+                <CardBody>
+                    <CardTitle Size="5">Animation Example</CardTitle>
+                    <CardText>
+                        Some content.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
 }
 <Button Color="Color.Primary" Clicked="@Animate">@btnText</Button>
 @code {
+    private IEnumerable<string> availableAnimations;
     private IAnimation selectedAnimation = Animations.FadeIn;
     private bool showAnimate = false;
     private string btnText = "Animate!";
 
+    protected override void OnInitialized()
+    {
+        LoadAnimationOptions();
+        base.OnInitialized();
+    }
+
+    private void LoadAnimationOptions()
+    {
+        var animationProps = typeof(Animations)
+            .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+
+        availableAnimations = animationProps.Select(x => x.Name);
+    }
+
+    private Task SelectedAnimationChanged(string selectedAnimation)
+    {
+        var animationProp = typeof(Animations)
+            .GetProperty(selectedAnimation, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            
+        this.selectedAnimation = (IAnimation)animationProp.GetValue(null, null);
+        return Task.CompletedTask;
+    }
 
     private async Task Animate()
     {
@@ -57,7 +62,7 @@
         {
             showAnimate = true;
             await InvokeAsync(StateHasChanged);
-            btnText = "Hide!";
+            btnText = "Restart!";
         }
         else
         {
