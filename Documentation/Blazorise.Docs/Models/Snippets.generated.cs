@@ -687,6 +687,8 @@ namespace Blazorise.Docs.Models
     DatePicker<DateTime?> datePicker;
 }";
 
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
+
         public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
 
         public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
@@ -1784,6 +1786,12 @@ namespace Blazorise.Docs.Models
     <ProgressBar Color=""Color.Info"" Value=""20"" />
 </Progress>";
 
+        public const string MultipleProgressHideValueExample = @"<Progress ShowValue=""false"">
+    <ProgressBar Value=""15"" />
+    <ProgressBar Color=""Color.Success"" Value=""30"" />
+    <ProgressBar Color=""Color.Info"" Value=""20"" />
+</Progress>";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
@@ -2541,6 +2549,8 @@ namespace Blazorise.Docs.Models
         public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
+
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
 
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 

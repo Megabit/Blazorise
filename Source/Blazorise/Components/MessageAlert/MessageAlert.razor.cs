@@ -129,13 +129,13 @@ namespace Blazorise
         /// If true, message will be centered.
         /// </summary>
         protected virtual bool CenterMessage
-            => Options?.CenterMessage ?? true;
+            => Size == ModalSize.Fullscreen ? false : Options?.CenterMessage ?? true;
 
         /// <summary>
         /// If true, message will be scrollable.
         /// </summary>
         protected virtual bool ScrollableMessage
-            => Options?.ScrollableMessage ?? true;
+            => Size == ModalSize.Fullscreen ? false : Options?.ScrollableMessage ?? true;
 
         /// <summary>
         /// If true, an icon will be shown along with the message.
@@ -258,6 +258,12 @@ namespace Blazorise
         /// </summary>
         protected virtual IFluentSpacing ConfirmButtonPadding
             => Options?.ConfirmButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
+        /// <summary>
+        /// Gets the modal size.
+        /// </summary>
+        protected virtual ModalSize Size
+            => Options?.Size ?? ModalSize.Default;
 
         /// <summary>
         /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
