@@ -2947,7 +2947,7 @@ namespace Blazorise.Docs.Models
         {
             showAnimate = true;
             await InvokeAsync(StateHasChanged);
-            btnText = ""Hide!"";
+            btnText = ""Restart!"";
         }
         else
         {
