@@ -12,11 +12,11 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        The Animate component wraps the content and will attempt to animate it with the use of the aos library. However there might be certain content, that due to how they are structured/styled might not be possible to animate.
+        <Paragraph>Blazorise acts as a wrapper for the animation functionality provided by the aos library. If you're having any issues please make sure to also take a look at the aos library repository.</Paragraph>
+        
+        <Paragraph>There might be certain content, that due to how they are structured/styled might not be possible to animate.</Paragraph>
         <Paragraph>It is not possible to animate:</Paragraph>
         <UnorderedList>
-            <UnorderedListItem>Autocomplete</UnorderedListItem>
-            <UnorderedListItem>Dropdown</UnorderedListItem>
             <UnorderedListItem>Modal</UnorderedListItem>
         </UnorderedList>
     </AlertDescription>
@@ -24,7 +24,7 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        Take note, that certain elements in the page may affect how the aos library finds the "offset" necessary to trigger the animation. It is known that Sidebars for instance can affect this behaviour. 
+        Take note, that certain elements in the page may affect how the aos library finds the "offset" element necessary to trigger the animation. It is known that Sidebars for instance can affect this behaviour. 
         To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
 
         For example, the animate example given below, is configured as explained.
