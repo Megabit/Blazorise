@@ -2927,18 +2927,14 @@ namespace Blazorise.Docs.Models
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
 
-        public const string AnimateExample = @"@if (availableAnimations is not null)
-{
-    <Select TValue=""string"" SelectedValueChanged=""SelectedAnimationChanged"">
-        @foreach (var availableAnimation in availableAnimations)
-        {
-            <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
-        }
-
+        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+    @foreach ( var availableAnimation in Animations.GetNames() )
+    {
+        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+    }
 </Select>
-}
 
-@if (showAnimate)
+@if ( showAnimate )
 {
     <Div ElementId=""#b-animate"">
         <Animate Anchor=""#b-animate"" Auto Animation=""selectedAnimation"" DelayMilliseconds=""500"">
@@ -2953,50 +2949,41 @@ namespace Blazorise.Docs.Models
         </Animate>
     </Div>
 }
-<Button Color=""Color.Primary"" Clicked=""@Animate"">@btnText</Button>
+<Button Color=""Color.Primary"" Clicked=""@Animate"">
+    @buttonText
+</Button>
 @code {
-    private IEnumerable<string> availableAnimations;
     private IAnimation selectedAnimation = Animations.FadeIn;
     private bool showAnimate = false;
-    private string btnText = ""Animate!"";
+    private string buttonText = ""Animate!"";
 
-    protected override void OnInitialized()
+    private Task OnSelectedAnimationChanged( string selectedAnimationName )
     {
-        LoadAnimationOptions();
-        base.OnInitialized();
-    }
+        showAnimate = false;
 
-    private void LoadAnimationOptions()
-    {
-        var animationProps = typeof(Animations)
-            .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+        if ( Animations.TryParse( selectedAnimationName, out var animation ) )
+            selectedAnimation = animation;
+        else
+            selectedAnimation = null;
 
-        availableAnimations = animationProps.Select(x => x.Name);
-    }
-
-    private Task SelectedAnimationChanged(string selectedAnimation)
-    {
-        var animationProp = typeof(Animations)
-            .GetProperty(selectedAnimation, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-            
-        this.selectedAnimation = (IAnimation)animationProp.GetValue(null, null);
         return Task.CompletedTask;
     }
 
     private async Task Animate()
     {
-        if (!showAnimate)
+        if ( !showAnimate )
         {
             showAnimate = true;
-            await InvokeAsync(StateHasChanged);
-            btnText = ""Restart!"";
+            await InvokeAsync( StateHasChanged );
+            buttonText = ""Restart!"";
         }
         else
         {
             showAnimate = false;
-            btnText = ""Animate!"";
+            buttonText = ""Animate!"";
         }
-        await InvokeAsync(StateHasChanged);
+
+        await InvokeAsync( StateHasChanged );
     }
 }";
 
