@@ -1051,6 +1051,38 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string BasicFocusTrapExample = @"<Card>
+    <CardBody>
+        <Switch TValue=""bool"" @bind-Checked=""@focusTrapActive"">Active</Switch>
+    </CardBody>
+    <CardBody>
+        <FocusTrap Active=""@focusTrapActive"">
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit Autofocus />
+                </FieldBody>
+            </Field>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Last Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Address</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+        </FocusTrap>
+    </CardBody>
+</Card>
+
+@code {
+    bool focusTrapActive = false;
+}";
+
         public const string BasicContainerExample = @"<Container>
     <Alert Color=""Color.Primary"" Visible>
         Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
