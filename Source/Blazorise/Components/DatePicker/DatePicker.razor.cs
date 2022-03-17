@@ -36,6 +36,7 @@ namespace Blazorise
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
+            var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
 
             if ( dateChanged || datesChanged )
             {
@@ -59,7 +60,8 @@ namespace Blazorise
                 || disabledChanged
                 || readOnlyChanged
                 || disabledDatesChanged
-                || selectionModeChanged ) )
+                || selectionModeChanged
+                || inlineChanged ) )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
@@ -72,6 +74,7 @@ namespace Blazorise
                     ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
                     DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
+                    Inline = new { Changed = inlineChanged, Value = paramInline },
                 } ) );
             }
 
@@ -129,7 +132,8 @@ namespace Blazorise
                 Disabled,
                 ReadOnly,
                 DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
-                Localization = GetLocalizationObject()
+                Localization = GetLocalizationObject(),
+                Inline,
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -501,6 +505,11 @@ namespace Blazorise
         /// List of disabled dates that the user should not be able to pick.
         /// </summary>
         [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
+
+        /// <summary>
+        /// Display the calendar in an always-open state with the inline option.
+        /// </summary>
+        [Parameter] public bool Inline { get; set; }
 
         #endregion
     }
