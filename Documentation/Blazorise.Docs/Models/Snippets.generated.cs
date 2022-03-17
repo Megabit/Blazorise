@@ -2927,6 +2927,68 @@ namespace Blazorise.Docs.Models
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
 
+        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+    @foreach ( var availableAnimation in Animations.GetNames() )
+    {
+        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+    }
+</Select>
+
+@if ( showAnimate )
+{
+    <Div ElementId=""#b-animate"">
+        <Animate Anchor=""#b-animate"" Auto Animation=""selectedAnimation"" DelayMilliseconds=""500"">
+            <Card Margin=""Margin.Is4.OnY"">
+                <CardBody>
+                    <CardTitle Size=""5"">Animation Example</CardTitle>
+                    <CardText>
+                        Some content.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
+}
+<Button Color=""Color.Primary"" Clicked=""@Animate"">
+    @buttonText
+</Button>
+@code {
+    private IAnimation selectedAnimation = Animations.FadeIn;
+    private bool showAnimate = false;
+    private string buttonText = ""Animate!"";
+
+    private Task OnSelectedAnimationChanged( string selectedAnimationName )
+    {
+        showAnimate = false;
+
+        if ( Animations.TryParse( selectedAnimationName, out var animation ) )
+            selectedAnimation = animation;
+        else
+            selectedAnimation = null;
+
+        return Task.CompletedTask;
+    }
+
+    private async Task Animate()
+    {
+        if ( !showAnimate )
+        {
+            showAnimate = true;
+            await InvokeAsync( StateHasChanged );
+            buttonText = ""Restart!"";
+        }
+        else
+        {
+            showAnimate = false;
+            buttonText = ""Animate!"";
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+}";
+
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.0.0""></script>";
+
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
