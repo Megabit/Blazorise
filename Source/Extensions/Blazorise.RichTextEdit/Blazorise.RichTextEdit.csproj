@@ -4,7 +4,6 @@
 
   <PropertyGroup>
     <PackageTags>blazorise blazor components rtf richtextedit</PackageTags>
-    <Authors>$(Authors);Niek Jannink</Authors>
   </PropertyGroup>
 
   <PropertyGroup>
