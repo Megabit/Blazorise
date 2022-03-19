@@ -1,0 +1,27 @@
+﻿@page "/tests/modal-provider"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>ModalProvider</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Clicked="Show">Show custom content</Button>
+                <Button Clicked="Hide">Close custom content</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task Show() 
+        => ModalService.Show<RatingPage>();
+
+    public Task Hide() 
+        => ModalService.Hide();
+
+}

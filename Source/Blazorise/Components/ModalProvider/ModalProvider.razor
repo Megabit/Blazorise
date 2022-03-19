@@ -1,0 +1,23 @@
+﻿@namespace Blazorise
+<CascadingValue Value="@this" IsFixed>
+    <Modal @ref="modalRef">
+        <ModalContent>
+            @if (useModalDefinition)
+            {
+                <ModalHeader>
+                    <ModalTitle>
+                        @title
+                    </ModalTitle>
+                    <CloseButton />
+                </ModalHeader>
+                <ModalBody>
+                    @childContent
+                </ModalBody>
+            }
+            else
+            {
+                @childContent
+            }
+        </ModalContent>
+    </Modal>
+</CascadingValue>
