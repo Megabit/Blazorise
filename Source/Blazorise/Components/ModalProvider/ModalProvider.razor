@@ -2,12 +2,15 @@
 <CascadingValue Value="@this" IsFixed>
     <Modal @ref="modalRef">
         <ModalContent>
-            @if (useModalDefinition)
+            @if (useModalStructure)
             {
                 <ModalHeader>
-                    <ModalTitle>
-                        @title
-                    </ModalTitle>
+                    @if (!string.IsNullOrWhiteSpace(title))
+                    {
+                        <ModalTitle>
+                            @title
+                        </ModalTitle>
+                    }
                     <CloseButton />
                 </ModalHeader>
                 <ModalBody>
