@@ -344,6 +344,9 @@ namespace Blazorise
         /// <param name="visible"></param>
         protected virtual async Task RaiseEvents( bool visible )
         {
+            await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+
+
             if ( visible )
             {
                 await Opened.InvokeAsync();
@@ -352,8 +355,6 @@ namespace Blazorise
             {
                 await Closed.InvokeAsync();
             }
-
-            await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
