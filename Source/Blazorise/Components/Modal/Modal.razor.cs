@@ -346,7 +346,6 @@ namespace Blazorise
         {
             await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
 
-
             if ( visible )
             {
                 await Opened.InvokeAsync();
