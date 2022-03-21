@@ -40,8 +40,9 @@ namespace Blazorise
         }
 
 
-        internal Task Show( RenderFragment childContent )
+        internal Task Show( RenderFragment childContent, ModalProviderOptions modalProviderOptions )
         {
+            ModalProviderOptions = modalProviderOptions ?? Options.ModalProviderOptions;
             this.childContent = childContent;
             return modalRef.Show();
         }
@@ -55,7 +56,16 @@ namespace Blazorise
         #region Properties
 
         ///inheritdoc
-        [Inject] public IModalService ModalService { get; set; }
+        [Inject] protected IModalService ModalService { get; set; }
+
+        ///inheritdoc
+        [Inject] protected BlazoriseOptions Options { get; set; }
+
+        /// <summary>
+        /// Sets the options for Modal Provider
+        /// </summary>
+        protected ModalProviderOptions ModalProviderOptions;
+
 
         #endregion
     }

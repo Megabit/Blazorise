@@ -33,14 +33,12 @@ namespace Blazorise
         ///inheritdoc
         public Task Show<TComponent>()
         {
-            //componentParameters.Select( x => x() )?.ToList();
             return Show( typeof( TComponent ), null );
         }
 
         ///inheritdoc
         public Task Show( Type componentType )
         {
-            //componentParameters.Select( x => x() )?.ToList();
             return Show( componentType, null );
         }
 
