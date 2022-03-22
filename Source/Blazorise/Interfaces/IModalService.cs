@@ -49,6 +49,15 @@ namespace Blazorise
         /// Shows a Modal where the content is TComponent.
         /// </summary>
         /// <typeparam name="TComponent"></typeparam>
+        /// <param name="parameters"></param>
+        /// <param name="modalProviderOptions"></param>
+        /// <returns></returns>
+        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions );
+
+        /// <summary>
+        /// Shows a Modal where the content is TComponent.
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
         /// <param name="title"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>

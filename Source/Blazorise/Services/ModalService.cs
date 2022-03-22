@@ -44,6 +44,11 @@ namespace Blazorise
         public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters )
             => Show<TComponent>( string.Empty, parameters, null );
 
+
+        ///inheritdoc
+        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions )
+            => Show<TComponent>( string.Empty, parameters, modalProviderOptions );
+
         ///inheritdoc
         public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters )
             => Show<TComponent>( title, parameters, null );

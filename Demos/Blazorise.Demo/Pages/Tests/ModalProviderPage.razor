@@ -55,7 +55,7 @@
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
-        return ModalService.Show<FormularyModal>("My Formulary!", x =>
+        return ModalService.Show<FormularyModal>(x =>
         {
             x.Add(x => x.OnValidate, FormularyValidate);
             x.Add(x => x.OnSuccess, FormularySuccess);
