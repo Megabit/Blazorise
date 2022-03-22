@@ -22,28 +22,51 @@ namespace Blazorise
             ModalProvider = modalProvider;
         }
 
-        ///inheritdoc
-        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters )
-        {
-            ModalProviderParameterBuilder<TComponent> builder = new();
-            parameters( builder );
-            return Show( typeof( TComponent ), builder.Parameters );
-        }
 
         ///inheritdoc
         public Task Show<TComponent>()
         {
-            return Show( typeof( TComponent ), null );
+            return Show( typeof( TComponent ) );
+        }
+
+
+        ///inheritdoc
+        public Task Show<TComponent>( string title )
+        {
+            return Show( title, typeof( TComponent ) );
+        }
+
+        ///inheritdoc
+        public Task Show<TComponent>( string title, ModalProviderOptions modalProviderOptions )
+            => Show<TComponent>( string.Empty, null, modalProviderOptions );
+
+        ///inheritdoc
+        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters )
+            => Show<TComponent>( string.Empty, parameters, null );
+
+        ///inheritdoc
+        public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters )
+            => Show<TComponent>( title, parameters, null );
+
+        ///inheritdoc
+        public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions )
+        {
+            ModalProviderParameterBuilder<TComponent> builder = new();
+            parameters( builder );
+            return Show( title, typeof( TComponent ), builder.Parameters, modalProviderOptions );
         }
 
         ///inheritdoc
         public Task Show( Type componentType )
-        {
-            return Show( componentType, null );
-        }
+            => Show( string.Empty, componentType );
+
 
         ///inheritdoc
-        public Task Show( Type componentType, Dictionary<string, object> componentParameters )
+        public Task Show( string title, Type componentType )
+            => Show( title, componentType );
+
+        ///inheritdoc
+        public Task Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalProviderOptions modalProviderOptions = null )
         {
             var childContent = new RenderFragment( __builder =>
             {
@@ -56,7 +79,7 @@ namespace Blazorise
                 __builder.CloseComponent();
             } );
 
-            return ModalProvider.Show( childContent );
+            return ModalProvider.Show( title, childContent, modalProviderOptions );
         }
 
         ///inheritdoc

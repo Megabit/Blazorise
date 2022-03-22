@@ -19,7 +19,6 @@ namespace Blazorise
 
         private Modal modalRef;
         private RenderFragment childContent;
-        private bool useModalStructure = true;
         private string title;
 
         #endregion
@@ -40,13 +39,14 @@ namespace Blazorise
         }
 
 
-        internal Task Show( RenderFragment childContent, ModalProviderOptions modalProviderOptions )
+        internal Task Show( string title, RenderFragment childContent, ModalProviderOptions modalProviderOptions )
         {
-            ModalProviderOptions = modalProviderOptions ?? Options.ModalProviderOptions;
+            this.title = title;
             this.childContent = childContent;
+            this.ModalProviderOptions = modalProviderOptions;
+
             return modalRef.Show();
         }
-
 
         internal Task Hide()
             => modalRef.Hide();
@@ -58,13 +58,22 @@ namespace Blazorise
         ///inheritdoc
         [Inject] protected IModalService ModalService { get; set; }
 
-        ///inheritdoc
-        [Inject] protected BlazoriseOptions Options { get; set; }
-
         /// <summary>
         /// Sets the options for Modal Provider
         /// </summary>
         protected ModalProviderOptions ModalProviderOptions;
+
+        /// <summary>
+        /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+        /// Defaults to true.
+        /// </summary>
+        [Parameter] public bool UseModalStructure { get; set; } = true;
+
+        /// <summary>
+        /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+        /// Defaults to true.
+        /// </summary>
+        protected virtual bool GetUseModalStructure => ModalProviderOptions?.UseModalStructure ?? UseModalStructure;
 
 
         #endregion

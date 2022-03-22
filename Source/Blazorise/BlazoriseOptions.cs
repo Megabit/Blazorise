@@ -34,11 +34,6 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Sets the ModalProvider global options.
-        /// </summary>
-        public ModalProviderOptions ModalProviderOptions { get; set; } = new();
-
-        /// <summary>
         /// If true the text in <see cref="TextEdit"/> will be changed after each key press.
         /// </summary>
         public bool Immediate { get; set; } = true;

@@ -2,7 +2,7 @@
 <CascadingValue Value="@this" IsFixed>
     <Modal @ref="modalRef">
         <ModalContent>
-            @if (useModalStructure)
+            @if (GetUseModalStructure)
             {
                 <ModalHeader>
                     @if (!string.IsNullOrWhiteSpace(title))
