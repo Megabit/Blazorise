@@ -52,6 +52,17 @@ namespace Blazorise
         internal Task Hide()
             => modalRef.Hide();
 
+        /// <summary>
+        /// Handles the closing of the modal.
+        /// </summary>
+        /// <returns></returns>
+        protected async Task OnModalClosed()
+        {
+            if ( GetResetOnClose() )
+                childContent = null;
+            await GetClosed().InvokeAsync();
+        }
+
         #endregion
 
         #region Properties
@@ -63,6 +74,18 @@ namespace Blazorise
         /// Sets the options for Modal Provider
         /// </summary>
         protected ModalProviderOptions ModalProviderOptions;
+
+        /// <summary>
+        /// Upon closing the modal, clears the content that has been previously rendered.
+        /// Defaults to true.
+        /// </summary>
+        [Parameter] public bool ResetOnClose { get; set; } = true;
+
+        /// <summary>
+        /// Gets whether upon closing the modal, clears the content that has been previously rendered.
+        /// Defaults to true.
+        /// </summary>
+        protected virtual bool GetResetOnClose() => ModalProviderOptions?.ResetOnClose ?? ResetOnClose;
 
         /// <summary>
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.

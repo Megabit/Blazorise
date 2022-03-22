@@ -7,8 +7,30 @@
                 <CardTitle>ModalProvider</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Clicked="Show">Show custom content</Button>
-                <Button Clicked="Hide">Close custom content</Button>
+                <Paragraph>
+                    Render a custom component with default modal structure.
+                </Paragraph>
+                <Paragraph>
+                    Example shows a Counter component that renders a random number that's passed as a parameter from this page.
+                </Paragraph>
+                <Button Color="Color.Primary" Clicked="ShowCounter">Show</Button>
+            </CardBody>
+
+            <CardBody>
+                <Paragraph>
+                    Render a custom component and define modal structure inside it by overriding the modal provider options. Take advantage of passing in parameters.
+                </Paragraph>
+                <Paragraph>
+                    Example shows a simple formulary that does a simple not empty validation and passes back the result to this page by making clever use of parameters.
+                </Paragraph>
+                <Paragraph>
+                    @formularyMessage
+                </Paragraph>
+                <Button Color="Color.Success" Clicked="ShowFormulary">Show</Button>
+            </CardBody>
+
+            <CardBody>
+
             </CardBody>
         </Card>
     </Column>
@@ -16,22 +38,37 @@
 
 
 @code {
-    //TODO:
-    //Modal Defined Structure in component
-    //ModalProviderOptions override
-    //Complex parameter interaction
-    //ModalService.Hide inside the custom content
 
     [Inject] public IModalService ModalService { get; set; }
 
-    public Task Show()
+    private string formularyMessage = "";
+    public Task ShowCounter()
     {
         Random random = new();
         var newValue = random.NextInt64(100);
         return ModalService.Show<Counter>("My Custom Content!", x => x.Add(x => x.Value, newValue));
     }
 
-    public Task Hide()
-        => ModalService.Hide();
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return ModalService.Show<FormularyModal>("My Formulary!", x =>
+        {
+            x.Add(x => x.OnValidate, FormularyValidate);
+            x.Add(x => x.OnSuccess, FormularySuccess);
+        },
+        new ModalProviderOptions()
+            {
+                UseModalStructure = false
+            });
+    }
 
+    private Task<bool> FormularyValidate(Employee employee)
+        => Task.FromResult(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.Email));
+
+    private Task FormularySuccess(Employee employee)
+    {
+        formularyMessage = $"Employee : {employee.FirstName} saved successfully!";
+        return InvokeAsync(StateHasChanged);
+    }
 }
