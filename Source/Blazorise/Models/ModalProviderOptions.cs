@@ -26,11 +26,6 @@ namespace Blazorise
         public bool UseModalStructure { get; set; } = true;
 
         /// <summary>
-        /// Gets or Sets the modal's title.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// If true modal will scroll to top when opened.
         /// </summary>
         public bool ScrollToTop { get; set; } = true;
