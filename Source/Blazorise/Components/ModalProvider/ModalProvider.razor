@@ -1,6 +1,11 @@
 ﻿@namespace Blazorise
+@inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <Modal @ref="modalRef">
+    <Modal @ref="modalRef" Attributes="Attributes" Animated="GetAnimated" AnimationDuration="GetAnimationDuration" Background="Background" Border="Border" Casing="Casing" Class="Class" 
+        Closed="GetClosed" Closing="GetClosing" Clearfix="Clearfix" ElementId="ElementId" Display="Display" Flex="Flex" Float="Float" FocusTrap="GetFocusTrap" Height="Height" Margin="Margin"
+        Opened="GetOpened" Opening="GetOpening" Overflow="Overflow" Padding="Padding" Position="Position" RenderMode="GetRenderMode" ScrollToTop="GetScrollToTop" Shadow="Shadow"
+        ShowBackdrop="GetShowBackdrop" Style="Style" TextAlignment="TextAlignment" TextColor="TextColor" TextOverflow="TextOverflow" TextTransform="TextTransform" TextWeight="TextWeight"
+        VerticalAlignment="VerticalAlignment" Width="Width">
         <ModalContent>
             @if (GetUseModalStructure)
             {

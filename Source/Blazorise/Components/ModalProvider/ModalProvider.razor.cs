@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -13,7 +14,7 @@ namespace Blazorise
     /// <summary>
     /// A modal provider to be set at the root of your app, providing a programmatic way to invoke modals with custom content by using ModalService.
     /// </summary>
-    public partial class ModalProvider : ComponentBase
+    public partial class ModalProvider : BaseComponent
     {
         #region Members
 
@@ -75,6 +76,105 @@ namespace Blazorise
         /// </summary>
         protected virtual bool GetUseModalStructure => ModalProviderOptions?.UseModalStructure ?? UseModalStructure;
 
+        /// <summary>
+        /// If true modal will scroll to top when opened.
+        /// </summary>
+        [Parameter] public bool ScrollToTop { get; set; } = true;
+
+        /// <summary>
+        /// If true modal will scroll to top when opened.
+        /// </summary>
+        protected virtual bool GetScrollToTop => ModalProviderOptions?.ScrollToTop ?? ScrollToTop;
+
+        /// <summary>
+        /// Occurs before the modal is opened.
+        /// </summary>
+        [Parameter] public Func<ModalOpeningEventArgs, Task> Opening { get; set; }
+
+        /// <summary>
+        /// Occurs before the modal is opened.
+        /// </summary>
+        protected virtual Func<ModalOpeningEventArgs, Task> GetOpening => ModalProviderOptions?.Opening ?? Opening;
+
+        /// <summary>
+        /// Occurs before the modal is closed.
+        /// </summary>
+        [Parameter] public Func<ModalClosingEventArgs, Task> Closing { get; set; }
+
+        /// <summary>
+        /// Occurs before the modal is closed.
+        /// </summary>
+        protected virtual Func<ModalClosingEventArgs, Task> GetClosing => ModalProviderOptions?.Closing ?? Closing;
+
+        /// <summary>
+        /// Occurs after the modal has opened.
+        /// </summary>
+        [Parameter] public EventCallback Opened { get; set; }
+
+        /// <summary>
+        /// Occurs after the modal has opened.
+        /// </summary>
+        protected virtual EventCallback GetOpened => ModalProviderOptions?.Opened ?? Opened;
+
+        /// <summary>
+        /// Occurs after the modal has closed.
+        /// </summary>
+        [Parameter] public EventCallback Closed { get; set; }
+
+        /// <summary>
+        /// Occurs before the modal is closed.
+        /// </summary>
+        protected virtual EventCallback GetClosed => ModalProviderOptions?.Closed ?? Closed;
+
+        /// <summary>
+        /// Specifies the backdrop needs to be rendered for this <see cref="Modal"/>.
+        /// </summary>
+        [Parameter] public bool ShowBackdrop { get; set; } = true;
+
+        /// <summary>
+        /// Specifies the backdrop needs to be rendered for this <see cref="Modal"/>.
+        /// </summary>
+        protected virtual bool GetShowBackdrop => ModalProviderOptions?.ShowBackdrop ?? ShowBackdrop;
+
+        /// <summary>
+        /// Gets or sets whether the component has any animations.
+        /// </summary>
+        [Parameter] public bool Animated { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets whether the component has any animations.
+        /// </summary>
+        protected virtual bool GetAnimated => ModalProviderOptions?.Animated ?? Animated;
+
+        /// <summary>
+        /// Gets or sets the animation duration.
+        /// </summary>
+        [Parameter] public int AnimationDuration { get; set; } = 150;
+
+        /// <summary>
+        /// Gets or sets the animation duration.
+        /// </summary>
+        protected virtual int GetAnimationDuration => ModalProviderOptions?.AnimationDuration ?? AnimationDuration;
+
+        /// <summary>
+        /// Defines how the modal content will be rendered.
+        /// </summary>
+        [Parameter] public ModalRenderMode RenderMode { get; set; }
+
+        /// <summary>
+        /// Defines how the modal content will be rendered.
+        /// </summary>
+        protected virtual ModalRenderMode GetRenderMode => ModalProviderOptions?.RenderMode ?? RenderMode;
+
+        /// <summary>
+        /// Defines if the modal should keep the input focus at all times.
+        /// </summary>
+        [Parameter] public bool? FocusTrap { get; set; }
+
+        /// <summary>
+        /// Defines if the modal should keep the input focus at all times.
+        /// </summary>
+        protected virtual bool? GetFocusTrap => ModalProviderOptions?.FocusTrap ?? FocusTrap;
 
         #endregion
     }

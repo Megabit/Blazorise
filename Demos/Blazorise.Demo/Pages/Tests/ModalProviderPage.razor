@@ -16,13 +16,19 @@
 
 
 @code {
+    //TODO:
+    //Modal Defined Structure in component
+    //ModalProviderOptions override
+    //Complex parameter interaction
+    //ModalService.Hide inside the custom content
+
     [Inject] public IModalService ModalService { get; set; }
 
     public Task Show()
     {
         Random random = new();
         var newValue = random.NextInt64(100);
-        return ModalService.Show<Counter>(x => x.Add(x => x.Value, newValue));
+        return ModalService.Show<Counter>("My Custom Content!", x => x.Add(x => x.Value, newValue));
     }
 
     public Task Hide()
