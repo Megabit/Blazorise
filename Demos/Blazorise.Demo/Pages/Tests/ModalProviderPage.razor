@@ -30,7 +30,10 @@
             </CardBody>
 
             <CardBody>
-
+                <Paragraph>
+                    Example shows the opening of a modal that opens another modal itself by using the ModalService.
+                </Paragraph>
+                <Button Color="Color.Success" Clicked="ShowModalWithinModal">Show</Button>
             </CardBody>
         </Card>
     </Column>
@@ -71,4 +74,8 @@
         formularyMessage = $"Employee : {employee.FirstName} saved successfully!";
         return InvokeAsync(StateHasChanged);
     }
+
+    //TODO
+    private Task ShowModalWithinModal()
+        => Task.CompletedTask;
 }
