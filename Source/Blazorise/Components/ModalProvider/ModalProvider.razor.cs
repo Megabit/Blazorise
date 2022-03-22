@@ -71,10 +71,10 @@ namespace Blazorise
         [Parameter] public bool UseModalStructure { get; set; } = true;
 
         /// <summary>
-        /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+        /// Gets whether it uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
         /// Defaults to true.
         /// </summary>
-        protected virtual bool GetUseModalStructure => ModalProviderOptions?.UseModalStructure ?? UseModalStructure;
+        protected virtual bool GetUseModalStructure() => ModalProviderOptions?.UseModalStructure ?? UseModalStructure;
 
         /// <summary>
         /// If true modal will scroll to top when opened.
@@ -82,9 +82,9 @@ namespace Blazorise
         [Parameter] public bool ScrollToTop { get; set; } = true;
 
         /// <summary>
-        /// If true modal will scroll to top when opened.
+        /// Gets whether modal should scroll to top when opened.
         /// </summary>
-        protected virtual bool GetScrollToTop => ModalProviderOptions?.ScrollToTop ?? ScrollToTop;
+        protected virtual bool GetScrollToTop() => ModalProviderOptions?.ScrollToTop ?? ScrollToTop;
 
         /// <summary>
         /// Occurs before the modal is opened.
@@ -92,9 +92,9 @@ namespace Blazorise
         [Parameter] public Func<ModalOpeningEventArgs, Task> Opening { get; set; }
 
         /// <summary>
-        /// Occurs before the modal is opened.
+        /// Gets event for before the modal is opened.
         /// </summary>
-        protected virtual Func<ModalOpeningEventArgs, Task> GetOpening => ModalProviderOptions?.Opening ?? Opening;
+        protected virtual Func<ModalOpeningEventArgs, Task> GetOpening() => ModalProviderOptions?.Opening ?? Opening;
 
         /// <summary>
         /// Occurs before the modal is closed.
@@ -102,9 +102,9 @@ namespace Blazorise
         [Parameter] public Func<ModalClosingEventArgs, Task> Closing { get; set; }
 
         /// <summary>
-        /// Occurs before the modal is closed.
+        /// Gets event for before the modal is closed.
         /// </summary>
-        protected virtual Func<ModalClosingEventArgs, Task> GetClosing => ModalProviderOptions?.Closing ?? Closing;
+        protected virtual Func<ModalClosingEventArgs, Task> GetClosing() => ModalProviderOptions?.Closing ?? Closing;
 
         /// <summary>
         /// Occurs after the modal has opened.
@@ -112,9 +112,9 @@ namespace Blazorise
         [Parameter] public EventCallback Opened { get; set; }
 
         /// <summary>
-        /// Occurs after the modal has opened.
+        /// Gets event for after the modal has opened.
         /// </summary>
-        protected virtual EventCallback GetOpened => ModalProviderOptions?.Opened ?? Opened;
+        protected virtual EventCallback GetOpened() => ModalProviderOptions?.Opened ?? Opened;
 
         /// <summary>
         /// Occurs after the modal has closed.
@@ -122,9 +122,9 @@ namespace Blazorise
         [Parameter] public EventCallback Closed { get; set; }
 
         /// <summary>
-        /// Occurs before the modal is closed.
+        /// Gets event for before the modal is closed.
         /// </summary>
-        protected virtual EventCallback GetClosed => ModalProviderOptions?.Closed ?? Closed;
+        protected virtual EventCallback GetClosed() => ModalProviderOptions?.Closed ?? Closed;
 
         /// <summary>
         /// Specifies the backdrop needs to be rendered for this <see cref="Modal"/>.
@@ -132,9 +132,9 @@ namespace Blazorise
         [Parameter] public bool ShowBackdrop { get; set; } = true;
 
         /// <summary>
-        /// Specifies the backdrop needs to be rendered for this <see cref="Modal"/>.
+        /// Gets if the backdrop needs to be rendered for this <see cref="Modal"/>.
         /// </summary>
-        protected virtual bool GetShowBackdrop => ModalProviderOptions?.ShowBackdrop ?? ShowBackdrop;
+        protected virtual bool GetShowBackdrop() => ModalProviderOptions?.ShowBackdrop ?? ShowBackdrop;
 
         /// <summary>
         /// Gets or sets whether the component has any animations.
@@ -142,9 +142,9 @@ namespace Blazorise
         [Parameter] public bool Animated { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets whether the component has any animations.
+        /// Gets whether the component has any animations.
         /// </summary>
-        protected virtual bool GetAnimated => ModalProviderOptions?.Animated ?? Animated;
+        protected virtual bool GetAnimated() => ModalProviderOptions?.Animated ?? Animated;
 
         /// <summary>
         /// Gets or sets the animation duration.
@@ -152,9 +152,9 @@ namespace Blazorise
         [Parameter] public int AnimationDuration { get; set; } = 150;
 
         /// <summary>
-        /// Gets or sets the animation duration.
+        /// Gets the animation duration.
         /// </summary>
-        protected virtual int GetAnimationDuration => ModalProviderOptions?.AnimationDuration ?? AnimationDuration;
+        protected virtual int GetAnimationDuration() => ModalProviderOptions?.AnimationDuration ?? AnimationDuration;
 
         /// <summary>
         /// Defines how the modal content will be rendered.
@@ -162,9 +162,9 @@ namespace Blazorise
         [Parameter] public ModalRenderMode RenderMode { get; set; }
 
         /// <summary>
-        /// Defines how the modal content will be rendered.
+        /// Gets how the modal content will be rendered.
         /// </summary>
-        protected virtual ModalRenderMode GetRenderMode => ModalProviderOptions?.RenderMode ?? RenderMode;
+        protected virtual ModalRenderMode GetRenderMode() => ModalProviderOptions?.RenderMode ?? RenderMode;
 
         /// <summary>
         /// Defines if the modal should keep the input focus at all times.
@@ -172,9 +172,9 @@ namespace Blazorise
         [Parameter] public bool? FocusTrap { get; set; }
 
         /// <summary>
-        /// Defines if the modal should keep the input focus at all times.
+        /// Gets if the modal should keep the input focus at all times.
         /// </summary>
-        protected virtual bool? GetFocusTrap => ModalProviderOptions?.FocusTrap ?? FocusTrap;
+        protected virtual bool? GetFocusTrap() => ModalProviderOptions?.FocusTrap ?? FocusTrap;
 
         #endregion
     }
