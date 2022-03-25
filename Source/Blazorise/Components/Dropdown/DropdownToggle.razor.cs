@@ -228,7 +228,7 @@ namespace Blazorise
         /// Gets the data-boundary value.
         /// </summary>
         protected string DataBoundary
-            => ParentDropdown?.InResponsiveTable == true ? "window" : null;
+            => null;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.

@@ -95,7 +95,6 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownShow(), Visible );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
-            builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
 
             base.BuildClasses( builder );
         }
@@ -320,11 +319,6 @@ namespace Blazorise
         /// Returns true if this dropdown contains any child dropdown.
         /// </summary>
         protected internal bool HasSubmenu => childDropdown != null;
-
-        /// <summary>
-        /// Returns true if dropdown is placed inside of responsive table.
-        /// </summary>
-        protected internal bool InResponsiveTable => ParentTable?.Responsive == true;
 
         /// <summary>
         /// Tracks the last DropdownToggle Element Id that acted.
