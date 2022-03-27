@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -92,7 +93,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
-            builder.Append( ClassProvider.DropdownShow(), Visible );
+            //builder.Append( ClassProvider.DropdownShow(), Visible );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
 
@@ -120,15 +121,15 @@ namespace Blazorise
         /// Show the dropdown menu.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Show()
+        public async Task Show()
         {
-            // used to prevent toggle event call if Open() is called multiple times
             if ( Visible )
-                return Task.CompletedTask;
+                return;
 
+            
             Visible = true;
-
-            return InvokeAsync( StateHasChanged );
+            await JSModule.Initialize(this.ElementRef, this.ElementId, null);
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -138,7 +139,6 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Hide( bool hideAll = false )
         {
-            // used to prevent toggle event call if Close() is called multiple times
             if ( !Visible )
                 return;
 
@@ -173,13 +173,16 @@ namespace Blazorise
         /// </summary>
         /// <param name="dropdownToggleElementId"></param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Toggle( string dropdownToggleElementId )
+        public async Task Toggle( string dropdownToggleElementId )
         {
             SetWasJustToggled( true );
             SetSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
-            return InvokeAsync( StateHasChanged );
+            if (Visible)
+                await JSModule.Initialize( this.ElementRef, this.ElementId, null );
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -324,6 +327,11 @@ namespace Blazorise
         /// Tracks the last DropdownToggle Element Id that acted.
         /// </summary>
         public string SelectedDropdownElementId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSDropdownModule"/> instance.
+        /// </summary>
+        [Inject] public IJSDropdownModule JSModule { get; set; }
 
         /// <summary>
         /// If true, a dropdown menu will be visible.

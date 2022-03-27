@@ -1,30 +1,99 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
-<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.FromBottom">Blazorise</Heading>
+<DataGrid TItem="int" Data="new List<int>{1,2,3}" Responsive="true" Bordered="true" Style="border: solid blue;">
+    <ChildContent>
+        <DataGridColumn Caption="Id">
+            <DisplayTemplate>@context</DisplayTemplate>
+        </DataGridColumn>
+        <DataGridColumn>
+            <DisplayTemplate>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Actions</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Do something 1</DropdownItem>
+                        <DropdownItem>Do something 2</DropdownItem>
+                        <DropdownItem>Do something 3</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </DisplayTemplate>
+        </DataGridColumn>
+    </ChildContent>
+</DataGrid>
 
-<Paragraph>
-    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
-</Paragraph>
+<DataGrid TItem="int" Data="new List<int>{1,2,3}" Responsive="false" Bordered="true" Style="border: solid blue;">
+    <ChildContent>
+        <DataGridColumn Caption="Id">
+            <DisplayTemplate>@context</DisplayTemplate>
+        </DataGridColumn>
+        <DataGridColumn>
+            <DisplayTemplate>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Actions</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Do something 1</DropdownItem>
+                        <DropdownItem>Do something 2</DropdownItem>
+                        <DropdownItem>Do something 3</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </DisplayTemplate>
+        </DataGridColumn>
+    </ChildContent>
+</DataGrid>
 
-<Alert Color="Color.Info" Visible>
-    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
-        Note:
-    </Heading>
-    <Paragraph>
-        This is a demo application for Blazorise used to show basic example for most of the components and extensions.
-    </Paragraph>
-    <Paragraph>
-        Full source code for this demo can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
-    </Paragraph>
-    <Paragraph>
-        If you wish to learn more about Blazorise please go to the official <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">documentation</Anchor>.
-    </Paragraph>
-</Alert>
+<Table Responsive>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
 
-<Paragraph>
-    On the left sidebar you can see the Blazorise components and extensions in action.
-</Paragraph>
-<br />
-<Paragraph>
-    <Strong> Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
-</Paragraph>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>2</TableRowCell>
+            <TableRowCell>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Actions</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Do something 1</DropdownItem>
+                        <DropdownItem>Do something 2</DropdownItem>
+                        <DropdownItem>Do something 3</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </TableRowCell>
+            <TableRowCell>3</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>2</TableRowCell>
+            <TableRowCell>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Actions</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Do something 1</DropdownItem>
+                        <DropdownItem>Do something 2</DropdownItem>
+                        <DropdownItem>Do something 3</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </TableRowCell>
+            <TableRowCell>3</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
