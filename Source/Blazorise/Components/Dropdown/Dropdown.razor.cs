@@ -13,7 +13,7 @@ namespace Blazorise
     /// <summary>
     /// Dropdown is toggleable, contextual overlay for displaying lists of links and more.
     /// </summary>
-    public partial class Dropdown : BaseComponent, IDisposable
+    public partial class Dropdown : BaseComponent, IAsyncDisposable
     {
         #region Members
 
@@ -93,7 +93,6 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
-            //builder.Append( ClassProvider.DropdownShow(), Visible );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
 
@@ -103,8 +102,9 @@ namespace Blazorise
         private Direction GetDropdownDirection()
             => IsDropdownSubmenu && Direction == Direction.Default ? Direction.End : Direction;
 
+
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
@@ -112,10 +112,27 @@ namespace Blazorise
                 {
                     ParentDropdown.NotifyChildDropdownRemoved( this );
                 }
-            }
 
-            base.Dispose( disposing );
+                if ( Rendered )
+                {
+                    var destroyTask = JSModule.Destroy( ElementRef, ElementId );
+
+                    try
+                    {
+                        await destroyTask;
+                    }
+                    catch when ( destroyTask.IsCanceled )
+                    {
+                    }
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+                }
+
+                await base.DisposeAsync( disposing );
+            }
         }
+
 
         /// <summary>
         /// Show the dropdown menu.
@@ -126,9 +143,9 @@ namespace Blazorise
             if ( Visible )
                 return;
 
-            
             Visible = true;
-            await JSModule.Initialize(this.ElementRef, this.ElementId, null);
+
+            await HandleJSShow();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -147,6 +164,7 @@ namespace Blazorise
             if ( ParentDropdown is not null && ( ParentDropdown.ShouldClose || hideAll ) )
                 await ParentDropdown.Hide( hideAll );
 
+            await HandleJSShow();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -179,10 +197,28 @@ namespace Blazorise
             SetSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
-            if (Visible)
-                await JSModule.Initialize( this.ElementRef, this.ElementId, null );
+            await HandleJSShow();
 
             await InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
+        /// Handles the display of the dropdown with javascript assistance for clipping and overflow detections.
+        /// </summary>
+        /// <returns></returns>
+        internal ValueTask HandleJSShow()
+        {
+            if ( Rendered )
+            {
+                if ( Visible )
+                    return JSModule.Initialize( ElementRef, ElementId, new
+                    {
+                        Direction = GetDropdownDirection().ToString( "g" )
+                    } );
+                else
+                    return JSModule.Destroy( ElementRef, ElementId );
+            }
+            return ValueTask.CompletedTask;
         }
 
         /// <summary>
