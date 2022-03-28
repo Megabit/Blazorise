@@ -1,8 +1,8 @@
-import { getRequiredElement } from "./utilities.js?v=1.0.1.0";
-import { createPopper } from "./popper.js?v=1.0.1.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.0.1.0";
+import { createPopper } from "../Blazorise/popper.js?v=1.0.1.0";
 
 const _instances = [];
-const SHOW_CLASS = "show";
+const SHOW_CLASS = "is-active";
 
 export function initialize(element, elementId, options) {
     element = getRequiredElement(element, elementId);
@@ -10,7 +10,7 @@ export function initialize(element, elementId, options) {
     if (!element)
         return;
 
-    const btnToggle = element.querySelector(".dropdown-toggle");
+    const btnToggle = element.querySelector(".dropdown-trigger");
     const menu = element.querySelector(".dropdown-menu");
 
     const instance = createPopper(btnToggle, menu, options);
