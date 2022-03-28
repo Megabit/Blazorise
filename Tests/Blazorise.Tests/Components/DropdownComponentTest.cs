@@ -1,4 +1,5 @@
-﻿using BasicTestApp.Client;
+﻿using System;
+using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -11,6 +12,7 @@ namespace Blazorise.Tests.Components
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
         [Fact]
@@ -26,16 +28,13 @@ namespace Blazorise.Tests.Components
             btnElement.Click();
 
             // validate
-            Assert.Contains( "show", drpElement.GetAttribute( "class" ) );
-            Assert.Contains( "show", mnuElement.GetAttribute( "class" ) );
+            this.JSInterop.VerifyInvoke( "initialize" );
 
             // test
             btnElement.Click();
 
             // validate
-            this.JSInterop.VerifyInvoke( "registerClosableComponent" );
-            Assert.DoesNotContain( "show", drpElement.GetAttribute( "class" ) );
-            Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
+            this.JSInterop.VerifyInvoke( "destroy" );
         }
     }
 }
