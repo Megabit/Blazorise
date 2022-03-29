@@ -79,7 +79,9 @@ namespace Blazorise
             {
                 JSModule.Initialize( ElementRef, ElementId, new
                 {
-                    Direction = GetDropdownDirection().ToString( "g" )
+                    Direction = GetDropdownDirection().ToString( "g" ),
+                    DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
+                    DropdownMenuClassNames = ClassProvider.DropdownMenu(),
                 } );
 
                 if ( buttonList?.Count > 0 )

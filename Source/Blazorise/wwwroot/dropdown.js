@@ -23,14 +23,21 @@ function getPopperDirection(direction) {
     return "bottom-start";
 }
 
+// optimize this
+function createSelector(value) {
+    const classNames = '.' + value.split(' ').join('.');
+
+    return classNames;
+}
+
 export function initialize(element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
         return;
 
-    const toggleElement = element.querySelector(".dropdown-toggle");
-    const menuElement = element.querySelector(".dropdown-menu");
+    const toggleElement = element.querySelector(createSelector(options.dropdownToggleClassNames));
+    const menuElement = element.querySelector(createSelector(options.dropdownMenuClassNames));
 
     const instance = createPopper(toggleElement, menuElement, {
         placement: getPopperDirection(options.direction),
@@ -56,9 +63,7 @@ export function destroy(element, elementId) {
     if (!element)
         return;
 
-    let instances = _instances || {};
-
-    const instance = instances[elementId];
+    const instance = getInstance(elementId);
 
     if (instance) {
         instance.destroy();
@@ -73,9 +78,7 @@ export function show(element, elementId) {
     if (!element)
         return;
 
-    let instances = _instances || {};
-
-    const instance = instances[elementId];
+    const instance = getInstance(elementId);
 
     if (instance) {
         instance.update();
@@ -90,13 +93,17 @@ export function hide(element, elementId) {
     if (!element)
         return;
 
-    let instances = _instances || {};
-
-    const instance = instances[elementId];
+    const instance = getInstance(elementId);
 
     if (instance) {
         instance.update();
 
         element.classList.remove(SHOW_CLASS);
     }
+}
+
+export function getInstance(elementId) {
+    const instances = _instances || {};
+
+    return instances[elementId];
 }
