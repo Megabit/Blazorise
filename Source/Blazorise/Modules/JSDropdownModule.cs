@@ -46,6 +46,28 @@ namespace Blazorise.Modules
             await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
         }
 
+        /// <inheritdoc/>
+        public virtual async ValueTask Show( ElementReference elementRef, string elementId )
+        {
+            if ( IsUnsafe )
+                return;
+
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "show", elementRef, elementId );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask Hide( ElementReference elementRef, string elementId )
+        {
+            if ( IsUnsafe )
+                return;
+
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "hide", elementRef, elementId );
+        }
+
         #endregion
 
         #region Properties

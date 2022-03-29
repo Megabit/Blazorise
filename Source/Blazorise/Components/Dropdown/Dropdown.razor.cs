@@ -75,12 +75,20 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnAfterRender( bool firstRender )
         {
-            if ( firstRender && buttonList?.Count > 0 )
+            if ( firstRender )
             {
-                DirtyClasses();
-                DirtyStyles();
+                JSModule.Initialize( ElementRef, ElementId, new
+                {
+                    Direction = GetDropdownDirection().ToString( "g" )
+                } );
 
-                InvokeAsync( StateHasChanged );
+                if ( buttonList?.Count > 0 )
+                {
+                    DirtyClasses();
+                    DirtyStyles();
+
+                    InvokeAsync( StateHasChanged );
+                }
             }
 
             WasJustToggled = false;
@@ -145,7 +153,7 @@ namespace Blazorise
 
             Visible = true;
 
-            await HandleJSShow();
+            await HandleJSVisibility();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -164,7 +172,7 @@ namespace Blazorise
             if ( ParentDropdown is not null && ( ParentDropdown.ShouldClose || hideAll ) )
                 await ParentDropdown.Hide( hideAll );
 
-            await HandleJSShow();
+            await HandleJSVisibility();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -197,8 +205,7 @@ namespace Blazorise
             SetSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
-            await HandleJSShow();
-
+            await HandleJSVisibility();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -206,18 +213,16 @@ namespace Blazorise
         /// Handles the display of the dropdown with javascript assistance for clipping and overflow detections.
         /// </summary>
         /// <returns></returns>
-        internal ValueTask HandleJSShow()
+        internal ValueTask HandleJSVisibility()
         {
             if ( Rendered )
             {
                 if ( Visible )
-                    return JSModule.Initialize( ElementRef, ElementId, new
-                    {
-                        Direction = GetDropdownDirection().ToString( "g" )
-                    } );
+                    return JSModule.Show( ElementRef, ElementId );
                 else
-                    return JSModule.Destroy( ElementRef, ElementId );
+                    return JSModule.Hide( ElementRef, ElementId );
             }
+
             return ValueTask.CompletedTask;
         }
 
