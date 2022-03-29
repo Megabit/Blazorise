@@ -62,64 +62,67 @@ export function updateOptions(element, elementId, options) {
     const instance = _instances[elementId];
 
     if (instance && options) {
+        const newOptions = {};
+
         if (options.decimals.changed) {
-            //instance.options.decimalPlaces(options.decimals.value || AutoNumeric.options.decimalPlaces.two);
-            instance.options.decimalPlacesRawValue(firstNonNull(options.decimals.value, AutoNumeric.options.decimalPlaces.two));
-            instance.options.decimalPlacesShownOnFocus(firstNonNull(options.decimals.value, AutoNumeric.options.decimalPlaces.two));
-            instance.options.decimalPlacesShownOnBlur(firstNonNull(options.decimals.value, AutoNumeric.options.decimalPlaces.two));
+            //newOptions.decimalPlaces = options.decimals.value || AutoNumeric.options.decimalPlaces.two;
+            newOptions.decimalPlacesRawValue = firstNonNull(options.decimals.value, AutoNumeric.options.decimalPlaces.two);
+            newOptions.decimalPlacesShownOnFocus = firstNonNull(options.decimals.value, AutoNumeric.options.decimalPlaces.two);
+            newOptions.decimalPlacesShownOnBlur = firstNonNull(options.decimals.value, AutoNumeric.options.decimalPlaces.two);
         }
 
         if (options.decimalSeparator.changed) {
-            instance.options.decimalCharacter(firstNonNull(options.decimalSeparator.value, AutoNumeric.options.decimalCharacter.dot));
+            newOptions.decimalCharacter = firstNonNull(options.decimalSeparator.value, AutoNumeric.options.decimalCharacter.dot);
         }
 
         if (options.alternativeDecimalSeparator.changed) {
-            instance.options.decimalCharacterAlternative(firstNonNull(options.alternativeDecimalSeparator.value, AutoNumeric.options.decimalCharacter.comma));
+            newOptions.decimalCharacterAlternative = firstNonNull(options.alternativeDecimalSeparator.value, AutoNumeric.options.decimalCharacter.comma);
         }
 
         if (options.groupSeparator.changed) {
-            instance.options.digitGroupSeparator(firstNonNull(options.groupSeparator.value, AutoNumeric.options.digitGroupSeparator.noSeparator));
+            newOptions.digitGroupSeparator = firstNonNull(options.groupSeparator.value, AutoNumeric.options.digitGroupSeparator.noSeparator);
         }
 
         if (options.groupSpacing.changed) {
-            instance.options.digitalGroupSpacing(firstNonNull(options.groupSpacing.value, AutoNumeric.options.digitalGroupSpacing.three));
+            newOptions.digitalGroupSpacing = firstNonNull(options.groupSpacing.value, AutoNumeric.options.digitalGroupSpacing.three);
         }
 
         if (options.currencySymbol.changed) {
-            instance.options.currencySymbol(firstNonNull(options.currencySymbol.value, AutoNumeric.options.currencySymbol.none));
+            newOptions.currencySymbol = firstNonNull(options.currencySymbol.value, AutoNumeric.options.currencySymbol.none);
         }
 
         if (options.currencySymbolPlacement.changed) {
-            instance.options.currencySymbolPlacement(firstNonNull(options.currencySymbolPlacement.value, AutoNumeric.options.currencySymbolPlacement.suffix));
+            newOptions.currencySymbolPlacement = firstNonNull(options.currencySymbolPlacement.value, AutoNumeric.options.currencySymbolPlacement.suffix);
         }
 
         if (options.roundingMethod.changed) {
-            instance.options.roundingMethod(firstNonNull(options.roundingMethod.value, AutoNumeric.options.roundingMethod.halfUpSymmetric));
+            newOptions.roundingMethod = firstNonNull(options.roundingMethod.value, AutoNumeric.options.roundingMethod.halfUpSymmetric);
         }
 
         if (options.min.changed) {
-            instance.options.minimumValue(firstNonNull(options.min.value, AutoNumeric.options.minimumValue.tenTrillions));
+            newOptions.minimumValue = firstNonNull(options.min.value, AutoNumeric.options.minimumValue.tenTrillions);
         }
-
         if (options.max.changed) {
-            instance.options.maximumValue(firstNonNull(options.max.value, AutoNumeric.options.maximumValue.tenTrillions));
+            newOptions.maximumValue = firstNonNull(options.max.value, AutoNumeric.options.maximumValue.tenTrillions);
         }
 
         if (options.minMaxLimitsOverride.changed) {
-            instance.options.overrideMinMaxLimits(firstNonNull(options.minMaxLimitsOverride.value, AutoNumeric.options.overrideMinMaxLimits.doNotOverride));
+            newOptions.overrideMinMaxLimits = firstNonNull(options.minMaxLimitsOverride.value, AutoNumeric.options.overrideMinMaxLimits.doNotOverride);
         }
 
         if (options.selectAllOnFocus.changed) {
-            instance.options.selectOnFocus(firstNonNull(options.selectAllOnFocus.value, AutoNumeric.options.selectOnFocus.doNotSelect));
+            newOptions.selectOnFocus = firstNonNull(options.selectAllOnFocus.value, AutoNumeric.options.selectOnFocus.doNotSelect);
         }
 
         if (options.allowDecimalPadding.changed) {
-            instance.options.allowDecimalPadding(firstNonNull(options.allowDecimalPadding.value, AutoNumeric.options.allowDecimalPadding.always));
+            newOptions.allowDecimalPadding = firstNonNull(options.allowDecimalPadding.value, AutoNumeric.options.allowDecimalPadding.always);
         }
 
         if (options.alwaysAllowDecimalSeparator.changed) {
-            instance.options.alwaysAllowDecimalCharacter(firstNonNull(options.alwaysAllowDecimalSeparator.value, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow));
+            newOptions.alwaysAllowDecimalCharacter = firstNonNull(options.alwaysAllowDecimalSeparator.value, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow);
         }
+
+        instance.update(newOptions);
     }
 }
 
