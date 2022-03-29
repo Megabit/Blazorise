@@ -25,7 +25,7 @@ function getPopperDirection(direction) {
 
 // optimize this
 function createSelector(value) {
-    const classNames = '.' + value.split(' ').join('.');
+    const classNames = '.' + value.split(' ').filter(i => i).join('.');
 
     return classNames;
 }
