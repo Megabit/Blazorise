@@ -30,7 +30,7 @@ function createSelector(value) {
     return classNames;
 }
 
-export function initialize(element, elementId, targetElementId, options) {
+export function initialize(element, elementId, targetElementId, menuElementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -40,18 +40,17 @@ export function initialize(element, elementId, targetElementId, options) {
         ? document.getElementById(targetElementId)
         : element.querySelector(createSelector(options.dropdownToggleClassNames));
 
-    const menuElement = element.querySelector(createSelector(options.dropdownMenuClassNames));
+    const menuElement = menuElementId
+        ? document.getElementById(menuElementId)
+        : element.querySelector(createSelector(options.dropdownMenuClassNames));
 
     const instance = createPopper(targetElement, menuElement, {
         placement: getPopperDirection(options.direction),
         strategy: "fixed",
-
         modifiers: [
             {
                 name: "preventOverflow",
                 options: {
-                    scroll: true,
-                    resize: true,
                     padding: 0,
                 }
             }]

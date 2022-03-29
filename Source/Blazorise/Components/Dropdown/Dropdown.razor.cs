@@ -78,7 +78,7 @@ namespace Blazorise
         {
             if ( firstRender )
             {
-                JSModule.Initialize( ElementRef, ElementId, buttonList?.FirstOrDefault()?.ElementId, new
+                JSModule.Initialize( ElementRef, ElementId, buttonList?.FirstOrDefault()?.ElementId, childrenDropdownMenus?.FirstOrDefault()?.ElementId, new
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
                     DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),

@@ -19,7 +19,7 @@ namespace Blazorise.Modules
         /// <param name="targetElementId">An alternative target element for the dropdown menu, usually for split dropdowns.</param>
         /// <param name="options">Additional options for the button initialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, object options );
+        ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string menuElementId, object options );
 
         /// <summary>
         /// Shows the dropdown menu.
