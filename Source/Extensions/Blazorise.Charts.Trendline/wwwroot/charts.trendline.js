@@ -6,8 +6,6 @@ export function addTrendlines(canvasId, trendlines) {
     if (chart && trendlines) {
 
         trendlines.forEach(element => addTrendline(chart, element));
-
-        chart.update();
     }
 
     return true;
