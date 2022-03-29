@@ -32,7 +32,7 @@ namespace Blazorise.Tests.Components
             var input = comp.Find( ".b-is-autocomplete input" );
             var inputText = input.GetAttribute( "value" );
             // validate
-            this.JSInterop.VerifyInvoke( "initialize" );
+            this.JSInterop.VerifyInvoke( "show" );
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }
@@ -55,7 +55,7 @@ namespace Blazorise.Tests.Components
             var inputText = input.GetAttribute( "value" );
 
             // validate
-            this.JSInterop.VerifyInvoke( "initialize" );
+            this.JSInterop.VerifyInvoke( "show" );
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }
