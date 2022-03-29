@@ -187,6 +187,8 @@ namespace Blazorise.Tests.Helpers
                 var module = jsInterop.SetupModule( new JSDropdownModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "initialize", _ => true );
                 module.SetupVoid( "destroy", _ => true );
+                module.SetupVoid( "show", _ => true );
+                module.SetupVoid( "hide", _ => true );
             }
         }
 
