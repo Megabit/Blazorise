@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -77,7 +78,7 @@ namespace Blazorise
         {
             if ( firstRender )
             {
-                JSModule.Initialize( ElementRef, ElementId, new
+                JSModule.Initialize( ElementRef, ElementId, buttonList?.FirstOrDefault()?.ElementId, new
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
                     DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),

@@ -28,11 +28,11 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, object options )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, options );
+            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, targetElementId, options );
         }
 
         /// <inheritdoc/>

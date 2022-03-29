@@ -30,16 +30,19 @@ function createSelector(value) {
     return classNames;
 }
 
-export function initialize(element, elementId, options) {
+export function initialize(element, elementId, targetElementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
         return;
 
-    const toggleElement = element.querySelector(createSelector(options.dropdownToggleClassNames));
+    const targetElement = targetElementId
+        ? document.getElementById(targetElementId)
+        : element.querySelector(createSelector(options.dropdownToggleClassNames));
+
     const menuElement = element.querySelector(createSelector(options.dropdownMenuClassNames));
 
-    const instance = createPopper(toggleElement, menuElement, {
+    const instance = createPopper(targetElement, menuElement, {
         placement: getPopperDirection(options.direction),
         strategy: "fixed",
 
