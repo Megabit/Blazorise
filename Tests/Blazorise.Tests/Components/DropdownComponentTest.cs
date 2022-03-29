@@ -1,5 +1,4 @@
-﻿using System;
-using BasicTestApp.Client;
+﻿using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -28,13 +27,13 @@ namespace Blazorise.Tests.Components
             btnElement.Click();
 
             // validate
-            this.JSInterop.VerifyInvoke( "initialize" );
+            this.JSInterop.VerifyInvoke( "show" );
 
             // test
             btnElement.Click();
 
             // validate
-            this.JSInterop.VerifyInvoke( "destroy" );
+            this.JSInterop.VerifyInvoke( "hide" );
         }
     }
 }
