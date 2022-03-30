@@ -38,17 +38,6 @@ namespace Blazorise
         private CloseReason closeReason = CloseReason.None;
 
         /// <summary>
-        /// A focusable components placed inside of a modal.
-        /// </summary>
-        /// <remarks>
-        /// Only one component can be focused, but the reason why we hold the list
-        /// of components is in case we change Autofocus="true" from one component to the other.
-        /// And because order of rendering is important, we must make sure that the last component
-        /// does NOT set focusableComponent to null.
-        /// </remarks>
-        private List<IFocusableComponent> focusableComponents;
-
-        /// <summary>
         /// Tells us that modal is tracked by the JS interop.
         /// </summary>
         private bool jsRegistered;
@@ -68,15 +57,29 @@ namespace Blazorise
         /// </summary>
         private CloseableAdapter closeableAdapter;
 
+        /// <summary>
+        /// Internal event that is raised after the modal has opened.
+        /// </summary>
+        internal event Action _Opened;
+
+        /// <summary>
+        /// Internal event that is raised after the modal has closed.
+        /// </summary>
+        internal event Action _Closed;
+
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <inheritdoc/>
         public Modal()
         {
             closeableAdapter = new( this );
         }
+
+        #endregion
+
+        #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
@@ -168,12 +171,6 @@ namespace Blazorise
                 }
                 catch ( Microsoft.JSInterop.JSDisconnectedException )
                 {
-                }
-
-                if ( focusableComponents != null )
-                {
-                    focusableComponents.Clear();
-                    focusableComponents = null;
                 }
             }
 
@@ -303,25 +300,6 @@ namespace Blazorise
 
                     await JSClosableModule.Register( dotNetObjectRef, ElementRef );
                 } );
-
-                // only one component can be focused
-                if ( FocusableComponents.Count > 0 )
-                {
-                    ExecuteAfterRender( () =>
-                    {
-                        //TODO: This warrants further investigation
-                        //Even with the Count>0 check above, sometimes FocusableComponents.First() fails intermittently with an InvalidOperationException: Sequence contains no elements
-                        //This null check helps prevent the application from crashing unexpectedly, until a more indepth solution can be found.
-                        var firstFocusableComponent = FocusableComponents.FirstOrDefault();
-
-                        if ( firstFocusableComponent != null )
-                        {
-                            return firstFocusableComponent.Focus();
-                        }
-
-                        return Task.CompletedTask;
-                    } );
-                }
             }
             else
             {
@@ -344,37 +322,19 @@ namespace Blazorise
         /// <param name="visible"></param>
         protected virtual async Task RaiseEvents( bool visible )
         {
+            await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+
             if ( visible )
             {
+                _Opened?.Invoke();
+
                 await Opened.InvokeAsync();
             }
             else
             {
+                _Closed?.Invoke();
+
                 await Closed.InvokeAsync();
-            }
-
-            await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
-        }
-
-        internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
-        {
-            if ( focusableComponent == null )
-                return;
-
-            if ( !FocusableComponents.Contains( focusableComponent ) )
-            {
-                FocusableComponents.Add( focusableComponent );
-            }
-        }
-
-        internal void NotifyFocusableComponentRemoved( IFocusableComponent focusableComponent )
-        {
-            if ( focusableComponent == null )
-                return;
-
-            if ( FocusableComponents.Contains( focusableComponent ) )
-            {
-                FocusableComponents.Remove( focusableComponent );
             }
         }
 
@@ -465,12 +425,6 @@ namespace Blazorise
         protected internal ModalState State => state;
 
         /// <summary>
-        /// Gets the list of focusable components.
-        /// </summary>
-        protected IList<IFocusableComponent> FocusableComponents
-            => focusableComponents ??= new();
-
-        /// <summary>
         /// Gets the list of all element ids that could trigger modal close event.
         /// </summary>
         public IEnumerable<string> CloseActivatorElementIds
@@ -537,6 +491,11 @@ namespace Blazorise
         /// Defines how the modal content will be rendered.
         /// </summary>
         [Parameter] public ModalRenderMode RenderMode { get; set; }
+
+        /// <summary>
+        /// Defines if the modal should keep the input focus at all times.
+        /// </summary>
+        [Parameter] public bool? FocusTrap { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Modal"/>.

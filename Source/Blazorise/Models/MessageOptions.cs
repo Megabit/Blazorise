@@ -56,6 +56,21 @@
         public string OkButtonClass { get; set; }
 
         /// <summary>
+        /// Custom OK button padding.
+        /// </summary>
+        public IFluentSpacing OkButtonPadding { get; set; }
+
+        /// <summary>
+        /// Custom cancel button padding.
+        /// </summary>
+        public IFluentSpacing CancelButtonPadding { get; set; }
+
+        /// <summary>
+        /// Custom confirm button padding.
+        /// </summary>
+        public IFluentSpacing ConfirmButtonPadding { get; set; }
+
+        /// <summary>
         /// Custom text for the Confirmation button.
         /// </summary>
         public string ConfirmButtonText { get; set; }
@@ -111,6 +126,21 @@
         public bool ShowCloseButton { get; set; }
 
         /// <summary>
+        /// Custom title CSS class.
+        /// </summary>
+        public string TitleClass { get; set; }
+
+        /// <summary>
+        /// Custom message CSS class.
+        /// </summary>
+        public string MessageClass { get; set; }
+
+        /// <summary>
+        /// Defines the message dialog size.
+        /// </summary>
+        public ModalSize Size { get; set; }
+
+        /// <summary>
         /// Creates the default message options.
         /// </summary>
         /// <returns>Default message options.</returns>
@@ -122,10 +152,14 @@
             ShowCloseButton = true,
             OkButtonText = "Ok",
             OkButtonColor = Color.Primary,
+            OkButtonPadding = Padding.Is2.OnX,
             CancelButtonText = "Cancel",
             CancelButtonColor = Color.Secondary,
+            CancelButtonPadding = Padding.Is2.OnX,
             ConfirmButtonText = "Yes",
             ConfirmButtonColor = Color.Primary,
+            ConfirmButtonPadding = Padding.Is2.OnX,
+            Size = ModalSize.Default,
         };
     }
 }

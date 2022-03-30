@@ -82,6 +82,11 @@ namespace Blazorise
             => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
 
         /// <summary>
+        /// If true, the value will be showed within the progress bar.
+        /// </summary>
+        protected bool IsShowValue => ParentProgress?.ShowValue ?? true;
+
+        /// <summary>
         /// Defines the progress bar color.
         /// </summary>
         [Parameter]

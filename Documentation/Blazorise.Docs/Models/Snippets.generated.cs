@@ -687,6 +687,8 @@ namespace Blazorise.Docs.Models
     DatePicker<DateTime?> datePicker;
 }";
 
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
+
         public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
 
         public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
@@ -1047,6 +1049,38 @@ namespace Blazorise.Docs.Models
     {
         Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
     }
+}";
+
+        public const string BasicFocusTrapExample = @"<Card>
+    <CardBody>
+        <Switch TValue=""bool"" @bind-Checked=""@focusTrapActive"">Active</Switch>
+    </CardBody>
+    <CardBody>
+        <FocusTrap Active=""@focusTrapActive"">
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit Autofocus />
+                </FieldBody>
+            </Field>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Last Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Address</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+        </FocusTrap>
+    </CardBody>
+</Card>
+
+@code {
+    bool focusTrapActive = false;
 }";
 
         public const string BasicContainerExample = @"<Container>
@@ -1779,6 +1813,12 @@ namespace Blazorise.Docs.Models
         public const string IndeterminatePageProgressExample = @"<PageProgress Visible />";
 
         public const string MultipleProgressExample = @"<Progress>
+    <ProgressBar Value=""15"" />
+    <ProgressBar Color=""Color.Success"" Value=""30"" />
+    <ProgressBar Color=""Color.Info"" Value=""20"" />
+</Progress>";
+
+        public const string MultipleProgressHideValueExample = @"<Progress ShowValue=""false"">
     <ProgressBar Value=""15"" />
     <ProgressBar Color=""Color.Success"" Value=""30"" />
     <ProgressBar Color=""Color.Info"" Value=""20"" />
@@ -2542,6 +2582,8 @@ namespace Blazorise.Docs.Models
 
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
 
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
@@ -2884,6 +2926,68 @@ namespace Blazorise.Docs.Models
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js"" type=""module""></script>";
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
+
+        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+    @foreach ( var availableAnimation in Animations.GetNames() )
+    {
+        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+    }
+</Select>
+
+@if ( showAnimate )
+{
+    <Div ElementId=""#b-animate"">
+        <Animate Anchor=""#b-animate"" Auto Animation=""selectedAnimation"" DelayMilliseconds=""500"">
+            <Card Margin=""Margin.Is4.OnY"">
+                <CardBody>
+                    <CardTitle Size=""5"">Animation Example</CardTitle>
+                    <CardText>
+                        Some content.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
+}
+<Button Color=""Color.Primary"" Clicked=""@Animate"">
+    @buttonText
+</Button>
+@code {
+    private IAnimation selectedAnimation = Animations.FadeIn;
+    private bool showAnimate = false;
+    private string buttonText = ""Animate!"";
+
+    private Task OnSelectedAnimationChanged( string selectedAnimationName )
+    {
+        showAnimate = false;
+
+        if ( Animations.TryParse( selectedAnimationName, out var animation ) )
+            selectedAnimation = animation;
+        else
+            selectedAnimation = null;
+
+        return Task.CompletedTask;
+    }
+
+    private async Task Animate()
+    {
+        if ( !showAnimate )
+        {
+            showAnimate = true;
+            await InvokeAsync( StateHasChanged );
+            buttonText = ""Restart!"";
+        }
+        else
+        {
+            showAnimate = false;
+            buttonText = ""Animate!"";
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+}";
+
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.0.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -5509,11 +5613,11 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.0.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.0.2.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.0.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.0.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.0.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.0.2.0""></script>";
 
     }
 }

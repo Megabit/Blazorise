@@ -56,6 +56,7 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSTableModule, JSTableModule>();
             services.AddScoped<IJSSelectModule, JSSelectModule>();
             services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
+            services.AddScoped<IJSDropdownModule, JSDropdownModule>();
 
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
@@ -79,9 +80,9 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.SetupVoid( "initialize", _ => true );
-                module.SetupVoid( "destroy", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+                module.SetupVoid( "destroy", _ => true ).SetVoidResult();
             }
 
             public static void AddTextEdit( BunitJSInterop jsInterop )
@@ -89,9 +90,9 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.SetupVoid( "initialize", _ => true );
-                module.SetupVoid( "destroy", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+                module.SetupVoid( "destroy", _ => true ).SetVoidResult();
             }
 
             public static void AddDatePicker( BunitJSInterop jsInterop )
@@ -99,7 +100,7 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName )
-                         .SetupVoid( "initialize", _ => true );
+                         .SetupVoid( "initialize", _ => true ).SetVoidResult();
             }
 
             public static void AddClosable( BunitJSInterop jsInterop )
@@ -107,9 +108,9 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSClosableModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.SetupVoid( "registerClosableComponent", _ => true );
-                module.SetupVoid( "unregisterClosableComponent", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.SetupVoid( "registerClosableComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "unregisterClosableComponent", _ => true ).SetVoidResult();
             }
 
             public static void AddNumericEdit( BunitJSInterop jsInterop )
@@ -117,9 +118,9 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSNumericPickerModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.SetupVoid( "initialize", _ => true );
-                module.SetupVoid( "destroy", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+                module.SetupVoid( "destroy", _ => true ).SetVoidResult();
             }
 
             public static void AddSelect( BunitJSInterop jsInterop )
@@ -127,16 +128,16 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.Setup<String[]>( "getSelectedOptions", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.Setup<String[]>( "getSelectedOptions", _ => true ).SetResult( Array.Empty<string>() );
             }
 
             public static void AddUtilities( BunitJSInterop jsInterop )
             {
                 var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.SetupVoid( "setProperty", _ => true );
-                module.Setup<string>( "getUserAgent", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
+                module.Setup<string>( "getUserAgent",  _ => true ).SetResult( String.Empty ); 
             }
 
             public static void AddModal( BunitJSInterop jsInterop )
@@ -144,22 +145,24 @@ namespace Blazorise.Tests.Helpers
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new MockJsModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true );
-                module.SetupVoid( "open", _ => true );
-                module.SetupVoid( "close", _ => true );
+                module.SetupVoid( "import", _ => true ).SetVoidResult();
+                module.SetupVoid( "open", _ => true ).SetVoidResult();
+                module.SetupVoid( "close", _ => true ).SetVoidResult();
             }
+
+
 
             public static void AddTable( BunitJSInterop jsInterop )
             {
                 AddUtilities( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSTableModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "initializeTableFixedHeader", _ => true );
-                module.SetupVoid( "destroyTableFixedHeader", _ => true );
-                module.SetupVoid( "fixedHeaderScrollTableToPixels", _ => true );
-                module.SetupVoid( "fixedHeaderScrollTableToRow", _ => true );
-                module.SetupVoid( "initializeResizable", _ => true );
-                module.SetupVoid( "destroyResizable", _ => true );
+                module.SetupVoid( "initializeTableFixedHeader", _ => true ).SetVoidResult();
+                module.SetupVoid( "destroyTableFixedHeader", _ => true ).SetVoidResult();
+                module.SetupVoid( "fixedHeaderScrollTableToPixels", _ => true ).SetVoidResult();
+                module.SetupVoid( "fixedHeaderScrollTableToRow", _ => true ).SetVoidResult();
+                module.SetupVoid( "initializeResizable", _ => true ).SetVoidResult();
+                module.SetupVoid( "destroyResizable", _ => true ).SetVoidResult();
             }
 
             public static void AddDataGrid( BunitJSInterop jsInterop )
@@ -170,10 +173,22 @@ namespace Blazorise.Tests.Helpers
                 AddTable( jsInterop );
                 AddSelect( jsInterop );
                 AddClosable( jsInterop );
+                AddDropdown( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+                module.SetupVoid( "scrollTo", _ => true ).SetVoidResult();
+            }
+
+            public static void AddDropdown( BunitJSInterop jsInterop )
+            {
+                AddUtilities( jsInterop );
+
+                var module = jsInterop.SetupModule( new JSDropdownModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "initialize", _ => true );
-                module.SetupVoid( "scrollTo", _ => true );
+                module.SetupVoid( "destroy", _ => true );
+                module.SetupVoid( "show", _ => true );
+                module.SetupVoid( "hide", _ => true );
             }
         }
 

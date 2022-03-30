@@ -2,6 +2,8 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
+        <FocusTrap @ref="@FocusTrapRef" Active="@IsFocusTrap">
+            @ChildContent
+        </FocusTrap>
     </div>
 </CascadingValue>

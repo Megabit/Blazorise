@@ -34,6 +34,11 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
+            if ( ParentDropdown is not null )
+            {
+                ParentDropdown.NotifyDropdownToggleInitialized( this );
+            }
+
             if ( Theme != null )
             {
                 Theme.Changed += OnThemeChanged;
@@ -92,6 +97,11 @@ namespace Blazorise
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
                 dotNetObjectRef = null;
+
+                if ( ParentDropdown is not null )
+                {
+                    ParentDropdown.NotifyDropdownToggleRemoved( this );
+                }
 
                 if ( Theme != null )
                 {
@@ -228,7 +238,7 @@ namespace Blazorise
         /// Gets the data-boundary value.
         /// </summary>
         protected string DataBoundary
-            => ParentDropdown?.InResponsiveTable == true ? "window" : null;
+            => null;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.

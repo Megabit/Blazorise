@@ -312,6 +312,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// If true, the value will be showed within the progress bar.
+        /// </summary>
+        [Parameter] public bool ShowValue { get; set; } = true;
+
+        /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Progress"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }

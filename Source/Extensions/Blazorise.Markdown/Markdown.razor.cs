@@ -276,14 +276,14 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, 0 )
+            return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, ImageMaxSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, SegmentFetchTimeout, 0, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, SegmentFetchTimeout, ImageMaxSize, cancellationToken );
         }
 
         [JSInvokable]
