@@ -254,7 +254,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if(ManualReadMode)
+                if( ManualReadMode )
                     await Reload();
 
                 return;
