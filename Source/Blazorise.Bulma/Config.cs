@@ -27,7 +27,6 @@ namespace Blazorise.Bulma
 
             serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
             serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
-            serviceCollection.AddScoped<IJSDropdownModule, Modules.BulmaJSDropdownModule>();
 
             return serviceCollection;
         }

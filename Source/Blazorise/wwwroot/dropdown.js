@@ -2,7 +2,6 @@ import { getRequiredElement } from "./utilities.js?v=1.0.1.0";
 import { createPopper } from "./popper.js?v=1.0.1.0";
 
 const _instances = [];
-const SHOW_CLASS = "show";
 
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'
@@ -56,6 +55,8 @@ export function initialize(element, elementId, targetElementId, altTargetElement
             }]
     });
 
+    instance.update();
+
     _instances[elementId] = instance;
 }
 
@@ -75,32 +76,18 @@ export function destroy(element, elementId) {
 }
 
 export function show(element, elementId) {
-    element = getRequiredElement(element, elementId);
-
-    if (!element)
-        return;
-
     const instance = getInstance(elementId);
 
     if (instance) {
         instance.update();
-
-        element.classList.add(SHOW_CLASS);
     }
 }
 
 export function hide(element, elementId) {
-    element = getRequiredElement(element, elementId);
-
-    if (!element)
-        return;
-
     const instance = getInstance(elementId);
 
     if (instance) {
         instance.update();
-
-        element.classList.remove(SHOW_CLASS);
     }
 }
 
