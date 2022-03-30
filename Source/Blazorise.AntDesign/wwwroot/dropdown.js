@@ -3,8 +3,8 @@ import * as dropdown from "../Blazorise/dropdown.js?v=1.0.1.0";
 
 const HIDE_CLASS = "ant-dropdown-hidden";
 
-export function initialize(element, elementId, targetElementId, menuElementId, options) {
-    dropdown.initialize(element, elementId, targetElementId, menuElementId, options);
+export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options) {
+    dropdown.initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options);
 }
 
 export function destroy(element, elementId) {

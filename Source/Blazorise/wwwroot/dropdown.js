@@ -30,14 +30,14 @@ function createSelector(value) {
     return classNames;
 }
 
-export function initialize(element, elementId, targetElementId, menuElementId, options) {
+export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
         return;
 
-    const targetElement = targetElementId
-        ? document.getElementById(targetElementId)
+    const targetElement = (altTargetElementId || targetElementId)
+        ? document.getElementById(altTargetElementId || targetElementId)
         : element.querySelector(createSelector(options.dropdownToggleClassNames));
 
     const menuElement = menuElementId

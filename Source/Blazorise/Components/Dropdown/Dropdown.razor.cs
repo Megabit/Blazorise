@@ -27,11 +27,6 @@ namespace Blazorise
         };
 
         /// <summary>
-        /// A list of all buttons placed inside of this dropdown.
-        /// </summary>
-        private List<Button> buttonList;
-
-        /// <summary>
         /// The direct Dropdown child of this dropdown.
         /// </summary>
         private Dropdown childDropdown;
@@ -41,26 +36,19 @@ namespace Blazorise
         /// </summary>
         private List<DropdownMenu> childrenDropdownMenus;
 
+        /// <summary>
+        /// A list of all DropdownToggle placed inside of this dropdown.
+        /// </summary>
+        private List<DropdownToggle> childrenDropdownToggles;
+
+        /// <summary>
+        /// A list of all buttons placed inside of this dropdown, usually done in split mode.
+        /// </summary>
+        private List<Button> childrenButtonList;
+
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds child DropdownMenu to internal collection.
-        /// </summary>
-        /// <param name="dropdownMenu"></param>
-        internal protected void AddDropdownMenu( DropdownMenu dropdownMenu )
-        {
-            childrenDropdownMenus ??= new();
-            childrenDropdownMenus.Add( dropdownMenu );
-        }
-
-        /// <summary>
-        /// Removes child DropdownMenu from internal collection.
-        /// </summary>
-        /// <param name="dropdownMenu"></param>
-        internal protected bool RemoveDropdownMenu( DropdownMenu dropdownMenu )
-            => childrenDropdownMenus.Remove( dropdownMenu );
 
         /// <inheritdoc/>
         protected override void OnInitialized()
@@ -78,14 +66,18 @@ namespace Blazorise
         {
             if ( firstRender )
             {
-                JSModule.Initialize( ElementRef, ElementId, buttonList?.FirstOrDefault()?.ElementId, childrenDropdownMenus?.FirstOrDefault()?.ElementId, new
-                {
-                    Direction = GetDropdownDirection().ToString( "g" ),
-                    DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
-                    DropdownMenuClassNames = ClassProvider.DropdownMenu(),
-                } );
+                JSModule.Initialize( ElementRef, ElementId,
+                    targetElementId: childrenDropdownToggles?.FirstOrDefault()?.ElementId,
+                    altTargetElementId: childrenButtonList?.FirstOrDefault()?.ElementId,
+                    menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
+                    options: new
+                    {
+                        Direction = GetDropdownDirection().ToString( "g" ),
+                        DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
+                        DropdownMenuClassNames = ClassProvider.DropdownMenu(),
+                    } );
 
-                if ( buttonList?.Count > 0 )
+                if ( childrenButtonList?.Count > 0 )
                 {
                     DirtyClasses();
                     DirtyStyles();
@@ -256,16 +248,16 @@ namespace Blazorise
         /// Notifies the <see cref="Dropdown"/> that it has a child button component.
         /// </summary>
         /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
-        internal void NotifyButtonInitialized( Button button )
+        internal protected void NotifyButtonInitialized( Button button )
         {
             if ( button == null )
                 return;
 
-            buttonList ??= new();
+            childrenButtonList ??= new();
 
-            if ( !buttonList.Contains( button ) )
+            if ( !childrenButtonList.Contains( button ) )
             {
-                buttonList.Add( button );
+                childrenButtonList.Add( button );
             }
         }
 
@@ -273,14 +265,14 @@ namespace Blazorise
         /// Notifies the <see cref="Dropdown"/> that it's a child button component should be removed.
         /// </summary>
         /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
-        internal void NotifyButtonRemoved( Button button )
+        internal protected void NotifyButtonRemoved( Button button )
         {
             if ( button == null )
                 return;
 
-            if ( buttonList != null && buttonList.Contains( button ) )
+            if ( childrenButtonList != null && childrenButtonList.Contains( button ) )
             {
-                buttonList.Remove( button );
+                childrenButtonList.Remove( button );
             }
         }
 
@@ -288,7 +280,7 @@ namespace Blazorise
         /// Notifies the <see cref="Dropdown"/> that it has a child dropdown component.
         /// </summary>
         /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
-        internal void NotifyChildDropdownInitialized( Dropdown dropdown )
+        internal protected void NotifyChildDropdownInitialized( Dropdown dropdown )
         {
             if ( childDropdown == null )
                 childDropdown = dropdown;
@@ -298,10 +290,50 @@ namespace Blazorise
         /// Notifies the <see cref="Dropdown"/> that it's a child dropdown component should be removed.
         /// </summary>
         /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
-        internal void NotifyChildDropdownRemoved( Dropdown dropdown )
+        internal protected void NotifyChildDropdownRemoved( Dropdown dropdown )
         {
             childDropdown = null;
         }
+
+        /// <summary>
+        /// Adds child DropdownMenu to internal collection.
+        /// </summary>
+        /// <param name="dropdownMenu">Reference to the <see cref="DropdownMenu"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal protected void NotifyDropdownMenuInitialized( DropdownMenu dropdownMenu )
+        {
+            if ( dropdownMenu == null )
+                return;
+
+            childrenDropdownMenus ??= new();
+            childrenDropdownMenus.Add( dropdownMenu );
+        }
+
+        /// <summary>
+        /// Removes child DropdownMenu from internal collection.
+        /// </summary>
+        /// <param name="dropdownMenu">Reference to the <see cref="DropdownMenu"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal protected bool NotifyDropdownMenuRemoved( DropdownMenu dropdownMenu )
+            => childrenDropdownMenus.Remove( dropdownMenu );
+
+        /// <summary>
+        /// Adds child DropdownToggle to internal collection.
+        /// </summary>
+        /// <param name="dropdownToggle">Reference to the <see cref="DropdownToggle"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal protected void NotifyDropdownToggleInitialized( DropdownToggle dropdownToggle )
+        {
+            if ( dropdownToggle == null )
+                return;
+
+            childrenDropdownToggles ??= new();
+            childrenDropdownToggles.Add( dropdownToggle );
+        }
+
+        /// <summary>
+        /// Removes child DropdownToggle from internal collection.
+        /// </summary>
+        /// <param name="dropdownToggle">Reference to the <see cref="DropdownToggle"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal protected bool NotifyDropdownToggleRemoved( DropdownToggle dropdownToggle )
+            => childrenDropdownToggles.Remove( dropdownToggle );
 
         /// <summary>
         /// Handles the styles based on the visibility flag.
@@ -355,7 +387,7 @@ namespace Blazorise
         /// <summary>
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
         /// </summary>
-        protected internal bool IsGroup => ParentButtons != null || buttonList?.Count >= 1;
+        protected internal bool IsGroup => ParentButtons != null || childrenButtonList?.Count >= 1;
 
         /// <summary>
         /// Returns true if the dropdown is placed inside of another dropdown.
