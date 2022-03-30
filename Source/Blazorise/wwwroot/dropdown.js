@@ -66,7 +66,9 @@ export function destroy(element, elementId) {
     if (!element)
         return;
 
-    const instance = getInstance(elementId);
+    const instances = _instances || {};
+
+    const instance = instances[elementId];
 
     if (instance) {
         instance.destroy();
