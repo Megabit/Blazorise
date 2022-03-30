@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=1.0.1.0";
-import { createPopper } from "./popper.js?v=1.0.1.0";
+import { getRequiredElement } from "./utilities.js?v=1.0.2.0";
+import { createPopper } from "./popper.js?v=1.0.2.0";
 
 const _instances = [];
 
