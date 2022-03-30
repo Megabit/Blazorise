@@ -23,13 +23,4 @@
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\breakpoint.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Update="wwwroot\closable.js">
-      <SubType>Code</SubType>
-    </Content>
-  </ItemGroup>
-
 </Project>

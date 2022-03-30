@@ -88,5 +88,33 @@ namespace Blazorise.Charts
         [JsonPropertyName( "y" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public double? Z { get; set; } = 0;
+
+        #region Linear Axis specific tick options
+
+        /// <summary>
+        /// The number of ticks to generate. If specified, this overrides the automatic generation.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public int? Count { get; set; }
+
+        /// <summary>
+        /// The number format options used by the default label formatter.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public object Format { get; set; }
+
+        /// <summary>
+        /// If defined and <see cref="StepSize"/> is not specified, the step size will be rounded to this many decimal places.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? Precision { get; set; }
+
+        /// <summary>
+        /// User-defined fixed step size for the scale.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public double? StepSize { get; set; }
+
+        #endregion
     }
 }

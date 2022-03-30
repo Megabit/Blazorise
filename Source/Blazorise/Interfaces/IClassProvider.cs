@@ -423,8 +423,6 @@ namespace Blazorise
 
         string DropdownDirection( Direction direction );
 
-        string DropdownTableResponsive();
-
         #endregion
 
         #region Tabs
