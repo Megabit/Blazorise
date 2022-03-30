@@ -27,7 +27,7 @@ namespace Blazorise
         {
             if ( ParentDropdown is not null )
             {
-                ParentDropdown.AddDropdownMenu( this );
+                ParentDropdown.NotifyDropdownMenuInitialized( this );
             }
 
             base.OnInitialized();
@@ -40,7 +40,7 @@ namespace Blazorise
             {
                 if ( ParentDropdown is not null )
                 {
-                    ParentDropdown.RemoveDropdownMenu( this );
+                    ParentDropdown.NotifyDropdownMenuRemoved( this );
                 }
             }
 

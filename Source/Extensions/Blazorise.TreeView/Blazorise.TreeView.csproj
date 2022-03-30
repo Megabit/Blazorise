@@ -4,7 +4,6 @@
 
   <PropertyGroup>
     <PackageTags>blazorise blazor components treeview</PackageTags>
-    <Authors>$(Authors);Robin Clark</Authors>
   </PropertyGroup>
 
   <PropertyGroup>

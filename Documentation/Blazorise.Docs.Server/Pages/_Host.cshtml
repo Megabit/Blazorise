@@ -11,6 +11,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="facebook-domain-verification" content="2i87m24mm2h376ki9qa5z0ln4fbub3" />
     <title>Blazorise</title>
 
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
@@ -36,7 +37,24 @@
 
     <link href="css/site.css" rel="stylesheet" />
 
-    <script defer data-domain="blazorise.com" src="https://plausible.io/js/plausible.js"></script>
+    @*<script defer data-domain="blazorise.com" src="https://plausible.io/js/plausible.js"></script>*@
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('consent', 'revoke');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=516578876725861&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
@@ -69,10 +87,14 @@
                     if (type == 'opt-in' && didConsent) {
                         // enable cookies
                         setTracking(true);
+
+                        fbq('init', '516578876725861');
+                        fbq('track', 'PageView');
                     }
                     if (type == 'opt-out' && !didConsent) {
                         // disable cookies
                         setTracking(false);
+                        fbq('consent', 'revoke');
                     }
                 },
                 onStatusChange: function (status, chosenBefore) {
@@ -81,10 +103,15 @@
                     if (type == 'opt-in' && didConsent) {
                         // enable cookies
                         setTracking(true);
+
+                        fbq('init', '516578876725861');
+                        fbq('track', 'PageView');
                     }
                     if (type == 'opt-out' && !didConsent) {
                         // disable cookies
                         setTracking(false);
+
+                        fbq('consent', 'revoke');
                     }
                 },
                 onRevokeChoice: function () {
@@ -92,10 +119,15 @@
                     if (type == 'opt-in') {
                         // disable cookies
                         setTracking(false);
+
+                        fbq('init', '516578876725861');
+                        fbq('track', 'PageView');
                     }
                     if (type == 'opt-out') {
                         // enable cookies
                         setTracking(true);
+
+                        fbq('consent', 'revoke');
                     }
                 },
             })
@@ -121,7 +153,7 @@
     <script src="https://cdn.jsdelivr.net/npm/luxon@1.27.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
 
     <script id="GA_SCRIPT_UNIVERSAL">
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

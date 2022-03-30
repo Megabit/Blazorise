@@ -1,4 +1,4 @@
-﻿import { getChart } from "../Blazorise.Charts/charts.js";
+﻿import { getChart } from "../Blazorise.Charts/charts.js?v=1.0.2.0";
 
 export function addTrendlines(canvasId, trendlines) {
     const chart = getChart(canvasId);
@@ -6,8 +6,6 @@ export function addTrendlines(canvasId, trendlines) {
     if (chart && trendlines) {
 
         trendlines.forEach(element => addTrendline(chart, element));
-
-        chart.update();
     }
 
     return true;

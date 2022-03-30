@@ -4,7 +4,6 @@
 
   <PropertyGroup>
     <PackageTags>blazorise blazor components animate</PackageTags>
-    <Authors>$(Authors);Mikael Koskinen</Authors>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -17,6 +17,7 @@ namespace Blazorise.Tests.Components
             BlazoriseConfig.JSInterop.AddSelect( this.JSInterop );
             BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
             BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
         [Fact]
@@ -30,8 +31,10 @@ namespace Blazorise.Tests.Components
             // test
             var input = comp.Find( ".b-is-autocomplete input" );
             var inputText = input.GetAttribute( "value" );
+            
             // validate
-            this.JSInterop.VerifyInvoke( "initialize" );
+            // validate Dropdown initialize / textfield initialize
+            this.JSInterop.VerifyInvoke( "initialize", 2 );
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }
@@ -54,7 +57,8 @@ namespace Blazorise.Tests.Components
             var inputText = input.GetAttribute( "value" );
 
             // validate
-            this.JSInterop.VerifyInvoke( "initialize" );
+            // validate Dropdown initialize / textfield initialize
+            this.JSInterop.VerifyInvoke( "initialize", 2 );
             Assert.Equal( expectedSelectedText, selectedText );
             Assert.Equal( expectedSelectedText, inputText );
         }

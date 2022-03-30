@@ -456,8 +456,6 @@ namespace Blazorise.Bootstrap5
             };
         }
 
-        public override string DropdownTableResponsive() => "position-static";
-
         #endregion
 
         #region Tabs

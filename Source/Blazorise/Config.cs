@@ -106,6 +106,7 @@ namespace Blazorise
             { typeof( IJSSelectModule ), typeof( JSSelectModule ) },
             { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },
             { typeof( IJSDragDropModule ), typeof( JSDragDropModule ) },
+            { typeof( IJSDropdownModule ), typeof( JSDropdownModule ) },
         };
 
         /// <summary>
