@@ -461,8 +461,6 @@ namespace Blazorise.Bootstrap
             _ => null,
         };
 
-        public override string DropdownTableResponsive() => "position-static";
-
         #endregion
 
         #region Tabs

@@ -56,6 +56,7 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSTableModule, JSTableModule>();
             services.AddScoped<IJSSelectModule, JSSelectModule>();
             services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
+            services.AddScoped<IJSDropdownModule, JSDropdownModule>();
 
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
@@ -149,6 +150,8 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "close", _ => true ).SetVoidResult();
             }
 
+
+
             public static void AddTable( BunitJSInterop jsInterop )
             {
                 AddUtilities( jsInterop );
@@ -170,10 +173,22 @@ namespace Blazorise.Tests.Helpers
                 AddTable( jsInterop );
                 AddSelect( jsInterop );
                 AddClosable( jsInterop );
+                AddDropdown( jsInterop );
 
                 var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "initialize", _ => true ).SetVoidResult();
                 module.SetupVoid( "scrollTo", _ => true ).SetVoidResult();
+            }
+
+            public static void AddDropdown( BunitJSInterop jsInterop )
+            {
+                AddUtilities( jsInterop );
+
+                var module = jsInterop.SetupModule( new JSDropdownModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true );
+                module.SetupVoid( "destroy", _ => true );
+                module.SetupVoid( "show", _ => true );
+                module.SetupVoid( "hide", _ => true );
             }
         }
 
