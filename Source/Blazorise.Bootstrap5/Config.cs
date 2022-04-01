@@ -16,14 +16,14 @@ namespace Blazorise.Bootstrap5
         /// <returns></returns>
         public static IServiceCollection AddBootstrap5Providers( this IServiceCollection serviceCollection, Action<IClassProvider> configureClassProvider = null )
         {
-            var classProvider = new BootstrapClassProvider();
+            var classProvider = new Bootstrap5ClassProvider();
 
             configureClassProvider?.Invoke( classProvider );
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, Bootstrap5StyleProvider>();
-            serviceCollection.AddSingleton<IBehaviourProvider, BootstrapBehaviourProvider>();
-            serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
+            serviceCollection.AddSingleton<IBehaviourProvider, Bootstrap5BehaviourProvider>();
+            serviceCollection.AddScoped<IThemeGenerator, Bootstrap5ThemeGenerator>();
 
             serviceCollection.AddBootstrap5Components();
 
