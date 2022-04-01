@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Blazorise.Bootstrap5
 {
-    public class BootstrapClassProvider : ClassProvider
+    public class Bootstrap5ClassProvider : ClassProvider
     {
         #region TextEdit
 
