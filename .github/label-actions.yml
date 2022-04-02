@@ -1,0 +1,6 @@
+# Configuration for Label Actions - https://github.com/dessant/label-actions
+
+"Status: Repro Missing":
+  comment: >
+    Hello @{issue-author},
+    thank you for your submission. The issue was labelled "Status: Repro Missing", as you have not provided a way to quickly reproduce the issue. Most problems already solve themselves when isolated and if they don't, you will have made it easier to investigate a possible bug.
