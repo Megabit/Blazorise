@@ -92,6 +92,8 @@ namespace Blazorise.Components
                     {
                         await textEditRef.Revalidate();
                     }
+
+                    await InvokeAsync( StateHasChanged );
                 } );
             }
         }
