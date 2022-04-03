@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Blazorise.Bootstrap5
 {
-    public class BootstrapThemeGenerator : ThemeGenerator
+    public class Bootstrap5ThemeGenerator : ThemeGenerator
     {
         #region Constructors
 
-        public BootstrapThemeGenerator( IThemeCache themeCache )
+        public Bootstrap5ThemeGenerator( IThemeCache themeCache )
             : base( themeCache )
         {
         }
@@ -380,22 +380,22 @@ namespace Blazorise.Bootstrap5
                 //    .Append( $"background: { ToHex( Transparency( Var( ThemeVariables.Color( "primary" ) ), 16 ) )};" )
                 //    .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )
                 //    .AppendLine( "}" );
-            }
 
-            sb.Append( $".form-range::-webkit-slider-thumb" )
+                sb.Append( $".form-range::-webkit-slider-thumb" )
                     .Append( "{" )
                     .Append( $"background-color: { Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
 
-            sb.Append( $".form-range:focus::-webkit-slider-thumb" )
-                    .Append( "{" )
-                    .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) )};" )
-                    .AppendLine( "}" );
+                sb.Append( $".form-range:focus::-webkit-slider-thumb" )
+                        .Append( "{" )
+                        .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) )};" )
+                        .AppendLine( "}" );
 
-            sb.Append( $".form-range::-webkit-slider-thumb:active" )
-                    .Append( "{" )
-                    .Append( $"background-color: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 70f ) )};" )
-                    .AppendLine( "}" );
+                sb.Append( $".form-range::-webkit-slider-thumb:active" )
+                        .Append( "{" )
+                        .Append( $"background-color: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 70f ) )};" )
+                        .AppendLine( "}" );
+            }
         }
 
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
