@@ -323,7 +323,7 @@ namespace Blazorise
         [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
         /// <summary>
-        /// Occurs every time the selected file(s) has changed.
+        /// Occurs every time the selected file has changed, including when the reset operation is executed.
         /// </summary>
         [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
