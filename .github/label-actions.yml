@@ -3,4 +3,4 @@
 "Status: Repro Missing":
   comment: >
     Hello @{issue-author},
-    thank you for your submission. The issue was labelled "Status: Repro Missing", as you have not provided a way to quickly reproduce the issue. Most problems already solve themselves when isolated and if they don't, you will have made it easier to investigate a possible bug.
+    thank you for your submission. The issue was labeled "Status: Repro Missing", as you have not provided a way to reproduce the issue quickly. Most problems already solve themselves when isolated, but we would like you to provide us with a reproducible code to make it easier to investigate a possible bug.
