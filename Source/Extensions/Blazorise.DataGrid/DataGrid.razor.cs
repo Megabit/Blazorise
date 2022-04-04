@@ -254,7 +254,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if( ManualReadMode )
+                if ( ManualReadMode )
                     await Reload();
 
                 return;
@@ -813,6 +813,11 @@ namespace Blazorise.DataGrid
         internal Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
         {
             return RowDoubleClicked.InvokeAsync( eventArgs );
+        }
+
+        internal Task OnRowContextMenuCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowContextMenu.InvokeAsync( eventArgs );
         }
 
         protected internal int ResolveItemIndex( TItem item )
@@ -1831,6 +1836,11 @@ namespace Blazorise.DataGrid
         /// Event called after the row is double clicked.
         /// </summary>
         [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowDoubleClicked { get; set; }
+
+        /// <summary>
+        /// Event called after the row has requested a context menu.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowContextMenu { get; set; }
 
         /// <summary>
         /// Occurs after the selected page has changed.

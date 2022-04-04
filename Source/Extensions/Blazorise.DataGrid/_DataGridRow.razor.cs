@@ -176,6 +176,11 @@ namespace Blazorise.DataGrid
             return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
         }
 
+        protected internal Task HandleContextMenu( BLMouseEventArgs eventArgs )
+        {
+            return ParentDataGrid.OnRowContextMenuCommand( new( Item, eventArgs ) );
+        }
+
         protected internal Task OnMultiSelectCommand( bool selected, bool shiftClick )
         {
             return ParentDataGrid.OnMultiSelectCommand( new( Item, selected, shiftClick ) );
