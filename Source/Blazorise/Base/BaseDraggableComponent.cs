@@ -83,6 +83,16 @@ namespace Blazorise
             return Drop.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Event handler for <see cref="ContextMenu"/> event callback.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about an contextmenu event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual Task OnContextMenuHandler( MouseEventArgs eventArgs )
+        {
+            return ContextMenu.InvokeAsync( eventArgs );
+        }
+
         #endregion
 
         #region Properties
@@ -166,6 +176,16 @@ namespace Blazorise
         /// Used to prevent the default action for an <see cref="Drop"/> event.
         /// </summary>
         [Parameter] public bool DropPreventDefault { get; set; }
+
+        /// <summary>
+        /// The event is fired when an element or text selection is right clicked to show the context menu.
+        /// </summary>
+        [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+        /// <summary>
+        /// Used to prevent the default action for an <see cref="ContextMenu"/> event.
+        /// </summary>
+        [Parameter] public bool ContextMenuPreventDefault { get; set; }
 
         #endregion
     }
