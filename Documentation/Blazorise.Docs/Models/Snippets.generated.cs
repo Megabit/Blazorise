@@ -4509,6 +4509,13 @@ namespace Blazorise.Docs.Models
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
 
+        public const string IconGlobalSettingsExample = @"services
+	.AddBlazorise( options =>
+	{
+		options.IconStyle = IconStyle.Light;
+		options.IconSize = IconSize.Small;
+	} );";
+
         public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
 
         public const string IconSizeExample = @"<Div Flex=""Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start"">
