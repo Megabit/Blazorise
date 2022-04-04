@@ -46,6 +46,23 @@ namespace Blazorise
         /// </summary>
         private bool hasValueToChangeOnBlur;
 
+        /// <summary>
+        /// True if the TValue is an integer type.
+        /// </summary>
+        private bool isIntegerType;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default NumericPicker constructor.
+        /// </summary>
+        public NumericPicker()
+        {
+            isIntegerType = TypeHelper.IsInteger( typeof( TValue ) );
+        }
+
         #endregion
 
         #region Methods
@@ -55,7 +72,7 @@ namespace Blazorise
         {
             if ( Rendered )
             {
-                var decimalsChanged = parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
+                var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
                 var decimalSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalSeparator ), out var paramDecimalSeparator ) && !DecimalSeparator.IsEqual( paramDecimalSeparator );
                 var alternativeDecimalSeparatorChanged = parameters.TryGetValue<string>( nameof( AlternativeDecimalSeparator ), out var paramAlternativeDecimalSeparator ) && !AlternativeDecimalSeparator.IsEqual( paramAlternativeDecimalSeparator );
 
@@ -86,7 +103,7 @@ namespace Blazorise
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
-                        Decimals = new { Changed = decimalsChanged, Value = paramDecimals },
+                        Decimals = new { Changed = decimalsChanged, Value = GetDecimals() },
                         DecimalSeparator = new { Changed = decimalSeparatorChanged, Value = paramDecimalSeparator },
                         AlternativeDecimalSeparator = new { Changed = alternativeDecimalSeparatorChanged, Value = paramAlternativeDecimalSeparator },
                         GroupSeparator = new { Changed = groupSeparatorChanged, Value = paramGroupSeparator },
@@ -151,7 +168,7 @@ namespace Blazorise
                 Immediate = IsImmediate,
                 Debounce = IsDebounce,
                 DebounceInterval = DebounceIntervalValue,
-                Decimals,
+                Decimals = GetDecimals(),
                 DecimalSeparator,
                 AlternativeDecimalSeparator,
                 GroupSeparator,
@@ -246,9 +263,9 @@ namespace Blazorise
                 short @short => Converters.FormatValue( @short, CurrentCultureInfo ),
                 int @int => Converters.FormatValue( @int, CurrentCultureInfo ),
                 long @long => Converters.FormatValue( @long, CurrentCultureInfo ),
-                float @float => Converters.FormatValue( @float, CurrentCultureInfo, Decimals ),
-                double @double => Converters.FormatValue( @double, CurrentCultureInfo, Decimals ),
-                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo, Decimals ),
+                float @float => Converters.FormatValue( @float, CurrentCultureInfo, GetDecimals() ),
+                double @double => Converters.FormatValue( @double, CurrentCultureInfo, GetDecimals() ),
+                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo, GetDecimals() ),
                 sbyte @sbyte => Converters.FormatValue( @sbyte, CurrentCultureInfo ),
                 ushort @ushort => Converters.FormatValue( @ushort, CurrentCultureInfo ),
                 uint @uint => Converters.FormatValue( @uint, CurrentCultureInfo ),
@@ -381,6 +398,12 @@ namespace Blazorise
 
             return Task.CompletedTask;
         }
+
+        /// <summary>
+        /// Returns the numbers of allowed decimals.
+        /// </summary>
+        /// <returns>Number of decimals.</returns>
+        protected int GetDecimals() => isIntegerType ? 0 : Decimals;
 
         #endregion
 

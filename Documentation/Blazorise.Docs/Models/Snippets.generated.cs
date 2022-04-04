@@ -1623,7 +1623,7 @@ namespace Blazorise.Docs.Models
 
         public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
 
-        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" Decimals=""0"" />
+        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" />
 
 @code{
     int value;
