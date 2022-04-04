@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -90,7 +91,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnContextMenuHandler( MouseEventArgs eventArgs )
         {
-            return ContextMenu.InvokeAsync( eventArgs );
+            return ContextMenu.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
 
         #endregion
@@ -180,7 +181,7 @@ namespace Blazorise
         /// <summary>
         /// The event is fired when an element or text selection is right clicked to show the context menu.
         /// </summary>
-        [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+        [Parameter] public EventCallback<BLMouseEventArgs> ContextMenu { get; set; }
 
         /// <summary>
         /// Used to prevent the default action for an <see cref="ContextMenu"/> event.
