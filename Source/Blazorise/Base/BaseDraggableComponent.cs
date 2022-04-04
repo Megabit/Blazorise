@@ -167,6 +167,16 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool DropPreventDefault { get; set; }
 
+        /// <summary>
+        /// The event is fired when an element or text selection is right clicked to show the context menu.
+        /// </summary>
+        [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+        /// <summary>
+        /// Used to prevent the default action for an <see cref="ContextMenu"/> event.
+        /// </summary>
+        [Parameter] public bool ContextMenuPreventDefault { get; set; }
+
         #endregion
     }
 }
