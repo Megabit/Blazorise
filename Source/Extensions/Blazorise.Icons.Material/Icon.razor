@@ -2,7 +2,7 @@
 <i id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
     @if ( Name is IconName )
     {
-        @IconProvider.GetIconName( (IconName)Name, IconStyle );
+        @IconProvider.GetIconName( (IconName)Name, GetIconStyle() );
     }
     else if ( Name is string )
     {
