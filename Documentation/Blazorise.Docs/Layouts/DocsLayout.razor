@@ -434,14 +434,19 @@
             <Bar Class="b-top-bar" @ref="@topBar" @bind-Visible="@topBarVisible"
                  Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
                 <BarToggler Bar="@sideBar" Border="Border.Is0" />
-                <BarBrand Display="Display.None.InlineBlock.OnDesktop">
-                    <BarItem>
-                        <BarLink To="">
-                            Blazorise
-                        </BarLink>
-                    </BarItem>
-                </BarBrand>
                 <BarMenu>
+                    <BarStart>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="">
+                                Components
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="https://commercial.blazorise.com/">
+                                Commercial
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
                     <BarEnd>
                         <TopMenuEnd />
                     </BarEnd>
