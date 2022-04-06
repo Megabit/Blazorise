@@ -2,33 +2,35 @@
 
 <Layout Class="b-news">
     <LayoutHeader>
-        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
-            <BarBrand>
-                <BarItem>
-                    <BarLink Class="top-bar-brand-link" To="">
-                        <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
-                        Blazorise
-                    </BarLink>
-                </BarItem>
-            </BarBrand>
-            <BarToggler />
-            <BarMenu>
-                <BarStart>
-                    <BarItem Margin="Margin.Is3.FromEnd">
-                        <BarLink To="">
-                            Components
+        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default">
+            <Container>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink Class="top-bar-brand-link" To="">
+                            <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
+                            Blazorise
                         </BarLink>
                     </BarItem>
-                    <BarItem Margin="Margin.Is3.FromEnd">
-                        <BarLink To="https://commercial.blazorise.com/">
-                            Commercial
-                        </BarLink>
-                    </BarItem>
-                </BarStart>
-                <BarEnd>
-                    <TopMenuEnd />
-                </BarEnd>
-            </BarMenu>
+                </BarBrand>
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="">
+                                Components
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="https://commercial.blazorise.com/">
+                                Commercial
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <TopMenuEnd />
+                    </BarEnd>
+                </BarMenu>
+            </Container>
         </Bar>
     </LayoutHeader>
     <LayoutContent Class="b-news-content">

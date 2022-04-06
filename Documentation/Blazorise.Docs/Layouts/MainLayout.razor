@@ -3,32 +3,34 @@
 <Layout>
     <LayoutHeader>
         <Bar Class="b-top-bar" @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default">
-            <BarBrand>
-                <BarItem>
-                    <BarLink Class="top-bar-brand-link" To="">
-                        <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
-                        Blazorise
-                    </BarLink>
-                </BarItem>
-            </BarBrand>
-            <BarToggler />
-            <BarMenu>
-                <BarStart>
-                    <BarItem Margin="Margin.Is3.FromEnd">
-                        <BarLink To="" Shadow="Shadow.Small" Border="Border.Rounded.Is1.Primary.OnBottom.Is1.Primary.OnTop" TextWeight="TextWeight.Normal">
-                            Components
+            <Container>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink Class="top-bar-brand-link" To="">
+                            <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
+                            Blazorise
                         </BarLink>
                     </BarItem>
-                    <BarItem Margin="Margin.Is3.FromEnd">
-                        <BarLink To="https://commercial.blazorise.com/">
-                            Commercial
-                        </BarLink>
-                    </BarItem>
-                </BarStart>
-                <BarEnd>
-                    <TopMenuEnd />
-                </BarEnd>
-            </BarMenu>
+                </BarBrand>
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="" Shadow="Shadow.Small" Border="Border.Rounded.Is1.Primary.OnBottom.Is1.Primary.OnTop" TextWeight="TextWeight.Normal">
+                                Components
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="https://commercial.blazorise.com/">
+                                Commercial
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <TopMenuEnd />
+                    </BarEnd>
+                </BarMenu>
+            </Container>
         </Bar>
     </LayoutHeader>
     <LayoutContent>
