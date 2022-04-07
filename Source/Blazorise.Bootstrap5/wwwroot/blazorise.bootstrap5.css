@@ -175,7 +175,8 @@ input[type=button].btn-block {
   max-width: 100%;
   width: 100%;
   cursor: text;
-  height: calc(1.5em + 0.75rem + 2px);
+  min-height: calc(1.5em + 0.75rem + 2px);
+  height: auto;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
