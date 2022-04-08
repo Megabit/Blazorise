@@ -31,7 +31,8 @@
     max-width: 100%;
     width: 100%;
     cursor: text;
-    height: calc(1.5em + .75rem + 2px);
+    min-height: calc(1.5em + .75rem + 2px);
+    height: auto;
     border: $input-border-width solid $input-border-color;
     border-radius: $input-border-radius;
 
