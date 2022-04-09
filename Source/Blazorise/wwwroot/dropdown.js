@@ -1,8 +1,8 @@
 import { getRequiredElement } from "./utilities.js?v=1.0.2.0";
 import { createPopper } from "./popper.js?v=1.0.2.0";
+import { createAttributesObserver, observeClassChanged, destroyObserver } from "./observer.js?v=1.0.2.0";
 
 const _instances = [];
-
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'
 const DIRECTION_UP = 'Up'
@@ -30,6 +30,7 @@ function createSelector(value) {
 }
 
 export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options) {
+
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -45,17 +46,21 @@ export function initialize(element, elementId, targetElementId, altTargetElement
 
     const instance = createPopper(targetElement, menuElement, {
         placement: getPopperDirection(options.direction),
-        strategy: "fixed",
+        strategy: "absolute",
         modifiers: [
             {
                 name: "preventOverflow",
+                enabled: true,
                 options: {
                     padding: 0,
                 }
-            }]
+            }
+        ]
     });
 
     instance.update();
+
+    createAttributesObserver(menuElement.id, (mutationsList) => observeClassChanged(mutationsList, options.dropdownShowClassName, () => instance.update()));
 
     _instances[elementId] = instance;
 }
@@ -74,22 +79,8 @@ export function destroy(element, elementId) {
         instance.destroy();
 
         delete instances[elementId];
-    }
-}
 
-export function show(element, elementId) {
-    const instance = getInstance(elementId);
-
-    if (instance) {
-        instance.update();
-    }
-}
-
-export function hide(element, elementId) {
-    const instance = getInstance(elementId);
-
-    if (instance) {
-        instance.update();
+        destroyObserver(elementId);
     }
 }
 
@@ -98,3 +89,4 @@ export function getInstance(elementId) {
 
     return instances[elementId];
 }
+
