@@ -14,7 +14,6 @@ namespace Blazorise.Charts
         )
         {
             Type = "scatter";
-            Stack = "scatter";
         }
 
         /// <summary>

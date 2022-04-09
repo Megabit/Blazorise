@@ -18,7 +18,6 @@ namespace Blazorise.Charts
         )
         {
             Type = "bar";
-            Stack = "bar";
         }
 
         /// <summary>
