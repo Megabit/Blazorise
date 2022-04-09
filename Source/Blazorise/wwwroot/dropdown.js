@@ -33,7 +33,6 @@ function createSelector(value) {
 }
 
 export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options) {
-
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -86,10 +85,3 @@ export function destroy(element, elementId) {
         destroyObserver(elementId);
     }
 }
-
-export function getInstance(elementId) {
-    const instances = _instances || {};
-
-    return instances[elementId];
-}
-
