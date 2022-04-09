@@ -10,19 +10,18 @@ const DIRECTION_END = 'End'
 const DIRECTION_START = 'Start'
 
 function getPopperDirection(direction, rightAligned) {
-
     let suffixAlignment = rightAligned ? "end" : "start";
 
     if (direction === DIRECTION_DEFAULT || direction === DIRECTION_DOWN)
-        return `bottom-${suffixAlignment}`;
+        return 'bottom-' + suffixAlignment;
     else if (direction === DIRECTION_UP)
-        return `top-${suffixAlignment}`;
+        return 'top-' + suffixAlignment;
     else if (direction === DIRECTION_END)
-        return `right-${suffixAlignment}`;
+        return 'right-' + suffixAlignment;
     else if (direction === DIRECTION_START)
-        return `left-${suffixAlignment}`;
+        return 'left-' + suffixAlignment;
 
-    return `bottom-${suffixAlignment}`;
+    return 'bottom-' + suffixAlignment;
 }
 
 // optimize this
