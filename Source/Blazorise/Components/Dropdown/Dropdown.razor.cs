@@ -73,6 +73,7 @@ namespace Blazorise
                     options: new
                     {
                         Direction = GetDropdownDirection().ToString( "g" ),
+                        RightAligned = RightAligned,
                         DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
                         DropdownMenuClassNames = ClassProvider.DropdownMenu(),
                         DropdownShowClassName = ClassProvider.DropdownShow()
