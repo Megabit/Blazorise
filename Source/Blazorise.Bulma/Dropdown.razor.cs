@@ -1,7 +1,5 @@
 ﻿#region Using directives
-using System.Threading.Tasks;
-using Blazorise.Modules;
-using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.Bulma
