@@ -8,18 +8,19 @@ export function createObserver(elementId, callback, configuration) {
     const observer = new MutationObserver(callback);
     observer.observe(document.getElementById(elementId), configuration);
     _instances[elementId] = observer;
+    return observer;
 }
 
 ///Creates a new observer that's setup to listen for attribute changes on a given element.
 export function createAttributesObserver(targetNode, callback) {
-    return createObserver(targetNode, callback, { attributes: true, attributeOldValue: false });
+    return createObserver(targetNode, callback, { attributes: true, attributeOldValue: true });
 }
 
 ///Observer helper function, sets an observer callback based on a class name
-export function observeClassChanged(mutationsList, className, onChangedCallBack) {
+export function observeClassChanged(mutationsList, className, onChangedCallBack, triggerOnOldValue) {
     if (mutationsList) {
         for (const mutation of mutationsList) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class' && mutation.target.classList.contains(className)) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class' && (mutation.target.classList.contains(className)) || (triggerOnOldValue && mutation.oldValue && mutation.oldValue.includes(className))) {
                 if (typeof (onChangedCallBack) === "function")
                     onChangedCallBack();
             }

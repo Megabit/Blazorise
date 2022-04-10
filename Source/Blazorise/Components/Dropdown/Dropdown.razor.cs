@@ -70,13 +70,14 @@ namespace Blazorise
                     targetElementId: childrenDropdownToggles?.FirstOrDefault()?.ElementId,
                     altTargetElementId: childrenButtonList?.FirstOrDefault()?.ElementId,
                     menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
+                    showElementId: GetShowElementId(),
                     options: new
                     {
                         Direction = GetDropdownDirection().ToString( "g" ),
                         RightAligned = RightAligned,
                         DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
                         DropdownMenuClassNames = ClassProvider.DropdownMenu(),
-                        DropdownShowClassName = ClassProvider.DropdownShow()
+                        DropdownShowClassName = GetShowClassName()
                     } );
 
                 if ( childrenButtonList?.Count > 0 )
@@ -92,6 +93,20 @@ namespace Blazorise
 
             base.OnAfterRender( firstRender );
         }
+
+        /// <summary>
+        /// Overridable Id for the target element that will be listening to the 'show event'.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetShowElementId()
+             => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
+
+        /// <summary>
+        /// Overridable class name to be listening on the target show element.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetShowClassName()
+             => ClassProvider.DropdownShow();
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )

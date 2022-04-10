@@ -34,7 +34,7 @@ function createSelector(value) {
     return classNames;
 }
 
-export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options) {
+export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, showElementId, options) {
 
     element = getRequiredElement(element, elementId);
 
@@ -65,7 +65,7 @@ export function initialize(element, elementId, targetElementId, altTargetElement
 
     instance.update();
 
-    createAttributesObserver(menuElement.id, (mutationsList) => observeClassChanged(mutationsList, options.dropdownShowClassName, () => instance.update()));
+    createAttributesObserver(menuElement.id, (mutationsList) => observeClassChanged(mutationsList, options.dropdownShowClassName, () => instance.update()), true);
 
     _instances[elementId] = instance;
 }
