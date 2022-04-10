@@ -27,7 +27,7 @@ namespace Blazorise
         /// Shows a Modal where the content is TComponent.
         /// </summary>
         /// <typeparam name="TComponent"></typeparam>
-        public Task Show<TComponent>();
+        public Task<ModalInstance> Show<TComponent>();
 
         /// <summary>
         /// Shows a Modal where the content is TComponent.
@@ -35,7 +35,7 @@ namespace Blazorise
         /// <typeparam name="TComponent"></typeparam>
         /// <param name="title"></param>
         /// <returns></returns>
-        public Task Show<TComponent>( string title );
+        public Task<ModalInstance> Show<TComponent>( string title );
 
         /// <summary>
         /// Shows a Modal where the content is TComponent.
@@ -43,50 +43,50 @@ namespace Blazorise
         /// <typeparam name="TComponent"></typeparam>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters );
+        public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters );
 
         /// <summary>
         /// Shows a Modal where the content is TComponent.
         /// </summary>
         /// <typeparam name="TComponent"></typeparam>
-        /// <param name="parameters"></param>
-        /// <param name="modalProviderOptions"></param>
-        /// <returns></returns>
-        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions );
-
-        /// <summary>
-        /// Shows a Modal where the content is TComponent.
-        /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        /// <param name="title"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters );
-
-        /// <summary>
-        /// Shows a Modal where the content is TComponent.
-        /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        /// <param name="title"></param>
-        /// <param name="modalProviderOptions"></param>
-        /// <returns></returns>
-        public Task Show<TComponent>( string title, ModalProviderOptions modalProviderOptions );
-
-        /// <summary>
-        /// Shows a Modal where the content is TComponent.
-        /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        /// <param name="title"></param>
         /// <param name="parameters"></param>
         /// <param name="modalProviderOptions"></param>
         /// <returns></returns>
-        public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions );
+        public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions );
+
+        /// <summary>
+        /// Shows a Modal where the content is TComponent.
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <param name="title"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters );
+
+        /// <summary>
+        /// Shows a Modal where the content is TComponent.
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <param name="title"></param>
+        /// <param name="modalProviderOptions"></param>
+        /// <returns></returns>
+        public Task<ModalInstance> Show<TComponent>( string title, ModalProviderOptions modalProviderOptions );
+
+        /// <summary>
+        /// Shows a Modal where the content is TComponent.
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <param name="title"></param>
+        /// <param name="parameters"></param>
+        /// <param name="modalProviderOptions"></param>
+        /// <returns></returns>
+        public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions );
 
         /// <summary>
         /// Shows a Modal where the content is of componentType.
         /// </summary>
         /// <param name="componentType"></param>
-        public Task Show( Type componentType );
+        public Task<ModalInstance> Show( Type componentType );
 
         /// <summary>
         /// Shows a Modal where the content is of componentType.
@@ -94,7 +94,7 @@ namespace Blazorise
         /// <param name="title"></param>
         /// <param name="componentType"></param>
         /// <returns></returns>
-        public Task Show( string title, Type componentType );
+        public Task<ModalInstance> Show( string title, Type componentType );
 
         /// <summary>
         /// Shows a Modal where the content is of componentType.
@@ -104,7 +104,7 @@ namespace Blazorise
         /// <param name="componentParameters"></param>
         /// <param name="modalProviderOptions"></param>
         /// <returns></returns>
-        public Task Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalProviderOptions modalProviderOptions = null );
+        public Task<ModalInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalProviderOptions modalProviderOptions = null );
 
         /// <summary>
         /// Hides currently opened modal.

@@ -7,34 +7,47 @@
                 <CardTitle>ModalProvider</CardTitle>
             </CardHeader>
             <CardBody>
-                <Paragraph>
-                    Render a custom component with default modal structure.
-                </Paragraph>
-                <Paragraph>
-                    Example shows a Counter component that renders a random number that's passed as a parameter from this page.
-                </Paragraph>
-                <Button Color="Color.Primary" Clicked="ShowCounter">Show</Button>
+                <Card>
+                    <CardHeader>
+                        Render a custom component with default modal structure.
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            Example shows a Counter component that renders a random number that's passed as a parameter from this page.
+                        </Paragraph>
+                        <Button Color="Color.Primary" Clicked="ShowCounter">Show</Button>
+                    </CardBody>
+                </Card>
             </CardBody>
 
             <CardBody>
-                <Paragraph>
-                    Render a custom component and define modal structure inside it by overriding the modal provider options. Take advantage of passing in parameters.
-                </Paragraph>
-                <Paragraph>
-                    Example shows a simple formulary that does a simple not empty validation and passes back the result to this page by making clever use of parameters.
-                </Paragraph>
-                <Paragraph>
-                    @formularyMessage
-                </Paragraph>
-                <Button Color="Color.Success" Clicked="ShowFormulary">Show</Button>
+                <Card>
+                    <CardHeader>
+                        Render a custom component and define modal structure inside it by overriding the modal provider options. Take advantage of passing in parameters.
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            @formularyMessage
+                        </Paragraph>
+                        <Button Color="Color.Success" Clicked="ShowFormulary">Show</Button>
+                    </CardBody>
+                </Card>
             </CardBody>
 
             <CardBody>
-                <Paragraph>
-                    Example shows the opening of a modal that opens another modal itself by using the ModalService.
-                </Paragraph>
-                <Button Color="Color.Success" Clicked="ShowModalWithinModal">Show</Button>
+                <Card>
+                    <CardHeader>
+                        Handle the opening of Multiple Modals
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            Example shows the opening of this page as a modal by using the ModalService. You can then keep opening modals as ModalProvider will manage them for you.
+                        </Paragraph>
+                        <Button Color="Color.Success" Clicked="ShowModalWithinModal">Show</Button>
+                    </CardBody>
+                </Card>
             </CardBody>
+
         </Card>
     </Column>
 </Row>
@@ -43,6 +56,13 @@
 @code {
 
     [Inject] public IModalService ModalService { get; set; }
+    private static int id = 1;
+    private int componentId;
+
+    public ModalProviderPage()
+    {
+        componentId = ++id;
+    }
 
     private string formularyMessage = "";
     public Task ShowCounter()
@@ -75,7 +95,6 @@
         return InvokeAsync(StateHasChanged);
     }
 
-    //TODO
     private Task ShowModalWithinModal()
-        => Task.CompletedTask;
+        => ModalService.Show<ModalProviderPage>($"Modal #{componentId} Example", new ModalProviderOptions() {      });
 }

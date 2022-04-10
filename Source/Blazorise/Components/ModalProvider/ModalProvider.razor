@@ -7,13 +7,13 @@
     {
         @foreach (var modal in modalInstances)
         {
-            <Modal @ref="modal.ModalRef" @bind-Visible="modal.Visible" Attributes="modal.Attributes" Animated="modal.GetAnimated()" AnimationDuration="modal.GetAnimationDuration()" Background="modal.Background" Border="modal.Border" Casing="modal.Casing" Class="modal.Class"
-               Closed="OnModalClosed" Closing="modal.GetClosing()" Clearfix="modal.Clearfix" ElementId="modal.ElementId" Display="modal.Display" Flex="Flex" Float="modal.Float" FocusTrap="modal.GetFocusTrap()" Height="modal.Height" Margin="modal.Margin"
-               Opened="modal.GetOpened()" Opening="modal.GetOpening()" Overflow="modal.Overflow" Padding="modal.Padding" Position="modal.Position" RenderMode="modal.GetRenderMode()" ScrollToTop="modal.GetScrollToTop()" Shadow="modal.Shadow"
-               ShowBackdrop="modal.GetShowBackdrop()" Style="modal.Style" TextAlignment="modal.TextAlignment" TextColor="modal.TextColor" TextOverflow="modal.TextOverflow" TextTransform="modal.TextTransform" TextWeight="modal.TextWeight"
+            <Modal @ref="modal.ModalRef" @bind-Visible="modal.Visible" Attributes="modal.Attributes" Animated="modal.Animated()" AnimationDuration="modal.AnimationDuration()" Background="modal.Background" Border="modal.Border" Casing="modal.Casing" Class="modal.Class"
+               Closed="() => OnModalClosed(modal)" Closing="modal.Closing()" Clearfix="modal.Clearfix" ElementId="modal.ElementId" Display="modal.Display" Flex="Flex" Float="modal.Float" FocusTrap="modal.FocusTrap()" Height="modal.Height" Margin="modal.Margin"
+               Opened="modal.Opened()" Opening="modal.Opening()" Overflow="modal.Overflow" Padding="modal.Padding" Position="modal.Position" RenderMode="modal.RenderMode()" ScrollToTop="modal.ScrollToTop()" Shadow="modal.Shadow"
+               ShowBackdrop="modal.ShowBackdrop()" Style="modal.Style" TextAlignment="modal.TextAlignment" TextColor="modal.TextColor" TextOverflow="modal.TextOverflow" TextTransform="modal.TextTransform" TextWeight="modal.TextWeight"
                VerticalAlignment="modal.VerticalAlignment" Width="modal.Width">
                 <ModalContent>
-                    @if (modal.GetUseModalStructure())
+                    @if (modal.UseModalStructure())
                     {
                         <ModalHeader>
                             @if (!string.IsNullOrWhiteSpace(modal.Title))

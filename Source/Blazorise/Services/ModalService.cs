@@ -18,60 +18,55 @@ namespace Blazorise
 
         ///inheritdoc
         public void SetModalProvider( ModalProvider modalProvider )
-        {
-            ModalProvider = modalProvider;
-        }
+            => ModalProvider = modalProvider;
 
 
         ///inheritdoc
-        public Task Show<TComponent>()
-        {
-            return Show( typeof( TComponent ) );
-        }
+        public Task<ModalInstance> Show<TComponent>()
+            => Show( typeof( TComponent ) );
 
 
         ///inheritdoc
-        public Task Show<TComponent>( string title )
-        {
-            return Show( title, typeof( TComponent ) );
-        }
+        public Task<ModalInstance> Show<TComponent>( string title )
+            => Show( title, typeof( TComponent ) );
 
         ///inheritdoc
-        public Task Show<TComponent>( string title, ModalProviderOptions modalProviderOptions )
-            => Show<TComponent>( string.Empty, null, modalProviderOptions );
+        public Task<ModalInstance> Show<TComponent>( string title, ModalProviderOptions modalProviderOptions )
+            => Show<TComponent>( title, null, modalProviderOptions );
 
         ///inheritdoc
-        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters )
+        public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters )
             => Show<TComponent>( string.Empty, parameters, null );
 
 
         ///inheritdoc
-        public Task Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions )
+        public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions )
             => Show<TComponent>( string.Empty, parameters, modalProviderOptions );
 
         ///inheritdoc
-        public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters )
+        public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters )
             => Show<TComponent>( title, parameters, null );
 
         ///inheritdoc
-        public Task Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions )
+        public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalProviderOptions modalProviderOptions )
         {
             ModalProviderParameterBuilder<TComponent> builder = new();
-            parameters( builder );
+            if ( parameters is not null )
+                parameters( builder );
             return Show( title, typeof( TComponent ), builder.Parameters, modalProviderOptions );
         }
 
         ///inheritdoc
-        public Task Show( Type componentType )
+        public Task<ModalInstance> Show( Type componentType )
             => Show( string.Empty, componentType );
 
 
         ///inheritdoc
-        public Task Show( string title, Type componentType )
+        public Task<ModalInstance> Show( string title, Type componentType )
             => Show( title, componentType, null, null );
 
         ///inheritdoc
-        public Task Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalProviderOptions modalProviderOptions = null )
+        public Task<ModalInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalProviderOptions modalProviderOptions = null )
         {
             var childContent = new RenderFragment( __builder =>
             {

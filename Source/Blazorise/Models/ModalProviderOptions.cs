@@ -14,12 +14,6 @@ namespace Blazorise
     {
 
         /// <summary>
-        /// Upon closing the modal, clears the content that has been previously rendered.
-        /// Defaults to true.
-        /// </summary>
-        [Parameter] public bool ResetOnClose { get; set; } = true;
-
-        /// <summary>
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
         /// Defaults to true.
         /// </summary>
