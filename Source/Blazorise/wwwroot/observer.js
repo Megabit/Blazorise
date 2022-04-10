@@ -18,7 +18,7 @@ export function createAttributesObserver(targetNode, callback) {
 
 ///Observer helper function, sets an observer callback based on a class name
 export function observeClassChanged(mutationsList, className, onChangedCallBack, triggerOnOldValue) {
-    if (mutationsList) {
+    if (mutationsList && className) {
         for (const mutation of mutationsList) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'class' && (mutation.target.classList.contains(className)) || (triggerOnOldValue && mutation.oldValue && mutation.oldValue.includes(className))) {
                 if (typeof (onChangedCallBack) === "function")
@@ -30,7 +30,7 @@ export function observeClassChanged(mutationsList, className, onChangedCallBack,
 
 ///Observer helper function, sets an observer callback based on an attribute name
 export function observeAttributeChanged(mutationsList, attributeName, onChangedCallBack) {
-    if (mutationsList) {
+    if (mutationsList && attributeName) {
         for (const mutation of mutationsList) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'attribute' && mutation.target.classList.contains(attributeName)) {
                 if (typeof (onChangedCallBack) === "function")
