@@ -36,7 +36,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         allowDecimalPadding: firstNonNull(options.allowDecimalPadding, AutoNumeric.options.allowDecimalPadding.always),
         alwaysAllowDecimalCharacter: firstNonNull(options.alwaysAllowDecimalSeparator, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow),
 
-        onInvalidPaste: 'ignore'
+        onInvalidPaste: 'ignore',
+        emptyInputBehavior: AutoNumeric.options.emptyInputBehavior.null
     });
 
     element.addEventListener('autoNumeric:rawValueModified', e => {

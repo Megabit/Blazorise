@@ -1623,7 +1623,7 @@ namespace Blazorise.Docs.Models
 
         public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
 
-        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" Decimals=""0"" />
+        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" />
 
 @code{
     int value;
@@ -4508,6 +4508,12 @@ namespace Blazorise.Docs.Models
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
+
+        public const string IconGlobalSettingsExample = @"services.AddBlazorise( options =>
+{
+    options.IconStyle = IconStyle.Light;
+    options.IconSize = IconSize.Small;
+} );";
 
         public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
 

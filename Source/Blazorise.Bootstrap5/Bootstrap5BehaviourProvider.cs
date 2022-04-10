@@ -1,6 +1,6 @@
 ﻿namespace Blazorise.Bootstrap5
 {
-    public class BootstrapBehaviourProvider : BehaviourProvider
+    public class Bootstrap5BehaviourProvider : BehaviourProvider
     {
         public override bool DataGridRowMultiSelectPreventClick => false;
     }
