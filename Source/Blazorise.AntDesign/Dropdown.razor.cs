@@ -30,10 +30,7 @@ namespace Blazorise.AntDesign
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        /// <summary>
-        /// Overridable class name to be listening on the target show element.
-        /// </summary>
-        /// <returns></returns>
+        //inheritdoc
         protected override string GetShowClassName()
              => ClassProvider.DropdownMenuVisible( false );
 
