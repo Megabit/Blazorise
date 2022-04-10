@@ -62,7 +62,7 @@ export function initialize(element, elementId, targetElementId, altTargetElement
 
     instance.update();
 
-    createAttributesObserver(showElementId, (mutationsList) => observeClassChanged(mutationsList, options.dropdownShowClassName, () => instance.update()), true);
+    createAttributesObserver(showElementId, (mutationsList) => observeClassChanged(mutationsList, options.dropdownShowClassName, () => instance.update(), true));
 
     _instances[elementId] = instance;
 }

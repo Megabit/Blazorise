@@ -77,7 +77,7 @@ namespace Blazorise
                         RightAligned = RightAligned,
                         DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
                         DropdownMenuClassNames = ClassProvider.DropdownMenu(),
-                        DropdownShowClassName = GetShowClassName()
+                        DropdownShowClassName = ClassProvider.DropdownObserverShow()
                     } );
 
                 if ( childrenButtonList?.Count > 0 )
@@ -100,13 +100,6 @@ namespace Blazorise
         /// <returns></returns>
         protected virtual string GetShowElementId()
              => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
-
-        /// <summary>
-        /// Overridable class name to be listening on the target show element.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual string GetShowClassName()
-             => ClassProvider.DropdownShow();
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )

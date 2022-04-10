@@ -30,10 +30,6 @@ namespace Blazorise.AntDesign
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        //inheritdoc
-        protected override string GetShowClassName()
-             => ClassProvider.DropdownMenuVisible( false );
-
         #endregion
 
         #region Properties

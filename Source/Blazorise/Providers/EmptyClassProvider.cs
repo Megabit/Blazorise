@@ -387,6 +387,8 @@ namespace Blazorise.Providers
 
         public string DropdownGroup() => null;
 
+        public string DropdownObserverShow() => null;
+
         public string DropdownShow() => null;
 
         public string DropdownRight() => null;

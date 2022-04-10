@@ -385,6 +385,8 @@ namespace Blazorise
 
         string DropdownGroup();
 
+        string DropdownObserverShow();
+
         string DropdownShow();
 
         string DropdownRight();
