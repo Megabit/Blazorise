@@ -68,7 +68,7 @@ namespace Blazorise
 
         ///inheritdoc
         public Task Show( string title, Type componentType )
-            => Show( title, componentType );
+            => Show( title, componentType, null, null );
 
         ///inheritdoc
         public Task Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalProviderOptions modalProviderOptions = null )
