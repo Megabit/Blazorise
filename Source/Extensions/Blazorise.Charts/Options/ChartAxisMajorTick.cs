@@ -13,6 +13,6 @@ namespace Blazorise.Charts
         /// If true, major tick options are used to show major ticks.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Enabled { get; set; } = false;
+        public bool? Enabled { get; set; }
     }
 }

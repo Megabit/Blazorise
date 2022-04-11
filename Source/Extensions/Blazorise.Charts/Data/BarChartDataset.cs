@@ -86,19 +86,19 @@ namespace Blazorise.Charts
         /// </list>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderSkipped { get; set; } = "start";
+        public string BorderSkipped { get; set; }
 
         /// <summary>
         /// If this value is a number, it is applied to all corners of the rectangle (topLeft, topRight, bottomLeft, bottomRight), except corners touching the borderSkipped. If this value is an object, the topLeft property defines the top-left corners border radius. Similarly, the topRight, bottomLeft, and bottomRight properties can also be specified. Omitted corners and those touching the borderSkipped are skipped. For example if the top border is skipped, the border radius for the corners topLeft and topRight will be skipped as well.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? BorderRadius { get; set; } = 0f;
+        public float? BorderRadius { get; set; }
 
         /// <summary>
         /// Percent (0-1) of the available width each category should be within the sample width.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? CategoryPercentage { get; set; } = 0.8f;
+        public float? CategoryPercentage { get; set; }
 
         /// <summary>
         /// Should the bars be grouped on index axis. When true, all the datasets at same index value will be placed next
@@ -125,19 +125,19 @@ namespace Blazorise.Charts
         /// The bar border width when hovered (in pixels).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverBorderWidth { get; set; } = 1;
+        public int? HoverBorderWidth { get; set; }
 
         /// <summary>
         /// The bar border radius when hovered (in pixels).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverBorderRadius { get; set; } = 0;
+        public int? HoverBorderRadius { get; set; }
 
         /// <summary>
         /// The base axis of the dataset. 'x' for vertical bars and 'y' for horizontal bars.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string IndexAxis { get; set; } = "x";
+        public string IndexAxis { get; set; }
 
         /// <summary>
         /// This option can be used to inflate the rects that are used to draw the bars. This can be used to hide artifacts
@@ -145,7 +145,7 @@ namespace Blazorise.Charts
         /// value 'auto' should work in most cases.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object InflateAmount { get; set; } = "auto";
+        public object InflateAmount { get; set; }
 
         /// <summary>
         /// Set this to ensure that bars are not sized thicker than this.
@@ -163,7 +163,7 @@ namespace Blazorise.Charts
         /// Style of the point for legend. https://www.chartjs.org/docs/latest/configuration/elements.html#point-styles
         /// </summary>    
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; } = "circle";
+        public string PointStyle { get; set; }
 
         /// <summary>
         /// If true, null or undefined values will not be used for spacing calculations when determining bar size.
