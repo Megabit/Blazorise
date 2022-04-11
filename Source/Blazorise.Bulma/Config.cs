@@ -47,6 +47,7 @@ namespace Blazorise.Bulma
             { typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) },
             { typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) },
             { typeof( Blazorise.DropdownDivider ), typeof( Bulma.DropdownDivider ) },
+            { typeof( Blazorise.Dropdown ), typeof( Bulma.Dropdown ) },
             { typeof( Blazorise.DropdownMenu ), typeof( Bulma.DropdownMenu ) },
             { typeof( Blazorise.DropdownToggle ), typeof( Bulma.DropdownToggle ) },
             { typeof( Blazorise.Field ), typeof( Bulma.Field ) },

@@ -1,25 +1,27 @@
-import { getRequiredElement } from "./utilities.js?v=1.0.2.0";
-import { createPopper } from "./popper.js?v=1.0.2.0";
+import { getRequiredElement } from "./utilities.js?v=1.0.3.0";
+import { createPopper } from "./popper.js?v=1.0.3.0";
+import { createAttributesObserver, observeClassChanged, destroyObserver } from "./observer.js?v=1.0.3.0";
 
 const _instances = [];
-
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'
 const DIRECTION_UP = 'Up'
 const DIRECTION_END = 'End'
 const DIRECTION_START = 'Start'
 
-function getPopperDirection(direction) {
-    if (direction == DIRECTION_DEFAULT || direction == DIRECTION_DOWN)
-        return "bottom-start";
-    else if (direction == DIRECTION_UP)
-        return "top-start";
-    else if (direction == DIRECTION_END)
-        return "right-start";
-    else if (direction == DIRECTION_START)
-        return "left-start";
+function getPopperDirection(direction, rightAligned) {
+    let suffixAlignment = rightAligned ? "end" : "start";
 
-    return "bottom-start";
+    if (direction === DIRECTION_DEFAULT || direction === DIRECTION_DOWN)
+        return 'bottom-' + suffixAlignment;
+    else if (direction === DIRECTION_UP)
+        return 'top-' + suffixAlignment;
+    else if (direction === DIRECTION_END)
+        return 'right-' + suffixAlignment;
+    else if (direction === DIRECTION_START)
+        return 'left-' + suffixAlignment;
+
+    return 'bottom-' + suffixAlignment;
 }
 
 // optimize this
@@ -29,7 +31,8 @@ function createSelector(value) {
     return classNames;
 }
 
-export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, options) {
+export function initialize(element, elementId, targetElementId, altTargetElementId, menuElementId, showElementId, options) {
+
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -44,18 +47,22 @@ export function initialize(element, elementId, targetElementId, altTargetElement
         : element.querySelector(createSelector(options.dropdownMenuClassNames));
 
     const instance = createPopper(targetElement, menuElement, {
-        placement: getPopperDirection(options.direction),
-        strategy: "fixed",
+        placement: getPopperDirection(options.direction, options.rightAligned),
+        strategy: "absolute",
         modifiers: [
             {
                 name: "preventOverflow",
+                enabled: true,
                 options: {
                     padding: 0,
                 }
-            }]
+            }
+        ]
     });
 
     instance.update();
+
+    createAttributesObserver(showElementId, (mutationsList) => observeClassChanged(mutationsList, options.dropdownShowClassName, () => instance.update(), true));
 
     _instances[elementId] = instance;
 }
@@ -74,27 +81,7 @@ export function destroy(element, elementId) {
         instance.destroy();
 
         delete instances[elementId];
+
+        destroyObserver(elementId);
     }
-}
-
-export function show(element, elementId) {
-    const instance = getInstance(elementId);
-
-    if (instance) {
-        instance.update();
-    }
-}
-
-export function hide(element, elementId) {
-    const instance = getInstance(elementId);
-
-    if (instance) {
-        instance.update();
-    }
-}
-
-export function getInstance(elementId) {
-    const instances = _instances || {};
-
-    return instances[elementId];
 }

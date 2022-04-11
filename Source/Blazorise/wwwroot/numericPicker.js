@@ -1,6 +1,6 @@
-﻿import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=1.0.2.0";
+﻿import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=1.0.3.0";
 
-import './vendors/autoNumeric.js?v=1.0.2.0';
+import './vendors/autoNumeric.js?v=1.0.3.0';
 
 let _instances = [];
 
@@ -21,6 +21,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         digitGroupSeparator: firstNonNull(options.groupSeparator, AutoNumeric.options.digitGroupSeparator.noSeparator),
         digitalGroupSpacing: firstNonNull(options.groupSpacing, AutoNumeric.options.digitalGroupSpacing.three),
 
+        modifyValueOnWheel: false,
         wheelStep: firstNonNull(options.step, 1),
         minimumValue: firstNonNull(fromExponential(firstNonNull(options.min, options.typeMin)), AutoNumeric.options.minimumValue.tenTrillions),
         maximumValue: firstNonNull(fromExponential(firstNonNull(options.max, options.typeMax)), AutoNumeric.options.maximumValue.tenTrillions),

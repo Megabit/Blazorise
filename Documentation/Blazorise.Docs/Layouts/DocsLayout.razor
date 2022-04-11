@@ -3,7 +3,7 @@
 <Layout Sider Class="b-docs">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light"
+            <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default"
                  Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide">
                 <BarBrand>
                     <BarItem>
@@ -440,14 +440,19 @@
             <Bar Class="b-top-bar" @ref="@topBar" @bind-Visible="@topBarVisible"
                  Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
                 <BarToggler Bar="@sideBar" Border="Border.Is0" />
-                <BarBrand Display="Display.None.InlineBlock.OnDesktop">
-                    <BarItem>
-                        <BarLink To="">
-                            Blazorise
-                        </BarLink>
-                    </BarItem>
-                </BarBrand>
                 <BarMenu>
+                    <BarStart>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="">
+                                Components
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="https://commercial.blazorise.com/">
+                                Commercial
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
                     <BarEnd>
                         <TopMenuEnd />
                     </BarEnd>
@@ -462,5 +467,5 @@
     </Layout>
 </Layout>
 @code {
-    RenderFragment customIcon = @<Image Source="/img/logos/blazorise-small.png" Style="width:32px; height: 32px" />;
+    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Style="width:32px; height: 32px" />;
 }
