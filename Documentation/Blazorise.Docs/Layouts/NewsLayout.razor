@@ -2,7 +2,7 @@
 
 <Layout Class="b-news">
     <LayoutHeader>
-        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
+        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default">
             <Container>
                 <BarBrand>
                     <BarItem>
@@ -15,6 +15,16 @@
                 <BarToggler />
                 <BarMenu>
                     <BarStart>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="">
+                                Components
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="https://commercial.blazorise.com/">
+                                Commercial
+                            </BarLink>
+                        </BarItem>
                     </BarStart>
                     <BarEnd>
                         <TopMenuEnd />
@@ -33,5 +43,5 @@
     </LayoutFooter>
 </Layout>
 @code {
-    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.png" Style="width:32px; height: 32px" />;
+    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Style="width:32px; height: 32px" />;
 }

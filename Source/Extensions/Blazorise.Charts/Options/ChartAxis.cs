@@ -93,5 +93,21 @@ namespace Blazorise.Charts
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public ChartScaleTitle Title { get; set; }
+
+        #region Linear Axis specific options
+
+        /// <summary>
+        /// If true, scale will include 0 if it is not already included.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public bool? BeginAtZero { get; set; }
+
+        /// <summary>
+        /// Percentage (string ending with %) or amount (number) for added room in the scale range above and below data.
+        /// </summary>
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public object Grace { get; set; }
+
+        #endregion
     }
 }

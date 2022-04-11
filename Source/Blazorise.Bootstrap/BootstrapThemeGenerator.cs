@@ -395,6 +395,16 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
 
             sb
+                .Append( ".custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $"background-color: {ToHexRGBA( Transparency( options.CheckColor, 128 ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( ".custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $"background-color: {ToHexRGBA( Transparency( options.CheckColor, 128 ) )};" )
+                .AppendLine( "}" );
+
+            sb
                 .Append( ".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"color: {options.Color};" )
                 .Append( $"border-color: {options.CheckColor};" )

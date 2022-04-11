@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Blazorise.Bootstrap5
 {
-    public class BootstrapClassProvider : ClassProvider
+    public class Bootstrap5ClassProvider : ClassProvider
     {
         #region TextEdit
 
@@ -408,6 +408,8 @@ namespace Blazorise.Bootstrap5
         public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
         public override string DropdownGroup() => "btn-group";
+
+        public override string DropdownObserverShow() => DropdownShow();
 
         public override string DropdownShow() => Show();
 
