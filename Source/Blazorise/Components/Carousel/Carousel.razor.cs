@@ -257,33 +257,25 @@ namespace Blazorise
             await InvokeAsync( StateHasChanged );
         }
 
-        private Task InitializeTimer( double? interval = null )
+        private async Task InitializeTimer( double? interval = null )
         {
             Timer = new( TimeSpan.FromMilliseconds( interval ?? Interval ) );
 
-            Task.Run( async () =>
+            while ( await Timer.WaitForNextTickAsync() )
             {
-                while ( await Timer.WaitForNextTickAsync() )
-                {
-                    if ( AutoPlayEnabled )
-                        await OnTimerEvent( this, null );
-                };
-            } );
-            return Task.CompletedTask;
+                if ( AutoPlayEnabled )
+                    await OnTimerEvent( this, null );
+            }
         }
 
-        private Task InitializeTransitionTimer()
+        private async Task InitializeTransitionTimer()
         {
             TransitionTimer = new( TimeSpan.FromMilliseconds( 2000 ) );
 
-            Task.Run( async () =>
+            while ( await TransitionTimer.WaitForNextTickAsync() )
             {
-                while ( await TransitionTimer.WaitForNextTickAsync() )
-                {
-                    //await OnTransitionTimerEvent( this, null );
-                };
-            } );
-            return Task.CompletedTask;
+                await OnTransitionTimerEvent( this, null );
+            };
         }
 
         private async Task SetTimer()
@@ -381,7 +373,7 @@ namespace Blazorise
             var selectedSlide = GetSelectedCarouselSlide();
             var previouslySelectedSlide = GetPreviouslySelectedCarouselSlide();
 
-            if ( TimerEnabled )
+            if ( Timer is null && TimerEnabled )
             {
                 await InitializeTimer( selectedSlide?.Interval ?? Interval );
             }
