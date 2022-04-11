@@ -85,5 +85,9 @@ namespace Blazorise
         ///inheritdoc
         public Task Hide()
             => ModalProvider.Hide();
+
+        ///inheritdoc
+        public Task Hide( ModalInstance modalInstance )
+            => ModalProvider.Hide( modalInstance );
     }
 }

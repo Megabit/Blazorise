@@ -111,5 +111,11 @@ namespace Blazorise
         /// </summary>
         /// <returns></returns>
         public Task Hide();
+
+        /// <summary>
+        /// Hides the modal.
+        /// </summary>
+        /// <returns></returns>
+        public Task Hide( ModalInstance modalInstance );
     }
 }

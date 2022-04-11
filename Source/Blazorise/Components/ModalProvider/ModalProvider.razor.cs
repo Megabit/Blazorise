@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -56,7 +57,15 @@ namespace Blazorise
         /// </summary>
         /// <returns></returns>
         internal Task Hide()
-            => modalInstances?.LastOrDefault()?.ModalRef?.Hide();
+            => modalInstances?.LastOrDefault()?.ModalRef?.Hide() ?? Task.CompletedTask;
+
+        /// <summary>
+        /// Closes the modal.
+        /// </summary>
+        /// <returns></returns>
+        internal Task Hide( ModalInstance modalInstance )
+            => modalInstances?.FirstOrDefault( x => x.IsEqual( modalInstance ) )?.ModalRef?.Hide() ?? Task.CompletedTask;
+
 
         /// <summary>
         /// Handles the closing of the modal.
