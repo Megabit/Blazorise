@@ -259,6 +259,7 @@ namespace Blazorise
 
         private async Task InitializeTimer( double? interval = null )
         {
+            Timer?.Dispose();
             Timer = new( TimeSpan.FromMilliseconds( interval ?? Interval ) );
 
             while ( await Timer.WaitForNextTickAsync() )
@@ -270,6 +271,7 @@ namespace Blazorise
 
         private async Task InitializeTransitionTimer()
         {
+            TransitionTimer?.Dispose();
             TransitionTimer = new( TimeSpan.FromMilliseconds( 2000 ) );
 
             while ( await TransitionTimer.WaitForNextTickAsync() )
