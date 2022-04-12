@@ -83,6 +83,16 @@
     <DocsPageSectionSource Code="NumericPickerIntegerExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Modify Value With Mouse Wheel">
+        Sometime you want to be able to change the value by scrolling with the mouse wheel when it is focused over the input. To enable it just use the <Code>ModifyValueOnWheel</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <NumericPickerMouseWheelExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="NumericPickerMouseWheelExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -158,5 +168,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="AlwaysAllowDecimalSeparator" Type="bool" Default="false">
         Defines if the decimal character or decimal character alternative should be accepted when there is already a decimal character shown in the element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ModifyValueOnWheel" Type="bool" Default="false">
+        Determine if the element value can be incremented / decremented with the mouse wheel.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="WheelOn" Type="NumericWheelOn" Default="Focus">
+        Used in conjonction with the <Code>ModifyValueOnWheel</Code> option, defines when the wheel event will increment or decrement the element value, either when the element is focused, or hovered.
     </DocsAttributesItem>
 </DocsAttributes>
