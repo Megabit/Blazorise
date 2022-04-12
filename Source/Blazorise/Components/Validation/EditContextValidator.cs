@@ -49,7 +49,7 @@ namespace Blazorise
         /// <summary>
         /// Service Provider for validation context.
         /// </summary>
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         /// <summary>
         /// Helper object to hold all information about validated field.
@@ -96,7 +96,7 @@ namespace Blazorise
             if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer != null ) )
             {
                 var propertyValue = validationPropertyInfo.PropertyInfo.GetValue( fieldIdentifier.Model );
-                var validationContext = new ValidationContext( fieldIdentifier.Model, _serviceProvider, null )
+                var validationContext = new ValidationContext( fieldIdentifier.Model, serviceProvider, null )
                 {
                     MemberName = validationPropertyInfo.PropertyInfo.Name,
                 };
