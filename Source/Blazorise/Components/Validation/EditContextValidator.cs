@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -44,6 +45,11 @@ namespace Blazorise
         /// Cached list of fields for validation.
         /// </summary>
         private readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache = new();
+        
+        /// <summary>
+        /// Service Provider for validation context.
+        /// </summary>
+        private readonly IServiceProvider serviceProvider;
 
         /// <summary>
         /// Helper object to hold all information about validated field.
@@ -74,9 +80,10 @@ namespace Blazorise
         /// A default <see cref="EditContextValidator"/> constructor.
         /// </summary>
         /// <param name="validationMessageLocalizerAttributeFinder">Comparer for message localizer.</param>
-        public EditContextValidator( IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder )
+        public EditContextValidator( IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder, IServiceProvider serviceProvider )
         {
             this.validationMessageLocalizerAttributeFinder = validationMessageLocalizerAttributeFinder;
+            this.serviceProvider = serviceProvider;
         }
 
         #endregion
@@ -89,7 +96,7 @@ namespace Blazorise
             if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer != null ) )
             {
                 var propertyValue = validationPropertyInfo.PropertyInfo.GetValue( fieldIdentifier.Model );
-                var validationContext = new ValidationContext( fieldIdentifier.Model )
+                var validationContext = new ValidationContext( fieldIdentifier.Model, serviceProvider, null )
                 {
                     MemberName = validationPropertyInfo.PropertyInfo.Name,
                 };
