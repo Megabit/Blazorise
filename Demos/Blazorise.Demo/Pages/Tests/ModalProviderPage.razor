@@ -96,5 +96,5 @@
     }
 
     private Task ShowModalWithinModal()
-        => ModalService.Show<ModalProviderPage>($"Modal #{componentId} Example", new ModalProviderOptions() {      });
+        => ModalService.Show<ModalProviderPage>($"Modal #{componentId} Example", new ModalProviderOptions() {  Size = ModalSize.Large  });
 }

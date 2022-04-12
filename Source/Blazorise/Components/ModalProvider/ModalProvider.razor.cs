@@ -33,7 +33,7 @@ namespace Blazorise
 
         #region Methods
 
-        ///inheritdoc
+        /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             ModalService.SetModalProvider( this );
@@ -45,7 +45,7 @@ namespace Blazorise
         {
             modalInstances ??= new();
 
-            var newModalInstance = new ModalInstance( this, title, childContent, modalProviderOptions );
+            var newModalInstance = new ModalInstance( this, IdGenerator.Generate, title, childContent, modalProviderOptions );
             modalInstances.Add( newModalInstance );
 
             await InvokeAsync( StateHasChanged );
@@ -81,7 +81,9 @@ namespace Blazorise
 
         #region Properties
 
-        ///inheritdoc
+        /// <summary>
+        /// The ModalService
+        /// </summary>
         [Inject] protected IModalService ModalService { get; set; }
 
         /// <summary>
@@ -151,6 +153,32 @@ namespace Blazorise
         /// Global Option.
         /// </summary>
         [Parameter] public bool? FocusTrap { get; set; }
+
+        /// <summary>
+        /// Centers the modal vertically.
+        /// </summary>
+        /// <remarks>
+        /// Only considered if UseModalStructure is set.
+        /// </remarks>
+        [Parameter] public bool Centered { get; set; }
+
+
+        /// <summary>
+        /// Scrolls the modal content independent of the page itself.
+        /// </summary>
+        /// <remarks>
+        /// Only considered if UseModalStructure is set.
+        /// </remarks>
+        [Parameter] public bool Scrollable { get; set; }
+
+
+        /// <summary>
+        /// Changes the size of the modal.
+        /// </summary>
+        /// <remarks>
+        /// Only considered if UseModalStructure is set.
+        /// </remarks>
+        [Parameter] public ModalSize Size { get; set; }
 
         #endregion
     }

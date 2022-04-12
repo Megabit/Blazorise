@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// Sets the options for Modal Provider
     /// </summary>
-    public class ModalProviderOptions
+    public class ModalProviderOptions : ModalProviderBaseAttributes
     {
 
         /// <summary>
