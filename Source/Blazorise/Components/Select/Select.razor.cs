@@ -234,11 +234,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="IJSSelectModule"/> instance.
-        /// </summary>
-        [Inject] public IJSSelectModule JSModule { get; set; }
-
-        /// <summary>
         /// Gets or sets the selected item value.
         /// </summary>
         [Parameter] public TValue SelectedValue { get; set; }
