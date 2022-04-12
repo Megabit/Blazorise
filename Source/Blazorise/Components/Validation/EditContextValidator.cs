@@ -83,7 +83,7 @@ namespace Blazorise
         public EditContextValidator( IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder, IServiceProvider serviceProvider )
         {
             this.validationMessageLocalizerAttributeFinder = validationMessageLocalizerAttributeFinder;
-            _serviceProvider = serviceProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         #endregion
