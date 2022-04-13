@@ -8,18 +8,18 @@
         /// <summary>
         /// Default context constructor.
         /// </summary>
-        /// <param name="pageNumer">Button page number .</param>
+        /// <param name="pageNumber">Button page number .</param>
         /// <param name="active">Indicates if page is active.</param>
-        public PageButtonContext( int pageNumer, bool active )
+        public PageButtonContext( int pageNumber, bool active )
         {
-            PageNumer = pageNumer;
+            PageNumber = pageNumber;
             Active = active;
         }
 
         /// <summary>
         /// Gets the page number.
         /// </summary>
-        public int PageNumer { get; }
+        public int PageNumber { get; }
 
         /// <summary>
         /// Get the flag that indicates if the page is active.
