@@ -1635,6 +1635,12 @@ namespace Blazorise.Docs.Models
     decimal value = 15;
 }";
 
+        public const string NumericPickerMouseWheelExample = @"<NumericPicker @bind-Value=""@value"" ModifyValueOnWheel WheelOn=""NumericWheelOn.Hover"" />
+
+@code {
+    decimal value;
+}";
+
         public const string NumericPickerStepExample = @"<NumericPicker @bind-Value=""@value"" Step=""10"" />
 
 @code{
