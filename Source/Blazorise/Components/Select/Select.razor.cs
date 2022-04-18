@@ -137,7 +137,7 @@ namespace Blazorise
             if ( Multiple )
             {
                 // Make use of .NET BindConverter that will convert our array into valid JSON string.
-                return BindConverter.FormatValue( CurrentValue.ToArray() )?.ToString();
+                return BindConverter.FormatValue( CurrentValue?.ToArray() ?? new TValue[] { } )?.ToString();
             }
             else
             {
