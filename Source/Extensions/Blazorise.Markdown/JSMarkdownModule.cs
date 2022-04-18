@@ -68,6 +68,13 @@ namespace Blazorise.Markdown
             await moduleInstance.InvokeVoidAsync( "notifyImageUploadError", elementId, errorMessage );
         }
 
+        public async ValueTask Focus( string elementId, bool scrollToElement )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "focus", elementId, scrollToElement );
+        }
+
         #endregion
 
         #region Properties
