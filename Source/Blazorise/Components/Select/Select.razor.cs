@@ -72,8 +72,8 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            var value = Multiple && eventArgs?.Value is ( string[] )
-                ? string.Join( MULTIPLE_DELIMITER, (string[])eventArgs?.Value )
+            var value = Multiple && eventArgs?.Value is string[] multiValues
+                ? string.Join( MULTIPLE_DELIMITER, multiValues )
                 : eventArgs?.Value?.ToString();
 
             return CurrentValueHandler( value );
