@@ -19,6 +19,7 @@ namespace Blazorise.Markdown
     public partial class Markdown : BaseComponent,
         IFileEntryOwner,
         IFileEntryNotifier,
+        IFocusableComponent,
         IAsyncDisposable
     {
         #region Members
@@ -26,6 +27,11 @@ namespace Blazorise.Markdown
         private DotNetObjectReference<Markdown> dotNetObjectRef;
 
         private List<MarkdownToolbarButton> toolbarButtons;
+
+        /// <summary>
+        /// Internal value for autofocus flag.
+        /// </summary>
+        private bool autofocus;
 
         #endregion
 
@@ -50,6 +56,28 @@ namespace Blazorise.Markdown
             }
 
             await base.SetParametersAsync( parameters );
+
+            // For modals we need to make sure that autofocus is applied every time the modal is opened.
+            if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && this.autofocus != autofocus )
+            {
+                this.autofocus = autofocus;
+
+                if ( autofocus )
+                {
+                    if ( ParentFocusableContainer != null )
+                    {
+                        ParentFocusableContainer.NotifyFocusableComponentInitialized( this );
+                    }
+                    else
+                    {
+                        ExecuteAfterRender( () => Focus() );
+                    }
+                }
+                else
+                {
+                    ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -293,6 +321,12 @@ namespace Blazorise.Markdown
                 return ErrorCallback.Invoke( errorMessage );
 
             return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task Focus( bool scrollToElement = true )
+        {
+            await JSModule.Focus( ElementId, scrollToElement );
         }
 
         #endregion
@@ -647,6 +681,11 @@ namespace Blazorise.Markdown
         /// can be *, - or +. Defaults to *.
         /// </summary>
         [Parameter] public string UnorderedListStyle { get; set; } = "*";
+
+        /// <summary>
+        /// Parent focusable container.
+        /// </summary>
+        [CascadingParameter] protected IFocusableContainerComponent ParentFocusableContainer { get; set; }
 
         #endregion
     }

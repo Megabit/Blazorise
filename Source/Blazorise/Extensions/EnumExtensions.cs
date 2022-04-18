@@ -139,6 +139,13 @@
             _ => null
         };
 
+        public static object ToNumericWheelOn( this NumericWheelOn numericWheelOn ) => numericWheelOn switch
+        {
+            NumericWheelOn.Focus => "focus",
+            NumericWheelOn.Hover => "hover",
+            _ => null
+        };
+
         /// <summary>
         /// Indicates whether the specified enum size is null or a default value.
         /// </summary>
