@@ -105,21 +105,12 @@ namespace Blazorise
 
             if ( Multiple )
             {
-                var stringValues = value.Split( MULTIPLE_DELIMITER );
-
-                var multipleValues = stringValues?.Select( value =>
+                var multipleValues = value.Split( MULTIPLE_DELIMITER ).Select( value =>
                 {
-                    try
-                    {
-                        if ( string.IsNullOrEmpty( value ) )
-                            return default;
+                    if ( Converters.TryChangeType<TValue>( value, out var newValue ) )
+                        return newValue;
 
-                        return Converters.ChangeType<TValue>( value );
-                    }
-                    catch
-                    {
-                        return default;
-                    }
+                    return default;
                 } ).ToArray();
 
                 return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, multipleValues, null ) );
