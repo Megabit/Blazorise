@@ -26,6 +26,8 @@ namespace Blazorise
 
         private readonly List<ISelectItem<TValue>> selectItems = new();
 
+        private const string MULTIPLE_DELIMITER = ",";
+
         #endregion
 
         #region Methods
@@ -34,13 +36,6 @@ namespace Blazorise
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
-
-            if ( Multiple && parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var selectedValues ) )
-            {
-                // For Multiple mode we need to update select options DOM through the javascript or otherwise
-                // the newly selected values would not be re-rendered and not visible on the UI.
-                ExecuteAfterRender( async () => await JSModule.SetSelectedOptions( ElementId, selectedValues ) );
-            }
 
             if ( ParentValidation != null )
             {
@@ -77,7 +72,11 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            return CurrentValueHandler( eventArgs?.Value?.ToString() );
+            var value = Multiple && eventArgs?.Value is string[] multiValues
+                ? string.Join( MULTIPLE_DELIMITER, multiValues )
+                : eventArgs?.Value?.ToString();
+
+            return CurrentValueHandler( value );
         }
 
         /// <inheritdoc/>
@@ -99,27 +98,32 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
+        protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
         {
             if ( string.IsNullOrEmpty( value ) )
-                return ParseValue<IReadOnlyList<TValue>>.Empty;
+                return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
 
             if ( Multiple )
             {
-                // when multiple selection is enabled we need to use javascript to get the list of selected items
-                var multipleValues = await JSModule.GetSelectedOptions<TValue>( ElementId );
+                var multipleValues = value.Split( MULTIPLE_DELIMITER ).Select( value =>
+                {
+                    if ( Converters.TryChangeType<TValue>( value, out var newValue ) )
+                        return newValue;
 
-                return new( true, multipleValues, null );
+                    return default;
+                } ).ToArray();
+
+                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, multipleValues, null ) );
             }
             else
             {
                 if ( Converters.TryChangeType<TValue>( value, out var result ) )
                 {
-                    return new( true, new TValue[] { result }, null );
+                    return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null ) );
                 }
                 else
                 {
-                    return ParseValue<IReadOnlyList<TValue>>.Empty;
+                    return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
                 }
             }
         }
@@ -132,7 +136,8 @@ namespace Blazorise
 
             if ( Multiple )
             {
-                return string.Empty;
+                // Make use of .NET BindConverter that will convert our array into valid JSON string.
+                return BindConverter.FormatValue( CurrentValue?.ToArray() ?? new TValue[] { } )?.ToString();
             }
             else
             {
@@ -232,11 +237,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        /// <summary>
-        /// Gets or sets the <see cref="IJSSelectModule"/> instance.
-        /// </summary>
-        [Inject] public IJSSelectModule JSModule { get; set; }
 
         /// <summary>
         /// Gets or sets the selected item value.
