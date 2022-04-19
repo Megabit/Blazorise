@@ -91,5 +91,6 @@ function calculateAutoHeight(e) {
     if (e && e.target) {
         e.target.style.height = 'auto';
         e.target.style.height = this.scrollHeight + 'px';
+        e.target.style.overflowY = 'hidden';
     }
 }
