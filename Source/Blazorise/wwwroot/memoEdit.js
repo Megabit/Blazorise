@@ -27,6 +27,16 @@ export function initialize(element, elementId, options) {
 
     if (options.autoSize) {
         element.oninput = calculateAutoHeight;
+
+        // fire input immediatelly to trigger autosize in case the text is long
+        if ("createEvent" in document) {
+            let event = document.createEvent("HTMLEvents");
+            event.initEvent("input", false, true);
+            element.dispatchEvent(event);
+        }
+        else {
+            element.fireEvent("oninput");
+        }
     }
 
     _instances[elementId] = {
