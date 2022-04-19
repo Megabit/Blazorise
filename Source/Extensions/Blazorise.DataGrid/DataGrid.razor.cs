@@ -714,9 +714,10 @@ namespace Blazorise.DataGrid
             => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
 
         protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
-        {
-            var rowInfo = GetRowInfo( item );
+            => ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
 
+        protected internal Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
+        {
             if ( rowInfo is not null )
             {
                 if ( forceDetailRow )
@@ -725,7 +726,7 @@ namespace Blazorise.DataGrid
                 }
                 else if ( DetailRowTrigger is not null )
                 {
-                    var detailRowTriggerContext = new DetailRowTriggerEventArgs<TItem>( item );
+                    var detailRowTriggerContext = new DetailRowTriggerEventArgs<TItem>( rowInfo.Item );
                     var detailRowTriggerResult = DetailRowTrigger( detailRowTriggerContext );
 
                     if ( !skipDetailRowTriggerType && detailRowTriggerType != detailRowTriggerContext.DetailRowTriggerType )
@@ -1271,7 +1272,7 @@ namespace Blazorise.DataGrid
         }
 
         private DataGridRowInfo<TItem> GetRowInfo( TItem item )
-            => Rows.FirstOrDefault( x => x.Item.IsEqual( item ) );
+            => Rows.LastOrDefault( x => x.Item.IsEqual( item ) );
 
         #endregion
 
