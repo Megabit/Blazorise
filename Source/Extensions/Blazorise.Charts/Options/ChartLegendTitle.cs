@@ -20,7 +20,7 @@ namespace Blazorise.Charts
         /// Is the legend title displayed.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = false;
+        public bool? Display { get; set; }
 
         /// <summary>
         /// Font of the text.
@@ -32,7 +32,7 @@ namespace Blazorise.Charts
         /// Padding around the title.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Padding { get; set; } = 0;
+        public object Padding { get; set; }
 
         /// <summary>
         /// The string title.

@@ -13,19 +13,19 @@ namespace Blazorise.Charts
         /// Default font family for all text, follows CSS font-family options.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Family { get; set; } = "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+        public string Family { get; set; }
 
         /// <summary>
         /// Default font size (in px) for text. Does not apply to radialLinear scale point labels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Size { get; set; } = 12;
+        public double? Size { get; set; }
 
         /// <summary>
         /// Default font style. Does not apply to tooltip title or footer. Does not apply to chart title. Follows CSS font-style options (i.e. normal, italic, oblique, initial, inherit).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Style { get; set; } = "normal";
+        public string Style { get; set; }
 
         /// <summary>
         /// Default font weight (boldness). See <see href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight">MDN</see>.
@@ -37,6 +37,6 @@ namespace Blazorise.Charts
         /// Height of an individual line of text. See <see href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? LineHeight { get; set; } = 1.2d;
+        public double? LineHeight { get; set; }
     }
 }

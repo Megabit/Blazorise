@@ -24,25 +24,25 @@ namespace Blazorise.Charts
         /// Cap style of the line. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineCap">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderCapStyle { get; set; } = "butt";
+        public string BorderCapStyle { get; set; }
 
         /// <summary>
         /// Length and spacing of dashes. <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public List<int> BorderDash { get; set; } = new();
+        public List<int> BorderDash { get; set; }
 
         /// <summary>
         /// Offset for line dashes. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? BorderDashOffset { get; set; } = 0f;
+        public float? BorderDashOffset { get; set; }
 
         /// <summary>
         /// Line joint style. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderJoinStyle { get; set; } = "miter";
+        public string BorderJoinStyle { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
@@ -77,13 +77,13 @@ namespace Blazorise.Charts
         /// Fill the area under the line. See <see href="https://www.chartjs.org/docs/latest/charts/area.html">area charts.</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Fill { get; set; } = false;
+        public bool? Fill { get; set; }
 
         /// <summary>
         /// Bezier curve tension of the line. Set to 0 to draw straight lines.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? Tension { get; set; } = 0f;
+        public float? Tension { get; set; }
 
         /// <summary>
         /// The fill color for points.
@@ -103,13 +103,13 @@ namespace Blazorise.Charts
         /// The width of the point border in pixels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointBorderWidth { get; set; } = 1f;
+        public float? PointBorderWidth { get; set; }
 
         /// <summary>
         /// The pixel size of the non-displayed point that reacts to mouse events.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHitRadius { get; set; } = 1f;
+        public float? PointHitRadius { get; set; }
 
         /// <summary>
         /// Point background color when hovered.
@@ -129,31 +129,31 @@ namespace Blazorise.Charts
         /// Border width of point when hovered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHoverBorderWidth { get; set; } = 1f;
+        public float? PointHoverBorderWidth { get; set; }
 
         /// <summary>
         /// The radius of the point when hovered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHoverRadius { get; set; } = 4f;
+        public float? PointHoverRadius { get; set; }
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointRadius { get; set; } = 3f;
+        public float? PointRadius { get; set; }
 
         /// <summary>
         /// The rotation of the point in degrees.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointRotation { get; set; } = 0f;
+        public float? PointRotation { get; set; }
 
         /// <summary>
         /// Style of the point.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; } = "circle";
+        public string PointStyle { get; set; }
 
         /// <summary>
         /// If true, lines will be drawn between points with no or null data. If false, points with null data will create a break in the line.

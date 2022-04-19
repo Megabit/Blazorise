@@ -67,13 +67,13 @@ namespace Blazorise.Charts
         /// The width of the point border in pixels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? PointBorderWidth { get; set; } = 1;
+        public int? PointBorderWidth { get; set; }
 
         /// <summary>
         /// The pixel size of the non-displayed point that reacts to mouse events.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? PointHitRadius { get; set; } = 1;
+        public int? PointHitRadius { get; set; }
 
         /// <summary>
         /// Point background color when hovered.
@@ -93,31 +93,31 @@ namespace Blazorise.Charts
         /// Border width of point when hovered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHoverBorderWidth { get; set; } = 1f;
+        public float? PointHoverBorderWidth { get; set; }
 
         /// <summary>
         /// The radius of the point when hovered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHoverRadius { get; set; } = 4f;
+        public float? PointHoverRadius { get; set; }
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointRadius { get; set; } = 3.0f;
+        public float? PointRadius { get; set; }
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointRotation { get; set; } = 0f;
+        public float? PointRotation { get; set; }
 
         /// <summary>
         /// Style of the point.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; } = "circle";
+        public string PointStyle { get; set; }
 
         /// <summary>
         /// The ID of the x-axis to plot this dataset on.

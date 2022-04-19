@@ -10,12 +10,12 @@ namespace Blazorise.Charts
         /// If false, the lines between points are not drawn.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? ShowLines { get; set; } = true;
+        public bool? ShowLines { get; set; }
 
         /// <summary>
         /// If false, NaN data causes a break in the line.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? SpanGaps { get; set; } = false;
+        public bool? SpanGaps { get; set; }
     }
 }
