@@ -19,6 +19,33 @@ namespace Blazorise
     /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposable
     {
+        #region Members
+
+        /// <summary>
+        /// True if the TValue is an integer type.
+        /// </summary>
+        private bool isIntegerType;
+
+        /// <summary>
+        /// Contains the correct inputmode to be set
+        /// </summary>
+        private string inputMode;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default NumericEdit constructor.
+        /// </summary>
+        public NumericEdit() : base()
+        {
+            isIntegerType = TypeHelper.IsInteger( typeof( TValue ) );
+            inputMode = isIntegerType ? "numeric" : "decimal";
+        }
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc/>
