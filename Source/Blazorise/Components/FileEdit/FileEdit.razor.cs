@@ -210,6 +210,9 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask Reset()
         {
+            ProgressProgress = 0;
+            ProgressTotal = 0;
+            Progress = 0;
             return JSFileEditModule.Reset( ElementRef, ElementId );
         }
 
