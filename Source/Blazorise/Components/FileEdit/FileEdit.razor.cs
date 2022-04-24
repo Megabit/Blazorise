@@ -217,6 +217,11 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the currently added files.
+        /// </summary>
+        public IFileEntry[] Files => InternalValue;
+
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
