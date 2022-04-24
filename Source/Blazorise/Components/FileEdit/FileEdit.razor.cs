@@ -192,10 +192,10 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
         {
             return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
-                .WriteToStreamAsync( stream, CancellationToken.None );
+                .WriteToStreamAsync( stream, cancellationToken );
         }
 
         /// <inheritdoc/>

@@ -24,9 +24,9 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public async Task WriteToStreamAsync( Stream stream )
+        public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken = default )
         {
-            await Owner.WriteToStreamAsync( this, stream );
+            await Owner.WriteToStreamAsync( this, stream, cancellationToken );
         }
 
         /// <inheritdoc/>
