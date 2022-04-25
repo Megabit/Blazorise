@@ -23,11 +23,11 @@
                     <CloseButton Clicked="@(async () => await RemoveFile(file))" />
                     <Span Display="Blazorise.Display.Block">@file.Name</Span>
                     <Span Display="Blazorise.Display.Block">@GetFileSizeReadable(file)</Span>
+                    @if (IsFileBeingUploaded(file))
+                    {
+                        <Progress Value="@GetProgressPercentage()" />
+                    }
                 </ListGroupItem>
-                @if (IsFileBeingUploaded(file))
-                {
-                    <Progress Value="@GetProgressPercentage()" />
-                }
             }
         </ListGroup>
         <Buttons Float="Blazorise.Float.End">
