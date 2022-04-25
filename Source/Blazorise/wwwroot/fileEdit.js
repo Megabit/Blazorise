@@ -17,26 +17,41 @@ export function initialize(adapter, element, elementId) {
         // Reduce to purely serializable data, plus build an index by ID
         element._blazorFilesById = {};
 
-        var fileList = Array.prototype.map.call(element.files, function (file) {
-            var fileEntry = {
-                id: ++nextFileId,
-                lastModified: new Date(file.lastModified).toISOString(),
-                name: file.name,
-                size: file.size,
-                type: file.type
-            };
-            element._blazorFilesById[fileEntry.id] = fileEntry;
-
-            // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
-            Object.defineProperty(fileEntry, 'blob', { value: file });
-
-            return fileEntry;
-        });
+        var fileList = mapElementFilesToFileEntries(element);
 
         adapter.invokeMethodAsync('NotifyChange', fileList).then(null, function (err) {
             throw new Error(err);
         });
     });
+}
+
+function mapElementFilesToFileEntries(element) {
+    var fileList = Array.prototype.map.call(element.files, function (file) {
+        file.id = ++nextFileId;
+        var fileEntry = {
+            id: file.id,
+            lastModified: new Date(file.lastModified).toISOString(),
+            name: file.name,
+            size: file.size,
+            type: file.type
+        };
+        element._blazorFilesById[fileEntry.id] = fileEntry;
+
+        // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
+        Object.defineProperty(fileEntry, 'blob', { value: file });
+
+        return fileEntry;
+    });
+    return fileList;
+}
+
+export function remove(element, elementId, fileId) {
+    element = getRequiredElement(element, elementId);
+
+    if (element && element.files && element.files.length > 0) {
+        element.files = element.files.filter(x => !(x.Id == fileId));
+        element.fireEvent("onchange");
+    }
 }
 
 export function destroy(element, elementId) {
