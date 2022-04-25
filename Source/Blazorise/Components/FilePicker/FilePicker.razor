@@ -2,8 +2,8 @@
 @using Blazorise.Extensions
 @inherits BaseComponent
 
-<FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout" 
-    Changed="@Changed" Started="@Started" Ended="@Ended" Written="@Written" Progressed="@Progressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer"  @attributes="@Attributes">
+<FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
+          Changed="@Changed" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer" @attributes="@Attributes">
     <ChildContent>
         @ChildContent
     </ChildContent>
@@ -12,13 +12,27 @@
     </Feedback>
 </FileEdit>
 
-<Div>
-    @if (!FileEdit.Files.IsNullOrEmpty()) { 
-        @foreach ( var file in FileEdit.Files )
-        {
-            <Div>
-                @file.Name
-            </Div>
-        }
-    }
-</Div>
+@if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
+{
+    <Div Class="b-file-container">
+        <ListGroup Class="b-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
+
+            @foreach (var file in FileEdit.Files)
+            {
+                <ListGroupItem @key="file.Id" Class="b-file">
+                    <CloseButton Clicked="@(async () => await RemoveFile(file))" />
+                    <Span Display="Blazorise.Display.Block">@file.Name</Span>
+                    <Span Display="Blazorise.Display.Block">@GetFileSizeReadable(file)</Span>
+                </ListGroupItem>
+                @if (IsFileBeingUploaded(file))
+                {
+                    <Progress Value="@GetProgressPercentage()" />
+                }
+            }
+        </ListGroup>
+        <Buttons Float="Blazorise.Float.End">
+            <Button Color="Color.Info" Class="b-file-clear" Clicked="Clear">Clear</Button>
+            <Button Color="Color.Primary" Class="b-file-upload" Clicked="Upload">Upload</Button>
+        </Buttons>
+    </Div>
+}

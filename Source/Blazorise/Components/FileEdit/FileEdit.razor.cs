@@ -36,6 +36,13 @@ namespace Blazorise
 
         #region Methods
 
+        /// <summary>
+        /// Gets the internal progress state for the current item being processed.
+        /// </summary>
+        /// <returns></returns>
+        internal (double Progress, long ProgressProgress, long ProgressTotal) GetCurrentProgress()
+            => (Progress, ProgressProgress, ProgressTotal);
+
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {

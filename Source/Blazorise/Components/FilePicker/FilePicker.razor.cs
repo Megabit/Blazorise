@@ -22,12 +22,94 @@ namespace Blazorise
     {
         #region Members
 
-
+        IFileEntry fileBeingUploaded;
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Gets progress for percentage display.
+        /// </summary>
+        /// <returns></returns>
+        protected int GetProgressPercentage()
+            => (int)(FileEdit.GetCurrentProgress().Progress * 100d);
+
+        /// <summary>
+        /// Tracks whether the current file is being uploaded.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        protected bool IsFileBeingUploaded( IFileEntry file )
+            => file.IsEqual( fileBeingUploaded );
+
+
+        /// <summary>
+        /// FilePicker's handling of the Started Event.
+        /// </summary>
+        /// <param name="fileStartedEventArgs"></param>
+        /// <returns></returns>
+        protected Task OnStarted( FileStartedEventArgs fileStartedEventArgs )
+        {
+            fileBeingUploaded = fileStartedEventArgs.File;
+            return Started.InvokeAsync( fileStartedEventArgs );
+        }
+
+        /// <summary>
+        /// FilePicker's handling of the Ended Event.
+        /// </summary>
+        /// <param name="fileEndedEventArgs"></param>
+        /// <returns></returns>
+        protected Task OnEnded( FileEndedEventArgs fileEndedEventArgs )
+        {
+            fileBeingUploaded = null;
+            return Ended.InvokeAsync( fileEndedEventArgs );
+        }
+
+        /// <summary>
+        /// FilePicker's handling of the Progressed Event.
+        /// </summary>
+        /// <param name="fileProgressedEventArgs"></param>
+        /// <returns></returns>
+        protected Task OnProgressed( FileProgressedEventArgs fileProgressedEventArgs )
+        {
+            return Progressed.InvokeAsync( fileProgressedEventArgs );
+        }
+
+        /// <summary>
+        /// Converts the file size in bytes into a proper human readable format.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        protected string GetFileSizeReadable( IFileEntry file )
+            => Formaters.GetBytesReadable(file.Size);
+
+        /// <summary>
+        /// Removes the file from FileEdit.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        protected async ValueTask<bool> RemoveFile(IFileEntry file)
+        {
+            //temporary, implement remove file on FileEdit
+            await FileEdit.Reset();
+            await InvokeAsync(StateHasChanged);
+            return true;
+        }
+        
+        /// <summary>
+        /// Clears the FileEdit by resetting the state.
+        /// </summary>
+        /// <returns></returns>
+        protected Task Clear()
+            => FileEdit.Reset().AsTask();
+
+        /// <summary>
+        /// Uploads the current files.
+        /// </summary>
+        /// <returns></returns>
+        protected Task Upload()
+            => FileEdit.Reset().AsTask(); //User should provide a Func to upload?
 
         #endregion
 
