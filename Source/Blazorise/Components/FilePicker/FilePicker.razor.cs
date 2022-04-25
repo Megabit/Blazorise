@@ -22,6 +22,11 @@ namespace Blazorise
     {
         #region Members
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        protected override bool ShouldAutoGenerateId => true;
+
         IFileEntry fileBeingUploaded;
 
         #endregion
