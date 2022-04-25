@@ -29,44 +29,28 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId );
-        }
+        public virtual ValueTask Initialize( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
+            => InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
-        }
+        public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
+            => InvokeVoidAsync( "destroy", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
-        {
-            var moduleInstance = await Module;
-
-            return await moduleInstance.InvokeAsync<string>( "readFileData", elementRef, fileEntryId, position, length );
-        }
+        public virtual ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
+            => InvokeAsync<string>( "readFileData", elementRef, fileEntryId, position, length );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Reset( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "reset", elementRef, elementId );
-        }
+        public virtual ValueTask Reset( ElementReference elementRef, string elementId )
+            =>InvokeVoidAsync( "reset", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
+        public virtual ValueTask RemoveFile( ElementReference elementRef, string elementId, int fileId )
+            => InvokeVoidAsync( "removeFile", elementRef, elementId, fileId );
 
-            await moduleInstance.InvokeVoidAsync( "open", elementRef, elementId );
-        }
+        /// <inheritdoc/>
+        public virtual ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
+            => InvokeVoidAsync( "open", elementRef, elementId );
 
         #endregion
 
@@ -74,7 +58,6 @@ namespace Blazorise.Modules
 
         /// <inheritdoc/>
         public override string ModuleFileName => $"./_content/Blazorise/fileEdit.js?v={VersionProvider.Version}";
-
 
         #endregion
     }

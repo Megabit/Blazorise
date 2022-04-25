@@ -38,7 +38,7 @@ namespace Blazorise
         /// </summary>
         /// <returns></returns>
         protected int GetProgressPercentage()
-            => (int)(FileEdit.GetCurrentProgress().Progress * 100d);
+            => (int)( FileEdit.GetCurrentProgress().Progress * 100d );
 
         /// <summary>
         /// Tracks whether the current file is being uploaded.
@@ -87,21 +87,16 @@ namespace Blazorise
         /// <param name="file"></param>
         /// <returns></returns>
         protected string GetFileSizeReadable( IFileEntry file )
-            => Formaters.GetBytesReadable(file.Size);
+            => Formaters.GetBytesReadable( file.Size );
 
         /// <summary>
         /// Removes the file from FileEdit.
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        protected async ValueTask<bool> RemoveFile(IFileEntry file)
-        {
-            //temporary, implement remove file on FileEdit
-            await FileEdit.Reset();
-            await InvokeAsync(StateHasChanged);
-            return true;
-        }
-        
+        protected ValueTask RemoveFile( IFileEntry file )
+            => FileEdit.RemoveFile( file.Id );
+
         /// <summary>
         /// Clears the FileEdit by resetting the state.
         /// </summary>

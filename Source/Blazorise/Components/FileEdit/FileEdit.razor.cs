@@ -220,6 +220,15 @@ namespace Blazorise
             return JSFileEditModule.Reset( ElementRef, ElementId );
         }
 
+        /// <summary>
+        /// Removes a file from the current file selection.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public ValueTask RemoveFile( int fileId )
+        {
+            return JSFileEditModule.RemoveFile( ElementRef, ElementId, fileId );
+        }
+
         #endregion
 
         #region Properties

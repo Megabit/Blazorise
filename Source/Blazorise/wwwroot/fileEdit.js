@@ -12,7 +12,7 @@ export function initialize(adapter, element, elementId) {
     _instances[elementId] = new FileEditInfo(adapter, element, elementId);
 
     element.addEventListener('change', function handleInputFileChange(event) {
-        
+
         var fileList = mapElementFilesToFileEntries(element);
 
         adapter.invokeMethodAsync('NotifyChange', fileList).then(null, function (err) {
@@ -21,12 +21,20 @@ export function initialize(adapter, element, elementId) {
     });
 }
 
-export function remove(element, elementId, fileId) {
+export function removeFile(element, elementId, fileId) {
     element = getRequiredElement(element, elementId);
 
     if (element && element.files && element.files.length > 0) {
-        element.files = element.files.filter(x => !(x.Id == fileId));
-        element.fireEvent("onchange");
+        const dt = new DataTransfer()
+
+        for (let i = 0; i < element.files.length; i++) {
+            const file = element.files[i]
+            if (file.id != fileId)
+                dt.items.add(file)
+        }
+
+        element.files = dt.files
+        element.dispatchEvent(new Event("change"));
     }
 }
 
