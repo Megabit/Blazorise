@@ -1,30 +1,206 @@
 ﻿@page "/"
+@using System.Diagnostics
+@using System.IO
+@using Blazorise.Extensions
 @inject IVersionProvider VersionProvider
-<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.FromBottom">Blazorise</Heading>
 
-<Paragraph>
-    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
-</Paragraph>
 
-<Alert Color="Color.Info" Visible>
-    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
-        Note:
-    </Heading>
-    <Paragraph>
-        This is a demo application for Blazorise used to show basic example for most of the components and extensions.
-    </Paragraph>
-    <Paragraph>
-        Full source code for this demo can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
-    </Paragraph>
-    <Paragraph>
-        If you wish to learn more about Blazorise please go to the official <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">documentation</Anchor>.
-    </Paragraph>
-</Alert>
+<div class="row justify-content-center">
+    <div class="col col-sm-12 col-md-9 col-lg-8 col-xl-6">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <Card>
+                <CardBody>
 
-<Paragraph>
-    On the left sidebar you can see the Blazorise components and extensions in action.
-</Paragraph>
-<br />
-<Paragraph>
-    <Strong> Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
-</Paragraph>
+                    <Field Horizontal>
+                        <FieldBody>
+                            <FilePicker @ref=fileEdit
+                                        Multiple
+                                        AutoReset=false
+                                        MaxChunkSize=FileEditMaxChunkSize
+                                        Changed=OnSelectedFileChanged
+                                        Written=OnFilePartReceived
+                                        Ended=OnFileUploadEnded
+                                        Progressed=OnFileUploadProgressChanged>
+                                <Feedback>
+                                    <ValidationError />
+                                    <ValidationSuccess Display="Display.None"></ValidationSuccess>
+                                </Feedback>
+                            </FilePicker>
+                        </FieldBody>
+                    </Field>
+
+                </CardBody>
+            </Card>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private Validations validations;
+
+
+    #region file manipulation
+
+    private readonly int FileEditMaxChunkSize = 23 * 1024;
+
+    private bool FileUploading { get; set; } = false;
+
+    private bool FileUploadCancelled { get; set; } = false;
+
+    private bool FileUploadProgressVisible { get; set; } = false;
+    private int FileUploadProgressPercent { get; set; }
+    private FilePicker fileEdit { get; set; }
+    /// <summary>
+    /// Defines if TextEdit or multiline TextEdit (MemoEdit) is used for uploaded document name displayal
+    /// </summary>
+    private bool SelectedFileNameDisplayMultiline { get; set; } = false;
+
+    #endregion
+
+
+
+
+    /// <summary>
+    /// Removes currently selected file from <see cref="FileEdit"/>
+    /// <br>Resets uploaded file</br>
+    /// <br>Cancels ongoing upload if any</br>
+    /// </summary>
+    private async Task ResetFile()
+    {
+        FileUploadProgressVisible = false;
+        FileUploading = false;
+        FileUploadCancelled = true;
+        await fileEdit.FileEdit.Reset().AsTask(); //this does not trigger FileEdit.Ended event on its own and thus upload is not cancelled
+    }
+
+    /// <summary>
+    /// This function is invoked when upload finishes (ends with sucess)and when a different file is selected during upload (ends with failure).
+    /// <br> TODO: find how to properly cancel ongoing upload process, maybe hack with selecting another file programatically?</br>
+    /// </summary>
+    /// <param name="e"></param>T
+    private void OnFileUploadEnded(FileEndedEventArgs e)
+    {
+        Console.WriteLine($"File {e.File.Name} upload {(e.Success ? "succeeded" : "failed")}.");
+    }
+
+    private async Task OnSelectedFileChanged(FileChangedEventArgs e)
+    {
+        if (e.Files.Count() == 0)
+        {
+            return;
+        }
+
+        var file = e.Files[0];
+
+        Console.WriteLine("");
+        Console.WriteLine($"Changed selected file in FileEdit.");
+        Console.WriteLine($"Selected file: {file.Name}, last modified {file.LastModified}, size: {file.Size / 1024} kB");
+
+        try
+        {
+            //uploads 2 times, buffered and not buffered
+
+            var bytes = await TestFileUpload(file);
+            //await fileEdit.FileEdit.Reset();
+            //bytes = await TestFileUploadBuffered(file);
+
+
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine(exc.Message);
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    //TEST
+    //to be called in the try block in OnSelectedFileChanged
+    private async Task<byte[]> TestFileUpload(IFileEntry file)
+    {
+        Stopwatch s = Stopwatch.StartNew();
+        byte[] result = await TryRead(file); //no buffer
+        s.Stop();
+        Console.WriteLine("file upload without explicit buffering took " + s.ElapsedMilliseconds + " ms");
+        return result;
+    }
+
+    //TEST
+    //to be called in the try block in OnSelectedFileChanged
+    private async Task<byte[]> TestFileUploadBuffered(IFileEntry file)
+    {
+        Stopwatch s = Stopwatch.StartNew();
+        byte[] result = await TryReadBuffered(file);
+        s.Stop();
+        Console.WriteLine("file upload using buffer took " + s.ElapsedMilliseconds + " ms");
+        return result;
+    }
+
+
+    private async Task<byte[]> TryRead(IFileEntry file)
+    {
+        using (var stream = new MemoryStream())
+        {
+            await file.WriteToStreamAsync(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream.ToArray();
+        }
+    }
+
+
+    /// <summary>
+    /// This upload method does not invoke <see cref="FileEdit.Progressed"/> event
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="bufferSizeBytes"></param>
+    /// <returns></returns>
+    private async Task<byte[]> TryReadBuffered(IFileEntry file, int bufferSizeBytes = 1 * 1024 * 1024)
+    {
+        var totalParts = Math.Ceiling(file.Size / (double)bufferSizeBytes);
+        int readParts = 0;
+        var buffer = new byte[bufferSizeBytes];
+
+        using (MemoryStream result = new MemoryStream())
+        {
+            using (var bufferedStream = new BufferedStream(file.OpenReadStream(long.MaxValue), bufferSizeBytes))
+            {
+                int currentBytes;
+                while ((currentBytes = await bufferedStream.ReadAsync(buffer, 0, bufferSizeBytes)) > 0)
+                {
+                    readParts++;
+                    Console.WriteLine($"Read: {readParts} of {totalParts} (received total: {(readParts * bufferSizeBytes) / (double)(1024 * 1024)} MB)");
+                    //do something with bytes
+                    result.Write(buffer, 0, currentBytes); //append
+
+                    FileUploadProgressPercent = (int)((readParts / (double)totalParts) * 100);
+                    Console.WriteLine($"FileUploadProgress = {FileUploadProgressPercent}");
+                }
+            }
+            return result.ToArray();
+        }
+    }
+
+    private void OnFilePartReceived(FileWrittenEventArgs e)
+    {
+        Console.WriteLine($"File part received. Position: {e.Position} Received data size: {e.Data.Length}");
+    }
+
+    /// <summary>
+    /// This is invoked by <see cref="fileEdit"/> when non-buffered upload is used.
+    /// <br>Change is reported upon every new received chunk.</br>
+    /// <br>Default chunk size according to Blazorise documentation is 20480 bytes.</br>
+    /// <br>There is a bug that chunk size larger than 23*1024 freezes the <see cref="FileEdit"/> component.</br>
+    /// </summary>
+    private void OnFileUploadProgressChanged(FileProgressedEventArgs e)
+    {
+        Console.WriteLine($"File upload progress: {e.Percentage:0.0} %");
+        if (e.Percentage > 100)
+        {
+            throw new ArgumentException("FileEdit does not behave as expected");
+        }
+        FileUploadProgressPercent = (int)e.Percentage;
+    }
+}
