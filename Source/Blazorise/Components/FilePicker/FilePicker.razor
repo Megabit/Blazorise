@@ -20,12 +20,18 @@
             @foreach (var file in FileEdit.Files)
             {
                 <ListGroupItem @key="file.Id" Class="b-file">
+
+                    @* TODO: FileContent With This Info so user can costumize to his liking *@
                     <CloseButton Clicked="@(async () => await RemoveFile(file))" />
-                    <Span Display="Blazorise.Display.Block">@file.Name</Span>
-                    <Span Display="Blazorise.Display.Block">@GetFileSizeReadable(file)</Span>
+                    <Span Class="b-file-name">@file.Name</Span>
+                    <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
                     @if (IsFileBeingUploaded(file))
                     {
                         <Progress Value="@GetProgressPercentage()" />
+                    }
+                    else
+                    {
+                        <Span Class="b-file-status" >@GetFileStatus(file)</Span>
                     }
                 </ListGroupItem>
             }

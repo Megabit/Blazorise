@@ -74,6 +74,13 @@ hr.divider.divider-text::before {
   cursor: grabbing;
 }
 
+.b-file-container .b-file span {
+  display: block;
+}
+.b-file-container .b-file .b-file-size, .b-file-container .b-file .b-file-status {
+  font-size: 0.75rem;
+}
+
 .b-input-color-picker {
   padding: 0.6rem;
 }

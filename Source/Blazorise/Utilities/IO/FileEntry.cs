@@ -72,6 +72,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public string ErrorMessage { get; set; }
 
+        /// <inheritdoc/>
+        public FileEntryStatus Status { get; set; }
+
         #endregion
     }
 }

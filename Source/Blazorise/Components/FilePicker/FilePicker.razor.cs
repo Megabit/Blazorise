@@ -89,6 +89,29 @@ namespace Blazorise
         protected string GetFileSizeReadable( IFileEntry file )
             => Formaters.GetBytesReadable( file.Size );
 
+
+        /// <summary>
+        /// Gets the File Status
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        protected string GetFileStatus( IFileEntry file )
+        {
+            //TODO: Localizer
+            switch ( file.Status )
+            {
+                case FileEntryStatus.Ready:
+                    return "Ready to upload";
+                case FileEntryStatus.Uploaded:
+                    return "Uploaded successfully";
+                case FileEntryStatus.Error:
+                    return "Error uploading";
+                default:
+                    break;
+            }
+            return string.Empty;
+        }
+
         /// <summary>
         /// Removes the file from FileEdit.
         /// </summary>

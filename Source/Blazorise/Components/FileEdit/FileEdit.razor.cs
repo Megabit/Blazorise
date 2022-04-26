@@ -156,17 +156,22 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task UpdateFileStartedAsync( IFileEntry fileEntry )
         {
-            // reset all
             ProgressProgress = 0;
             ProgressTotal = fileEntry.Size;
             Progress = 0;
 
+            fileEntry.Status = FileEntryStatus.Uploading;
             return Started.InvokeAsync( new( fileEntry ) );
         }
 
         /// <inheritdoc/>
         public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
         {
+            if ( success )
+                fileEntry.Status = FileEntryStatus.Uploaded;
+            else
+                fileEntry.Status = FileEntryStatus.Error;
+
             if ( AutoReset )
             {
                 await Reset();

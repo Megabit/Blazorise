@@ -8,6 +8,29 @@ using System.Threading.Tasks;
 namespace Blazorise
 {
     /// <summary>
+    /// Determines the File Entry Status
+    /// </summary>
+    public enum FileEntryStatus 
+    { 
+        /// <summary>
+        /// The file is ready to be uploaded.
+        /// </summary>
+        Ready,
+        /// <summary>
+        /// The file is being uploaded.
+        /// </summary>
+        Uploading,
+        /// <summary>
+        /// The file has been uploaded.
+        /// </summary>
+        Uploaded,
+        /// <summary>
+        /// Something wrong ocorred when trying to upload the file.
+        /// </summary>
+        Error
+    }
+
+    /// <summary>
     /// Defines the upload file.
     /// </summary>
     public interface IFileEntry
@@ -46,6 +69,11 @@ namespace Blazorise
         /// Provides a way to tell if any error happened.
         /// </summary>
         string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the File Entry Status.
+        /// </summary>
+        public FileEntryStatus Status { get; set; }
 
         /// <summary>
         /// Provides the access to the underline file through the stream.
