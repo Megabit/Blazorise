@@ -124,13 +124,18 @@ namespace Blazorise
             // Because of that we're going to skip CurrentValueHandler and implement all the
             // update logic here.
 
+            var updatedFiles = InternalValue?.Where(x=> files.Any(file => file.Id == x.Id)).ToList() ?? new();
             foreach ( var file in files )
             {
-                // So that method invocations on the file can be dispatched back here
-                file.Owner = (IFileEntryOwner)(object)this;
+                if ( !updatedFiles.Any( x => x.Id == file.Id ) )
+                {
+                    // So that method invocations on the file can be dispatched back here
+                    file.Owner = (IFileEntryOwner)(object)this;
+                    updatedFiles.Add( file );
+                }
             }
 
-            InternalValue = files;
+            InternalValue = updatedFiles.ToArray();
 
             // send the value to the validation for processing
             if ( ParentValidation != null )

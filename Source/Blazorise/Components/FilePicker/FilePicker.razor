@@ -3,7 +3,7 @@
 @inherits BaseComponent
 
 <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-          Changed="@Changed" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer" @attributes="@Attributes">
+          Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer" @attributes="@Attributes">
     <ChildContent>
         @ChildContent
     </ChildContent>
@@ -22,7 +22,7 @@
                 <ListGroupItem @key="file.Id" Class="b-file">
 
                     @* TODO: FileContent With This Info so user can costumize to his liking *@
-                    <CloseButton Clicked="@(async () => await RemoveFile(file))" />
+                    <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
                     <Span Class="b-file-name">@file.Name</Span>
                     <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
                     @if (IsFileBeingUploaded(file))
@@ -37,8 +37,8 @@
             }
         </ListGroup>
         <Buttons Float="Blazorise.Float.End">
-            <Button Color="Color.Info" Class="b-file-clear" Clicked="Clear">Clear</Button>
-            <Button Color="Color.Primary" Class="b-file-upload" Clicked="Upload">Upload</Button>
+            <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="Clear">Clear</Button>
+            <Button Color="Color.Primary" Class="b-file-upload" Disabled="@IsBusy()" Clicked="UploadAll">Upload</Button>
         </Buttons>
     </Div>
 }

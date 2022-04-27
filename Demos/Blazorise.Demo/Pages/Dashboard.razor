@@ -17,10 +17,10 @@
                                         Multiple
                                         AutoReset=false
                                         MaxChunkSize=FileEditMaxChunkSize
-                                        Changed=OnSelectedFileChanged
                                         Written=OnFilePartReceived
                                         Ended=OnFileUploadEnded
-                                        Progressed=OnFileUploadProgressChanged>
+                                        Progressed=OnFileUploadProgressChanged
+                                        Upload="OnFileUpload">
                                 <Feedback>
                                     <ValidationError />
                                     <ValidationSuccess Display="Display.None"></ValidationSuccess>
@@ -82,6 +82,11 @@
     private void OnFileUploadEnded(FileEndedEventArgs e)
     {
         Console.WriteLine($"File {e.File.Name} upload {(e.Success ? "succeeded" : "failed")}.");
+    }
+
+    private async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        var bytes = await TestFileUpload(e.File);
     }
 
     private async Task OnSelectedFileChanged(FileChangedEventArgs e)

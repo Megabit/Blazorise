@@ -48,6 +48,13 @@ namespace Blazorise
         protected bool IsFileBeingUploaded( IFileEntry file )
             => file.IsEqual( fileBeingUploaded );
 
+        /// <summary>
+        /// Tracks whether the FilePicker is busy and user interaction should be disabled.
+        /// </summary>
+        /// <returns></returns>
+        protected bool IsBusy()
+            => fileBeingUploaded is not null;
+
 
         /// <summary>
         /// FilePicker's handling of the Started Event.
@@ -59,6 +66,14 @@ namespace Blazorise
             fileBeingUploaded = fileStartedEventArgs.File;
             return Started.InvokeAsync( fileStartedEventArgs );
         }
+
+        /// <summary>
+        /// FilePicker's handling of the Changed Event.
+        /// </summary>
+        /// <param name="fileChangedEventArgs"></param>
+        /// <returns></returns>
+        protected Task OnChanged( FileChangedEventArgs fileChangedEventArgs )
+            => Changed.InvokeAsync( fileChangedEventArgs );
 
         /// <summary>
         /// FilePicker's handling of the Ended Event.
@@ -131,8 +146,13 @@ namespace Blazorise
         /// Uploads the current files.
         /// </summary>
         /// <returns></returns>
-        protected Task Upload()
-            => FileEdit.Reset().AsTask(); //User should provide a Func to upload?
+        protected async Task UploadAll()
+        {
+            if ( Upload.HasDelegate && !FileEdit.Files.IsNullOrEmpty() )
+                foreach ( var file in FileEdit.Files )
+                    await Upload.InvokeAsync( new( file ) );
+        }
+
 
         #endregion
 
@@ -209,6 +229,11 @@ namespace Blazorise
         /// Notifies the progress of file being written to the destination stream.
         /// </summary>
         [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
+
+        /// <summary>
+        /// Occurs once the FilePicker's Upload is triggered for every file.
+        /// </summary>
+        [Parameter] public EventCallback<FileUploadEventArgs> Upload { get; set; }
 
         /// <summary>
         /// If true file input will be automatically reset after it has being uploaded.

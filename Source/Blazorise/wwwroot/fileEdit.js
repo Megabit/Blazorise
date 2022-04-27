@@ -1,7 +1,7 @@
 ﻿import { getRequiredElement } from "./utilities.js?v=1.0.4.0";
 
 const _instances = [];
-
+let nextFileId = 0;
 export function initialize(adapter, element, elementId) {
     element = getRequiredElement(element, elementId);
 
@@ -63,7 +63,6 @@ export function reset(element, elementId) {
 function mapElementFilesToFileEntries(element) {
     element._blazorFilesById = {};
 
-    let nextFileId = 0;
     let fileList = Array.prototype.map.call(element.files, function (file) {
         file.id = ++nextFileId;
         var fileEntry = {
