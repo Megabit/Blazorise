@@ -238,7 +238,7 @@ namespace Blazorise
         /// <summary>
         /// If true file input will be automatically reset after it has being uploaded.
         /// </summary>
-        [Parameter] public bool AutoReset { get; set; } = true;
+        [Parameter] public bool AutoReset { get; set; } = false;
 
         /// <summary>
         /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
