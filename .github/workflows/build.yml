@@ -43,6 +43,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Megabit_Blazorise" /o:"megabit" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore  ./Source
-          dotnet build  ./Source
+          dotnet restore  ./Blazorise.sln
+          dotnet build  ./Blazorise.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
