@@ -25,6 +25,10 @@ namespace Blazorise
         /// </summary>
         Uploaded,
         /// <summary>
+        /// The file exceeds the maximum configured size.
+        /// </summary>
+        ExceedsMaximumSize,
+        /// <summary>
         /// Something wrong ocorred when trying to upload the file.
         /// </summary>
         Error

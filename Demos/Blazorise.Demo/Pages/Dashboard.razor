@@ -8,6 +8,7 @@
     <FieldBody>
         <FilePicker @ref=fileEdit
                     Multiple
+                    MaxFileSize="1048576"
                     MaxChunkSize=FileEditMaxChunkSize
                     Written=OnFilePartReceived
                     Ended=OnFileUploadEnded

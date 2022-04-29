@@ -131,6 +131,10 @@ namespace Blazorise
                 {
                     // So that method invocations on the file can be dispatched back here
                     file.Owner = (IFileEntryOwner)(object)this;
+
+                    if ( MaxFileSize < file.Size )
+                        file.Status = FileEntryStatus.ExceedsMaximumSize;
+
                     updatedFiles.Add( file );
                 }
             }

@@ -41,7 +41,7 @@
             </ListGroup>
             <Buttons Float="Blazorise.Float.End">
                 <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="Clear">Clear</Button>
-                <Button Color="Color.Primary" Class="b-file-upload" Disabled="@IsBusy()" Clicked="UploadAll">Upload</Button>
+                <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="UploadAll">Upload</Button>
             </Buttons>
         </div>
     }

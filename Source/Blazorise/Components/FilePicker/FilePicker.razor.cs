@@ -76,6 +76,13 @@ namespace Blazorise
         protected bool IsBusy()
             => fileBeingUploaded is not null;
 
+        /// <summary>
+        /// Tracks whether the FilePicker has files ready to upload.
+        /// </summary>
+        /// <returns></returns>
+        protected bool IsUploadReady()
+            => FileEdit.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
+
 
         /// <summary>
         /// FilePicker's handling of the Started Event.
@@ -140,6 +147,8 @@ namespace Blazorise
                     return "Ready to upload";
                 case FileEntryStatus.Uploaded:
                     return "Uploaded successfully";
+                case FileEntryStatus.ExceedsMaximumSize:
+                    return "File size is too large";
                 case FileEntryStatus.Error:
                     return "Error uploading";
                 default:
@@ -171,7 +180,10 @@ namespace Blazorise
         {
             if ( Upload.HasDelegate && !FileEdit.Files.IsNullOrEmpty() )
                 foreach ( var file in FileEdit.Files )
-                    await Upload.InvokeAsync( new( file ) );
+                {
+                    if ( file.Status == FileEntryStatus.Ready )
+                        await Upload.InvokeAsync( new( file ) );
+                }
         }
 
 
