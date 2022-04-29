@@ -10,6 +10,7 @@ using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -22,16 +23,36 @@ namespace Blazorise
     {
         #region Members
 
+        private string ElementContainerId { get; set; }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <summary>
+        /// Tracks the current file being uploaded.
+        /// </summary>
         IFileEntry fileBeingUploaded;
 
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            ElementContainerId = IdGenerator.Generate;
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSFilePickerModule.Initialize( ElementRef, ElementContainerId );
+
+            await base.OnFirstAfterRenderAsync();
+        }
 
         /// <summary>
         /// Gets progress for percentage display.
@@ -162,6 +183,11 @@ namespace Blazorise
         /// Accesses the FileEdit
         /// </summary>
         public FileEdit FileEdit;
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSFilePickerModule"/> instance.
+        /// </summary>
+        [Inject] public IJSFilePickerModule JSFilePickerModule { get; set; }
 
         /// <summary>
         /// Input content.

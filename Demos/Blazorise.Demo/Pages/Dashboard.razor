@@ -4,36 +4,22 @@
 @using Blazorise.Extensions
 @inject IVersionProvider VersionProvider
 
-
-<div class="row justify-content-center">
-    <div class="col col-sm-12 col-md-9 col-lg-8 col-xl-6">
-        <div class="d-flex flex-column justify-content-center align-items-center">
-            <Card>
-                <CardBody>
-
-                    <Field Horizontal>
-                        <FieldBody>
-                            <FilePicker @ref=fileEdit
-                                        Multiple
-                                        MaxChunkSize=FileEditMaxChunkSize
-                                        Written=OnFilePartReceived
-                                        Ended=OnFileUploadEnded
-                                        Progressed=OnFileUploadProgressChanged
-                                        Upload="OnFileUpload">
-                                <Feedback>
-                                    <ValidationError />
-                                    <ValidationSuccess Display="Display.None"></ValidationSuccess>
-                                </Feedback>
-                            </FilePicker>
-                        </FieldBody>
-                    </Field>
-
-                </CardBody>
-            </Card>
-        </div>
-    </div>
-</div>
-
+<Field Horizontal>
+    <FieldBody>
+        <FilePicker @ref=fileEdit
+                    Multiple
+                    MaxChunkSize=FileEditMaxChunkSize
+                    Written=OnFilePartReceived
+                    Ended=OnFileUploadEnded
+                    Progressed=OnFileUploadProgressChanged
+                    Upload="OnFileUpload">
+            <Feedback>
+                <ValidationError />
+                <ValidationSuccess Display="Display.None"></ValidationSuccess>
+            </Feedback>
+        </FilePicker>
+    </FieldBody>
+</Field>
 
 @code {
     private Validations validations;

@@ -100,6 +100,7 @@ namespace Blazorise
             { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },
             { typeof( IJSColorPickerModule ), typeof( JSColorPickerModule ) },
             { typeof( IJSFileEditModule ), typeof( JSFileEditModule ) },
+            { typeof( IJSFilePickerModule ), typeof( JSFilePickerModule ) },
             { typeof( IJSFileModule ), typeof( JSFileModule ) },
             { typeof( IJSTableModule ), typeof( JSTableModule ) },
             { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },

@@ -7,6 +7,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Modules
 {
+
     /// <summary>
     /// Default implementation of the <see cref="FileEdit"/> JS module.
     /// </summary>

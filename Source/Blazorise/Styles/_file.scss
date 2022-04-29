@@ -1,11 +1,24 @@
-﻿.b-file-container {
-    .b-file {
-        span {
-            display: block;
-        }
+﻿.b-file-picker {
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.15);
+    padding: 1rem;
 
-        .b-file-size, .b-file-status {
-            font-size: 0.75rem;
+    .b-text-drop {
+        margin-top: 0.5rem;
+        display: block;
+        text-align: center;
+        font-size: 0.75rem;
+    }
+
+    .b-files-container {
+        .b-file {
+            span {
+                display: block;
+            }
+
+            .b-file-size, .b-file-status {
+                font-size: 0.75rem;
+            }
         }
     }
 }
