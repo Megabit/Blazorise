@@ -58,7 +58,7 @@ namespace Blazorise
         /// Gets progress for percentage display.
         /// </summary>
         /// <returns></returns>
-        protected int GetProgressPercentage()
+        public int GetProgressPercentage()
             => (int)( FileEdit.GetCurrentProgress().Progress * 100d );
 
         /// <summary>
@@ -66,23 +66,84 @@ namespace Blazorise
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        protected bool IsFileBeingUploaded( IFileEntry file )
+        public bool IsFileBeingUploaded( IFileEntry file )
             => file.IsEqual( fileBeingUploaded );
 
         /// <summary>
         /// Tracks whether the FilePicker is busy and user interaction should be disabled.
         /// </summary>
         /// <returns></returns>
-        protected bool IsBusy()
+        public bool IsBusy()
             => fileBeingUploaded is not null;
 
         /// <summary>
         /// Tracks whether the FilePicker has files ready to upload.
         /// </summary>
         /// <returns></returns>
-        protected bool IsUploadReady()
+        public bool IsUploadReady()
             => FileEdit.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
 
+        /// <summary>
+        /// Converts the file size in bytes into a proper human readable format.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public string GetFileSizeReadable( IFileEntry file )
+            => Formaters.GetBytesReadable( file.Size );
+
+
+        /// <summary>
+        /// Gets the File Status
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public string GetFileStatus( IFileEntry file )
+        {
+            //TODO: Localizer
+            switch ( file.Status )
+            {
+                case FileEntryStatus.Ready:
+                    return "Ready to upload";
+                case FileEntryStatus.Uploaded:
+                    return "Uploaded successfully";
+                case FileEntryStatus.ExceedsMaximumSize:
+                    return "File size is too large";
+                case FileEntryStatus.Error:
+                    return "Error uploading";
+                default:
+                    break;
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Removes the file from FileEdit.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public ValueTask RemoveFile( IFileEntry file )
+            => FileEdit.RemoveFile( file.Id );
+
+        /// <summary>
+        /// Clears the FileEdit by resetting the state.
+        /// </summary>
+        /// <returns></returns>
+        public Task Clear()
+            => FileEdit.Reset().AsTask();
+
+        /// <summary>
+        /// Uploads the current files.
+        /// </summary>
+        /// <returns></returns>
+        public async Task UploadAll()
+        {
+            if ( Upload.HasDelegate && !FileEdit.Files.IsNullOrEmpty() )
+                foreach ( var file in FileEdit.Files )
+                {
+                    if ( file.Status == FileEntryStatus.Ready )
+                        await Upload.InvokeAsync( new( file ) );
+                }
+        }
 
         /// <summary>
         /// FilePicker's handling of the Started Event.
@@ -123,69 +184,6 @@ namespace Blazorise
         {
             return Progressed.InvokeAsync( fileProgressedEventArgs );
         }
-
-        /// <summary>
-        /// Converts the file size in bytes into a proper human readable format.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        protected string GetFileSizeReadable( IFileEntry file )
-            => Formaters.GetBytesReadable( file.Size );
-
-
-        /// <summary>
-        /// Gets the File Status
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        protected string GetFileStatus( IFileEntry file )
-        {
-            //TODO: Localizer
-            switch ( file.Status )
-            {
-                case FileEntryStatus.Ready:
-                    return "Ready to upload";
-                case FileEntryStatus.Uploaded:
-                    return "Uploaded successfully";
-                case FileEntryStatus.ExceedsMaximumSize:
-                    return "File size is too large";
-                case FileEntryStatus.Error:
-                    return "Error uploading";
-                default:
-                    break;
-            }
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Removes the file from FileEdit.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        protected ValueTask RemoveFile( IFileEntry file )
-            => FileEdit.RemoveFile( file.Id );
-
-        /// <summary>
-        /// Clears the FileEdit by resetting the state.
-        /// </summary>
-        /// <returns></returns>
-        protected Task Clear()
-            => FileEdit.Reset().AsTask();
-
-        /// <summary>
-        /// Uploads the current files.
-        /// </summary>
-        /// <returns></returns>
-        protected async Task UploadAll()
-        {
-            if ( Upload.HasDelegate && !FileEdit.Files.IsNullOrEmpty() )
-                foreach ( var file in FileEdit.Files )
-                {
-                    if ( file.Status == FileEntryStatus.Ready )
-                        await Upload.InvokeAsync( new( file ) );
-                }
-        }
-
 
         #endregion
 
@@ -282,6 +280,16 @@ namespace Blazorise
         /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
         [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
+
+        /// <summary>
+        /// Provides a custom file content.
+        /// </summary>
+        [Parameter] public RenderFragment<FilePickerFileContext> FileContent { get; set; }
+
+        /// <summary>
+        /// Provides a custom button content.
+        /// </summary>
+        [Parameter] public RenderFragment<FilePickerButtonContext> ButtonContent { get; set; }
 
         #endregion
     }

@@ -24,25 +24,41 @@
                 {
                     <ListGroupItem @key="file.Id" Class="b-file">
 
-                        @* TODO: FileContent With This Info so user can costumize to his liking *@
-                        <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
-                        <Span Class="b-file-name">@file.Name</Span>
-                        <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
-                        @if (IsFileBeingUploaded(file))
+                        @if (FileContent is not null)
                         {
-                            <Progress Value="@GetProgressPercentage()" />
+                            @FileContent(new (file))
                         }
                         else
                         {
-                            <Span Class="b-file-status">@GetFileStatus(file)</Span>
+                            @* TODO: FileContent With This Info so user can costumize to his liking *@
+                            <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
+                            <Span Class="b-file-name">@file.Name</Span>
+                            <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
+                            @if (IsFileBeingUploaded(file))
+                            {
+                                <Progress Value="@GetProgressPercentage()" />
+                            }
+                            else
+                            {
+                                <Span Class="b-file-status">@GetFileStatus(file)</Span>
+                            }
                         }
+
                     </ListGroupItem>
                 }
             </ListGroup>
-            <Buttons Float="Blazorise.Float.End">
-                <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="Clear">Clear</Button>
-                <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="UploadAll">Upload</Button>
-            </Buttons>
+            @if (ButtonContent is not null)
+            {
+                @ButtonContent(new ())
+
+            }
+            else
+            {
+                <Buttons Float="Blazorise.Float.End">
+                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="Clear">Clear</Button>
+                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="UploadAll">Upload</Button>
+                </Buttons>
+            }
         </div>
     }
 </div>
