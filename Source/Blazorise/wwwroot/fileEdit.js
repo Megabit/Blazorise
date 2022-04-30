@@ -25,15 +25,15 @@ export function removeFile(element, elementId, fileId) {
     element = getRequiredElement(element, elementId);
 
     if (element && element.files && element.files.length > 0) {
-        const dt = new DataTransfer()
+        const dt = new DataTransfer();
 
         for (let i = 0; i < element.files.length; i++) {
-            const file = element.files[i]
+            const file = element.files[i];
             if (file.id != fileId)
-                dt.items.add(file)
+                dt.items.add(file);
         }
 
-        element.files = dt.files
+        element.files = dt.files;
         element.dispatchEvent(new Event("change"));
     }
 }

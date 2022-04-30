@@ -38,16 +38,25 @@ function onDragLeave(e) {
 
 function onDrop(e) {
     e.preventDefault();
-
-    fileInput.files = e.dataTransfer.files;
+    fileInput.files = getOnlyTrueFiles(e.dataTransfer.files);
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
 }
 
 function onPaste(e) {
-    fileInput.files = e.clipboardData.files;
+    fileInput.files = getOnlyTrueFiles(e.clipboardData.files);
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
+}
+
+function getOnlyTrueFiles(files) {
+    const dt = new DataTransfer();
+    for (let i = 0; i < files.length; i++) {
+        let current = files[i];
+        if (current.type != "")
+            dt.items.add(current);
+    }
+    return dt.files;
 }
 
 
