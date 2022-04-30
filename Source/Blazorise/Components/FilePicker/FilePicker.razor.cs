@@ -16,6 +16,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+
     /// <summary>
     /// Builds upon FileEdit component providing extra file uploading features.
     /// </summary>
@@ -331,6 +332,12 @@ namespace Blazorise
         /// Provides a custom button content.
         /// </summary>
         [Parameter] public RenderFragment<FilePickerButtonContext> ButtonContent { get; set; }
+
+        /// <summary>
+        /// Gets or Sets FilePicker's show mode.
+        /// Defaults to <see cref="FilePickerShowMode.List"/>
+        /// </summary>
+        [Parameter] public FilePickerShowMode ShowMode { get; set; } = FilePickerShowMode.List;
 
         #endregion
     }

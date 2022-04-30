@@ -3,49 +3,51 @@
 @inherits BaseComponent
 
 <div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker">
-    <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-              Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer" @attributes="@Attributes">
-        <ChildContent>
-            @ChildContent
-        </ChildContent>
-        <Feedback>
-            @Feedback
-        </Feedback>
-    </FileEdit>
+    @if (ShowMode == FilePickerShowMode.Dropdown)
+    {
+        <Dropdown  Display="Blazorise.Display.InlineBlock">
+
+            <Div Display="Blazorise.Display.InlineBlock">
+                @fileComponentFragment
+                <DropdownToggle>(@(FileEdit.Files?.Count() ?? 0))</DropdownToggle>
+            </Div>
+
+            @if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
+            {
+                <DropdownMenu Class="b-files">
+                    @foreach (var file in FileEdit.Files)
+                    {
+                        <DropdownItem Class="b-file">
+                            @fileContentFragment(file)
+                        </DropdownItem>
+                    }
+                </DropdownMenu>
+            }
+        </Dropdown>
+    }
+    else
+    {
+        @fileComponentFragment
+    }
 
     <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@Localizer.GetString("Or drop files here")</Span>
 
     @if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
     {
         <div Class="b-files-container">
-            <ListGroup Class="b-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
+            @if (ShowMode == FilePickerShowMode.List)
+            {
+                <ListGroup Class="b-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
 
-                @foreach (var file in FileEdit.Files)
-                {
-                    <ListGroupItem @key="file.Id" Class="b-file">
+                    @foreach (var file in FileEdit.Files)
+                    {
+                        <ListGroupItem @key="file.Id" Class="b-file">
+                            @fileContentFragment(file)
+                        </ListGroupItem>
+                    }
+                </ListGroup>
+            }
 
-                        @if (FileContent is not null)
-                        {
-                            @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileAsTask)))
-                        }
-                        else
-                        {
-                            <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
-                            <Span Class="b-file-name">@file.Name</Span>
-                            <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
-                            @if (IsFileBeingUploaded(file))
-                            {
-                                <Progress Value="@GetProgressPercentage()" />
-                            }
-                            else
-                            {
-                                <Span Class="b-file-status">@GetFileStatus(file)</Span>
-                            }
-                        }
-
-                    </ListGroupItem>
-                }
-            </ListGroup>
             @if (ButtonContent is not null)
             {
                 @ButtonContent(new (EventCallback.Factory.Create(this, Clear), EventCallback.Factory.Create(this, UploadAll)))
@@ -61,3 +63,40 @@
     }
 </div>
 
+
+@code {
+    private RenderFragment fileComponentFragment => __builder =>
+    {
+    <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
+            Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer" @attributes="@Attributes">
+                <ChildContent>
+                    @ChildContent
+                </ChildContent>
+                <Feedback>
+                    @Feedback
+                </Feedback>
+    </FileEdit>
+    };
+
+    private RenderFragment<IFileEntry> fileContentFragment => file => __builder =>
+    {
+    @if (FileContent is not null)
+        {
+    @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileAsTask)))
+        }
+        else
+        {
+    <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
+    <Span Class="b-file-name">@file.Name</Span>
+    <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
+    @if (IsFileBeingUploaded(file))
+            {
+    <Progress Value="@GetProgressPercentage()" />
+            }
+            else
+            {
+    <Span Class="b-file-status">@GetFileStatus(file)</Span>
+            }
+        }
+    };
+}

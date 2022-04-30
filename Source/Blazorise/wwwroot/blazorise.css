@@ -85,11 +85,17 @@ hr.divider.divider-text::before {
   text-align: center;
   font-size: 0.75rem;
 }
-.b-file-picker .b-files-container .b-file span {
+.b-file-picker .b-file span {
   display: block;
 }
-.b-file-picker .b-files-container .b-file .b-file-size, .b-file-picker .b-files-container .b-file .b-file-status {
+.b-file-picker .b-file .b-file-size, .b-file-picker .b-file .b-file-status {
   font-size: 0.75rem;
+}
+.b-file-picker .dropdown .custom-file {
+  width: auto;
+}
+.b-file-picker .dropdown .b-file {
+  margin-right: 1.5rem;
 }
 
 .b-input-color-picker {

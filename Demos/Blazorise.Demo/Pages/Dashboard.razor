@@ -13,24 +13,8 @@
                     Written=OnFilePartReceived
                     Ended=OnFileUploadEnded
                     Progressed=OnFileUploadProgressChanged
-                    Upload="OnFileUpload">
-            <FileContent>
-                <CloseButton disabled="@fileEdit.IsBusy()" Clicked="@(async () => await context.RemoveFile())" />
-                <Span Class="b-file-name">@context.File.Name</Span>
-                <Span Class="b-file-size">@fileEdit.GetFileSizeReadable(context.File)</Span>
-                @if (fileEdit.IsFileBeingUploaded(context.File))
-                {
-                    <Progress Value="@fileEdit.GetProgressPercentage()" />
-                }
-                else
-                {
-                    <Span Class="b-file-status">@fileEdit.GetFileStatus(context.File)</Span>
-                }
-            </FileContent>
-            <ButtonContent>
-                <Button Color="Color.Info" Class="b-file-clear" Disabled="@fileEdit.IsBusy()" Clicked="@context.Clear">Clear</Button>
-                <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(fileEdit.IsBusy() || !fileEdit.IsUploadReady())" Clicked="@context.Upload">Upload</Button>
-            </ButtonContent>
+                    Upload="OnFileUpload"
+                    ShowMode="FilePickerShowMode.List">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess Display="Display.None"></ValidationSuccess>

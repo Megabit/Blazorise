@@ -10,15 +10,23 @@
         font-size: 0.75rem;
     }
 
-    .b-files-container {
-        .b-file {
-            span {
-                display: block;
-            }
+    .b-file {
+        span {
+            display: block;
+        }
 
-            .b-file-size, .b-file-status {
-                font-size: 0.75rem;
-            }
+        .b-file-size, .b-file-status {
+            font-size: 0.75rem;
+        }
+    }
+
+    .dropdown {
+        .custom-file {
+            width: auto;
+        }
+
+        .b-file {
+            margin-right: 1.5rem;
         }
     }
 }
