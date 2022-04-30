@@ -26,7 +26,7 @@
 
                         @if (FileContent is not null)
                         {
-                            @FileContent(new (file))
+                            @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileAsTask )))
                         }
                         else
                         {

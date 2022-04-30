@@ -125,6 +125,14 @@ namespace Blazorise
             => FileEdit.RemoveFile( file.Id );
 
         /// <summary>
+        /// Removes the file from FileEdit.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        private Task RemoveFileAsTask( IFileEntry file )
+            => RemoveFile( file ).AsTask();
+
+        /// <summary>
         /// Clears the FileEdit by resetting the state.
         /// </summary>
         /// <returns></returns>
