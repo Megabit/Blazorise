@@ -19,7 +19,7 @@ namespace Blazorise
     /// <summary>
     /// Builds upon FileEdit component providing extra file uploading features.
     /// </summary>
-    public partial class FilePicker : BaseComponent
+    public partial class FilePicker : BaseComponent, IAsyncDisposable
     {
         #region Members
 
@@ -42,9 +42,11 @@ namespace Blazorise
         protected override void OnInitialized()
         {
             ElementContainerId = IdGenerator.Generate;
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
             base.OnInitialized();
         }
+
 
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
@@ -52,6 +54,29 @@ namespace Blazorise
             await JSFilePickerModule.Initialize( ElementRef, ElementContainerId );
 
             await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing && Rendered )
+            {
+                await JSFilePickerModule.SafeDestroy( ElementRef, ElementId );
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+        {
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -99,17 +124,16 @@ namespace Blazorise
         /// <returns></returns>
         public string GetFileStatus( IFileEntry file )
         {
-            //TODO: Localizer
             switch ( file.Status )
             {
                 case FileEntryStatus.Ready:
-                    return "Ready to upload";
+                    return Localizer.GetString( "Ready to upload" );
                 case FileEntryStatus.Uploaded:
-                    return "Uploaded successfully";
+                    return Localizer.GetString( "Uploaded successfully" );
                 case FileEntryStatus.ExceedsMaximumSize:
-                    return "File size is too large";
+                    return Localizer.GetString( "File size is too large" );
                 case FileEntryStatus.Error:
-                    return "Error uploading";
+                    return Localizer.GetString( "Error uploading" );
                 default:
                     break;
             }
@@ -208,6 +232,16 @@ namespace Blazorise
         [Inject] public IJSFilePickerModule JSFilePickerModule { get; set; }
 
         /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{FilePicker}"/>.
+        /// </summary>
+        [Inject] protected ITextLocalizer<FilePicker> Localizer { get; set; }
+
+        /// <summary>
         /// Input content.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -220,8 +254,7 @@ namespace Blazorise
         /// <summary>
         /// Enables the multiple file selection.
         /// </summary>
-        [Parameter]
-        public bool Multiple { get; set; }
+        [Parameter] public bool Multiple { get; set; }
 
         /// <summary>
         /// Sets the placeholder for the empty file input.

@@ -1,0 +1,12 @@
+{
+  "culture": "hr",
+  "translations": {
+    "Ready to upload": "Premno za učitavanje",
+    "Uploaded successfully": "Uspješno preneseno",
+    "File size is too large": "Veličina datoteke je prevelika",
+    "Error uploading": "Pogreška pri prijenosu",
+    "Or drop files here": "Ili ispustite datoteke ovdje",
+    "Clear": "Očistiti",
+    "Upload": "Učitaj"
+  }
+}

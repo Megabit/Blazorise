@@ -1,0 +1,12 @@
+﻿{
+  "culture": "is",
+  "translations": {
+    "Ready to upload": "Tilbúinn til að hlaða upp",
+    "Uploaded successfully": "Hlaðið upp",
+    "File size is too large": "Skráarstærð er of stór",
+    "Error uploading": "Villa við að hlaða upp",
+    "Or drop files here": "Eða slepptu skrám hér",
+    "Clear": "Hreinsa",
+    "Upload": "Hlaða upp"
+  }
+}

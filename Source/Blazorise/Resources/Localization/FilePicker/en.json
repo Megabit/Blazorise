@@ -1,0 +1,12 @@
+{
+  "culture": "en",
+  "translations": {
+    "Ready to upload": "Ready to upload",
+    "Uploaded successfully": "Uploaded successfully",
+    "File size is too large": "File size is too large",
+    "Error uploading": "Error uploading",
+    "Or drop files here": "Or drop files here",
+    "Clear": "Clear",
+    "Upload": "Upload"
+  }
+}

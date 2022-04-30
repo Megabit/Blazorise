@@ -1,0 +1,12 @@
+{
+  "culture": "de",
+  "translations": {
+    "Ready to upload": "Bereit zum Hochladen",
+    "Uploaded successfully": "Erfolgreich hochgeladen",
+    "File size is too large": "Die Dateigröße ist zu groß",
+    "Error uploading": "Fehler beim Hochladen",
+    "Or drop files here": "Oder legen Sie Dateien hier ab",
+    "Clear": "Löschen",
+    "Upload": "Hochladen"
+  }
+}

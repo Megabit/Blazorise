@@ -1,0 +1,12 @@
+{
+  "culture": "it",
+  "translations": {
+    "Ready to upload": "Pronto per il caricamento",
+    "Uploaded successfully": "Caricato con successo",
+    "File size is too large": "La dimensione del file è troppo grande",
+    "Error uploading": "Errore durante il caricamento",
+    "Or drop files here": "Oppure trascina i file qui",
+    "Clear": "Chiaro",
+    "Upload": "Caricamento"
+  }
+}

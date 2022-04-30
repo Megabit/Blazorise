@@ -12,8 +12,8 @@
             @Feedback
         </Feedback>
     </FileEdit>
-    @*TODO : Localization*@
-    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">Or drop files here</Span>
+
+    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@Localizer.GetString("Or drop files here")</Span>
 
     @if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
     {
@@ -30,7 +30,6 @@
                         }
                         else
                         {
-                            @* TODO: FileContent With This Info so user can costumize to his liking *@
                             <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
                             <Span Class="b-file-name">@file.Name</Span>
                             <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
@@ -49,14 +48,13 @@
             </ListGroup>
             @if (ButtonContent is not null)
             {
-                @ButtonContent(new (EventCallback.Factory.Create(this, Clear), EventCallback.Factory.Create(this,UploadAll)))
-
+                @ButtonContent(new (EventCallback.Factory.Create(this, Clear), EventCallback.Factory.Create(this, UploadAll)))
             }
             else
             {
                 <Buttons Float="Blazorise.Float.End">
-                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">Clear</Button>
-                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">Upload</Button>
+                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">@Localizer.GetString("Clear")</Button>
+                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@Localizer.GetString("Upload")</Button>
                 </Buttons>
             }
         </div>

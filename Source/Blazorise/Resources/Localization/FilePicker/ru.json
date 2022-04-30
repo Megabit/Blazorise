@@ -1,0 +1,12 @@
+{
+  "culture": "ru",
+  "translations": {
+    "Ready to upload": "Готов к загрузке",
+    "Uploaded successfully": "Загружено успешно",
+    "File size is too large": "Размер файла слишком велик",
+    "Error uploading": "Ошибка загрузки",
+    "Or drop files here": "Или перетащите сюда файлы",
+    "Clear": "Прозрачный",
+    "Upload": "Загрузить"
+  }
+}

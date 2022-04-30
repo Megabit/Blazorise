@@ -1,0 +1,12 @@
+{
+  "culture": "tr",
+  "translations": {
+    "Ready to upload": "Yüklemeye hazır",
+    "Uploaded successfully": "Başarıyla yüklendi",
+    "File size is too large": "Dosya boyutu çok büyük",
+    "Error uploading": "Yüklenirken hata oluştu",
+    "Or drop files here": "Veya dosyaları buraya bırakın",
+    "Clear": "Açık",
+    "Upload": "Yüklemek"
+  }
+}

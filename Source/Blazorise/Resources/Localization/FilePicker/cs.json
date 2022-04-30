@@ -1,0 +1,12 @@
+{
+  "culture": "cs-CZ",
+  "translations": {
+    "Ready to upload": "Připraveno k nahrání",
+    "Uploaded successfully": "Úspěšně nahráno",
+    "File size is too large": "Velikost souboru je příliš velká",
+    "Error uploading": "Chyba při nahrávání",
+    "Or drop files here": "Nebo sem přetáhněte soubory",
+    "Clear": "Vymazat",
+    "Upload": "Nahrát"
+  }
+}
