@@ -8,13 +8,12 @@
     <FieldBody>
         <FilePicker @ref=fileEdit
                     Multiple
-                    MaxFileSize="1048576"
                     MaxChunkSize=FileEditMaxChunkSize
                     Written=OnFilePartReceived
                     Ended=OnFileUploadEnded
                     Progressed=OnFileUploadProgressChanged
                     Upload="OnFileUpload"
-                    ShowMode="FilePickerShowMode.List">
+                    ShowMode="FilePickerShowMode.Dropdown">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess Display="Display.None"></ValidationSuccess>

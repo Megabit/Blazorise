@@ -128,19 +128,26 @@ namespace Blazorise
             switch ( file.Status )
             {
                 case FileEntryStatus.Ready:
-                    return Localizer.GetString( "Ready to upload" );
+                    return GetLocalizedString( "Ready to upload" );
                 case FileEntryStatus.Uploaded:
-                    return Localizer.GetString( "Uploaded successfully" );
+                    return GetLocalizedString( "Uploaded successfully" );
                 case FileEntryStatus.ExceedsMaximumSize:
-                    return Localizer.GetString( "File size is too large" );
+                    return GetLocalizedString( "File size is too large" );
                 case FileEntryStatus.Error:
-                    return Localizer.GetString( "Error uploading" );
+                    return GetLocalizedString( "Error uploading" );
                 default:
                     break;
             }
             return string.Empty;
         }
 
+        private string GetLocalizedString( string name )
+        {
+            if ( FilePickerLocalizer is not null )
+                return FilePickerLocalizer.Invoke( name );
+
+            return Localizer.GetString( name );
+        }
         /// <summary>
         /// Removes the file from FileEdit.
         /// </summary>
@@ -321,7 +328,7 @@ namespace Blazorise
         /// <summary>
         /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
-        [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
+        [Parameter] public TextLocalizerHandler FilePickerLocalizer { get; set; }
 
         /// <summary>
         /// Provides a custom file content.

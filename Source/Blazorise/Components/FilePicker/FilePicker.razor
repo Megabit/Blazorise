@@ -30,7 +30,7 @@
         @fileComponentFragment
     }
 
-    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@Localizer.GetString("Or drop files here")</Span>
+    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
 
     @if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
     {
@@ -55,8 +55,8 @@
             else
             {
                 <Buttons Float="Blazorise.Float.End">
-                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">@Localizer.GetString("Clear")</Button>
-                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@Localizer.GetString("Upload")</Button>
+                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">@GetLocalizedString("Clear")</Button>
+                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
                 </Buttons>
             }
         </div>
@@ -68,7 +68,7 @@
     private RenderFragment fileComponentFragment => __builder =>
     {
     <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-            Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@BrowseButtonLocalizer" @attributes="@Attributes">
+            Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
                 <ChildContent>
                     @ChildContent
                 </ChildContent>
