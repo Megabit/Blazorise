@@ -27,6 +27,10 @@
                     <Span Class="b-file-status">@fileEdit.GetFileStatus(context.File)</Span>
                 }
             </FileContent>
+            <ButtonContent>
+                <Button Color="Color.Info" Class="b-file-clear" Disabled="@fileEdit.IsBusy()" Clicked="@context.Clear">Clear</Button>
+                <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(fileEdit.IsBusy() || !fileEdit.IsUploadReady())" Clicked="@context.Upload">Upload</Button>
+            </ButtonContent>
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess Display="Display.None"></ValidationSuccess>

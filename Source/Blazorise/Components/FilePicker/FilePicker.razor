@@ -26,7 +26,7 @@
 
                         @if (FileContent is not null)
                         {
-                            @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileAsTask )))
+                            @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileAsTask)))
                         }
                         else
                         {
@@ -49,14 +49,14 @@
             </ListGroup>
             @if (ButtonContent is not null)
             {
-                @ButtonContent(new ())
+                @ButtonContent(new (EventCallback.Factory.Create(this, Clear), EventCallback.Factory.Create(this,UploadAll)))
 
             }
             else
             {
                 <Buttons Float="Blazorise.Float.End">
-                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="Clear">Clear</Button>
-                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="UploadAll">Upload</Button>
+                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">Clear</Button>
+                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">Upload</Button>
                 </Buttons>
             }
         </div>
