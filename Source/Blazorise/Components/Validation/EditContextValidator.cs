@@ -45,7 +45,7 @@ namespace Blazorise
         /// Cached list of fields for validation.
         /// </summary>
         private readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache = new();
-        
+
         /// <summary>
         /// Service Provider for validation context.
         /// </summary>
@@ -80,6 +80,7 @@ namespace Blazorise
         /// A default <see cref="EditContextValidator"/> constructor.
         /// </summary>
         /// <param name="validationMessageLocalizerAttributeFinder">Comparer for message localizer.</param>
+        /// <param name="serviceProvider">Service provider for custom validators.</param>
         public EditContextValidator( IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder, IServiceProvider serviceProvider )
         {
             this.validationMessageLocalizerAttributeFinder = validationMessageLocalizerAttributeFinder;
