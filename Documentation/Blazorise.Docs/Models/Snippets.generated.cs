@@ -1174,6 +1174,32 @@ namespace Blazorise.Docs.Models
     </Column>
 </Row>";
 
+        public const string BasicHighlighterExample = @"<Field>
+    <FieldLabel>Search value</FieldLabel>
+    <FieldBody>
+        <TextEdit @bind-Text=""@searchValue"" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key=""sentence"">
+            <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" />
+        </ListGroupItem>
+    }
+</ListGroup>
+@code {
+    string searchValue = ""item"";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
+}";
+
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
