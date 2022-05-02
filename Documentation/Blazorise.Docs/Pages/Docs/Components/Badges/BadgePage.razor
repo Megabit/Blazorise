@@ -7,8 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    The <Code Tag>Badge</Code> component is used to convey small pieces of information. Using the <Code>CloseClicked</Code> property,
-    the chip becomes interactive, allowing user interaction.
+    The <Code Tag>Badge</Code> component is used to convey small pieces of information. They are used for labeling content, displaying metadata and/or highlighting information.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Using the <Code>CloseClicked</Code> property, the chip becomes interactive, allowing user interaction.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -26,13 +29,33 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Contextual variations">
+    <DocsPageSectionHeader Title="Colors">
         Add any of the following variants via the <Code>Color</Code> parameter to change the appearance of a <Code>Badge</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BadgeColorsExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BadgeColorsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Shape">
+        Applying the <Code>Pill</Code> parameter produces a badge with rounded corners. It can aid in making badges and buttons more distinct from one another.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PillBadgeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PillBadgeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Icon-only">
+        Badges can also be used with icons without a label. For accessibility, a <Anchor To="docs/components/tooltip">Tooltip</Anchor> and <Code>aria-label</Code> attribute is recommended to ensure that all users can identify their meaning.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <IconBadgeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="IconBadgeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
