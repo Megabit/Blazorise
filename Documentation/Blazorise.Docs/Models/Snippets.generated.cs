@@ -906,16 +906,34 @@ namespace Blazorise.Docs.Models
     <TextEdit />
 </Field>";
 
-        public const string FieldWithHelpExample = @"<Field>
-    <FieldLabel>Email address</FieldLabel>
-    <TextEdit Placeholder=""Enter email"">
-        <FieldHelp>Please enter a valid email address</FieldHelp>
-    </TextEdit>
+        public const string FieldWithDisabledExample = @"<Field>
+    <FieldLabel>Disabled</FieldLabel>
+    <TextEdit Text=""Value"" Disabled />
 </Field>";
+
+        public const string FieldWithHelpExample = @"<Fields>
+    <Field>
+        <FieldLabel>Phone number</FieldLabel>
+        <TextEdit>
+            <FieldHelp>Include country and area prefixes</FieldHelp>
+        </TextEdit>
+    </Field>
+    <Field>
+        <FieldLabel>Password</FieldLabel>
+        <TextEdit>
+            <FieldHelp>Password strength: <Text TextColor=""TextColor.Danger"">weak</Text></FieldHelp>
+        </TextEdit>
+    </Field>
+</Fields>";
 
         public const string FieldWithLabelExample = @"<Field>
     <FieldLabel>Email address</FieldLabel>
     <TextEdit Placeholder=""Enter email"" />
+</Field>";
+
+        public const string FieldWithReadOnlyExample = @"<Field>
+    <FieldLabel>Read-Only</FieldLabel>
+    <TextEdit Text=""Value"" ReadOnly />
 </Field>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
@@ -1796,6 +1814,8 @@ namespace Blazorise.Docs.Models
     private void SetActive(string page)
         => currentPage = page;
 }";
+
+        public const string AnimatedProgressExample = @"<Progress Value=""75"" Animated Striped />";
 
         public const string BasicPageProgressExample = @"<PageProgress Visible Value=""25"" />";
 
