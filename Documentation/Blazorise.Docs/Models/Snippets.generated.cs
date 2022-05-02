@@ -178,6 +178,22 @@ namespace Blazorise.Docs.Models
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
 
+        public const string IconBadgeExample = @"<Badge Color=""Color.Success"">
+    <Tooltip Text=""Confirmed"">
+        <Icon Name=""IconName.Check"" aria-label=""Confirmed"" />
+    </Tooltip>
+</Badge>
+<Badge Color=""Color.Danger"">
+    <Tooltip Text=""Cancelled"">
+        <Icon Name=""IconName.Times"" aria-label=""Cancelled"" />
+    </Tooltip>
+</Badge>";
+
+        public const string PillBadgeExample = @"<Badge Color=""Color.Primary"" Pill>Pending</Badge>
+<Badge Color=""Color.Success"" Pill>Confirmed</Badge>
+<Badge Color=""Color.Danger"" Pill>Denied</Badge>
+<Badge Color=""Color.Secondary"" Pill>On hold</Badge>";
+
         public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
      ThemeContrast=""ThemeContrast.Light"">
@@ -433,12 +449,17 @@ namespace Blazorise.Docs.Models
 </Buttons>";
 
         public const string ButtonUsageExample = @"<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Click me</Button>
-@code{
-    [Inject] INotificationService NotificationService { get; set; }
+<Span>
+    Clicked @counter times
+</Span>
+@code {
+    int counter;
 
     Task OnButtonClicked()
     {
-        return NotificationService.Info( ""Hello world!"" );
+        counter++;
+
+        return Task.CompletedTask;
     }
 }";
 
@@ -489,6 +510,10 @@ namespace Blazorise.Docs.Models
 <Button Color=""Color.Light"" Outline>Light</Button>
 <Button Color=""Color.Dark"" Outline>Dark</Button>
 <Button Outline>None</Button>";
+
+        public const string SizeButtonsExample = @"<Button Color=""Color.Primary"" Size=""Size.Large"">Large</Button>
+<Button Color=""Color.Primary"">Normal</Button>
+<Button Color=""Color.Primary"" Size=""Size.Small"">Small</Button>";
 
         public const string SubmitButtonExample = @"<Form>
     <Field Horizontal>
