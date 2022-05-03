@@ -10,6 +10,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  color: #1a81fa;
+}
+
 .b-top-bar {
   /*.navbar-brand {
       font-size: 1.25rem;
@@ -336,7 +340,7 @@ html, body * {
 
 .blazorise-codeblock {
   height: 100%;
-  background-color: #272C35;
+  background-color: #3f4d62;
   border-radius: 0 0 4px 4px;
   padding: 16px;
   font-size: 0.9rem;
@@ -360,10 +364,10 @@ html, body * {
   color: #979797;
 }
 .blazorise-codeblock .html .htmlElementName {
-  color: #FF8B9C;
+  color: #95c6ff;
 }
 .blazorise-codeblock .html .htmlAttributeName {
-  color: #c5a5c5;
+  color: #b9b2ff;
 }
 .blazorise-codeblock .html .htmlOperator, .blazorise-codeblock .html .quot {
   color: #c8c8c8;
@@ -376,7 +380,7 @@ html, body * {
   text-decoration: underline;
 }
 .blazorise-codeblock .html .enum {
-  color: #b4eb8f;
+  color: #8ce4c5;
   background-color: rgba(255, 255, 255, 0.15);
 }
 .blazorise-codeblock .html .enumValue, .blazorise-codeblock .html .sharpVariable {
@@ -389,17 +393,17 @@ html, body * {
 }
 .blazorise-codeblock .html .atSign {
   color: #000;
-  background-color: #b9b928;
+  background-color: #95c6ff;
 }
 .blazorise-codeblock .html .comment {
   color: #57a64a;
 }
 .blazorise-codeblock .csharp .atSign {
   color: #000;
-  background-color: #b9b928;
+  background-color: #95c6ff;
 }
 .blazorise-codeblock .csharp .keyword {
-  color: #c5a5c5;
+  color: #b9b2ff;
 }
 .blazorise-codeblock .csharp .string {
   color: #d69d85;
@@ -408,7 +412,7 @@ html, body * {
   color: #68B6F8;
 }
 .blazorise-codeblock .csharp .class {
-  color: #c5a5c5;
+  color: #b9b2ff;
 }
 .blazorise-codeblock .csharp .localVar {
   color: #FFC74C;
@@ -420,10 +424,14 @@ html, body * {
   color: #b0d7a3;
 }
 .blazorise-codeblock .csharp .enum {
-  color: #b4eb8f;
+  color: #8ce4c5;
 }
 .blazorise-codeblock .csharp .comment {
   color: #57a64a;
+}
+
+code {
+  color: #5748ff;
 }
 
 .b-news .b-news-content {

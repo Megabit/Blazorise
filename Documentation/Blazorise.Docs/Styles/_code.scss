@@ -1,6 +1,6 @@
 ﻿.blazorise-codeblock {
     height: 100%;
-    background-color: #272C35;
+    background-color: #3f4d62;
     border-radius: 0 0 4px 4px;
     padding: 16px;
     font-size: .9rem;
@@ -29,11 +29,11 @@
         }
 
         & .htmlElementName {
-            color: #FF8B9C;
+            color: #95c6ff;
         }
 
         & .htmlAttributeName {
-            color: #c5a5c5;
+            color: #b9b2ff;
         }
 
         & .htmlOperator, .quot {
@@ -50,7 +50,7 @@
         }
 
         & .enum {
-            color: #b4eb8f;
+            color: #8ce4c5;
             background-color: rgba(255,255,255,0.15);
         }
 
@@ -66,7 +66,7 @@
 
         & .atSign {
             color: #000;
-            background-color: #b9b928;
+            background-color: #95c6ff;
         }
 
         & .comment {
@@ -77,11 +77,11 @@
     & .csharp {
         & .atSign {
             color: #000;
-            background-color: #b9b928;
+            background-color: #95c6ff;
         }
 
         & .keyword {
-            color: #c5a5c5;
+            color: #b9b2ff;
         }
 
         & .string {
@@ -93,7 +93,7 @@
         }
 
         & .class {
-            color: #c5a5c5
+            color: #b9b2ff
         }
 
         & .localVar {
@@ -109,11 +109,15 @@
         }
 
         & .enum {
-            color: #b4eb8f;
+            color: #8ce4c5;
         }
 
         & .comment {
             color: #57a64a;
         }
     }
+}
+
+code {
+    color: #5748ff;
 }
