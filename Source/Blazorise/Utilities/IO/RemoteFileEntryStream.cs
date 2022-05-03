@@ -74,8 +74,7 @@ namespace Blazorise
                         readSegmentCts.CancelAfter( segmentFetchTimeout );
 
                         var length = (int)Math.Min( maxMessageSize, fileEntry.Size - position );
-                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, position, length, cancellationToken );
-                        var bytes = Convert.FromBase64String( base64 );
+                        var bytes = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, position, length, cancellationToken );
 
                         if ( bytes is null || bytes.Length != length )
                         {

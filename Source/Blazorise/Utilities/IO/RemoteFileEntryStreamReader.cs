@@ -41,8 +41,7 @@ namespace Blazorise
 
                     var length = Math.Min( maxMessageSize, FileEntry.Size - position );
 
-                    var base64 = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, position, length, cancellationToken );
-                    var buffer = Convert.FromBase64String( base64 );
+                    var buffer = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, position, length, cancellationToken );
 
                     if ( length != buffer.Length )
                     {
