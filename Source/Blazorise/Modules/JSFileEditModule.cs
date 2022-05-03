@@ -38,10 +38,6 @@ namespace Blazorise.Modules
             => InvokeVoidAsync( "destroy", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
-            => InvokeAsync<string>( "readFileData", elementRef, fileEntryId, position, length );
-
-        /// <inheritdoc/>
         public virtual ValueTask Reset( ElementReference elementRef, string elementId )
             =>InvokeVoidAsync( "reset", elementRef, elementId );
 

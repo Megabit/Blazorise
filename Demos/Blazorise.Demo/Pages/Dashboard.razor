@@ -4,6 +4,61 @@
 @using Blazorise.Extensions
 @inject IVersionProvider VersionProvider
 
+
+<FileEdit Changed="@OnChanged" Written="@OnWritten" Progressed="@OnProgressed" Ended="OnFinished" />
+
+@code{
+    const int OneMb = 1024 * 1024;
+
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            var file = e.Files.FirstOrDefault();
+            if ( file == null )
+            {
+                return;
+            }
+
+            var buffer = new byte[OneMb];
+            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            {
+                int readCount = 0;
+                int readBytes;
+                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
+                {
+                    Console.WriteLine( $"Read:{readCount++} {readBytes / (double)OneMb} MB" );
+                    // Do work on the first 1MB of data
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $"File: {e.File.Name} Position: {e.Position}" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $"File: {e.File.Name} Progress: {e.Percentage}" );
+    }
+
+    void OnFinished(FileEndedEventArgs e)
+    {
+        Console.WriteLine($"Ended! {e.Success}");
+    }
+}
+
+@*
 <Field Horizontal>
     <FieldBody>
         <FilePicker @ref=fileEdit
@@ -194,4 +249,4 @@
         }
         FileUploadProgressPercent = (int)e.Percentage;
     }
-}
+}*@

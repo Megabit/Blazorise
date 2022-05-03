@@ -36,6 +36,14 @@ namespace Blazorise.Modules
             return await moduleInstance.InvokeAsync<byte[]>( "readFileData", elementRef, fileEntryId, position, length );
         }
 
+        /// <inheritdoc/>
+        public virtual async ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default )
+        {
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<IJSStreamReference>( "readFileDataStream", elementRef, fileEntryId );
+        }
+
         #endregion
 
         #region Properties

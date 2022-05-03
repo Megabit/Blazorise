@@ -1,4 +1,9 @@
-﻿export function readFileData(element, fileEntryId, position, length) {
+﻿export async function readFileDataStream(elem, fileId) {
+    const file = getFileById(elem, fileId);
+    return file.blob;
+}
+
+export function readFileData(element, fileEntryId, position, length) {
     var readPromise = getArrayBufferFromFileAsync(element, fileEntryId);
 
     return readPromise.then(function (arrayBuffer) {
