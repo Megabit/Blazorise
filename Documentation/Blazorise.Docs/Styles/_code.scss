@@ -1,6 +1,6 @@
 ﻿.blazorise-codeblock {
     height: 100%;
-    background-color: #3f4d62;
+    background-color: #f5f8fd;
     border-radius: 0 0 4px 4px;
     padding: 16px;
     font-size: .9rem;
@@ -8,7 +8,7 @@
 
     & pre {
         height: 100%;
-        color: #ededed;
+        color: #3f4d62;
         padding: 0px;
         font-size: 1em;
         font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -29,19 +29,19 @@
         }
 
         & .htmlElementName {
-            color: #95c6ff;
+            color: #1a81fa;
         }
 
         & .htmlAttributeName {
-            color: #b9b2ff;
+            color: #ff3a49;
         }
 
         & .htmlOperator, .quot {
-            color: #c8c8c8;
+            color: #576b85;
         }
 
         & .htmlAttributeValue {
-            color: #ededed;
+            color: #1ba875;
         }
 
         & .htmlLink {
@@ -50,12 +50,12 @@
         }
 
         & .enum {
-            color: #8ce4c5;
+            color: #1ba875;
             background-color: rgba(255,255,255,0.15);
         }
 
         & .enumValue, .sharpVariable {
-            color: #ededed;
+            color: #6823d4;
             background-color: rgba(255,255,255,0.15);
         }
 
@@ -65,8 +65,8 @@
         }
 
         & .atSign {
-            color: #000;
-            background-color: #95c6ff;
+            color: #3f4d62;
+            background-color: #e8e8e8;
         }
 
         & .comment {
@@ -76,12 +76,12 @@
 
     & .csharp {
         & .atSign {
-            color: #000;
-            background-color: #95c6ff;
+            color: #3f4d62;
+            background-color: #e8e8e8;
         }
 
         & .keyword {
-            color: #b9b2ff;
+            color: #5748ff;
         }
 
         & .string {
@@ -93,7 +93,7 @@
         }
 
         & .class {
-            color: #b9b2ff
+            color: #ff3a49
         }
 
         & .localVar {
@@ -109,7 +109,7 @@
         }
 
         & .enum {
-            color: #8ce4c5;
+            color: #1ba875;
         }
 
         & .comment {
@@ -120,4 +120,6 @@
 
 code {
     color: #5748ff;
+    background-color: #f5f8fd;
+    padding: 0.25em 0.375em;
 }

@@ -242,6 +242,9 @@ html, body * {
 .docs-page-section-source .docs-page-section-source-code.docs-page-section-source-code-hide {
   display: none;
 }
+.docs-page-section-source .btn {
+  color: #576b85;
+}
 
 .b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
   padding: 0.3rem;
@@ -340,7 +343,7 @@ html, body * {
 
 .blazorise-codeblock {
   height: 100%;
-  background-color: #3f4d62;
+  background-color: #f5f8fd;
   border-radius: 0 0 4px 4px;
   padding: 16px;
   font-size: 0.9rem;
@@ -348,7 +351,7 @@ html, body * {
 }
 .blazorise-codeblock pre {
   height: 100%;
-  color: #ededed;
+  color: #3f4d62;
   padding: 0px;
   font-size: 1em;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -364,27 +367,27 @@ html, body * {
   color: #979797;
 }
 .blazorise-codeblock .html .htmlElementName {
-  color: #95c6ff;
+  color: #1a81fa;
 }
 .blazorise-codeblock .html .htmlAttributeName {
-  color: #b9b2ff;
+  color: #ff3a49;
 }
 .blazorise-codeblock .html .htmlOperator, .blazorise-codeblock .html .quot {
-  color: #c8c8c8;
+  color: #576b85;
 }
 .blazorise-codeblock .html .htmlAttributeValue {
-  color: #ededed;
+  color: #1ba875;
 }
 .blazorise-codeblock .html .htmlLink {
   color: #61afef;
   text-decoration: underline;
 }
 .blazorise-codeblock .html .enum {
-  color: #8ce4c5;
+  color: #1ba875;
   background-color: rgba(255, 255, 255, 0.15);
 }
 .blazorise-codeblock .html .enumValue, .blazorise-codeblock .html .sharpVariable {
-  color: #ededed;
+  color: #6823d4;
   background-color: rgba(255, 255, 255, 0.15);
 }
 .blazorise-codeblock .html .keyword {
@@ -392,18 +395,18 @@ html, body * {
   background-color: rgba(255, 255, 255, 0.15);
 }
 .blazorise-codeblock .html .atSign {
-  color: #000;
-  background-color: #95c6ff;
+  color: #3f4d62;
+  background-color: #e8e8e8;
 }
 .blazorise-codeblock .html .comment {
   color: #57a64a;
 }
 .blazorise-codeblock .csharp .atSign {
-  color: #000;
-  background-color: #95c6ff;
+  color: #3f4d62;
+  background-color: #e8e8e8;
 }
 .blazorise-codeblock .csharp .keyword {
-  color: #b9b2ff;
+  color: #5748ff;
 }
 .blazorise-codeblock .csharp .string {
   color: #d69d85;
@@ -412,7 +415,7 @@ html, body * {
   color: #68B6F8;
 }
 .blazorise-codeblock .csharp .class {
-  color: #b9b2ff;
+  color: #ff3a49;
 }
 .blazorise-codeblock .csharp .localVar {
   color: #FFC74C;
@@ -424,7 +427,7 @@ html, body * {
   color: #b0d7a3;
 }
 .blazorise-codeblock .csharp .enum {
-  color: #8ce4c5;
+  color: #1ba875;
 }
 .blazorise-codeblock .csharp .comment {
   color: #57a64a;
@@ -432,6 +435,8 @@ html, body * {
 
 code {
   color: #5748ff;
+  background-color: #f5f8fd;
+  padding: 0.25em 0.375em;
 }
 
 .b-news .b-news-content {
