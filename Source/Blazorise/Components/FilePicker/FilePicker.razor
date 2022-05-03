@@ -86,7 +86,7 @@
         }
         else
         {
-    <CloseButton disabled="@IsBusy()" Clicked="@(async () => await RemoveFile(file))" />
+    <CloseButton disabled="@IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFile(file))" />
     <Span Class="b-file-name">@file.Name</Span>
     <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
     @if (IsFileBeingUploaded(file))
