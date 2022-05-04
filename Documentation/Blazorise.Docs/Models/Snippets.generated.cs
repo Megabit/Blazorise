@@ -2919,6 +2919,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/tooltip.js"" type=""module""></script>
 <script src=""_content/Blazorise/utilities.js"" type=""module""></script>";
 
+        public const string ComponentsImportExample = @"@using Blazorise.Components";
+
         public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
