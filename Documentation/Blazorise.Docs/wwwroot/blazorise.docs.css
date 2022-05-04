@@ -182,6 +182,10 @@ html, body * {
   margin-bottom: 1.5rem;
 }
 
+.docs-page-unordered-list .docs-page-unordered-list-item {
+  margin-bottom: 0.5rem;
+}
+
 .docs-page-section {
   margin-bottom: 50px;
 }
