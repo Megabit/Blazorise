@@ -751,6 +751,14 @@ namespace Blazorise.Docs.Models
     };
 }";
 
+        public const string DatePickerFormatBestPracticeExample = @"<Field>
+    <FieldLabel>Start date</FieldLabel>
+    <FieldBody>
+        <DatePicker TValue=""DateTime?"" Placeholder=""DD/MM/YYYY"" />
+    </FieldBody>
+    <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
+</Field>";
+
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" />
