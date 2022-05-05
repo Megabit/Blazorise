@@ -448,6 +448,59 @@ namespace Blazorise.Docs.Models
     <Button Color=""Color.Secondary"">RIGHT</Button>
 </Buttons>";
 
+        public const string ButtonInDialogsBestPracticeExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>First name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""John"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>Last name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""Smith"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull"">
+        <FieldLabel>Email address</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""john.smith@example.com"" />
+        </FieldBody>
+    </Field>
+    <Field Flex=""Flex.JustifyContent.Between"">
+        <Button Color=""Color.Danger"">Delete</Button>
+        <Div>
+            <Button Color=""Color.Secondary"">Cancel</Button>
+            <Button Color=""Color.Primary"">Create account</Button>
+        </Div>
+    </Field>
+</Fields>";
+
+        public const string ButtonInFormBestPracticeExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>First name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""John"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>Last name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""Smith"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull"">
+        <FieldLabel>Email address</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""john.smith@example.com"" />
+        </FieldBody>
+    </Field>
+    <Field>
+        <Button Color=""Color.Primary"">Create account</Button>
+        <Button Color=""Color.Secondary"">Cancel</Button>
+    </Field>
+</Fields>";
+
         public const string ButtonUsageExample = @"<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Click me</Button>
 <Span>
     Clicked @counter times
