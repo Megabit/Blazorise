@@ -2758,7 +2758,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     ...
 </Validations>";
 
-        public const string BasicValidationExample = @"<Validation Validator=""@ValidateEmail"">
+        public const string BasicValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
+    <TextEdit Placeholder=""Enter name"">
+        <Feedback>
+            <ValidationNone>Please enter the name.</ValidationNone>
+            <ValidationSuccess>Name is good.</ValidationSuccess>
+            <ValidationError>Enter valid name!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+
+<Validation Validator=""ValidateEmail"">
     <TextEdit Placeholder=""Enter email"">
         <Feedback>
             <ValidationNone>Please enter the email.</ValidationNone>
