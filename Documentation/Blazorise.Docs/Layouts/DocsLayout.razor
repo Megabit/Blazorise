@@ -17,301 +17,138 @@
                     <BarStart>
                         <BarItem>
                             <BarLink To="docs">
-                                <BarIcon IconName="IconName.Home" />
-                                Overview
+                                <BarIcon IconName="IconName.Home" /> Overview
                             </BarLink>
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/start">
-                                <BarIcon IconName="IconName.Directions" />
-                                Start
+                                <BarIcon IconName="IconName.Directions" /> Start
                             </BarLink>
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/usage">
-                                <BarIcon IconName="IconName.BookReader" />
-                                Usage
+                                <BarIcon IconName="IconName.BookReader" /> Usage
                             </BarLink>
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/theming">
-                                <BarIcon IconName="IconName.Brush" />
-                                Theming
+                                <BarIcon IconName="IconName.Brush" /> Theming
                             </BarLink>
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.Wrench" />
-                                    Components
+                                    <BarIcon IconName="IconName.Wrench" /> Components
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/components/accordion">
-                                        Accordion
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/addon">
-                                        Addon
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/alert">
-                                        Alert
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/badge">
-                                        Badge
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/bar">
-                                        Bar
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/breadcrumb">
-                                        Breadcrumb
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/button">
-                                        Button
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/card">
-                                        Card
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/carousel">
-                                        Carousel
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/check">
-                                        Check
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/close-button">
-                                        Close Button
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color">
-                                        Color Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color-picker">
-                                        ColorPicker
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/date">
-                                        Date Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/date-picker">
-                                        Date Picker
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/divider">
-                                        Divider
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/dragdrop">
-                                        Drag & Drop
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/dropdown">
-                                        Dropdown
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/field">
-                                        Field
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/figure">
-                                        Figure
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/file">
-                                        File Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/grid">
-                                        Grid
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/jumbotron">
-                                        Jumbotron
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/layout">
-                                        Layout
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/link">
-                                        Link
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/list-group">
-                                        List Group
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/input-mask">
-                                        Mask
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/memo">
-                                        Memo Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/modal">
-                                        Modal
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/numeric">
-                                        Numeric Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/numeric-picker">
-                                        Numeric Picker
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/pagination">
-                                        Pagination
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/progress">
-                                        Progress
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/radio">
-                                        Radio
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/rating">
-                                        Rating
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/repeater">
-                                        Repeater
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/select">
-                                        Select
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/slider">
-                                        Slider
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/step">
-                                        Step
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/switch">
-                                        Switch
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/tab">
-                                        Tab
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/table">
-                                        Table
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/time">
-                                        Time Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/time-picker">
-                                        Time Picker
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/tooltip">
-                                        Tooltip
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/text">
-                                        Text Edit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/typography">
-                                        Typography
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/validation">
-                                        Validation
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/accordion">Accordion</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/addon">Addon</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/alert">Alert</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/badge">Badge</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/bar">Bar</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/breadcrumb">Breadcrumb</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/button">Button</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/card">Card</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/carousel">Carousel</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color">Color Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color-picker">ColorPicker</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/date">Date Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/date-picker">Date Picker</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/divider">Divider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/dragdrop">Drag & Drop</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/dropdown">Dropdown</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/field">Field</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/figure">Figure</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/file">File Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/grid">Grid</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/jumbotron">Jumbotron</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/layout">Layout</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/list-group">List Group</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/input-mask">Mask</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/memo">Memo Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/numeric">Numeric Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/progress">Progress</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/radio">Radio</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/slider">Slider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/step">Step</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/switch">Switch</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/tab">Tab</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/table">Table</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/time">Time Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/time-picker">Time Picker</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/tooltip">Tooltip</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/text">Text Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/typography">Typography</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/validation">Validation</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarExtensionsMenuVisible">
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.PuzzlePiece" />
-                                    Extensions
+                                    <BarIcon IconName="IconName.PuzzlePiece" /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/autocomplete">
-                                        Autocomplete
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Chart
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/chart">
-                                                Start Here
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-live">
-                                                Live Chart
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-trendline">
-                                                Trendline
-                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Datagrid
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle>Datagrid</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/getting-started">
-                                                Getting Started
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data">
-                                                Binding Data
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/selection">
-                                                Selection
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/validations">
-                                                Validations
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features">
-                                                Features
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates">
-                                                Templates
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/aggregates">
-                                                Aggregates
-                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data">Binding Data</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection">Selection</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features">Features</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates">Templates</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/extensions/dropdownlist">
-                                        DropdownList
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/dropdownlist">DropdownList</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Icons
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle>Icons</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/icons">
-                                                Usage
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/icons-available">
-                                                Available Icons
-                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/icons">Usage</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/extensions/list-view">
-                                        ListView
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/markdown">
-                                        Markdown
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/richtextedit">
-                                        RichTextEdit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/selectlist">
-                                        SelectList
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/sidebar">
-                                        Sidebar
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/snackbar">
-                                        Snackbar
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/spinkit">
-                                        SpinKit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/treeview">
-                                        TreeView
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/video">
-                                        Video
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/qrcode">
-                                        QRCode
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/list-view">ListView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/spinkit">SpinKit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarServicesMenuVisible">
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.Comment" />
-                                    Services
+                                    <BarIcon IconName="IconName.Comment" /> Services
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/services/message">
-                                        Messages
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/notification">
-                                        Notifications
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/page-progress">
-                                        Page Progress
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/message">Messages</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/notification">Notifications</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/page-progress">Page Progress</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -322,95 +159,44 @@
                                     Helpers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/helpers/colors">
-                                        Colors
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>
-                                            Enums
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle>Enums</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/helpers/enums/common">
-                                                Common
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/bar">
-                                                Bar
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/button">
-                                                Button
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/datagrid">
-                                                DataGrid
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/date">
-                                                Date
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/divider">
-                                                Divider
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/dropdown">
-                                                Dropdown
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/heading">
-                                                Heading
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/icon">
-                                                Icon
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/listgroup">
-                                                ListGroup
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/snackbar">
-                                                Snackbar
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/spinkit">
-                                                SpinKit
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/table">
-                                                Table
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/tabs">
-                                                Tabs
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/text">
-                                                Text
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/tooltip">
-                                                Tooltip
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/validation">
-                                                Validation
-                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/common">Common</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/bar">Bar</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/button">Button</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/datagrid">DataGrid</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/date">Date</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/divider">Divider</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/dropdown">Dropdown</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/heading">Heading</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/icon">Icon</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/listgroup">ListGroup</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/snackbar">Snackbar</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/spinkit">SpinKit</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/table">Table</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/tabs">Tabs</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/text">Text</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/tooltip">Tooltip</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/validation">Validation</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/helpers/localization">
-                                        Localization
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/position">
-                                        Position
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/sizes">
-                                        Sizes
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities">
-                                        Utilities
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/localization">Localization</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities">Utilities</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarMetaMenuVisible">
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.QuestionCircle" />
-                                    Meta
+                                    <BarIcon IconName="IconName.QuestionCircle" /> Meta
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/faq">
-                                        FAQ
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="https://commercial.blazorise.com/license" Target="Target.Blank">
-                                        License
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
+                                    <BarDropdownItem To="https://commercial.blazorise.com/license" Target="Target.Blank">License</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
