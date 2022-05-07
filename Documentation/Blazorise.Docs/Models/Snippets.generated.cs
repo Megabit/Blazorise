@@ -1278,6 +1278,66 @@ namespace Blazorise.Docs.Models
     </Column>
 </Row>";
 
+        public const string BasicHighlighterExample = @"<Field>
+    <FieldLabel>Search value</FieldLabel>
+    <FieldBody>
+        <TextEdit @bind-Text=""@searchValue"" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key=""sentence"">
+            <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" />
+        </ListGroupItem>
+    }
+</ListGroup>
+@code {
+    string searchValue = ""item"";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
+}";
+
+        public const string DynamicHighlighterExample = @"<Fields>
+    <Field>
+        <FieldLabel>Search value</FieldLabel>
+        <FieldBody>
+            <TextEdit @bind-Text=""@searchValue"" />
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Until Next Boundary</FieldLabel>
+        <FieldBody>
+            <Switch @bind-Checked=""@untilNextBoundary""></Switch>
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Case Sensitive</FieldLabel>
+        <FieldBody>
+            <Switch @bind-Checked=""@caseSensitive""></Switch>
+        </FieldBody>
+    </Field>
+</Fields>
+
+<Card>
+    <CardBody>
+        <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" UntilNextBoundary=""@untilNextBoundary"" CaseSensitive=""@caseSensitive"" />
+    </CardBody>
+</Card>
+@code {
+    string searchValue = ""y"";
+    bool untilNextBoundary;
+    bool caseSensitive;
+
+    string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
+}";
+
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
