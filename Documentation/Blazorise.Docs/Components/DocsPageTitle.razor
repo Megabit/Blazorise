@@ -1,6 +1,18 @@
-﻿<Heading ElementId="docs-page-title" Class="docs-page-title" Size="HeadingSize.Is1">
-    @ChildContent
-</Heading>
+﻿@if ( Display )
+{
+    <DisplayHeading ElementId="docs-page-title" Class="docs-page-title" Size="DisplayHeadingSize.Is1">
+        @ChildContent
+    </DisplayHeading>
+}
+else
+{
+    <Heading ElementId="docs-page-title" Class="docs-page-title" Size="HeadingSize.Is1">
+        @ChildContent
+    </Heading>
+}
+
 @code {
+    [Parameter] public bool Display { get; set; }
+
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

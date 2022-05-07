@@ -11,11 +11,15 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
-    Usage
+    Quick Setup
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    To install and use Page Progress service you only need to define one simple thing.
+</DocsPageParagraph>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Wrapper">
+    <DocsPageSectionHeader Title="Step 1. Define wrapper component">
         <Code>IPageProgressService</Code> is automatically registered by Blazorise but it needs just one thing on your
         side to make it work. You need to place <Code Tag>PageProgressAlert</Code> somewhere in your application razor code.
         It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in the following example.
@@ -23,8 +27,12 @@
     <DocsPageSectionSource Code="PageProgressServiceUsageExample" />
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic example">
+    <DocsPageSectionHeader Title="Basic">
         Once you’re done you can start using it by injecting the <Code>IPageProgressService</Code> in your page and then
         simple calling the built-in methods.
     </DocsPageSectionHeader>

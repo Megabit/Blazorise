@@ -13,15 +13,15 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code>Field</Code> the main container
+        <Code Tag>Field</Code> the main container
         <UnorderedList>
-            <UnorderedListItem><Code>FieldLabel</Code> a field label</UnorderedListItem>
-            <UnorderedListItem><Code>FieldBody</Code> used only for horizontal fields</UnorderedListItem>
-            <UnorderedListItem><Code>FieldHelp</Code> small text bellow the field</UnorderedListItem>
+            <UnorderedListItem><Code Tag>FieldLabel</Code> a field label</UnorderedListItem>
+            <UnorderedListItem><Code Tag>FieldBody</Code> used only for horizontal fields</UnorderedListItem>
+            <UnorderedListItem><Code Tag>FieldHelp</Code> small text bellow the field</UnorderedListItem>
         </UnorderedList>
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code>Fields</Code> container used to group several <Code>Field</Code> components
+        <Code Tag>Fields</Code> container used to group several <Code>Field</Code> components
     </UnorderedListItem>
 </UnorderedList>
 
@@ -45,7 +45,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With label">
+    <DocsPageSectionHeader Title="Label">
+        An input field should generally have a label for identifying it. Labels should be clear, concise, and written in sentence case. Avoid unclear and verbose language. Use <Code>FieldHelp</Code> to provide more guidance.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithLabelExample />
@@ -54,12 +55,41 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With help">
+    <DocsPageSectionHeader Title="Helper">
+        Helpers provide information when needed so that end users can fill in a form or field without errors. They are helpful, for example, when the field requires a specific format. Helpers typically consist of plain text but HTML and other components are also supported.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithHelpExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="FieldWithHelpExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Read-Only">
+        Set a field as read-only when the content needs to be accessible but not editable. Read-only elements cannot be edited, but they are in the tabbing order and can thus receive focus. The contents of a read-only input can be selected and copied.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldWithReadOnlyExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldWithReadOnlyExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabled">
+        <Paragraph>
+            Disable a field to mark it as unavailable. The disabled state is used for fields that are not editable and do not need to be readable. Disabled elements cannot be focused and may be inaccessible to assistive technologies like screen readers.
+        </Paragraph>
+        <Paragraph>
+            Disabling can be preferable to hiding an element to prevent changes in layout when the element’s visibility changes, and to make users aware of its existence even when currently unavailable.
+        </Paragraph>
+        <Paragraph>
+            If the user needs to be able to read (or copy) the value, use read-only instead.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldWithDisabledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldWithDisabledExample" />
 </DocsPageSection>
 
 <DocsPageSection>
