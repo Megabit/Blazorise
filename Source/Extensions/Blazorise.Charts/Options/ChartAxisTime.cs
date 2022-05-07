@@ -31,24 +31,24 @@ namespace Blazorise.Charts
         /// If defined, dates will be rounded to the start of this unit. See <see href="https://www.chartjs.org/docs/latest/axes/cartesian/time.html#time-units">Time Units</see> section below for details.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Round { get; set; } = false;
+        public object Round { get; set; }
 
         /// <summary>
         /// If defined, will force the unit to be a certain type. See <see href="https://www.chartjs.org/docs/latest/axes/cartesian/time.html#time-units">Time Units</see> section below for details.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Unit { get; set; } = false;
+        public object Unit { get; set; }
 
         /// <summary>
         /// The number of units between grid lines.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? StepSize { get; set; } = 1;
+        public int? StepSize { get; set; }
 
         /// <summary>
         /// The minimum display format to be used for a time unit.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string MinUnit { get; set; } = "millisecond";
+        public string MinUnit { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace Blazorise.Material
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
+            serviceCollection.AddSingleton<IBehaviourProvider, MaterialBehaviourProvider>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
             foreach ( var mapping in ComponentMap )

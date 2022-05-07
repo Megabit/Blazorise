@@ -421,6 +421,8 @@ namespace Blazorise.Bulma
 
         public override string DropdownGroup() => "field has-addons";
 
+        public override string DropdownObserverShow() => DropdownShow();
+
         public override string DropdownShow() => Active();
 
         public override string DropdownRight() => "is-right";

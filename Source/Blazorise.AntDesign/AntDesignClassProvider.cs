@@ -418,6 +418,8 @@ namespace Blazorise.AntDesign
 
         public override string DropdownGroup() => null;
 
+        public override string DropdownObserverShow() => DropdownMenuVisible( false );
+
         public override string DropdownShow() => null;
 
         public override string DropdownRight() => null;

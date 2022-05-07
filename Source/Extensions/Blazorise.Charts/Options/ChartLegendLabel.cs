@@ -13,13 +13,13 @@ namespace Blazorise.Charts
         /// Width of coloured box.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BoxWidth { get; set; } = 40;
+        public double? BoxWidth { get; set; }
 
         /// <summary>
         /// Height of the coloured box.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BoxHeight { get; set; } = 40;
+        public double? BoxHeight { get; set; }
 
         /// <summary>
         /// Color of label and the strikethrough.
@@ -38,24 +38,24 @@ namespace Blazorise.Charts
         /// Padding between rows of colored boxes.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Padding { get; set; } = 10;
+        public object Padding { get; set; }
 
         /// <summary>
         /// If specified, this style of point is used for the legend. Only used if usePointStyle is true.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; } = "circle";
+        public string PointStyle { get; set; }
 
         /// <summary>
         /// Horizontal alignment of the label text. Options are: 'left', 'right' or 'center'.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string TextAlign { get; set; } = "center";
+        public string TextAlign { get; set; }
 
         /// <summary>
         /// Label style will match corresponding point style (size is based on the minimum value between boxWidth and font.size).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? UsePointStyle { get; set; } = false;
+        public bool? UsePointStyle { get; set; }
     }
 }

@@ -10,19 +10,19 @@ namespace Blazorise.Charts
         /// Is the legend shown.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = true;
+        public bool? Display { get; set; }
 
         /// <summary>
         /// Position of the legend.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Position { get; set; } = "top";
+        public string Position { get; set; }
 
         /// <summary>
         /// Alignment of the legend.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Align { get; set; } = "center";
+        public string Align { get; set; }
 
         /// <summary>
         /// Maximum height of the legend, in pixels.
@@ -40,13 +40,13 @@ namespace Blazorise.Charts
         /// Marks that this box should take the full width/height of the canvas (moving other boxes). This is unlikely to need to be changed in day-to-day use.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? FullSize { get; set; } = true;
+        public bool? FullSize { get; set; }
 
         /// <summary>
         /// Legend will show datasets in reverse order.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Reverse { get; set; } = false;
+        public bool? Reverse { get; set; }
 
         /// <summary>
         /// Options to change legend labels.

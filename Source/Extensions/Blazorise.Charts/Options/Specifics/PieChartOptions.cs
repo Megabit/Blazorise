@@ -11,18 +11,18 @@ namespace Blazorise.Charts
         /// The percentage of the chart that is cut out of the middle.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? CutoutPercentage { get; set; } = 0;
+        public int? CutoutPercentage { get; set; }
 
         /// <summary>
         /// Starting angle to draw arcs from.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Rotation { get; set; } = -0.5 * Math.PI;
+        public double? Rotation { get; set; }
 
         /// <summary>
         /// Sweep to allow arcs to cover.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Circumference { get; set; } = 2 * Math.PI;
+        public double? Circumference { get; set; }
     }
 }

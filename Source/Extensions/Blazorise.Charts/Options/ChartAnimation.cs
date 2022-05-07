@@ -13,13 +13,13 @@ namespace Blazorise.Charts
         /// The number of milliseconds an animation takes.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Duration { get; set; } = 1000;
+        public int? Duration { get; set; }
 
         /// <summary>
         /// Easing function to use. <see href="https://www.chartjs.org/docs/latest/configuration/animations.html#easing">more...</see>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Easing { get; set; } = "easeOutQuart";
+        public string Easing { get; set; }
 
         /// <summary>
         /// Delay before starting the animations.

@@ -36,7 +36,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Imports">
-        In your main Imports.razor add:
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ChartImportsExample" />
 </DocsPageSection>
@@ -78,7 +78,14 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Complex Data">
-        We also support the usage complex-data as chart data. To represent the complex-data inside of the charts you need to define the <Code>Parsing</Code> options.
+        <Paragraph>
+            We also support the usage complex-type as chart data. To represent the complex-type inside of the charts you need to define the <Code>Parsing</Code> options.
+        </Paragraph>
+        <Alert Color="Color.Info" Visible>
+            Please be aware that according to the default <Badge Color="Color.Light">chart.js</Badge> library specifications, the category scale must be a <Code>string</Code> type. But if you still want to change it for example to an <Code>int</Code> type then you can define a <Code>"linear"</Code> scale on X axis.
+
+            Eg. <Code>LineChartOptions lineChartOptions = new() { Scales = new ChartScales { X = new ChartAxis { Type = "linear" } } };</Code>
+        </Alert>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ChartComplexDataExample />

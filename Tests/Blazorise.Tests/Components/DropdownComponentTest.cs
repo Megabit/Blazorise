@@ -27,13 +27,16 @@ namespace Blazorise.Tests.Components
             btnElement.Click();
 
             // validate
-            this.JSInterop.VerifyInvoke( "show" );
+            Assert.Contains( "show", drpElement.GetAttribute( "class" ) );
+            Assert.Contains( "show", mnuElement.GetAttribute( "class" ) );
 
             // test
             btnElement.Click();
 
             // validate
-            this.JSInterop.VerifyInvoke( "hide" );
+            this.JSInterop.VerifyInvoke( "registerClosableComponent" );
+            Assert.DoesNotContain( "show", drpElement.GetAttribute( "class" ) );
+            Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
         }
     }
 }

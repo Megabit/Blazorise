@@ -16,7 +16,7 @@ namespace Blazorise
     {
         #region Members
 
-        private Color color;
+        private Color color = Color.Default;
 
         private ValueDebouncer inputValueDebouncer;
 

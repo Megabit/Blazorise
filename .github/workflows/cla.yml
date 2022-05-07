@@ -21,9 +21,8 @@ jobs:
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63' # e.g. a CLA or a DCO document
           # branch should not be protected
-          branch: 'Blazorise'
+          branch: 'master'
           allowlist: David-Moreira,stsrki,bot*
-          remote-repository-name: CLA-Signatures
 
           #below are the optional inputs - If the optional inputs are not given, then default values will be taken
           #remote-organization-name: enter the remote organization name where the signatures should be stored (Default is storing the signatures in the same repository)
