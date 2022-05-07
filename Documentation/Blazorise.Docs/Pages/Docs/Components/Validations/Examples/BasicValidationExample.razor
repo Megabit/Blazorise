@@ -1,6 +1,16 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Validation Validator="@ValidateEmail">
+<Validation Validator="ValidationRule.IsNotEmpty">
+    <TextEdit Placeholder="Enter name">
+        <Feedback>
+            <ValidationNone>Please enter the name.</ValidationNone>
+            <ValidationSuccess>Name is good.</ValidationSuccess>
+            <ValidationError>Enter valid name!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+
+<Validation Validator="ValidateEmail">
     <TextEdit Placeholder="Enter email">
         <Feedback>
             <ValidationNone>Please enter the email.</ValidationNone>
