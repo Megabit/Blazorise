@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    Use Blazorise <Code Tag>Button</Code> component for actions in forms, dialogs, and more. Includes support for a handful of contextual variations, sizes, states, and more.
+    The Button component allows users to perform actions. It comes in several different style variants, and supports icons in addition to text labels.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -40,18 +40,22 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Colors">
-        To define button color use a <Code>Color</Code> attribute.
+        The following variants can be used to distinguish between actions of different importance in the UI:
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <ColorButtonsExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ColorButtonsExample" />
+</DocsPageSection>
 
-    <Alert Color="Color.Info">
-        <AlertMessage>
-            Note: To find the list of supported colors please look at the colors page.
-        </AlertMessage>
-    </Alert>
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Size Variants">
+        The following size variants are available for Button instances whose size needs to be different from the default:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <SizeButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SizeButtonsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -84,12 +88,30 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Disabled">
+        Buttons representing actions that are not currently available to the user should be either hidden or disabled. A disabled button is rendered as "dimmed", and is excluded from the focus order (such as when interactive UI elements are focused using the tab key).
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <DisabledButtonExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DisabledButtonExample" />
 </DocsPageSection>
+
+<Heading Size="HeadingSize.Is3">
+    Hidden vs Disabled
+</Heading>
+
+<DocsPageParagraph>
+    Hiding an unavailable action entirely is often preferable to a disabled button, as this reduces UI clutter. However, in certain situations this can be problematic:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        If the user expects a button to be present, such as at the end of a form, hiding the button can cause confusion, even if the form clearly indicates the presence of one or more invalid fields.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        As a hidden button does not occupy any space in the UI, toggling its visibility can cause unwanted changes in the layout of other elements.
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Loading">
@@ -139,6 +161,82 @@
         <SubmitButtonExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="SubmitButtonExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Button Labels
+</Heading>
+
+<DocsPageUnorderedList>
+    <DocsPageUnorderedListItem>
+        The label should describe the action, preferably using active verbs, such as "View details" rather than just "Details".
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        In cases of possible ambiguity, also specify the object of the verb, such as "Save changes" instead of "Save".
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        Button groups representing options, such as the buttons of a Confirm Dialog, should state what each option represents, such as "Save changes", instead of "Yes", as the latter forces the user to read the question being asked, and increases the risk of selecting the wrong option.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        Keep labels short, ideally less than three words or 25 characters.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        Use ellipsis (…) when an action is not immediate but requires more steps to complete. This is useful, for example, for destructive actions like "Delete…​" when a Confirm Dialog is used to confirm the action before it is executed.
+    </DocsPageUnorderedListItem>
+</DocsPageUnorderedList>
+
+<Heading Size="HeadingSize.Is3">
+    ARIA Labels
+</Heading>
+
+<DocsPageParagraph>
+    The <Code>aria-label</Code> attribute can be used to provide a separate label for accessibility technologies (AT) such as screen readers. This is important, for example, for icon-only buttons that lack a visible label.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Buttons with regular, visible labels can also benefit from separate <Code>aria-label</Code> to provide more context that may otherwise be difficult for the AT user to perceive.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Buttons in Forms
+</Heading>
+
+<DocsPageSection>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ButtonInFormBestPracticeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonInFormBestPracticeExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is3">
+    Buttons in Dialogs
+</Heading>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <DocsPageUnorderedList>
+            <DocsPageUnorderedListItem>
+                Buttons should be placed at the <Strong>bottom of the dialog</Strong>.
+            </DocsPageUnorderedListItem>
+            <DocsPageUnorderedListItem>
+                Buttons should be <Strong>aligned right</Strong>.
+            </DocsPageUnorderedListItem>
+            <DocsPageUnorderedListItem>
+                <Strong>Primary action last</Strong>, preceded by other actions.
+            </DocsPageUnorderedListItem>
+            <DocsPageUnorderedListItem>
+                <Strong>Dangerous actions</Strong> should be aligned left, to avoid accidental clicks, especially if no confirmation step is included.
+            </DocsPageUnorderedListItem>
+        </DocsPageUnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ButtonInDialogsBestPracticeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ButtonInDialogsBestPracticeExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

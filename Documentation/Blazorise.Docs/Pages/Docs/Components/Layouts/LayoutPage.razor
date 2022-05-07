@@ -7,7 +7,15 @@
 </DocsPageTitle>
 
 <DocsPageParagraph>
-    The <Code Tag>Layout</Code> is used to handling the overall layout of a page.
+    The <Code Tag>Layout</Code> is a component for building common application layouts.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The layout consists of four diferent sections: a horizontal navigation bar (LayoutHeader), a collapsible navigation sidebar (LayoutSider) and a content area (LayoutContent). An applicationss main navigation blocks should be positioned in the navbar and/or sidebar, whereas views are rendered in the content area.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Layout is responsive and adjusts automatically to fit desktop, tablet, and mobile screen sizes.
 </DocsPageParagraph>
 
 <UnorderedList>
@@ -49,16 +57,13 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With Sider">
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
-        <LayoutWithSiderStyledExample />
-    </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LayoutWithSiderExample" />
-</DocsPageSection>
-
-<DocsPageSection>
     <DocsPageSectionHeader Title="Sider with Header on top">
+        <Paragraph>
+            The <Code>LayoutHeader</Code> can be located on top or to the side of the drawer.
+        </Paragraph>
+        <Paragraph>
+            When put on top, the <Code>LayoutHeader</Code> is typically used as an application header. Application headers contain, for example, the application's name and branding, as well as actions that apply to the entire application, such as notifications, settings, etc.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <LayoutWithSiderAndTopHeaderStyledExample />
@@ -66,6 +71,15 @@
     <DocsPageSectionSource Code="LayoutWithSiderAndTopHeaderExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Sider">
+        When placed to the side, the <Code>LayoutHeader</Code> is often seen as a view header, housing the view's title, and actions and secondary navigation that relate only to the current view.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LayoutWithSiderStyledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LayoutWithSiderExample" />
+</DocsPageSection>
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
