@@ -15,12 +15,23 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader>
+    <DocsPageSectionHeader Title="Basic">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicHighlighterExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicHighlighterExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Boundaries">
+        If you wish to highlight the text until the next regex boundary occurs, set the <Code>UntilNextBoundary</Code> property to true, or the <Code>CaseSensitive</Code> property to true if you want a case-sensitive highlight.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DynamicHighlighterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DynamicHighlighterExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -36,6 +47,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CaseSensitive" Type="bool" Default="false">
         Whether or not the highlighted text is case sensitive.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NextBoundary" Type="string" Default=".*?\\b">
+        A regex expression used for searching the word boundaries.
     </DocsAttributesItem>
     <DocsAttributesItem Name="UntilNextBoundary" Type="bool" Default="false">
         If true, highlights the text until the next word boundary.

@@ -14,8 +14,6 @@ namespace Blazorise
     {
         #region Members
 
-        private const string NextBoundary = ".*?\\b";
-
         IEnumerable<string> fragments;
 
         #endregion
@@ -25,10 +23,10 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnParametersSet()
         {
-            fragments = GetFragments( Text, HighlightedText, CaseSensitive, UntilNextBoundary );
+            fragments = GetFragments( Text, HighlightedText, CaseSensitive, UntilNextBoundary, NextBoundary );
         }
 
-        private static IEnumerable<string> GetFragments( string text, string highlightedText, bool caseSensitive = false, bool untilNextBoundary = false )
+        private static IEnumerable<string> GetFragments( string text, string highlightedText, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null )
         {
             if ( string.IsNullOrWhiteSpace( text ) )
             {
@@ -44,7 +42,7 @@ namespace Blazorise
 
             if ( untilNextBoundary )
             {
-                highlightedText += NextBoundary;
+                highlightedText += nextBoundary;
             }
 
             return Regex
@@ -70,6 +68,11 @@ namespace Blazorise
         /// Whether or not the search term will be case sensitive.
         /// </summary>
         [Parameter] public bool CaseSensitive { get; set; }
+
+        /// <summary>
+        /// A regex expression used for searching the word boundaries.
+        /// </summary>
+        [Parameter] public string NextBoundary { get; set; } = ".*?\\b";
 
         /// <summary>
         /// If true, highlights the text until the next word boundary.
