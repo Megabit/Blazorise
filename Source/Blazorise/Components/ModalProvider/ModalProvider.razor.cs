@@ -13,7 +13,6 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-
     /// <summary>
     /// A modal provider to be set at the root of your app, providing a programmatic way to invoke modals with custom content by using ModalService.
     /// </summary>
@@ -116,7 +115,6 @@ namespace Blazorise
         /// Global Option.
         /// </summary>
         [Parameter] public EventCallback Opened { get; set; }
-
 
         /// <summary>
         /// Occurs after the modal has closed.

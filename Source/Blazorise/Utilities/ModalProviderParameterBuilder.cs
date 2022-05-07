@@ -34,6 +34,5 @@ namespace Blazorise
             Parameters ??= new();
             Parameters.Add( name, value );
         }
-
     }
 }

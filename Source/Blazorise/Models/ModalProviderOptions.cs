@@ -1,9 +1,8 @@
 ﻿#region Using directives
-#endregion
-
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise
 {
@@ -12,7 +11,6 @@ namespace Blazorise
     /// </summary>
     public class ModalProviderOptions : ModalProviderBaseAttributes
     {
-
         /// <summary>
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
         /// Defaults to true.
@@ -68,6 +66,5 @@ namespace Blazorise
         /// Defines if the modal should keep the input focus at all times.
         /// </summary>
         public bool? FocusTrap { get; set; }
-
     }
 }

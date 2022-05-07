@@ -74,7 +74,6 @@ namespace Blazorise
         /// </summary>
         public virtual IFluentFlex Flex { get; set; }
 
-
         /// <summary>
         /// Specifies the border of an element.
         /// </summary>
@@ -137,24 +136,21 @@ namespace Blazorise
         /// </remarks>
         public virtual bool Centered { get; set; }
 
-
         /// <summary>
         /// Scrolls the modal content independent of the page itself.
         /// </summary>
         /// <remarks>
-        /// Only considered if UseModalStructure is set.
+        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
         /// </remarks>
         public virtual bool Scrollable { get; set; }
-
 
         /// <summary>
         /// Changes the size of the modal.
         /// </summary>
         /// <remarks>
-        /// Only considered if UseModalStructure is set.
+        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
         /// </remarks>
         public virtual ModalSize Size { get; set; }
-
     }
 
 }

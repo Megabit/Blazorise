@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-
     /// <summary>
     /// Generates a new instance of a Modal
     /// </summary>
     public class ModalInstance : ModalProviderBaseAttributes
     {
-
         /// <summary>
         /// Gets or sets the unique id of the modal instance
         /// </summary>
@@ -198,14 +196,10 @@ namespace Blazorise
         /// <inheritdoc/>
         public override bool Centered => ModalProviderOptions?.Centered ?? ModalProvider.Centered;
 
-
         /// <inheritdoc/>
         public override bool Scrollable => ModalProviderOptions?.Scrollable ?? ModalProvider.Scrollable;
 
-
         /// <inheritdoc/>
         public override ModalSize Size => ModalProviderOptions?.Size ?? ModalProvider.Size;
-
     }
-
 }
