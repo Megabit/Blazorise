@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Base class for all DOM based components.
     /// </summary>
-    public abstract class BaseComponent : BaseAfterRenderComponent
+    public abstract class BaseComponent : BaseAfterRenderComponent, IDomComponent
     {
         #region Members
 
@@ -147,7 +147,7 @@ namespace Blazorise
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
-            { 
+            {
                 ClassBuilder = null;
                 StyleBuilder = null;
             }
@@ -296,13 +296,7 @@ namespace Blazorise
         /// </summary>
         public ElementReference ElementRef { get; set; }
 
-        /// <summary>
-        /// Gets or sets the unique id of the element.
-        /// </summary>
-        /// <remarks>
-        /// Note that this ID is not defined for the component but instead for the underlined element that it represents.
-        /// eg: for the TextEdit the ID will be set on the input element.
-        /// </remarks>
+        /// <inheritdoc/>
         [Parameter] public string ElementId { get; set; }
 
         /// <summary>
@@ -350,9 +344,7 @@ namespace Blazorise
         [Inject]
         protected IStyleProvider StyleProvider { get; set; }
 
-        /// <summary>
-        /// Custom css classname.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public string Class
         {
@@ -365,9 +357,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Custom html style.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public string Style
         {
@@ -380,9 +370,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Floats an element to the defined side.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public Float Float
         {
@@ -395,9 +383,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Fixes an element's floating children.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public bool Clearfix
         {
@@ -410,9 +396,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Controls the visibility, without modifying the display, of elements with visibility utilities.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public Visibility Visibility
         {
@@ -425,9 +409,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Defined the sizing for the element width attribute(s).
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentSizing Width
         {
@@ -440,9 +422,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Defined the sizing for the element height attribute(s).
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentSizing Height
         {
@@ -455,9 +435,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Defines the element margin spacing.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentSpacing Margin
         {
@@ -470,9 +448,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Defines the element padding spacing.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentSpacing Padding
         {
@@ -485,9 +461,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Specifies the display behavior of an element.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentDisplay Display
         {
@@ -500,9 +474,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Specifies the border of an element.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentBorder Border
         {
@@ -515,9 +487,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Specifies flexbox properties of an element.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentFlex Flex
         {
@@ -530,9 +500,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// The position property specifies the type of positioning method used for an element (static, relative, fixed, absolute or sticky).
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentPosition Position
         {
@@ -545,9 +513,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// The overflow property controls what happens to content that is too big to fit into an area.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public IFluentOverflow Overflow
         {
@@ -560,9 +526,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Changes the character casing of a element.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public CharacterCasing Casing
         {
@@ -575,9 +539,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text color.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public TextColor TextColor
         {
@@ -590,9 +552,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text alignment.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public TextAlignment TextAlignment
         {
@@ -605,24 +565,18 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text transformation.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public TextTransform TextTransform
         {
-            get => textTransform;
-            set
+            get => textTransform; set
             {
                 textTransform = value;
-
                 DirtyClasses();
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text weight.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public TextWeight TextWeight
         {
@@ -635,9 +589,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Determines how the text will behave when it is larger than a parent container.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public TextOverflow TextOverflow
         {
@@ -650,9 +602,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Changes the vertical alignment of inline, inline-block, inline-table, and table cell elements.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public VerticalAlignment VerticalAlignment
         {
@@ -665,9 +615,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Gets or sets the component background color.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public Background Background
         {
@@ -680,9 +628,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Gets or sets the component shadow box.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter]
         public Shadow Shadow
         {
@@ -695,9 +641,7 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Captures all the custom attribute that are not part of Blazorise component.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
