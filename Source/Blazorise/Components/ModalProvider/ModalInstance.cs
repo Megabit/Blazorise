@@ -10,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// Generates a new instance of a Modal
     /// </summary>
-    public class ModalInstance : ModalProviderBaseAttributes
+    public class ModalInstance : BaseModalInstance
     {
         /// <summary>
         /// Gets or sets the unique id of the modal instance

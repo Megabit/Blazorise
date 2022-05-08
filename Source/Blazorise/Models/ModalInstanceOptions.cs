@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Sets the options for Modal instance.
     /// </summary>
-    public class ModalInstanceOptions : ModalProviderBaseAttributes
+    public class ModalInstanceOptions : BaseModalInstance
     {
         /// <summary>
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 namespace Blazorise
 {
     /// <summary>
-    /// Shared Attributes for Modal Provider modal instances
+    /// Shared attributes for <see cref="ModalProvider"/> modal instances.
     /// </summary>
-    public abstract class ModalProviderBaseAttributes
+    public abstract class BaseModalInstance
     {
         /// <summary>
         /// All the custom attribute that are not part of Blazorise component.
