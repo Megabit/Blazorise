@@ -140,7 +140,7 @@ namespace Blazorise
         /// Scrolls the modal content independent of the page itself.
         /// </summary>
         /// <remarks>
-        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
+        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
         /// </remarks>
         public virtual bool Scrollable { get; set; }
 
@@ -148,7 +148,7 @@ namespace Blazorise
         /// Changes the size of the modal.
         /// </summary>
         /// <remarks>
-        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
+        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
         /// </remarks>
         public virtual ModalSize Size { get; set; }
     }

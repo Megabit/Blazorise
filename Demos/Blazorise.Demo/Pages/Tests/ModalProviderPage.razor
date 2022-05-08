@@ -68,33 +68,33 @@
     public Task ShowCounter()
     {
         Random random = new();
-        var newValue = random.NextInt64(100);
-        return ModalService.Show<Counter>("My Custom Content!", x => x.Add(x => x.Value, newValue));
+        var newValue = random.NextInt64( 100 );
+        return ModalService.Show<Counter>( "My Custom Content!", x => x.Add( x => x.Value, newValue ) );
     }
 
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
-        return ModalService.Show<FormularyModal>(x =>
+        return ModalService.Show<FormularyModal>( x =>
         {
-            x.Add(x => x.OnValidate, FormularyValidate);
-            x.Add(x => x.OnSuccess, FormularySuccess);
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
         },
-        new ModalProviderOptions()
+        new ModalInstanceOptions()
             {
                 UseModalStructure = false
-            });
+            } );
     }
 
-    private Task<bool> FormularyValidate(Employee employee)
-        => Task.FromResult(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.Email));
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
 
-    private Task FormularySuccess(Employee employee)
+    private Task FormularySuccess( Employee employee )
     {
         formularyMessage = $"Employee : {employee.FirstName} saved successfully!";
-        return InvokeAsync(StateHasChanged);
+        return InvokeAsync( StateHasChanged );
     }
 
     private Task ShowModalWithinModal()
-        => ModalService.Show<ModalProviderPage>($"Modal #{componentId} Example", new ModalProviderOptions() {  Size = ModalSize.Large  });
+        => ModalService.Show<ModalProviderPage>( $"Modal #{componentId} Example", new ModalInstanceOptions() { Size = ModalSize.Large } );
 }

@@ -34,11 +34,11 @@ namespace Blazorise
             return base.OnInitializedAsync();
         }
 
-        internal async Task<ModalInstance> Show( string title, RenderFragment childContent, ModalProviderOptions modalProviderOptions )
+        internal async Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
         {
             modalInstances ??= new();
 
-            var newModalInstance = new ModalInstance( this, IdGenerator.Generate, title, childContent, modalProviderOptions );
+            var newModalInstance = new ModalInstance( this, IdGenerator.Generate, title, childContent, modalInstanceOptions );
             modalInstances.Add( newModalInstance );
 
             await InvokeAsync( StateHasChanged );
@@ -149,7 +149,7 @@ namespace Blazorise
         /// Centers the modal vertically.
         /// </summary>
         /// <remarks>
-        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
+        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
         /// </remarks>
         [Parameter] public bool Centered { get; set; }
 
@@ -157,7 +157,7 @@ namespace Blazorise
         /// Scrolls the modal content independent of the page itself.
         /// </summary>
         /// <remarks>
-        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
+        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
         /// </remarks>
         [Parameter] public bool Scrollable { get; set; }
 
@@ -165,7 +165,7 @@ namespace Blazorise
         /// Changes the size of the modal.
         /// </summary>
         /// <remarks>
-        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
+        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
         /// </remarks>
         [Parameter] public ModalSize Size { get; set; }
 
