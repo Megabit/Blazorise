@@ -10,37 +10,17 @@ namespace Blazorise
     /// <summary>
     /// Sets the options for Modal instance.
     /// </summary>
-    public class ModalInstanceOptions : IModalInstance
+    public class ModalInstanceOptions
     {
+        #region Properties
+
         /// <summary>
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
         /// Defaults to true.
         /// </summary>
         public bool? UseModalStructure { get; set; }
 
-        /// <summary>
-        /// Centers the modal vertically.
-        /// </summary>
-        /// <remarks>
-        /// Only considered if UseModalStructure is set.
-        /// </remarks>
-        public virtual bool Centered { get; set; }
-
-        /// <summary>
-        /// Scrolls the modal content independent of the page itself.
-        /// </summary>
-        /// <remarks>
-        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
-        /// </remarks>
-        public virtual bool Scrollable { get; set; }
-
-        /// <summary>
-        /// Changes the size of the modal.
-        /// </summary>
-        /// <remarks>
-        /// Only considered if <see cref="ModalInstanceOptions.UseModalStructure"/> is set.
-        /// </remarks>
-        public virtual ModalSize Size { get; set; }
+        #region Modal
 
         /// <summary>
         /// If true modal will scroll to top when opened.
@@ -169,5 +149,37 @@ namespace Blazorise
 
         /// <inheritdoc/>
         public Dictionary<string, object> Attributes { get; set; }
+
+        #endregion
+
+        #region ModalContent
+
+        /// <summary>
+        /// Centers the modal content vertically.
+        /// </summary>
+        /// <remarks>
+        /// Only considered if <see cref="UseModalStructure"/> is set.
+        /// </remarks>
+        public bool? Centered { get; set; }
+
+        /// <summary>
+        /// Scrolls the modal content independent of the page itself.
+        /// </summary>
+        /// <remarks>
+        /// Only considered if <see cref="UseModalStructure"/> is set.
+        /// </remarks>
+        public bool? Scrollable { get; set; }
+
+        /// <summary>
+        /// Changes the size of the modal content.
+        /// </summary>
+        /// <remarks>
+        /// Only considered if <see cref="UseModalStructure"/> is set.
+        /// </remarks>
+        public ModalSize? Size { get; set; }
+
+        #endregion
+
+        #endregion
     }
 }

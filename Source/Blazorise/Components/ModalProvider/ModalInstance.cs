@@ -12,30 +12,7 @@ namespace Blazorise
     /// </summary>
     public class ModalInstance
     {
-        /// <summary>
-        /// Tracks the Modal Reference.
-        /// </summary>
-        public Modal ModalRef { get; set; }
-
-        /// <summary>
-        /// The Modal Provider
-        /// </summary>
-        public ModalProvider ModalProvider { get; private set; }
-
-        /// <summary>
-        /// Child Content to be rendered
-        /// </summary>
-        public RenderFragment ChildContent { get; private set; }
-
-        /// <summary>
-        /// Modal's Header Title
-        /// </summary>
-        public string Title { get; private set; }
-
-        /// <summary>
-        /// Control's the Modal Visibility
-        /// </summary>
-        public bool Visible { get; set; }
+        #region Constructors
 
         /// <summary>
         /// A default <see cref="ModalInstance"/> constructor.
@@ -47,7 +24,7 @@ namespace Blazorise
         /// <param name="modalInstanceOptions">Modal options.</param>
         public ModalInstance( ModalProvider modalProvider, string id, string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
         {
-            ElementId = id;
+            ModalId = id;
             ModalProvider = modalProvider;
             Title = title;
             ChildContent = childContent;
@@ -55,13 +32,52 @@ namespace Blazorise
             Visible = true;
         }
 
-        /// <summary>
-        /// Sets the options for Modal Provider
-        /// </summary>
-        public ModalInstanceOptions ModalInstanceOptions;
+        #endregion
 
-        /// <inheritdoc/>
-        public string ElementId { get; set; }
+        #region Properties
+
+        /// <summary>
+        /// Tracks the Modal reference.
+        /// </summary>
+        public Modal ModalRef { get; set; }
+
+        /// <summary>
+        /// Tracks the Modal id.
+        /// </summary>
+        public string ModalId { get; set; }
+
+        /// <summary>
+        /// Control's the Modal visibility.
+        /// </summary>
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// The Modal Provider
+        /// </summary>
+        public ModalProvider ModalProvider { get; private set; }
+
+        /// <summary>
+        /// Child content to be rendered.
+        /// </summary>
+        public RenderFragment ChildContent { get; private set; }
+
+        /// <summary>
+        /// Modal's Header Title.
+        /// </summary>
+        public string Title { get; private set; }
+
+        /// <summary>
+        /// Sets the options for Modal Provider.
+        /// </summary>
+        public ModalInstanceOptions ModalInstanceOptions { get; private set; }
+
+        /// <summary>
+        /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+        /// Defaults to true.
+        /// </summary>
+        public bool UseModalStructure => ModalInstanceOptions?.UseModalStructure ?? ModalProvider.UseModalStructure;
+
+        #region Modal
 
         /// <inheritdoc/>
         public Dictionary<string, object> Attributes => ModalInstanceOptions?.Attributes ?? ModalProvider.Attributes;
@@ -135,21 +151,6 @@ namespace Blazorise
         /// <inheritdoc/>
         public string Class => ModalInstanceOptions?.Class ?? ModalProvider.Class;
 
-        /// <inheritdoc/>
-        public bool Centered => ModalInstanceOptions?.Centered ?? ModalProvider.Centered;
-
-        /// <inheritdoc/>
-        public bool Scrollable => ModalInstanceOptions?.Scrollable ?? ModalProvider.Scrollable;
-
-        /// <inheritdoc/>
-        public ModalSize Size => ModalInstanceOptions?.Size ?? ModalProvider.Size;
-
-        /// <summary>
-        /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
-        /// Defaults to true.
-        /// </summary>
-        public bool UseModalStructure => ModalInstanceOptions?.UseModalStructure ?? ModalProvider.UseModalStructure;
-
         /// <summary>
         /// If true modal will scroll to top when opened.
         /// </summary>
@@ -199,5 +200,22 @@ namespace Blazorise
         /// Defines if the modal should keep the input focus at all times.
         /// </summary>
         public bool? FocusTrap => ModalInstanceOptions?.FocusTrap ?? ModalProvider.FocusTrap;
+
+        #endregion
+
+        #region ModalContent
+
+        /// <inheritdoc/>
+        public bool Centered => ModalInstanceOptions?.Centered ?? ModalProvider.Centered;
+
+        /// <inheritdoc/>
+        public bool Scrollable => ModalInstanceOptions?.Scrollable ?? ModalProvider.Scrollable;
+
+        /// <inheritdoc/>
+        public ModalSize Size => ModalInstanceOptions?.Size ?? ModalProvider.Size;
+
+        #endregion
+
+        #endregion
     }
 }
