@@ -11,7 +11,6 @@ namespace Blazorise
     /// </summary>
     public interface IModalService
     {
-
         /// <summary>
         /// Required Modal Provider that manages the instantiation of modals with custom content.
         /// </summary>

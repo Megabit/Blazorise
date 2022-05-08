@@ -10,15 +10,10 @@ namespace Blazorise
     /// <summary>
     /// Generates a new instance of a Modal
     /// </summary>
-    public class ModalInstance : BaseModalInstance
+    public class ModalInstance
     {
         /// <summary>
-        /// Gets or sets the unique id of the modal instance
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Tracks the Modal Reference
+        /// Tracks the Modal Reference.
         /// </summary>
         public Modal ModalRef { get; set; }
 
@@ -52,7 +47,7 @@ namespace Blazorise
         /// <param name="modalInstanceOptions">Modal options.</param>
         public ModalInstance( ModalProvider modalProvider, string id, string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
         {
-            Id = id;
+            ElementId = id;
             ModalProvider = modalProvider;
             Title = title;
             ChildContent = childContent;
@@ -64,6 +59,90 @@ namespace Blazorise
         /// Sets the options for Modal Provider
         /// </summary>
         public ModalInstanceOptions ModalInstanceOptions;
+
+        /// <inheritdoc/>
+        public string ElementId { get; set; }
+
+        /// <inheritdoc/>
+        public Dictionary<string, object> Attributes => ModalInstanceOptions?.Attributes ?? ModalProvider.Attributes;
+
+        /// <inheritdoc/>
+        public Shadow Shadow => ModalInstanceOptions?.Shadow ?? ModalProvider.Shadow;
+
+        /// <inheritdoc/>
+        public Background Background => ModalInstanceOptions?.Background ?? ModalProvider.Background;
+
+        /// <inheritdoc/>
+        public VerticalAlignment VerticalAlignment => ModalInstanceOptions?.VerticalAlignment ?? ModalProvider.VerticalAlignment;
+
+        /// <inheritdoc/>
+        public TextOverflow TextOverflow => ModalInstanceOptions?.TextOverflow ?? ModalProvider.TextOverflow;
+
+        /// <inheritdoc/>
+        public TextWeight TextWeight => ModalInstanceOptions?.TextWeight ?? ModalProvider.TextWeight;
+
+        /// <inheritdoc/>
+        public TextTransform TextTransform => ModalInstanceOptions?.TextTransform ?? ModalProvider.TextTransform;
+
+        /// <inheritdoc/>
+        public TextAlignment TextAlignment => ModalInstanceOptions?.TextAlignment ?? ModalProvider.TextAlignment;
+
+        /// <inheritdoc/>
+        public TextColor TextColor => ModalInstanceOptions?.TextColor ?? ModalProvider.TextColor;
+
+        /// <inheritdoc/>
+        public CharacterCasing Casing => ModalInstanceOptions?.Casing ?? ModalProvider.Casing;
+
+        /// <inheritdoc/>
+        public IFluentOverflow Overflow => ModalInstanceOptions?.Overflow ?? ModalProvider.Overflow;
+
+        /// <inheritdoc/>
+        public IFluentPosition Position => ModalInstanceOptions?.Position ?? ModalProvider.Position;
+
+        /// <inheritdoc/>
+        public IFluentFlex Flex => ModalInstanceOptions?.Flex ?? ModalProvider.Flex;
+
+        /// <inheritdoc/>
+        public IFluentBorder Border => ModalInstanceOptions?.Border ?? ModalProvider.Border;
+
+        /// <inheritdoc/>
+        public IFluentDisplay Display => ModalInstanceOptions?.Display ?? ModalProvider.Display;
+
+        /// <inheritdoc/>
+        public IFluentSpacing Padding => ModalInstanceOptions?.Padding ?? ModalProvider.Padding;
+
+        /// <inheritdoc/>
+        public IFluentSpacing Margin => ModalInstanceOptions?.Margin ?? ModalProvider.Margin;
+
+        /// <inheritdoc/>
+        public IFluentSizing Height => ModalInstanceOptions?.Height ?? ModalProvider.Height;
+
+        /// <inheritdoc/>
+        public IFluentSizing Width => ModalInstanceOptions?.Width ?? ModalProvider.Width;
+
+        /// <inheritdoc/>
+        public Visibility Visibility => ModalInstanceOptions?.Visibility ?? ModalProvider.Visibility;
+
+        /// <inheritdoc/>
+        public bool Clearfix => ModalInstanceOptions?.Clearfix ?? ModalProvider.Clearfix;
+
+        /// <inheritdoc/>
+        public Float Float => ModalInstanceOptions?.Float ?? ModalProvider.Float;
+
+        /// <inheritdoc/>
+        public string Style => ModalInstanceOptions?.Style ?? ModalProvider.Style;
+
+        /// <inheritdoc/>
+        public string Class => ModalInstanceOptions?.Class ?? ModalProvider.Class;
+
+        /// <inheritdoc/>
+        public bool Centered => ModalInstanceOptions?.Centered ?? ModalProvider.Centered;
+
+        /// <inheritdoc/>
+        public bool Scrollable => ModalInstanceOptions?.Scrollable ?? ModalProvider.Scrollable;
+
+        /// <inheritdoc/>
+        public ModalSize Size => ModalInstanceOptions?.Size ?? ModalProvider.Size;
 
         /// <summary>
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
@@ -120,86 +199,5 @@ namespace Blazorise
         /// Defines if the modal should keep the input focus at all times.
         /// </summary>
         public bool? FocusTrap => ModalInstanceOptions?.FocusTrap ?? ModalProvider.FocusTrap;
-
-        /// <inheritdoc/>
-        public override Dictionary<string, object> Attributes => ModalInstanceOptions?.Attributes ?? ModalProvider.Attributes;
-
-        /// <inheritdoc/>
-        public override Shadow Shadow => ModalInstanceOptions?.Shadow ?? ModalProvider.Shadow;
-
-        /// <inheritdoc/>
-        public override Background Background => ModalInstanceOptions?.Background ?? ModalProvider.Background;
-
-        /// <inheritdoc/>
-        public override VerticalAlignment VerticalAlignment => ModalInstanceOptions?.VerticalAlignment ?? ModalProvider.VerticalAlignment;
-
-        /// <inheritdoc/>
-        public override TextOverflow TextOverflow => ModalInstanceOptions?.TextOverflow ?? ModalProvider.TextOverflow;
-
-        /// <inheritdoc/>
-        public override TextWeight TextWeight => ModalInstanceOptions?.TextWeight ?? ModalProvider.TextWeight;
-
-        /// <inheritdoc/>
-        public override TextTransform TextTransform => ModalInstanceOptions?.TextTransform ?? ModalProvider.TextTransform;
-
-        /// <inheritdoc/>
-        public override TextAlignment TextAlignment => ModalInstanceOptions?.TextAlignment ?? ModalProvider.TextAlignment;
-
-        /// <inheritdoc/>
-        public override TextColor TextColor => ModalInstanceOptions?.TextColor ?? ModalProvider.TextColor;
-
-        /// <inheritdoc/>
-        public override CharacterCasing Casing => ModalInstanceOptions?.Casing ?? ModalProvider.Casing;
-
-        /// <inheritdoc/>
-        public override IFluentOverflow Overflow => ModalInstanceOptions?.Overflow ?? ModalProvider.Overflow;
-
-        /// <inheritdoc/>
-        public override IFluentPosition Position => ModalInstanceOptions?.Position ?? ModalProvider.Position;
-
-        /// <inheritdoc/>
-        public override IFluentFlex Flex => ModalInstanceOptions?.Flex ?? ModalProvider.Flex;
-
-        /// <inheritdoc/>
-        public override IFluentBorder Border => ModalInstanceOptions?.Border ?? ModalProvider.Border;
-
-        /// <inheritdoc/>
-        public override IFluentDisplay Display => ModalInstanceOptions?.Display ?? ModalProvider.Display;
-
-        /// <inheritdoc/>
-        public override IFluentSpacing Padding => ModalInstanceOptions?.Padding ?? ModalProvider.Padding;
-
-        /// <inheritdoc/>
-        public override IFluentSpacing Margin => ModalInstanceOptions?.Margin ?? ModalProvider.Margin;
-
-        /// <inheritdoc/>
-        public override IFluentSizing Height => ModalInstanceOptions?.Height ?? ModalProvider.Height;
-
-        /// <inheritdoc/>
-        public override IFluentSizing Width => ModalInstanceOptions?.Width ?? ModalProvider.Width;
-
-        /// <inheritdoc/>
-        public override Visibility Visibility => ModalInstanceOptions?.Visibility ?? ModalProvider.Visibility;
-
-        /// <inheritdoc/>
-        public override bool Clearfix => ModalInstanceOptions?.Clearfix ?? ModalProvider.Clearfix;
-
-        /// <inheritdoc/>
-        public override Float Float => ModalInstanceOptions?.Float ?? ModalProvider.Float;
-
-        /// <inheritdoc/>
-        public override string Style => ModalInstanceOptions?.Style ?? ModalProvider.Style;
-
-        /// <inheritdoc/>
-        public override string Class => ModalInstanceOptions?.Class ?? ModalProvider.Class;
-
-        /// <inheritdoc/>
-        public override bool Centered => ModalInstanceOptions?.Centered ?? ModalProvider.Centered;
-
-        /// <inheritdoc/>
-        public override bool Scrollable => ModalInstanceOptions?.Scrollable ?? ModalProvider.Scrollable;
-
-        /// <inheritdoc/>
-        public override ModalSize Size => ModalInstanceOptions?.Size ?? ModalProvider.Size;
     }
 }

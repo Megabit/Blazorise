@@ -7,8 +7,8 @@
     {
         @foreach ( var modal in modalInstances )
         {
-            <Modal @key="modal.Id" @ref="modal.ModalRef" @bind-Visible="modal.Visible" Attributes="@modal.Attributes" Animated="@modal.Animated" AnimationDuration="@modal.AnimationDuration" Background="@modal.Background" Border="@modal.Border" Casing="@modal.Casing" Class="@modal.Class"
-                Closed="() => OnModalClosed(modal)" Closing="@modal.Closing" Clearfix="@modal.Clearfix" ElementId="@modal.Id" Display="@modal.Display" Flex="@Flex" Float="@modal.Float" FocusTrap="@modal.FocusTrap" Height="@modal.Height" Margin="@modal.Margin"
+            <Modal @key="modal.ElementId" @ref="modal.ModalRef" @bind-Visible="modal.Visible" Attributes="@modal.Attributes" Animated="@modal.Animated" AnimationDuration="@modal.AnimationDuration" Background="@modal.Background" Border="@modal.Border" Casing="@modal.Casing" Class="@modal.Class"
+                Closed="() => OnModalClosed(modal)" Closing="@modal.Closing" Clearfix="@modal.Clearfix" ElementId="@modal.ElementId" Display="@modal.Display" Flex="@Flex" Float="@modal.Float" FocusTrap="@modal.FocusTrap" Height="@modal.Height" Margin="@modal.Margin"
                 Opened="@modal.Opened" Opening="@modal.Opening" Overflow="@modal.Overflow" Padding="@modal.Padding" Position="@modal.Position" RenderMode="@modal.RenderMode" ScrollToTop="@modal.ScrollToTop" Shadow="@modal.Shadow"
                 ShowBackdrop="@modal.ShowBackdrop" Style="@modal.Style" TextAlignment="@modal.TextAlignment" TextColor="@modal.TextColor" TextOverflow="@modal.TextOverflow" TextTransform="@modal.TextTransform" TextWeight="@modal.TextWeight"
                 VerticalAlignment="@modal.VerticalAlignment" Width="@modal.Width">
