@@ -43,13 +43,13 @@ namespace Blazorise
         public bool Visible { get; set; }
 
         /// <summary>
-        /// Ctor
+        /// A default <see cref="ModalInstance"/> constructor.
         /// </summary>
-        /// <param name="modalProvider"></param>
-        /// <param name="id"></param>
-        /// <param name="title"></param>
-        /// <param name="childContent"></param>
-        /// <param name="modalProviderOptions"></param>
+        /// <param name="modalProvider">Parent modal provider.</param>
+        /// <param name="id">An id of the modal instance.</param>
+        /// <param name="title">Title of the modal.</param>
+        /// <param name="childContent">Modal content.</param>
+        /// <param name="modalProviderOptions">Modal options.</param>
         public ModalInstance( ModalProvider modalProvider, string id, string title, RenderFragment childContent, ModalProviderOptions modalProviderOptions )
         {
             Id = id;
@@ -69,57 +69,57 @@ namespace Blazorise
         /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
         /// Defaults to true.
         /// </summary>
-        public bool UseModalStructure() => ModalProviderOptions?.UseModalStructure ?? ModalProvider.UseModalStructure;
+        public bool UseModalStructure => ModalProviderOptions?.UseModalStructure ?? ModalProvider.UseModalStructure;
 
         /// <summary>
         /// If true modal will scroll to top when opened.
         /// </summary>
-        public bool ScrollToTop() => ModalProviderOptions?.ScrollToTop ?? ModalProvider.ScrollToTop;
+        public bool ScrollToTop => ModalProviderOptions?.ScrollToTop ?? ModalProvider.ScrollToTop;
 
         /// <summary>
         /// Occurs before the modal is opened.
         /// </summary>
-        public Func<ModalOpeningEventArgs, Task> Opening() => ModalProviderOptions?.Opening ?? ModalProvider.Opening;
+        public Func<ModalOpeningEventArgs, Task> Opening => ModalProviderOptions?.Opening ?? ModalProvider.Opening;
 
         /// <summary>
         /// Occurs before the modal is closed.
         /// </summary>
-        public Func<ModalClosingEventArgs, Task> Closing() => ModalProviderOptions?.Closing ?? ModalProvider.Closing;
+        public Func<ModalClosingEventArgs, Task> Closing => ModalProviderOptions?.Closing ?? ModalProvider.Closing;
 
         /// <summary>
         /// Occurs after the modal has opened.
         /// </summary>
-        public EventCallback Opened() => ModalProviderOptions?.Opened ?? ModalProvider.Opened;
+        public EventCallback Opened => ModalProviderOptions?.Opened ?? ModalProvider.Opened;
 
         /// <summary>
         /// Occurs after the modal has closed.
         /// </summary>
-        public EventCallback Closed() => ModalProviderOptions?.Closed ?? ModalProvider.Closed;
+        public EventCallback Closed => ModalProviderOptions?.Closed ?? ModalProvider.Closed;
 
         /// <summary>
         /// Specifies the backdrop needs to be rendered for this <see cref="Modal"/>.
         /// </summary>
-        public bool ShowBackdrop() => ModalProviderOptions?.ShowBackdrop ?? ModalProvider.ShowBackdrop;
+        public bool ShowBackdrop => ModalProviderOptions?.ShowBackdrop ?? ModalProvider.ShowBackdrop;
 
         /// <summary>
         /// Gets or sets whether the component has any animations.
         /// </summary>
-        public bool Animated() => ModalProviderOptions?.Animated ?? ModalProvider.Animated;
+        public bool Animated => ModalProviderOptions?.Animated ?? ModalProvider.Animated;
 
         /// <summary>
         /// Gets or sets the animation duration.
         /// </summary>
-        public int AnimationDuration() => ModalProviderOptions?.AnimationDuration ?? ModalProvider.AnimationDuration;
+        public int AnimationDuration => ModalProviderOptions?.AnimationDuration ?? ModalProvider.AnimationDuration;
 
         /// <summary>
         /// Defines how the modal content will be rendered.
         /// </summary>
-        public ModalRenderMode RenderMode() => ModalProviderOptions?.RenderMode ?? ModalProvider.RenderMode;
+        public ModalRenderMode RenderMode => ModalProviderOptions?.RenderMode ?? ModalProvider.RenderMode;
 
         /// <summary>
         /// Defines if the modal should keep the input focus at all times.
         /// </summary>
-        public bool? FocusTrap() => ModalProviderOptions?.FocusTrap ?? ModalProvider.FocusTrap;
+        public bool? FocusTrap => ModalProviderOptions?.FocusTrap ?? ModalProvider.FocusTrap;
 
         /// <inheritdoc/>
         public override Dictionary<string, object> Attributes => ModalProviderOptions?.Attributes ?? ModalProvider.Attributes;

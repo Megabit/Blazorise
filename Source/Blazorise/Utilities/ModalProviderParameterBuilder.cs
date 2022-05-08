@@ -25,7 +25,8 @@ namespace Blazorise
         /// <param name="value"></param>
         public void Add<TValue>( Expression<Func<TComponent, TValue>> selector, TValue value )
         {
-            var name = ( ( selector.Body ) as MemberExpression ).Member.Name;
+            var name = ( selector.Body as MemberExpression ).Member.Name;
+
             Add( name, value );
         }
 

@@ -14,7 +14,7 @@ using Microsoft.JSInterop;
 namespace Blazorise
 {
     /// <summary>
-    /// A modal provider to be set at the root of your app, providing a programmatic way to invoke modals with custom content by using ModalService.
+    /// A modal provider to be set at the root of your app, providing a programmatic way to invoke modals with custom content by using <see cref="ModalService"/>.
     /// </summary>
     public partial class ModalProvider : BaseComponent
     {
@@ -24,21 +24,15 @@ namespace Blazorise
 
         #endregion
 
-        #region Constructors
-
-
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             ModalService.SetModalProvider( this );
+
             return base.OnInitializedAsync();
         }
-
 
         internal async Task<ModalInstance> Show( string title, RenderFragment childContent, ModalProviderOptions modalProviderOptions )
         {
@@ -65,14 +59,13 @@ namespace Blazorise
         internal Task Hide( ModalInstance modalInstance )
             => modalInstances?.FirstOrDefault( x => x.IsEqual( modalInstance ) )?.ModalRef?.Hide() ?? Task.CompletedTask;
 
-
         /// <summary>
         /// Handles the closing of the modal.
         /// </summary>
         /// <returns></returns>
         protected async Task OnModalClosed( ModalInstance modalInstance )
         {
-            await modalInstance.Closed().InvokeAsync();
+            await modalInstance.Closed.InvokeAsync();
             modalInstances.Remove( modalInstance );
         }
 
@@ -156,25 +149,23 @@ namespace Blazorise
         /// Centers the modal vertically.
         /// </summary>
         /// <remarks>
-        /// Only considered if UseModalStructure is set.
+        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
         /// </remarks>
         [Parameter] public bool Centered { get; set; }
-
 
         /// <summary>
         /// Scrolls the modal content independent of the page itself.
         /// </summary>
         /// <remarks>
-        /// Only considered if UseModalStructure is set.
+        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
         /// </remarks>
         [Parameter] public bool Scrollable { get; set; }
-
 
         /// <summary>
         /// Changes the size of the modal.
         /// </summary>
         /// <remarks>
-        /// Only considered if UseModalStructure is set.
+        /// Only considered if <see cref="ModalProviderOptions.UseModalStructure"/> is set.
         /// </remarks>
         [Parameter] public ModalSize Size { get; set; }
 
