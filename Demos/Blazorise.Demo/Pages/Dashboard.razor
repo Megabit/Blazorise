@@ -5,7 +5,7 @@
 @inject IVersionProvider VersionProvider
 
 
-<FileEdit Changed="@OnChanged" Written="@OnWritten" Progressed="@OnProgressed" Ended="OnFinished" />
+@*<FileEdit Changed="@OnChanged" Written="@OnWritten" Progressed="@OnProgressed" Ended="OnFinished" />
 
 @code{
     const int OneMb = 1024 * 1024;
@@ -56,9 +56,9 @@
     {
         Console.WriteLine($"Ended! {e.Success}");
     }
-}
+}*@
 
-@*
+
 <Field Horizontal>
     <FieldBody>
         <FilePicker @ref=fileEdit
@@ -68,7 +68,7 @@
                     Ended=OnFileUploadEnded
                     Progressed=OnFileUploadProgressChanged
                     Upload="OnFileUpload"
-                    ShowMode="FilePickerShowMode.Dropdown">
+                    ShowMode="FilePickerShowMode.List">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess Display="Display.None"></ValidationSuccess>
@@ -83,7 +83,7 @@
 
     #region file manipulation
 
-    private readonly int FileEditMaxChunkSize = 23 * 1024;
+    private readonly int FileEditMaxChunkSize = 24 * 1024;
 
     private bool FileUploading { get; set; } = false;
 
@@ -128,6 +128,7 @@
     private async Task OnFileUpload(FileUploadEventArgs e)
     {
         var bytes = await TestFileUpload(e.File);
+        bytes = await TestFileUploadBuffered(e.File);
     }
 
     private async Task OnSelectedFileChanged(FileChangedEventArgs e)
@@ -249,4 +250,4 @@
         }
         FileUploadProgressPercent = (int)e.Percentage;
     }
-}*@
+}
