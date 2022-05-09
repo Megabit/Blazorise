@@ -11,6 +11,12 @@
     margin-bottom: 1.5rem;
 }
 
+.docs-page-unordered-list {
+    .docs-page-unordered-list-item {
+        margin-bottom: .5rem;
+    }
+}
+
 .docs-page-section {
     margin-bottom: 50px;
 }
@@ -84,6 +90,10 @@
         &.docs-page-section-source-code-hide {
             display: none;
         }
+    }
+
+    .btn {
+        color: #576b85;
     }
 }
 

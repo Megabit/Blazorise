@@ -4,15 +4,15 @@
 
 <Div Class="home-banner" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
     <Container>
-        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is5.FromTop.Is4.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 72px; height: 72px;" />
+        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
         <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
-            Blazorise Components
+            The modern UI components for Blazor
         </DisplayHeading>
         <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
-            A set of 80+ free and open source native Blazor UI controls.
+            A set of <Strong>80+</Strong> free and open source native Blazor UI controls.
         </Heading>
         <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
-            Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.
+            Blazorise is a <Strong>component library</Strong> built on top of Blazor with support for <Strong>multiple CSS frameworks</Strong> like Bootstrap, Bulma, AntDesign and Material.
         </Heading>
         <Div>
             <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.OnY">
@@ -30,61 +30,70 @@
 
 <Div Padding="Padding.Is5.OnY">
     <Container>
+        <section class="home-logos" id="logos-section">
+            <Row>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://www.pebble.tv/" Target="Target.Blank" Title="pebble">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/pebble.svg" Text="pebble" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://www.ge.com/" Target="Target.Blank" Title="ge">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/ge.svg" Text="ge" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://abp.io/" Target="Target.Blank" Title="abp">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/abp.svg" Text="abp" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://www.daimlertruck.com/en/" Target="Target.Blank" Title="daimler">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/daimler.svg" Text="daimler" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://bluepanda.pt/" Target="Target.Blank" Title="bluepanda">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/bluepanda.svg" Text="bluepanda" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="http://corptrade.se/" Target="Target.Blank" Title="corptrade">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/corptrade.svg" Text="corptrade" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://www.microsoft.com/" Target="Target.Blank" Title="microsoft">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/microsoft.svg" Text="microsoft" />
+                    </Anchor>
+                </Column>
+                <Column TextAlignment="TextAlignment.Center">
+                    <Anchor To="https://fitabase.com/" Target="Target.Blank" Title="fitabase">
+                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/fitabase.svg" Text="fitabase" />
+                    </Anchor>
+                </Column>
+            </Row>
+            <Row>
+                <Column>
+                    <Paragraph Margin="Margin.Is4.FromTop" TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
+                        The world's best product teams trust Blazorise to deliver an unrivaled experience for both developers and users.
+                    </Paragraph>
+                </Column>
+            </Row>
+        </section>
+        <Divider Margin="Margin.Is5.OnY" />
         <section class="home-features" id="features-section">
-            <Row Flex="Flex.AlignItems.Center">
-                <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
-                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Free</Heading>
-                    <Column ColumnSize="ColumnSize.Is5.OnWidescreen.Is6.OnFullHD" Padding="Padding.Is0">
-                        <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
-                            Blazorise is open-source and free to use under our Community License. You can install it from nuget or build your own copy from source.
-                        </Paragraph>
-                        <Paragraph TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
-                            Paid support is available as part of the <Anchor To="https://commercial.blazorise.com/" TextColor="TextColor.Primary">Blazorise Professional</Anchor> subscription.
-                        </Paragraph>
-                    </Column>
-                    @*<Button Color="Color.Info" Type="ButtonType.Link" To="https://commercial.blazorise.com/">Read more</Button>*@
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
-                    <Anchor To="https://commercial.blazorise.com/" Target="Target.Blank">
-                        <Image Source="img/illustrations/home/Finance analytics _Two Color.svg" Text="" Fluid />
-                    </Anchor>
-                </Column>
-            </Row>
-
-            <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
-                <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-left">
-                    <Anchor To="docs/start">
-                        <Image Source="img/illustrations/home/Web development _Two Color.svg" Text="" Fluid />
-                    </Anchor>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="flex-item">
-                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Native</Heading>
-                    <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is8.IsFull" Padding="Padding.Is0">
-                        <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
-                            The components are implemented in C# and take full advantage of the Blazor framework.
-                            <br /><br />
-                            The usage of existing JavaScript frameworks or libraries is kept to a minimum.
-                        </Paragraph>
-                        <Paragraph Padding="Padding.Is2.FromBottom" TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
-                            Instead, develop rich web applications using C# code on both the server and client-side(WASM).
-                        </Paragraph>
-                    </Column>
-                    @*<Button Color="Color.Info" To="docs/start">Read more</Button>*@
-                </Column>
-            </Row>
-
             <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
                 <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
-                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">Multiple CSS Frameworks</Heading>
+                    <Heading Size="HeadingSize.Is2" Margin="Margin.Is0">Multiple CSS Frameworks</Heading>
                     <Column ColumnSize="ColumnSize.Is5.OnWidescreen.Is6.OnFullHD" Padding="Padding.Is0">
                         <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
-                            Blazorise is not limited by any CSS frameworks. You can choose from any of the supported.
+                            Blazorise is built from the ground up to support any favorite CSS framework without sacrificing speed or features.
                         </Paragraph>
                         <Paragraph TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
                             Have a try at <Anchor To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank" TextColor="TextColor.Primary">Bootstrap</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Target="Target.Blank" TextColor="TextColor.Primary">Bulma</Anchor>, <Anchor To="https://materialdemo.blazorise.com/" Target="Target.Blank" TextColor="TextColor.Primary">Material</Anchor>, or <Anchor To="https://antdesigndemo.blazorise.com/" Target="Target.Blank" TextColor="TextColor.Primary">AntDesign</Anchor>.
                         </Paragraph>
                     </Column>
-                    @*<Button Color="Color.Info" Type="ButtonType.Link" To="docs/usage">Read more</Button>*@
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
                     <Anchor To="docs/usage">
@@ -100,16 +109,55 @@
                     </Anchor>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="flex-item">
-                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">80+ Components</Heading>
+                    <Heading Size="HeadingSize.Is2" Margin="Margin.Is0">80+ Components</Heading>
                     <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is8.IsFull" Padding="Padding.Is0">
                         <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
-                            Includes more than 80 native Blazor components that work accross all major browsers.
+                            Blazorise comes with 80+ UI components that help you build consistent UIs fast. The theme can be customized to match your brand.
                         </Paragraph>
                         <Paragraph Padding="Padding.Is2.FromBottom" TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
                             Extension component are built upon the core components to extend and bring even more features.
                         </Paragraph>
                     </Column>
-                    @*<Button Color="Color.Info">Read more</Button>*@
+                </Column>
+            </Row>
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
+                    <Heading Size="HeadingSize.Is2" Margin="Margin.Is0">Open source</Heading>
+                    <Column ColumnSize="ColumnSize.Is5.OnWidescreen.Is6.OnFullHD" Padding="Padding.Is0">
+                        <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
+                            Blazorise is open-source and free to use under our Community License. You can install it from nuget or build your own copy from source.
+                        </Paragraph>
+                        <Paragraph TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                            Get guaranteed development support directly from the team that built Blazorise with a <Anchor To="https://commercial.blazorise.com/" TextColor="TextColor.Primary">Blazorise Professional</Anchor> subscription.
+                        </Paragraph>
+                    </Column>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
+                    <Anchor To="https://commercial.blazorise.com/" Target="Target.Blank">
+                        <Image Source="img/illustrations/home/Finance analytics _Two Color.svg" Text="" Fluid />
+                    </Anchor>
+                </Column>
+            </Row>
+
+            <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-left">
+                    <Anchor To="docs/start">
+                        <Image Source="img/illustrations/home/Web development _Two Color.svg" Text="" Fluid />
+                    </Anchor>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="flex-item">
+                    <Heading Size="HeadingSize.Is2" Margin="Margin.Is0">Less code. More speed</Heading>
+                    <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is8.IsFull" Padding="Padding.Is0">
+                        <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
+                            Spend less time writing UI code and more time building a great experience for your customers.
+                            @* The components are implemented in C# and take full advantage of the Blazor framework.
+                            <br /><br />
+                            The usage of existing JavaScript frameworks or libraries is kept to a minimum.*@
+                        </Paragraph>
+                        <Paragraph Padding="Padding.Is2.FromBottom" TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                            Develop rich web applications using C# code on both the server and client-side(WASM).
+                        </Paragraph>
+                    </Column>
                 </Column>
             </Row>
         </section>
@@ -117,9 +165,12 @@
         <section class="home-case-studies" id="case-studies-section">
             <Row>
                 <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Why you need Blazorise</Heading>
+                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Why Blazorise?</Heading>
                     <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Blazorise component library provides state-of-the-art solutions for startups and enterprises. It includes more than 80 components that make developers work easier.
+                        Blazorise component library provides state-of-the-art solutions for startups and enterprises where we are trying day by day to keep up with the newest technology development. Blazorise operates as an open-source system first.
+                    </Heading>
+                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                        Second, our project also has a commercial side that allows us to have sustainable growth and develop more easily and quickly in line with the progress of the technology itself. As a result, some of our components have features that you can only find at Blazorise.
                     </Heading>
                 </Column>
 
@@ -145,7 +196,7 @@
                 <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="100">
                     <Card Class="color-cards" Border="Border.Is0">
                         <CardBody Padding="Padding.Is0">
-                            <Div Background="Background.Warning" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
+                            <Div Background="Background.Light" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
                                 <CardImage Source="img/illustrations/home/Mobile Testing_Two Color.svg" Class="case-studies-card-img" />
                                 <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
                                     <Div>
@@ -165,7 +216,7 @@
                 <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="100">
                     <Card Class="color-cards" Border="Border.Is0">
                         <CardBody Padding="Padding.Is0">
-                            <Div Background="Background.Info" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
+                            <Div Background="Background.Secondary" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
                                 <CardImage Source="img/illustrations/home/Reading a book_Two Color.svg" Class="case-studies-card-img" />
                                 <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
                                     <Div>
@@ -205,7 +256,7 @@
         <section id="testimonials-section">
             <Row>
                 <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">What our Clients Says</Heading>
+                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Loved by 100,000+ developers and relied on by Fortune 500 businesses.</Heading>
                     <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
                         No better way to describe Blazorise, then actually using it in real world scenarios.
                         Here's what our clients have to say about Blazorise:
@@ -270,6 +321,29 @@
             </Row>
         </section>
         <Divider Margin="Margin.Is5.OnY" />
+        <section id="action-section">
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
+                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Start building with Blazorise now!</Heading>
+                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                        We are here to help you succeed. Our specialists are happy to answer any questions you may have, and our technical documentation includes tutorials and copy-paste code examples on the different Blazorise features.
+                    </Heading>
+                </Column>
+            </Row>
+            <Row>
+                <Column>
+                    <Div TextAlignment="TextAlignment.Center">
+                        <Button Type="ButtonType.Link" To="https://commercial.blazorise.com/contact" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.OnY">
+                            Contact us
+                        </Button>
+                        <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Outline Size="Size.Large" Margin="Margin.Is2.OnY">
+                            Read documentation
+                        </Button>
+                    </Div>
+                </Column>
+            </Row>
+        </section>
+        <Divider Margin="Margin.Is5.OnY" />
         <section class="home-community" id="community-section">
             <Row>
                 <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center">
@@ -307,26 +381,5 @@
                 </Column>
             </Row>
         </section>
-        @* <Divider Margin="Margin.Is5.OnY" />
-            <section id="contact">
-            <Row>
-            <Column Flex="Flex.Column.JustifyContent.Center">
-            <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Get in Touch</Heading>
-            <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.FromBottom" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-            Don't miss any updates of our new components and extensions!
-            </Heading>
-
-            <Div Width="Width.Is25">
-            <Form>
-            <TextEdit Role="TextRole.Email" />
-            </Form>
-
-            <Div Padding="Padding.Is3" TextAlignment="TextAlignment.Center">
-            <Button Color="Color.Dark" Margin="Margin.IsAuto.OnX">Subscribe</Button>
-            </Div>
-            </Div>
-            </Column>
-            </Row>
-            </section>*@
     </Container>
 </Div>

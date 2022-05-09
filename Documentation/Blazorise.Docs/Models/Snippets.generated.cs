@@ -178,6 +178,22 @@ namespace Blazorise.Docs.Models
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
 
+        public const string IconBadgeExample = @"<Badge Color=""Color.Success"">
+    <Tooltip Text=""Confirmed"">
+        <Icon Name=""IconName.Check"" aria-label=""Confirmed"" />
+    </Tooltip>
+</Badge>
+<Badge Color=""Color.Danger"">
+    <Tooltip Text=""Cancelled"">
+        <Icon Name=""IconName.Times"" aria-label=""Cancelled"" />
+    </Tooltip>
+</Badge>";
+
+        public const string PillBadgeExample = @"<Badge Color=""Color.Primary"" Pill>Pending</Badge>
+<Badge Color=""Color.Success"" Pill>Confirmed</Badge>
+<Badge Color=""Color.Danger"" Pill>Denied</Badge>
+<Badge Color=""Color.Secondary"" Pill>On hold</Badge>";
+
         public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
      ThemeContrast=""ThemeContrast.Light"">
@@ -432,13 +448,71 @@ namespace Blazorise.Docs.Models
     <Button Color=""Color.Secondary"">RIGHT</Button>
 </Buttons>";
 
+        public const string ButtonInDialogsBestPracticeExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>First name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""John"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>Last name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""Smith"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull"">
+        <FieldLabel>Email address</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""john.smith@example.com"" />
+        </FieldBody>
+    </Field>
+    <Field Flex=""Flex.JustifyContent.Between"">
+        <Button Color=""Color.Danger"">Delete</Button>
+        <Div>
+            <Button Color=""Color.Secondary"">Cancel</Button>
+            <Button Color=""Color.Primary"">Create account</Button>
+        </Div>
+    </Field>
+</Fields>";
+
+        public const string ButtonInFormBestPracticeExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>First name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""John"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsHalf"">
+        <FieldLabel>Last name</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""Smith"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull"">
+        <FieldLabel>Email address</FieldLabel>
+        <FieldBody>
+            <TextEdit Text=""john.smith@example.com"" />
+        </FieldBody>
+    </Field>
+    <Field>
+        <Button Color=""Color.Primary"">Create account</Button>
+        <Button Color=""Color.Secondary"">Cancel</Button>
+    </Field>
+</Fields>";
+
         public const string ButtonUsageExample = @"<Button Color=""Color.Primary"" Clicked=""@OnButtonClicked"">Click me</Button>
-@code{
-    [Inject] INotificationService NotificationService { get; set; }
+<Span>
+    Clicked @counter times
+</Span>
+@code {
+    int counter;
 
     Task OnButtonClicked()
     {
-        return NotificationService.Info( ""Hello world!"" );
+        counter++;
+
+        return Task.CompletedTask;
     }
 }";
 
@@ -489,6 +563,10 @@ namespace Blazorise.Docs.Models
 <Button Color=""Color.Light"" Outline>Light</Button>
 <Button Color=""Color.Dark"" Outline>Dark</Button>
 <Button Outline>None</Button>";
+
+        public const string SizeButtonsExample = @"<Button Color=""Color.Primary"" Size=""Size.Large"">Large</Button>
+<Button Color=""Color.Primary"">Normal</Button>
+<Button Color=""Color.Primary"" Size=""Size.Small"">Small</Button>";
 
         public const string SubmitButtonExample = @"<Form>
     <Field Horizontal>
@@ -672,6 +750,14 @@ namespace Blazorise.Docs.Models
         DateTime.Now.AddDays(2),
     };
 }";
+
+        public const string DatePickerFormatBestPracticeExample = @"<Field>
+    <FieldLabel>Start date</FieldLabel>
+    <FieldBody>
+        <DatePicker TValue=""DateTime?"" Placeholder=""DD/MM/YYYY"" />
+    </FieldBody>
+    <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
+</Field>";
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
@@ -883,16 +969,34 @@ namespace Blazorise.Docs.Models
     <TextEdit />
 </Field>";
 
-        public const string FieldWithHelpExample = @"<Field>
-    <FieldLabel>Email address</FieldLabel>
-    <TextEdit Placeholder=""Enter email"">
-        <FieldHelp>Please enter a valid email address</FieldHelp>
-    </TextEdit>
+        public const string FieldWithDisabledExample = @"<Field>
+    <FieldLabel>Disabled</FieldLabel>
+    <TextEdit Text=""Value"" Disabled />
 </Field>";
+
+        public const string FieldWithHelpExample = @"<Fields>
+    <Field>
+        <FieldLabel>Phone number</FieldLabel>
+        <TextEdit>
+            <FieldHelp>Include country and area prefixes</FieldHelp>
+        </TextEdit>
+    </Field>
+    <Field>
+        <FieldLabel>Password</FieldLabel>
+        <TextEdit>
+            <FieldHelp>Password strength: <Text TextColor=""TextColor.Danger"">weak</Text></FieldHelp>
+        </TextEdit>
+    </Field>
+</Fields>";
 
         public const string FieldWithLabelExample = @"<Field>
     <FieldLabel>Email address</FieldLabel>
     <TextEdit Placeholder=""Enter email"" />
+</Field>";
+
+        public const string FieldWithReadOnlyExample = @"<Field>
+    <FieldLabel>Read-Only</FieldLabel>
+    <TextEdit Text=""Value"" ReadOnly />
 </Field>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
@@ -1174,6 +1278,66 @@ namespace Blazorise.Docs.Models
     </Column>
 </Row>";
 
+        public const string BasicHighlighterExample = @"<Field>
+    <FieldLabel>Search value</FieldLabel>
+    <FieldBody>
+        <TextEdit @bind-Text=""@searchValue"" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key=""sentence"">
+            <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" />
+        </ListGroupItem>
+    }
+</ListGroup>
+@code {
+    string searchValue = ""item"";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
+}";
+
+        public const string DynamicHighlighterExample = @"<Fields>
+    <Field>
+        <FieldLabel>Search value</FieldLabel>
+        <FieldBody>
+            <TextEdit @bind-Text=""@searchValue"" />
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Until Next Boundary</FieldLabel>
+        <FieldBody>
+            <Switch @bind-Checked=""@untilNextBoundary""></Switch>
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Case Sensitive</FieldLabel>
+        <FieldBody>
+            <Switch @bind-Checked=""@caseSensitive""></Switch>
+        </FieldBody>
+    </Field>
+</Fields>
+
+<Card>
+    <CardBody>
+        <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" UntilNextBoundary=""@untilNextBoundary"" CaseSensitive=""@caseSensitive"" />
+    </CardBody>
+</Card>
+@code {
+    string searchValue = ""y"";
+    bool untilNextBoundary;
+    bool caseSensitive;
+
+    string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
+}";
+
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
@@ -1394,7 +1558,13 @@ namespace Blazorise.Docs.Models
 
         public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
 
-        public const string MemoEditAutoSizeExample = @"<MemoEdit Rows=""5"" AutoSize />";
+        public const string MemoEditAutoSizeExample = @"<MemoEdit Text=""@loremipsum"" AutoSize />
+
+@code {
+    string loremipsum = @""Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
+
+Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque."";
+}";
 
         public const string MemoEditTabExample = @"<MemoEdit Rows=""5"" ReplaceTab TabSize=""4"" />";
 
@@ -1811,6 +1981,8 @@ namespace Blazorise.Docs.Models
     private void SetActive(string page)
         => currentPage = page;
 }";
+
+        public const string AnimatedProgressExample = @"<Progress Value=""75"" Animated Striped />";
 
         public const string BasicPageProgressExample = @"<PageProgress Visible Value=""25"" />";
 
@@ -2702,7 +2874,17 @@ namespace Blazorise.Docs.Models
     ...
 </Validations>";
 
-        public const string BasicValidationExample = @"<Validation Validator=""@ValidateEmail"">
+        public const string BasicValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
+    <TextEdit Placeholder=""Enter name"">
+        <Feedback>
+            <ValidationNone>Please enter the name.</ValidationNone>
+            <ValidationSuccess>Name is good.</ValidationSuccess>
+            <ValidationError>Enter valid name!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+
+<Validation Validator=""ValidateEmail"">
     <TextEdit Placeholder=""Enter email"">
         <Feedback>
             <ValidationNone>Please enter the email.</ValidationNone>
@@ -2915,6 +3097,8 @@ namespace Blazorise.Docs.Models
 <script src=""_content/Blazorise/timePicker.js"" type=""module""></script>
 <script src=""_content/Blazorise/tooltip.js"" type=""module""></script>
 <script src=""_content/Blazorise/utilities.js"" type=""module""></script>";
+
+        public const string ComponentsImportExample = @"@using Blazorise.Components";
 
         public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js"" type=""module""></script>";
 

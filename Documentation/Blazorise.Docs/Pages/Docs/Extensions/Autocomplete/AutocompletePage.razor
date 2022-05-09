@@ -13,7 +13,7 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
-    Installation
+    Quick Installation
 </DocsPageSubtitle>
 
 <Alert Color="Color.Info" Visible>
@@ -23,14 +23,25 @@
 </Alert>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="NuGet">
-        Install extension from NuGet.
+    <DocsPageSectionHeader Title="Step 1: Download from NuGet">
+        Install extension from NuGet:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Example">
+    <DocsPageSectionHeader Title="Step 2. Define Usings">
+        In your main <Code>_Imports.razor</Code> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsImportExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Searching single value">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AutocompleteExample />
@@ -39,7 +50,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Multiple">
+    <DocsPageSectionHeader Title="Searching multiple values">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AutocompleteMultipleExample />
@@ -48,7 +59,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="ItemContent">
+    <DocsPageSectionHeader Title="Extending with custom item content">
         Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
