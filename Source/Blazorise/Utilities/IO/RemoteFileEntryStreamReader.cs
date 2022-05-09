@@ -58,6 +58,8 @@ namespace Blazorise
                     await Task.WhenAll(
                         FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer ),
                         FileEntryNotifier.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
+
+                    await RefreshUI();
                 }
             }
             catch ( OperationCanceledException )
@@ -81,5 +83,18 @@ namespace Blazorise
                 }
             }
         }
+        
+        /// <summary>
+        /// If we're running on WebAssembly, then we should give time for the single thread to catch up and refresh the UI.
+        /// </summary>
+        /// <returns></returns>
+        private Task RefreshUI()
+        {
+            if ( OperatingSystem.IsBrowser() )
+                return Task.Delay( 1 );
+            return Task.CompletedTask;
+        }
     }
+
+
 }
