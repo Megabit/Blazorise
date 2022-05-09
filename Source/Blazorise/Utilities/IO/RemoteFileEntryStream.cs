@@ -54,6 +54,8 @@ namespace Blazorise
 
         private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
         {
+            await fileEntryNotifier.UpdateFileStartedAsync( fileEntry );
+
             if ( maxFileSize < fileEntry.Size )
             {
                 await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
