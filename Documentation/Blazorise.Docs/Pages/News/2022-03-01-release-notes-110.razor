@@ -74,7 +74,7 @@
 </Heading>
 
 <Paragraph>
-    We've noticed that <Code>WriteToStreamAsync</Code> would not update progress on the UI and also freeze when using this API on WebAssembly. This is an inherit problem to Blazor WebAssembly being single threaded, we've improved on this so the UI should now be able to update while using this API.
+    We've noticed that <Code>WriteToStreamAsync</Code> would not update progress on the UI and also freeze when using this API on WebAssembly. This is currently inherit to Blazor WebAssembly as it is single threaded, we've improved on this so the UI should now be able to update while using this API.
 </Paragraph>
 
 <Paragraph>
