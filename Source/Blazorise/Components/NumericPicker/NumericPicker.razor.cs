@@ -52,7 +52,7 @@ namespace Blazorise
         private bool isIntegerType;
 
         /// <summary>
-        /// Contains the correct inputmode to be set
+        /// Contains the correct inputmode for the input element, based in the TValue.
         /// </summary>
         private string inputMode;
 
@@ -457,6 +457,11 @@ namespace Blazorise
                 return CultureInfo.InvariantCulture;
             }
         }
+
+        /// <summary>
+        /// Gets the correct inputmode for the input element, based in the TValue.
+        /// </summary>
+        protected string InputMode => inputMode;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSNumericPickerModule"/> instance.
