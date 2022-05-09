@@ -347,6 +347,7 @@ namespace Blazorise.Components
             SelectedTexts.Remove( text );
             await RemoveMultipleValue( GetValueByText( text ) );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+            dirtyFilter = true;
         }
 
         private void FilterData()
