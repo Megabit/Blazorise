@@ -1020,6 +1020,85 @@ namespace Blazorise.Docs.Models
 <!-- Accept specific image formats by extension -->
 <FileEdit Filter="".jpg, .png, .gif"" />";
 
+        public const string FilePickerDropdownExample = @"@using System.IO
+
+<FilePicker Multiple
+            Upload=""OnFileUpload""
+            ShowMode=""FilePickerShowMode.Dropdown"">
+</FilePicker>
+@code {
+    string fileContent;
+
+    async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        try
+        {
+            // A stream is going to be the destination stream we're writing to.
+            using (var stream = new MemoryStream())
+            {
+                // Here we're telling the FileEdit where to write the upload result
+                await e.File.WriteToStreamAsync(stream);
+
+                // Once we reach this line it means the file is fully uploaded.
+                // In this case we're going to offset to the beginning of file
+                // so we can read it.
+                stream.Seek(0, SeekOrigin.Begin);
+
+                // Use the stream reader to read the content of uploaded file,
+                // in this case we can assume it is a textual file.
+                using (var reader = new StreamReader(stream))
+                {
+                    fileContent = await reader.ReadToEndAsync();
+                }
+            }
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine(exc.Message);
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerListExample = @"@using System.IO
+
+<FilePicker Multiple
+            Upload=""OnFileUpload""
+            ShowMode=""FilePickerShowMode.List"">
+</FilePicker>
+@code {
+    const int OneMb = 1024 * 1024;
+
+    async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        try
+        {
+            var buffer = new byte[OneMb];
+            using (var bufferedStream = new BufferedStream(e.File.OpenReadStream(long.MaxValue), OneMb))
+            {
+                int readCount = 0;
+                int readBytes;
+                while ((readBytes = await bufferedStream.ReadAsync(buffer, 0, OneMb)) > 0)
+                {
+                    Console.WriteLine($""Read:{readCount++} {readBytes / (double)OneMb} MB"");
+                    // Do work on the first 1MB of data
+                }
+            }
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine(exc.Message);
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
         public const string MultipleFileEditExample = @"<FileEdit Changed=""@OnChanged"" Multiple />
 @code{
     Task OnChanged( FileChangedEventArgs e )

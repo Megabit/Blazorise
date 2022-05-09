@@ -136,6 +136,12 @@
 </DocsPageSubtitle>
 
 <DocsAttributes>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
+        Input content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Feedback" Type="RenderFragment">
+        Placeholder for validation messages.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="AutoReset" Type="bool" Default="true">
         If true file input will be automatically reset after it has being uploaded.
     </DocsAttributesItem>
@@ -153,6 +159,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxChunkSize" Type="int" Default="20480">
         Max chunk size (in bytes) when uploading the file.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SegmentFetchTimeout" Type="TimeSpan" Default="TimeSpan.FromMinutes(1)">
+        Gets or sets the Segment Fetch Timeout when uploading the file.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple files can be selected.

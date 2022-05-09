@@ -1,0 +1,101 @@
+﻿@page "/docs/components/file-picker"
+
+<Seo Canonical="/docs/components/file-picker" Title="Blazorise FilePicker component" Description="Customized, cross-browser consistent, enchanced file input control that supports single file and multiple files upload." />
+
+<DocsPageTitle>
+    FilePicker component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Customized, cross-browser consistent, enchanced file input control that supports single file and multiple files upload.
+    Provides extra functionality, listing and detailing files, providing clear and upload buttons and inbuilt progress.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Upload Files : List">
+        An example using the FilePicker's list show mode and <Code>OpenReadStreamAsync</Code> upload method.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FilePickerListExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FilePickerListExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Upload Files : Dropdown">
+        An example using the FilePicker's dropdown show mode and <Code>WriteToStreamAsync</Code> upload method.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FilePickerDropdownExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FilePickerDropdownExample" />
+</DocsPageSection>
+
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
+        Input content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Feedback" Type="RenderFragment">
+        Placeholder for validation messages.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoReset" Type="bool" Default="true">
+        If true file input will be automatically reset after it has being uploaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BrowseButtonLocalizer" Type="TextLocalizerHandler" Default="null">
+        Function used to handle browse button localization that will override a default <Code>ITextLocalizer</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Changed" Type="@("EventCallback<FileChangedEventArgs>")">
+        Occurs every time the file(s) has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ended" Type="@("EventCallback<FileEndedEventArgs>")">
+        Occurs when an individual file upload has ended.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Filter" Type="string" Default="null">
+        Types of files that the input accepts.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxChunkSize" Type="int" Default="20480">
+        Max chunk size (in bytes) when uploading the file.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SegmentFetchTimeout" Type="TimeSpan" Default="TimeSpan.FromMinutes(1)">
+        Gets or sets the Segment Fetch Timeout when uploading the file.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
+        Specifies that multiple files can be selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
+        Sets the placeholder for the empty file input.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Progressed" Type="@("EventCallback<FileProgressedEventArgs>")">
+        Notifies the progress of file being uploaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Started" Type="@("EventCallback<FileStartedEventArgs>")">
+        Occurs when an individual file upload has started.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Written" Type="@("EventCallback<FileWrittenEventArgs>")">
+        Occurs every time the part of file has being uploaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxFileSize" Type="long" Default="long.MaxValue">
+        Maximum file size in bytes, checked before starting upload (note: never trust client, always check file size at server-side). Defaults to long.MaxValue.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilePickerLocalizer" Type="TextLocalizerHandler" Default="null">
+        Function used to handle custom localization that will override a default <Code>ITextLocalizer</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FileContent" Type="RenderFragment<FilePickerFileContext>">
+        Provides a custom file content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonContent" Type="RenderFragment<FilePickerButtonContext>">
+        Provides a custom button content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowMode" Type="FilePickerShowMode" Default="FilePickerShowMode.List">
+        Gets or Sets FilePicker's show mode. Defaults to <Code>FilePickerShowMode.List</Code>.
+    </DocsAttributesItem>
+</DocsAttributes>
