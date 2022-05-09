@@ -93,13 +93,17 @@ namespace Blazorise
                 var allowDecimalPaddingChanged = parameters.TryGetValue<NumericAllowDecimalPadding>( nameof( AllowDecimalPadding ), out var paramAllowDecimalPadding ) && !AllowDecimalPadding.IsEqual( paramAllowDecimalPadding );
                 var alwaysAllowDecimalSeparatorChanged = parameters.TryGetValue<bool>( nameof( AlwaysAllowDecimalSeparator ), out var paramAlwaysAllowDecimalSeparator ) && !AlwaysAllowDecimalSeparator.IsEqual( paramAlwaysAllowDecimalSeparator );
 
+                var modifyValueOnWheelChanged = parameters.TryGetValue<bool>( nameof( ModifyValueOnWheel ), out var paramModifyValueOnWheel ) && !ModifyValueOnWheel.IsEqual( paramModifyValueOnWheel );
+                var wheelOnChanged = parameters.TryGetValue<NumericWheelOn>( nameof( WheelOn ), out var paramWheelOn ) && !WheelOn.IsEqual( paramWheelOn );
+
                 if ( decimalsChanged || decimalSeparatorChanged || alternativeDecimalSeparatorChanged
                     || groupSeparatorChanged || groupSpacingChanged
                     || currencySymbolChanged || currencySymbolPlacementChanged
                     || roundingMethodChanged
                     || minChanged || maxChanged
                     || selectAllOnFocusChanged
-                    || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged )
+                    || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged
+                    || modifyValueOnWheelChanged )
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
@@ -117,6 +121,8 @@ namespace Blazorise
                         Max = new { Changed = maxChanged, Value = paramMax },
                         MinMaxLimitsOverride = new { Changed = minMaxLimitsOverrideChanged, Value = paramMinMaxLimitsOverride },
                         SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
+                        ModifyValueOnWheel = new { Changed = modifyValueOnWheelChanged, Value = paramModifyValueOnWheel },
+                        WheelOn = new { Changed = wheelOnChanged, Value = paramWheelOn },
                     } ) );
                 }
 
@@ -185,6 +191,8 @@ namespace Blazorise
                 TypeMax = maxFromType,
                 Step,
                 SelectAllOnFocus,
+                ModifyValueOnWheel,
+                WheelOn = WheelOn.ToNumericWheelOn(),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -567,6 +575,16 @@ namespace Blazorise
         /// If true, selects all the text entered in the input field once it receives the focus.
         /// </summary>
         [Parameter] public bool SelectAllOnFocus { get; set; }
+
+        /// <summary>
+        /// Determine if the element value can be incremented / decremented with the mouse wheel.
+        /// </summary>
+        [Parameter] public bool ModifyValueOnWheel { get; set; }
+
+        /// <summary>
+        /// Used in conjonction with the <see cref="ModifyValueOnWheel"/> option, defines when the wheel event will increment or decrement the element value, either when the element is focused, or hovered.
+        /// </summary>
+        [Parameter] public NumericWheelOn WheelOn { get; set; }
 
         #endregion
     }

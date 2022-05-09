@@ -17,7 +17,7 @@ namespace Blazorise
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="stream">Target stream.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        Task WriteToStreamAsync( FileEntry fileEntry, Stream stream );
+        Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default );
 
         /// <summary>
         /// Opens the stream for reading the uploaded file.

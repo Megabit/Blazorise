@@ -70,11 +70,14 @@ namespace Blazorise
                     targetElementId: childrenDropdownToggles?.FirstOrDefault()?.ElementId,
                     altTargetElementId: childrenButtonList?.FirstOrDefault()?.ElementId,
                     menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
+                    showElementId: GetShowElementId(),
                     options: new
                     {
                         Direction = GetDropdownDirection().ToString( "g" ),
+                        RightAligned = RightAligned,
                         DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
                         DropdownMenuClassNames = ClassProvider.DropdownMenu(),
+                        DropdownShowClassName = ClassProvider.DropdownObserverShow()
                     } );
 
                 if ( childrenButtonList?.Count > 0 )
@@ -90,6 +93,13 @@ namespace Blazorise
 
             base.OnAfterRender( firstRender );
         }
+
+        /// <summary>
+        /// Overridable Id for the target element that will be listening to the 'show event'.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetShowElementId()
+             => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
@@ -149,7 +159,6 @@ namespace Blazorise
 
             Visible = true;
 
-            await HandleJSVisibility();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -168,7 +177,6 @@ namespace Blazorise
             if ( ParentDropdown is not null && ( ParentDropdown.ShouldClose || hideAll ) )
                 await ParentDropdown.Hide( hideAll );
 
-            await HandleJSVisibility();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -201,25 +209,7 @@ namespace Blazorise
             SetSelectedDropdownElementId( dropdownToggleElementId );
             Visible = !Visible;
 
-            await HandleJSVisibility();
             await InvokeAsync( StateHasChanged );
-        }
-
-        /// <summary>
-        /// Handles the display of the dropdown with javascript assistance for clipping and overflow detections.
-        /// </summary>
-        /// <returns></returns>
-        internal ValueTask HandleJSVisibility()
-        {
-            if ( Rendered )
-            {
-                if ( Visible )
-                    return JSModule.Show( ElementRef, ElementId );
-                else
-                    return JSModule.Hide( ElementRef, ElementId );
-            }
-
-            return ValueTask.CompletedTask;
         }
 
         /// <summary>

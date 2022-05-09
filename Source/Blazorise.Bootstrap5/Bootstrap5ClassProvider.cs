@@ -409,6 +409,8 @@ namespace Blazorise.Bootstrap5
 
         public override string DropdownGroup() => "btn-group";
 
+        public override string DropdownObserverShow() => DropdownShow();
+
         public override string DropdownShow() => Show();
 
         public override string DropdownRight() => null;

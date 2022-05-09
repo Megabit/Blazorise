@@ -192,10 +192,10 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
         {
             return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
-                .WriteToStreamAsync( stream, CancellationToken.None );
+                .WriteToStreamAsync( stream, cancellationToken );
         }
 
         /// <inheritdoc/>
@@ -210,6 +210,9 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         public ValueTask Reset()
         {
+            ProgressProgress = 0;
+            ProgressTotal = 0;
+            Progress = 0;
             return JSFileEditModule.Reset( ElementRef, ElementId );
         }
 

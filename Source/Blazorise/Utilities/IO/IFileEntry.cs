@@ -52,7 +52,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="stream">Stream to which the upload process if writing.</param>
         /// <returns></returns>
-        Task WriteToStreamAsync( Stream stream );
+        Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken = default );
 
         /// <summary>
         /// Opens the stream for reading the uploaded file.

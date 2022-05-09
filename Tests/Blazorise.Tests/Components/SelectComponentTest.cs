@@ -11,7 +11,6 @@ namespace Blazorise.Tests.Components
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
-            BlazoriseConfig.JSInterop.AddSelect( this.JSInterop );
         }
 
         [Fact]

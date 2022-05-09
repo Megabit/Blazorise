@@ -68,7 +68,7 @@ namespace Blazorise.Charts
         /// Defines the border width.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? BorderWidth { get; set; } = 1;
+        public int? BorderWidth { get; set; }
 
         /// <summary>
         /// Defines the type of a chart dataset.
@@ -88,12 +88,12 @@ namespace Blazorise.Charts
         /// The drawing order of dataset. Also affects order for stacking, tooltip and legend.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Order { get; set; } = 0;
+        public int? Order { get; set; }
 
         /// <summary>
         /// Configure the visibility of the dataset. Using <c>Hidden = true</c> will hide the dataset from being rendered in the Chart.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Hidden { get; set; } = false;
+        public bool? Hidden { get; set; }
     }
 }

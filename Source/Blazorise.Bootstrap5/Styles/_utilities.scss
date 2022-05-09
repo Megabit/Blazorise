@@ -24,7 +24,7 @@ ol.ordered-list {
     }
 }
 
-$border-sides: ("top", "right", "bottom", "left");
+$border-sides: ("top":"top", "end":"right", "bottom":"bottom", "start":"left");
 $border-sizes: (1, 2, 3, 4, 5);
 
 @each $size in $border-sizes {
@@ -44,14 +44,14 @@ $border-sizes: (1, 2, 3, 4, 5);
         }
     }
 
-    @each $side in $border-sides {
-        .border-#{$side}-#{$size} {
-            border-#{$side}: #{$size}px solid $border-color !important;
+    @each $side-name, $side-value in $border-sides {
+        .border-#{$side-name}-#{$size} {
+            border-#{$side-value}: #{$size}px solid $border-color !important;
         }
 
         @each $color-name, $color-value in $theme-colors {
-            .border-#{$color-name}-#{$side}-#{$size} {
-                border-#{$side}: #{$size}px solid $color-value !important;
+            .border-#{$color-name}-#{$side-name}-#{$size} {
+                border-#{$side-value}: #{$size}px solid $color-value !important;
             }
         }
     }

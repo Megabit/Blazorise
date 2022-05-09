@@ -13,7 +13,7 @@ namespace Blazorise.Charts
         /// Alignment of the subtitle.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Align { get; set; } = "center";
+        public string Align { get; set; }
 
         /// <summary>
         /// Color of the text.
@@ -26,19 +26,19 @@ namespace Blazorise.Charts
         /// Is the legend subtitle displayed.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = false;
+        public bool? Display { get; set; }
 
         /// <summary>
         /// Marks that this box should take the full width/height of the canvas. If false, the box is sized and placed above/beside the chart area.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? FullSize { get; set; } = true;
+        public bool? FullSize { get; set; }
 
         /// <summary>
         /// Position of subtitle.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Position { get; set; } = "top";
+        public string Position { get; set; }
 
         /// <summary>
         /// Font of the text.
@@ -50,7 +50,7 @@ namespace Blazorise.Charts
         /// Padding around the subtitle.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Padding { get; set; } = 10;
+        public object Padding { get; set; }
 
         /// <summary>
         /// Subtitle text to display.

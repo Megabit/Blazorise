@@ -13,13 +13,13 @@ namespace Blazorise.Charts
         /// If true, display the axis title.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = false;
+        public bool? Display { get; set; }
 
         /// <summary>
         /// Alignment of the axis title. Possible options are 'start', 'center' and 'end'.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Align { get; set; } = "center";
+        public string Align { get; set; }
 
         /// <summary>
         /// The text for the title. (i.e. "# of People" or "Response Choices").
@@ -45,6 +45,6 @@ namespace Blazorise.Charts
         /// Padding to apply around scale labels. Only top, bottom and y are implemented.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Padding { get; set; } = 10;
+        public object Padding { get; set; }
     }
 }

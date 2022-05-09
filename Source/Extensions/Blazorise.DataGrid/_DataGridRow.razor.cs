@@ -81,7 +81,7 @@ namespace Blazorise.DataGrid
             ParentDataGrid.AddRow( RowInfo );
 
             if ( ParentDataGrid.DetailRowStartsVisible )
-                await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.Manual, false, true );
+                await ParentDataGrid.ToggleDetailRow( RowInfo, DetailRowTriggerType.Manual, false, true );
 
             await base.OnInitializedAsync();
         }

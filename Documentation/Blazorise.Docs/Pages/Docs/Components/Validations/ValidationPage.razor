@@ -38,16 +38,25 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<DocsPageParagraph>
+    For the most part you will need to use just the <Code Tag>Validation</Code> component along
+    with <Code Tag>ValidationSuccess</Code> and <Code Tag>ValidationError</Code>. By default every validation
+    will run automatically when input value changes. You must set the <Code>Validator</Code> event handler where you can
+    define the validation rules and return the validation result.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic validation">
-        For the most part you will need to use just the <Code Tag>Validation</Code> component along
-        with <Code Tag>ValidationSuccess</Code> and <Code Tag>ValidationError</Code>. By default every validation
-        will run automatically when input value changes. You must set the <Code>Validator</Code> event handler where you can
-        define the validation rules and return the validation result.
+    <DocsPageSectionHeader Title="Validating using Methods handlers">
+        <Paragraph>
+            Method handlers are the easiest and quickest way to validate fields. Therefore, we give you a set of predefined validation handlers that can be accessed through the  <Code>ValidationRule</Code> helpers class and assigned to the <Code>Validator</Code> parameter.
+        </Paragraph>
+        <Paragraph>
+            Apart from using the pre-built handler methods, you can also create your own. For example, you can see the custom <Code>ValidateEmail</Code> handler in the following code-snippet.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicValidationExample />
@@ -63,6 +72,39 @@
         will be fixed in the future.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ValidationFeedbackExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validating using Data Annotations">
+        To use data annotations with Blazorise you must combine both <Code>Validation</Code> and the <Code>Validations</Code>
+        components. The <Code>Validations</Code> component will act as a group for a fields used inside of <Code>Validation</Code>
+        component. To make it all work you must meet two requirements:
+        <OrderedList>
+            <OrderedListItem>
+                <Code>Validations</Code> component must contain reference to the validated POCO through the <Code>Model</Code> parameter.
+            </OrderedListItem>
+            <OrderedListItem>
+                Input component must bind to the model field through the <Code>@@bind-{Value}</Code>(i.e. <Code>@@bind-Text</Code>)
+            </OrderedListItem>
+        </OrderedList>
+        After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DataAnnotationValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataAnnotationValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validating using Pattern">
+        If you want to validate input by using regular expression instead of <Code>Validator</Code> handlers you can
+        use <Code>Pattern</Code> patameter. Components that supports pattern attribute are
+        <Code>TextEdit</Code>, <Code>NumericEdit</Code> and <Code>DateEdit</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PatternValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PatternValidationExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -91,39 +133,6 @@
         <ManualValidationExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ManualValidationExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Pattern validation">
-        If you want to validate input by using regular expression instead of <Code>Validator</Code> handlers you can
-        use <Code>Pattern</Code> patameter. Components that supports pattern attribute are
-        <Code>TextEdit</Code>, <Code>NumericEdit</Code> and <Code>DateEdit</Code>.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
-        <PatternValidationExample />
-    </DocsPageSectionContent>
-    <DocsPageSectionSource Code="PatternValidationExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Data Annotations">
-        To use data annotations with Blazorise you must combine both <Code>Validation</Code> and the <Code>Validations</Code>
-        components. The <Code>Validations</Code> component will act as a group for a fields used inside of <Code>Validation</Code>
-        component. To make it all work you must meet two requirements:
-        <OrderedList>
-            <OrderedListItem>
-                <Code>Validations</Code> component must contain reference to the validated POCO through the <Code>Model</Code> parameter.
-            </OrderedListItem>
-            <OrderedListItem>
-                Input component must bind to the model field through the <Code>@@bind-{Value}</Code>(i.e. <Code>@@bind-Text</Code>)
-            </OrderedListItem>
-        </OrderedList>
-        After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
-        <DataAnnotationValidationExample />
-    </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataAnnotationValidationExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

@@ -13,7 +13,7 @@ namespace Blazorise.Charts
         /// Are on-canvas tooltips enabled.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Enabled { get; set; } = true;
+        public bool? Enabled { get; set; }
 
         /// <summary>
         /// Sets which elements appear in the tooltip.
@@ -31,21 +31,21 @@ namespace Blazorise.Charts
         /// The mode for positioning the tooltip.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Position { get; set; } = "average";
+        public string Position { get; set; }
 
         /// <summary>
         /// Background color of the tooltip.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> BackgroundColor { get; set; } = "rgba(0, 0, 0, 0.8)";
+        public IndexableOption<object> BackgroundColor { get; set; }
 
         /// <summary>
         /// Color of title text.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> TitleColor { get; set; } = "#fff";
+        public IndexableOption<object> TitleColor { get; set; }
 
         /// <summary>
         /// See <see href="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</see>.
@@ -57,26 +57,26 @@ namespace Blazorise.Charts
         /// Horizontal alignment of the title text lines.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string TitleAlign { get; set; } = "left";
+        public string TitleAlign { get; set; }
 
         /// <summary>
         /// Spacing to add to top and bottom of each title line.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? TitleSpacing { get; set; } = 2;
+        public int? TitleSpacing { get; set; }
 
         /// <summary>
         /// Margin to add on bottom of title section.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? TitleMarginBottom { get; set; } = 6;
+        public int? TitleMarginBottom { get; set; }
 
         /// <summary>
         /// Color of body text.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> BodyColor { get; set; } = "#fff";
+        public IndexableOption<object> BodyColor { get; set; }
 
         /// <summary>
         /// See <see href="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</see>.
@@ -88,20 +88,20 @@ namespace Blazorise.Charts
         /// Horizontal alignment of the body text lines.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BodyAlign { get; set; } = "left";
+        public string BodyAlign { get; set; }
 
         /// <summary>
         /// Spacing to add to top and bottom of each tooltip item.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? BodySpacing { get; set; } = 2;
+        public int? BodySpacing { get; set; }
 
         /// <summary>
         /// Color of footer text.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> FooterColor { get; set; } = "#fff";
+        public IndexableOption<object> FooterColor { get; set; }
 
         /// <summary>
         /// See <see href="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</see>.
@@ -113,56 +113,56 @@ namespace Blazorise.Charts
         /// Horizontal alignment of the footer text lines.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string FooterAlign { get; set; } = "left";
+        public string FooterAlign { get; set; }
 
         /// <summary>
         /// Spacing to add to top and bottom of each footer line.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? FooterSpacing { get; set; } = 2;
+        public int? FooterSpacing { get; set; }
 
         /// <summary>
         /// Margin to add before drawing the footer.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? FooterMarginTop { get; set; } = 6;
+        public int? FooterMarginTop { get; set; }
 
         /// <summary>
         /// Padding inside the tooltip.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Padding { get; set; } = 6;
+        public object Padding { get; set; }
 
         /// <summary>
         /// Extra distance to move the end of the tooltip arrow away from the tooltip point.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object CaretPadding { get; set; } = 2;
+        public object CaretPadding { get; set; }
 
         /// <summary>
         /// Size, in px, of the tooltip arrow.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? CaretSize { get; set; } = 5;
+        public int? CaretSize { get; set; }
 
         /// <summary>
         /// Radius of tooltip corner curves.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? CornerRadius { get; set; } = 6;
+        public int? CornerRadius { get; set; }
 
         /// <summary>
         /// Color to draw behind the colored boxes when multiple items are in the tooltip.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> MultiKeyBackground { get; set; } = "#fff";
+        public IndexableOption<object> MultiKeyBackground { get; set; }
 
         /// <summary>
         /// If true, color boxes are shown in the tooltip.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? DisplayColors { get; set; } = true;
+        public bool? DisplayColors { get; set; }
 
         /// <summary>
         /// Width of the color box if displayColors is true.
@@ -180,26 +180,26 @@ namespace Blazorise.Charts
         /// Padding between the color box and the text.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? BoxPadding { get; set; } = 1;
+        public int? BoxPadding { get; set; }
 
         /// <summary>
         /// Use the corresponding point style (from dataset options) instead of color boxes, ex: star, triangle etc. (size is based on the minimum value between boxWidth and boxHeight).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? UsePointStyle { get; set; } = false;
+        public bool? UsePointStyle { get; set; }
 
         /// <summary>
         /// Color of the border.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> BorderColor { get; set; } = "rgba(0, 0, 0, 0)";
+        public IndexableOption<object> BorderColor { get; set; }
 
         /// <summary>
         /// Size of the border.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? BorderWidth { get; set; } = 0;
+        public int? BorderWidth { get; set; }
 
         /// <summary>
         /// true for rendering the tooltip from right to left.
