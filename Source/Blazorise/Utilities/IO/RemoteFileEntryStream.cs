@@ -97,7 +97,7 @@ namespace Blazorise
 
             await Task.WhenAll(
                 fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, buffer.ToArray() ),
-                fileEntryNotifier.UpdateFileProgressAsync( fileEntry, maxBytesToRead ) );
+                fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytesRead ) );
 
             if (position == fileEntry.Size)
                 await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, true, FileInvalidReason.None );
