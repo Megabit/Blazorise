@@ -1078,16 +1078,21 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string ResetFileEditExample = @"<FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
-@code{
+        public const string ResetFileEditExample = @"<Field>
+    <FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
+</Field>
+<Field>
+    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
+</Field>
+@code {
     FileEdit fileEdit;
 
-    Task OnChanged( FileChangedEventArgs e )
+    Task OnChanged(FileChangedEventArgs e)
     {
         return Task.CompletedTask;
     }
 
-    Task OnSomeButtonClick()
+    Task Reset()
     {
         return fileEdit.Reset().AsTask();
     }
