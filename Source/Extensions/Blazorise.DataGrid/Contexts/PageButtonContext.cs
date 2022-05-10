@@ -1,4 +1,8 @@
-﻿namespace Blazorise.DataGrid
+﻿#region Using directives
+using System;
+#endregion
+
+namespace Blazorise.DataGrid
 {
     /// <summary>
     /// Context for pagination button.
@@ -19,7 +23,13 @@
         /// <summary>
         /// Gets the page number.
         /// </summary>
-        public int PageNumber { get; }
+        public int PageNumber { get; private set; }
+
+        /// <summary>
+        /// Gets the page number.
+        /// </summary>
+        [Obsolete( "PageNumer is deprecated and will be removed in future versions, please use PageNumber instead.", true )]
+        public int PageNumer { get { return PageNumber; } set { PageNumber = value; } }
 
         /// <summary>
         /// Get the flag that indicates if the page is active.
