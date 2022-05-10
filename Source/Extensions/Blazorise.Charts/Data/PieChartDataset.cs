@@ -35,13 +35,13 @@ namespace Blazorise.Charts
         /// </list>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderAlign { get; set; } = "center";
+        public string BorderAlign { get; set; }
 
         /// <summary>
         /// If this value is a number, it is applied to all corners of the arc (outerStart, outerEnd, innerStart, innerRight). If this value is an object, the outerStart property defines the outer-start corner's border radius. Similarly, the outerEnd, innerStart, and innerEnd properties can also be specified.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object BorderRadius { get; set; } = 0f;
+        public object BorderRadius { get; set; }
 
         /// <summary>
         /// Per-dataset override for the sweep that the arcs cover.
@@ -68,19 +68,19 @@ namespace Blazorise.Charts
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverBorderWidth { get; set; } = 0;
+        public int? HoverBorderWidth { get; set; }
 
         /// <summary>
         /// Arc offset when hovered (in pixels).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverOffset { get; set; } = 0;
+        public int? HoverOffset { get; set; }
 
         /// <summary>
         /// Arc offset (in pixels).
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Offset { get; set; } = 0;
+        public int? Offset { get; set; }
 
         /// <summary>
         /// Per-dataset override for the starting angle to draw arcs from.
@@ -92,13 +92,13 @@ namespace Blazorise.Charts
         /// Fixed arc offset (in pixels). Similar to offset but applies to all arcs.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Spacing { get; set; } = 0;
+        public int? Spacing { get; set; }
 
         /// <summary>
         /// The relative thickness of the dataset. Providing a value for weight will cause the pie or doughnut dataset
         /// to be drawn with a thickness relative to the sum of all the dataset weight values.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Weight { get; set; } = 1;
+        public int? Weight { get; set; }
     }
 }

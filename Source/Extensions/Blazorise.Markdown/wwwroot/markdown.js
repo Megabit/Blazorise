@@ -196,3 +196,13 @@ export function notifyImageUploadError(elementId, errorMessage) {
         return instance.imageUploadNotifier.onError(errorMessage);
     }
 }
+
+export function focus(elementId, scrollToElement) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        return instance.editor.codemirror.focus({
+            preventScroll: !scrollToElement
+        });
+    }
+}

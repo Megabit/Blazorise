@@ -23,7 +23,7 @@ namespace Blazorise.Charts
         /// Defines the border alignment.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderAlign { get; set; } = "center";
+        public string BorderAlign { get; set; }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.

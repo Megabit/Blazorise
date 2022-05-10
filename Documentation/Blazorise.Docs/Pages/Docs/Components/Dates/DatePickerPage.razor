@@ -210,6 +210,29 @@
 </Table>
 
 <DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Show the Date Format
+</Heading>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Paragraph>
+            Use a placeholder or helper to show how the input should be formatted. For example, "12/6/2020" represents different dates for Americans and Europeans.
+        </Paragraph>
+        <Paragraph>
+            Helpers are preferable to placeholders, as they are always visible. Fields with placeholders are also less noticeable than empty fields, so they are susceptible to being skipped. Use placeholders when space is limited, for example when Date Picker is used as a filter in a data grid header.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerFormatBestPracticeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerFormatBestPracticeExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
 

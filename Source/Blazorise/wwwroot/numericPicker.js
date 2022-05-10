@@ -1,6 +1,6 @@
-﻿import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=1.0.3.0";
+﻿import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=1.0.4.0";
 
-import './vendors/autoNumeric.js?v=1.0.3.0';
+import './vendors/autoNumeric.js?v=1.0.4.0';
 
 let _instances = [];
 
@@ -21,7 +21,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         digitGroupSeparator: firstNonNull(options.groupSeparator, AutoNumeric.options.digitGroupSeparator.noSeparator),
         digitalGroupSpacing: firstNonNull(options.groupSpacing, AutoNumeric.options.digitalGroupSpacing.three),
 
-        modifyValueOnWheel: false,
+        modifyValueOnWheel: firstNonNull(options.modifyValueOnWheel, AutoNumeric.options.modifyValueOnWheel.doNothing),
+        wheelOn: firstNonNull(options.wheelOn, AutoNumeric.options.wheelOn.focus),
         wheelStep: firstNonNull(options.step, 1),
         minimumValue: firstNonNull(fromExponential(firstNonNull(options.min, options.typeMin)), AutoNumeric.options.minimumValue.tenTrillions),
         maximumValue: firstNonNull(fromExponential(firstNonNull(options.max, options.typeMax)), AutoNumeric.options.maximumValue.tenTrillions),
@@ -122,6 +123,14 @@ export function updateOptions(element, elementId, options) {
 
         if (options.alwaysAllowDecimalSeparator.changed) {
             newOptions.alwaysAllowDecimalCharacter = firstNonNull(options.alwaysAllowDecimalSeparator.value, AutoNumeric.options.alwaysAllowDecimalCharacter.doNotAllow);
+        }
+
+        if (options.modifyValueOnWheel.changed) {
+            newOptions.modifyValueOnWheel = firstNonNull(options.modifyValueOnWheel.value, AutoNumeric.options.modifyValueOnWheel.doNothing);
+        }
+
+        if (options.wheelOn.changed) {
+            newOptions.wheelOn = firstNonNull(options.wheelOn.value, AutoNumeric.options.wheelOn.focus);
         }
 
         instance.update(newOptions);

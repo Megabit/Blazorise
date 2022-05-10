@@ -22,7 +22,7 @@ namespace Blazorise.Charts
         /// The width of the border line.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BorderWidth { get; set; } = 1d;
+        public double? BorderWidth { get; set; }
 
         /// <summary>
         /// Length and spacing of dashes on grid lines
@@ -34,7 +34,7 @@ namespace Blazorise.Charts
         /// Offset for line dashes.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BorderDashOffset { get; set; } = 0d;
+        public double? BorderDashOffset { get; set; }
 
         /// <summary>
         /// If true, gridlines are circular (on radar chart only).
@@ -53,31 +53,31 @@ namespace Blazorise.Charts
         /// If false, do not display grid lines for this axis.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = true;
+        public bool? Display { get; set; }
 
         /// <summary>
         /// If true, draw border at the edge between the axis and the chart area.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? DrawBorder { get; set; } = true;
+        public bool? DrawBorder { get; set; }
 
         /// <summary>
         /// If true, draw lines on the chart area inside the axis lines. This is useful when there are multiple axes and you need to control which grid lines are drawn.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? DrawOnChartArea { get; set; } = true;
+        public bool? DrawOnChartArea { get; set; }
 
         /// <summary>
         /// If true, draw lines beside the ticks in the axis area beside the chart.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? DrawTicks { get; set; } = true;
+        public bool? DrawTicks { get; set; }
 
         /// <summary>
         /// Stroke width of grid lines.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? LineWidth { get; set; } = 1d;
+        public double? LineWidth { get; set; }
 
         /// <summary>
         /// If true, grid lines will be shifted to be between labels. This is set to true for a bar chart by default.
@@ -108,7 +108,7 @@ namespace Blazorise.Charts
         /// Length in pixels that the grid lines will draw into the axis area.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? TickLength { get; set; } = 8;
+        public double? TickLength { get; set; }
 
         /// <summary>
         /// Width of the tick mark in pixels. If unset, defaults to the grid line width.
@@ -121,6 +121,6 @@ namespace Blazorise.Charts
         /// </summary>
         [JsonPropertyName( "y" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Z { get; set; } = 0;
+        public double? Z { get; set; }
     }
 }

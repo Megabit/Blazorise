@@ -10,13 +10,13 @@ namespace Blazorise.Charts
         /// s decimation enabled?
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Enabled { get; set; } = false;
+        public bool? Enabled { get; set; }
 
         /// <summary>
         /// Decimation algorithm to use. See <see href="https://www.chartjs.org/docs/latest/configuration/decimation.html#decimation-algorithms">more...</see>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Algorithm { get; set; } = "min-max";
+        public string Algorithm { get; set; }
 
         /// <summary>
         /// If the <c>lttb</c> algorithm is used, this is the number of samples in the output dataset. Defaults to the canvas width to pick 1 sample per pixel.

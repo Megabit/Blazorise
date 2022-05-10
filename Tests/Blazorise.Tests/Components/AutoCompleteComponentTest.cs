@@ -14,7 +14,6 @@ namespace Blazorise.Tests.Components
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddTextEdit(this.JSInterop);
-            BlazoriseConfig.JSInterop.AddSelect( this.JSInterop );
             BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
             BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );

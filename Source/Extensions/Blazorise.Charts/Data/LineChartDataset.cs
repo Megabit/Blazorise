@@ -45,13 +45,13 @@ namespace Blazorise.Charts
         /// </list>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderCapStyle { get; set; } = "butt";
+        public string BorderCapStyle { get; set; }
 
         /// <summary>
         /// Length and spacing of dashes. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public List<int> BorderDash { get; set; } = new();
+        public List<int> BorderDash { get; set; }
 
         /// <summary>
         /// Offset for line dashes. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset">MDN</see>.
@@ -63,7 +63,7 @@ namespace Blazorise.Charts
         /// Line joint style. See <see href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin">MDN</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderJoinStyle { get; set; } = "miter";
+        public string BorderJoinStyle { get; set; }
 
         /// <summary>
         /// <para>
@@ -84,13 +84,13 @@ namespace Blazorise.Charts
         /// </para>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string CubicInterpolationMode { get; set; } = "default";
+        public string CubicInterpolationMode { get; set; }
 
         /// <summary>
         /// Fill the area under the line. See <see href="https://www.chartjs.org/docs/latest/charts/area.html">area charts.</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Fill { get; set; } = true;
+        public bool? Fill { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
@@ -136,13 +136,13 @@ namespace Blazorise.Charts
         /// The width of the point border in pixels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? PointBorderWidth { get; set; } = 1;
+        public int? PointBorderWidth { get; set; }
 
         /// <summary>
         /// The pixel size of the non-displayed point that reacts to mouse events.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? PointHitRadius { get; set; } = 1;
+        public int? PointHitRadius { get; set; }
 
         /// <summary>
         /// Point background color when hovered.
@@ -162,37 +162,37 @@ namespace Blazorise.Charts
         /// Border width of point when hovered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHoverBorderWidth { get; set; } = 1f;
+        public float? PointHoverBorderWidth { get; set; }
 
         /// <summary>
         /// The radius of the point when hovered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointHoverRadius { get; set; } = 4f;
+        public float? PointHoverRadius { get; set; }
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointRadius { get; set; } = 3.0f;
+        public float? PointRadius { get; set; }
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? PointRotation { get; set; } = 0f;
+        public float? PointRotation { get; set; }
 
         /// <summary>
         /// Style of the point.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; } = "circle";
+        public string PointStyle { get; set; }
 
         /// <summary>
         /// If false, the line is not drawn for this dataset.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? ShowLine { get; set; } = true;
+        public bool? ShowLine { get; set; }
 
         /// <summary>
         /// <para>
@@ -266,14 +266,14 @@ namespace Blazorise.Charts
         /// </para>
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Stepped { get; set; } = false;
+        public object Stepped { get; set; }
 
         /// <summary>
         /// Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if monotone cubic
         /// interpolation is used.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public float? Tension { get; set; } = 0f;
+        public float? Tension { get; set; }
 
         /// <summary>
         /// The ID of the x-axis to plot this dataset on.

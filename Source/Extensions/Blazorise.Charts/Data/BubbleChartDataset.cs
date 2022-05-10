@@ -25,25 +25,25 @@ namespace Blazorise.Charts
         public IndexableOption<object> HoverBorderColor { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverBorderWidth { get; set; } = 1;
+        public int? HoverBorderWidth { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverRadius { get; set; } = 4;
+        public int? HoverRadius { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HitRadius { get; set; } = 1;
+        public int? HitRadius { get; set; }
 
         /// <summary>
         /// Style of the point.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; } = "circle";
+        public string PointStyle { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Rotation { get; set; } = 0;
+        public double? Rotation { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Radius { get; set; } = 3;
+        public double? Radius { get; set; }
     }
 
     public struct BubbleChartPoint

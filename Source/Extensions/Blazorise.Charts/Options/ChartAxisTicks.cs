@@ -17,13 +17,13 @@ namespace Blazorise.Charts
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> BackdropColor { get; set; } = "rgba(255, 255, 255, 0.75)";
+        public IndexableOption<object> BackdropColor { get; set; }
 
         /// <summary>
-        /// Padding of label backdrop. See <see href="https://www.chartjs.org/docs/3.6.2/general/padding.html">Padding</see>.
+        /// Padding of label backdrop. See <see href="https://www.chartjs.org/docs/3.7.1/general/padding.html">Padding</see>.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object BackdropPadding { get; set; } = 2;
+        public object BackdropPadding { get; set; }
 
         /// <summary>
         /// Defines the Expression which will be converted to JavaScript as a string representation of the tick value as it should be displayed on the chart.
@@ -36,7 +36,7 @@ namespace Blazorise.Charts
         /// If true, show tick marks.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Display { get; set; } = true;
+        public bool? Display { get; set; }
 
         /// <summary>
         /// Color of ticks.
@@ -61,13 +61,13 @@ namespace Blazorise.Charts
         /// Sets the offset of the tick labels from the axis.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Padding { get; set; } = 3;
+        public double? Padding { get; set; }
 
         /// <summary>
         /// If true, draw a background behind the tick labels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? ShowLabelBackdrop { get; set; } = false;
+        public bool? ShowLabelBackdrop { get; set; }
 
         /// <summary>
         /// The color of the stroke around the text.
@@ -80,14 +80,14 @@ namespace Blazorise.Charts
         /// Stroke width around the text.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? TextStrokeWidth { get; set; } = 0;
+        public double? TextStrokeWidth { get; set; }
 
         /// <summary>
         /// z-index of tick layer. Useful when ticks are drawn on chart area. Values &lt;= 0 are drawn under datasets, &gt; 0 on top.
         /// </summary>
         [JsonPropertyName( "y" )]
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Z { get; set; } = 0;
+        public double? Z { get; set; }
 
         #region Linear Axis specific tick options
 

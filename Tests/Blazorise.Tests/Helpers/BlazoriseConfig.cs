@@ -54,7 +54,6 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
             services.AddScoped<IJSFileEditModule, JSFileEditModule>();
             services.AddScoped<IJSTableModule, JSTableModule>();
-            services.AddScoped<IJSSelectModule, JSSelectModule>();
             services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
             services.AddScoped<IJSDropdownModule, JSDropdownModule>();
 
@@ -123,15 +122,6 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "destroy", _ => true ).SetVoidResult();
             }
 
-            public static void AddSelect( BunitJSInterop jsInterop )
-            {
-                AddUtilities( jsInterop );
-
-                var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true ).SetVoidResult();
-                module.Setup<String[]>( "getSelectedOptions", _ => true ).SetResult( Array.Empty<string>() );
-            }
-
             public static void AddUtilities( BunitJSInterop jsInterop )
             {
                 var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
@@ -171,7 +161,6 @@ namespace Blazorise.Tests.Helpers
                 AddTextEdit( jsInterop );
                 AddModal( jsInterop );
                 AddTable( jsInterop );
-                AddSelect( jsInterop );
                 AddClosable( jsInterop );
                 AddDropdown( jsInterop );
 
