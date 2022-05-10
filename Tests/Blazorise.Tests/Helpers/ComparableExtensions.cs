@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazorise.Extensions;
+namespace Blazorise.Tests.Helpers;
 
 /// <summary>
 /// A set of extension methods for working with types that implement <see cref="IComparable"/>

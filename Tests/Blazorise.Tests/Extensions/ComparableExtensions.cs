@@ -1,5 +1,5 @@
 ﻿#region Using Directives
-using Blazorise.Extensions;
+using Blazorise.Tests.Helpers;
 using Exceptionless;
 using Xunit;
 #endregion
