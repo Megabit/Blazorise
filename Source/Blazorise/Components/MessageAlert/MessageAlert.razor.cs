@@ -70,7 +70,7 @@ namespace Blazorise
             {
                 await ModalRef.Hide();
 
-                if ( IsConfirmation && Callback != null )
+                if ( IsConfirmation && Callback != null && !Callback.Task.IsCompleted )
                 {
                     await InvokeAsync( () => Callback.SetResult( true ) );
                 }
@@ -89,7 +89,7 @@ namespace Blazorise
             {
                 await ModalRef.Hide();
 
-                if ( IsConfirmation && Callback != null )
+                if ( IsConfirmation && Callback != null && !Callback.Task.IsCompleted )
                 {
                     await InvokeAsync( () => Callback.SetResult( false ) );
                 }
