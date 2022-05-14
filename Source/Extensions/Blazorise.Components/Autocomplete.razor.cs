@@ -274,6 +274,8 @@ namespace Blazorise.Components
 
             foreach ( var textToAdd in textsToAdd )
                 await AddMultipleText( textToAdd );
+
+            await InvokeAsync( StateHasChanged );
         }
 
         private static bool ConfirmKey( KeyboardEventArgs eventArgs )
