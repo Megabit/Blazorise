@@ -15,6 +15,23 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
+                        <BarItem Margin="Margin.Is2.OnX.Is1.OnY">
+                          @*Focus could be set to this input on page load, a "power user" would know, a normal user would not notice imho*@
+                          <Autocomplete 
+                                        TItem="SearchEntry"
+                                        TValue="string"
+                                        Data="@SearchEntries"
+                                        TextField="@(( item ) => item.Name)"
+                                        ValueField="@(( item ) => item.Url)"
+                                        @bind-SelectedText="selectedSearchText"
+                                        Placeholder="Component Search..."
+                                        Filter="AutocompleteFilter.Contains"
+                                        FreeTyping
+                                        CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
+                                        SelectedValueChanged="ComponentSearchSelectedValueChanged">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                          </Autocomplete>
+                        </BarItem>
                         <BarItem>
                             <BarLink To="docs">
                                 <BarIcon IconName="IconName.Home" /> Overview

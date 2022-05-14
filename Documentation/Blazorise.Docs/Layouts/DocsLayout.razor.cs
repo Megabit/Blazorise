@@ -1,6 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Shared.Data;
+using Blazorise.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
@@ -32,6 +35,13 @@ namespace Blazorise.Docs.Layouts
 
         private bool disposed;
 
+        public IEnumerable<SearchEntry> SearchEntries;
+
+        public string selectedSearchText { get; set; }
+
+        [Inject]
+        public SearchEntryData SearchEntryData { get; set; }
+
         #endregion
 
         #region Methods
@@ -39,8 +49,20 @@ namespace Blazorise.Docs.Layouts
         protected override Task OnInitializedAsync()
         {
             NavigationManager.LocationChanged += OnLocationChanged;
+            SearchEntries = SearchEntryData.GetDataAsync().Result;
 
             return base.OnInitializedAsync();
+        }
+
+        private async void ComponentSearchSelectedValueChanged( string value )
+        {
+            if ( !string.IsNullOrWhiteSpace( value ) )
+            {
+                NavigationManager.NavigateTo( value );
+                await Task.Delay( 1000 );
+                selectedSearchText = "";
+                StateHasChanged();
+            }
         }
 
         private async void OnLocationChanged( object sender, LocationChangedEventArgs e )

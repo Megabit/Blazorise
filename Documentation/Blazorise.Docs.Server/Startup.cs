@@ -38,6 +38,7 @@ namespace Blazorise.Docs.Server
             services.AddMemoryCache();
             services.AddScoped<Shared.Data.EmployeeData>();
             services.AddScoped<Shared.Data.CountryData>();
+            services.AddScoped<Shared.Data.SearchEntryData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
