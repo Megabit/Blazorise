@@ -7,6 +7,7 @@ using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -112,6 +113,14 @@ namespace Blazorise
 
             base.BuildClasses( builder );
         }
+
+        /// <summary>
+        /// Whether the element id belongs to a child button of this dropdown.
+        /// </summary>
+        /// <param name="elementId"></param>
+        /// <returns></returns>
+        protected internal bool IsChildButton(string elementId )
+            => childrenButtonList?.Any( x => x.ElementId == elementId ) ?? false;
 
         private Direction GetDropdownDirection()
             => IsDropdownSubmenu && Direction == Direction.Default ? Direction.End : Direction;
