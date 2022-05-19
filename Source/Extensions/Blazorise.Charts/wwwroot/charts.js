@@ -138,13 +138,16 @@ export function compileOptionCallbacks(options) {
 export function destroy(canvas, canvasId) {
     var instances = _instances || {};
 
-    const chart = instances[canvasId].chart;
+    if (instances[canvasId])
+    {
+        const chart = instances[canvasId].chart;
 
-    if (chart) {
-        chart.destroy();
+        if (chart) {
+            chart.destroy();
+        }
+
+        delete instances[canvasId];
     }
-
-    delete instances[canvasId];
 }
 
 export function setOptions(canvasId, options, optionsJsonString, optionsObject) {
