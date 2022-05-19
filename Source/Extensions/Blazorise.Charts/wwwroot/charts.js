@@ -142,7 +142,7 @@ export function destroy(canvas, canvasId) {
 
     if (instance)
     {
-        const chart = instances[canvasId].chart;
+        const chart = instance.chart;
 
         if (chart) {
             chart.destroy();
