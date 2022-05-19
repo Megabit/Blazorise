@@ -1,0 +1,107 @@
+﻿@page "/docs/components/modal-provider"
+
+<Seo Canonical="/docs/components/modal-provider" Title="Blazorise Modal provider system" Description="The modal provider component provides an abstraction on top of Blazorize's Modal, enabling you to programatically instantiate modals with custom content/components." />
+
+<DocsPageTitle>
+    ModalProvider component
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    The modal provider component provides an abstraction on top of Blazorize's Modal, enabling you to programatically instantiate modals with custom content/components.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Usage">
+        You need to place <Code Tag>ModalProvider</Code> somewhere in your application
+        razor code. It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in
+        the following example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ModalProviderUsageExample" />
+    <DocsPageSectionContent>
+        A <Code>ModalService</Code> will be registered by Blazorise providing you with an API to programatically instantiate modals.
+        Examples are provided further below.
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Options">
+        You may provide options to <Code Tag>ModalProvider</Code> globally by setting them on the <Code Tag>ModalProvider</Code> component itself.
+        Optionally you can override these when instantiating a modal through the <Code>ModalService</Code> usage.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ModalProviderOptionsUsageExample" />
+    <DocsPageSectionSource Code="ModalServiceOptionsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate a modal with a custom component">
+        Instantiates a modal with a counter example taking in the counter number from the provided parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <ModalProviderInstantiationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalProviderInstantiationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    You will find that <Code Tag>ModalProvider</Code> provides most regular <Code>Modal</Code> parameters for you to override the modal behaviour.
+</DocsPageParagraph>
+
+<DocsAttributes Title="ModalProvider">
+    <DocsAttributesItem Name="UseModalStructure" Type="boolean" Default="true">
+        Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
+        Handles the visibility of modal dialog.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the modal visibility state changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opening" Type="Func<ModalOpeningEventArgs, Task>">
+        Occurs before the modal is opened and can be used to prevent the modal from opening.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Func<ModalClosingEventArgs, Task>">
+        Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Occurs after the modal has opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Occurs after the modal has closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToTop" Type="boolean" Default="true">
+        If true modal will scroll to top when opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
+        If true the the backdrop will be rendered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="boolean" Default="true">
+        Gets or sets whether the component has any animations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="150">
+        Gets or sets the animation duration.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RenderMode" Type="ModalRenderMode" Default="Default">
+        Defines how the modal content will be rendered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FocusTrap" Type="bool?" Default="true">
+        Defines if the modal should keep the input focus at all times.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Centered" Type="boolean" Default="false">
+        Centers the modal vertically.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="boolean" Default="false">
+        Scrolls the modal content independent of the page itself.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="ModalSize" Default="Default">
+        Changes the size of the modal.
+    </DocsAttributesItem>
+</DocsAttributes>
+
