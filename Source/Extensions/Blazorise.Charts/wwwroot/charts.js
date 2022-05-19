@@ -138,7 +138,9 @@ export function compileOptionCallbacks(options) {
 export function destroy(canvas, canvasId) {
     var instances = _instances || {};
 
-    if (instances[canvasId])
+    const instance = instances[canvasId];
+
+    if (instance)
     {
         const chart = instances[canvasId].chart;
 
