@@ -114,7 +114,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public string GetFileSizeReadable( IFileEntry file )
+        public static string GetFileSizeReadable( IFileEntry file )
             => Formaters.GetBytesReadable( file.Size );
 
 
