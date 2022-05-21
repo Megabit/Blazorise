@@ -1,7 +1,6 @@
 ﻿import { getRequiredElement } from "./utilities.js?v=1.0.4.0";
 
 const _instances = [];
-let fileInput;
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
 
@@ -18,13 +17,13 @@ export function destroy(element, elementId) {
 }
 
 function initializeDropZone(element) {
-    fileInput = element.querySelector("input[type=file]");
+    let fileInput = setFileInput(element);
     if (fileInput) {
         element.addEventListener("dragenter", onDragHover);
         element.addEventListener("dragover", onDragHover);
         element.addEventListener("dragleave", onDragLeave);
-        element.addEventListener("drop", onDrop);
-        element.addEventListener('paste', onPaste);
+        element.addEventListener("drop", (e) => onDrop(e, element));
+        element.addEventListener('paste', (e) => onPaste(e, element));
     }
 }
 
@@ -36,14 +35,19 @@ function onDragLeave(e) {
     e.preventDefault();
 }
 
-function onDrop(e) {
+function onDrop(e, element) {
     e.preventDefault();
+    console.log(element);
+    let fileInput = getFileInput(element);
+
     fileInput.files = getOnlyTrueFiles(e.dataTransfer.files);
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
 }
 
-function onPaste(e) {
+function onPaste(e, element) {
+    let fileInput = getFileInput(element);
+
     fileInput.files = getOnlyTrueFiles(e.clipboardData.files);
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
@@ -59,4 +63,12 @@ function getOnlyTrueFiles(files) {
     return dt.files;
 }
 
+function setFileInput(element) {
+    let fileInput = element.querySelector("input[type=file]");
+    _instances[element.id].fileInput = fileInput;
+    return fileInput;
+}
 
+function getFileInput(element) {
+    return _instances[element.id].fileInput;
+}

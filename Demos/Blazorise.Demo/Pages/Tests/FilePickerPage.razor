@@ -7,25 +7,25 @@
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Standard Upload : List</CardTitle>
+                <CardTitle>Standard Upload</CardTitle>
             </CardHeader>
-            <FilePicker @ref=filePicker
-                        Multiple
-                        MaxChunkSize=FileEditMaxChunkSize
-                        Written=OnFilePartReceived
-                        Ended=OnFileUploadEnded
-                        Progressed=OnFileUploadProgressChanged
-                        Upload="OnFileUpload"
-                        ShowMode="FilePickerShowMode.List">
-            </FilePicker>
             <CardBody>
+                <FilePicker @ref=filePicker
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUpload"
+                            ShowMode="FilePickerShowMode.List">
+                </FilePicker>
             </CardBody>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Buffered Upload : Dropdown</CardTitle>
+                <CardTitle>Buffered Upload</CardTitle>
             </CardHeader>
             <CardBody>
                 <FilePicker @ref=filePickerBuffered
@@ -35,7 +35,7 @@
                             Ended=OnFileUploadEnded
                             Progressed=OnFileUploadProgressChanged
                             Upload="OnFileUploadBuffered"
-                            ShowMode="FilePickerShowMode.Dropdown">
+                            ShowMode="FilePickerShowMode.List">
                 </FilePicker>
             </CardBody>
         </Card>
@@ -46,23 +46,39 @@
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Custom</CardTitle>
+                <CardTitle>Dropdown Show Mode</CardTitle>
             </CardHeader>
-            <FilePicker @ref=filePickerCustom
-                        Multiple
-                        MaxChunkSize=FileEditMaxChunkSize
-                        Written=OnFilePartReceived
-                        Ended=OnFileUploadEnded
-                        Progressed=OnFileUploadProgressChanged
-                        Upload="OnFileUpload"
-                        ShowMode="FilePickerShowMode.List">
-                        
-            </FilePicker>
             <CardBody>
+                <FilePicker @ref=filePickerDropdown
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUpload"
+                            ShowMode="FilePickerShowMode.Dropdown">
+                </FilePicker>
             </CardBody>
         </Card>
     </Column>
-
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Custom</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <FilePicker @ref=filePickerCustom
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUpload"
+                            ShowMode="FilePickerShowMode.List">
+                </FilePicker>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 
 
@@ -71,6 +87,7 @@
     private readonly int FileEditMaxChunkSize = 24 * 1024;
     private FilePicker filePicker { get; set; }
     private FilePicker filePickerBuffered { get; set; }
+    private FilePicker filePickerDropdown { get; set; }
     private FilePicker filePickerCustom { get; set; }
 
 
