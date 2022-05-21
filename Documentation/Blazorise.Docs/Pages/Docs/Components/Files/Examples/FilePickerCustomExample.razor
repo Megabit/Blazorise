@@ -1,0 +1,72 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.IO
+
+<FilePicker @ref="filePickerCustom"
+            Multiple
+            Upload="OnFileUpload"
+            ShowMode="FilePickerShowMode.List">
+    <FileContent>
+        <Div Flex="Flex.JustifyContent.Between">
+            <Div>
+                <Heading Size="HeadingSize.Is5">@context.File.Name</Heading>
+                <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
+            </Div>
+            <Div>
+                @if (context.File.Status == FileEntryStatus.Ready)
+                {
+                    <Icon TextColor="TextColor.Primary" Name="IconName.FileUpload" />
+                }
+                else if (context.File.Status == FileEntryStatus.Uploading)
+                {
+                    <Icon TextColor="TextColor.Warning" Name="IconName.Bolt" />
+                }
+                else if (context.File.Status == FileEntryStatus.Uploaded)
+                {
+                    <Icon TextColor="TextColor.Success" Name="IconName.CheckCircle" />
+                }
+                else if (context.File.Status == FileEntryStatus.Error)
+                {
+                    <Icon TextColor="TextColor.Danger" Name="IconName.TimesCircle" />
+                }
+            </Div>
+        </Div>
+        <Divider Margin="Margin.Is0" />
+    </FileContent>
+    <ButtonContent>
+        <Progress Value="@filePickerCustom.GetProgressPercentage()" />
+        <Buttons>
+            <Button Clicked="@context.Clear" Color="Color.Warning"><Icon Name="IconName.Clear" /></Button>
+            <Button Clicked="@context.Upload" Color="Color.Primary"><Icon Name="IconName.FileUpload" /></Button>
+        </Buttons>
+    </ButtonContent>
+</FilePicker>
+@code {
+    private FilePicker filePickerCustom;
+    const int OneMb = 1024 * 1024;
+
+    async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        try
+        {
+            var buffer = new byte[OneMb];
+            using (var bufferedStream = new BufferedStream(e.File.OpenReadStream(long.MaxValue), OneMb))
+            {
+                int readCount = 0;
+                int readBytes;
+                while ((readBytes = await bufferedStream.ReadAsync(buffer, 0, OneMb)) > 0)
+                {
+                    Console.WriteLine($"Read:{readCount++} {readBytes / (double)OneMb} MB");
+                    // Do work on the first 1MB of data
+                }
+            }
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine(exc.Message);
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}
