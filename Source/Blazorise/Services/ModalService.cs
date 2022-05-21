@@ -62,6 +62,14 @@ namespace Blazorise
             => Show( title, componentType, null, null );
 
         /// <inheritdoc/>
+        public Task<ModalInstance> Show( RenderFragment content )
+            => Show( string.Empty, content );
+
+        /// <inheritdoc/>
+        public Task<ModalInstance> Show( string title, RenderFragment content )
+            => Show( title, content, null );
+
+        /// <inheritdoc/>
         public Task<ModalInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalInstanceOptions modalInstanceOptions = null )
         {
             var childContent = new RenderFragment( __builder =>
@@ -76,6 +84,12 @@ namespace Blazorise
                 __builder.CloseComponent();
             } );
 
+            return Show( title, childContent, modalInstanceOptions );
+        }
+
+        /// <inheritdoc/>
+        public Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions = null )
+        {
             return ModalProvider.Show( title, childContent, modalInstanceOptions );
         }
 

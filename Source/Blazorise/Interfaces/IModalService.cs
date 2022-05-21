@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
@@ -96,6 +97,23 @@ namespace Blazorise
         public Task<ModalInstance> Show( string title, Type componentType );
 
         /// <summary>
+        /// Shows a Modal where the content is a RenderFragment.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public Task<ModalInstance> Show( RenderFragment content )
+            => Show( string.Empty, content );
+
+        /// <summary>
+        /// Shows a Modal where the content is a RenderFragment.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public Task<ModalInstance> Show( string title, RenderFragment content )
+            => Show( title, content, null );
+
+        /// <summary>
         /// Shows a Modal where the content is of componentType.
         /// </summary>
         /// <param name="title"></param>
@@ -104,6 +122,15 @@ namespace Blazorise
         /// <param name="modalInstanceOptions"></param>
         /// <returns></returns>
         public Task<ModalInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalInstanceOptions modalInstanceOptions = null );
+
+        /// <summary>
+        /// Shows a Modal where the content is a RenderFragment.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="childContent"></param>
+        /// <param name="modalInstanceOptions"></param>
+        /// <returns></returns>
+        public Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions = null );
 
         /// <summary>
         /// Hides currently opened modal.
