@@ -12,6 +12,18 @@ namespace Blazorise.DataGrid
     {
         #region Methods
 
+        private bool ShowButtonRow()
+            => ButtonRowTemplate != null && ParentDataGrid.IsButtonRowVisible;
+
+        private PagerElementPosition GetButtonRowPosition()
+            => ParentDataGrid.PagerOptions?.ButtonRowPosition ?? PagerElementPosition.Default;
+
+        private PagerElementPosition GetPaginationPosition()
+            => ParentDataGrid.PagerOptions?.PaginationPosition ?? PagerElementPosition.Default;
+
+        private PagerElementPosition GetTotalItemsPosition()
+            => ParentDataGrid.PagerOptions?.TotalItemsPosition ?? PagerElementPosition.Default;
+
         private Size GetSize()
             => ParentDataGrid.PagerOptions?.Size ?? Size.Default;
 
