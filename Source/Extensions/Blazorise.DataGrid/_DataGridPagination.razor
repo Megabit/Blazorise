@@ -43,7 +43,7 @@
     @if ( !ParentDataGrid.Virtualize )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
-            <Pagination>
+            <Pagination Size="@GetSize()">
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                     <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
                         @if ( FirstPageButtonTemplate != null )
@@ -123,7 +123,7 @@
                 @if ( PaginationContext.ShowPageSizes )
                 {
                     <PaginationItem Margin="Blazorise.Margin.Is0.FromBottom.Is3.FromStart">
-                        <Select @bind-SelectedValue="@PaginationContext.CurrentPageSize">
+                        <Select Size="@GetSize()" @bind-SelectedValue="@PaginationContext.CurrentPageSize">
                             @foreach ( var curPageSize in PaginationContext.PageSizes )
                                     {
                                 <SelectItem Value="@curPageSize">@curPageSize</SelectItem>

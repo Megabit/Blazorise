@@ -1620,6 +1620,11 @@ namespace Blazorise.DataGrid
         [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
 
         /// <summary>
+        /// Gets or sets Pager options.
+        /// </summary>
+        [Parameter] public PagerOptions PagerOptions { get; set; }
+
+        /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
         /// </summary>
         [Parameter] public bool Resizable { get; set; }

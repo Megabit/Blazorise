@@ -12,6 +12,9 @@ namespace Blazorise.DataGrid
     {
         #region Methods
 
+        private Size GetSize()
+            => ParentDataGrid.PagerOptions?.Size ?? Size.Default;
+
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
