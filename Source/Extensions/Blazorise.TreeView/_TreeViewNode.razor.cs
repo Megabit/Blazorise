@@ -13,6 +13,8 @@ namespace Blazorise.TreeView
         #region Members
 
         private bool expanded = true;
+        private IconName expandIcon = IconName.MinusSquare;
+        private IconName collapseIcon = IconName.PlusSquare;
 
         #endregion
 
@@ -84,6 +86,32 @@ namespace Blazorise.TreeView
                 expanded = value;
 
                 DirtyClasses();
+            }
+        }
+
+        [Parameter]
+        public IconName ExpandIcon
+        {
+            get => expandIcon;
+            set
+            {
+                if ( value == expandIcon )
+                    return;
+
+                expandIcon = value;
+            }
+        }
+
+        [Parameter]
+        public IconName CollapseIcon
+        {
+            get => collapseIcon;
+            set
+            {
+                if ( value == collapseIcon )
+                    return;
+
+                collapseIcon = value;
             }
         }
 

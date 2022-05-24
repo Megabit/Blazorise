@@ -12,7 +12,7 @@
                 @if ( hasChildren )
                 {
                     <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
-                        <Icon Name="@(nodeExpanded ? IconName.MinusSquare : IconName.PlusSquare)" IconStyle="IconStyle.Regular" />
+                        <Icon Name="@(nodeExpanded ? collapseIcon : expandIcon)" IconStyle="IconStyle.Regular" />
                     </span>
                 }
 
@@ -24,7 +24,10 @@
 
                 @if ( nodeExpanded && hasChildren )
                 {
-                    <_TreeViewNode Nodes="GetChildNodes(node)"
+                    <_TreeViewNode 
+                                   CollapseIcon="@collapseIcon"
+                                   ExpandIcon="@expandIcon"
+                                   Nodes="GetChildNodes(node)"
                                    NodeContent="NodeContent"
                                    GetChildNodes="GetChildNodes"
                                    ExpandedNodes="ExpandedNodes"
