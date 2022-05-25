@@ -1004,10 +1004,10 @@ namespace Blazorise.Docs.Models
     </FieldBody>
 </Field>
 <Field Horizontal>
-  <FieldLabel ColumnSize=""ColumnSize.Is3"">Horizontally aligned Check</FieldLabel>
-  <FieldBody ColumnSize=""ColumnSize.Is9"" Margin=""Margin.IsAuto"" >
-    <Check TValue=""bool"" />
-  </FieldBody>
+    <FieldLabel ColumnSize=""ColumnSize.Is3"">Horizontally aligned Check</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is9"" Margin=""Margin.IsAuto"">
+        <Check TValue=""bool"" />
+    </FieldBody>
 </Field>";
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
