@@ -90,22 +90,32 @@ namespace Blazorise.TreeView
         /// <summary>
         /// Defines the name of the treenode expand icon.
         /// </summary>
-        [Parameter] public IconName ExpandIconName { get; set; } = IconName.MinusSquare;
+        [Parameter] public IconName ExpandIconName { get; set; }
 
         /// <summary>
         /// Defines the style of the treenode expand icon.
         /// </summary>
-        [Parameter] public IconStyle ExpandIconStyle { get; set; } = IconStyle.Regular;
+        [Parameter] public IconStyle? ExpandIconStyle { get; set; }
+
+        /// <summary>
+        /// Defines the size of the treenode expand icon.
+        /// </summary>
+        [Parameter] public IconSize? ExpandIconSize { get; set; }
 
         /// <summary>
         /// Defines the name of the treenode collapse icon.
         /// </summary>
-        [Parameter] public IconName CollapseIconName { get; set; } = IconName.PlusSquare;
+        [Parameter] public IconName CollapseIconName { get; set; }
 
         /// <summary>
         /// Defines the style of the treenode collapse icon.
         /// </summary>
-        [Parameter] public IconStyle CollapseIconStyle { get; set; } = IconStyle.Regular;
+        [Parameter] public IconStyle? CollapseIconStyle { get; set; }
+
+        /// <summary>
+        /// Defines the size of the treenode collapse icon.
+        /// </summary>
+        [Parameter] public IconSize? CollapseIconSize { get; set; }
 
         [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
 

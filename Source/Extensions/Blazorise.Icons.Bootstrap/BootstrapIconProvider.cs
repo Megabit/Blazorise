@@ -71,6 +71,8 @@ namespace Blazorise.Icons.Bootstrap
             { IconName.CheckSquare, BootstrapIcons.CheckSquare },
             { IconName.ChevronLeft, BootstrapIcons.ChevronLeft },
             { IconName.ChevronRight, BootstrapIcons.ChevronRight },
+            { IconName.ChevronUp, BootstrapIcons.ChevronUp },
+            { IconName.ChevronDown, BootstrapIcons.ChevronDown },
             { IconName.Circle, BootstrapIcons.Circle },
             { IconName.City, BootstrapIcons.Building },
             { IconName.Clear, BootstrapIcons.Eraser },

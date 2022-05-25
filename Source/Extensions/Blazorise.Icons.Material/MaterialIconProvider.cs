@@ -71,6 +71,8 @@ namespace Blazorise.Icons.Material
             { IconName.CheckSquare, "check_box" },
             { IconName.ChevronLeft, "chevron_left" },
             { IconName.ChevronRight, "chevron_right" },
+            { IconName.ChevronUp, "expand_less" },
+            { IconName.ChevronDown, "expand_more" },
             { IconName.Circle, "radio_button_unchecked" },
             { IconName.City, "location_city" },
             { IconName.Clear, "clear" },
