@@ -8,7 +8,7 @@
     public Task ShowCounter()
     {
         Random random = new();
-        var newValue = random.NextInt64(100);
-        return ModalService.Show<Counter>("My Custom Content!", x => x.Add(x => x.Value, newValue));
+        var newValue = random.NextInt64( 100 );
+        return ModalService.Show<Counter>( "My Custom Content!", x => x.Add( x => x.Value, newValue ) );
     }
 }

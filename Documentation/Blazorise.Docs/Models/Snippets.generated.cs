@@ -1783,49 +1783,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
-
-@code {
-    [Inject] public IModalService ModalService { get; set; }
-
-    public Task ShowCounter()
-    {
-        Random random = new();
-        var newValue = random.NextInt64(100);
-        return ModalService.Show<Counter>(""My Custom Content!"", x => x.Add(x => x.Value, newValue));
-    }
-}";
-
-        public const string ModalProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
-    <Found>...</Found>
-    <NotFound>...</NotFound>
-</Router>
-
-<ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
-
-        public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
-    <Found>...</Found>
-    <NotFound>...</NotFound>
-</Router>
-
-<ModalProvider />";
-
-        public const string ModalServiceOptionsExample = @"<Button Clicked=""InstantiateModal""></Button>
-@code {
-
-    [Inject] public IModalService ModalService { get; set; }
-
-    public Task InstantiateModal()
-    {
-        return ModalService.Show<ModalServiceOptionsExample>(""Override Options Example"", new ModalInstanceOptions()
-            {
-                Animated = false,
-                UseModalStructure = false,
-                Size = ModalSize.Small
-            });
-    }
-}";
-
         public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
 
         public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
@@ -5778,6 +5735,49 @@ builder.Services
 </Router>
 
 <MessageAlert />";
+
+        public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task ShowCounter()
+    {
+        Random random = new();
+        var newValue = random.NextInt64( 100 );
+        return ModalService.Show<Counter>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+    }
+}";
+
+        public const string ModalProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
+
+        public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<ModalProvider />";
+
+        public const string ModalServiceOptionsExample = @"<Button Clicked=""InstantiateModal""></Button>
+@code {
+
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task InstantiateModal()
+    {
+        return ModalService.Show<ModalServiceOptionsExample>( ""Override Options Example"", new ModalInstanceOptions()
+        {
+            Animated = false,
+            UseModalStructure = false,
+            Size = ModalSize.Small
+        } );
+    }
+}";
 
         public const string BasicNotificationServiceExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
 
