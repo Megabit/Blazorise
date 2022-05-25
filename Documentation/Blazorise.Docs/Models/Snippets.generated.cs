@@ -1002,6 +1002,12 @@ namespace Blazorise.Docs.Models
     <FieldBody ColumnSize=""ColumnSize.Is10"">
         <TextEdit Placeholder=""Some text value..."" />
     </FieldBody>
+</Field>
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is2"">Check me</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is10"" Margin=""Margin.IsAuto"">
+        <Check TValue=""bool"" />
+    </FieldBody>
 </Field>";
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
