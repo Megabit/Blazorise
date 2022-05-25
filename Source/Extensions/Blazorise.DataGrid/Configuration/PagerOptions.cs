@@ -14,10 +14,12 @@
         /// Button Row Position. 
         /// </summary>
         public PagerElementPosition ButtonRowPosition { get; set; } = PagerElementPosition.Default;
+
         /// <summary>
         /// Pagination Position. 
         /// </summary>
         public PagerElementPosition PaginationPosition { get; set; } = PagerElementPosition.Default;
+
         /// <summary>
         /// Total Items Position. 
         /// </summary>
