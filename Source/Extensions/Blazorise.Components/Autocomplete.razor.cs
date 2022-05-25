@@ -75,6 +75,21 @@ namespace Blazorise.Components
             var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
                 && !paramSelectedValue.IsEqual( SelectedValue );
 
+            var selectedValuesHaveChanged = parameters.TryGetValue<List<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
+                && !paramSelectedValues.IsEqual( SelectedValues );
+
+            var selectedTextsHaveChanged = parameters.TryGetValue<List<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
+                && !paramSelectedTexts.IsEqual( SelectedTexts );
+
+            List<TValue> staleValues = null;
+            List<string> staleTexts = null;
+
+            if ( selectedValuesHaveChanged && paramSelectedValues is not null && !SelectedValues.IsNullOrEmpty() )
+                staleValues = SelectedValues.Where( x => !paramSelectedValues.Contains( x ) ).ToList();
+
+            if ( selectedTextsHaveChanged && paramSelectedTexts is not null && !SelectedTexts.IsNullOrEmpty() )
+                staleTexts = SelectedTexts.Where( x => !paramSelectedTexts.Contains( x ) ).ToList();
+
             await base.SetParametersAsync( parameters );
 
             // Override after parameters have already been set.
@@ -96,13 +111,46 @@ namespace Blazorise.Components
                     await InvokeAsync( StateHasChanged );
                 } );
             }
-        }
 
-        /// <inheritdoc/>
-        protected override async Task OnParametersSetAsync()
-        {
-            ExecuteAfterRender( SyncMultipleValuesAndTexts );
-            await base.OnParametersSetAsync();
+            if ( selectedValuesHaveChanged )
+            {
+                if ( SelectedValues is null )
+                {
+                    SelectedTexts?.Clear();
+
+                }
+                else
+                {
+                    if ( !staleValues.IsNullOrEmpty() )
+                    {
+                        foreach ( var staleValue in staleValues )
+                            await RemoveMultipleText( GetItemText( staleValue ) );
+                    }
+
+                    foreach ( var selectedValue in SelectedValues )
+                        await AddMultipleText( GetItemText( selectedValue ) );
+                }
+
+            }
+
+            if ( selectedTextsHaveChanged )
+            {
+                if ( SelectedTexts is null )
+                {
+                    SelectedValues?.Clear();
+                }
+                else
+                {
+                    if ( !staleTexts.IsNullOrEmpty() )
+                    {
+                        foreach ( var staleText in staleTexts )
+                            await RemoveMultipleValue( GetValueByText( staleText ) );
+                    }
+
+                    foreach ( var selectedText in SelectedTexts )
+                        await AddMultipleValue( GetValueByText( selectedText ) );
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -261,21 +309,6 @@ namespace Blazorise.Components
             }
         }
 
-        private async Task SyncMultipleValuesAndTexts()
-        {
-            List<string> textsToAdd = new();
-            if ( SelectedValues is not null )
-                foreach ( var selectedValue in SelectedValues )
-                    textsToAdd.Add( GetItemText( selectedValue ) );
-
-            if ( SelectedTexts != null )
-                foreach ( var selectedText in SelectedTexts )
-                    await AddMultipleValue( GetValueByText( selectedText ) );
-
-            foreach ( var textToAdd in textsToAdd )
-                await AddMultipleText( textToAdd );
-        }
-
         private static bool ConfirmKey( KeyboardEventArgs eventArgs )
         {
             return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
@@ -321,11 +354,13 @@ namespace Blazorise.Components
         private Task AddMultipleText( string text )
         {
             SelectedTexts ??= new();
+
             if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
                 SelectedTexts.Add( text );
                 return SelectedTextsChanged.InvokeAsync( SelectedTexts );
             }
+
             return Task.CompletedTask;
         }
 
@@ -345,8 +380,10 @@ namespace Blazorise.Components
         private async Task RemoveMultipleText( string text )
         {
             SelectedTexts.Remove( text );
+
             await RemoveMultipleValue( GetValueByText( text ) );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+
             dirtyFilter = true;
         }
 
@@ -370,6 +407,7 @@ namespace Blazorise.Components
                 query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
+
             if ( CustomFilter != null )
             {
                 query = from q in query
@@ -422,6 +460,7 @@ namespace Blazorise.Components
                 activeItemIndex = FilteredData.Count - 1;
 
             ActiveItemIndex = activeItemIndex;
+
             // update search text with the currently focused item text
             if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
             {
