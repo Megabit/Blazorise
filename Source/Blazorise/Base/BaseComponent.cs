@@ -147,7 +147,7 @@ namespace Blazorise
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
-            { 
+            {
                 ClassBuilder = null;
                 StyleBuilder = null;
             }
