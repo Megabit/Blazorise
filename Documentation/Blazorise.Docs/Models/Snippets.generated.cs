@@ -4943,7 +4943,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     Snackbar snackbar;
 }";
 
-        public const string SnackbarImportsExample = @"@using Blazorise.Snackbar";
+        public const string SnackbarImportsExample = @"@using Blazorise.Components
+@using Blazorise.Snackbar";
 
         public const string SnackbarNugetInstallExample = @"Install-Package Blazorise.Snackbar";
 
