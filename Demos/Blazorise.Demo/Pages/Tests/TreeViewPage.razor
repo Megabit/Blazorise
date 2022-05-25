@@ -10,8 +10,6 @@
             </CardBody>
             <CardBody>
                 <TreeView Nodes="Nodes"
-                          CollapseIcon="IconName.ExpandMore"
-                          ExpandIcon="IconName.ChevronRight"
                           @bind-SelectedNode="selectedNode"
                           @bind-ExpandedNodes="ExpandedNodes"
                           GetChildNodes="@(item => item.Children)"

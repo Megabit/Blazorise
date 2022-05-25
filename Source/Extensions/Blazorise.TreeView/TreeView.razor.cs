@@ -15,8 +15,6 @@ namespace Blazorise.TreeView
         {
         };
 
-        private IconName expandIcon = IconName.MinusSquare;
-        private IconName collapseIcon = IconName.PlusSquare;
         #endregion
 
         #region Methods
@@ -31,31 +29,26 @@ namespace Blazorise.TreeView
         #endregion
 
         #region Properties
-        [Parameter]
-        public IconName ExpandIcon
-        {
-            get => expandIcon;
-            set
-            {
-                if ( value == expandIcon )
-                    return;
 
-                expandIcon = value;
-            }
-        }
+        /// <summary>
+        /// Defines the name of the treenode expand icon.
+        /// </summary>
+        [Parameter] public IconName ExpandIconName { get; set; } = IconName.MinusSquare;
 
-        [Parameter]
-        public IconName CollapseIcon
-        {
-            get => collapseIcon;
-            set
-            {
-                if ( value == collapseIcon )
-                    return;
+        /// <summary>
+        /// Defines the style of the treenode expand icon.
+        /// </summary>
+        [Parameter] public IconStyle ExpandIconStyle { get; set; } = IconStyle.Regular;
 
-                collapseIcon = value;
-            }
-        }
+        /// <summary>
+        /// Defines the name of the treenode collapse icon.
+        /// </summary>
+        [Parameter] public IconName CollapseIconName { get; set; } = IconName.PlusSquare;
+
+        /// <summary>
+        /// Defines the style of the treenode collapse icon.
+        /// </summary>
+        [Parameter] public IconStyle CollapseIconStyle { get; set; } = IconStyle.Regular;
 
         /// <summary>
         /// Collection of child TreeView items (child nodes)

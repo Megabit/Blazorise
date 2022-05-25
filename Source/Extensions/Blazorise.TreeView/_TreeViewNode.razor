@@ -12,7 +12,14 @@
                 @if ( hasChildren )
                 {
                     <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
-                        <Icon Name="@(nodeExpanded ? collapseIcon : expandIcon)" IconStyle="IconStyle.Regular" />
+                        @if ( nodeExpanded )
+                        {
+                            <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" />
+                        }
+                        else
+                        {
+                            <Icon Name="@ExpandIconName" IconStyle="@ExpandIconStyle" />
+                        }
                     </span>
                 }
 
@@ -24,10 +31,7 @@
 
                 @if ( nodeExpanded && hasChildren )
                 {
-                    <_TreeViewNode 
-                                   CollapseIcon="@collapseIcon"
-                                   ExpandIcon="@expandIcon"
-                                   Nodes="GetChildNodes(node)"
+                    <_TreeViewNode Nodes="GetChildNodes(node)"
                                    NodeContent="NodeContent"
                                    GetChildNodes="GetChildNodes"
                                    ExpandedNodes="ExpandedNodes"
@@ -35,7 +39,11 @@
                                    Expanded="nodeExpanded"
                                    HasChildNodes="HasChildNodes"
                                    NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
-                                   SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))" />
+                                   SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))"
+                                   ExpandIconName="@ExpandIconName"
+                                   ExpandIconStyle="@ExpandIconStyle"
+                                   CollapseIconName="@CollapseIconName"
+                                   CollapseIconStyle="@CollapseIconStyle" />
                 }
             </div>
         }
