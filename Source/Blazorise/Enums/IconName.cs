@@ -62,6 +62,8 @@
         CheckSquare,
         ChevronLeft,
         ChevronRight,
+        ChevronUp,
+        ChevronDown,
         Circle,
         City,
         Clear,
