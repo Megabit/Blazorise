@@ -79,7 +79,7 @@ namespace Blazorise.Components
                 && !paramSelectedValues.IsEqual( SelectedValues );
 
             var selectedTextsHaveChanged = parameters.TryGetValue<List<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
-                 && !paramSelectedTexts.IsEqual( SelectedTexts );
+                && !paramSelectedTexts.IsEqual( SelectedTexts );
 
             List<TValue> staleValues = null;
             List<string> staleTexts = null;
@@ -354,11 +354,13 @@ namespace Blazorise.Components
         private Task AddMultipleText( string text )
         {
             SelectedTexts ??= new();
+
             if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
                 SelectedTexts.Add( text );
                 return SelectedTextsChanged.InvokeAsync( SelectedTexts );
             }
+
             return Task.CompletedTask;
         }
 
@@ -378,8 +380,10 @@ namespace Blazorise.Components
         private async Task RemoveMultipleText( string text )
         {
             SelectedTexts.Remove( text );
+
             await RemoveMultipleValue( GetValueByText( text ) );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+
             dirtyFilter = true;
         }
 
@@ -403,6 +407,7 @@ namespace Blazorise.Components
                 query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
+
             if ( CustomFilter != null )
             {
                 query = from q in query
@@ -455,6 +460,7 @@ namespace Blazorise.Components
                 activeItemIndex = FilteredData.Count - 1;
 
             ActiveItemIndex = activeItemIndex;
+
             // update search text with the currently focused item text
             if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
             {
