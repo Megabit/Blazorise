@@ -1004,6 +1004,12 @@ namespace Blazorise.Docs.Models
     <FieldBody ColumnSize=""ColumnSize.Is10"">
         <TextEdit Placeholder=""Some text value..."" />
     </FieldBody>
+</Field>
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is2"">Check me</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is10"" Margin=""Margin.IsAuto"">
+        <Check TValue=""bool"" />
+    </FieldBody>
 </Field>";
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
@@ -5113,7 +5119,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     Snackbar snackbar;
 }";
 
-        public const string SnackbarImportsExample = @"@using Blazorise.Snackbar";
+        public const string SnackbarImportsExample = @"@using Blazorise.Components
+@using Blazorise.Snackbar";
 
         public const string SnackbarNugetInstallExample = @"Install-Package Blazorise.Snackbar";
 

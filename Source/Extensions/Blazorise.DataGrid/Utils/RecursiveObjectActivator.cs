@@ -50,7 +50,7 @@ namespace Blazorise.DataGrid.Utils
                 if ( circularReferenceLevel == maxCircularReferenceLevel && ( typeTracker.parentType == currType || typeTracker.previousParentType == currType ) )
                     continue;
 
-                if ( !currType.IsValueType && currType != typeof( string ) && !currType.IsCollection() )
+                if ( !currType.IsValueType && currType != typeof( string ) && !currType.IsCollection() && property.CanWrite )
                 {
                     //Do not mutate circularReferenceLevel value
                     int propertyCircularReferenceLevel = circularReferenceLevel;

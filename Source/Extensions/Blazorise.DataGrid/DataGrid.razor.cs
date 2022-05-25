@@ -254,7 +254,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if( ManualReadMode )
+                if( ManualReadMode || VirtualizeManualReadMode )
                     await Reload();
 
                 return;
@@ -975,10 +975,14 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+        /// Makes sure not to reload if the DataGrid is in a loading state.
         /// </summary>
         /// <returns>Returns the awaitable task.</returns>
         public async Task Reload( CancellationToken cancellationToken = default )
         {
+            if ( IsLoading )
+                return;
+
             SetDirty();
 
             if ( ManualReadMode )
@@ -1376,13 +1380,13 @@ namespace Blazorise.DataGrid
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
         protected bool IsEmptyTemplateVisible
-            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty();
+            => !IsLoading && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty() && Rendered;
 
         /// <summary>
         /// Returns true if EmptyFilterTemplate is set and FilteredData is null or empty.
         /// </summary>
         protected bool IsEmptyFilterTemplateVisible
-            => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() );
+            => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && Rendered;
 
         /// <summary>
         /// Returns true if ShowPager is true and grid is not empty or loading.
