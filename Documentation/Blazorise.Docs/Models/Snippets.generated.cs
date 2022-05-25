@@ -998,10 +998,16 @@ namespace Blazorise.Docs.Models
 </Field>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
-    <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
-    <FieldBody ColumnSize=""ColumnSize.Is10"">
+    <FieldLabel ColumnSize=""ColumnSize.Is3"">Name</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is9"">
         <TextEdit Placeholder=""Some text value..."" />
     </FieldBody>
+</Field>
+<Field Horizontal>
+  <FieldLabel ColumnSize=""ColumnSize.Is3"">Horizontally aligned Check</FieldLabel>
+  <FieldBody ColumnSize=""ColumnSize.Is9"" Margin=""Margin.IsAuto"" >
+    <Check TValue=""bool"" />
+  </FieldBody>
 </Field>";
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
