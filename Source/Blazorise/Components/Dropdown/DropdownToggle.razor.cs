@@ -139,7 +139,7 @@ namespace Blazorise
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( ParentDropdown?.ShouldClose ?? true && ( elementId != ElementId && ParentDropdown?.SelectedDropdownElementId != ElementId ) ) );
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( ParentDropdown.IsChildButton( elementId ) && elementId != ElementId ) || ( ParentDropdown?.ShouldClose ?? true && ( elementId != ElementId && ParentDropdown?.SelectedDropdownElementId != ElementId ) ) );
         }
 
         /// <summary>
