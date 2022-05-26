@@ -25,7 +25,7 @@ namespace Blazorise.DataGrid
             => ParentDataGrid.PagerOptions?.TotalItemsPosition ?? PagerElementPosition.Default;
 
         private Size GetSize()
-            => ParentDataGrid.PagerOptions?.Size ?? Size.Default;
+            => ParentDataGrid.PagerOptions?.ButtonSize ?? Size.Default;
 
         protected override void OnInitialized()
         {

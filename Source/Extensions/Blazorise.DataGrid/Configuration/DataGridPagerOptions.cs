@@ -3,12 +3,12 @@
     /// <summary>
     /// Defines the options for <see cref="DataGrid{TItem}"/> pager.
     /// </summary>
-    public class PagerOptions
+    public class DataGridPagerOptions
     {
         /// <summary>
         /// Configures the pager buttons size.
         /// </summary>
-        public Size Size { get; set; }
+        public Size ButtonSize { get; set; }
 
         /// <summary>
         /// Button Row Position. 
