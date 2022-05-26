@@ -1,4 +1,4 @@
-﻿namespace Blazorise.DataGrid.Configuration
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// Defines the options for <see cref="DataGrid{TItem}"/> pager.
