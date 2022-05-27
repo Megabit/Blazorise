@@ -25,14 +25,25 @@ namespace Blazorise
         private bool dropAllowed;
 
         /// <summary>
-        /// Indicates that the dragging item is entered into the dropzone.
-        /// </summary>
-        private bool itemOnDropZone;
-
-        /// <summary>
         /// Indicates that the dragging operation is in process.
         /// </summary>
         private bool dragging;
+
+        private int dragCounter = 0;
+
+        private Dictionary<TItem, int> indices = new();
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// A default <see cref="DropZone{TItem}"/> constructor.
+        /// </summary>
+        public DropZone()
+        {
+            PlaceholderClassBuilder = new( BuildPlaceholderClasses );
+        }
 
         #endregion
 
@@ -46,6 +57,7 @@ namespace Blazorise
                 ParentContainer.TransactionStarted += OnContainerTransactionStarted;
                 ParentContainer.TransactionEnded += OnContainerTransactionEnded;
                 ParentContainer.RefreshRequested += OnContainerRefreshRequested;
+                ParentContainer.TransactionIndexChanged += OnContainerTransactionIndexChanged;
             }
 
             base.OnInitialized();
@@ -66,12 +78,32 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-drop-zone" );
-            builder.Append( "b-drop-zone-drag-block", TransactionInProgress && TransactionSourceZoneName != Name );
-            builder.Append( DropAllowedClass ?? ParentContainer?.DropAllowedClass ?? "b-drop-zone-drop-allowed", TransactionInProgress && TransactionSourceZoneName != Name && dropAllowed && ( itemOnDropZone || GetApplyDropClassesOnDragStarted() ) );
-            builder.Append( DropNotAllowedClass ?? ParentContainer?.DropNotAllowedClass ?? "b-drop-zone-drop-not-allowed", TransactionInProgress && TransactionSourceZoneName != Name && !dropAllowed && ( itemOnDropZone || GetApplyDropClassesOnDragStarted() ) );
+            //builder.Append( "b-drop-zone-drag-block", ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name );
+            builder.Append( DropAllowedClass ?? ParentContainer?.DropAllowedClass ?? "b-drop-zone-drop-allowed", ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name && dropAllowed && ( dragCounter > 0 || GetApplyDropClassesOnDragStarted() ) );
+            builder.Append( DropNotAllowedClass ?? ParentContainer?.DropNotAllowedClass ?? "b-drop-zone-drop-not-allowed", ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name && !dropAllowed && ( dragCounter > 0 || GetApplyDropClassesOnDragStarted() ) );
             builder.Append( GetDraggingClass(), dragging );
 
             base.BuildClasses( builder );
+        }
+
+        /// <summary>
+        /// Builds the classnames for a placeholder.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildPlaceholderClasses( ClassBuilder builder )
+        {
+            builder.Append( "draggable-placeholder" );
+
+            if ( AllowReorder == false || ( ParentContainer?.TransactionInProgress == false || ParentContainer.TransactionCurrentZoneName != Name ) )
+                builder.Append( ClassProvider.Display( DisplayType.None, new DisplayDefinition() ) );
+        }
+
+        /// <inheritdoc/>
+        protected internal override void DirtyClasses()
+        {
+            PlaceholderClassBuilder.Dirty();
+
+            base.DirtyClasses();
         }
 
         /// <inheritdoc/>
@@ -89,6 +121,7 @@ namespace Blazorise
                     ParentContainer.TransactionStarted -= OnContainerTransactionStarted;
                     ParentContainer.TransactionEnded -= OnContainerTransactionEnded;
                     ParentContainer.RefreshRequested -= OnContainerRefreshRequested;
+                    ParentContainer.TransactionIndexChanged -= OnContainerTransactionIndexChanged;
                 }
             }
 
@@ -107,13 +140,31 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
-        private void OnContainerTransactionEnded( object sender, EventArgs e )
+        private void OnContainerTransactionEnded( object sender, DraggableTransactionEnded<TItem> e )
         {
-            itemOnDropZone = false;
+            dragCounter = 0;
 
             if ( GetApplyDropClassesOnDragStarted() )
             {
                 dropAllowed = false;
+            }
+
+            if ( e.Success )
+            {
+                if ( e.OriginDropZoneName == Name && e.DestinationDropZoneName != e.OriginDropZoneName )
+                {
+                    indices.Remove( e.Item );
+                }
+
+                if ( e.OriginDropZoneName == Name || e.DestinationDropZoneName == Name )
+                {
+                    int index = 0;
+
+                    foreach ( var item in indices.OrderBy( x => x.Value ).ToArray() )
+                    {
+                        indices[item.Key] = index++;
+                    }
+                }
             }
 
             DirtyClasses();
@@ -123,6 +174,18 @@ namespace Blazorise
 
         private void OnContainerRefreshRequested( object sender, EventArgs e )
         {
+            indices.Clear();
+
+            DirtyClasses();
+
+            InvokeAsync( StateHasChanged );
+        }
+
+        private void OnContainerTransactionIndexChanged( object sender, DraggableIndexChangedEventArgs e )
+        {
+            if ( e.ZoneName != Name && e.OldZoneName != Name )
+                return;
+
             DirtyClasses();
 
             InvokeAsync( StateHasChanged );
@@ -130,6 +193,8 @@ namespace Blazorise
 
         private void OnDragEnterHandler()
         {
+            dragCounter++;
+
             var (context, canBeDropped) = ItemCanBeDropped();
 
             if ( context == null )
@@ -137,22 +202,23 @@ namespace Blazorise
                 return;
             }
 
-            itemOnDropZone = true;
             dropAllowed = canBeDropped;
+
+            ParentContainer.UpdateTransactionZone( Name );
 
             DirtyClasses();
         }
 
         private void OnDragLeaveHandler()
         {
+            dragCounter--;
+
             var (context, _) = ItemCanBeDropped();
 
             if ( context == null )
             {
                 return;
             }
-
-            itemOnDropZone = false;
 
             DirtyClasses();
         }
@@ -166,7 +232,7 @@ namespace Blazorise
                 return;
             }
 
-            itemOnDropZone = false;
+            dragCounter = 0;
 
             if ( !canBeDropped )
             {
@@ -177,14 +243,59 @@ namespace Blazorise
                 return;
             }
 
-            await ParentContainer.CommitTransaction( Name );
+            if ( AllowReorder )
+            {
+                if ( ParentContainer.HasTransactionIndexChanged )
+                {
+                    var newIndex = ParentContainer.GetTransactionIndex() + 1;
+
+                    if ( ParentContainer.IsTransactionOriginatedFromInside( this.Name ) )
+                    {
+                        var oldIndex = indices[context];
+
+                        if ( ParentContainer.IsItemMovedDownwards )
+                        {
+                            newIndex -= 1;
+
+                            foreach ( var item in indices.Where( x => x.Value >= oldIndex + 1 && x.Value <= newIndex ).ToArray() )
+                            {
+                                indices[item.Key] -= 1;
+                            }
+                        }
+                        else
+                        {
+                            foreach ( var item in indices.Where( x => x.Value >= newIndex && x.Value < oldIndex ).ToArray() )
+                            {
+                                indices[item.Key] += 1;
+                            }
+                        }
+
+                        indices[context] = newIndex;
+                    }
+                    else
+                    {
+                        foreach ( var item in indices.Where( x => x.Value >= newIndex ).ToArray() )
+                        {
+                            indices[item.Key] = item.Value + 1;
+                        }
+
+                        indices.Add( context, newIndex );
+                    }
+                }
+            }
+            else
+            {
+                indices.Clear();
+            }
+
+            await ParentContainer.CommitTransaction( Name, AllowReorder );
 
             DirtyClasses();
         }
 
         private (TItem, bool) ItemCanBeDropped()
         {
-            if ( !TransactionInProgress )
+            if ( ParentContainer == null || ParentContainer.TransactionInProgress == false )
                 return (default( TItem ), false);
 
             var item = ParentContainer.GetTransactionItem();
@@ -212,14 +323,14 @@ namespace Blazorise
 
         private IEnumerable<TItem> GetItems()
         {
-            Func<TItem, bool> predicate = ( item ) => ParentContainer.ItemsFilter( item, Name );
+            Func<TItem, bool> predicate = ( item ) => ParentContainer.ItemsFilter( item, Name ?? string.Empty );
 
             if ( ItemsFilter != null )
             {
                 predicate = ItemsFilter;
             }
 
-            return ( ParentContainer?.Items ?? Enumerable.Empty<TItem>() ).Where( predicate ).ToArray();
+            return ( ParentContainer?.Items ?? Enumerable.Empty<TItem>() ).Where( predicate ).OrderBy( x => GetItemIndex( x ) ).ToArray();
         }
 
         private bool GetItemDisabled( TItem item )
@@ -253,6 +364,16 @@ namespace Blazorise
 
         private bool GetApplyDropClassesOnDragStarted() => ( ApplyDropClassesOnDragStarted ?? ParentContainer?.ApplyDropClassesOnDragStarted ) ?? false;
 
+        private int GetItemIndex( TItem item )
+        {
+            if ( !indices.ContainsKey( item ) )
+                indices.Add( item, indices.Count );
+
+            return indices[item];
+        }
+
+        private bool IsOrigin( int index ) => ParentContainer.IsOrigin( index, Name );
+
         #endregion
 
         #region Properties
@@ -261,14 +382,14 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
-        /// True if the drag transaction is in process.
-        /// </summary>
-        protected bool TransactionInProgress => ParentContainer?.TransactionInProgress == true;
-
-        /// <summary>
         /// Gets the name of the dropzone that started the transaction.
         /// </summary>
         protected string TransactionSourceZoneName => ParentContainer?.TransactionSourceZoneName;
+
+        /// <summary>
+        /// Placeholder class builder.
+        /// </summary>
+        protected ClassBuilder PlaceholderClassBuilder { get; private set; }
 
         /// <summary>
         /// Gets or sets the <see cref="IJSDragDropModule"/> instance.
@@ -329,6 +450,16 @@ namespace Blazorise
         /// Classname that is applied to the drag item when it is being dragged.
         /// </summary>
         [Parameter] public string ItemDraggingClass { get; set; }
+
+        /// <summary>
+        /// If true, the reordering of the items will be enabled.
+        /// </summary>
+        [Parameter] public bool AllowReorder { get; set; }
+
+        /// <summary>
+        /// If true, will only act as a dropable zone and not render any items.
+        /// </summary>
+        [Parameter] public bool OnlyZone { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="DropZone{TItem}"/>.
