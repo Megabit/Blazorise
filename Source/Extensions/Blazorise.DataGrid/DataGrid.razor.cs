@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Configuration;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
@@ -1622,6 +1621,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets Virtualize options when using the Virtualize functionality.
         /// </summary>
         [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets Pager options.
+        /// </summary>
+        [Parameter] public DataGridPagerOptions PagerOptions { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.

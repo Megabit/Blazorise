@@ -1,4 +1,4 @@
-﻿namespace Blazorise.DataGrid.Configuration
+﻿namespace Blazorise.DataGrid
 {
     internal struct VirtualizeState
     {
