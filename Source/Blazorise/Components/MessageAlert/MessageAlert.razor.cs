@@ -9,6 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IMessageService"/> to show the message dialog.
     /// </summary>
+    [Obsolete( "MessageAlert is deprecated, please use MessageProvider instead." )]
     public partial class MessageAlert : BaseComponent, IDisposable
     {
         #region Methods

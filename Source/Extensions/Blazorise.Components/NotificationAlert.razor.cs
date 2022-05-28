@@ -10,6 +10,7 @@ namespace Blazorise.Components
     /// <summary>
     /// Component that handles the <see cref="INotificationService"/> to show the simple notifications.
     /// </summary>
+    [Obsolete( "NotificationAlert is deprecated, please use NotificationProvider instead." )]
     public partial class NotificationAlert : BaseComponent, IDisposable
     {
         #region Methods

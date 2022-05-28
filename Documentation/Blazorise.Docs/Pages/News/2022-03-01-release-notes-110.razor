@@ -25,6 +25,23 @@
 </NewsPageSubtitle>
 
 <Paragraph>
+    There are no breaking changes, but we will slowly start with some API changes by making existing obsolete and introducing new as a replacements. Once we reach stable v2.0 the APIs marked with obsolete will eventually be removed.
+</Paragraph>
+
+
+<OrderedList>
+    <UnorderedListItem>
+        Change all usages of <Code>MessageAlert</Code> into <Code>MessageProvider</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Change all usages of <Code>NotificationAlert</Code> into <Code>NotificationProvider</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Change all usages of <Code>PageProgressAlert</Code> into <Code>PageProgressProvider</Code>.
+    </UnorderedListItem>
+</OrderedList>
+
+<Paragraph>
     Note...
 </Paragraph>
 
