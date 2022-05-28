@@ -40,6 +40,16 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Number of rows a cell should span.
+        /// </summary>
+        [Parameter] public int? RowSpan { get; set; }
+
+        /// <summary>
+        /// Number of columns a cell should span.
+        /// </summary>
+        [Parameter] public int? ColumnSpan { get; set; }
+
+        /// <summary>
         /// Occurs when the row header is clicked.
         /// </summary>
         [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }

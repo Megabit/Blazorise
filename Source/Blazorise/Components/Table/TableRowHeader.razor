@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseDraggableComponent
-<th id="@ElementId" scope="row" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler"
+<th id="@ElementId" scope="row" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" colspan="@ColumnSpan" rowspan="@RowSpan"
     draggable="@DraggableString"
     @ondrag="@OnDragHandler"
     @ondrag:preventDefault="@DragPreventDefault"

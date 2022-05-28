@@ -200,6 +200,9 @@
     <DocsAttributesItem Name="PageChanged" Type="EventCallback">
         Occurs after the selected page has changed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="PageSizeChanged" Type="EventCallback<int>">
+        Occurs after the page size has changed.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
         Define the display template for empty data cell.
     </DocsAttributesItem>
@@ -290,6 +293,9 @@
     <DocsAttributesItem Name="DetailRowStartsVisible" Type="bool" Default="true">
         Controls whether DetailRow will start visible if DetailRowTemplate is set. DetailRowTrigger will be evaluated if set.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="PagerOptions" Type="DataGridPagerOptions" Default="null">
+        Gets or sets Pager options.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
@@ -301,6 +307,21 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="OverscanCount" Type="int">
         Gets or sets a value that determines how many additional items will be rendered before and after the visible region. This help to reduce the frequency of rendering during scrolling. However, higher values mean that more elements will be present in the page.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DataGridPagerOptions">
+    <DocsAttributesItem Name="ButtonSize" Type="Size" Default="Size.Default">
+        Configures the pager buttons size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonRowPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Button Row Position.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PaginationPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Pagination Position.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Total Items Position.
     </DocsAttributesItem>
 </DocsAttributes>
 

@@ -80,7 +80,7 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private Blazorise.DataGrid.Configuration.VirtualizeOptions virtualizeOptions;
+    private VirtualizeOptions virtualizeOptions;
     private IEnumerable<Employee> inMemoryData;
 
     protected override async Task OnInitializedAsync()

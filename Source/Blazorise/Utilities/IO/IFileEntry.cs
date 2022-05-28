@@ -51,6 +51,7 @@ namespace Blazorise
         /// Provides the access to the underline file through the stream.
         /// </summary>
         /// <param name="stream">Stream to which the upload process if writing.</param>
+        /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
         /// <returns></returns>
         Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken = default );
 
