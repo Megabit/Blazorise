@@ -1852,6 +1852,11 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowContextMenu { get; set; }
 
         /// <summary>
+        /// Used to prevent the default action for an <see cref="RowContextMenu"/> event.
+        /// </summary>
+        [Parameter] public bool RowContextMenuPreventDefault { get; set; }
+
+        /// <summary>
         /// Occurs after the selected page has changed.
         /// </summary>
         [Parameter] public EventCallback<DataGridPageChangedEventArgs> PageChanged { get; set; }

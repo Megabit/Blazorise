@@ -16,6 +16,7 @@
     <TableRow Clicked="@HandleClick"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
+              ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
               Background="@GetBackground(styling, selectedStyling)"
               Color="@GetColor(styling, selectedStyling)"
               Class="@GetClass(styling, selectedStyling)"
