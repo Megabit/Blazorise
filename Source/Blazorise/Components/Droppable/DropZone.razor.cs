@@ -66,7 +66,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
-            if ( firstRender == true )
+            if ( firstRender  )
             {
                 await JSModule.Initialize( ElementRef, ElementId );
             }
