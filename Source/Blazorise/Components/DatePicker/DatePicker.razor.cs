@@ -378,6 +378,9 @@ namespace Blazorise
             };
         }
 
+        /// <inheritdoc/>
+        protected override bool IsSameAsInternalValue( IReadOnlyList<TValue> value ) => value.AreEqual( InternalValue );
+
         #endregion
 
         #region Properties
