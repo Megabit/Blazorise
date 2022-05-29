@@ -5741,7 +5741,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<MessageAlert />";
+<MessageProvider />";
 
         public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
@@ -5804,7 +5804,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<NotificationAlert />";
+<NotificationProvider />";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>
@@ -5855,7 +5855,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<PageProgressAlert />";
+<PageProgressProvider />";
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
