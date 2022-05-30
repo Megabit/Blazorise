@@ -33,7 +33,6 @@ namespace Blazorise
 
                 await Task.Delay( animatedComponent.AnimationDuration );
 
-                // NOT SURE IF WE NEED THIS?
                 if ( visible )
                     await animatedComponent.Show();
                 else
