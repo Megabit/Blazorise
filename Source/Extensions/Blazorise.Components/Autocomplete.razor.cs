@@ -26,6 +26,11 @@ namespace Blazorise.Components
         #region Members
 
         /// <summary>
+        /// Returns true if ReadData will be invoked.
+        /// </summary>
+        protected bool IsLoading { get; set; }
+
+        /// <summary>
         /// Tells us that modal is tracked by the JS interop.
         /// </summary>
         private bool jsRegistered;
@@ -65,9 +70,53 @@ namespace Blazorise.Components
         /// </summary>
         private bool closeOnSelectionAllowClose = true;
 
+        /// <summary>
+        /// True if user is using <see cref="ReadData"/> for loading the data.
+        /// </summary>
+        public bool ManualReadMode => ReadData.HasDelegate;
+
         #endregion
 
         #region Methods
+
+        protected async Task HandleReadData( CancellationToken cancellationToken = default )
+        {
+            try
+            {
+                IsLoading = true;
+
+                if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
+                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
+            }
+            finally
+            {
+                IsLoading = false;
+
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        /// <summary>
+        /// Triggers the reload of the <see cref="Autocomplete{TItem, TValue}"/> data.
+        /// Makes sure not to reload if the <see cref="Autocomplete{TItem, TValue}"/> is in a loading state.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        public async Task Reload( CancellationToken cancellationToken = default )
+        {
+            if ( IsLoading )
+                return;
+
+            dirtyFilter = true;
+
+            if ( ManualReadMode )
+            {
+                await InvokeAsync( () => HandleReadData( cancellationToken ) );
+            }
+            else
+            {
+                await InvokeAsync( StateHasChanged );
+            }
+        }
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
@@ -154,13 +203,15 @@ namespace Blazorise.Components
         }
 
         /// <inheritdoc/>
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        protected async override Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+                if ( ManualReadMode )
+                    await Reload();
             }
-            return base.OnAfterRenderAsync( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <summary>
@@ -180,6 +231,8 @@ namespace Blazorise.Components
 
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
+
+            await HandleReadData();
 
             if ( FilteredData?.Count == 0 && NotFound.HasDelegate )
                 await NotFound.InvokeAsync( CurrentSearch );
@@ -580,6 +633,11 @@ namespace Blazorise.Components
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Event handler used to load data manually based on the current page and filter data settings.
+        /// </summary>
+        [Parameter] public EventCallback<AutoCompleteReadDataEventArgs> ReadData { get; set; }
 
         /// <summary>
         /// Gets the DropdownMenu reference.
