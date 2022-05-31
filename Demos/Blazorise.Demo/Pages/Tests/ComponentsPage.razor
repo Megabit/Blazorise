@@ -164,9 +164,41 @@
                                       ReadData="HandleReadData"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
+                                      Placeholder="Search...">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+        <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@ReadDataCountries"
+                                      ReadData="HandleMultipleReadData"
+                                      TextField="@((item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
                                       Placeholder="Search..."
-                                      Filter="AutocompleteFilter.StartsWith"
-                                      CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                                      Multiple
+                                      CloseOnSelection="false"
+                                      @bind-SelectedValues="multipleReadDataSelectionData"
+                                      @bind-SelectedTexts="multipleReadDataSelectionTexts">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
@@ -256,6 +288,9 @@
     private string selectedAutoCompleteText { get; set; }
     private bool autocompleteFreeTyping = false;
 
+    private List<string> multipleReadDataSelectionData;
+    private List<string> multipleReadDataSelectionTexts;
+
     private List<string> multipleSelectionData;
     private List<string> multipleSelectionTexts = new();
     private bool multipleAutocompleteFreeTyping = false;
@@ -269,9 +304,15 @@
     private ObservableCollection<int> items { get; } = new(Enumerable.Range(1, 4));
     private Random random = new();
 
-    private Task HandleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
+        private Task HandleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
     {
         ReadDataCountries = Countries.Where(x => x.Name.StartsWith(autoCompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+        return Task.CompletedTask;
+    }
+
+    private Task HandleMultipleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
+    {
+        ReadDataCountries = Countries.Where(x => x.Name.StartsWith(autoCompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase) && !(multipleReadDataSelectionTexts?.Contains(x.Name)??false));
         return Task.CompletedTask;
     }
 
