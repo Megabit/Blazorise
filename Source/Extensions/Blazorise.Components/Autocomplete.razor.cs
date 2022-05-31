@@ -638,7 +638,7 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
-        /// Event handler used to load data manually based on the current page and filter data settings.
+        /// Event handler used to load data manually based on the current search value.
         /// </summary>
         [Parameter] public EventCallback<AutoCompleteReadDataEventArgs> ReadData { get; set; }
 

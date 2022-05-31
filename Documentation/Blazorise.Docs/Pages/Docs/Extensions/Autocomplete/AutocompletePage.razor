@@ -59,6 +59,15 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Searching with data on demand (ReadData)">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteReadDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteReadDataExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Extending with custom item content">
         Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
     </DocsPageSectionHeader>
@@ -166,5 +175,8 @@
     <DocsAttributesItem Name="CloseOnSelection" Type="bool" Default="true">
         Specifies whether Autocomplete's dropdown closes on selection. This is only evaluated when the Autocomplete's Multiple is set to true.
         Defauls to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadData" Type="EventCallback<AutoCompleteReadDataEventArgs>" >
+        Event handler used to load data manually based on the current search value
     </DocsAttributesItem>
 </DocsAttributes>

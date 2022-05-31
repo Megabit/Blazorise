@@ -304,7 +304,7 @@
     private ObservableCollection<int> items { get; } = new(Enumerable.Range(1, 4));
     private Random random = new();
 
-        private Task HandleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
+    private Task HandleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
     {
         ReadDataCountries = Countries.Where(x => x.Name.StartsWith(autoCompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase));
         return Task.CompletedTask;
