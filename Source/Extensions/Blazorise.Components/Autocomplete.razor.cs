@@ -640,7 +640,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Event handler used to load data manually based on the current search value.
         /// </summary>
-        [Parameter] public EventCallback<AutoCompleteReadDataEventArgs> ReadData { get; set; }
+        [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
 
         /// <summary>
         /// Gets the DropdownMenu reference.

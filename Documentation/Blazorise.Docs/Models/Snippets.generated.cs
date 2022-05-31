@@ -3406,9 +3406,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         await base.OnInitializedAsync();
     }
 
-    private Task HandleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
+    private Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where(x => x.Name.StartsWith(autoCompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
         return Task.CompletedTask;
     }
 }";

@@ -179,7 +179,7 @@
             </CardBody>
         </Card>
     </Column>
-        <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
@@ -301,25 +301,25 @@
 
     private Country selectedListViewItem { get; set; }
 
-    private ObservableCollection<int> items { get; } = new(Enumerable.Range(1, 4));
+    private ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     private Random random = new();
 
-    private Task HandleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
+    private Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where(x => x.Name.StartsWith(autoCompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
         return Task.CompletedTask;
     }
 
-    private Task HandleMultipleReadData(AutoCompleteReadDataEventArgs autoCompleteReadDataEventArgs)
+    private Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where(x => x.Name.StartsWith(autoCompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase) && !(multipleReadDataSelectionTexts?.Contains(x.Name)??false));
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
         return Task.CompletedTask;
     }
 
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
-        multipleSelectionData = new List<string>() { Countries.ElementAt(1).Iso.ToString(), Countries.ElementAt(3).Iso.ToString() };
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso.ToString(), Countries.ElementAt( 3 ).Iso.ToString() };
         await base.OnInitializedAsync();
     }
 
@@ -327,24 +327,24 @@
     {
         var maxIndex = items.Count - 1;
 
-        if (maxIndex == -1)
+        if ( maxIndex == -1 )
             return;
 
-        var orgPos = random.Next(maxIndex);
-        var newPos = random.Next(maxIndex);
+        var orgPos = random.Next( maxIndex );
+        var newPos = random.Next( maxIndex );
 
-        items.Move(orgPos, newPos);
+        items.Move( orgPos, newPos );
     }
 
-    private static string GetColor(int number)
+    private static string GetColor( int number )
     {
         const string letters = "0123456789ABCDEF";
 
         var color = "";
 
-        for (var i = 0; i < 6; i++)
+        for ( var i = 0; i < 6; i++ )
         {
-            color += letters[(3 * number + i) % letters.Length];
+            color += letters[( 3 * number + i ) % letters.Length];
         }
 
         return $"color: #{color}";
