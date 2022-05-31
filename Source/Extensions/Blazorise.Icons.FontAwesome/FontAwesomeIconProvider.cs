@@ -71,6 +71,8 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.CheckSquare, "fa-check-square" },
             { IconName.ChevronLeft, "fa-chevron-left" },
             { IconName.ChevronRight, "fa-chevron-right" },
+            { IconName.ChevronUp, "fa-chevron-up" },
+            { IconName.ChevronDown, "fa-chevron-down" },
             { IconName.Circle, "fa-circle" },
             { IconName.City, "fa-city" },
             { IconName.Clear, "fa-eraser" },

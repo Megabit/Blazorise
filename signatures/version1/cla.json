@@ -1,3 +1,60 @@
 {
-   "signedContributors": []
+  "signedContributors": [
+    {
+      "name": "Kreisverkehr",
+      "id": 2649987,
+      "comment_id": 1122280976,
+      "created_at": "2022-05-10T11:43:41Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3735
+    },
+    {
+      "name": "AlucardMG36",
+      "id": 16618188,
+      "comment_id": 1122348110,
+      "created_at": "2022-05-10T12:49:22Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3715
+    },
+    {
+      "name": "Luk164",
+      "id": 30559213,
+      "comment_id": 1124205866,
+      "created_at": "2022-05-11T19:27:44Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3788
+    },
+    {
+      "name": "Bobbar",
+      "id": 2649098,
+      "comment_id": 1125254462,
+      "created_at": "2022-05-12T17:34:39Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3792
+    },
+    {
+      "name": "oaldrian",
+      "id": 44060248,
+      "comment_id": 1127610871,
+      "created_at": "2022-05-16T12:28:04Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3806
+    },
+    {
+      "name": "amaroRafael",
+      "id": 28486,
+      "comment_id": 1131960385,
+      "created_at": "2022-05-19T16:58:28Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3817
+    },
+    {
+      "name": "solalem",
+      "id": 10296055,
+      "comment_id": 1135531868,
+      "created_at": "2022-05-24T07:52:09Z",
+      "repoId": 159973917,
+      "pullRequestNo": 3836
+    }
+  ]
 }

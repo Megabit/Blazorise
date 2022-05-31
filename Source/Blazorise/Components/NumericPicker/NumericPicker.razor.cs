@@ -51,6 +51,11 @@ namespace Blazorise
         /// </summary>
         private bool isIntegerType;
 
+        /// <summary>
+        /// Contains the correct inputmode for the input element, based in the TValue.
+        /// </summary>
+        private string inputMode;
+
         #endregion
 
         #region Constructors
@@ -61,6 +66,7 @@ namespace Blazorise
         public NumericPicker()
         {
             isIntegerType = TypeHelper.IsInteger( typeof( TValue ) );
+            inputMode = isIntegerType ? "numeric" : "decimal";
         }
 
         #endregion
@@ -451,6 +457,11 @@ namespace Blazorise
                 return CultureInfo.InvariantCulture;
             }
         }
+
+        /// <summary>
+        /// Gets the correct inputmode for the input element, based in the TValue.
+        /// </summary>
+        protected string InputMode => inputMode;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSNumericPickerModule"/> instance.

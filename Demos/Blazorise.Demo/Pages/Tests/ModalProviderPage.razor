@@ -1,0 +1,125 @@
+﻿@page "/tests/modal-provider"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>ModalProvider</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Card>
+                    <CardHeader>
+                        Render a custom component with default modal structure.
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            Example shows a Counter component that renders a random number that's passed as a parameter from this page.
+                        </Paragraph>
+                        <Button Color="Color.Primary" Clicked="ShowCounter">Show</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+
+            <CardBody>
+                <Card>
+                    <CardHeader>
+                        Render a custom defined RenderFragment.
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            Example shows the rendering of a RenderFragment that's programatically constructed on this page.
+                        </Paragraph>
+                        <Button Color="Color.Primary" Clicked="ShowRenderFragment">Show</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+
+
+            <CardBody>
+                <Card>
+                    <CardHeader>
+                        Render a custom component and define modal structure inside it by overriding the modal provider options. Take advantage of passing in parameters.
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            @formularyMessage
+                        </Paragraph>
+                        <Button Color="Color.Success" Clicked="ShowFormulary">Show</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+
+            <CardBody>
+                <Card>
+                    <CardHeader>
+                        Handle the opening of Multiple Modals
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            Example shows the opening of this page as a modal by using the ModalService. You can then keep opening modals as ModalProvider will manage them for you.
+                        </Paragraph>
+                        <Button Color="Color.Success" Clicked="ShowModalWithinModal">Show</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+
+        </Card>
+    </Column>
+</Row>
+
+
+@code {
+
+    [Inject] public IModalService ModalService { get; set; }
+    private static int id = 1;
+    private int componentId;
+
+    private RenderFragment customFragment => __builder =>
+    {
+        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+    };
+
+    public ModalProviderPage()
+    {
+        componentId = ++id;
+    }
+
+    private string formularyMessage = "";
+    public Task ShowCounter()
+    {
+        Random random = new();
+        var newValue = random.NextInt64( 100 );
+        return ModalService.Show<Counter>( "My Custom Content!", x => x.Add( x => x.Value, newValue ) );
+    }
+
+    public Task ShowRenderFragment()
+    {
+        return ModalService.Show( "My Custom RenderFragment!", customFragment);
+    }
+
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return ModalService.Show<FormularyModal>( x =>
+        {
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
+        },
+        new ModalInstanceOptions()
+            {
+                UseModalStructure = false
+            } );
+    }
+
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
+
+    private Task FormularySuccess( Employee employee )
+    {
+        formularyMessage = $"Employee : {employee.FirstName} saved successfully!";
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private Task ShowModalWithinModal()
+        => ModalService.Show<ModalProviderPage>( $"Modal #{componentId} Example", new ModalInstanceOptions() { Size = ModalSize.Large } );
+}

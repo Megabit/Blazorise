@@ -12,7 +12,8 @@
                           ShowPageSizes
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
                           CurrentPage="2"
-                          PageSize="10">
+                          PageSize="10"
+                          PagerOptions="new(){ ButtonSize=Size.Small }">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" SortDirection="SortDirection.Descending" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
@@ -58,7 +59,7 @@
                     </DataGridColumns>
                     <PageButtonTemplate>
                         <Span TextColor="TextColor.Success">
-                            @context.PageNumer
+                            @context.PageNumber
                         </Span>
                     </PageButtonTemplate>
                     <NextPageButtonTemplate><Icon Name="IconName.StepForward" TextColor="TextColor.Success" /></NextPageButtonTemplate>

@@ -113,9 +113,20 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Whether the <paramref name="elementId"/> belongs to a child button of this dropdown.
+        /// </summary>
+        /// <param name="elementId">An element id to check.</param>
+        /// <returns>True if the child element is a button.</returns>
+        protected internal bool IsChildButton( string elementId )
+            => childrenButtonList?.Any( x => x.ElementId == elementId ) ?? false;
+
+        /// <summary>
+        /// Gets the dropdown menu direction.
+        /// </summary>
+        /// <returns>Dropdown menu direction.</returns>
         private Direction GetDropdownDirection()
             => IsDropdownSubmenu && Direction == Direction.Default ? Direction.End : Direction;
-
 
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )

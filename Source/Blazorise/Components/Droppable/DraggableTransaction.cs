@@ -9,7 +9,7 @@ namespace Blazorise
     /// Defines the drag&amp;drop transaction.
     /// </summary>
     /// <typeparam name="TItem">Type of drag&amp;drop item.</typeparam>
-    public record DraggableTransaction<TItem>
+    public class DraggableTransaction<TItem>
     {
         #region Members
 
@@ -26,12 +26,17 @@ namespace Blazorise
         /// </summary>
         /// <param name="item">The dropped item during the transaction.</param>
         /// <param name="sourceZoneName">Name of the zone where the transaction started.</param>
+        /// <param name="index">Index of the draggable item.</param>
         /// <param name="commited">Callback that will be called after the successful transaction.</param>
         /// <param name="canceled">Callback that will be called when the transaction has been cancelled.</param>
-        public DraggableTransaction( TItem item, string sourceZoneName, Func<Task> commited, Func<Task> canceled )
+        public DraggableTransaction( TItem item, string sourceZoneName, int index, Func<Task> commited, Func<Task> canceled )
         {
             Item = item;
             SourceZoneName = sourceZoneName;
+            CurrentZoneName = sourceZoneName;
+            Index = index;
+            SourceIndex = index;
+
             Commited = commited;
             Canceled = canceled;
         }
@@ -64,6 +69,28 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+
+        internal bool UpdateIndex( int index )
+        {
+            if ( Index == index )
+                return false;
+
+            Index = index;
+
+            return true;
+        }
+
+        internal bool UpdateZoneName( string zoneName )
+        {
+            if ( CurrentZoneName == zoneName )
+                return false;
+
+            CurrentZoneName = zoneName;
+            Index = -1;
+
+            return true;
+        }
+
         #endregion
 
         #region Properties
@@ -74,9 +101,24 @@ namespace Blazorise
         public TItem Item { get; init; }
 
         /// <summary>
+        /// The index of the draggable item.
+        /// </summary>
+        public int Index { get; private set; }
+
+        /// <summary>
+        /// The index of the item when the transaction started.
+        /// </summary>
+        public int SourceIndex { get; private set; }
+
+        /// <summary>
         /// Gets the name of the drop zone where the transaction has started.
         /// </summary>
-        public string SourceZoneName { get; init; }
+        public string SourceZoneName { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the drop zone where the transaction is currently executing.
+        /// </summary>
+        public string CurrentZoneName { get; private set; }
 
         #endregion
     }

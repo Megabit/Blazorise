@@ -82,6 +82,7 @@ namespace Blazorise
             { typeof( IMessageService ), typeof( MessageService ) },
             { typeof( INotificationService ), typeof( NotificationService ) },
             { typeof( IPageProgressService ), typeof( PageProgressService ) },
+            { typeof( IModalService ), typeof( ModalService ) },
         };
 
         /// <summary>
