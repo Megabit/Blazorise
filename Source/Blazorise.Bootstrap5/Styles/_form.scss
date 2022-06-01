@@ -207,6 +207,12 @@ select[readonly] {
     &:hover > .b-numeric-handler-wrap {
         opacity: 1;
     }
+
+    input:disabled, input:read-only {
+        + .b-numeric-handler-wrap {
+            display: none;
+        }
+    }
 }
 
 .b-numeric-handler-wrap {
