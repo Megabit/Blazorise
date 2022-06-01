@@ -837,6 +837,71 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DragDropReorderingExample = @"@*<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+    <ChildContent>
+        @for ( int i = 1; i < 4; i++ )
+        {
+            var dropzone = i.ToString();
+
+            <Card>
+                <CardBody>
+                    <ListGroup>
+                        <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
+                        <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"" />
+                    </ListGroup>
+                </CardBody>
+            </Card>
+        }
+    </ChildContent>
+    <ItemTemplate>
+        <ListGroupItem>
+            @context.Name
+        </ListGroupItem>
+    </ItemTemplate>
+</DropContainer>*@
+
+<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+    <ChildContent>
+        @for ( int i = 1; i < 4; i++ )
+        {
+            var dropzone = i.ToString();
+
+            <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+                <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
+            </DropZone>
+        }
+    </ChildContent>
+    <ItemTemplate>
+        <Card Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
+            <CardBody>
+                @context.Name
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+@code {
+    public class DropItem
+    {
+        public string Name { get; init; }
+
+        public string Group { get; set; }
+    }
+
+    private List<DropItem> items = new()
+    {
+        new DropItem() { Name = ""Item 1"", Group = ""1"" },
+        new DropItem() { Name = ""Item 2"", Group = ""1"" },
+        new DropItem() { Name = ""Item 3"", Group = ""1"" },
+        new DropItem() { Name = ""Item 4"", Group = ""2"" },
+        new DropItem() { Name = ""Item 5"", Group = ""2"" },
+    };
+
+    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    {
+        dropItem.Item.Group = dropItem.DropZoneName;
+    }
+}";
+
         public const string DropdownExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">
         Dropdown
@@ -5741,7 +5806,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<MessageAlert />";
+<MessageProvider />";
 
         public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
@@ -5804,7 +5869,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<NotificationAlert />";
+<NotificationProvider />";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>
@@ -5855,7 +5920,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<PageProgressAlert />";
+<PageProgressProvider />";
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 

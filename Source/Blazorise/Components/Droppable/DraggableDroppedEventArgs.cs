@@ -15,10 +15,12 @@ namespace Blazorise
         /// </summary>
         /// <param name="item">The dropped item during the transaction.</param>
         /// <param name="dropZoneName">Name of the zone where the transaction started.</param>
-        public DraggableDroppedEventArgs( TItem item, string dropZoneName )
+        /// <param name="indexInZone">The index of the item within the dropzone.</param>
+        public DraggableDroppedEventArgs( TItem item, string dropZoneName, int indexInZone )
         {
             Item = item;
             DropZoneName = dropZoneName;
+            IndexInZone = indexInZone;
         }
 
         /// <summary>
@@ -30,5 +32,10 @@ namespace Blazorise
         /// Gets the name of the zone where the transaction started.
         /// </summary>
         public string DropZoneName { get; private set; }
+
+        /// <summary>
+        /// The index of the item within the dropzone.
+        /// </summary>
+        public int IndexInZone { get; private set; }
     }
 }
