@@ -25,6 +25,23 @@
 </NewsPageSubtitle>
 
 <Paragraph>
+    There are no breaking changes, but we will slowly start with some API changes by making existing obsolete and introducing new as a replacements. Once we reach stable v2.0 the APIs marked with obsolete will eventually be removed.
+</Paragraph>
+
+
+<OrderedList>
+    <UnorderedListItem>
+        Change all usages of <Code>MessageAlert</Code> into <Code>MessageProvider</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Change all usages of <Code>NotificationAlert</Code> into <Code>NotificationProvider</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Change all usages of <Code>PageProgressAlert</Code> into <Code>PageProgressProvider</Code>.
+    </UnorderedListItem>
+</OrderedList>
+
+<Paragraph>
     Note...
 </Paragraph>
 
@@ -64,4 +81,24 @@
 
 <Paragraph>
     Added <Code>ShowDefaultSortIcon</Code> parameter to <Code>DataGrid</Code>. By enabling this parameter, a default sort icon will now display.
+</Paragraph>
+
+<Paragraph>
+    Introduced <Code>PagerOptions</Code> with the following options:
+    <UnorderedList>
+        <UnorderedListItem><Strong>Size</Strong> : Configures the pager buttons size.</UnorderedListItem>
+        <UnorderedListItem><Strong>ButtonRowPosition</Strong> : Configures the button row position.</UnorderedListItem>
+        <UnorderedListItem><Strong>PaginationPosition</Strong> : Configures the pagination position.</UnorderedListItem>
+        <UnorderedListItem><Strong>TotalItemsPosition</Strong> : Configures the total items position.</UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+
+
+<Heading Size="HeadingSize.Is3">
+    ModalProvider
+</Heading>
+
+<Paragraph>
+    Introduced a new component <Code>ModalProvider</Code>. You are now able to programatically decide what custom content or component you want to instantiate inside of your Modal, even with the support of parameters.
 </Paragraph>

@@ -31,6 +31,36 @@ namespace Blazorise.TreeView
         #region Properties
 
         /// <summary>
+        /// Defines the name of the treenode expand icon.
+        /// </summary>
+        [Parameter] public IconName ExpandIconName { get; set; } = IconName.ChevronRight;
+
+        /// <summary>
+        /// Defines the style of the treenode expand icon.
+        /// </summary>
+        [Parameter] public IconStyle? ExpandIconStyle { get; set; }
+
+        /// <summary>
+        /// Defines the size of the treenode expand icon.
+        /// </summary>
+        [Parameter] public IconSize? ExpandIconSize { get; set; }
+
+        /// <summary>
+        /// Defines the name of the treenode collapse icon.
+        /// </summary>
+        [Parameter] public IconName CollapseIconName { get; set; } = IconName.ChevronDown;
+
+        /// <summary>
+        /// Defines the style of the treenode collapse icon.
+        /// </summary>
+        [Parameter] public IconStyle? CollapseIconStyle { get; set; }
+
+        /// <summary>
+        /// Defines the size of the treenode collapse icon.
+        /// </summary>
+        [Parameter] public IconSize? CollapseIconSize { get; set; }
+
+        /// <summary>
         /// Collection of child TreeView items (child nodes)
         /// </summary>
         [Parameter] public IEnumerable<TNode> Nodes { get; set; }

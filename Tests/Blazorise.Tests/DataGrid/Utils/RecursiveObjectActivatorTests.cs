@@ -20,7 +20,7 @@ namespace Blazorise.Tests.DataGrid.Utils
             Assert.NotNull( result.CycleTest.CircularReference._CircularReference );
             Assert.Null( result.CycleTest.CircularReference._CircularReference._CircularReference );
 
-            Assert.NotNull( result.CycleTest.ObjectCycle);
+            Assert.NotNull( result.CycleTest.ObjectCycle );
             Assert.NotNull( result.CycleTest.ObjectCycle.CircularReference );
             Assert.NotNull( result.CycleTest.ObjectCycle.CircularReference._CircularReference );
             Assert.Null( result.CycleTest.ObjectCycle.CircularReference._CircularReference._CircularReference );
@@ -91,6 +91,10 @@ namespace Blazorise.Tests.DataGrid.Utils
             protected NestedTest ProtectedNestedTest { get; set; }
 
             internal NestedTest InternalNestedTest { get; set; }
+
+            public NestedTest NoSetter { get; }
+
+            public NestedTest AutoProperty => NoSetter;
         }
 
         private class NestedTest
@@ -119,7 +123,7 @@ namespace Blazorise.Tests.DataGrid.Utils
 
         private class CyclicTest
         {
-            public CircularReference CircularReference{ get; set; }
+            public CircularReference CircularReference { get; set; }
 
             public ObjectCycle ObjectCycle { get; set; }
         }

@@ -8,6 +8,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IPageProgressService"/> to show the page progress.
     /// </summary>
+    [Obsolete( "PageProgressAlert is deprecated, please use PageProgressProvider instead." )]
     public partial class PageProgressAlert : BaseComponent, IDisposable
     {
         #region Methods
