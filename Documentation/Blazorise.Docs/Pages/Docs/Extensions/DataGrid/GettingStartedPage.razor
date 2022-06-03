@@ -296,6 +296,12 @@
     <DocsAttributesItem Name="PagerOptions" Type="DataGridPagerOptions" Default="null">
         Gets or sets Pager options.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="RowContextMenu" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the row has requested a context menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
+        Used to prevent the default action for an <Code>RowContextMenu</Code> event.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
