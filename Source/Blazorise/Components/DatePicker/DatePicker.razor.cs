@@ -25,54 +25,53 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !Date.Equals( paramDate );
-            var datesChanged = parameters.TryGetValue( nameof( Dates ), out IEnumerable<TValue> paramDates ) && !Dates.AreEqual( paramDates );
-            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
-            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
-            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
-            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string paramDisplayFormat ) && DisplayFormat != paramDisplayFormat;
-            var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool paramTimeAs24hr ) && TimeAs24hr != paramTimeAs24hr;
-            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
-            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
-            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
-            var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
-
-            if ( dateChanged || datesChanged )
+            if ( Rendered )
             {
-                var formatedDateString = SelectionMode != DateInputSelectionMode.Single
-                    ? FormatValueAsString( paramDates?.ToArray() )
-                    : FormatValueAsString( new TValue[] { paramDate } );
+                var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
+                var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
+                var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
+                var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string paramDisplayFormat ) && DisplayFormat != paramDisplayFormat;
+                var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool paramTimeAs24hr ) && TimeAs24hr != paramTimeAs24hr;
+                var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
+                var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
+                var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
+                var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
 
-                await CurrentValueHandler( formatedDateString );
-
-                if ( Rendered )
+                if ( minChanged
+                    || maxChanged
+                    || firstDayOfWeekChanged
+                    || displayFormatChanged
+                    || timeAs24hrChanged
+                    || disabledChanged
+                    || readOnlyChanged
+                    || disabledDatesChanged
+                    || selectionModeChanged )
                 {
+                    ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                    {
+                        FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = (int)paramFirstDayOfWeek },
+                        DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( paramDisplayFormat ) },
+                        TimeAs24hr = new { Changed = timeAs24hrChanged, Value = paramTimeAs24hr },
+                        Min = new { Changed = minChanged, Value = paramMin?.ToString( DateFormat ) },
+                        Max = new { Changed = maxChanged, Value = paramMax?.ToString( DateFormat ) },
+                        Disabled = new { Changed = disabledChanged, Value = paramDisabled },
+                        ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
+                        DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
+                        SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
+                    } ) );
+                }
+
+                var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !Date.Equals( paramDate );
+                var datesChanged = parameters.TryGetValue( nameof( Dates ), out IEnumerable<TValue> paramDates ) && !Dates.AreEqual( paramDates );
+
+                if ( dateChanged || datesChanged )
+                {
+                    var formatedDateString = SelectionMode != DateInputSelectionMode.Single
+                        ? FormatValueAsString( paramDates?.ToArray() )
+                        : FormatValueAsString( new TValue[] { paramDate } );
+
                     ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, formatedDateString ) );
                 }
-            }
-
-            if ( Rendered && ( minChanged
-                || maxChanged
-                || firstDayOfWeekChanged
-                || displayFormatChanged
-                || timeAs24hrChanged
-                || disabledChanged
-                || readOnlyChanged
-                || disabledDatesChanged
-                || selectionModeChanged ) )
-            {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
-                {
-                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = (int)paramFirstDayOfWeek },
-                    DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( paramDisplayFormat ) },
-                    TimeAs24hr = new { Changed = timeAs24hrChanged, Value = paramTimeAs24hr },
-                    Min = new { Changed = minChanged, Value = paramMin?.ToString( DateFormat ) },
-                    Max = new { Changed = maxChanged, Value = paramMax?.ToString( DateFormat ) },
-                    Disabled = new { Changed = disabledChanged, Value = paramDisabled },
-                    ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
-                    DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
-                    SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
-                } ) );
             }
 
             // Let blazor do its thing!
