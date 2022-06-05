@@ -550,11 +550,8 @@ namespace Blazorise.Components
         }
 
         /// <inheritdoc/>
-        public async Task Close( CloseReason closeReason )
-        {
-            await Clear();
-            await UnregisterClosableComponent();
-        }
+        public Task Close( CloseReason closeReason )
+            => UnregisterClosableComponent();
 
         /// <summary>
         /// Unregisters the closable component.
