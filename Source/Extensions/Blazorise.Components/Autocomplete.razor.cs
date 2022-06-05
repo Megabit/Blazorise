@@ -26,11 +26,6 @@ namespace Blazorise.Components
         #region Members
 
         /// <summary>
-        /// Returns true if ReadData will be invoked.
-        /// </summary>
-        protected bool Loading { get; set; }
-
-        /// <summary>
         /// Tells us that modal is tracked by the JS interop.
         /// </summary>
         private bool jsRegistered;
@@ -208,6 +203,7 @@ namespace Blazorise.Components
             if ( firstRender )
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+
                 if ( ManualReadMode )
                     await Reload();
             }
@@ -232,7 +228,8 @@ namespace Blazorise.Components
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
-            await HandleReadData();
+            if ( ManualReadMode )
+                await HandleReadData();
 
             if ( FilteredData?.Count == 0 && NotFound.HasDelegate )
                 await NotFound.InvokeAsync( CurrentSearch );
@@ -633,6 +630,11 @@ namespace Blazorise.Components
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Returns true if ReadData will be invoked.
+        /// </summary>
+        protected bool Loading { get; set; }
 
         /// <summary>
         /// Event handler used to load data manually based on the current search value.
