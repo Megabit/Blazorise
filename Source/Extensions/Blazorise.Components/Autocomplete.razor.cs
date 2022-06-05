@@ -392,6 +392,16 @@ namespace Blazorise.Components
             FilterData( Data?.AsQueryable() );
         }
 
+        private bool IsActiveItem( TItem item, int index )
+        {
+            return ( index == ActiveItemIndex ) || ( ShowSelected && IsSelectedItem( item ) );
+        }
+
+        private bool IsSelectedItem( TItem item )
+        {
+            return SelectedValues.Contains( ValueField.Invoke( item ) );
+        }
+
         private void FilterData( IQueryable<TItem> query )
         {
             if ( query == null )
@@ -403,8 +413,8 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Multiple )
-                query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
+            if ( Multiple && !ShowSelected )
+                query = query.Where( x => !IsSelectedItem( x ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
 
@@ -904,6 +914,11 @@ namespace Blazorise.Components
         /// Defauls to true.
         /// </summary>
         [Parameter] public bool CloseOnSelection { get; set; } = true;
+
+        /// <summary>
+        /// Shows selected option(s) when presenting the searched values.
+        /// </summary>
+        [Parameter] public bool ShowSelected { get; set; }
 
         #endregion
     }
