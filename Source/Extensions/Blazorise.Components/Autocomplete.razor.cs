@@ -28,7 +28,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Returns true if ReadData will be invoked.
         /// </summary>
-        protected bool IsLoading { get; set; }
+        protected bool Loading { get; set; }
 
         /// <summary>
         /// Tells us that modal is tracked by the JS interop.
@@ -83,14 +83,14 @@ namespace Blazorise.Components
         {
             try
             {
-                IsLoading = true;
+                Loading = true;
 
                 if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
                     await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
             }
             finally
             {
-                IsLoading = false;
+                Loading = false;
 
                 await InvokeAsync( StateHasChanged );
             }
@@ -103,7 +103,7 @@ namespace Blazorise.Components
         /// <returns>Returns the awaitable task.</returns>
         public async Task Reload( CancellationToken cancellationToken = default )
         {
-            if ( IsLoading )
+            if ( Loading )
                 return;
 
             dirtyFilter = true;
