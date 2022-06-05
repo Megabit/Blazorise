@@ -920,6 +920,12 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public bool ShowSelected { get; set; }
 
+        /// <summary>
+        /// Shows selected option(s) when presenting the searched values with checkboxes to ease selection when <see cref="Autocomplete{TItem, TValue}"/> is set to Multiple.
+        /// </summary>
+        [Parameter] public bool ShowMultipleCheckbox { get; set; }
+
+
         #endregion
     }
 }
