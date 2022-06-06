@@ -394,7 +394,7 @@ namespace Blazorise.Components
 
         private bool IsActiveItem( TItem item, int index )
         {
-            return ( index == ActiveItemIndex ) || ( ShowSelected && IsSelectedItem( item ) );
+            return ( index == ActiveItemIndex ) || ( SuggestSelected && IsSelectedItem( item ) );
         }
 
         private bool IsSelectedItem( TItem item )
@@ -413,7 +413,7 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Multiple && !ShowSelected )
+            if ( Multiple && !SuggestSelected )
                 query = query.Where( x => !IsSelectedItem( x ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
@@ -916,12 +916,12 @@ namespace Blazorise.Components
         [Parameter] public bool CloseOnSelection { get; set; } = true;
 
         /// <summary>
-        /// Shows selected option(s) when presenting the searched values.
+        /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        [Parameter] public bool ShowSelected { get; set; }
+        [Parameter] public bool SuggestSelected { get; set; }
 
         /// <summary>
-        /// Shows selected option(s) when presenting the searched values with checkboxes to ease selection when <see cref="Autocomplete{TItem, TValue}"/> is set to Multiple.
+        /// Suggests already selected option(s) when presenting the options with checkboxes to ease selection when <see cref="Autocomplete{TItem, TValue}"/> is set to Multiple.
         /// </summary>
         [Parameter] public bool ShowMultipleCheckbox { get; set; }
 
