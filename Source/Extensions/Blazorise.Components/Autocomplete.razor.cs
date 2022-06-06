@@ -394,7 +394,7 @@ namespace Blazorise.Components
 
         private bool IsActiveItem( TItem item, int index )
         {
-            return ( index == ActiveItemIndex ) || ( SuggestSelected && IsSelectedItem( item ) );
+            return ( index == ActiveItemIndex ) || ( IsSuggestSelected && IsSelectedItem( item ) );
         }
 
         private bool IsSelectedItem( TItem item )
@@ -413,7 +413,7 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Multiple && !SuggestSelected )
+            if ( Multiple && !IsSuggestSelected )
                 query = query.Where( x => !IsSelectedItem( x ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
@@ -463,16 +463,17 @@ namespace Blazorise.Components
 
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
         {
+            var count = FilteredData.Count;
             if ( activeItemIndex < 0 )
                 activeItemIndex = 0;
 
-            if ( activeItemIndex > ( FilteredData.Count - 1 ) )
-                activeItemIndex = FilteredData.Count - 1;
+            if ( activeItemIndex > ( count - 1 ) )
+                activeItemIndex = count - 1;
 
             ActiveItemIndex = activeItemIndex;
 
             // update search text with the currently focused item text
-            if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
+            if ( count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( count - 1 ) )
             {
                 var item = FilteredData[ActiveItemIndex];
 
@@ -590,6 +591,11 @@ namespace Blazorise.Components
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Suggests already selected option(s) when presenting the options.
+        /// </summary>
+        private bool IsSuggestSelected => Multiple && (SuggestSelected || ShowMultipleCheckbox);
 
         /// <summary>
         /// Gets the DropdownMenu reference.
