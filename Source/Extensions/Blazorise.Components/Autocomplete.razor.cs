@@ -394,7 +394,7 @@ namespace Blazorise.Components
 
         private bool IsActiveItem( TItem item, int index )
         {
-            return ( index == ActiveItemIndex ) || ( IsSuggestSelected && IsSelectedItem( item ) );
+            return ( IsSuggestSelectedItems && IsSelectedItem( item ) );
         }
 
         private bool IsSelectedItem( TItem item )
@@ -413,7 +413,7 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Multiple && !IsSuggestSelected )
+            if ( Multiple && !IsSuggestSelectedItems )
                 query = query.Where( x => !IsSelectedItem( x ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
@@ -595,7 +595,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        private bool IsSuggestSelected => Multiple && (SuggestSelected || ShowMultipleCheckbox);
+        private bool IsSuggestSelectedItems => Multiple && (SuggestSelectedItems || ShowMultipleCheckbox);
 
         /// <summary>
         /// Gets the DropdownMenu reference.
@@ -676,6 +676,12 @@ namespace Blazorise.Components
         /// </summary>
         protected string DropdownClassNames
             => $"{Class} b-is-autocomplete {( Multiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
+
+        /// <summary>
+        /// Gets the custom class-names for dropdown element.
+        /// </summary>
+        protected string DropdownItemClassNames(int index)
+            => $"b-auto-complete-suggestion {(ActiveItemIndex == index ? "focus" : string.Empty)}";
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
@@ -924,13 +930,12 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        [Parameter] public bool SuggestSelected { get; set; }
+        [Parameter] public bool SuggestSelectedItems { get; set; }
 
         /// <summary>
         /// Suggests already selected option(s) when presenting the options with checkboxes to ease selection when <see cref="Autocomplete{TItem, TValue}"/> is set to Multiple.
         /// </summary>
         [Parameter] public bool ShowMultipleCheckbox { get; set; }
-
 
         #endregion
     }

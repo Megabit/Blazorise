@@ -67,11 +67,11 @@
 
                 @if (ItemContent is not null)
                 {
-                    <DropdownItem @key="item" Active="@(IsActiveItem(item, i))" Value="@value" Clicked="@OnDropdownItemClicked">@ItemContent(new (item, value, text))</DropdownItem>
+                    <DropdownItem @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">@ItemContent(new (item, value, text))</DropdownItem>
                 }
                 else
                 {
-                    <DropdownItem @key="item" Active="@(IsActiveItem(item, i))" Value="@value" Clicked="@OnDropdownItemClicked">
+                    <DropdownItem @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
                         @if (ShowMultipleCheckbox)
                         {
                             <Field Horizontal>
