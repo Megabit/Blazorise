@@ -31,7 +31,13 @@ namespace Blazorise
             {
                 await animatedComponent.BeginAnimation( visible );
 
-                await Task.Delay( animatedComponent.AnimationDuration );
+                if ( visible )
+                    // The 10ms delay is selected based on testing.
+                    // Task.Yield works for Blazor WebAssembly, but not for Blazor Server apps.
+                    // A small delay works well for both.
+                    await Task.Delay( 10 );
+                else
+                    await Task.Delay( animatedComponent.AnimationDuration );
 
                 await animatedComponent.EndAnimation( visible );
             }
