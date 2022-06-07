@@ -65,11 +65,6 @@ namespace Blazorise.Components
         /// </summary>
         private bool closeOnSelectionAllowClose = true;
 
-        /// <summary>
-        /// True if user is using <see cref="ReadData"/> for loading the data.
-        /// </summary>
-        public bool ManualReadMode => ReadData.HasDelegate;
-
         #endregion
 
         #region Methods
@@ -632,14 +627,14 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// True if user is using <see cref="ReadData"/> for loading the data.
+        /// </summary>
+        public bool ManualReadMode => ReadData.HasDelegate;
+
+        /// <summary>
         /// Returns true if ReadData will be invoked.
         /// </summary>
         protected bool Loading { get; set; }
-
-        /// <summary>
-        /// Event handler used to load data manually based on the current search value.
-        /// </summary>
-        [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
 
         /// <summary>
         /// Gets the DropdownMenu reference.
@@ -779,6 +774,11 @@ namespace Blazorise.Components
                 dirtyFilter = true;
             }
         }
+
+        /// <summary>
+        /// Event handler used to load data manually based on the current search value.
+        /// </summary>
+        [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
 
         /// <summary>
         /// Gets the data after all of the filters have being applied.
@@ -957,7 +957,6 @@ namespace Blazorise.Components
         /// Specifies the item content to be rendered inside each dropdown item.
         /// </summary>
         [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
-
 
         /// <summary>
         /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when the <see cref="Multiple"/> is set to true.
