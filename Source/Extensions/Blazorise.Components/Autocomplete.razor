@@ -6,9 +6,9 @@
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
-        @if (Multiple && !SelectedTexts.IsNullOrEmpty())
+        @if ( Multiple && !SelectedTexts.IsNullOrEmpty() )
         {
-            @foreach (var selectedText in SelectedTexts)
+            @foreach ( var selectedText in SelectedTexts )
             {
                 <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleText( selectedText )">@selectedText</Badge>
             }
@@ -37,45 +37,45 @@
         </TextEdit>
     </Validation>
     <DropdownMenu @ref="DropdownMenuRef">
-        @if (NotFoundVisible)
+        @if ( NotFoundVisible )
         {
             <DropdownItem Disabled>
                 @NotFoundContent( SelectedText )
             </DropdownItem>
         }
 
-        @if (DropdownVisible)
+        @if ( DropdownVisible )
         {
             // once the menu is opened we need to register it as closable so that user could properly close it with escape key
             // without accidentally triggering the parent component closing
-            if (!jsRegistered)
+            if ( !jsRegistered )
             {
                 jsRegistered = true;
 
-                ExecuteAfterRender(async () =>
+                ExecuteAfterRender( async () =>
                 {
-                    await JSClosableModule.Register(dotNetObjectRef, ElementRef);
-                });
+                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
+                } );
             }
 
-            for (int i = 0; i < FilteredData.Count; ++i)
+            for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
 
-                var text = GetItemText(item);
-                var value = GetItemValue(item);
+                var text = GetItemText( item );
+                var value = GetItemValue( item );
 
-                @if (ItemContent is not null)
+                @if ( ItemContent is not null )
                 {
                     <DropdownItem @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">@ItemContent(new (item, value, text))</DropdownItem>
                 }
                 else
                 {
                     <DropdownItem @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
-                        @if (ShowMultipleCheckbox)
+                        @if ( ShowMultipleCheckbox )
                         {
                             <Field Horizontal>
-                                <Check TValue="bool" Checked="IsActiveItem(item, i)" CheckedChanged="async (e) => { if(!e) { await RemoveMultipleText( text ); } }"></Check>
+                                <Check TValue="bool" Checked="IsActiveItem(item, i)"></Check>
                                 @text
                             </Field>
                         }

@@ -285,7 +285,16 @@ namespace Blazorise.Components
                 await SearchChanged.InvokeAsync( CurrentSearch );
             }
 
-            SelectedValue = Converters.ChangeType<TValue>( value );
+            var selectedTValue = Converters.ChangeType<TValue>( value );
+
+            if ( IsSuggestSelectedItems && IsSelectedvalue( selectedTValue ) )
+            {
+                await RemoveMultipleValue( selectedTValue );
+                await Revalidate();
+                return;
+            }
+
+            SelectedValue = selectedTValue;
             await SelectedValueChanged.InvokeAsync( SelectedValue );
 
 
@@ -303,10 +312,16 @@ namespace Blazorise.Components
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
 
-            if ( textEditRef != null )
+            await Revalidate();
+        }
+
+        private Task Revalidate()
+        {
+            if ( textEditRef is not null )
             {
-                await textEditRef.Revalidate();
+                return textEditRef.Revalidate();
             }
+            return Task.CompletedTask;
         }
 
         private static bool ConfirmKey( KeyboardEventArgs eventArgs )
@@ -346,6 +361,8 @@ namespace Blazorise.Components
         {
             SelectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
+
+            dirtyFilter = true;
         }
 
         private Task AddMultipleText( TValue value )
@@ -397,9 +414,20 @@ namespace Blazorise.Components
             return ( IsSuggestSelectedItems && IsSelectedItem( item ) );
         }
 
+        private bool IsSelectedvalue( TValue value )
+        {
+            if ( Multiple )
+                return SelectedValues?.Contains( value ) ?? false;
+            else
+                return SelectedValue?.IsEqual( value ) ?? false;
+        }
+
         private bool IsSelectedItem( TItem item )
         {
-            return SelectedValues.Contains( ValueField.Invoke( item ) );
+            if ( Multiple )
+                return SelectedValues?.Contains( ValueField.Invoke( item ) ) ?? false;
+            else
+                return SelectedValue?.IsEqual( ValueField.Invoke( item ) ) ?? false;
         }
 
         private void FilterData( IQueryable<TItem> query )
@@ -441,7 +469,6 @@ namespace Blazorise.Components
             }
 
             filteredData = query.ToList();
-            ActiveItemIndex = 0;
 
             dirtyFilter = false;
         }
@@ -509,6 +536,7 @@ namespace Blazorise.Components
         {
             await Clear();
             await UnregisterClosableComponent();
+            ActiveItemIndex = 0;
         }
 
         /// <summary>
@@ -595,7 +623,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        private bool IsSuggestSelectedItems => Multiple && (SuggestSelectedItems || ShowMultipleCheckbox);
+        private bool IsSuggestSelectedItems => Multiple && ( SuggestSelectedItems || ShowMultipleCheckbox );
 
         /// <summary>
         /// Gets the DropdownMenu reference.
@@ -680,8 +708,8 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets the custom class-names for dropdown element.
         /// </summary>
-        protected string DropdownItemClassNames(int index)
-            => $"b-auto-complete-suggestion {(ActiveItemIndex == index ? "focus" : string.Empty)}";
+        protected string DropdownItemClassNames( int index )
+            => $"b-auto-complete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
