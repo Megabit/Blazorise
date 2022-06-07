@@ -82,6 +82,13 @@ namespace Blazorise.Modules
         ValueTask ScrollAnchorIntoView( string anchorTarget );
 
         /// <summary>
+        /// Scrolls the view to the given element.
+        /// </summary>
+        /// <param name="anchorTarget">Anchor element id.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask ScrollElementIntoView( string elementId );
+
+        /// <summary>
         /// Sets the caret to the specified position.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>

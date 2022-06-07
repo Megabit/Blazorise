@@ -279,6 +279,7 @@ namespace Blazorise.Components
             {
                 await UpdateActiveFilterIndex( ++activeItemIndex );
             }
+            await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
         }
 
 
@@ -766,9 +767,20 @@ namespace Blazorise.Components
             => $"b-auto-complete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
 
         /// <summary>
+        /// Provides an index based id for the dropdown suggestion items.
+        /// </summary>
+        protected string DropdownItemId( int index )
+            => $"b-auto-complete-suggestion-{index}";
+
+        /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
         /// </summary>
         [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
         /// Gets or sets the dropdown element id.
