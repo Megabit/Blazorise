@@ -3372,7 +3372,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@ReadDataCountries""
-              ReadData=""HandleReadData""
+              ReadData=""@OnHandleReadData""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
               @bind-SelectedValue=""@selectedSearchValue""
@@ -3406,7 +3406,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         await base.OnInitializedAsync();
     }
 
-    private Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
         ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
         return Task.CompletedTask;
