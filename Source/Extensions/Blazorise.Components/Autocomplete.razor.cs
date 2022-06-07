@@ -250,6 +250,7 @@ namespace Blazorise.Components
                     }
                 }
                 await UnregisterClosableComponent();
+                ActiveItemIndex = 0;
                 return;
             }
 
@@ -319,6 +320,7 @@ namespace Blazorise.Components
             }
 
             TextFocused = false;
+            ActiveItemIndex = 0;
         }
 
         private async Task OnDropdownItemClicked( object value )
@@ -581,7 +583,6 @@ namespace Blazorise.Components
         public async Task Close( CloseReason closeReason )
         {
             await UnregisterClosableComponent();
-            ActiveItemIndex = 0;
         }
 
         /// <summary>
