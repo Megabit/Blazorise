@@ -199,7 +199,7 @@ namespace Blazorise
                     DirtyStyles();
 
                     if ( ShowBackdrop )
-                        IsBackdropVisible = true;
+                        BackdropVisible = true;
                 }
 
                 await InvokeAsync( StateHasChanged );
@@ -237,7 +237,7 @@ namespace Blazorise
                     DirtyStyles();
 
                     if ( ShowBackdrop )
-                        IsBackdropVisible = false;
+                        BackdropVisible = false;
                 }
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
@@ -436,7 +436,7 @@ namespace Blazorise
         {
             if ( visible )
             {
-                IsBackdropVisible = ShowBackdrop;
+                BackdropVisible = ShowBackdrop;
                 DirtyStyles();
             }
             else
@@ -453,7 +453,7 @@ namespace Blazorise
             else
                 DirtyStyles();
 
-            IsBackdropVisible = ShowBackdrop && visible;
+            BackdropVisible = ShowBackdrop && visible;
 
             return InvokeAsync( StateHasChanged );
         }
@@ -470,7 +470,7 @@ namespace Blazorise
         /// <summary>
         /// Returns true if the modal backdrop should be visible.
         /// </summary>
-        protected internal bool IsBackdropVisible = false;
+        protected internal bool BackdropVisible = false;
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
