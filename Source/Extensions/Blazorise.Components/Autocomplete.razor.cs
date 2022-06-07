@@ -288,9 +288,11 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected async Task OnTextFocusInHandler( FocusEventArgs eventArgs )
+        protected Task OnTextFocusInHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
