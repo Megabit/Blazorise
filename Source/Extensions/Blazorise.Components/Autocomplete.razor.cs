@@ -69,6 +69,45 @@ namespace Blazorise.Components
 
         #region Methods
 
+        protected async Task HandleReadData( CancellationToken cancellationToken = default )
+        {
+            try
+            {
+                Loading = true;
+
+                if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
+                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
+            }
+            finally
+            {
+                Loading = false;
+
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        /// <summary>
+        /// Triggers the reload of the <see cref="Autocomplete{TItem, TValue}"/> data.
+        /// Makes sure not to reload if the <see cref="Autocomplete{TItem, TValue}"/> is in a loading state.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        public async Task Reload( CancellationToken cancellationToken = default )
+        {
+            if ( Loading )
+                return;
+
+            dirtyFilter = true;
+
+            if ( ManualReadMode )
+            {
+                await InvokeAsync( () => HandleReadData( cancellationToken ) );
+            }
+            else
+            {
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
@@ -154,13 +193,16 @@ namespace Blazorise.Components
         }
 
         /// <inheritdoc/>
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        protected async override Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
                 dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+
+                if ( ManualReadMode )
+                    await Reload();
             }
-            return base.OnAfterRenderAsync( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <summary>
@@ -180,6 +222,9 @@ namespace Blazorise.Components
 
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
+
+            if ( ManualReadMode )
+                await HandleReadData();
 
             if ( FilteredData?.Count == 0 && NotFound.HasDelegate )
                 await NotFound.InvokeAsync( CurrentSearch );
@@ -442,30 +487,31 @@ namespace Blazorise.Components
                 return;
 
             if ( Multiple && !IsSuggestSelectedItems )
-                query = query.Where( x => !IsSelectedItem( x ) );
+                query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
             var currentSearch = CurrentSearch ?? string.Empty;
 
-            if ( CustomFilter != null )
-            {
-                query = from q in query
-                        where q != null
-                        where CustomFilter( q, currentSearch )
-                        select q;
-            }
-            else if ( Filter == AutocompleteFilter.Contains )
-            {
-                query = from q in query
-                        let text = GetItemText( q )
-                        where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
-                        select q;
-            }
-            else
-            {
-                query = from q in query
-                        let text = GetItemText( q )
-                        where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
-                        select q;
+                if ( CustomFilter != null )
+                {
+                    query = from q in query
+                            where q != null
+                            where CustomFilter( q, currentSearch )
+                            select q;
+                }
+                else if ( Filter == AutocompleteFilter.Contains )
+                {
+                    query = from q in query
+                            let text = GetItemText( q )
+                            where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                            select q;
+                }
+                else
+                {
+                    query = from q in query
+                            let text = GetItemText( q )
+                            where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
+                            select q;
+                }
             }
 
             filteredData = query.ToList();
@@ -534,7 +580,6 @@ namespace Blazorise.Components
         /// <inheritdoc/>
         public async Task Close( CloseReason closeReason )
         {
-            await Clear();
             await UnregisterClosableComponent();
             ActiveItemIndex = 0;
         }
@@ -624,6 +669,16 @@ namespace Blazorise.Components
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
         private bool IsSuggestSelectedItems => Multiple && ( SuggestSelectedItems || ShowMultipleCheckbox );
+
+        /// <summary>
+        /// True if user is using <see cref="ReadData"/> for loading the data.
+        /// </summary>
+        public bool ManualReadMode => ReadData.HasDelegate;
+
+        /// <summary>
+        /// Returns true if ReadData will be invoked.
+        /// </summary>
+        protected bool Loading { get; set; }
 
         /// <summary>
         /// Gets the DropdownMenu reference.
@@ -769,6 +824,11 @@ namespace Blazorise.Components
                 dirtyFilter = true;
             }
         }
+
+        /// <summary>
+        /// Event handler used to load data manually based on the current search value.
+        /// </summary>
+        [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
 
         /// <summary>
         /// Gets the data after all of the filters have being applied.
@@ -947,7 +1007,6 @@ namespace Blazorise.Components
         /// Specifies the item content to be rendered inside each dropdown item.
         /// </summary>
         [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
-
 
         /// <summary>
         /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when the <see cref="Multiple"/> is set to true.

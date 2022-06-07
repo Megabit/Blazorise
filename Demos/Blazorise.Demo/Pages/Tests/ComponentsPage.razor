@@ -44,7 +44,7 @@
                                       ValueField="@((item) => item.Iso)"
                                       @bind-SelectedValue="@selectedDropValue"
                                       Color="Color.Primary"
-                                      MaxMenuHeight="200px"  >
+                                      MaxMenuHeight="200px">
                             Select item
                         </DropdownList>
                     </FieldBody>
@@ -148,6 +148,74 @@
         </Card>
     </Column>
 </Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete : ReadData</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@ReadDataCountries"
+                                      ReadData="HandleReadData"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      Placeholder="Search...">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@ReadDataCountries"
+                                      ReadData="HandleMultipleReadData"
+                                      TextField="@((item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      Placeholder="Search..."
+                                      Multiple
+                                      CloseOnSelection="false"
+                                      @bind-SelectedValues="multipleReadDataSelectionData"
+                                      @bind-SelectedTexts="multipleReadDataSelectionTexts">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 <Row>
 
 
@@ -215,10 +283,14 @@
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
 
     private string selectedAutoCompleteSearchValue { get; set; }
     private string selectedAutoCompleteText { get; set; }
     private bool autocompleteFreeTyping = false;
+
+    private List<string> multipleReadDataSelectionData;
+    private List<string> multipleReadDataSelectionTexts;
 
     private List<string> multipleSelectionData;
     private List<string> multipleSelectionTexts = new();
@@ -232,6 +304,18 @@
 
     private ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     private Random random = new();
+
+    private Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+        return Task.CompletedTask;
+    }
+
+    private Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
+        return Task.CompletedTask;
+    }
 
     protected override async Task OnInitializedAsync()
     {
