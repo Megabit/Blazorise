@@ -3369,6 +3369,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     List<string> multipleSelectionTexts = new();
 }";
 
+        public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@ReadDataCountries""
+              ReadData=""@OnHandleReadData""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              @bind-SelectedValue=""@selectedSearchValue""
+              @bind-SelectedText=""selectedAutoCompleteText""
+              Placeholder=""Search...""
+              FreeTyping>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected search value: @selectedSearchValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected text value: @selectedAutoCompleteText
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
+
+    public string selectedSearchValue { get; set; }
+    public string selectedAutoCompleteText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+        return Task.CompletedTask;
+    }
+}";
+
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
 
 @code {
