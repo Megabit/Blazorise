@@ -815,6 +815,11 @@ namespace Blazorise.DataGrid
             return RowDoubleClicked.InvokeAsync( eventArgs );
         }
 
+        internal Task OnRowContextMenuCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowContextMenu.InvokeAsync( eventArgs );
+        }
+
         protected internal int ResolveItemIndex( TItem item )
         {
             short index = 0;
@@ -1840,6 +1845,16 @@ namespace Blazorise.DataGrid
         /// Event called after the row is double clicked.
         /// </summary>
         [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowDoubleClicked { get; set; }
+
+        /// <summary>
+        /// Event called after the row has requested a context menu.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowContextMenu { get; set; }
+
+        /// <summary>
+        /// Used to prevent the default action for an <see cref="RowContextMenu"/> event.
+        /// </summary>
+        [Parameter] public bool RowContextMenuPreventDefault { get; set; }
 
         /// <summary>
         /// Occurs after the selected page has changed.

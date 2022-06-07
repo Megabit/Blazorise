@@ -43,7 +43,7 @@
             <UnorderedListItem><Code>Popup</Code> editing is done in the the modal dialog</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridEditModeExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridEditModeExample" />
@@ -53,7 +53,7 @@
     <DocsPageSectionHeader Title="NewItemDefaultSetter">
         <Code>NewItemDefaultSetter</Code> function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if <Code>DataGrid</Code> is editable.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridNewItemDefaultSetterExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridNewItemDefaultSetterExample" />
@@ -68,7 +68,7 @@
         </UnorderedList>
         <Paragraph>In the following example we’re simply calling <Code>context.UpdateCell</Code> with a field-name to change and a new value that we want it to assign:</Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridUpdateCellExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridUpdateCellExample" />
@@ -86,7 +86,7 @@
             <UnorderedListItem><Code>NotEquals</Code> opposite of Equals</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridFilterExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridFilterExample" />
@@ -97,7 +97,7 @@
         Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute <Code>CustomFilter</Code>.
         Filter API is fairly straightforward. All you need is to attach <Code>CustomFilter</Code> to a function and bind search value to <Code>TextEdit</Code> field. DataGrid will automatically respond to entered value.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridCustomFilteringExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridCustomFilteringExample" />
@@ -107,7 +107,7 @@
     <DocsPageSectionHeader Title="Custom Column Filtering">
         Similar to the DataGrid custom filtering, it is also possible to use custom filtering on a per-column basis. You can define your editor with custom filtering to filter column values. You can see the dropdown menu to filter by gender in the following example by specifying <Code Tag>FilterTemplate</Code> on <Code>DataGridColumn</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridCustomColumnFilteringExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridCustomColumnFilteringExample" />
@@ -115,7 +115,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Resizable" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridResizableExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridResizableExample" />
@@ -123,18 +123,43 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Fixed Header" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridFixedHeaderExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridFixedHeaderExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Row Context Menu">
+        <Paragraph>
+            You may need to know which element the user clicked in some cases so that you can use it in command handling. You might also want to change the menu's contents depending on which element the user clicked (e.g., disable or entirely remove some items from the menu based on a condition).
+        </Paragraph>
+        <Paragraph>
+            To integrate the context menu with the DataGrid, you need to:
+        </Paragraph>
+        <OrderedList>
+            <OrderedListItem>
+                Use the grid's <Code>RowContextMenu</Code> event to get the current row model and show the menu.
+            </OrderedListItem>
+            <OrderedListItem>
+                Use the context menu's <Code>MouseEventArgs</Code> parameter to handle the desired operation.
+            </OrderedListItem>
+        </OrderedList>
+        <Paragraph>
+            In this example, the context menu is used to show the menu items, put an item in edit mode and delete items.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridContextMenuExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridContextMenuExample" />
+</DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Scroll To">
         Scroll to API is available when the <Code>DataGrid</Code> <Code>FixedHeader</Code> or <Code>Virtualize</Code> is set.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth Outlined>
         <DataGridScrollToExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridScrollToExample" />
