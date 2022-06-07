@@ -62,17 +62,18 @@
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
+                var isActiveItem = IsActiveItem(item, i);
 
                 var text = GetItemText( item );
                 var value = GetItemValue( item );
 
                 @if ( ItemContent is not null )
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
                         @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal>
-                                <Check @onclick:stopPropagation TValue="bool" Checked="IsActiveItem(item, i)"></Check>
+                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem"></Check>
                                 @ItemContent(new (item, value, text))
                             </Field>
                         }
@@ -84,11 +85,11 @@
                 }
                 else
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@(IsActiveItem(item, i))" Value="@value" Clicked="@OnDropdownItemClicked">
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Value="@value" Clicked="@OnDropdownItemClicked">
                         @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal>
-                                <Check @onclick:stopPropagation TValue="bool" Checked="IsActiveItem(item, i)"></Check>
+                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem"></Check>
                                 @text
                             </Field>
                         }
