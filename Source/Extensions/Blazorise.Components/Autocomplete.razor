@@ -68,15 +68,27 @@
 
                 @if ( ItemContent is not null )
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">@ItemContent(new (item, value, text))</DropdownItem>
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
+                        @if ( SuggestMultipleCheckbox )
+                        {
+                            <Field Horizontal>
+                                <Check @onclick:stopPropagation TValue="bool" Checked="IsActiveItem(item, i)"></Check>
+                                @ItemContent(new (item, value, text))
+                            </Field>
+                        }
+                        else
+                        {
+                            @ItemContent(new (item, value, text))
+                        }
+                    </DropdownItem>
                 }
                 else
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@(IsActiveItem(item, i))" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
-                        @if ( ShowMultipleCheckbox )
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@(IsActiveItem(item, i))" Value="@value" Clicked="@OnDropdownItemClicked">
+                        @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal>
-                                <Check TValue="bool" Checked="IsActiveItem(item, i)"></Check>
+                                <Check @onclick:stopPropagation TValue="bool" Checked="IsActiveItem(item, i)"></Check>
                                 @text
                             </Field>
                         }

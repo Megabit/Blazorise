@@ -669,7 +669,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        private bool IsSuggestSelectedItems => Multiple && ( SuggestSelectedItems || ShowMultipleCheckbox );
+        private bool IsSuggestSelectedItems => Multiple && ( SuggestSelectedItems || SuggestMultipleCheckbox );
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -1034,7 +1034,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options with checkboxes to ease selection when <see cref="Autocomplete{TItem, TValue}"/> is set to Multiple.
         /// </summary>
-        [Parameter] public bool ShowMultipleCheckbox { get; set; }
+        [Parameter] public bool SuggestMultipleCheckbox { get; set; }
 
         #endregion
     }
