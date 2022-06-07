@@ -3525,6 +3525,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     List<string> multipleSelectionTexts = new();
 }";
 
+        public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@ReadDataCountries""
+              ReadData=""@OnHandleReadData""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              @bind-SelectedValue=""@selectedSearchValue""
+              @bind-SelectedText=""selectedAutoCompleteText""
+              Placeholder=""Search...""
+              FreeTyping>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected search value: @selectedSearchValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected text value: @selectedAutoCompleteText
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
+
+    public string selectedSearchValue { get; set; }
+    public string selectedAutoCompleteText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+        return Task.CompletedTask;
+    }
+}";
+
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
 
 @code {
@@ -4030,6 +4074,77 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridContextMenuExample = @"@using System.Drawing
+
+<DataGrid @ref=""@dataGridRef""
+          TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          RowContextMenu=""@OnRowContextMenu""
+          RowContextMenuPreventDefault=""true""
+          Responsive
+          Editable>
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+</DataGrid>
+
+@if ( showContextMenu )
+{
+    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;"")"">
+        <ListGroup>
+            <ListGroupItem Clicked=""@(()=>OnContextItemEditClicked(contextMenuEmployee))"">
+                <Icon Name=""IconName.Edit"" TextColor=""TextColor.Secondary"" /> Edit
+            </ListGroupItem>
+            <ListGroupItem Clicked=""@(()=>OnContextItemDeleteClicked(contextMenuEmployee))"">
+                <Icon Name=""IconName.Delete"" TextColor=""TextColor.Danger"" /> Delete
+            </ListGroupItem>
+        </ListGroup>
+    </Div>
+}
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private DataGrid<Employee> dataGridRef;
+
+    bool showContextMenu = false;
+    Employee contextMenuEmployee;
+    Point contextMenuPos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    protected Task OnRowContextMenu( DataGridRowMouseEventArgs<Employee> eventArgs )
+    {
+        showContextMenu = true;
+        contextMenuEmployee = eventArgs.Item;
+        contextMenuPos = eventArgs.MouseEventArgs.Client;
+
+        return Task.CompletedTask;
+    }
+
+    protected async Task OnContextItemEditClicked( Employee employee )
+    {
+        await dataGridRef.Edit( employee );
+
+        showContextMenu = false;
+    }
+
+    protected async Task OnContextItemDeleteClicked( Employee employee )
+    {
+        await dataGridRef.Delete( employee );
+
+        showContextMenu = false;
     }
 }";
 
