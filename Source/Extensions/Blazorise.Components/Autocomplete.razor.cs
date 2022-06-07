@@ -288,11 +288,9 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected Task OnTextFocusInHandler( FocusEventArgs eventArgs )
+        protected async Task OnTextFocusInHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -764,13 +762,13 @@ namespace Blazorise.Components
         /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownItemClassNames( int index )
-            => $"b-auto-complete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
+            => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
 
         /// <summary>
         /// Provides an index based id for the dropdown suggestion items.
         /// </summary>
         protected string DropdownItemId( int index )
-            => $"b-auto-complete-suggestion-{index}";
+            => $"b-is-autocomplete-suggestion-{index}";
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.

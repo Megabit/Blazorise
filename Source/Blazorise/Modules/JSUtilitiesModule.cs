@@ -100,11 +100,11 @@ namespace Blazorise.Modules
         }
 
         /// <inheritdoc/>
-        public virtual async ValueTask ScrollElementIntoView( string elementId )
+        public virtual async ValueTask ScrollElementIntoView( string elementId, bool smooth = true )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "scrollElementIntoView", elementId );
+            await moduleInstance.InvokeVoidAsync( "scrollElementIntoView", elementId, smooth );
         }
 
 

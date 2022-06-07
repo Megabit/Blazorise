@@ -83,12 +83,12 @@ export function scrollAnchorIntoView(elementId) {
     }
 }
 
-export function scrollElementIntoView(elementId) {
+export function scrollElementIntoView(elementId, smooth) {
     var element = document.getElementById(elementId);
 
     if (element) {
         element.scrollIntoView({
-            behavior: "smooth",
+            behavior: smooth ? "smooth" : "instant",
             block: "nearest"
         });
     }

@@ -86,7 +86,7 @@ namespace Blazorise.Modules
         /// </summary>
         /// <param name="anchorTarget">Anchor element id.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask ScrollElementIntoView( string elementId );
+        ValueTask ScrollElementIntoView( string elementId, bool smooth = true );
 
         /// <summary>
         /// Sets the caret to the specified position.

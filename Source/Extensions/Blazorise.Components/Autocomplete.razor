@@ -55,6 +55,7 @@
                 ExecuteAfterRender( async () =>
                 {
                     await JSClosableModule.Register( dotNetObjectRef, ElementRef );
+                    await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( 0 ), false );
                 } );
             }
 
