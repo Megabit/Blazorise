@@ -9,7 +9,7 @@ namespace Blazorise.Docs.Compiler
 {
     public class ExamplesMarkup
     {
-        public bool Execute()
+        public bool Execute( string category )
         {
             var paths = new Paths();
             var newFiles = new StringBuilder();
@@ -21,13 +21,13 @@ namespace Blazorise.Docs.Compiler
             {
                 var formatter = new HtmlClassFormatter();
                 var lastCheckedTime = new DateTime();
-                if ( File.Exists( paths.NewFilesToBuildPath ) )
+                if ( File.Exists( paths.NewFilesToBuildPath( category ) ) )
                 {
-                    var lastNewFilesToBuild = new FileInfo( paths.NewFilesToBuildPath );
+                    var lastNewFilesToBuild = new FileInfo( paths.NewFilesToBuildPath( category ) );
                     lastCheckedTime = lastNewFilesToBuild.LastWriteTime;
                 }
 
-                var directoryInfo = new DirectoryInfo( paths.DocsDirPath );
+                var directoryInfo = new DirectoryInfo( paths.DirPath( category ) );
 
                 var razorFiles = directoryInfo.GetFiles( "*.razor", SearchOption.AllDirectories );
                 var snippetFiles = directoryInfo.GetFiles( "*.snippet", SearchOption.AllDirectories );
@@ -101,7 +101,7 @@ namespace Blazorise.Docs.Compiler
                     }
                 }
 
-                File.WriteAllText( paths.NewFilesToBuildPath, newFiles.ToString() );
+                File.WriteAllText( paths.NewFilesToBuildPath( category ), newFiles.ToString() );
             }
             catch ( Exception e )
             {
