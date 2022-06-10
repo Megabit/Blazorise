@@ -1,0 +1,35 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+using BlazoriseSampleApplication;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
+namespace Company.WebApplication1
+{
+    public class Program
+    {
+        public static async Task Main( string[] args )
+        {
+            var builder = WebAssemblyHostBuilder.CreateDefault( args );
+            builder.RootComponents.Add<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">App</span><span class="htmlTagDelimiter">&gt;</span>( &quot;#app&quot; );
+            builder.RootComponents.Add<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">HeadOutlet</span><span class="htmlTagDelimiter">&gt;</span>( &quot;head::after&quot; );
+
+            builder.Services.AddScoped( sp =&gt; new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
+
+            builder.Services
+                .AddBlazorise( options =&gt;
+                {
+                    options.Immediate = true;
+                } )
+                .AddBootstrap5Providers()
+                .AddFontAwesomeIcons();
+
+            await builder.Build().RunAsync();
+        }
+    }
+}
+</pre></div>
+</div>

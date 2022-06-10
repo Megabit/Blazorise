@@ -6,8 +6,87 @@
 
 namespace Blazorise.Docs.Models
 {
-    public static partial class Snippets
+    public static partial class BlogSnippets
     {
+        public const string BeginnersGuideToCreateBlazoriseApp_CounterExample = @"<Heading Size=""HeadingSize.Is1"">Counter with Blazorise</Heading>
+
+<Paragraph>Current count: @currentCount</Paragraph>
+
+<Button Color=""Color.Primary"" Clicked=""IncrementCount"">Click me</Button>
+
+@code {
+    int currentCount = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+}";
+
+        public const string BeginnersGuideToCreateBlazoriseApp_ServicesExample = @"using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+using BlazoriseSampleApplication;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
+namespace Company.WebApplication1
+{
+    public class Program
+    {
+        public static async Task Main( string[] args )
+        {
+            var builder = WebAssemblyHostBuilder.CreateDefault( args );
+            builder.RootComponents.Add<App>( ""#app"" );
+            builder.RootComponents.Add<HeadOutlet>( ""head::after"" );
+
+            builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
+
+            builder.Services
+                .AddBlazorise( options =>
+                {
+                    options.Immediate = true;
+                } )
+                .AddBootstrap5Providers()
+                .AddFontAwesomeIcons();
+
+            await builder.Build().RunAsync();
+        }
+    }
+}";
+
+        public const string BeginnersGuideToCreateBlazoriseApp_StaticFilesExample = @"<!DOCTYPE html>
+<html lang=""en"">
+
+<head>
+    <meta charset=""utf-8"" />
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"" />
+    <title>BlazoriseSampleApplication</title>
+    <base href=""/"" />
+    <link href=""css/bootstrap/bootstrap.min.css"" rel=""stylesheet"" />
+
+    <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+    <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
+
+    <link href=""css/app.css"" rel=""stylesheet"" />
+    <link href=""BlazoriseSampleApplication.styles.css"" rel=""stylesheet"" />
+</head>
+
+<body>
+    <div id=""app"">Loading...</div>
+
+    <div id=""blazor-error-ui"">
+        An unhandled error has occurred.
+        <a href="""" class=""reload"">Reload</a>
+        <a class=""dismiss"">🗙</a>
+    </div>
+    <script src=""_framework/blazor.webassembly.js""></script>
+</body>
+
+</html>";
+
+        public const string BeginnersGuideToCreateBlazoriseApp_UsingsExample = @"@using Blazorise";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
