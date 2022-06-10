@@ -34,8 +34,9 @@ namespace Blazorise.Docs.Compiler
 
                 var razorFiles = Directory.EnumerateFiles( paths.DirPath( category ), "*.razor", SearchOption.AllDirectories );
                 var snippetFiles = Directory.EnumerateFiles( paths.DirPath( category ), "*.snippet", SearchOption.AllDirectories );
+                var csharpFiles = Directory.EnumerateFiles( paths.DirPath( category ), "*.csharp", SearchOption.AllDirectories );
 
-                foreach ( var entry in razorFiles.Concat( snippetFiles ).OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
+                foreach ( var entry in razorFiles.Concat( snippetFiles ).Concat( csharpFiles ).OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
                 {
                     var filename = Path.GetFileName( entry );
                     var componentName = Path.GetFileNameWithoutExtension( filename );
