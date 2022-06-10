@@ -87,6 +87,27 @@ namespace Company.WebApplication1
 
         public const string BeginnersGuideToCreateBlazoriseApp_UsingsExample = @"@using Blazorise";
 
+        public const string ValidationWithDataAnnotations_ModelsExample = @"public class Employee
+{
+    public int Id { get; set; }
+
+    [Required]
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
+
+    [Required]
+    public DateTime? DateOfBirth { get; set; }
+
+    [Required]
+    public decimal? Salary { get; set; }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
