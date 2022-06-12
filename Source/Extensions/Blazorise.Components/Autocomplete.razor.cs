@@ -320,7 +320,6 @@ namespace Blazorise.Components
             }
 
             TextFocused = false;
-            ActiveItemIndex = 0;
         }
 
         private async Task OnDropdownItemClicked( object value )
