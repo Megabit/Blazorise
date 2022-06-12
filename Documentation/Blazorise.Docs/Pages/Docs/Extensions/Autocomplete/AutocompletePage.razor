@@ -79,6 +79,17 @@
     <DocsPageSectionSource Code="AutocompleteItemContentExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Suggesting already selected items && Checkbox support">
+        You can use <Code>SuggestSelectedItems</Code> to suggest already selected items, and optionally use <Code>SuggestMultipleCheckbox</Code> to additionally add checkbox selection.
+        <Strong>Note: </Strong> Make sure to set <Code>CloseOnSelection</Code> to false if you want to keep the dropdown open whenever an item is selected.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteSuggestMultipleCheckboxExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteSuggestMultipleCheckboxExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -180,5 +191,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ReadData" Type="EventCallback<AutoCompleteReadDataEventArgs>">
         Event handler used to load data manually by based on the current search value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SuggestSelectedItems" Type="bool" Default="false">
+        Suggests already selected option(s) when presenting the options.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SuggestMultipleCheckbox" Type="bool" Default="false">
+        Suggests already selected option(s) when presenting the options with checkboxes to ease selection when <Code>Autocomplete</Code> is set to Multiple.
     </DocsAttributesItem>
 </DocsAttributes>
