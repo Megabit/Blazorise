@@ -73,8 +73,9 @@
                         @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal>
-                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem"></Check>
-                                @ItemContent(new (item, value, text))
+                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem">
+                                    @ItemContent(new (item, value, text))
+                                </Check>
                             </Field>
                         }
                         else
@@ -85,12 +86,13 @@
                 }
                 else
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Value="@value" Clicked="@OnDropdownItemClicked">
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
                         @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal>
-                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem"></Check>
-                                @text
+                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem">
+                                    @text
+                                </Check>
                             </Field>
                         }
                         else
