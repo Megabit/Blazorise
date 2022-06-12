@@ -337,7 +337,7 @@ namespace Blazorise.Components
 
             if ( IsSuggestSelectedItems && IsSelectedvalue( selectedTValue ) )
             {
-                await RemoveMultipleValue( selectedTValue );
+                await RemoveMultipleTextAndValue( selectedTValue );
                 await Revalidate();
                 return;
             }
@@ -445,11 +445,21 @@ namespace Blazorise.Components
         private async Task RemoveMultipleText( string text )
         {
             SelectedTexts.Remove( text );
-
-            await RemoveMultipleValue( GetValueByText( text ) );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
             dirtyFilter = true;
+        }
+
+        private async Task RemoveMultipleTextAndValue( string text )
+        {
+            await RemoveMultipleText( text );
+            await RemoveMultipleValue( GetValueByText( text ) );
+        }
+
+        private async Task RemoveMultipleTextAndValue( TValue value )
+        {
+            await RemoveMultipleText( GetItemText( value ) );
+            await RemoveMultipleValue( value );
         }
 
         private void FilterData()
