@@ -62,7 +62,7 @@
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
-                var isActiveItem = IsActiveItem(item, i);
+                var isActiveItem = IsActiveItem( item, i );
 
                 var text = GetItemText( item );
                 var value = GetItemValue( item );
@@ -72,10 +72,12 @@
                     <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
                         @if ( SuggestMultipleCheckbox )
                         {
-                            <Field Horizontal>
-                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem">
-                                    @ItemContent(new (item, value, text))
-                                </Check>
+                            <Field Horizontal Margin="Margin.Is0.FromStart">
+                                <Label @onclick:stopPropagation>
+                                    <Check TValue="bool" Checked="@isActiveItem">
+                                        @ItemContent(new (item, value, text))
+                                    </Check>
+                                </Label>
                             </Field>
                         }
                         else
@@ -89,10 +91,12 @@
                     <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
                         @if ( SuggestMultipleCheckbox )
                         {
-                            <Field Horizontal>
-                                <Check @onclick:stopPropagation TValue="bool" Checked="@isActiveItem">
-                                    @text
-                                </Check>
+                            <Field Horizontal Margin="Margin.Is0.FromStart">
+                                <Label @onclick:stopPropagation>
+                                    <Check TValue="bool" Checked="@isActiveItem" CheckedChanged="@(async (e) => await OnDropdownItemClicked(value))">
+                                        @text
+                                    </Check>
+                                </Label>
                             </Field>
                         }
                         else
