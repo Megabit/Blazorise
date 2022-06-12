@@ -68,7 +68,7 @@
 
                 @if ( ItemContent is not null )
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemSelected">
                         @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal Margin="Margin.Is0.FromStart">
@@ -87,12 +87,12 @@
                 }
                 else
                 {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemClicked">
+                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemSelected">
                         @if ( SuggestMultipleCheckbox )
                         {
                             <Field Horizontal Margin="Margin.Is0.FromStart">
                                 <Label @onclick:stopPropagation>
-                                    <Check TValue="bool" Checked="@isActiveItem" CheckedChanged="@(async (e) => await OnDropdownItemClicked(value))">
+                                    <Check TValue="bool" Checked="@isActiveItem" CheckedChanged="@(async (e) => await OnDropdownItemSelected(value))">
                                         @text
                                     </Check>
                                 </Label>

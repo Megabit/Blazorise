@@ -264,7 +264,7 @@ namespace Blazorise.Components
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
                 if ( item != null && ValueField != null )
-                    await OnDropdownItemClicked( ValueField.Invoke( item ) );
+                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
                 else if ( FreeTyping && Multiple )
                 {
                     await AddMultipleText( SelectedText );
@@ -322,7 +322,7 @@ namespace Blazorise.Components
             TextFocused = false;
         }
 
-        private async Task OnDropdownItemClicked( object value )
+        private async Task OnDropdownItemSelected( object value )
         {
             if ( !CloseOnSelection )
                 closeOnSelectionAllowClose = false;
@@ -592,6 +592,8 @@ namespace Blazorise.Components
         public async Task Close( CloseReason closeReason )
         {
             await UnregisterClosableComponent();
+            ActiveItemIndex = 0;
+            await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( 0 ), false );
         }
 
         /// <summary>
