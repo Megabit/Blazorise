@@ -10,7 +10,7 @@ namespace Blazorise.Docs.Compiler
 {
     public class CodeSnippets
     {
-        public bool Execute( string category )
+        public bool Execute()
         {
             var paths = new Paths();
             var success = true;
@@ -18,9 +18,9 @@ namespace Blazorise.Docs.Compiler
             {
                 var currentCode = string.Empty;
 
-                if ( File.Exists( paths.SnippetsFilePath( category ) ) )
+                if ( File.Exists( paths.SnippetsFilePath() ) )
                 {
-                    currentCode = File.ReadAllText( paths.SnippetsFilePath( category ) );
+                    currentCode = File.ReadAllText( paths.SnippetsFilePath() );
                 }
 
                 var cb = new CodeBuilder();
@@ -28,13 +28,14 @@ namespace Blazorise.Docs.Compiler
                 cb.AddLine( $"namespace Blazorise.Docs.Models" );
                 cb.AddLine( "{" );
                 cb.IndentLevel++;
-                cb.AddLine( $"public static partial class {category}Snippets" );
+                cb.AddLine( $"public static partial class Snippets" );
                 cb.AddLine( "{" );
                 cb.IndentLevel++;
 
-                var razorFiles = Directory.EnumerateFiles( paths.DirPath( category ), "*.razor", SearchOption.AllDirectories );
-                var snippetFiles = Directory.EnumerateFiles( paths.DirPath( category ), "*.snippet", SearchOption.AllDirectories );
-                var csharpFiles = Directory.EnumerateFiles( paths.DirPath( category ), "*.csharp", SearchOption.AllDirectories );
+                var dirPath = paths.DirPath();
+                var razorFiles = Directory.EnumerateFiles( dirPath, "*.razor", SearchOption.AllDirectories );
+                var snippetFiles = Directory.EnumerateFiles( dirPath, "*.snippet", SearchOption.AllDirectories );
+                var csharpFiles = Directory.EnumerateFiles( dirPath, "*.csharp", SearchOption.AllDirectories );
 
                 foreach ( var entry in razorFiles.Concat( snippetFiles ).Concat( csharpFiles ).OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
                 {
@@ -52,7 +53,7 @@ namespace Blazorise.Docs.Compiler
 
                 if ( currentCode != cb.ToString() )
                 {
-                    File.WriteAllText( paths.SnippetsFilePath( category ), cb.ToString() );
+                    File.WriteAllText( paths.SnippetsFilePath(), cb.ToString() );
                 }
             }
             catch ( Exception e )

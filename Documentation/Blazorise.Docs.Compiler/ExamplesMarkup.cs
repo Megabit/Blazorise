@@ -9,7 +9,7 @@ namespace Blazorise.Docs.Compiler
 {
     public class ExamplesMarkup
     {
-        public bool Execute( string category )
+        public bool Execute()
         {
             var paths = new Paths();
             var newFiles = new StringBuilder();
@@ -21,19 +21,20 @@ namespace Blazorise.Docs.Compiler
             {
                 var formatter = new HtmlClassFormatter();
                 var lastCheckedTime = new DateTime();
-                if ( File.Exists( paths.NewFilesToBuildPath( category ) ) )
+                if ( File.Exists( paths.NewFilesToBuildPath() ) )
                 {
-                    var lastNewFilesToBuild = new FileInfo( paths.NewFilesToBuildPath( category ) );
+                    var lastNewFilesToBuild = new FileInfo( paths.NewFilesToBuildPath() );
                     lastCheckedTime = lastNewFilesToBuild.LastWriteTime;
                 }
 
-                var directoryInfo = new DirectoryInfo( paths.DirPath( category ) );
+                var dirPath = paths.DirPath();
+                var directoryInfo = new DirectoryInfo( dirPath );
 
                 var razorFiles = directoryInfo.GetFiles( "*.razor", SearchOption.AllDirectories );
                 var snippetFiles = directoryInfo.GetFiles( "*.snippet", SearchOption.AllDirectories );
                 var csharpFiles = directoryInfo.GetFiles( "*.csharp", SearchOption.AllDirectories );
 
-                foreach ( var entry in csharpFiles /*razorFiles.Concat( snippetFiles ).Concat( csharpFiles )*/ )
+                foreach ( var entry in razorFiles.Concat( snippetFiles ).Concat( csharpFiles ) )
                 {
                     if ( entry.Name.EndsWith( "Code.razor" ) )
                     {
@@ -122,7 +123,7 @@ namespace Blazorise.Docs.Compiler
                     }
                 }
 
-                File.WriteAllText( paths.NewFilesToBuildPath( category ), newFiles.ToString() );
+                File.WriteAllText( paths.NewFilesToBuildPath(), newFiles.ToString() );
             }
             catch ( Exception e )
             {

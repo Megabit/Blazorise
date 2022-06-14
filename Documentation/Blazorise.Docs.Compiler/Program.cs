@@ -9,10 +9,8 @@ namespace Blazorise.Docs.Compiler
         {
             var stopWatch = Stopwatch.StartNew();
             var success =
-                new CodeSnippets().Execute( "Docs" )
-                && new ExamplesMarkup().Execute( "Docs" )
-                && new CodeSnippets().Execute( "Blog" )
-                && new ExamplesMarkup().Execute( "Blog" );
+                new CodeSnippets().Execute()
+                && new ExamplesMarkup().Execute();
 
             Console.WriteLine( $"Blazorise.Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} milliseconds." );
 

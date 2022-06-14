@@ -25,14 +25,14 @@ namespace Blazorise.Docs.Compiler
             }
         }
 
-        public string DirPath( string category ) => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
+        public string DirPath() => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
 
-        public string DocsStringSnippetsDirPath( string category ) => Path.Join( DirPath( category ), "Models" );
+        public string DocsStringSnippetsDirPath() => Path.Join( DirPath(), "Models" );
 
-        public string DocStringsFilePath( string category ) => Path.Join( DocsStringSnippetsDirPath( category ), $"{category}Strings.generated.cs" );
+        public string DocStringsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Strings.generated.cs" );
 
-        public string SnippetsFilePath( string category ) => Path.Join( DocsStringSnippetsDirPath( category ), $"{category}Snippets.generated.cs" );
+        public string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
 
-        public string NewFilesToBuildPath( string category ) => Path.Join( DirPath( category ), NewFilesToBuild );
+        public string NewFilesToBuildPath() => Path.Join( DirPath(), NewFilesToBuild );
     }
 }

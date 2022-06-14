@@ -35,7 +35,7 @@
 
     private async Task OnCopyCode()
     {
-        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", BlogSnippets.GetCode( Code ) );
+        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
         await NotificationService.Info( $"Copied code example!" );
     }
 

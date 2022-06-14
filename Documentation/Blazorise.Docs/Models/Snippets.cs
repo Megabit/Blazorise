@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace Blazorise.Docs.Models
 {
-    public static partial class DocsSnippets
+    public static partial class Snippets
     {
-        private static FieldInfo[] snippetsFields = typeof( DocsSnippets ).GetFields( BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField );
+        private static FieldInfo[] snippetsFields = typeof( Snippets ).GetFields( BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField );
 
         public static string GetCode( string component )
         {

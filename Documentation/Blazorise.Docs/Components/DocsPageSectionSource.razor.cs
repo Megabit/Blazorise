@@ -29,7 +29,7 @@ namespace Blazorise.Docs.Components
 
         private async Task OnCopyCode()
         {
-            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", DocsSnippets.GetCode( Code ) );
+            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
             await NotificationService.Info( $"Copied code example!" );
         }
 
