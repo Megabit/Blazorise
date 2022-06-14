@@ -1,0 +1,16 @@
+﻿<Div>
+    @if (Year != null)
+    {
+        <Heading Size="HeadingSize.Is2" TextColor="TextColor.Secondary">
+            @Year
+        </Heading>
+    }
+    <Row>
+        @ChildContent
+    </Row>
+</Div>
+@code {
+    [Parameter] public string Year { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

@@ -24,7 +24,6 @@
                 Star On GitHub
             </Button>
         </Div>
-        <Image Source="img/illustrations/home/hero.png" Text="" Fluid Padding="Padding.Is5.FromTop" />
     </Container>
 </Div>
 
@@ -165,12 +164,12 @@
         <section class="home-case-studies" id="case-studies-section">
             <Row>
                 <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Why Blazorise?</Heading>
+                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Why should you Blazorise?</Heading>
                     <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Blazorise component library provides state-of-the-art solutions for startups and enterprises where we are trying day by day to keep up with the newest technology development. Blazorise operates as an open-source system first.
+                        Blazorise component library offers cutting-edge solutions for startups and enterprises, and we strive to keep up with the latest technological developments on a daily basis. Blazorise began as an open-source system.
                     </Heading>
                     <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Second, our project also has a commercial side that allows us to have sustainable growth and develop more easily and quickly in line with the progress of the technology itself. As a result, some of our components have features that you can only find at Blazorise.
+                        Second, our project has a commercial side that allows us to grow in a sustainable manner and develop more easily and quickly as technology advances. As a result, some of our components include features that are unique to Blazorise.
                     </Heading>
                 </Column>
 
@@ -249,6 +248,105 @@
                             </Div>
                         </CardBody>
                     </Card>
+                </Column>
+            </Row>
+        </section>
+        <Divider Margin="Margin.Is5.OnY" />
+        <section class="home-popular-components" id="popular-components-section">
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
+                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Most Popular Components</Heading>
+                </Column>
+                <Column>
+                    <Tabs @bind-SelectedTab="@selectedPopularComponentsTab" FullWidth Pills>
+                        <Items>
+                            <Tab Name="DataGrid"><Text TextWeight="TextWeight.Bold">DataGrid</Text></Tab>
+                            <Tab Name="Charts"><Text TextWeight="TextWeight.Bold">Charts</Text></Tab>
+                            <Tab Name="Validation"><Text TextWeight="TextWeight.Bold">Validation</Text></Tab>
+                            <Tab Name="Autocomplete"><Text TextWeight="TextWeight.Bold">Autocomplete</Text></Tab>
+                            <Tab Name="Video"><Text TextWeight="TextWeight.Bold">Video</Text></Tab>
+                        </Items>
+                        <Content>
+                            <TabPanel Name="DataGrid">
+                                <Row>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
+                                            Feature-rich grid control for Blazor.
+                                        </Heading>
+                                        <Paragraph Padding="Padding.Is4.FromBottom">
+                                            Blazorise DataGrid's main features include robust data layer, fast data processing, client-side data validation, and many more. The component leverages the power of Blazor, to provide the best UX while manipulating an unlimited set of data. It comes with an intuitive API for real-time updates, accessibility, as well as theming and custom templates, all with blazing fast performance.
+                                        </Paragraph>
+                                    </Column>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Image Source="img/gallery/popular/01-datagrid.png" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
+                                    </Column>
+                                </Row>
+                            </TabPanel>
+                            <TabPanel Name="Charts">
+                                <Row>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
+                                            Charts
+                                        </Heading>
+                                        <Paragraph Padding="Padding.Is4.FromBottom">
+                                            The Charts control can plot a wide range of chart types, ranging from line charts to specialized financial charts. Its rich feature set includes functionalities like data binding, multiple axes, legends, animation, data labels, annotations, trackballs, tooltips, and zooming.
+                                        </Paragraph>
+                                    </Column>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Image Source="img/gallery/popular/charts.png" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
+                                    </Column>
+                                </Row>
+                            </TabPanel>
+                            <TabPanel Name="Validation">
+                                <Row>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
+                                            Validation components provide a simple form validation for Blazorise input components.
+                                        </Heading>
+                                        <Paragraph Padding="Padding.Is4.FromBottom">
+                                            Blazorise Validation system is built from the ground up to support various validation scenarios. It supports data-annotation, validation handler methods, and regex patterns. One of the its advanced features is the ability to do the async validation which can be used to validate a field by calling an external API.
+                                        </Paragraph>
+                                        <Paragraph>
+                                            Manual and automatic validations are also supported, along with the fully custom localization system.
+                                        </Paragraph>
+                                    </Column>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Image Source="img/gallery/popular/02-validation.png" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
+                                    </Column>
+                                </Row>
+                            </TabPanel>
+                            <TabPanel Name="Autocomplete">
+                                <Row>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
+                                            High performance autocomplete can load and query large amounts of data at high speeds.
+                                        </Heading>
+                                        <Paragraph Padding="Padding.Is4.FromBottom">
+                                            The Blazorise Autocomplete component looks like a textbox and delivers a list of suggestions as the user inputs. It comes with a number of features out of the box, like data binding, filtering, UI customization, accessibility, and more.
+                                        </Paragraph>
+                                    </Column>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Image Source="img/gallery/popular/autocomplete.png" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
+                                    </Column>
+                                </Row>
+                            </TabPanel>
+                            <TabPanel Name="Video">
+                                <Row>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
+                                            Advanced video player can handle live streaming video feeds or video files.
+                                        </Heading>
+                                        <Paragraph Padding="Padding.Is4.FromBottom">
+                                            The Blazorise Video component is built to support almost any media which includes DASH or HLS encoded videos, be it coming from a static video file or a live stream. It can also support DRM protected videos.
+                                        </Paragraph>
+                                    </Column>
+                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                                        <Image Source="img/gallery/popular/video.png" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
+                                    </Column>
+                                </Row>
+                            </TabPanel>
+                        </Content>
+                    </Tabs>
                 </Column>
             </Row>
         </section>
@@ -383,3 +481,6 @@
         </section>
     </Container>
 </Div>
+@code {
+    string selectedPopularComponentsTab = "DataGrid";
+}
