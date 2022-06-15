@@ -8,6 +8,380 @@ namespace Blazorise.Docs.Models
 {
     public static partial class Snippets
     {
+        public const string BeginnersGuideToCreateBlazoriseApp_CounterExample = @"<Heading Size=""HeadingSize.Is1"">Counter with Blazorise</Heading>
+
+<Paragraph>Current count: @currentCount</Paragraph>
+
+<Button Color=""Color.Primary"" Clicked=""IncrementCount"">Click me</Button>
+
+@code {
+    int currentCount = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+}";
+
+        public const string BeginnersGuideToCreateBlazoriseApp_ServicesExample = @"using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+using BlazoriseSampleApplication;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
+namespace Company.WebApplication1
+{
+    public class Program
+    {
+        public static async Task Main( string[] args )
+        {
+            var builder = WebAssemblyHostBuilder.CreateDefault( args );
+            builder.RootComponents.Add<App>( ""#app"" );
+            builder.RootComponents.Add<HeadOutlet>( ""head::after"" );
+
+            builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
+
+            builder.Services
+                .AddBlazorise( options =>
+                {
+                    options.Immediate = true;
+                } )
+                .AddBootstrap5Providers()
+                .AddFontAwesomeIcons();
+
+            await builder.Build().RunAsync();
+        }
+    }
+}";
+
+        public const string BeginnersGuideToCreateBlazoriseApp_StaticFilesExample = @"<!DOCTYPE html>
+<html lang=""en"">
+
+<head>
+    <meta charset=""utf-8"" />
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"" />
+    <title>BlazoriseSampleApplication</title>
+    <base href=""/"" />
+    <link href=""css/bootstrap/bootstrap.min.css"" rel=""stylesheet"" />
+
+    <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+    <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
+
+    <link href=""css/app.css"" rel=""stylesheet"" />
+    <link href=""BlazoriseSampleApplication.styles.css"" rel=""stylesheet"" />
+</head>
+
+<body>
+    <div id=""app"">Loading...</div>
+
+    <div id=""blazor-error-ui"">
+        An unhandled error has occurred.
+        <a href="""" class=""reload"">Reload</a>
+        <a class=""dismiss"">🗙</a>
+    </div>
+    <script src=""_framework/blazor.webassembly.js""></script>
+</body>
+
+</html>";
+
+        public const string BeginnersGuideToCreateBlazoriseApp_UsingsExample = @"@using Blazorise";
+
+        public const string ValidationWithDataAnnotations_FormExample = @"@using ValidationWithDataAnnotations.Models
+
+<Row>
+    <Column>
+        <Validations @ref=""@ValidationsRef"" Mode=""ValidationMode.Manual"" Model=""@EmployeeModel"" ValidateOnLoad=""false"">
+            <Fields>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>First Name</FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=""@EmployeeModel.FirstName"">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>Last Name</FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=""@EmployeeModel.LastName"">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+            </Fields>
+            <Fields>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>Email Address</FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=""@EmployeeModel.Email"" Role=""TextRole.Email"">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>Date of Birth</FieldLabel>
+                        <FieldBody>
+                            <DatePicker @bind-Date=""@EmployeeModel.DateOfBirth"">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </DatePicker>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+            </Fields>
+            <Fields>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>Years of Experience</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value=""@EmployeeModel.YearsOfExperience"">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </NumericPicker>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>Gender</FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue=""@EmployeeModel.Gender"">
+                                <ChildContent>
+                                    <SelectItem TValue=""string""></SelectItem>
+                                    @foreach ( var g in Gender.GetGenders() )
+                                    {
+                                        <SelectItem TValue=""string"" Value=""@g.Code"">@g.Name</SelectItem>
+                                    }
+                                </ChildContent>
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+            </Fields>
+            <Validation>
+                <Field>
+                    <FieldLabel>Address</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text=""@EmployeeModel.Address.Street"">
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Fields>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>City</FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue=""@EmployeeModel.Address.City"">
+                                <ChildContent>
+                                    <SelectItem TValue=""string""></SelectItem>
+                                    @foreach ( var c in City.GetCities() )
+                                    {
+                                        <SelectItem TValue=""string"" Value=""@c.Code"">@c.Name</SelectItem>
+                                    }
+                                </ChildContent>
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation>
+                    <Field ColumnSize=""ColumnSize.IsHalf"">
+                        <FieldLabel>Zip</FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=""@EmployeeModel.Address.Zip"">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+            </Fields>
+            <Validation>
+                <Field>
+                    <FieldLabel>Country</FieldLabel>
+                    <FieldBody>
+                        <Select @bind-SelectedValue=""@EmployeeModel.Address.Country"">
+                            <ChildContent>
+                                <SelectItem TValue=""string""></SelectItem>
+                                @foreach ( var c in Country.GetCountries() )
+                                {
+                                    <SelectItem TValue=""string"" Value=""@c.Code"">@c.Name</SelectItem>
+                                }
+                            </ChildContent>
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Validations>
+        <Button Color=""Color.Primary"" Clicked=""@OnSaveClicked"">
+            Validate and Submit
+        </Button>
+    </Column>
+</Row>
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    Validations ValidationsRef { get; set; }
+
+    Employee EmployeeModel { get; set; } = new Employee();
+
+    async Task OnSaveClicked()
+    {
+        if ( await ValidationsRef.ValidateAll() )
+        {
+            await MessageService.Info( ""Thank you for filling the form."" );
+
+            await ValidationsRef.ClearAll();
+        }
+    }
+}";
+
+        public const string ValidationWithDataAnnotations_MessageProviderExample = @"<Router AppAssembly=""@typeof(App).Assembly"">
+    <Found Context=""routeData"">
+        <RouteView RouteData=""@routeData"" DefaultLayout=""@typeof(MainLayout)"" />
+        <FocusOnNavigate RouteData=""@routeData"" Selector=""h1"" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout=""@typeof(MainLayout)"">
+            <p role=""alert"">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+<MessageAlert />";
+
+        public const string ValidationWithDataAnnotations_ModelsExample = @"public class Employee
+{
+    [Required]
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
+
+    [Required]
+    public string Gender { get; set; }
+
+    [Required]
+    public DateTime? DateOfBirth { get; set; }
+
+    [Required]
+    public decimal? YearsOfExperience { get; set; }
+
+    public Address Address { get; set; } = new Address();
+}
+
+public class Address
+{
+    [Required]
+    public string Street { get; set; }
+
+    [Required]
+    public string City { get; set; }
+
+    [Required]
+    public string Zip { get; set; }
+
+    [Required]
+    public string Country { get; set; }
+}
+
+public class Country
+{
+    public string Name { get; set; }
+
+    public string Code { get; set; }
+
+    public static IEnumerable<Country> GetCountries()
+    {
+        return new List<Country>
+        {
+            new() { Name = ""Croatia"", Code = ""HR"" },
+            new() { Name = ""United Kingdom"", Code = ""UK"" },
+            new() { Name = ""United States"", Code = ""US"" },
+        };
+    }
+}
+
+public class City
+{
+    public string Name { get; set; }
+
+    public string Code { get; set; }
+
+    public string CountryCode { get; set; }
+
+    public static IEnumerable<City> GetCities()
+    {
+        return new List<City>
+        {
+            new() { Name = ""San Francisco"", CountryCode = ""US"", Code=""US-101"" },
+            new() { Name = ""Los Angeles"", CountryCode = ""US"", Code=""US-102"" },
+            new() { Name = ""Boston"", CountryCode = ""US"", Code=""US-103"" },
+            new() { Name = ""Portland"", CountryCode = ""US"", Code=""US-104"" },
+            new() { Name = ""Split"", CountryCode = ""HR"", Code=""HR-101"" },
+            new() { Name = ""Zagreb"", CountryCode = ""HR"", Code=""HR-102"" },
+            new() { Name = ""Dubrovnik"", CountryCode = ""HR"", Code=""HR-103"" },
+            new() { Name = ""London"", CountryCode = ""UK"", Code=""UK-101"" },
+            new() { Name = ""Glasgow"", CountryCode = ""UK"", Code=""UK-102"" },
+            new() { Name = ""Liverpool"", CountryCode = ""UK"", Code=""UK-103"" }
+        };
+    }
+}
+
+public class Gender
+{
+    public string Name { get; set; }
+
+    public string Code { get; set; }
+
+    public static IEnumerable<Gender> GetGenders()
+    {
+        return new List<Gender>
+        {
+            new() { Name = ""Male"", Code = ""A"" },
+            new() { Name = ""Female"", Code = ""B"" },
+            new() { Name = ""Non-binary"", Code = ""C"" },
+            new() { Name = ""Transgender"", Code = ""D"" },
+            new() { Name = ""Intersex"", Code = ""E"" },
+            new() { Name = ""I prefer not to say"", Code = ""F"" },
+        };
+    }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
