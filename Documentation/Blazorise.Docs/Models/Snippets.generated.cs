@@ -5096,7 +5096,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
-        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" />";
+        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
 

@@ -14,9 +14,9 @@
     <meta name="facebook-domain-verification" content="2i87m24mm2h376ki9qa5z0ln4fbub3" />
     <title>Blazorise Component Library</title>
 
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
-
     <base href="~/" />
+
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -46,7 +46,7 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -60,7 +60,7 @@
 </head>
 <body>
     <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=516578876725861&ev=PageView&noscript=1" />
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=516578876725861&ev=PageView&noscript=1" alt="Pixel image" />
     </noscript>
 
     <component type="typeof(App)" render-mode="ServerPrerendered" />
