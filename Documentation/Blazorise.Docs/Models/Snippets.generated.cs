@@ -1016,13 +1016,13 @@ public class Gender
 
         public const string CarouselExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide"">
     <CarouselSlide Name=""1"">
-        <Image Source=""img/gallery/1.jpg"" Text=""Lights"" Display=""Display.Block"" Width=""Width.Is100"" />
+        <Image Source=""img/gallery/1.jpg"" Text=""Lights image"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
     <CarouselSlide Name=""2"">
-        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard"" Display=""Display.Block"" Width=""Width.Is100"" />
+        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard image"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
     <CarouselSlide Name=""3"">
-        <Image Source=""img/gallery/3.jpg"" Text=""Road"" Display=""Display.Block"" Width=""Width.Is100"" />
+        <Image Source=""img/gallery/3.jpg"" Text=""Road image"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
 </Carousel>
 @code{
@@ -1174,7 +1174,7 @@ public class Gender
     <ItemTemplate>
         <Card Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
             <CardBody>
-                <Image Source=""@context.Image"" Style=""width:48px;height:48px;"" />
+                <Image Source=""@context.Image"" Text=""DragDrop image example"" Style=""width:48px;height:48px;"" />
                 @context.Name
             </CardBody>
         </Card>
