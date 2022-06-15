@@ -79,18 +79,6 @@ namespace Blazorise
                         Inline = new { Changed = inlineChanged, Value = paramInline },
                     } ) );
                 }
-
-                var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !Date.Equals( paramDate );
-                var datesChanged = parameters.TryGetValue( nameof( Dates ), out IEnumerable<TValue> paramDates ) && !Dates.AreEqual( paramDates );
-
-                if ( dateChanged || datesChanged )
-                {
-                    var formatedDateString = SelectionMode != DateInputSelectionMode.Single
-                        ? FormatValueAsString( paramDates?.ToArray() )
-                        : FormatValueAsString( new TValue[] { paramDate } );
-
-                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, formatedDateString ) );
-                }
             }
 
             // Let blazor do its thing!
