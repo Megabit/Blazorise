@@ -5100,6 +5100,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
 
+        public const string QRCodeColorExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" DarkColor=""#7474ed"" />";
+
+        public const string QRCodeErrorCorrectionExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.L"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.M"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
+
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
