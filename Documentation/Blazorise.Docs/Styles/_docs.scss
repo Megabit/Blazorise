@@ -11,6 +11,18 @@
     margin-bottom: 1.5rem;
 }
 
+.docs-page-lead {
+    font-size: calc(1.275rem + .3vw);
+    font-weight: 300;
+}
+
+
+@media (min-width: 1200px) {
+    .docs-page-lead {
+        font-size: 1.5rem;
+    }
+}
+
 .docs-page-unordered-list {
     .docs-page-unordered-list-item {
         margin-bottom: .5rem;
