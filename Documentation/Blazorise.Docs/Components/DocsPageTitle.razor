@@ -1,4 +1,29 @@
-﻿@if ( Display )
+﻿@if ( Path != null )
+{
+    <Breadcrumb>
+        @{
+            var pathValues = Path.Split( '/' ).ToList();
+            var url = "docs";
+        }
+
+        <BreadcrumbItem>
+            <BreadcrumbLink To="docs">Documentation</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        @foreach ( var pathValue in pathValues )
+        {
+            var isLast = pathValues.IndexOf( pathValue ) == pathValues.Count - 1;
+            url = $"{url}/{pathValue.ToLowerInvariant()}";
+            var currentUrl = url;
+
+            <BreadcrumbItem Active="@isLast">
+                <BreadcrumbLink To="@currentUrl">@pathValue</BreadcrumbLink>
+            </BreadcrumbItem>
+        }
+    </Breadcrumb>
+}
+
+@if ( Display )
 {
     <DisplayHeading ElementId="docs-page-title" Class="docs-page-title" Size="DisplayHeadingSize.Is1">
         @ChildContent
@@ -13,6 +38,8 @@ else
 
 @code {
     [Parameter] public bool Display { get; set; }
+
+    [Parameter] public string Path { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }
