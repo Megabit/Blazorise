@@ -1093,6 +1093,13 @@ public class Gender
 
         public const string BasicColorPickerExample = @"<ColorPicker Color=""#ff0000"" />";
 
+        public const string ColorEditSizeExample = @"<Field>
+    <ColorEdit Color=""#888888"" Size=""Size.Small"" />
+</Field>
+<Field>
+    <ColorEdit Color=""#444444"" Size=""Size.Large"" />
+</Field>";
+
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
         public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" />";
@@ -1151,13 +1158,45 @@ public class Gender
 
         public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
 
-        public const string DashedDividerExample = @"<Divider DividerType=""DividerType.Dashed"" />";
+        public const string DashedDividerExample = @"<Paragraph>
+    What language is thine, O sea?
+</Paragraph>
 
-        public const string DottedDividerExample = @"<Divider DividerType=""DividerType.Dotted"" />";
+<Divider DividerType=""DividerType.Dashed"" />
 
-        public const string SolidDividerExample = @"<Divider />";
+<Paragraph>
+    The language of eternal question.
+</Paragraph>";
 
-        public const string TextContentDividerExample = @"<Divider DividerType=""DividerType.TextContent"" Text=""Hello Blazorise"" />";
+        public const string DottedDividerExample = @"<Paragraph>
+    What language is thy answer, O sky?
+</Paragraph>
+
+<Divider DividerType=""DividerType.Dotted"" />
+
+<Paragraph>
+    The language of eternal silence.
+</Paragraph>";
+
+        public const string SolidDividerExample = @"<Paragraph>
+    I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.
+</Paragraph>
+
+<Divider />
+
+<Paragraph>
+    There little thoughts are the rustle of leaves; they have their whisper of joy in my mind.
+</Paragraph>";
+
+        public const string TextContentDividerExample = @"<Paragraph>
+    What a world of merriment their melody foretells !
+</Paragraph>
+
+<Divider DividerType=""DividerType.TextContent"" Text=""Edgar Allan Poe"" />
+
+<Paragraph>
+    How they tinkle, tinkle, tinkle, In the icy air of night !
+</Paragraph>";
 
         public const string BasicDragDropExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
@@ -1386,6 +1425,11 @@ public class Gender
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
     <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" />
+    <FigureCaption>A caption for the above image.</FigureCaption>
+</Figure>";
+
+        public const string FigureRoundedExample = @"<Figure Size=""FigureSize.Is256x256"">
+    <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" Rounded />
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
