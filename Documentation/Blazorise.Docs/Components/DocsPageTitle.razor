@@ -2,23 +2,27 @@
 {
     <Breadcrumb>
         @{
-            var pathValues = Path.Split( '/' ).ToList();
+            var pathValues = Path.Split( '/' ).Where( x => !string.IsNullOrEmpty( x ) ).ToList();
+            var isLast = pathValues.Count == 0 || ( pathValues.IndexOf( "docs" ) == pathValues.Count - 1 );
             var url = "docs";
         }
 
-        <BreadcrumbItem>
+        <BreadcrumbItem Active="@isLast">
             <BreadcrumbLink To="docs">Documentation</BreadcrumbLink>
         </BreadcrumbItem>
 
-        @foreach ( var pathValue in pathValues )
+        @if ( pathValues.Count > 0 )
         {
-            var isLast = pathValues.IndexOf( pathValue ) == pathValues.Count - 1;
-            url = $"{url}/{pathValue.ToLowerInvariant()}";
-            var currentUrl = url;
+            @foreach ( var pathValue in pathValues )
+            {
+                isLast = pathValues.IndexOf( pathValue ) == pathValues.Count - 1;
+                url = $"{url}/{pathValue.ToLowerInvariant()}";
+                var currentUrl = url;
 
-            <BreadcrumbItem Active="@isLast">
-                <BreadcrumbLink To="@currentUrl">@pathValue</BreadcrumbLink>
-            </BreadcrumbItem>
+                <BreadcrumbItem Active="@isLast">
+                    <BreadcrumbLink To="@currentUrl">@pathValue</BreadcrumbLink>
+                </BreadcrumbItem>
+            }
         }
     </Breadcrumb>
 }
