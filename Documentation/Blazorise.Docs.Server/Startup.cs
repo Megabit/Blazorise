@@ -1,9 +1,11 @@
+using System.IO.Compression;
 using Blazorise.Bootstrap5;
 using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +40,23 @@ namespace Blazorise.Docs.Server
             services.AddMemoryCache();
             services.AddScoped<Shared.Data.EmployeeData>();
             services.AddScoped<Shared.Data.CountryData>();
+
+            services.AddResponseCompression( options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+            } );
+
+            services.Configure<BrotliCompressionProviderOptions>( options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            } );
+
+            services.Configure<GzipCompressionProviderOptions>( options =>
+            {
+                options.Level = CompressionLevel.SmallestSize;
+            } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +72,8 @@ namespace Blazorise.Docs.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseResponseCompression();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
