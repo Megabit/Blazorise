@@ -1,0 +1,44 @@
+﻿@page "/docs/services"
+
+<Seo Canonical="/docs/services" Title="Blazorise services" Description="Learn about Blazorise services and how to properly use them to build your application." />
+
+<DocsPageTitle Path="Services">
+    Blazorise services
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn about Blazorise services and how to properly use them to build your application.
+</DocsPageLead>
+
+<Row RowColumns="RowColumns.Are4">
+    @foreach ( var info in ComponentInfos )
+    {
+        <Column Margin="Margin.Is3.FromBottom">
+            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.To" />
+        </Column>
+    }
+</Row>
+@code {
+    class ComponentInfo
+    {
+        public ComponentInfo( string name, string description, string to )
+        {
+            Name = name;
+            Description = description;
+            To = to;
+        }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string To { get; set; }
+    }
+
+    List<ComponentInfo> ComponentInfos = new List<ComponentInfo>()
+    {
+        new ComponentInfo( "Message", "Message service is used for quick user confirmation actions.", "docs/services/message" ),
+        new ComponentInfo( "Notification", "Notifications are used to provide feedback to the user.", "docs/services/notification" ),
+        new ComponentInfo( "Page Progress", "Progress service is used to provide a page loading indicator to the user.", "docs/services/page-progress" ),
+    };
+}
