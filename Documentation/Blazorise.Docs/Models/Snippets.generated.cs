@@ -1089,9 +1089,15 @@ public class Gender
     }
 }";
 
-        public const string BasicColorEditExample = @"<ColorEdit Color=""#ff0000"" />";
+        public const string BasicColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
+
+@code {
+    string colorValue = ""#ff0000"";
+}";
 
         public const string BasicColorPickerExample = @"<ColorPicker Color=""#ff0000"" />";
+
+        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
 
         public const string ColorEditSizeExample = @"<Field>
     <ColorEdit Color=""#888888"" Size=""Size.Small"" />
@@ -2461,6 +2467,30 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
+
+        public const string SliderMinMaxExample = @"<Paragraph>
+    Current value: @value
+</Paragraph>
+
+<Field>
+    <Slider @bind-Value=""@value"" Min=""20"" Max=""80"" />
+</Field>
+
+@code {
+    int value = 60;
+}";
+
+        public const string SliderStepExample = @"<Paragraph>
+    Current value: @value
+</Paragraph>
+
+<Field>
+    <Slider @bind-Value=""@value"" Step=""5"" Max=""100"" />
+</Field>
+
+@code {
+    int value = 40;
+}";
 
         public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>

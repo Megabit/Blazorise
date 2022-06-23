@@ -1,0 +1,13 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Paragraph>
+    Current value: @value
+</Paragraph>
+
+<Field>
+    <Slider @bind-Value="@value" Step="5" Max="100" />
+</Field>
+
+@code {
+    int value = 40;
+}
