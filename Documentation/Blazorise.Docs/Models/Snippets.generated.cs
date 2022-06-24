@@ -1781,7 +1781,7 @@ public class Gender
     </Layout>
 </Layout>";
 
-        public const string AnchorLinkExample = @"<Link To=""#docs-page-title"">
+        public const string AnchorLinkExample = @"<Link To=""#b-docs-page-title"">
     Link
 </Link>";
 

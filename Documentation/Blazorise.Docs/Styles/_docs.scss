@@ -1,44 +1,44 @@
-﻿.docs-page {
-    .docs-page-title {
+﻿.b-docs-page {
+    .b-docs-page-title {
         margin-bottom: 1.5rem;
     }
 
-    .docs-page-subtitle {
+    .b-docs-page-subtitle {
         padding-bottom: 0.5em;
         border-bottom: 1px solid #f2f3f3;
     }
 
-    .docs-page-paragraph {
+    .b-docs-page-paragraph {
         margin-bottom: 1.5rem;
     }
 
-    .docs-page-lead {
+    .b-docs-page-lead {
         font-size: calc(1.275rem + .3vw);
         font-weight: 300;
     }
 
 
     @media (min-width: 1200px) {
-        .docs-page-lead {
+        .b-docs-page-lead {
             font-size: 1.5rem;
         }
     }
 
-    .docs-page-unordered-list {
-        .docs-page-unordered-list-item {
+    .b-docs-page-unordered-list {
+        .b-docs-page-unordered-list-item {
             margin-bottom: .5rem;
         }
     }
 
-    .docs-page-section {
+    .b-docs-page-section {
         margin-bottom: 50px;
     }
 
-    .docs-page-section-header {
+    .b-docs-page-section-header {
         margin-bottom: 20px;
     }
 
-    .docs-page-section-content {
+    .b-docs-page-section-content {
         padding: 20px;
         border-radius: 4px 4px 0 0;
         margin-bottom: 40px;
@@ -49,7 +49,7 @@
         position: relative;
         justify-content: start;
 
-        & .docs-page-section-content-inner {
+        & .b-docs-page-section-content-inner {
             /*margin-left: auto;
         margin-right: auto;*/
             display: block;
@@ -58,47 +58,47 @@
             justify-content: start;
         }
 
-        &.docs-display-flex {
-            & > .docs-page-section-content-inner {
+        &.b-docs-display-flex {
+            & > .b-docs-page-section-content-inner {
                 display: flex;
                 flex-grow: 1;
                 flex-wrap: wrap;
             }
         }
 
-        &.docs-page-section-content-fullwidth {
-            & > .docs-page-section-content-inner {
+        &.b-docs-page-section-content-fullwidth {
+            & > .b-docs-page-section-content-inner {
                 width: 100%;
             }
         }
 
-        &.docs-page-section-content-outlined {
+        &.b-docs-page-section-content-outlined {
             border: 1px solid #e3e3e3;
         }
 
-        &.docs-page-section-content-display-grid {
+        &.b-docs-page-section-content-display-grid {
             display: grid;
         }
     }
 
-    .docs-page-section-source {
+    .b-docs-page-section-source {
         position: relative;
         height: 100%;
 
-        .docs-page-section-source-toolbar {
+        .b-docs-page-section-source-toolbar {
             position: absolute;
             top: 0;
             right: 0;
         }
 
-        & .docs-page-section-source-code {
+        & .b-docs-page-section-source-code {
             height: 100%;
 
-            &.docs-page-section-source-code-show {
+            &.b-docs-page-section-source-code-show {
                 display: block;
             }
 
-            &.docs-page-section-source-code-hide {
+            &.b-docs-page-section-source-code-hide {
                 display: none;
             }
         }
@@ -140,7 +140,7 @@
         }
     }
 
-    .b-example {
+    .b-docs-example {
         position: relative;
         padding: 1rem;
         margin: 1rem -.75rem 0;
@@ -148,14 +148,14 @@
         border-width: 1px 0 0
     }
 
-    .b-example::after {
+    .b-docs-example::after {
         display: block;
         clear: both;
         content: ""
     }
 
     @media (min-width: 576px) {
-        .b-example {
+        .b-docs-example {
             padding: 1.5rem;
             margin-right: 0;
             margin-left: 0;
@@ -165,11 +165,11 @@
         }
     }
 
-    .b-example + p {
+    .b-docs-example + p {
         margin-top: 2rem
     }
 
-    .b-example-border-utils [class*="border"] {
+    .b-docs-example-border-utils [class*="border"] {
         display: inline-block;
         width: 5rem;
         height: 5rem;
@@ -180,7 +180,7 @@
         align-items: center;
     }
 
-    .b-example-border-utils [class*="rounded"] {
+    .b-docs-example-border-utils [class*="rounded"] {
         display: inline-block;
         width: 5rem;
         height: 5rem;
@@ -192,11 +192,11 @@
         align-items: center;
     }
 
-    .b-example-border-utils-0 [class*="border"] {
+    .b-docs-example-border-utils-0 [class*="border"] {
         border: 1px solid #dee2e6;
     }
 
-    .b-example-position-utils {
+    .b-docs-example-position-utils {
         position: relative;
         padding: 3em;
 
@@ -213,7 +213,7 @@
         }
     }
 
-    .b-example-blazorise-icon span {
+    .b-docs-example-blazorise-icon span {
         width: 150px;
         overflow-wrap: break-word;
     }
