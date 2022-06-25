@@ -11,7 +11,7 @@
 </DocsPageLead>
 
 <Row RowColumns="RowColumns.Are4">
-    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/services" ) ) )
+    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/services" ) && !string.IsNullOrEmpty( x.Description ) ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
             <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
