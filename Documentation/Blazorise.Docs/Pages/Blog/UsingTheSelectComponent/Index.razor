@@ -1,0 +1,79 @@
+﻿@page "/blog/select-primitive-complex-types"
+
+<Seo Canonical="blog/select-primitive-complex-types" Title="Select : Handling primitive and complex types" Description="Learn how to use Blazorise Select to handle primitive and complex types" />
+
+<BlogPageImage Source="" Text="Select : Handling primitive and complex types" />
+
+<BlogPageTitle>
+    Select : Handling primitive and complex types
+</BlogPageTitle>
+
+<BlogPageParagraph>
+    Blazorise's Select component is built upon the standard html Select element. See <Blazorise.Link To="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select" Target="Target.Blank">HTML Select</Blazorise.Link>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This brings both the advantage of supporting the standard, and semantically way of building a select element, as well as having to handle the limitations there may be with the element.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In this blog post, we will look at how to use Blazorise Select to bind both primitive and complex types, the limitations the select element imposes and how to work around them.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Primitive Types
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    For primitive types it's pretty simple to build the select. Let's go ahead and build a dropdown-list list with four employees, where their value is their employee Id, an int type.
+</BlogPageParagraph>
+
+<UsingTheSelectComponentPrimitiveTypeExample />
+
+<BlogPageSourceBlock Code="UsingTheSelectComponentPrimitiveTypeExample" />
+
+<BlogPageSubtitle>
+    Enumeration types
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Altough still a primitive type, an enumeration type can basically represent two values, the underlying numeric representation and the text definition. This matters because depending on the javascript serialization settings the value might not come back with the expected representation and fail to successfully bind the selected value.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Here's an example of how to properly handle an enumeration type, by configuring the settings appropriately
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Complex Types
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Blazorise doesn't currently support binding a complex type directly, this is because the select element has no way of uniquely identifying an item of a complex type, so we have to uniquely identify the item ourselves.
+    Let's take a look at how a dropdown-list with four employees would look, now with actual complex types.
+</BlogPageParagraph>
+
+<UsingTheSelectComponentComplexTypeExample />
+
+<BlogPageSourceBlock Code="UsingTheSelectComponentComplexTypeExample" />
+
+<BlogPageSubtitle>
+    Null values
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Having a null value is a valid option when you want to consider the absense of a value, for example when handling a nullable type like <Code>int?</Code>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    However handling null values with the select element can be tricky, and this has to do with how browsers work in general. When you have an empty value for the option element it will take its text or content and use that for the selected value.
+    So the option should be left empty, let's see this in action with a nullable type.
+</BlogPageParagraph>
+
+<UsingTheSelectComponentNullableTypeExample />
+
+<BlogPageSourceBlock Code="UsingTheSelectComponentNullableTypeExample" />
+
+
+
+<BlogPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 25th, 2022" Read="10 min" />

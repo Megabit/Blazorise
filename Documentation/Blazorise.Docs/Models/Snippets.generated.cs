@@ -382,6 +382,86 @@ public class Gender
     }
 }";
 
+        public const string UsingTheSelectComponentComplexTypeExample = @"@using Blazorise
+
+<Row>
+    <Column>
+        <Select TValue=""int"">
+            @foreach ( var employee in employeeData )
+            {
+                <SelectItem Value=""@employee.Id"">@employee.Name</SelectItem>
+            }
+        </Select>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Employee is : @selectedEmployee.Name
+    </Column>
+</Row>
+
+@code{
+    public Employee selectedEmployee;
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public List<Employee> employeeData;
+
+    protected override void OnInitialized()
+    {
+        employeeData = new()
+        {
+            new (){ Id = 11500, Name = ""John"" },
+            new (){ Id = 11566, Name = ""Julia"" },
+            new (){ Id = 11612, Name = ""Maria"" },
+            new (){ Id = 10989, Name = ""Peter"" }
+        };
+        selectedEmployee = employeeData.First();
+        base.OnInitialized();
+    }
+}";
+
+        public const string UsingTheSelectComponentNullableTypeExample = @"@using Blazorise
+
+<Row>
+    <Column>
+        <Select TValue=""int?""
+            @bind-SelectedValue=""@selectedEmployeeId"">
+            <SelectItem Value=""null""></SelectItem>
+            <SelectItem Value=""11500"">John</SelectItem>
+            <SelectItem Value=""11566"">Julia</SelectItem>
+            <SelectItem Value=""11612"">Maria</SelectItem>
+            <SelectItem Value=""10989"">Peter</SelectItem>
+        </Select>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        Selected Employee Id is : @selectedEmployeeId
+    </Column>
+</Row>
+
+@code{
+    private int? selectedEmployeeId = null;
+}";
+
+        public const string UsingTheSelectComponentPrimitiveTypeExample = @"@using Blazorise
+
+<Row>
+    <Column>
+        <Select TValue=""int"">
+            <SelectItem Value=""11500"">John</SelectItem>
+            <SelectItem Value=""11566"">Julia</SelectItem>
+            <SelectItem Value=""11612"">Maria</SelectItem>
+            <SelectItem Value=""10989"">Peter</SelectItem>
+        </Select>
+    </Column>
+</Row>";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>

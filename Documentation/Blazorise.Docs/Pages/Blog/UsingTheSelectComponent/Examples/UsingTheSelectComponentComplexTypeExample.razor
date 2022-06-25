@@ -1,0 +1,42 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using Blazorise
+
+<Row>
+    <Column>
+        <Select TValue="int">
+            @foreach ( var employee in employeeData )
+            {
+                <SelectItem Value="@employee.Id">@employee.Name</SelectItem>
+            }
+        </Select>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Employee is : @selectedEmployee.Name
+    </Column>
+</Row>
+
+@code{
+    public Employee selectedEmployee;
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public List<Employee> employeeData;
+
+    protected override void OnInitialized()
+    {
+        employeeData = new()
+        {
+            new (){ Id = 11500, Name = "John" },
+            new (){ Id = 11566, Name = "Julia" },
+            new (){ Id = 11612, Name = "Maria" },
+            new (){ Id = 10989, Name = "Peter" }
+        };
+        selectedEmployee = employeeData.First();
+        base.OnInitialized();
+    }
+}

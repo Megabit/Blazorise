@@ -60,16 +60,23 @@
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentComplexTypeExample.razor" />
+    <Content Remove="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentNullableTypeExample.razor" />
+    <Content Remove="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentPrimitiveTypeExample.razor" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
+    <None Include="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentComplexTypeExample.razor" />
+    <None Include="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentNullableTypeExample.razor" />
+    <None Include="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentPrimitiveTypeExample.razor" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\Blog\2022-06-09_ValidationWithDataAnnotations\Code\" />
+    <Folder Include="Pages\Blog\UsingTheSelectComponent\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
