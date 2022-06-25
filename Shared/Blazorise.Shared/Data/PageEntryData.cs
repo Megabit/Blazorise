@@ -25,6 +25,12 @@ namespace Blazorise.Shared.Data
         {
             return Task.FromResult( new PageEntry[]
             {
+                new PageEntry( "docs", "Overview" ),
+                new PageEntry( "docs/start", "Start" ),
+                new PageEntry( "docs/usage", "Usage" ),
+                new PageEntry( "docs/theming", "Theming" ),
+                new PageEntry( "docs/pwa", "PWA" ),
+
                 new PageEntry( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),
                 new PageEntry( "docs/components/addon", "Adddon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
                 new PageEntry( "docs/components/alert", "Alert", "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages." ),
@@ -134,13 +140,8 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/services/message", "Message", "Message service is used for quick user confirmation actions." ),
                 new PageEntry( "docs/services/notification", "Notification", "Notification service is used to provide feedback to the user." ),
                 new PageEntry( "docs/services/page-progress", "Page Progress", "Page Progress service is used to provide a page loading indicator to the user." ),
-
-                new PageEntry( "docs", "Overview" ),
-                new PageEntry( "docs/pwa", "PWA" ),
-                new PageEntry( "docs/start", "Start" ),
-                new PageEntry( "docs/usage", "Usage" ),
-                new PageEntry( "docs/theming", "Theming" ),
                 new PageEntry( "docs/faq", "FAQ" ),
+                new PageEntry( "https://commercial.blazorise.com/license", "License" ),
                 }.ToArray() );
         }
     }
