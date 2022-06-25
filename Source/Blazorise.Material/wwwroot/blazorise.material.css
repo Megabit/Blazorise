@@ -1219,10 +1219,12 @@ tr.table-row-selectable:hover {
   border-collapse: separate;
   border-spacing: 0;
 }
+.table-fixed-header .table thead:not(.b-table-header-theme) th {
+  background: white;
+}
 .table-fixed-header .table thead tr th {
   border-top: none;
   position: sticky;
-  background: white;
   z-index: 10;
 }
 .table-fixed-header .table thead tr:nth-child(1) th {

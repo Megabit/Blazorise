@@ -19,10 +19,13 @@ tr.table-row-selectable {
         border-collapse: separate;
         border-spacing: 0;
 
+        thead:not(.b-table-header-theme) th {
+            background: white;
+        }
+
         thead tr th {
             border-top: none;
             position: sticky;
-            background: white;
             z-index: 10;
         }
 
