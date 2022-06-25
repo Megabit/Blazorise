@@ -192,6 +192,22 @@ namespace Blazorise.DataGrid
             return sb.ToString().TrimStart( ' ', ';' );
         }
 
+        /// <summary>
+        /// Builds the Filter cell background.
+        /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+        /// </summary>
+        /// <returns></returns>
+        internal Background BuildFilterCellBackground()
+            => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.FilterRowStyling?.Background ?? Background.Default ) : Background.Default;
+
+        /// <summary>
+        /// Builds the Header cell background.
+        /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+        /// </summary>
+        /// <returns></returns>
+        internal Background BuildHeaderCellBackground()
+            => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.HeaderRowStyling?.Background ?? Background.Default ) : Background.Default;
+
         internal string BuildGroupCellStyle()
         {
             var sb = new StringBuilder();

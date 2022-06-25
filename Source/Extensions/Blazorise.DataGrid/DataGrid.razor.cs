@@ -1289,6 +1289,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
+        internal bool IsFixedHeader
+            => Virtualize || FixedHeader;
+
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
@@ -1306,7 +1309,6 @@ namespace Blazorise.DataGrid
                 return sb.ToString();
             }
         }
-
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
