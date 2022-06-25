@@ -20,6 +20,9 @@
                 </article>
             </CardText>
         </CardBody>
+        <CardFooter>
+            <BlogPagePostInto UserName="@AuthorName" ImageName="@AuthorImage" PostedOn="@PostedOn" Read="@ReadTime" />
+        </CardFooter>
     </Card>
 </Column>
 @code {
@@ -30,4 +33,12 @@
     [Parameter] public string ImageSource { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public string AuthorName { get; set; }
+
+    [Parameter] public string AuthorImage { get; set; }
+    
+    [Parameter] public string PostedOn { get; set; }
+
+    [Parameter] public string ReadTime { get; set; }
 }
