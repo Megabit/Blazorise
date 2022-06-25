@@ -60,16 +60,10 @@
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
-    <Content Remove="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentComplexTypeExample.razor" />
-    <Content Remove="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentNullableTypeExample.razor" />
-    <Content Remove="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentPrimitiveTypeExample.razor" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
-    <None Include="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentComplexTypeExample.razor" />
-    <None Include="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentNullableTypeExample.razor" />
-    <None Include="Pages\Blog\UsingTheSelectComponent\Examples\UsingTheSelectComponentPrimitiveTypeExample.razor" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />

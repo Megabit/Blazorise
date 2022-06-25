@@ -1,11 +1,10 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise
+﻿@namespace Blazorise.Docs.Pages.Blog.UsingTheSelectComponent.Examples
 
 <Row>
     <Column>
         <Select TValue="int?"
             @bind-SelectedValue="@selectedEmployeeId">
-            <SelectItem Value="null"></SelectItem>
+            <SelectItem Value="(int?)null"></SelectItem>
             <SelectItem Value="11500">John</SelectItem>
             <SelectItem Value="11566">Julia</SelectItem>
             <SelectItem Value="11612">Maria</SelectItem>
@@ -16,10 +15,10 @@
 
 <Row>
     <Column>
-        Selected Employee Id is : @selectedEmployeeId
+        Selected Employee Id is : @(selectedEmployeeId.HasValue ? selectedEmployeeId.Value : "empty")
     </Column>
 </Row>
 
-@code{
+@code {
     private int? selectedEmployeeId = null;
 }

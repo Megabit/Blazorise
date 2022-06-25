@@ -382,14 +382,13 @@ public class Gender
     }
 }";
 
-        public const string UsingTheSelectComponentComplexTypeExample = @"@using Blazorise
-
-<Row>
+        public const string UsingTheSelectComponentComplexTypeExample = @"<Row>
     <Column>
-        <Select TValue=""int"">
+        <Select TValue=""int""
+                SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
             @foreach ( var employee in employeeData )
             {
-                <SelectItem Value=""@employee.Id"">@employee.Name</SelectItem>
+                <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
             }
         </Select>
     </Column>
@@ -400,7 +399,7 @@ public class Gender
     </Column>
 </Row>
 
-@code{
+@code {
     public Employee selectedEmployee;
     public class Employee
     {
@@ -424,13 +423,48 @@ public class Gender
     }
 }";
 
-        public const string UsingTheSelectComponentNullableTypeExample = @"@using Blazorise
+        public const string UsingTheSelectComponentEnumTypeExample = @"@using System.Text.Json.Serialization
 
 <Row>
     <Column>
+        <Select TValue=""Day""
+            @bind-SelectedValue=""@selectedDay"">
+            @foreach ( var enumValue in Enum.GetValues<Day>() )
+            {
+                <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
+            }
+        </Select>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Day is : @selectedDay.ToString(""g"")
+    </Column>
+</Row>
+
+@code {
+    public Day selectedDay;
+
+    [Flags]
+    [JsonConverter( typeof( System.Text.Json.Serialization.JsonStringEnumConverter ) )]
+    public enum Day
+    {
+        None = 0,
+        Sunday = 1,
+        Monday = 2,
+        Tuesday = 4,
+        Wednesday = 8,
+        Thursday = 16,
+        Friday = 32,
+        Saturday = 64
+    }
+}";
+
+        public const string UsingTheSelectComponentNullableTypeExample = @"<Row>
+    <Column>
         <Select TValue=""int?""
             @bind-SelectedValue=""@selectedEmployeeId"">
-            <SelectItem Value=""null""></SelectItem>
+            <SelectItem Value=""(int?)null""></SelectItem>
             <SelectItem Value=""11500"">John</SelectItem>
             <SelectItem Value=""11566"">Julia</SelectItem>
             <SelectItem Value=""11612"">Maria</SelectItem>
@@ -441,17 +475,15 @@ public class Gender
 
 <Row>
     <Column>
-        Selected Employee Id is : @selectedEmployeeId
+        Selected Employee Id is : @(selectedEmployeeId.HasValue ? selectedEmployeeId.Value : ""empty"")
     </Column>
 </Row>
 
-@code{
+@code {
     private int? selectedEmployeeId = null;
 }";
 
-        public const string UsingTheSelectComponentPrimitiveTypeExample = @"@using Blazorise
-
-<Row>
+        public const string UsingTheSelectComponentPrimitiveTypeExample = @"<Row>
     <Column>
         <Select TValue=""int"">
             <SelectItem Value=""11500"">John</SelectItem>

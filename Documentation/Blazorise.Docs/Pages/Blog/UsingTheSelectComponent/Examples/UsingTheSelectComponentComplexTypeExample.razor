@@ -1,12 +1,12 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
-@using Blazorise
+﻿@namespace Blazorise.Docs.Pages.Blog.UsingTheSelectComponent.Examples
 
 <Row>
     <Column>
-        <Select TValue="int">
+        <Select TValue="int"
+                SelectedValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
             @foreach ( var employee in employeeData )
             {
-                <SelectItem Value="@employee.Id">@employee.Name</SelectItem>
+                <SelectItem @key="employee.Id" Value="@employee.Id">@employee.Name</SelectItem>
             }
         </Select>
     </Column>
@@ -17,7 +17,7 @@
     </Column>
 </Row>
 
-@code{
+@code {
     public Employee selectedEmployee;
     public class Employee
     {
