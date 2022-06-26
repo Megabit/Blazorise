@@ -22,7 +22,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableHeader() );
-            builder.Append( "b-table-header-theme", ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.TableHeaderThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
 
             base.BuildClasses( builder );

@@ -7703,7 +7703,7 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
   border-collapse: separate;
   border-spacing: 0;
 }
-.table-container-fixed-header .table thead:not(.b-table-header-theme) th {
+.table-container-fixed-header .table thead:not(.table-thead-theme) th {
   background: white;
 }
 .table-container-fixed-header .table thead tr th {
