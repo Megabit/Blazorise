@@ -384,13 +384,15 @@ public class Gender
 
         public const string SelectComponentWithComplexTypeExample = @"<Row>
     <Column>
-        <Select TValue=""int""
-                SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
-            @foreach ( var employee in employeeData )
-            {
-                <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
-            }
-        </Select>
+        <Field>
+            <Select TValue=""int""
+                    SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
+                @foreach ( var employee in employeeData )
+                {
+                    <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
+                }
+            </Select>
+        </Field>
     </Column>
 </Row>
 <Row>
@@ -427,13 +429,15 @@ public class Gender
 
 <Row>
     <Column>
-        <Select TValue=""Day""
-            @bind-SelectedValue=""@selectedDay"">
-            @foreach ( var enumValue in Enum.GetValues<Day>() )
-            {
-                <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
-            }
-        </Select>
+        <Field>
+            <Select TValue=""Day""
+                    @bind-SelectedValue=""@selectedDay"">
+                @foreach ( var enumValue in Enum.GetValues<Day>() )
+                {
+                    <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
+                }
+            </Select>
+        </Field>
     </Column>
 </Row>
 <Row>
@@ -462,14 +466,16 @@ public class Gender
 
         public const string SelectComponentWithNullableTypeExample = @"<Row>
     <Column>
-        <Select TValue=""int?""
-            @bind-SelectedValue=""@selectedEmployeeId"">
-            <SelectItem Value=""(int?)null""></SelectItem>
-            <SelectItem Value=""11500"">John</SelectItem>
-            <SelectItem Value=""11566"">Julia</SelectItem>
-            <SelectItem Value=""11612"">Maria</SelectItem>
-            <SelectItem Value=""10989"">Peter</SelectItem>
-        </Select>
+        <Field>
+            <Select TValue=""int?""
+                    @bind-SelectedValue=""@selectedEmployeeId"">
+                <SelectItem Value=""(int?)null""></SelectItem>
+                <SelectItem Value=""11500"">John</SelectItem>
+                <SelectItem Value=""11566"">Julia</SelectItem>
+                <SelectItem Value=""11612"">Maria</SelectItem>
+                <SelectItem Value=""10989"">Peter</SelectItem>
+            </Select>
+        </Field>
     </Column>
 </Row>
 
@@ -485,12 +491,14 @@ public class Gender
 
         public const string SelectComponentWithPrimitiveTypeExample = @"<Row>
     <Column>
-        <Select TValue=""int"">
-            <SelectItem Value=""11500"">John</SelectItem>
-            <SelectItem Value=""11566"">Julia</SelectItem>
-            <SelectItem Value=""11612"">Maria</SelectItem>
-            <SelectItem Value=""10989"">Peter</SelectItem>
-        </Select>
+        <Field>
+            <Select TValue=""int"">
+                <SelectItem Value=""11500"">John</SelectItem>
+                <SelectItem Value=""11566"">Julia</SelectItem>
+                <SelectItem Value=""11612"">Maria</SelectItem>
+                <SelectItem Value=""10989"">Peter</SelectItem>
+            </Select>
+        </Field>
     </Column>
 </Row>";
 

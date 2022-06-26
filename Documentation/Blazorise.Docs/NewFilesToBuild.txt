@@ -1,4 +1,0 @@
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Blog\UsingTheSelectComponent\Code\SelectComponentWithComplexTypeExampleCode.html
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Blog\UsingTheSelectComponent\Code\SelectComponentWithEnumTypeExampleCode.html
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Blog\UsingTheSelectComponent\Code\SelectComponentWithNullableTypeExampleCode.html
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Blog\UsingTheSelectComponent\Code\SelectComponentWithPrimitiveTypeExampleCode.html

@@ -2,13 +2,15 @@
 
 <Row>
     <Column>
-        <Select TValue="int"
-                SelectedValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
-            @foreach ( var employee in employeeData )
-            {
-                <SelectItem @key="employee.Id" Value="@employee.Id">@employee.Name</SelectItem>
-            }
-        </Select>
+        <Field>
+            <Select TValue="int"
+                    SelectedValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
+                @foreach ( var employee in employeeData )
+                {
+                    <SelectItem @key="employee.Id" Value="@employee.Id">@employee.Name</SelectItem>
+                }
+            </Select>
+        </Field>
     </Column>
 </Row>
 <Row>

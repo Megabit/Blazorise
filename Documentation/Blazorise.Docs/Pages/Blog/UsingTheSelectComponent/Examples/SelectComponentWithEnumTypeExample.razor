@@ -3,13 +3,15 @@
 
 <Row>
     <Column>
-        <Select TValue="Day"
-            @bind-SelectedValue="@selectedDay">
-            @foreach ( var enumValue in Enum.GetValues<Day>() )
-            {
-                <SelectItem @key="enumValue" Value="@enumValue">@enumValue</SelectItem>
-            }
-        </Select>
+        <Field>
+            <Select TValue="Day"
+                    @bind-SelectedValue="@selectedDay">
+                @foreach ( var enumValue in Enum.GetValues<Day>() )
+                {
+                    <SelectItem @key="enumValue" Value="@enumValue">@enumValue</SelectItem>
+                }
+            </Select>
+        </Field>
     </Column>
 </Row>
 <Row>
