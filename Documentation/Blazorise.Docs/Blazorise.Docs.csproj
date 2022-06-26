@@ -68,10 +68,6 @@
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Blog\2022-06-09_ValidationWithDataAnnotations\Code\" />
-    <Folder Include="Pages\Blog\UsingTheSelectComponent\Code\" />
-  </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
