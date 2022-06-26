@@ -58,6 +58,17 @@
             text-align: center;
         }
     }
+
+    a {
+        color: #3f4d62;
+        border-bottom: 2px solid var(--b-theme-primary);
+        text-decoration: none;
+        transition: color 0.5s ease-in-out;
+
+        &:hover {
+            color: var(--b-theme-primary);
+        }
+    }
 }
 
 .home-case-studies {
@@ -141,5 +152,29 @@
 .home-popular-components {
     .nav .nav-link:not(.active) {
         color: var(--b-theme-secondary);
+    }
+
+    a {
+        color: #3f4d62;
+        border-bottom: 2px solid var(--b-theme-primary);
+        text-decoration: none;
+        transition: color 0.5s ease-in-out;
+
+        &:hover {
+            color: var(--b-theme-primary);
+        }
+    }
+}
+
+.home-testimonials {
+    a {
+        color: #3f4d62;
+        border-bottom: 2px solid var(--b-theme-primary);
+        text-decoration: none;
+        transition: color 0.5s ease-in-out;
+
+        &:hover {
+            color: var(--b-theme-primary);
+        }
     }
 }

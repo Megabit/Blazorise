@@ -172,6 +172,15 @@ html, body * {
     text-align: center;
   }
 }
+.home-features a {
+  color: #3f4d62;
+  border-bottom: 2px solid var(--b-theme-primary);
+  text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+.home-features a:hover {
+  color: var(--b-theme-primary);
+}
 
 .home-case-studies .color-cards .card-contents {
   position: relative;
@@ -232,6 +241,25 @@ html, body * {
 
 .home-popular-components .nav .nav-link:not(.active) {
   color: var(--b-theme-secondary);
+}
+.home-popular-components a {
+  color: #3f4d62;
+  border-bottom: 2px solid var(--b-theme-primary);
+  text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+.home-popular-components a:hover {
+  color: var(--b-theme-primary);
+}
+
+.home-testimonials a {
+  color: #3f4d62;
+  border-bottom: 2px solid var(--b-theme-primary);
+  text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+.home-testimonials a:hover {
+  color: var(--b-theme-primary);
 }
 
 .b-docs-page .b-docs-page-title {
@@ -403,8 +431,12 @@ html, body * {
 }
 .b-docs-page a {
   color: #3f4d62;
-  border-bottom: 2px solid #9317E1;
+  border-bottom: 2px solid var(--b-theme-primary);
   text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+.b-docs-page a:hover {
+  color: var(--b-theme-primary);
 }
 
 .blazorise-codeblock {

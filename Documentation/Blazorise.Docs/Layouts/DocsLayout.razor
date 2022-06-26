@@ -15,6 +15,23 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
+                        <BarItem Margin="Margin.Is1.OnAll">
+                            <Autocomplete TItem="PageEntry"
+                                          TValue="string"
+                                          Data="@SearchEntries"
+                                          FreeTyping
+                                          TextField="@(( item ) => item.Name)"
+                                          ValueField="@(( item ) => item.Url)"
+                                          @bind-SelectedText="selectedSearchText"
+                                          Placeholder="Search..."
+                                          Filter="AutocompleteFilter.Contains"
+                                          CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
+                                          SelectedValueChanged="@ComponentSearchSelectedValueChanged">
+                                <NotFoundContent>
+                                    Sorry... @context was not found! :(
+                                </NotFoundContent>
+                            </Autocomplete>
+                        </BarItem>
                         <BarItem>
                             <BarLink To="docs">
                                 <BarIcon IconName="IconName.Home" /> Overview
