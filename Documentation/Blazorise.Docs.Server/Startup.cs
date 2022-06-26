@@ -41,6 +41,7 @@ namespace Blazorise.Docs.Server
             services.AddMemoryCache();
             services.AddScoped<Shared.Data.EmployeeData>();
             services.AddScoped<Shared.Data.CountryData>();
+            services.AddScoped<Shared.Data.PageEntryData>();
 
             services.AddResponseCompression( options =>
             {

@@ -1,6 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Shared.Data;
+using Blazorise.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
@@ -32,20 +35,40 @@ namespace Blazorise.Docs.Layouts
 
         private bool disposed;
 
+        public IEnumerable<PageEntry> SearchEntries;
+
+        public string selectedSearchText { get; set; }
+
         #endregion
 
         #region Methods
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             NavigationManager.LocationChanged += OnLocationChanged;
 
-            return base.OnInitializedAsync();
+            SearchEntries = await SearchMenuProvider.GetDataAsync();
+
+            await base.OnInitializedAsync();
         }
 
         private async void OnLocationChanged( object sender, LocationChangedEventArgs e )
         {
             await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
+        }
+
+        private async void ComponentSearchSelectedValueChanged( string value )
+        {
+            if ( !string.IsNullOrWhiteSpace( value ) )
+            {
+                NavigationManager.NavigateTo( value );
+
+                await Task.Delay( 500 );
+
+                selectedSearchText = "";
+
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         protected virtual void Dispose( bool disposing )
@@ -70,6 +93,8 @@ namespace Blazorise.Docs.Layouts
         #endregion
 
         #region Properties
+
+        [Inject] public PageEntryData SearchMenuProvider { get; set; }
 
         [Inject] private NavigationManager NavigationManager { get; set; }
 

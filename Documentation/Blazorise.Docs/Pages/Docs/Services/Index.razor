@@ -11,34 +11,22 @@
 </DocsPageLead>
 
 <Row RowColumns="RowColumns.Are4">
-    @foreach ( var info in ComponentInfos )
+    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/services" ) && !string.IsNullOrEmpty( x.Description ) ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
-            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.To" />
+            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
         </Column>
     }
 </Row>
 @code {
-    class ComponentInfo
+    public IEnumerable<PageEntry> PageEntries;
+
+    [Inject] public PageEntryData PageEntriesData { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        public ComponentInfo( string name, string description, string to )
-        {
-            Name = name;
-            Description = description;
-            To = to;
-        }
+        PageEntries = await PageEntriesData.GetDataAsync();
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public string To { get; set; }
+        await base.OnInitializedAsync();
     }
-
-    List<ComponentInfo> ComponentInfos = new List<ComponentInfo>()
-    {
-        new ComponentInfo( "Message", "Message service is used for quick user confirmation actions.", "docs/services/message" ),
-        new ComponentInfo( "Notification", "Notifications are used to provide feedback to the user.", "docs/services/notification" ),
-        new ComponentInfo( "Page Progress", "Progress service is used to provide a page loading indicator to the user.", "docs/services/page-progress" ),
-    };
 }

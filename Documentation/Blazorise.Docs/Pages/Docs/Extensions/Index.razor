@@ -11,48 +11,22 @@
 </DocsPageLead>
 
 <Row RowColumns="RowColumns.Are4">
-    @foreach ( var info in ComponentInfos )
+    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions" ) && !string.IsNullOrEmpty( x.Description ) ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
-            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.To" />
+            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
         </Column>
     }
 </Row>
 @code {
-    class ComponentInfo
+    public IEnumerable<PageEntry> PageEntries;
+
+    [Inject] public PageEntryData PageEntriesData { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        public ComponentInfo( string name, string description, string to )
-        {
-            Name = name;
-            Description = description;
-            To = to;
-        }
+        PageEntries = await PageEntriesData.GetDataAsync();
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public string To { get; set; }
+        await base.OnInitializedAsync();
     }
-
-    List<ComponentInfo> ComponentInfos = new List<ComponentInfo>()
-    {
-        new ComponentInfo( "Autocomplete", "The Autocomplete component offers simple and flexible type-ahead functionality.", "docs/extensions/autocomplete" ),
-        new ComponentInfo( "Chart", "Simple yet flexible charting for designers & developers.", "docs/extensions/chart" ),
-        new ComponentInfo( "Chart Streaming", "Chart plugin for live streaming data.", "docs/extensions/chart-live" ),
-        new ComponentInfo( "Chart Trendline", "This plugin draws an linear trendline in your Chart.", "docs/extensions/chart-trendline" ),
-        new ComponentInfo( "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection.", "docs/extensions/datagrid/getting-started" ),
-        new ComponentInfo( "DropdownList", "The DropdownList component allows you to select a value from a list of predefined items.", "docs/extensions/dropdownlist" ),
-        new ComponentInfo( "Icons", "Icons are symbols that can be used to represent various options within an application.", "docs/extensions/icons" ),
-        new ComponentInfo( "List View", "List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.", "docs/extensions/list-view" ),
-        new ComponentInfo( "Markdown", "The Markdown component allows you to edit markdown strings.", "docs/extensions/markdown" ),
-        new ComponentInfo( "RichTextEdit", "The RichTextEdit component allows you to add and use a ‘WYSIWYG’ rich text editor.", "docs/extensions/richtextedit" ),
-        new ComponentInfo( "SelectList", "The SelectList component allows you to select a value from a list of predefined items.", "docs/extensions/selectlist" ),
-        new ComponentInfo( "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage.", "docs/extensions/sidebar" ),
-        new ComponentInfo( "Snackbar", "Snackbar provide brief messages about app processes. The component is also known as a toast.", "docs/extensions/snackbar" ),
-        new ComponentInfo( "SpinKit", "A component used to show loading indicators animated with CSS.", "docs/extensions/spinkit" ),
-        new ComponentInfo( "TreeView", "The TreeView component is a graphical control element that presents a hierarchical view of information.", "docs/extensions/treeview" ),
-        new ComponentInfo( "Video", "A Video component used to play a regular or streaming media.", "docs/extensions/video" ),
-        new ComponentInfo( "QR Code", "A component used to generate QR codes.", "docs/extensions/qrcode" ),
-    };
 }
