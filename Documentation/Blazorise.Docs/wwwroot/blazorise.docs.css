@@ -121,6 +121,10 @@ html, body * {
   scrollbar-width: thin;
 }
 
+.img-circle {
+  border-radius: 4.25rem !important;
+}
+
 :root {
   --bd-purple: #4c0bce;
   --bd-violet: #712cf9;
