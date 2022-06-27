@@ -15,7 +15,7 @@ Quis **auctor elit sed vulputate** mi sit amet mauris. Libero nunc consequat int
 
 Then a code block:
 
-```
+```cs
 <p class="text-primary">.text-primary</p>
 <p class="text-secondary">.text-secondary</p>
 <p class="text-success">.text-success</p>
@@ -30,3 +30,13 @@ Then a code block:
 <p class="text-black-50">.text-black-50</p>
 <p class="text-white-50 bg-dark">.text-white-50</p>
 ```
+
+## Now lists
+
+- Value 1
+- Value 2
+- Value 3
+
+1. Value 1
+2. Value 2
+3. Value 3

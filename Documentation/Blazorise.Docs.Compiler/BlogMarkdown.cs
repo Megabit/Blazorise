@@ -25,14 +25,19 @@ namespace Blazorise.Docs.Compiler
                 {
                     var bb = new BlogBuilder();
 
-                    var mdFilename = Path.GetFileName( entry );
                     var directory = Path.GetDirectoryName( entry );
-                    var razorFilename = Path.Combine( directory, mdFilename.Replace( ".md", ".razor" ) );
+                    var markdownFilename = Path.GetFileName( entry );
+                    var razorFilename = Path.Combine( directory, markdownFilename.Replace( ".md", ".razor" ) );
 
-                    var markdownText = ParseSEO( bb, File.ReadAllText( entry, Encoding.UTF8 ) );
-                    var markdown = Markdown.Parse( markdownText );
+                    var markdownText = ParsePageInfo( bb, File.ReadAllText( entry, Encoding.UTF8 ) );
+                    var markdownDocument = Markdown.Parse( markdownText );
 
-                    foreach ( var block in markdown )
+                    var currentPageCode = string.Empty;
+                    var builtPageCode = string.Empty;
+
+
+
+                    foreach ( var block in markdownDocument )
                     {
                         if ( block is HeadingBlock headingBlock )
                         {
@@ -45,13 +50,35 @@ namespace Blazorise.Docs.Compiler
                         {
                             bb.AddPageParagraph( paragraphBlock );
                         }
+                        else if ( block is ListBlock listBlock )
+                        {
+                            bb.AddPageList( listBlock );
+                        }
                         else if ( block is FencedCodeBlock fencedCodeBlock )
                         {
-                            bb.AddCodeBlock( fencedCodeBlock );
+                            var codeBlockFileName = Path.Combine( directory, "Code", "TestCode.html" );
+                            var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
+
+                            if ( !Directory.Exists( codeBlockDirectory ) )
+                            {
+                                Directory.CreateDirectory( codeBlockDirectory );
+                            }
+
+                            bb.AddCodeBlock( fencedCodeBlock, codeBlockFileName );
                         }
                     }
 
-                    File.WriteAllText( razorFilename, bb.ToString() );
+                    if ( File.Exists( razorFilename ) )
+                    {
+                        currentPageCode = File.ReadAllText( razorFilename );
+                    }
+
+                    builtPageCode = bb.ToString();
+
+                    if ( currentPageCode != builtPageCode )
+                    {
+                        File.WriteAllText( razorFilename, bb.ToString() );
+                    }
                 }
             }
             catch ( Exception e )
@@ -63,7 +90,13 @@ namespace Blazorise.Docs.Compiler
             return success;
         }
 
-        private string ParseSEO( BlogBuilder bb, string markdownText )
+        /// <summary>
+        /// Reads extra info about the page that should be at the beginning of the *.md file.
+        /// </summary>
+        /// <param name="blogBuilder"></param>
+        /// <param name="markdownText"></param>
+        /// <returns></returns>
+        private string ParsePageInfo( BlogBuilder blogBuilder, string markdownText )
         {
             if ( markdownText.StartsWith( "---" ) )
             {
@@ -85,7 +118,7 @@ namespace Blazorise.Docs.Compiler
                         permalink = line.Substring( "permalink:".Length + 1 ).Trim();
                 }
 
-                bb.AddPageSeo( permalink, title, description );
+                blogBuilder.AddPageAndSeo( permalink, title, description );
 
                 return markdownText.Substring( seoEnding + 3 ).TrimStart();
             }

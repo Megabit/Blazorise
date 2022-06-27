@@ -24,7 +24,7 @@ namespace Blazorise.Docs.Compiler
             indentLevel = 0;
         }
 
-        public void AddPageSeo( string url, string title, string description )
+        public void AddPageAndSeo( string url, string title, string description )
         {
             sb.Append( $"@page \"{url}\"" ).Append( '\n' ).Append( '\n' );
 
@@ -85,14 +85,50 @@ namespace Blazorise.Docs.Compiler
             sb.Append( "</BlogPageParagraph>" ).Append( '\n' ).Append( '\n' );
         }
 
-        public void AddCodeBlock( FencedCodeBlock fencedCodeBlock )
+        public void AddPageList( ListBlock listBlock )
+        {
+            sb.Append( $"<BlogPageList Ordered=\"{listBlock.IsOrdered.ToString().ToLowerInvariant()}\">" ).Append( '\n' );
+
+            foreach ( ListItemBlock listItem in listBlock )
+            {
+                sb.Append( "".PadLeft( 4, ' ' ) );
+                sb.Append( "<BlogPageListItem>" ).Append( '\n' );
+
+                sb.Append( "".PadLeft( 8, ' ' ) );
+
+                if ( listItem.Count > 0 && listItem[0] is ParagraphBlock paragraphBlock )
+                {
+                    AddInlines( paragraphBlock.Inline );
+                }
+
+                sb.Append( "".PadLeft( 4, ' ' ) );
+                sb.Append( "</BlogPageListItem>" ).Append( '\n' );
+            }
+
+
+            sb.Append( "</BlogPageList>" ).Append( '\n' ).Append( '\n' );
+        }
+
+        public void AddCodeBlock( FencedCodeBlock fencedCodeBlock, string codeBlockFileName )
         {
             var formatter = new HtmlClassFormatter();
 
-            sb.Append( "<BlogPageSourceBlock Code=\"" );
+            sb.Append( "<BlogPageSourceBlock Code=\"Test" );
 
             var parsedCodeBlock = ParseCodeBlock( fencedCodeBlock );
+
+            var currentCodeBlock = string.Empty;
             var builtCodeBlock = new MarkupBuilder( formatter ).Build( parsedCodeBlock, false );
+
+            if ( File.Exists( codeBlockFileName ) )
+            {
+                currentCodeBlock = File.ReadAllText( codeBlockFileName );
+            }
+
+            if ( currentCodeBlock != builtCodeBlock )
+            {
+                File.WriteAllText( codeBlockFileName, builtCodeBlock );
+            }
 
             sb.Append( "\"" );
 
