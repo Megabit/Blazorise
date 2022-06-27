@@ -197,7 +197,6 @@ If you're willing to try preview versions of Blazorise, all you need to do is se
 Now you will be able to get preview versions of Blazorise with the latest changes and bug fixes.
 
 ## Contributing
-We welcome contributions and any suggestions or feature requests you might have. Contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. This will be signed once you submit a PullRequest on our repository. For details about our CLA, please visit https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63
+We welcome contributions and any suggestions or feature requests you might have. Contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. This will be signed once you submit a PullRequest on our repository. For details about our CLA, please visit: [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63).
 
-For our conventions and guidelines please visit: 
-https://github.com/Megabit/Blazorise/wiki/Contributing
+For our code conventions and guidelines please visit: [Contributing Guide](https://github.com/Megabit/Blazorise/wiki/Contributing)
