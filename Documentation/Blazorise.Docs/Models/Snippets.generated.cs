@@ -385,8 +385,7 @@ public class Gender
         public const string SelectComponentWithComplexTypeExample = @"<Row>
     <Column>
         <Field>
-            <Select TValue=""int""
-                    SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
+            <Select TValue=""int"" SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
                 @foreach ( var employee in employeeData )
                 {
                     <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
@@ -430,8 +429,7 @@ public class Gender
 <Row>
     <Column>
         <Field>
-            <Select TValue=""Day""
-                    @bind-SelectedValue=""@selectedDay"">
+            <Select TValue=""Day"" @bind-SelectedValue=""@selectedDay"">
                 @foreach ( var enumValue in Enum.GetValues<Day>() )
                 {
                     <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
@@ -467,8 +465,7 @@ public class Gender
         public const string SelectComponentWithNullableTypeExample = @"<Row>
     <Column>
         <Field>
-            <Select TValue=""int?""
-                    @bind-SelectedValue=""@selectedEmployeeId"">
+            <Select TValue=""int?"" @bind-SelectedValue=""@selectedEmployeeId"">
                 <SelectItem Value=""(int?)null""></SelectItem>
                 <SelectItem Value=""11500"">John</SelectItem>
                 <SelectItem Value=""11566"">Julia</SelectItem>
