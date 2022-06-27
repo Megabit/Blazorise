@@ -61,56 +61,66 @@ namespace Blazorise.Docs.Compiler
                         Directory.CreateDirectory( markupDir );
                     }
 
-                    var cb = new CodeBuilder();
+                    //var cb = new CodeBuilder();
                     var currentCode = string.Empty;
+                    var builtCode = string.Empty;
                     var isCSharp = entry.FullName.EndsWith( ".csharp" );
-                    var src = StripComponentSource( entry.FullName );
+                    var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
 
-                    if ( isCSharp )
+                    //var src = StripComponentSource( entry.FullName );
+
+                    //if ( isCSharp )
+                    //{
+                    //    cb.AddLine( "<div class=\"blazorise-codeblock\">" );
+
+                    //    cb.AddLine(
+                    //        formatter.GetHtmlString( src, Languages.CSharp )
+                    //            .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
+                    //            .ToLfLineEndings() );
+
+                    //    cb.AddLine( "</div>" );
+                    //}
+                    //else
+                    //{
+                    //    var blocks = src.Split( "@code" );
+
+                    //    var blocks0 = Regex.Replace( blocks[0], @"</?DocsFrame>", string.Empty )
+                    //        .Replace( "@", "PlaceholdeR" )
+                    //        .Trim();
+
+                    //    // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
+                    //    var html = formatter.GetHtmlString( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
+                    //    html = AttributePostprocessing( html ).Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+
+                    //    if ( File.Exists( markupPath ) )
+                    //    {
+                    //        currentCode = File.ReadAllText( markupPath );
+                    //    }
+
+                    //    cb.AddLine( "<div class=\"blazorise-codeblock\">" );
+                    //    cb.AddLine( html.ToLfLineEndings() );
+
+                    //    if ( blocks.Length == 2 )
+                    //    {
+                    //        cb.AddLine(
+                    //            formatter.GetHtmlString( "@code" + blocks[1], Languages.CSharp )
+                    //                .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
+                    //                .ToLfLineEndings() );
+                    //    }
+
+                    //    cb.AddLine( "</div>" );
+                    //}
+
+                    if ( File.Exists( markupPath ) )
                     {
-                        cb.AddLine( "<div class=\"blazorise-codeblock\">" );
-
-                        cb.AddLine(
-                            formatter.GetHtmlString( src, Languages.CSharp )
-                                .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                                .ToLfLineEndings() );
-
-                        cb.AddLine( "</div>" );
+                        currentCode = File.ReadAllText( markupPath );
                     }
-                    else
+
+                    builtCode = new MarkupBuilder( formatter ).Build( source, isCSharp );
+
+                    if ( currentCode != builtCode.ToString() )
                     {
-                        var blocks = src.Split( "@code" );
-
-                        var blocks0 = Regex.Replace( blocks[0], @"</?DocsFrame>", string.Empty )
-                            .Replace( "@", "PlaceholdeR" )
-                            .Trim();
-
-                        // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
-                        var html = formatter.GetHtmlString( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
-                        html = AttributePostprocessing( html ).Replace( "@", "<span class=\"atSign\">&#64;</span>" );
-
-                        if ( File.Exists( markupPath ) )
-                        {
-                            currentCode = File.ReadAllText( markupPath );
-                        }
-
-                        cb.AddLine( "<div class=\"blazorise-codeblock\">" );
-                        cb.AddLine( html.ToLfLineEndings() );
-
-                        if ( blocks.Length == 2 )
-                        {
-                            cb.AddLine(
-                                formatter.GetHtmlString( "@code" + blocks[1], Languages.CSharp )
-                                    .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                                    .ToLfLineEndings() );
-                        }
-
-                        cb.AddLine( "</div>" );
-                    }
-
-                    if ( currentCode != cb.ToString() )
-                    {
-                        File.WriteAllText( markupPath, cb.ToString() );
+                        File.WriteAllText( markupPath, builtCode.ToString() );
                         if ( currentCode == string.Empty )
                         {
                             newFiles.AppendLine( markupPath );
