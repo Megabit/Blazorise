@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Markdig;
@@ -23,19 +24,18 @@ namespace Blazorise.Docs.Compiler
 
                 foreach ( var entry in markdownFiles.OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
                 {
-                    var blogBuilder = new BlogBuilder();
-
-                    var directory = Path.GetDirectoryName( entry );
+                    var blogDirectory = Path.GetDirectoryName( entry );
                     var markdownFilename = Path.GetFileName( entry );
-                    var razorFilename = Path.Combine( directory, markdownFilename.Replace( ".md", ".razor" ) );
+                    var razorFilename = Path.Combine( blogDirectory, markdownFilename.Replace( ".md", ".razor" ) );
+
+                    var blogName = Path.GetFileName( blogDirectory ).Substring( "YYYY-MM-DD_".Length );
+                    var blogBuilder = new BlogBuilder( blogName, blogDirectory );
 
                     var (pageInfo, markdownText) = ParsePageInfo( blogBuilder, File.ReadAllText( entry, Encoding.UTF8 ) );
                     var markdownDocument = Markdown.Parse( markdownText );
 
                     var currentPageCode = string.Empty;
                     var builtPageCode = string.Empty;
-
-                    var blogName = Path.GetFileName( directory ).Substring( "YYYY-MM-DD_".Length );
 
                     blogBuilder.AddPageAndSeo( pageInfo.Permalink, pageInfo.Title, pageInfo.Description, pageInfo.ImageUrl, pageInfo.ImageTitle );
 
@@ -62,30 +62,7 @@ namespace Blazorise.Docs.Compiler
                         }
                         else if ( block is FencedCodeBlock fencedCodeBlock )
                         {
-                            var codeBlockName = fencedCodeBlock.Info != null && fencedCodeBlock.Info.IndexOf( '|' ) > 0
-                                ? $"{blogName}_{fencedCodeBlock.Info.Substring( fencedCodeBlock.Info.IndexOf( '|' ) + 1 )}"
-                                : $"{blogName}{markdownDocument.IndexOf( block )}";
-
-                            var codeBlockFileName = Path.Combine( directory, "Code", $"{codeBlockName}Code.html" );
-                            var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
-                            var currentCodeBlock = string.Empty;
-
-                            if ( !Directory.Exists( codeBlockDirectory ) )
-                            {
-                                Directory.CreateDirectory( codeBlockDirectory );
-                            }
-
-                            var builtCodeBlock = blogBuilder.AddCodeBlock( fencedCodeBlock, codeBlockName );
-
-                            if ( File.Exists( codeBlockFileName ) )
-                            {
-                                currentCodeBlock = File.ReadAllText( codeBlockFileName );
-                            }
-
-                            if ( currentCodeBlock != builtCodeBlock )
-                            {
-                                File.WriteAllText( codeBlockFileName, builtCodeBlock );
-                            }
+                            blogBuilder.PersistCodeBlock( fencedCodeBlock, 0 );
                         }
                     }
 

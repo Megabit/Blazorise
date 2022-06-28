@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using ColorCode;
 using Markdig.Helpers;
@@ -9,12 +11,18 @@ namespace Blazorise.Docs.Compiler
 {
     public class BlogBuilder
     {
+        private readonly string blogName;
+        private readonly string blogDirectory;
         private readonly StringBuilder sb;
         private const int IndentSize = 4;
         private string NewLine = "\r\n";
+        private int codeIndex = 0;
 
-        public BlogBuilder()
+        public BlogBuilder( string blogName, string blogDirectory )
         {
+            this.blogName = blogName;
+            this.blogDirectory = blogDirectory;
+
             sb = new StringBuilder();
         }
 
@@ -39,16 +47,17 @@ namespace Blazorise.Docs.Compiler
                 if ( inline is EmphasisInline emphasisInline )
                 {
                     if ( emphasisInline.DelimiterCount == 2 )
-                        sb.Append( "<Strong>" ).Append( emphasisInline.FirstChild.ToString() ).Append( "</Strong>" );
+                        sb.Append( "<Strong>" ).Append( string.Join( "", emphasisInline ) ).Append( "</Strong>" );
                     else if ( emphasisInline.DelimiterCount == 1 )
-                        sb.Append( "<Text Italic>" ).Append( emphasisInline.FirstChild.ToString() ).Append( "</Text>" );
+                        sb.Append( "<Text Italic>" ).Append( string.Join( "", emphasisInline ) ).Append( "</Text>" );
                 }
                 else if ( inline is LinkInline linkInline )
                 {
                     var title = string.IsNullOrEmpty( linkInline.Title ) ? linkInline.FirstChild?.ToString() : linkInline.Title;
 
                     if ( linkInline.IsImage )
-                        sb.Append( $"<Image Source=\"{linkInline.Url}\" Text=\"{title}\">" ).Append( linkInline.FirstChild?.ToString() ).Append( "</Image>" );
+                        sb.Append( $"<BlogPageImageModal ImageSource=\"{linkInline.Url}\" ImageTitle=\"{title}\" />" );
+                    //sb.Append( $"<Image Source=\"{linkInline.Url}\" Text=\"{title}\">" ).Append( linkInline.FirstChild?.ToString() ).Append( "</Image>" );
                     else
                         sb.Append( $"<Anchor To=\"{linkInline.Url}\" Title=\"Link to {title}\">" ).Append( linkInline.FirstChild?.ToString() ).Append( "</Anchor>" );
                 }
@@ -162,22 +171,30 @@ namespace Blazorise.Docs.Compiler
 
                 sb.Append( "".PadLeft( IndentSize * 2, ' ' ) );
 
-                if ( listItem.Count > 0 && listItem[0] is ParagraphBlock paragraphBlock )
+                foreach ( var block in listItem )
                 {
-                    AddInlines( paragraphBlock.Inline );
+                    if ( block is ParagraphBlock paragraphBlock )
+                    {
+                        AddInlines( paragraphBlock.Inline );
+                    }
+                    else if ( block is FencedCodeBlock fencedCodeBlock )
+                    {
+                        PersistCodeBlock( fencedCodeBlock, 2 );
+                    }
                 }
 
                 sb.Append( "".PadLeft( IndentSize, ' ' ) );
                 sb.Append( "</BlogPageListItem>" ).Append( NewLine );
             }
 
-
             sb.Append( "</BlogPageList>" ).Append( NewLine ).Append( NewLine );
         }
 
-        public string AddCodeBlock( FencedCodeBlock fencedCodeBlock, string codeBlockName )
+        public string AddCodeBlock( FencedCodeBlock fencedCodeBlock, string codeBlockName, int indentLevel )
         {
             var formatter = new HtmlClassFormatter();
+
+            sb.Append( "".PadLeft( IndentSize * indentLevel, ' ' ) );
 
             sb.Append( $"<BlogPageSourceBlock Code=\"{codeBlockName}" );
 
@@ -188,9 +205,40 @@ namespace Blazorise.Docs.Compiler
 
             sb.Append( "\"" );
 
-            sb.Append( " />" ).Append( NewLine ).Append( NewLine );
+            sb.Append( " />" ).Append( NewLine );
+
+            if ( indentLevel == 0 )
+                sb.Append( NewLine );
 
             return builtCodeBlock;
+        }
+
+        public void PersistCodeBlock( FencedCodeBlock fencedCodeBlock, int indentLevel )
+        {
+            var codeBlockName = fencedCodeBlock.Info != null && fencedCodeBlock.Info.IndexOf( '|' ) > 0
+                                ? $"{blogName}_{fencedCodeBlock.Info.Substring( fencedCodeBlock.Info.IndexOf( '|' ) + 1 )}"
+                                : $"{blogName}{( ++codeIndex )}";
+
+            var codeBlockFileName = Path.Combine( blogDirectory, "Code", $"{codeBlockName}Code.html" );
+            var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
+            var currentCodeBlock = string.Empty;
+
+            if ( !Directory.Exists( codeBlockDirectory ) )
+            {
+                Directory.CreateDirectory( codeBlockDirectory );
+            }
+
+            var builtCodeBlock = AddCodeBlock( fencedCodeBlock, codeBlockName, indentLevel );
+
+            if ( File.Exists( codeBlockFileName ) )
+            {
+                currentCodeBlock = File.ReadAllText( codeBlockFileName );
+            }
+
+            if ( currentCodeBlock != builtCodeBlock )
+            {
+                File.WriteAllText( codeBlockFileName, builtCodeBlock );
+            }
         }
 
         static string ParseCodeBlock( FencedCodeBlock fencedCodeBlock )
