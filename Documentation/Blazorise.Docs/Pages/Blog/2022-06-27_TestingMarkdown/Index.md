@@ -1,10 +1,14 @@
 ﻿---
-title: Blog Test
-description: Blog description
-permalink: /blog/test
-canonical: /blog/test
+title: Blazorise Form Validation With Data Annotations: A Beginner's Guide
+description: Learn how to create Blazorise form validation without model.
+permalink: /blog/blazor-form-validation-with-data-annotations
+canonical: /blog/blazor-form-validation-with-data-annotations
 image-url: img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png
 image-title: Blazorise Form Validation With Data Annotations: A Beginner's Guide
+author-name: Mladen Macanović
+author-image: mladen
+posted-on: June 9th, 2022
+read-time: 5 min
 ---
 
 # Blazorise Form Validation With Data Annotations: A Beginner's Guide
@@ -358,6 +362,12 @@ In the left-hand navigation menu, click the **Home** button. The output will the
 
 ![Form Validation Opened](img/blog/2022-06-09/Form-Validation-Opened.png)
 
+Try to partially fill the form and click on the <Strong>Validate and Submit</Strong> button. You should see some of the errors.
+
+If you fill the entire form form and submit you should see the following message.
+
+![Form Validation Opened](img/blog/2022-06-09/Form-Validation-Success.png)
+
 Thus, we have created the form and included the Blazorise form validation in our Blazor WebAssembly application.
 
 ## GitHub Reference
@@ -372,4 +382,4 @@ Download our [Blazorise NuGet](https://www.nuget.org/profiles/Megabit) to try ou
 
 ## Related blogs
 
-1. [How to create a Blazorise WASM application: A Beginner's Guide](blog/how-to-create-a-blazorise-application-beginners-guide)
+- [How to create a Blazorise WASM application: A Beginner's Guide](blog/how-to-create-a-blazorise-application-beginners-guide)

@@ -29,13 +29,15 @@ namespace Blazorise.Docs.Compiler
                     var markdownFilename = Path.GetFileName( entry );
                     var razorFilename = Path.Combine( directory, markdownFilename.Replace( ".md", ".razor" ) );
 
-                    var markdownText = ParsePageInfo( blogBuilder, File.ReadAllText( entry, Encoding.UTF8 ) );
+                    var (pageInfo, markdownText) = ParsePageInfo( blogBuilder, File.ReadAllText( entry, Encoding.UTF8 ) );
                     var markdownDocument = Markdown.Parse( markdownText );
 
                     var currentPageCode = string.Empty;
                     var builtPageCode = string.Empty;
 
                     var blogName = Path.GetFileName( directory ).Substring( "YYYY-MM-DD_".Length );
+
+                    blogBuilder.AddPageAndSeo( pageInfo.Permalink, pageInfo.Title, pageInfo.Description, pageInfo.ImageUrl, pageInfo.ImageTitle );
 
                     foreach ( var block in markdownDocument )
                     {
@@ -84,6 +86,8 @@ namespace Blazorise.Docs.Compiler
                         }
                     }
 
+                    blogBuilder.AddPagePostInto( pageInfo.AuthorName, pageInfo.AuthorImage, pageInfo.PostedOn, pageInfo.ReadTime );
+
                     if ( File.Exists( razorFilename ) )
                     {
                         currentPageCode = File.ReadAllText( razorFilename );
@@ -112,47 +116,51 @@ namespace Blazorise.Docs.Compiler
         /// <param name="blogBuilder"></param>
         /// <param name="markdownText"></param>
         /// <returns></returns>
-        private string ParsePageInfo( BlogBuilder blogBuilder, string markdownText )
+        private (PageInfo, string) ParsePageInfo( BlogBuilder blogBuilder, string markdownText )
         {
+            PageInfo pageInfo = new PageInfo();
+
             if ( markdownText.StartsWith( "---" ) )
             {
                 var seoEnding = markdownText.IndexOf( "---", 3 );
 
-                var pageInfo = markdownText.Substring( 3, seoEnding - 3 ).Trim().Split( '\n' );
+                var pageInfoString = markdownText.Substring( 3, seoEnding - 3 ).Trim().Split( '\n' );
 
-                string title = null;
-                string description = null;
-                string permalink = null;
-                string imageUrl = null;
-                string imageTitle = null;
-
-                foreach ( var line in pageInfo )
+                foreach ( var line in pageInfoString )
                 {
                     if ( line.StartsWith( "title:" ) )
-                        title = line.Substring( "title:".Length + 1 ).Trim();
+                        pageInfo.Title = line.Substring( "title:".Length + 1 ).Trim();
                     else if ( line.StartsWith( "description:" ) )
-                        description = line.Substring( "description:".Length + 1 ).Trim();
+                        pageInfo.Description = line.Substring( "description:".Length + 1 ).Trim();
                     else if ( line.StartsWith( "permalink:" ) )
-                        permalink = line.Substring( "permalink:".Length + 1 ).Trim();
+                        pageInfo.Permalink = line.Substring( "permalink:".Length + 1 ).Trim();
                     else if ( line.StartsWith( "image-url:" ) )
-                        imageUrl = line.Substring( "image-url:".Length + 1 ).Trim();
+                        pageInfo.ImageUrl = line.Substring( "image-url:".Length + 1 ).Trim();
                     else if ( line.StartsWith( "image-title:" ) )
-                        imageTitle = line.Substring( "image-title:".Length + 1 ).Trim();
+                        pageInfo.ImageTitle = line.Substring( "image-title:".Length + 1 ).Trim();
+                    else if ( line.StartsWith( "author-name:" ) )
+                        pageInfo.AuthorName = line.Substring( "author-name:".Length + 1 ).Trim();
+                    else if ( line.StartsWith( "author-image:" ) )
+                        pageInfo.AuthorImage = line.Substring( "author-image:".Length + 1 ).Trim();
+                    else if ( line.StartsWith( "posted-on:" ) )
+                        pageInfo.PostedOn = line.Substring( "posted-on:".Length + 1 ).Trim();
+                    else if ( line.StartsWith( "read-time:" ) )
+                        pageInfo.ReadTime = line.Substring( "read-time:".Length + 1 ).Trim();
                 }
 
-                blogBuilder.AddPageAndSeo( permalink, title, description, imageUrl, imageTitle );
 
-                return markdownText.Substring( seoEnding + 3 ).TrimStart();
+
+                markdownText = markdownText.Substring( seoEnding + 3 ).TrimStart();
             }
 
-            return markdownText;
+            return (pageInfo, markdownText);
         }
 
         class PageInfo
         {
             public string Title { get; set; }
 
-            public string DescriptioD { get; set; }
+            public string Description { get; set; }
 
             public string Permalink { get; set; }
 

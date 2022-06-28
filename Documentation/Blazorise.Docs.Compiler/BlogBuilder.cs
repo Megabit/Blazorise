@@ -26,6 +26,11 @@ namespace Blazorise.Docs.Compiler
             sb.Append( $"<BlogPageImage Source=\"{imageUrl}\" Text=\"{imageTitle}\" />" ).Append( '\n' ).Append( '\n' );
         }
 
+        public void AddPagePostInto( string authorName, string authorImage, string postedOn, string readTime )
+        {
+            sb.Append( $"<BlogPagePostInto UserName=\"{authorName}\" ImageName=\"{authorImage}\" PostedOn=\"{postedOn}\" Read=\"{readTime}\" />" ).Append( '\n' ).Append( '\n' );
+        }
+
         private void AddInlines( ContainerInline containerInline )
         {
             foreach ( var inline in containerInline )
@@ -142,7 +147,12 @@ namespace Blazorise.Docs.Compiler
 
         public void AddPageList( ListBlock listBlock )
         {
-            sb.Append( $"<BlogPageList Ordered=\"{listBlock.IsOrdered.ToString().ToLowerInvariant()}\">" ).Append( '\n' );
+            sb.Append( $"<BlogPageList" );
+
+            if ( listBlock.IsOrdered )
+                sb.Append( " Ordered" );
+
+            sb.Append( ">" ).Append( '\n' );
 
             foreach ( ListItemBlock listItem in listBlock )
             {
