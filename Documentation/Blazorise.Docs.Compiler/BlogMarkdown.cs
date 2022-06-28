@@ -23,48 +23,64 @@ namespace Blazorise.Docs.Compiler
 
                 foreach ( var entry in markdownFiles.OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
                 {
-                    var bb = new BlogBuilder();
+                    var blogBuilder = new BlogBuilder();
 
                     var directory = Path.GetDirectoryName( entry );
                     var markdownFilename = Path.GetFileName( entry );
                     var razorFilename = Path.Combine( directory, markdownFilename.Replace( ".md", ".razor" ) );
 
-                    var markdownText = ParsePageInfo( bb, File.ReadAllText( entry, Encoding.UTF8 ) );
+                    var markdownText = ParsePageInfo( blogBuilder, File.ReadAllText( entry, Encoding.UTF8 ) );
                     var markdownDocument = Markdown.Parse( markdownText );
 
                     var currentPageCode = string.Empty;
                     var builtPageCode = string.Empty;
 
-
+                    var blogName = Path.GetFileName( directory ).Substring( "YYYY-MM-DD_".Length );
 
                     foreach ( var block in markdownDocument )
                     {
                         if ( block is HeadingBlock headingBlock )
                         {
                             if ( headingBlock.Level == 1 )
-                                bb.AddPageTitle( headingBlock );
+                                blogBuilder.AddPageTitle( headingBlock );
                             else if ( headingBlock.Level == 2 )
-                                bb.AddPageSubtitle( headingBlock );
+                                blogBuilder.AddPageSubtitle( headingBlock );
                         }
                         else if ( block is ParagraphBlock paragraphBlock )
                         {
-                            bb.AddPageParagraph( paragraphBlock );
+                            blogBuilder.AddPageParagraph( paragraphBlock );
+                        }
+                        else if ( block is QuoteBlock quoteBlock )
+                        {
+                            blogBuilder.AddPageQuote( quoteBlock );
                         }
                         else if ( block is ListBlock listBlock )
                         {
-                            bb.AddPageList( listBlock );
+                            blogBuilder.AddPageList( listBlock );
                         }
                         else if ( block is FencedCodeBlock fencedCodeBlock )
                         {
-                            var codeBlockFileName = Path.Combine( directory, "Code", "TestCode.html" );
+                            var codeBlockName = $"{blogName}{markdownDocument.IndexOf( block )}";
+                            var codeBlockFileName = Path.Combine( directory, "Code", $"{codeBlockName}Code.html" );
                             var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
+                            var currentCodeBlock = string.Empty;
 
                             if ( !Directory.Exists( codeBlockDirectory ) )
                             {
                                 Directory.CreateDirectory( codeBlockDirectory );
                             }
 
-                            bb.AddCodeBlock( fencedCodeBlock, codeBlockFileName );
+                            var builtCodeBlock = blogBuilder.AddCodeBlock( fencedCodeBlock, codeBlockName );
+
+                            if ( File.Exists( codeBlockFileName ) )
+                            {
+                                currentCodeBlock = File.ReadAllText( codeBlockFileName );
+                            }
+
+                            if ( currentCodeBlock != builtCodeBlock )
+                            {
+                                File.WriteAllText( codeBlockFileName, builtCodeBlock );
+                            }
                         }
                     }
 
@@ -73,11 +89,11 @@ namespace Blazorise.Docs.Compiler
                         currentPageCode = File.ReadAllText( razorFilename );
                     }
 
-                    builtPageCode = bb.ToString();
+                    builtPageCode = blogBuilder.ToString();
 
                     if ( currentPageCode != builtPageCode )
                     {
-                        File.WriteAllText( razorFilename, bb.ToString() );
+                        File.WriteAllText( razorFilename, blogBuilder.ToString() );
                     }
                 }
             }
@@ -107,6 +123,8 @@ namespace Blazorise.Docs.Compiler
                 string title = null;
                 string description = null;
                 string permalink = null;
+                string imageUrl = null;
+                string imageTitle = null;
 
                 foreach ( var line in pageInfo )
                 {
@@ -116,14 +134,39 @@ namespace Blazorise.Docs.Compiler
                         description = line.Substring( "description:".Length + 1 ).Trim();
                     else if ( line.StartsWith( "permalink:" ) )
                         permalink = line.Substring( "permalink:".Length + 1 ).Trim();
+                    else if ( line.StartsWith( "image-url:" ) )
+                        imageUrl = line.Substring( "image-url:".Length + 1 ).Trim();
+                    else if ( line.StartsWith( "image-title:" ) )
+                        imageTitle = line.Substring( "image-title:".Length + 1 ).Trim();
                 }
 
-                blogBuilder.AddPageAndSeo( permalink, title, description );
+                blogBuilder.AddPageAndSeo( permalink, title, description, imageUrl, imageTitle );
 
                 return markdownText.Substring( seoEnding + 3 ).TrimStart();
             }
 
             return markdownText;
+        }
+
+        class PageInfo
+        {
+            public string Title { get; set; }
+
+            public string DescriptioD { get; set; }
+
+            public string Permalink { get; set; }
+
+            public string ImageUrl { get; set; }
+
+            public string ImageTitle { get; set; }
+
+            public string AuthorName { get; set; }
+
+            public string AuthorImage { get; set; }
+
+            public string PostedOn { get; set; }
+
+            public string ReadTime { get; set; }
         }
     }
 }

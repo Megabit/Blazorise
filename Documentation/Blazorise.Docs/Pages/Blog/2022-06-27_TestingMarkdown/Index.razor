@@ -2,53 +2,144 @@
 
 <Seo Canonical="/blog/test" Title="Blog Test" Description="Blog description" />
 
+<BlogPageImage Source="img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png" Text="Blazorise Form Validation With Data Annotations: A Beginner's Guide" />
+
 <BlogPageTitle>
-    This is a heading
+    Blazorise Form Validation With Data Annotations: A Beginner's Guide
 </BlogPageTitle>
 
 <BlogPageParagraph>
-    Lorem <Text Italic>italicized text</Text> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec massa sapien faucibus et molestie ac feugiat sed lectus. Vulputate ut pharetra sit amet aliquam id diam. Interdum varius sit amet mattis vulputate enim nulla. Amet consectetur adipiscing elit ut aliquam purus sit amet luctus. Tempor commodo ullamcorper a lacus vestibulum sed arcu. Pellentesque pulvinar pellentesque habitant morbi tristique. Lacus laoreet non curabitur gravida arcu. At tellus at urna condimentum mattis pellentesque id nibh tortor. Consectetur purus ut faucibus pulvinar elementum integer.
-</BlogPageParagraph>
-
-<BlogPageSubtitle>
-    What is Lorem Ipsum?
-</BlogPageSubtitle>
-
-<BlogPageParagraph>
-    Quis <Strong>auctor elit sed vulputate</Strong> mi sit amet mauris. Libero nunc consequat interdum varius. Mi ipsum faucibus vitae aliquet nec ullamcorper sit amet. Volutpat consequat mauris nunc congue nisi vitae suscipit. Iaculis urna id volutpat lacus laoreet non. Elit sed vulputate mi sit amet. Id velit ut tortor pretium viverra suspendisse potenti. Duis ultricies lacus sed turpis tincidunt id aliquet. Montes nascetur ridiculus mus mauris vitae ultricies leo. Feugiat vivamus at augue eget arcu. Mattis enim ut tellus elementum sagittis vitae et leo duis. Ultrices neque ornare aenean euismod elementum nisi. Sollicitudin aliquam ultrices sagittis orci. Amet venenatis urna cursus eget nunc scelerisque. Purus in massa tempor nec feugiat nisl pretium. Id porta nibh venenatis cras sed. Semper risus in hendrerit gravida. Dictumst quisque sagittis purus sit amet volutpat consequat mauris.
+    Validation is critical for any application to obtain reliable data from the user on any data entry form. The Blazorise UI components includes form validation support that makes use of data annotations. It also allows you to use custom validation handlers and regex patterns to solve complex validation problems. Since data annotations are the most popular way of validating forms we will cover it in this blog, and in one of next blogs we will explain some of the other ways of how to do the validation.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Then a code block:
+    Over 80 responsive and lightweight UI controls are available in the Blazorise Blazor component library for building modern web apps.
 </BlogPageParagraph>
 
-<BlogPageSourceBlock Code="Test" />
+<BlogPageParagraph>
+    In this blog post, we will look at how to use Blazorise Blazor UI components to create an edit form for employee details and apply complex validation using data annotations.
+</BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Now lists
+    Prerequisites
 </BlogPageSubtitle>
 
-<BlogPageList Ordered="false">
-    <BlogPageListItem>
-        Value 1
-    </BlogPageListItem>
-    <BlogPageListItem>
-        Value 2
-    </BlogPageListItem>
-    <BlogPageListItem>
-        Value 3
-    </BlogPageListItem>
-</BlogPageList>
+<BlogPageParagraph>
+    It is recommended that you already have a working Blazorise project before we begin. If you don't already have it, you can read our blog post on <Anchor To="blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to How to create a Blazorise WASM application">How to create a Blazorise WASM application</Anchor>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    When you have finished with setting the project make sure that you also have the <Strong>MessageAlert</Strong> defined in the <Strong>App.razor</Strong>. We will use it to give feedback to the user once we have an error or a successfull form submition.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="TestingMarkdown7" />
+
+<BlogPageSubtitle>
+    Creating the Model
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Let's start by creating a new model class file inside the <Strong>Model</Strong> folder with the name <Strong>Employee</Strong>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In this class file, add the class definitions for the Countries and Cities classes with the required properties and methods to generate the appropriate data for the dropdown list.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Refer to the following code example.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="TestingMarkdown12" />
+
+<BlogPageParagraph>
+    We've now created the <Strong>Employee</Strong> class and annotated all of its properties with the <Strong>[</Strong> attribute.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Creating the Page form
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    We will create new form in the <Strong>Index.razor</Strong> file under the <Strong>Pages</Strong> folder.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    On this page we will structure a fairly simple form structure that represents a form where we will ask for an employee data.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Refer to the following code example.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="TestingMarkdown18" />
+
+<BlogPageSubtitle>
+    Breakdown
+</BlogPageSubtitle>
+
+<BlogPageImageModal ImageSource="img/blog/2022-06-09/Explaining-Validation-Parts.png" ImageTitle="Explaining Validation Parts" />
 
 <BlogPageList Ordered="true">
     <BlogPageListItem>
-        Value 1
+        We use <Code Tag>Validations</Code> component to group all validations under a single submit request.
     </BlogPageListItem>
     <BlogPageListItem>
-        Value 2
+        <Strong>Model</Strong> parameter is used to give <Strong>Validations</Strong> enough information about the object and attributes that we are validating.
     </BlogPageListItem>
     <BlogPageListItem>
-        Value 3
+        <Strong>ValidateOnLoad</Strong> is set to false so that form is NOT validated when the page is first opened.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        We place <Strong>Feedback</Strong> inside of input component. The reason for this structure is that Blazorise will handle the right HTML structure for you when the components are rendered.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageSubtitle>
+    Executing the demo
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Launch the application if you have modified it in accordance with all of the code samples.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In the left-hand navigation menu, click the <Strong>Home</Strong> button. The output will then look like the image below.
+</BlogPageParagraph>
+
+<BlogPageImageModal ImageSource="img/blog/2022-06-09/Form-Validation-Opened.png" ImageTitle="Form Validation Opened" />
+
+<BlogPageParagraph>
+    Thus, we have created the form and included the Blazorise form validation in our Blazor WebAssembly application.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    GitHub Reference
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    The full source code of the sample from the <Anchor To="https://github.com/Megabit/Blazorise-Samples" Title="Link to ValidationWithDataAnnotations">ValidationWithDataAnnotations</Anchor> in Blazor demo on GitHub.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Conclusion
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Thank you for your time! In this blog, we saw how to use Blazorise UI components to create an edit form and easily apply complex validation using data annotations. Try out the steps in this blog post and leave your comments on our Discord community channel.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Download our <Anchor To="https://www.nuget.org/profiles/Megabit" Title="Link to Blazorise NuGet">Blazorise NuGet</Anchor> to try our Blazor components or purchase our <Anchor To="https://commercial.blazorise.com/" Title="Link to commercial Blazorise web">commercial Blazorise web</Anchor> license to gain access to our support forum. To learn more about other available features, please see our online examples and <Anchor To="docs" Title="Link to documentation">documentation</Anchor>.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Related blogs
+</BlogPageSubtitle>
+
+<BlogPageList Ordered="true">
+    <BlogPageListItem>
+        <Anchor To="blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to How to create a Blazorise WASM application: A Beginner's Guide">How to create a Blazorise WASM application: A Beginner's Guide</Anchor>
     </BlogPageListItem>
 </BlogPageList>
 
