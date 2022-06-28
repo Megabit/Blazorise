@@ -62,7 +62,10 @@ namespace Blazorise.Docs.Compiler
                         }
                         else if ( block is FencedCodeBlock fencedCodeBlock )
                         {
-                            var codeBlockName = $"{blogName}{markdownDocument.IndexOf( block )}";
+                            var codeBlockName = fencedCodeBlock.Info != null && fencedCodeBlock.Info.IndexOf( '|' ) > 0
+                                ? $"{blogName}_{fencedCodeBlock.Info.Substring( fencedCodeBlock.Info.IndexOf( '|' ) + 1 )}"
+                                : $"{blogName}{markdownDocument.IndexOf( block )}";
+
                             var codeBlockFileName = Path.Combine( directory, "Code", $"{codeBlockName}Code.html" );
                             var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
                             var currentCodeBlock = string.Empty;

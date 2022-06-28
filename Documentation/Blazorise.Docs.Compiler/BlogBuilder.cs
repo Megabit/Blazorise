@@ -11,6 +11,7 @@ namespace Blazorise.Docs.Compiler
     {
         private readonly StringBuilder sb;
         private const int IndentSize = 4;
+        private string NewLine = "\r\n";
 
         public BlogBuilder()
         {
@@ -19,16 +20,16 @@ namespace Blazorise.Docs.Compiler
 
         public void AddPageAndSeo( string url, string title, string description, string imageUrl, string imageTitle )
         {
-            sb.Append( $"@page \"{url}\"" ).Append( '\n' ).Append( '\n' );
+            sb.Append( $"@page \"{url}\"" ).Append( NewLine ).Append( NewLine );
 
-            sb.Append( $"<Seo Canonical=\"{url}\" Title=\"{title}\" Description=\"{description}\" />" ).Append( '\n' ).Append( '\n' );
+            sb.Append( $"<Seo Canonical=\"{url}\" Title=\"{title}\" Description=\"{description}\" />" ).Append( NewLine ).Append( NewLine );
 
-            sb.Append( $"<BlogPageImage Source=\"{imageUrl}\" Text=\"{imageTitle}\" />" ).Append( '\n' ).Append( '\n' );
+            sb.Append( $"<BlogPageImage Source=\"{imageUrl}\" Text=\"{imageTitle}\" />" ).Append( NewLine ).Append( NewLine );
         }
 
         public void AddPagePostInto( string authorName, string authorImage, string postedOn, string readTime )
         {
-            sb.Append( $"<BlogPagePostInto UserName=\"{authorName}\" ImageName=\"{authorImage}\" PostedOn=\"{postedOn}\" Read=\"{readTime}\" />" ).Append( '\n' ).Append( '\n' );
+            sb.Append( $"<BlogPagePostInto UserName=\"{authorName}\" ImageName=\"{authorImage}\" PostedOn=\"{postedOn}\" Read=\"{readTime}\" />" ).Append( NewLine );
         }
 
         private void AddInlines( ContainerInline containerInline )
@@ -68,31 +69,31 @@ namespace Blazorise.Docs.Compiler
                     sb.Append( inline.ToString() );
             }
 
-            sb.Append( '\n' );
+            sb.Append( NewLine );
         }
 
         public void AddPageTitle( HeadingBlock headingBlock )
         {
-            sb.Append( "<BlogPageTitle>" ).Append( '\n' );
+            sb.Append( "<BlogPageTitle>" ).Append( NewLine );
 
             sb.Append( "".PadLeft( IndentSize, ' ' ) );
 
             if ( headingBlock.Inline != null )
                 AddInlines( headingBlock.Inline );
 
-            sb.Append( "</BlogPageTitle>" ).Append( '\n' ).Append( '\n' );
+            sb.Append( "</BlogPageTitle>" ).Append( NewLine ).Append( NewLine );
         }
 
         public void AddPageSubtitle( HeadingBlock headingBlock )
         {
-            sb.Append( "<BlogPageSubtitle>" ).Append( '\n' );
+            sb.Append( "<BlogPageSubtitle>" ).Append( NewLine );
 
             sb.Append( "".PadLeft( IndentSize, ' ' ) );
 
             if ( headingBlock.Inline != null )
                 AddInlines( headingBlock.Inline );
 
-            sb.Append( "</BlogPageSubtitle>" ).Append( '\n' ).Append( '\n' );
+            sb.Append( "</BlogPageSubtitle>" ).Append( NewLine ).Append( NewLine );
         }
 
         public void AddPageParagraph( ParagraphBlock paragraphBlock )
@@ -104,18 +105,18 @@ namespace Blazorise.Docs.Compiler
             {
                 var title = string.IsNullOrEmpty( linkInline.Title ) ? linkInline.FirstChild?.ToString() : linkInline.Title;
 
-                sb.Append( $"<BlogPageImageModal ImageSource=\"{linkInline.Url}\" ImageTitle=\"{title}\" />" ).Append( '\n' ).Append( '\n' );
+                sb.Append( $"<BlogPageImageModal ImageSource=\"{linkInline.Url}\" ImageTitle=\"{title}\" />" ).Append( NewLine ).Append( NewLine );
             }
             else
             {
-                sb.Append( "<BlogPageParagraph>" ).Append( '\n' );
+                sb.Append( "<BlogPageParagraph>" ).Append( NewLine );
 
                 sb.Append( "".PadLeft( IndentSize, ' ' ) );
 
                 if ( paragraphBlock.Inline != null )
                     AddInlines( paragraphBlock.Inline );
 
-                sb.Append( "</BlogPageParagraph>" ).Append( '\n' ).Append( '\n' );
+                sb.Append( "</BlogPageParagraph>" ).Append( NewLine ).Append( NewLine );
             }
         }
 
@@ -125,11 +126,11 @@ namespace Blazorise.Docs.Compiler
             {
                 if ( block is ParagraphBlock paragraphBlock )
                 {
-                    sb.Append( "<BlogPageParagraph>" ).Append( '\n' );
+                    sb.Append( "<BlogPageParagraph>" ).Append( NewLine );
 
                     sb.Append( "".PadLeft( IndentSize, ' ' ) );
 
-                    sb.Append( "<Blockquote>" ).Append( '\n' );
+                    sb.Append( "<Blockquote>" ).Append( NewLine );
 
                     sb.Append( "".PadLeft( IndentSize * 2, ' ' ) );
 
@@ -138,9 +139,9 @@ namespace Blazorise.Docs.Compiler
 
                     sb.Append( "".PadLeft( IndentSize, ' ' ) );
 
-                    sb.Append( "</Blockquote>" ).Append( '\n' );
+                    sb.Append( "</Blockquote>" ).Append( NewLine );
 
-                    sb.Append( "</BlogPageParagraph>" ).Append( '\n' ).Append( '\n' );
+                    sb.Append( "</BlogPageParagraph>" ).Append( NewLine ).Append( NewLine );
                 }
             }
         }
@@ -152,12 +153,12 @@ namespace Blazorise.Docs.Compiler
             if ( listBlock.IsOrdered )
                 sb.Append( " Ordered" );
 
-            sb.Append( ">" ).Append( '\n' );
+            sb.Append( ">" ).Append( NewLine );
 
             foreach ( ListItemBlock listItem in listBlock )
             {
                 sb.Append( "".PadLeft( IndentSize, ' ' ) );
-                sb.Append( "<BlogPageListItem>" ).Append( '\n' );
+                sb.Append( "<BlogPageListItem>" ).Append( NewLine );
 
                 sb.Append( "".PadLeft( IndentSize * 2, ' ' ) );
 
@@ -167,11 +168,11 @@ namespace Blazorise.Docs.Compiler
                 }
 
                 sb.Append( "".PadLeft( IndentSize, ' ' ) );
-                sb.Append( "</BlogPageListItem>" ).Append( '\n' );
+                sb.Append( "</BlogPageListItem>" ).Append( NewLine );
             }
 
 
-            sb.Append( "</BlogPageList>" ).Append( '\n' ).Append( '\n' );
+            sb.Append( "</BlogPageList>" ).Append( NewLine ).Append( NewLine );
         }
 
         public string AddCodeBlock( FencedCodeBlock fencedCodeBlock, string codeBlockName )
@@ -183,11 +184,11 @@ namespace Blazorise.Docs.Compiler
             var parsedCodeBlock = ParseCodeBlock( fencedCodeBlock );
 
             var builtCodeBlock = new MarkupBuilder( formatter )
-                .Build( parsedCodeBlock, fencedCodeBlock.Info == "cs" || fencedCodeBlock.Info == "csharp" );
+                .Build( parsedCodeBlock, fencedCodeBlock.Info != null && ( fencedCodeBlock.Info.StartsWith( "csharp" ) || fencedCodeBlock.Info.StartsWith( "cs" ) ) );
 
             sb.Append( "\"" );
 
-            sb.Append( " />" ).Append( '\n' ).Append( '\n' );
+            sb.Append( " />" ).Append( NewLine ).Append( NewLine );
 
             return builtCodeBlock;
         }
