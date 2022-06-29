@@ -243,14 +243,7 @@ namespace Blazorise.Docs.Compiler
 
         static string ParseCodeBlock( FencedCodeBlock fencedCodeBlock )
         {
-            var sb = new StringBuilder();
-
-            foreach ( StringLine line in fencedCodeBlock.Lines )
-            {
-                sb.AppendLine( line.ToString() );
-            }
-
-            return sb.ToString();
+            return string.Join( "\r\n", fencedCodeBlock.Lines );
         }
 
         public override string ToString()

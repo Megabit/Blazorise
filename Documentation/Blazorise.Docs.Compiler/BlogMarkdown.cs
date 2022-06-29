@@ -31,8 +31,8 @@ namespace Blazorise.Docs.Compiler
                     var blogName = Path.GetFileName( blogDirectory ).Substring( "YYYY-MM-DD_".Length );
                     var blogBuilder = new BlogBuilder( blogName, blogDirectory );
 
-                    var (pageInfo, markdownText) = ParsePageInfo( blogBuilder, File.ReadAllText( entry, Encoding.UTF8 ) );
-                    var markdownDocument = Markdown.Parse( markdownText );
+                    var pageInfo = ParsePageInfo( blogBuilder, File.ReadAllText( entry, Encoding.UTF8 ) );
+                    var markdownDocument = Markdown.Parse( pageInfo.MarkdownText );
 
                     var currentPageCode = string.Empty;
                     var builtPageCode = string.Empty;
@@ -41,28 +41,26 @@ namespace Blazorise.Docs.Compiler
 
                     foreach ( var block in markdownDocument )
                     {
-                        if ( block is HeadingBlock headingBlock )
+                        switch ( block )
                         {
-                            if ( headingBlock.Level == 1 )
-                                blogBuilder.AddPageTitle( headingBlock );
-                            else if ( headingBlock.Level == 2 )
-                                blogBuilder.AddPageSubtitle( headingBlock );
-                        }
-                        else if ( block is ParagraphBlock paragraphBlock )
-                        {
-                            blogBuilder.AddPageParagraph( paragraphBlock );
-                        }
-                        else if ( block is QuoteBlock quoteBlock )
-                        {
-                            blogBuilder.AddPageQuote( quoteBlock );
-                        }
-                        else if ( block is ListBlock listBlock )
-                        {
-                            blogBuilder.AddPageList( listBlock );
-                        }
-                        else if ( block is FencedCodeBlock fencedCodeBlock )
-                        {
-                            blogBuilder.PersistCodeBlock( fencedCodeBlock, 0 );
+                            case HeadingBlock headingBlock:
+                                if ( headingBlock.Level == 1 )
+                                    blogBuilder.AddPageTitle( headingBlock );
+                                else if ( headingBlock.Level == 2 )
+                                    blogBuilder.AddPageSubtitle( headingBlock );
+                                break;
+                            case ParagraphBlock paragraphBlock:
+                                blogBuilder.AddPageParagraph( paragraphBlock );
+                                break;
+                            case QuoteBlock quoteBlock:
+                                blogBuilder.AddPageQuote( quoteBlock );
+                                break;
+                            case ListBlock listBlock:
+                                blogBuilder.AddPageList( listBlock );
+                                break;
+                            case FencedCodeBlock fencedCodeBlock:
+                                blogBuilder.PersistCodeBlock( fencedCodeBlock, 0 );
+                                break;
                         }
                     }
 
@@ -96,12 +94,17 @@ namespace Blazorise.Docs.Compiler
         /// <param name="blogBuilder"></param>
         /// <param name="markdownText"></param>
         /// <returns></returns>
-        private (PageInfo, string) ParsePageInfo( BlogBuilder blogBuilder, string markdownText )
+        private PageInfo ParsePageInfo( BlogBuilder blogBuilder, string markdownText )
         {
-            PageInfo pageInfo = new PageInfo();
+            PageInfo pageInfo = new PageInfo()
+            {
+                MarkdownText = markdownText
+            };
 
             if ( markdownText.StartsWith( "---" ) )
             {
+                var subString = ( string line ) => line.Substring( line.Length + 1 ).Trim();
+
                 var seoEnding = markdownText.IndexOf( "---", 3 );
 
                 var pageInfoString = markdownText.Substring( 3, seoEnding - 3 ).Trim().Split( '\n' );
@@ -128,12 +131,10 @@ namespace Blazorise.Docs.Compiler
                         pageInfo.ReadTime = line.Substring( "read-time:".Length + 1 ).Trim();
                 }
 
-
-
-                markdownText = markdownText.Substring( seoEnding + 3 ).TrimStart();
+                pageInfo.MarkdownText = markdownText.Substring( seoEnding + 3 ).TrimStart();
             }
 
-            return (pageInfo, markdownText);
+            return pageInfo;
         }
 
         class PageInfo
@@ -155,6 +156,8 @@ namespace Blazorise.Docs.Compiler
             public string PostedOn { get; set; }
 
             public string ReadTime { get; set; }
+
+            public string MarkdownText { get; set; }
         }
     }
 }
