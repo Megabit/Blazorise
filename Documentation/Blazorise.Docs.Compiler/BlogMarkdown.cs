@@ -14,12 +14,11 @@ namespace Blazorise.Docs.Compiler
     {
         public bool Execute()
         {
-            var paths = new Paths();
             var success = true;
 
             try
             {
-                var dirPath = paths.DirPath();
+                var dirPath = Paths.DirPath();
                 var markdownFiles = Directory.EnumerateFiles( dirPath, "*.md", SearchOption.AllDirectories );
 
                 foreach ( var entry in markdownFiles.OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
@@ -81,7 +80,7 @@ namespace Blazorise.Docs.Compiler
             }
             catch ( Exception e )
             {
-                Console.WriteLine( $"Error generating blogs {paths.SnippetsFilePath} : {e.Message}" );
+                Console.WriteLine( $"Error generating blogs {Paths.SnippetsFilePath} : {e.Message}" );
                 success = false;
             }
 

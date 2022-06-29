@@ -11,7 +11,6 @@ namespace Blazorise.Docs.Compiler
     {
         public bool Execute()
         {
-            var paths = new Paths();
             var newFiles = new StringBuilder();
             var success = true;
             var noOfFilesUpdated = 0;
@@ -21,13 +20,13 @@ namespace Blazorise.Docs.Compiler
             {
                 var formatter = new HtmlClassFormatter();
                 var lastCheckedTime = new DateTime();
-                if ( File.Exists( paths.NewFilesToBuildPath() ) )
+                if ( File.Exists( Paths.NewFilesToBuildPath() ) )
                 {
-                    var lastNewFilesToBuild = new FileInfo( paths.NewFilesToBuildPath() );
+                    var lastNewFilesToBuild = new FileInfo( Paths.NewFilesToBuildPath() );
                     lastCheckedTime = lastNewFilesToBuild.LastWriteTime;
                 }
 
-                var dirPath = paths.DirPath();
+                var dirPath = Paths.DirPath();
                 var directoryInfo = new DirectoryInfo( dirPath );
 
                 var razorFiles = directoryInfo.GetFiles( "*.razor", SearchOption.AllDirectories );
@@ -90,7 +89,7 @@ namespace Blazorise.Docs.Compiler
                     }
                 }
 
-                File.WriteAllText( paths.NewFilesToBuildPath(), newFiles.ToString() );
+                File.WriteAllText( Paths.NewFilesToBuildPath(), newFiles.ToString() );
             }
             catch ( Exception e )
             {
