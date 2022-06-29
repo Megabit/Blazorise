@@ -102,13 +102,6 @@ namespace Blazorise.Docs.Compiler
             return success;
         }
 
-        private static string StripComponentSource( string path )
-        {
-            var source = File.ReadAllText( path, Encoding.UTF8 );
-            source = Regex.Replace( source, "@(namespace|layout|page) .+?\n", string.Empty );
-            return source.Trim();
-        }
-
         public static string AttributePostprocessing( string html )
         {
             return Regex.Replace(
