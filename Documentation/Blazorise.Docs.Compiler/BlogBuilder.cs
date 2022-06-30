@@ -190,7 +190,7 @@ namespace Blazorise.Docs.Compiler
             sb.Append( "</BlogPageList>" ).Append( NewLine ).Append( NewLine );
         }
 
-        public string AddCodeBlock( FencedCodeBlock fencedCodeBlock, string codeBlockName, int indentLevel )
+        public (string builtCodeBlock, string parsedCodeBlock) AddCodeBlock( FencedCodeBlock fencedCodeBlock, string codeBlockName, int indentLevel )
         {
             var formatter = new HtmlClassFormatter();
 
@@ -210,7 +210,7 @@ namespace Blazorise.Docs.Compiler
             if ( indentLevel == 0 )
                 sb.Append( NewLine );
 
-            return builtCodeBlock;
+            return (builtCodeBlock, parsedCodeBlock);
         }
 
         public void PersistCodeBlock( FencedCodeBlock fencedCodeBlock, int indentLevel )
@@ -220,24 +220,42 @@ namespace Blazorise.Docs.Compiler
                                 : $"{blogName}{( ++codeIndex )}";
 
             var codeBlockFileName = Path.Combine( blogDirectory, "Code", $"{codeBlockName}Code.html" );
+            var codeBlockExampleFileName = Path.Combine( blogDirectory, "Examples", $"{codeBlockName}.snippet" );
             var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
+            var codeBlockExamplesDirectory = Path.GetDirectoryName( codeBlockExampleFileName );
             var currentCodeBlock = string.Empty;
+            var currentCodeBlockExample = string.Empty;
 
             if ( !Directory.Exists( codeBlockDirectory ) )
             {
                 Directory.CreateDirectory( codeBlockDirectory );
             }
 
-            var builtCodeBlock = AddCodeBlock( fencedCodeBlock, codeBlockName, indentLevel );
+            if ( !Directory.Exists( codeBlockExamplesDirectory ) )
+            {
+                Directory.CreateDirectory( codeBlockExamplesDirectory );
+            }
+
+            var (builtCodeBlock, parsedCodeBlock) = AddCodeBlock( fencedCodeBlock, codeBlockName, indentLevel );
 
             if ( File.Exists( codeBlockFileName ) )
             {
                 currentCodeBlock = File.ReadAllText( codeBlockFileName );
             }
 
+            if ( File.Exists( codeBlockExampleFileName ) )
+            {
+                currentCodeBlockExample = File.ReadAllText( codeBlockExampleFileName );
+            }
+
             if ( currentCodeBlock != builtCodeBlock )
             {
                 File.WriteAllText( codeBlockFileName, builtCodeBlock );
+            }
+
+            if ( currentCodeBlockExample != parsedCodeBlock )
+            {
+                File.WriteAllText( codeBlockExampleFileName, parsedCodeBlock );
             }
         }
 
