@@ -218,7 +218,7 @@
         overflow-wrap: break-word;
     }
 
-    a:not(.dropdown-item) {
+    a:not(.dropdown-item):not(.page-link) {
         color: #3f4d62;
         border-bottom: 2px solid var(--b-theme-primary);
         text-decoration: none;

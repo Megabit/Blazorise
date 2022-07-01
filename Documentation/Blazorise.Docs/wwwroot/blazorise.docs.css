@@ -433,13 +433,13 @@ html, body * {
   width: 150px;
   overflow-wrap: break-word;
 }
-.b-docs-page a:not(.dropdown-item) {
+.b-docs-page a:not(.dropdown-item):not(.page-link) {
   color: #3f4d62;
   border-bottom: 2px solid var(--b-theme-primary);
   text-decoration: none;
   transition: color 0.5s ease-in-out;
 }
-.b-docs-page a:not(.dropdown-item):hover {
+.b-docs-page a:not(.dropdown-item):not(.page-link):hover {
   color: var(--b-theme-primary);
 }
 
