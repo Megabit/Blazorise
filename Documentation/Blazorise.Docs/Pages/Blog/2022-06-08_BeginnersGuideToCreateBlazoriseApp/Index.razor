@@ -1,15 +1,15 @@
-﻿@page "/blog/how-to-create-a-blazorise-application-beginners-guide"
+@page "/blog/how-to-create-a-blazorise-application-beginners-guide"
 
-<Seo Canonical="blog/how-to-create-a-blazorise-application-beginners-guide" Title="How to create a Blazorise application: A Beginner's Guide" Description="Learn How to create a Blazorise application: A Beginner's Guide." />
+<Seo Canonical="/blog/how-to-create-a-blazorise-application-beginners-guide" Title="How to create a Blazorise WASM application: A Beginner's Guide" Description="Learn How to create a Blazorise WASM application: A Beginner's Guide." />
 
-<BlogPageImage Source="img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png" Text="Blazorise Form Without Model" />
+<BlogPageImage Source="img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png" Text="Blazorise WASM application: A Beginner's Guide" />
 
 <BlogPageTitle>
     How to create a Blazorise WASM application: A Beginner's Guide
 </BlogPageTitle>
 
 <BlogPageParagraph>
-    In this article we will learn how to create a Blazorise WebAssembly (WASM) application. As an example, we will also use basic Blazorise components to setup a simple form.
+    In this <Strong>_Imports.razor</Strong> article we will learn how to create a Blazorise WebAssembly (WASM) application. As an example, we will also use basic Blazorise components to setup a simple form.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -25,12 +25,12 @@
         <Anchor To="https://docs.microsoft.com/en-us/dotnet/core/tools/" Title="Link to .NET CLI">.NET CLI</Anchor> and <Anchor To="https://code.visualstudio.com/" Title="Link to Visual Studio Code">Visual Studio Code</Anchor>: Preferred for Linux.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Anchor To="https://visualstudio.microsoft.com/downloads/" Title="Link to download Visual Studio 2022">Visual Studio 2022</Anchor> and <Anchor To="https://code.visualstudio.com/" Title="Link to Visual Studio Code">Visual Studio Code</Anchor>: Preferred for Windows and macOS.
+        <Anchor To="https://visualstudio.microsoft.com/downloads/" Title="Link to Visual Studio 2022">Visual Studio 2022</Anchor> and <Anchor To="https://code.visualstudio.com/" Title="Link to Visual Studio Code">Visual Studio Code</Anchor>: Preferred for Windows and macOS.
     </BlogPageListItem>
 </BlogPageList>
 
 <BlogPageParagraph>
-    In this tutorial, we are going to use <Anchor To="https://visualstudio.microsoft.com/downloads/" Title="Link to download Visual Studio 2022">Visual Studio 2022</Anchor>. Please install the latest version of Visual Studio 2022. While installing, make sure you have selected the ASP.NET and web development workload.
+    In this tutorial, we are going to use <Anchor To="https://visualstudio.microsoft.com/downloads/" Title="Link to Visual Studio 2022">Visual Studio 2022</Anchor>. Please install the latest version of Visual Studio 2022. While installing, make sure you have selected the ASP.NET and web development workload.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -46,17 +46,13 @@
         Open Visual Studio 2022 and click on the <Strong>Create a new Project</Strong> option.
     </BlogPageListItem>
     <BlogPageListItem>
-        In the Create a new Project dialog that opens, search for <Strong>Blazor</Strong> and select <Strong>Blazor WebAssembly App</Strong> from the search results. Then, click <Strong>Next</Strong>.
-        Refer to the following image.
-        <BlogPageImageModal ImageSource="img/blog/2022-06-08/Create-a-new-project-dialog.png" ImageTitle="Create a new project dialog" />
+        In the Create a new Project dialog that opens, search for <Strong>Blazor</Strong> and select <Strong>Blazor WebAssembly App</Strong> from the search results. Then, click <Strong>Next</Strong>. Refer to the following image. <BlogPageImageModal ImageSource="img/blog/2022-06-08/Create-a-new-project-dialog.png" ImageTitle="Create a new project dialog" />
     </BlogPageListItem>
     <BlogPageListItem>
-        Now you will be at the <Strong>Configure your new project</Strong> dialog. Provide the name for your application. Here, we are naming the application <Strong>BlazoriseSampleApplication</Strong>. Then, click <Strong>Next</Strong>. Refer to the following image.
-        <BlogPageImageModal ImageSource="img/blog/2022-06-08/Configure-your-new-project-dialog.png" ImageTitle="Configure your new project dialog" />
+        Now you will be at the <Strong>Configure your new project</Strong> dialog. Provide the name for your application. Here, we are naming the application <Strong>BlazoriseSampleApplication</Strong>. Then, click <Strong>Next</Strong>. Refer to the following image. <BlogPageImageModal ImageSource="img/blog/2022-06-08/Configure-your-new-project-dialog.png" ImageTitle="Configure your new project dialog" />
     </BlogPageListItem>
     <BlogPageListItem>
-        On the <Strong>Additional information</Strong> page, select the target framework <Strong>.NET 6.0</Strong> and set the authentication type to <Strong>None</Strong>. Also, check the options <Strong>Configure for HTTPS</Strong> and uncheck <Strong>ASP.NET Core hosted</Strong>, and then click on <Strong>Create</Strong>. Refer to the following image.
-        <BlogPageImageModal ImageSource="img/blog/2022-06-08/Additional-information-dialog.png" ImageTitle="Additional information dialog" />
+        On the <Strong>Additional information</Strong> page, select the target framework <Strong>.NET 6.0</Strong> and set the authentication type to <Strong>None</Strong>. Also, check the options <Strong>Configure for HTTPS</Strong> and uncheck <Strong>ASP.NET Core hosted</Strong>, and then click on <Strong>Create</Strong>. Refer to the following image. <BlogPageImageModal ImageSource="img/blog/2022-06-08/Additional-information-dialog.png" ImageTitle="Additional information dialog" />
     </BlogPageListItem>
 </BlogPageList>
 
@@ -70,12 +66,10 @@
 
 <BlogPageList Ordered>
     <BlogPageListItem>
-        Right click on the project in solution explorer and click on <Strong>Manage NuGet Packages</Strong> from the dropdown menu.
-        <BlogPageImageModal ImageSource="img/blog/2022-06-08/Manage-NuGet-Packages.png" ImageTitle="Manage NuGet Packages" />
+        Right click on the project in solution explorer and click on <Strong>Manage NuGet Packages</Strong> from the dropdown menu. <BlogPageImageModal ImageSource="img/blog/2022-06-08/Manage-NuGet-Packages.png" ImageTitle="Manage NuGet Packages" />
     </BlogPageListItem>
     <BlogPageListItem>
-        Navigate to the <Strong>Browse</Strong> tab and search for <Strong>Blazorise</Strong>. To install it, use the <Strong>Blazorise.Bootstrap5</Strong> package. Repeat for <Strong>Blazorise.Icons.FontAwesome</Strong> package.
-        <BlogPageImageModal ImageSource="img/blog/2022-06-08/Install-Blazorise-NuGet.png" ImageTitle="Install Blazorise NuGet" />
+        Navigate to the <Strong>Browse</Strong> tab and search for <Strong>Blazorise</Strong>. To install it, use the <Strong>Blazorise.Bootstrap5</Strong> package. Repeat for <Strong>Blazorise.Icons.FontAwesome</Strong> package. <BlogPageImageModal ImageSource="img/blog/2022-06-08/Install-Blazorise-NuGet.png" ImageTitle="Install Blazorise NuGet" />
     </BlogPageListItem>
     <BlogPageListItem>
         The next step is to change your <Strong>index.html</Strong> and include the Blazorise CSS source files:
@@ -124,7 +118,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Also, you can get the source code of the sample from the <Anchor To="https://github.com/Megabit/Blazorise-Samples">BlazoriseSampleApplication</Anchor> in Blazor demo on GitHub.
+    Also, you can get the source code of the sample from the <Anchor To="https://github.com/Megabit/Blazorise-Samples" Title="Link to BlazoriseSampleApplication">BlazoriseSampleApplication</Anchor> in Blazor demo on GitHub.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
