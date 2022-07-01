@@ -32,7 +32,7 @@ read-time: 5 min
 ---
 ```
 
-Most of the settings should be self-explanatory. The only one that might need some extra work is the `author-image`. The image should be placed in the `wwwroot/img/avatars` under the `Blazorise.Docs.Server` project and in the `*.png` file format.
+Most of the settings should be self-explanatory. The only one that might need some extra work is the `author-image`. The image should be placed in the `wwwroot/img/avatars` under the `Blazorise.Docs.Server` project and in the `*.png` file format. An image should be at least **512x512 px** in size and should be [optimized for minimum size](https://imagecompressor.com/).
 
 After you have written or added a blog content, you can try running the documentation.
 
