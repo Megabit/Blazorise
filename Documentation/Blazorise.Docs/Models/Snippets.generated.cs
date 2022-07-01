@@ -382,7 +382,7 @@ public class Gender
     }
 }";
 
-        public const string SelectComponentWithComplexTypeExample = @"<Row>
+        public const string UsingTheSelectComponent_SelectComponentWithComplexTypeExample = @"<Row>
     <Column>
         <Field>
             <Select TValue=""int"" SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
@@ -424,7 +424,7 @@ public class Gender
     }
 }";
 
-        public const string SelectComponentWithEnumTypeExample = @"@using System.Text.Json.Serialization
+        public const string UsingTheSelectComponent_SelectComponentWithEnumTypeExample = @"@using System.Text.Json.Serialization
 
 <Row>
     <Column>
@@ -462,7 +462,7 @@ public class Gender
     }
 }";
 
-        public const string SelectComponentWithNullableTypeExample = @"<Row>
+        public const string UsingTheSelectComponent_SelectComponentWithNullableTypeExample = @"<Row>
     <Column>
         <Field>
             <Select TValue=""int?"" @bind-SelectedValue=""@selectedEmployeeId"">
@@ -486,7 +486,7 @@ public class Gender
     private int? selectedEmployeeId = null;
 }";
 
-        public const string SelectComponentWithPrimitiveTypeExample = @"<Row>
+        public const string UsingTheSelectComponent_SelectComponentWithPrimitiveTypeExample = @"<Row>
     <Column>
         <Field>
             <Select TValue=""int"">
