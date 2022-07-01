@@ -37,7 +37,7 @@ namespace Blazorise.Docs.Compiler
                 {
                     // We need to skip blog examples becaouse they are generated from markdown code block and we don't want to process them again
                     if ( entry.Name.EndsWith( "Code.razor" )
-                        || entry.FullName.Contains( $"{Path.DirectorySeparatorChar}Blog{Path.DirectorySeparatorChar}", StringComparison.InvariantCultureIgnoreCase ) )
+                        || ( entry.FullName.Contains( $"{Path.DirectorySeparatorChar}Blog{Path.DirectorySeparatorChar}", StringComparison.InvariantCultureIgnoreCase ) && entry.Name.EndsWith( ".snippet" ) ) )
                     {
                         continue;
                     }
