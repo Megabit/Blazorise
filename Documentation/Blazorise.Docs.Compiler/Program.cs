@@ -8,14 +8,14 @@ namespace Blazorise.Docs.Compiler
         static int Main()
         {
             var stopWatch = Stopwatch.StartNew();
-            var success =
-                new BlogMarkdown().Execute()
-                && new CodeSnippets().Execute()
-                && new CodeExamplesMarkup().Execute();
+
+            var blogMarkdownResult = new BlogMarkdown().Execute();
+            var codeSnippetResult = new CodeSnippets().Execute();
+            var codeExamplesResult = new CodeExamplesMarkup().Execute();
 
             Console.WriteLine( $"Blazorise.Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} milliseconds." );
 
-            return success ? 0 : 1;
+            return blogMarkdownResult && codeSnippetResult && codeExamplesResult ? 0 : 1;
         }
     }
 }
