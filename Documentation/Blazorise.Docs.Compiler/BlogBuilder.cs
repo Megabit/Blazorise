@@ -105,6 +105,18 @@ namespace Blazorise.Docs.Compiler
             sb.Append( "</BlogPageSubtitle>" ).Append( NewLine ).Append( NewLine );
         }
 
+        public void AddPageHeading( HeadingBlock headingBlock )
+        {
+            sb.Append( $"<Heading Size=\"HeadingSize.Is{headingBlock.Level}\">" ).Append( NewLine );
+
+            sb.Append( "".PadLeft( IndentSize, ' ' ) );
+
+            if ( headingBlock.Inline != null )
+                AddInlines( headingBlock.Inline );
+
+            sb.Append( "</Heading>" ).Append( NewLine ).Append( NewLine );
+        }
+
         public void AddPageParagraph( ParagraphBlock paragraphBlock )
         {
             if ( paragraphBlock.Inline == null )
@@ -215,12 +227,17 @@ namespace Blazorise.Docs.Compiler
 
         public void PersistCodeBlock( FencedCodeBlock fencedCodeBlock, int indentLevel )
         {
-            var codeBlockName = fencedCodeBlock.Info != null && fencedCodeBlock.Info.IndexOf( '|' ) > 0
+            var codeBlockName = ( fencedCodeBlock.Info != null && fencedCodeBlock.Info.IndexOf( '|' ) > 0
                                 ? $"{blogName}_{fencedCodeBlock.Info.Substring( fencedCodeBlock.Info.IndexOf( '|' ) + 1 )}"
-                                : $"{blogName}{( ++codeIndex )}";
+                                : $"{blogName}{( ++codeIndex )}" );
+
+            var hasRazorFileExtension = codeBlockName.EndsWith( ".razor" );
+
+            if ( hasRazorFileExtension )
+                codeBlockName = codeBlockName.Replace( ".razor", "" );
 
             var codeBlockFileName = Path.Combine( blogDirectory, "Code", $"{codeBlockName}Code.html" );
-            var codeBlockExampleFileName = Path.Combine( blogDirectory, "Examples", $"{codeBlockName}.snippet" );
+            var codeBlockExampleFileName = Path.Combine( blogDirectory, "Examples", hasRazorFileExtension ? $"{codeBlockName}.razor" : $"{codeBlockName}.snippet" );
             var codeBlockDirectory = Path.GetDirectoryName( codeBlockFileName );
             var codeBlockExamplesDirectory = Path.GetDirectoryName( codeBlockExampleFileName );
             var currentCodeBlock = string.Empty;
