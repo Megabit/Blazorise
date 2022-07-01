@@ -47,6 +47,8 @@ namespace Blazorise.Docs.Compiler
                                     blogBuilder.AddPageTitle( headingBlock );
                                 else if ( headingBlock.Level == 2 )
                                     blogBuilder.AddPageSubtitle( headingBlock );
+                                else if ( headingBlock.Level > 2 )
+                                    blogBuilder.AddPageHeading( headingBlock );
                                 break;
                             case ParagraphBlock paragraphBlock:
                                 blogBuilder.AddPageParagraph( paragraphBlock );

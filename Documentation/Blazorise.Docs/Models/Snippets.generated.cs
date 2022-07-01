@@ -382,6 +382,123 @@ public class Gender
     }
 }";
 
+        public const string UsingTheSelectComponent_SelectComponentWithComplexTypeExample = @"<Row>
+    <Column>
+        <Field>
+            <Select TValue=""int"" SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
+                @foreach ( var employee in employeeData )
+                {
+                    <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
+                }
+            </Select>
+        </Field>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Employee is : @selectedEmployee.Name
+    </Column>
+</Row>
+
+@code {
+    public Employee selectedEmployee;
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public List<Employee> employeeData;
+
+    protected override void OnInitialized()
+    {
+        employeeData = new()
+        {
+            new (){ Id = 11500, Name = ""John"" },
+            new (){ Id = 11566, Name = ""Julia"" },
+            new (){ Id = 11612, Name = ""Maria"" },
+            new (){ Id = 10989, Name = ""Peter"" }
+        };
+        selectedEmployee = employeeData.First();
+        base.OnInitialized();
+    }
+}";
+
+        public const string UsingTheSelectComponent_SelectComponentWithEnumTypeExample = @"@using System.Text.Json.Serialization
+
+<Row>
+    <Column>
+        <Field>
+            <Select TValue=""Day"" @bind-SelectedValue=""@selectedDay"">
+                @foreach ( var enumValue in Enum.GetValues<Day>() )
+                {
+                    <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
+                }
+            </Select>
+        </Field>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Day is : @selectedDay.ToString(""g"")
+    </Column>
+</Row>
+
+@code {
+    public Day selectedDay;
+
+    [Flags]
+    [JsonConverter( typeof( System.Text.Json.Serialization.JsonStringEnumConverter ) )]
+    public enum Day
+    {
+        None = 0,
+        Sunday = 1,
+        Monday = 2,
+        Tuesday = 4,
+        Wednesday = 8,
+        Thursday = 16,
+        Friday = 32,
+        Saturday = 64
+    }
+}";
+
+        public const string UsingTheSelectComponent_SelectComponentWithNullableTypeExample = @"<Row>
+    <Column>
+        <Field>
+            <Select TValue=""int?"" @bind-SelectedValue=""@selectedEmployeeId"">
+                <SelectItem Value=""(int?)null""></SelectItem>
+                <SelectItem Value=""11500"">John</SelectItem>
+                <SelectItem Value=""11566"">Julia</SelectItem>
+                <SelectItem Value=""11612"">Maria</SelectItem>
+                <SelectItem Value=""10989"">Peter</SelectItem>
+            </Select>
+        </Field>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        Selected Employee Id is : @(selectedEmployeeId.HasValue ? selectedEmployeeId.Value : ""empty"")
+    </Column>
+</Row>
+
+@code {
+    private int? selectedEmployeeId = null;
+}";
+
+        public const string UsingTheSelectComponent_SelectComponentWithPrimitiveTypeExample = @"<Row>
+    <Column>
+        <Field>
+            <Select TValue=""int"">
+                <SelectItem Value=""11500"">John</SelectItem>
+                <SelectItem Value=""11566"">Julia</SelectItem>
+                <SelectItem Value=""11612"">Maria</SelectItem>
+                <SelectItem Value=""10989"">Peter</SelectItem>
+            </Select>
+        </Field>
+    </Column>
+</Row>";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
