@@ -37,7 +37,8 @@ namespace Blazorise.Tests.Components
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
-            Assert.Equal( startingDataCount + 1, currentDataCount );
+            var expectedResult = startingDataCount + 1;
+            comp.WaitForState( () => expectedResult == comp.Instance.InMemoryData.Count );
         }
 
         [Theory]
