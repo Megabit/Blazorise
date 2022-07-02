@@ -40,7 +40,6 @@ namespace Blazorise.Tests.Components
         [Theory]
         [InlineData( DataGridEditMode.Form )]
         [InlineData( DataGridEditMode.Inline )]
-        [InlineData( DataGridEditMode.Popup )]
         public void New_Should_AddNewItem( DataGridEditMode editMode )
         {
             // setup
@@ -51,7 +50,6 @@ namespace Blazorise.Tests.Components
             // test
             comp.Find( "#btnNew" ).Click();
             comp.Find( "#btnSave" ).Click();
-            Thread.Sleep( 1000 );
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
@@ -61,7 +59,6 @@ namespace Blazorise.Tests.Components
         [Theory]
         [InlineData( DataGridEditMode.Form )]
         [InlineData( DataGridEditMode.Inline )]
-        [InlineData( DataGridEditMode.Popup )]
         public void Edit_Should_UpdateItem( DataGridEditMode editMode )
         {
             // setup
