@@ -433,7 +433,7 @@ namespace Blazorise
         /// True if spin buttons can be shown.
         /// </summary>
         protected bool IsShowStepButtons
-            => ShowStepButtons.GetValueOrDefault( Options?.ShowNumericStepButtons ?? true ) && !( ReadOnly || Disabled ) && IsEnableStep;
+            => ShowStepButtons.GetValueOrDefault( Options?.ShowNumericStepButtons ?? true ) && IsEnableStep;
 
         /// <summary>
         /// True if value can be changed with stepper.

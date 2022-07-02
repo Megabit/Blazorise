@@ -624,6 +624,9 @@ select[readonly] optgroup {
 .b-numeric:hover > .b-numeric-handler-wrap {
   opacity: 1;
 }
+.b-numeric input:disabled + .b-numeric-handler-wrap, .b-numeric input:read-only + .b-numeric-handler-wrap {
+  display: none;
+}
 
 .b-numeric-handler-wrap {
   position: absolute;

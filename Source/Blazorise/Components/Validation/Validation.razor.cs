@@ -189,6 +189,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public ValidationStatus Validate()
         {
+            if ( inputComponent == null )
+                throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
+
             return Validate( inputComponent.ValidationValue );
         }
 
@@ -215,6 +218,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task<ValidationStatus> ValidateAsync()
         {
+            if ( inputComponent == null )
+                throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
+
             return ValidateAsync( inputComponent.ValidationValue );
         }
 
