@@ -126,6 +126,10 @@ namespace Blazorise
             return Task.FromResult( new ParseValue<string>( true, value, null ) );
         }
 
+        /// <inheritdoc/>
+        protected override string FormatValueAsString( string value )
+            => value?.ToString() ?? string.Empty;
+
         /// <summary>
         /// Extends the alias options with the custom settings.
         /// </summary>

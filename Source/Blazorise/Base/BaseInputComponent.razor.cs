@@ -201,6 +201,13 @@ namespace Blazorise
             => value;
 
         /// <summary>
+        /// Check if the internal value is same as the new value.
+        /// </summary>
+        /// <param name="value">Value to check against the internal value.</param>
+        /// <returns>True if the internal value matched the supplied value.</returns>
+        protected virtual bool IsSameAsInternalValue( TValue value ) => value.IsEqual( InternalValue );
+
+        /// <summary>
         /// Raises and event that handles the edit value of Text, Date, Numeric etc.
         /// </summary>
         /// <param name="value">New edit value.</param>
@@ -361,7 +368,7 @@ namespace Blazorise
             get => InternalValue;
             set
             {
-                if ( !value.IsEqual( InternalValue ) )
+                if ( !IsSameAsInternalValue( value ) )
                 {
                     InternalValue = value;
                     InvokeAsync( () => OnInternalValueChanged( value ) );
