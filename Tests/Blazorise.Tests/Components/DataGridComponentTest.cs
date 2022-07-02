@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Threading;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
 using Blazorise.Tests.Helpers;
@@ -50,7 +51,7 @@ namespace Blazorise.Tests.Components
             // test
             comp.Find( "#btnNew" ).Click();
             comp.Find( "#btnSave" ).Click();
-
+            Thread.Sleep( 1000 );
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
