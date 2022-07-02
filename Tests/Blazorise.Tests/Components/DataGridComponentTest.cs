@@ -59,6 +59,7 @@ namespace Blazorise.Tests.Components
         [Theory]
         [InlineData( DataGridEditMode.Form )]
         [InlineData( DataGridEditMode.Inline )]
+        [InlineData( DataGridEditMode.Popup )]
         public void Edit_Should_UpdateItem( DataGridEditMode editMode )
         {
             // setup
