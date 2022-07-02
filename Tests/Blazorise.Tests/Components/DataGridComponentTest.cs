@@ -51,7 +51,6 @@ namespace Blazorise.Tests.Components
             comp.Find( "#btnNew" ).Click();
             comp.Find( "#btnSave" ).Click();
 
-
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
