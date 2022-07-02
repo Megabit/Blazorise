@@ -142,6 +142,10 @@ input[type=button].btn-block {
   width: 100%;
 }
 
+.card-deck .card {
+  height: 100%;
+}
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
   content: none !important;
 }
