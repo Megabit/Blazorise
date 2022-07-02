@@ -38,7 +38,7 @@ namespace Blazorise.Tests.Components
 
             // validate
             var expectedResult = startingDataCount + 1;
-            comp.WaitForState( () => expectedResult == comp.Instance.InMemoryData.Count );
+            comp.WaitForAssertion( () => Assert.Equal(expectedResult, comp.Instance.InMemoryData.Count), System.TimeSpan.FromSeconds(5) );
         }
 
         [Theory]
