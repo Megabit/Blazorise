@@ -178,9 +178,9 @@ namespace Blazorise.Components
             if ( string.IsNullOrEmpty( text ) )
                 await Clear();
 
-            IsLoading = true;
+            Loading = true;
             await SearchChanged.InvokeAsync( CurrentSearch );
-            IsLoading = false;
+            Loading = false;
 
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
@@ -285,9 +285,9 @@ namespace Blazorise.Components
             else
             {
                 CurrentSearch = null;
-                IsLoading = true;
+                Loading = true;
                 await SearchChanged.InvokeAsync( CurrentSearch );
-                IsLoading = false;
+                Loading = false;
             }
 
             SelectedValue = Converters.ChangeType<TValue>( value );
@@ -586,7 +586,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Returns true if SearchChanged has yet to finish.
         /// </summary>
-        protected bool IsLoading { get; set; }
+        protected bool Loading { get; set; }
 
         /// <summary>
         /// Gets the DropdownMenu reference.
@@ -648,7 +648,7 @@ namespace Blazorise.Components
         /// True if the not found content should be visible.
         /// </summary>
         protected bool NotFoundVisible
-            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused && NotFoundContent != null && !IsLoading;
+            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused && NotFoundContent != null && !Loading;
 
         /// <summary>
         /// True if the component has the pre-requirements to search
