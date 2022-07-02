@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
+using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -40,6 +41,7 @@ namespace Blazorise.Tests.Components
         [Theory]
         [InlineData( DataGridEditMode.Form )]
         [InlineData( DataGridEditMode.Inline )]
+        [InlineData( DataGridEditMode.Popup )]
         public void New_Should_AddNewItem( DataGridEditMode editMode )
         {
             // setup
@@ -48,8 +50,8 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.Find( "#btnNew" ).Click();
-            comp.Find( "#btnSave" ).Click();
+            comp.WaitForElementAndClick( "#btnNew" );
+            comp.WaitForElementAndClick( "#btnSave" );
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
@@ -71,12 +73,10 @@ namespace Blazorise.Tests.Components
             // test
             comp.Find( "#btnEdit" ).Click();
 
-            var firstInput = comp.Find( "input" );
-            firstInput.SetAttribute( "value", updatedName );
-            firstInput.Input( updatedName );
+            comp.WaitForElementAndInput( "input", updatedName, 
+                ( firstInput ) => firstInput.SetAttribute( "value", updatedName ));
             
-            var btnSave = comp.Find( "#btnSave" );
-            btnSave.Click();
+            comp.WaitForElementAndClick( "#btnSave" );
 
             var currentName = comp.Instance.InMemoryData[0].Name;
 
@@ -96,7 +96,7 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.Find( "#btnDelete" ).Click();
+            comp.WaitForElementAndClick( "#btnDelete" );
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
