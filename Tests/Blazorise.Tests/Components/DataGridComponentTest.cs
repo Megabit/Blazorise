@@ -53,7 +53,8 @@ namespace Blazorise.Tests.Components
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
-            Assert.Equal( startingDataCount + 1, currentDataCount );
+            var expectedResult = startingDataCount + 1;
+            comp.WaitForAssertion( () => Assert.Equal( expectedResult, comp.Instance.InMemoryData.Count ), System.TimeSpan.FromSeconds( 3 ) );
         }
 
         [Theory]
@@ -80,7 +81,7 @@ namespace Blazorise.Tests.Components
             var currentName = comp.Instance.InMemoryData[0].Name;
 
             // validate
-            Assert.Contains( comp.Instance.InMemoryData, x => x.Name == updatedName );
+            comp.WaitForAssertion( () => Assert.Contains( comp.Instance.InMemoryData, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
         }
 
         [Theory]
@@ -100,7 +101,8 @@ namespace Blazorise.Tests.Components
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
-            Assert.Equal( startingDataCount - 1, currentDataCount );
+            var expectedResult = startingDataCount - 1;
+            comp.WaitForAssertion( () => Assert.Equal( expectedResult, currentDataCount ), System.TimeSpan.FromSeconds( 3 ) );
         }
 
     }
