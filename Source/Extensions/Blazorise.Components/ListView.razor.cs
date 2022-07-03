@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Blazorise.Components.ListView;
 #endregion
 
 namespace Blazorise.Components
@@ -123,6 +124,11 @@ namespace Blazorise.Components
         /// Specifies the content to be rendered inside this <see cref="ListView{TItem}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
+        /// </summary>
+        [Parameter] public RenderFragment<ItemContext<TItem>> ItemContent { get; set; }
 
         #endregion
     }
