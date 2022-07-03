@@ -13,12 +13,12 @@ namespace Blazorise.Tests.Extensions
     {
         private static TimeSpan waitTime = TimeSpan.FromSeconds( 3 );
 
-        public static void WaitForElementAndClick<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent
+        public static void Click<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent
         {
             comp.WaitForElement( selector, waitTime ).Click();
         }
 
-        public static void WaitForElementAndInput<T, TInput>( this IRenderedComponent<T> comp, string selector, TInput value, Action<IElement> action = null ) where T : IComponent
+        public static void Input<T, TInput>( this IRenderedComponent<T> comp, string selector, TInput value, Action<IElement> action = null ) where T : IComponent
         {
             var element = comp.WaitForElement( selector, waitTime );
             if ( action is not null )

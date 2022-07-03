@@ -31,8 +31,8 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.WaitForElementAndClick( "#btnNew" );
-            comp.WaitForElementAndClick( "#btnSave" );
+            comp.Click( "#btnNew" );
+            comp.Click( "#btnSave" );
 
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
@@ -54,15 +54,13 @@ namespace Blazorise.Tests.Components
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
 
             // test
-            comp.WaitForElementAndClick( "tr.table-row-selectable" );
-            comp.WaitForElementAndClick( "#btnEdit" );
+            comp.Click( "tr.table-row-selectable" );
+            comp.Click( "#btnEdit" );
 
+            comp.Input( "input", updatedName,
+                ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
-            var firstInput = comp.Find( "input" );
-            firstInput.SetAttribute( "value", updatedName );
-            firstInput.Input( updatedName );
-
-            comp.WaitForElementAndClick( "#btnSave" );
+            comp.Click( "#btnSave" );
 
             var currentName = comp.Instance.InMemoryData[0].Name;
 
@@ -82,8 +80,8 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.WaitForElementAndClick( "tr.table-row-selectable" );
-            comp.WaitForElementAndClick( "#btnDelete" );
+            comp.Click( "tr.table-row-selectable" );
+            comp.Click( "#btnDelete" );
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 

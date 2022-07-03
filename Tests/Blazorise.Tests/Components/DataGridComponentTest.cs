@@ -50,8 +50,8 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.WaitForElementAndClick( "#btnNew" );
-            comp.WaitForElementAndClick( "#btnSave" );
+            comp.Click( "#btnNew" );
+            comp.Click( "#btnSave" );
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
@@ -73,10 +73,10 @@ namespace Blazorise.Tests.Components
             // test
             comp.Find( "#btnEdit" ).Click();
 
-            comp.WaitForElementAndInput( "input", updatedName, 
+            comp.Input( "input", updatedName, 
                 ( firstInput ) => firstInput.SetAttribute( "value", updatedName ));
             
-            comp.WaitForElementAndClick( "#btnSave" );
+            comp.Click( "#btnSave" );
 
             var currentName = comp.Instance.InMemoryData[0].Name;
 
@@ -96,7 +96,7 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.WaitForElementAndClick( "#btnDelete" );
+            comp.Click( "#btnDelete" );
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
