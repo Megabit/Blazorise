@@ -8,4 +8,8 @@
             <ListGroupItem Name="@text">@text</ListGroupItem>
         }
     }
+    @if ( ChildContent is not null )
+    {
+        @ChildContent
+    }
 </ListGroup>
