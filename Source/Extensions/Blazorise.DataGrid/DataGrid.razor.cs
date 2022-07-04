@@ -2094,6 +2094,8 @@ namespace Blazorise.DataGrid
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
+        public int SelectedRowIndex => Data.Index( x => x.IsEqual( SelectedRow ) );
+
         #endregion
     }
 }
