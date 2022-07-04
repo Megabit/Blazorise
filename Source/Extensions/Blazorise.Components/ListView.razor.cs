@@ -128,7 +128,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
         /// </summary>
-        [Parameter] public RenderFragment<ItemContext<TItem>> ItemContent { get; set; }
+        [Parameter] public RenderFragment<ItemContext<TItem>> ItemTemplate { get; set; }
 
         #endregion
     }

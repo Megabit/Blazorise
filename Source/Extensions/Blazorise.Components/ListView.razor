@@ -5,9 +5,9 @@
         @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
         {
             var text = TextField?.Invoke( item ) ?? string.Empty;
-            @if ( ItemContent is not null )
+            @if ( ItemTemplate is not null )
             {
-                <ListGroupItem @key="item" Name="@text">@ItemContent( new( item, text ) )</ListGroupItem>
+                <ListGroupItem @key="item" Name="@text">@ItemTemplate( new( item, text ) )</ListGroupItem>
             }
             else
             {
