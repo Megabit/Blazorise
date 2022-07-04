@@ -1,19 +1,16 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
     /// <summary>
-    /// Holds the Context for an Item based component.
+    /// Holds the template context for an Item based component.
     /// </summary>
     /// <typeparam name="TItem">Type of an item.</typeparam>
-    public abstract class BaseContext<TItem>
+    public abstract class BaseTemplateContext<TItem>
     {
         /// <summary>
         /// Initializes BaseContext.
         /// </summary>
         /// <param name="item">Holds the Item.</param>
-        public BaseContext(TItem item)
+        public BaseTemplateContext(TItem item)
         {
             Item = item;
         }

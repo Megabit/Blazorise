@@ -1,15 +1,12 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise.Components.ListView
+﻿namespace Blazorise.Components.ListView
 {
     /// <summary>
     /// Holds the ItemContext for the current ListView item.
     /// </summary>
     /// <typeparam name="TItem">Type of an item.</typeparam>
-    public class ItemContext<TItem> : BaseContext<TItem>
+    public class ItemContext<TItem> : BaseTemplateContext<TItem>
     {
-        public ItemContext(TItem item) : base( item )
+        public ItemContext( TItem item ) : base( item )
         {
 
         }
