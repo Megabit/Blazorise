@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bunit" Version="1.9.7-preview" />
+	<PackageReference Include="bunit" Version="1.9.8" />
     <PackageReference Include="Exceptionless.RandomData" Version="1.2.1" />
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
