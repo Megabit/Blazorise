@@ -59,7 +59,7 @@
         }
     }
 
-    a {
+    a:not(.home-feature-info-image) {
         color: #3f4d62;
         border-bottom: 2px solid var(--b-theme-primary);
         text-decoration: none;

@@ -176,13 +176,13 @@ html, body * {
     text-align: center;
   }
 }
-.home-features a {
+.home-features a:not(.home-feature-info-image) {
   color: #3f4d62;
   border-bottom: 2px solid var(--b-theme-primary);
   text-decoration: none;
   transition: color 0.5s ease-in-out;
 }
-.home-features a:hover {
+.home-features a:not(.home-feature-info-image):hover {
   color: var(--b-theme-primary);
 }
 
