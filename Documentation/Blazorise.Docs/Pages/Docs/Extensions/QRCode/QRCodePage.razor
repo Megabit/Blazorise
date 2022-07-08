@@ -1,13 +1,17 @@
 ﻿@page "/docs/extensions/qrcode"
 
-<Seo Canonical="/docs/extensions/qrcode" Title="Blazorise QRCode Component" Description="A component used to generate QR codes." />
+<Seo Canonical="/docs/extensions/qrcode" Title="Blazorise QRCode component" Description="A component used to generate QR codes." />
 
-<DocsPageTitle>
-    QRCode component
+<DocsPageTitle Path="Extensions/QRCode">
+    Blazorise QR Code component
 </DocsPageTitle>
 
-<DocsPageParagraph>
+<DocsPageLead>
     A component used to generate QR codes.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    QR codes are great for presenting short amounts of information to people who can scan them rapidly with their smartphones. Because most smartphones come with built-in QR code scanners, simply pointing the camera at a QR code will decode it, allowing the user to browse a website, dial a phone number, read a message, and so on.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -42,6 +46,26 @@
     <DocsPageSectionSource Code="BasicQRCodeExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Color">
+        Use the <Code>DarkColor</Code> and <Code>LightColor</Code> attributes to modify the QR code's colors. You should always ensure good contrast for optimal compatibility with QR code scanners.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <QRCodeColorExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="QRCodeColorExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Error Correction">
+        QR codes can be rendered with various levels of <Anchor To="https://www.qrcode.com/en/about/error_correction.html" Title="Link to error correction">error correction</Anchor> that can be set using the <Code>EccLevel</Code> attribute. This example generates four codes with the same value using different error correction levels.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <QRCodeErrorCorrectionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="QRCodeErrorCorrectionExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Best Practices
 </DocsPageSubtitle>
@@ -69,7 +93,7 @@
         Image alt text.
     </DocsAttributesItem>
     <DocsAttributesItem Name="EccLevel" Type="EccLevel" Default="L">
-        Error correction level.
+        The level of error correction to use.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DarkColor" Type="" Default="#000000">
         Color used as dark color.

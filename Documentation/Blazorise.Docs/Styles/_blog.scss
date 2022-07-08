@@ -12,7 +12,9 @@
         }
 
         a {
-            color: var(--b-theme-primary);
+            color: #3f4d62;
+            border-bottom: 2px solid var(--b-theme-primary);
+            text-decoration: none;
         }
 
         p {

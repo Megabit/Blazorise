@@ -15,6 +15,23 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
+                        <BarItem Margin="Margin.Is1.OnAll">
+                            <Autocomplete TItem="PageEntry"
+                                          TValue="string"
+                                          Data="@SearchEntries"
+                                          FreeTyping
+                                          TextField="@(( item ) => item.Name)"
+                                          ValueField="@(( item ) => item.Url)"
+                                          @bind-SelectedText="selectedSearchText"
+                                          Placeholder="Search..."
+                                          Filter="AutocompleteFilter.Contains"
+                                          CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
+                                          SelectedValueChanged="@ComponentSearchSelectedValueChanged">
+                                <NotFoundContent>
+                                    Sorry... @context was not found! :(
+                                </NotFoundContent>
+                            </Autocomplete>
+                        </BarItem>
                         <BarItem>
                             <BarLink To="docs">
                                 <BarIcon IconName="IconName.Home" /> Overview
@@ -53,7 +70,7 @@
                                     <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/color">Color Edit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color-picker">ColorPicker</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color-picker">Color Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/date">Date Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/date-picker">Date Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/divider">Divider</BarDropdownItem>
@@ -206,7 +223,7 @@
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
-        <LayoutHeader ElementId="docs-layout-header">
+        <LayoutHeader ElementId="b-docs-layout-header">
             <Bar Class="b-top-bar" @ref="@topBar" @bind-Visible="@topBarVisible"
                  Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
                 <BarToggler Bar="@sideBar" Border="Border.Is0" />
@@ -224,7 +241,7 @@
                 </BarMenu>
             </Bar>
         </LayoutHeader>
-        <LayoutContent Padding="Padding.Is0.OnX.Is4.OnY.Is4.OnWidescreen">
+        <LayoutContent Padding="Padding.Is0.OnX.Is4.OnY.Is4.OnWidescreen" Class="b-docs-page">
             <Container Breakpoint="Breakpoint.Widescreen">
                 @Body
             </Container>

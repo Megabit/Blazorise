@@ -59,12 +59,12 @@ namespace Blazorise.Docs.Components
         {
             get
             {
-                var sb = new StringBuilder( "docs-page-section-source-code" );
+                var sb = new StringBuilder( "b-docs-page-section-source-code" );
 
                 if ( ShowCode )
-                    sb.Append( " docs-page-section-source-code-show" );
+                    sb.Append( " b-docs-page-section-source-code-show" );
                 else
-                    sb.Append( " docs-page-section-source-code-hide" );
+                    sb.Append( " b-docs-page-section-source-code-hide" );
 
                 return sb.ToString();
             }
