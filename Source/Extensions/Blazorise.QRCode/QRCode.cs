@@ -109,7 +109,7 @@ namespace Blazorise.QRCode
         [Parameter] public string Alt { get; set; }
 
         /// <summary>
-        /// Error correction level.
+        /// The level of error correction to use.
         /// </summary>
         [Parameter] public EccLevel EccLevel { get; set; } = EccLevel.L;
 

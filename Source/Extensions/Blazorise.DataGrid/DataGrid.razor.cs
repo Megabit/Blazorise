@@ -236,7 +236,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-
+        
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -1059,6 +1059,7 @@ namespace Blazorise.DataGrid
                 : request.Count;
 
             await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
+            await Task.Yield(); // This line makes sure SetParametersAsync catches up, since we depend upon Data Parameter.
 
             if ( request.CancellationToken.IsCancellationRequested )
                 return new();
