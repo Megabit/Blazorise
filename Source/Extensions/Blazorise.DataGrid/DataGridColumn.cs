@@ -221,9 +221,12 @@ namespace Blazorise.DataGrid
         }
 
         internal Task ResetMultipleSortOrder()
+            => SetMultipleSortOrder( default );
+
+        internal Task SetMultipleSortOrder( int multipleSortOrder )
         {
-            MultipleSortOrder = default;
-            return MultipleSortOrderChanged.InvokeAsync( default );
+            MultipleSortOrder = multipleSortOrder;
+            return MultipleSortOrderChanged.InvokeAsync( multipleSortOrder );
         }
 
         #endregion
