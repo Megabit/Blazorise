@@ -56,7 +56,7 @@ namespace Blazorise.DataGrid
                 x.Field,
                 x.Filter?.SearchValue,
                 x.CurrentSortDirection,
-                sortByColumns?.IndexOf( x ) ?? -1,
+                sortByColumns?.FirstOrDefault( x )?.MultipleSortOrder ?? -1,
                 x.ColumnType,
                 x.GetFieldToSort() ) );
             CancellationToken = cancellationToken;
