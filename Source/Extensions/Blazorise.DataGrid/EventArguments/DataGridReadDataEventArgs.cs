@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -56,7 +57,7 @@ namespace Blazorise.DataGrid
                 x.Field,
                 x.Filter?.SearchValue,
                 x.CurrentSortDirection,
-                sortByColumns?.FirstOrDefault( x )?.MultipleSortOrder ?? -1,
+                sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( x ) )?.MultipleSortOrder ?? -1,
                 x.ColumnType,
                 x.GetFieldToSort() ) );
             CancellationToken = cancellationToken;

@@ -1088,9 +1088,9 @@ namespace Blazorise.DataGrid
 
                 if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
                 {
-                    SortByColumns.Add( column );
-                    var nextOrderToSort = SortByColumns.Max( x => x.MultipleSortOrder ) + 1;
+                    var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.MultipleSortOrder ) + 1;
                     column.SetMultipleSortOrder( nextOrderToSort );
+                    SortByColumns.Add( column );
                 }
                 else if ( column.CurrentSortDirection == SortDirection.Default )
                 {
