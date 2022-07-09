@@ -236,7 +236,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-        
+
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -253,7 +253,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if( ManualReadMode || VirtualizeManualReadMode )
+                if ( ManualReadMode || VirtualizeManualReadMode )
                     await Reload();
 
                 return;
@@ -1091,7 +1091,10 @@ namespace Blazorise.DataGrid
                     SortByColumns.Add( column );
                 }
                 else if ( column.CurrentSortDirection == SortDirection.Default )
+                {
                     SortByColumns.Remove( column );
+                    column.ResetMultipleSortOrder();
+                }
 
                 if ( changeSortDirection )
                     InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
@@ -1159,7 +1162,7 @@ namespace Blazorise.DataGrid
             {
                 var firstSort = true;
 
-                foreach ( var sortByColumn in SortByColumns )
+                foreach ( var sortByColumn in SortByColumns.OrderBy( x => x.MultipleSortOrder ) )
                 {
                     Func<TItem, object> sortFunction = sortByColumn.GetValueForSort;
 

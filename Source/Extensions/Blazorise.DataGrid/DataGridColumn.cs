@@ -220,6 +220,12 @@ namespace Blazorise.DataGrid
             return sb.ToString().TrimStart( ' ', ';' );
         }
 
+        internal Task ResetMultipleSortOrder()
+        {
+            MultipleSortOrder = default;
+            return MultipleSortOrderChanged.InvokeAsync( default );
+        }
+
         #endregion
 
         #region Properties
@@ -461,6 +467,16 @@ namespace Blazorise.DataGrid
         /// Will set @onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
         /// </summary>
         [Parameter] public bool PreventRowClick { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order for sorting when Sorting is set to multiple. 
+        /// </summary>
+        [Parameter] public int MultipleSortOrder { get; set; }
+
+        /// <summary>
+        /// Raises an event every time that <see cref="MultipleSortOrder"/> is changed.
+        /// </summary>
+        [Parameter] public EventCallback<int> MultipleSortOrderChanged { get; set; }
 
         #endregion
     }
