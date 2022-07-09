@@ -185,4 +185,8 @@
     <DocsAttributesItem Name="ReadData" Type="EventCallback<AutoCompleteReadDataEventArgs>">
         Event handler used to load data manually by based on the current search value.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ConfirmKey" Type="string[]" Default='new[] { "Enter", "NumpadEnter", "Tab" }'>
+        Gets or sets an array of the keyboard pressed values for the ConfirmKey.
+        If this is null or empty, there will be no confirmation key.
+    </DocsAttributesItem>
 </DocsAttributes>
