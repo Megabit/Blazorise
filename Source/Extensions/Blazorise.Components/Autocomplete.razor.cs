@@ -252,7 +252,9 @@ namespace Blazorise.Components
                         await ResetSelectedText();
                     }
                 }
+
                 await UnregisterClosableComponent();
+
                 return;
             }
 
@@ -363,9 +365,9 @@ namespace Blazorise.Components
         {
             if ( ConfirmKey.IsNullOrEmpty() )
                 return false;
+
             return ConfirmKey.Contains( eventArgs.Code );
         }
-
 
         private bool ShouldNotClose()
             => Multiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
