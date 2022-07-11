@@ -284,7 +284,9 @@ namespace Blazorise.Components
             {
                 await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) + 1 );
             }
-            await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
+
+            if ( ActiveItemIndex.HasValue )
+                await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex.Value ) );
         }
 
 
@@ -600,7 +602,7 @@ namespace Blazorise.Components
         public async Task Close( CloseReason closeReason )
         {
             await UnregisterClosableComponent();
-            ActiveItemIndex = 0;
+            ActiveItemIndex = AutoSelectFirstItem ? 0 : null;
             await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( 0 ), false );
         }
 
