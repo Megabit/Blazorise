@@ -110,5 +110,10 @@ namespace Blazorise
         /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
         /// <exception cref="T:System.IO.IOException">Thrown if the file's length exceeds the <paramref name="maxAllowedSize" /> value.</exception>
         Stream OpenReadStream( long maxAllowedSize = 512000, CancellationToken cancellationToken = default );
+
+        /// <summary>
+        /// Cancels any ongoing FileEntry operation.
+        /// </summary>
+        public void Cancel();
     }
 }

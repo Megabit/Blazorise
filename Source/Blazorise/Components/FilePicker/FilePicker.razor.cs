@@ -186,12 +186,28 @@ namespace Blazorise
         public async Task UploadAll()
         {
             if ( Upload.HasDelegate && !FileEdit.Files.IsNullOrEmpty() )
+            {
+                cts = new();
                 foreach ( var file in FileEdit.Files )
                 {
-                    if ( file.Status == FileEntryStatus.Ready )
+                    if ( file.Status == FileEntryStatus.Ready && !cts.IsCancellationRequested)
                         await Upload.InvokeAsync( new( file ) );
                 }
+            }
+
         }
+
+        /// <summary>
+        /// Cancels any ongoing uplaod operation.
+        /// </summary>
+        /// <returns></returns>
+        public void CancelUpload()
+        {
+            cts?.Cancel();
+            fileBeingUploaded.Cancel();
+        }
+
+        private CancellationTokenSource cts;
 
         /// <summary>
         /// FilePicker's handling of the Started Event.

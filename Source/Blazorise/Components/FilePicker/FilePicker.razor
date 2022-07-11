@@ -57,6 +57,7 @@
                 <Buttons Float="Blazorise.Float.End">
                     <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">@GetLocalizedString("Clear")</Button>
                     <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
+                    <Button Color="Color.Link" Class="b-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUpload">@GetLocalizedString("Cancel")</Button>
                 </Buttons>
             }
         </div>
