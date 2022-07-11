@@ -265,7 +265,7 @@ namespace Blazorise.Components
 
             if ( IsConfirmKey( eventArgs ) )
             {
-                var item = FilteredData.ElementAtOrDefault( activeItemIndex );
+                var item = FilteredData.ElementAtOrDefault( ActiveItemIndex ?? -1 );
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
@@ -278,11 +278,11 @@ namespace Blazorise.Components
             }
             else if ( eventArgs.Code == "ArrowUp" )
             {
-                await UpdateActiveFilterIndex( --activeItemIndex );
+                await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) - 1 );
             }
             else if ( eventArgs.Code == "ArrowDown" )
             {
-                await UpdateActiveFilterIndex( ++activeItemIndex );
+                await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) + 1 );
             }
         }
 
@@ -488,7 +488,7 @@ namespace Blazorise.Components
             }
 
             filteredData = query.ToList();
-            ActiveItemIndex = 0;
+            ActiveItemIndex = AutoSelectFirstItem ? 0 : null;
 
             dirtyFilter = false;
         }
@@ -521,7 +521,7 @@ namespace Blazorise.Components
             // update search text with the currently focused item text
             if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
             {
-                var item = FilteredData[ActiveItemIndex];
+                var item = FilteredData[ActiveItemIndex.Value];
 
                 SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
@@ -687,7 +687,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the currently active item index.
         /// </summary>
-        protected int ActiveItemIndex { get; set; }
+        protected int? ActiveItemIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the search field focus state.
@@ -983,6 +983,12 @@ namespace Blazorise.Components
         /// Otherwise, it's one of the key value strings specified in 'Key values'.
         /// </remarks>
         [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter", "Tab" };
+
+        /// <summary>
+        /// Gets or sets whether <see cref="Autocomplete{TItem, TValue}"/> auto selects the first item displayed on the dropdown.
+        /// Defauls to true.
+        /// </summary>
+        [Parameter] public bool AutoSelectFirstItem { get; set; } = true;
 
         #endregion
     }
