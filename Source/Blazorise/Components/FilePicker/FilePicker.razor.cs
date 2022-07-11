@@ -170,7 +170,7 @@ namespace Blazorise
         /// <param name="file"></param>
         /// <returns></returns>
         private Task RemoveFileWithConfirm( IFileEntry file )
-            => _FilePickerConfirmCancelModalRef.OpenModal( () => RemoveFile( file ).AsTask() );
+            => _FilePickerConfirmRemoveModalRef.OpenModal( () => RemoveFile( file ).AsTask() );
 
         /// <summary>
         /// Clears the FileEdit by resetting the state.
