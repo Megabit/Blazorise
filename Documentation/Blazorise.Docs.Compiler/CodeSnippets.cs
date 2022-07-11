@@ -12,15 +12,14 @@ namespace Blazorise.Docs.Compiler
     {
         public bool Execute()
         {
-            var paths = new Paths();
             var success = true;
             try
             {
                 var currentCode = string.Empty;
 
-                if ( File.Exists( paths.SnippetsFilePath() ) )
+                if ( File.Exists( Paths.SnippetsFilePath() ) )
                 {
-                    currentCode = File.ReadAllText( paths.SnippetsFilePath() );
+                    currentCode = File.ReadAllText( Paths.SnippetsFilePath() );
                 }
 
                 var cb = new CodeBuilder();
@@ -32,7 +31,7 @@ namespace Blazorise.Docs.Compiler
                 cb.AddLine( "{" );
                 cb.IndentLevel++;
 
-                var dirPath = paths.DirPath();
+                var dirPath = Paths.DirPath();
                 var razorFiles = Directory.EnumerateFiles( dirPath, "*.razor", SearchOption.AllDirectories );
                 var snippetFiles = Directory.EnumerateFiles( dirPath, "*.snippet", SearchOption.AllDirectories );
                 var csharpFiles = Directory.EnumerateFiles( dirPath, "*.csharp", SearchOption.AllDirectories );
@@ -53,12 +52,12 @@ namespace Blazorise.Docs.Compiler
 
                 if ( currentCode != cb.ToString() )
                 {
-                    File.WriteAllText( paths.SnippetsFilePath(), cb.ToString() );
+                    File.WriteAllText( Paths.SnippetsFilePath(), cb.ToString() );
                 }
             }
             catch ( Exception e )
             {
-                Console.WriteLine( $"Error generating {paths.SnippetsFilePath} : {e.Message}" );
+                Console.WriteLine( $"Error generating {Paths.SnippetsFilePath} : {e.Message}" );
                 success = false;
             }
 

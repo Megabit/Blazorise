@@ -1,14 +1,19 @@
 ﻿.tree-view {
-    margin-left: 1.25rem; }
+  margin-left: 1.25rem;
+}
 
 .tree-view-collapsed {
-    display: none; }
+  display: none;
+}
 
 .tree-view-icon {
-    float: left; }
+  float: left;
+}
 
 .tree-view-title {
-    margin-left: 1.25rem; }
+  margin-left: 1.25rem;
+}
 
 .tree-view .cursor-pointer {
-    cursor: pointer; }
+  cursor: pointer;
+}

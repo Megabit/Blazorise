@@ -1,18 +1,49 @@
-﻿@if ( Display )
+﻿@if ( Path != null )
 {
-    <DisplayHeading ElementId="docs-page-title" Class="docs-page-title" Size="DisplayHeadingSize.Is1">
+    <Breadcrumb>
+        @{
+            var pathValues = Path.Split( '/' ).Where( x => !string.IsNullOrEmpty( x ) ).ToList();
+            var isLast = pathValues.Count == 0 || ( pathValues.IndexOf( "docs" ) == pathValues.Count - 1 );
+            var url = "docs";
+        }
+
+        <BreadcrumbItem Active="@isLast">
+            <BreadcrumbLink To="docs">Documentation</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        @if ( pathValues.Count > 0 )
+        {
+            @foreach ( var pathValue in pathValues )
+            {
+                isLast = pathValues.IndexOf( pathValue ) == pathValues.Count - 1;
+                url = $"{url}/{pathValue.ToLowerInvariant()}";
+                var currentUrl = url;
+
+                <BreadcrumbItem Active="@isLast">
+                    <BreadcrumbLink To="@currentUrl">@pathValue</BreadcrumbLink>
+                </BreadcrumbItem>
+            }
+        }
+    </Breadcrumb>
+}
+
+@if ( Display )
+{
+    <DisplayHeading ElementId="b-docs-page-title" Class="b-docs-page-title" Size="DisplayHeadingSize.Is1">
         @ChildContent
     </DisplayHeading>
 }
 else
 {
-    <Heading ElementId="docs-page-title" Class="docs-page-title" Size="HeadingSize.Is1">
+    <Heading ElementId="b-docs-page-title" Class="b-docs-page-title" Size="HeadingSize.Is1">
         @ChildContent
     </Heading>
 }
 
 @code {
     [Parameter] public bool Display { get; set; }
+
+    [Parameter] public string Path { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

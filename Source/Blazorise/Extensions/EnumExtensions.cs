@@ -86,7 +86,7 @@
         /// <summary>
         /// Gets the link target name.
         /// </summary>
-        public static string ToTargetString( this Target target ) => target.Name;
+        public static string ToTargetString( this Target target ) => string.IsNullOrEmpty( target.Name ) ? null : target.Name;
 
         public static string ToInputMaskCaretPosition( this InputMaskCaretPosition inputMaskCaretPosition ) => inputMaskCaretPosition switch
         {
