@@ -8,6 +8,7 @@ using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -124,12 +125,13 @@ namespace Blazorise
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
+        /// <param name="mouseEventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler()
+        protected async Task ClickHandler( MouseEventArgs mouseEventArgs )
         {
             if ( !Disabled )
             {
-                await Clicked.InvokeAsync();
+                await Clicked.InvokeAsync( mouseEventArgs );
 
                 // Don't need to check CanExecute again is already part of Disabled check
                 Command?.Execute( CommandParameter );
@@ -174,7 +176,7 @@ namespace Blazorise
                 }
             }
 
-            builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
+            builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
             builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
 
             builder.Attributes( Attributes );
@@ -288,7 +290,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Defines the button type.
