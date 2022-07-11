@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Blazorise.Docs.Compiler
 {
-    public class Paths
+    public static class Paths
     {
         private const string NewFilesToBuild = "NewFilesToBuild.txt";
 
@@ -25,14 +25,14 @@ namespace Blazorise.Docs.Compiler
             }
         }
 
-        public string DirPath() => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
+        public static string DirPath() => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
 
-        public string DocsStringSnippetsDirPath() => Path.Join( DirPath(), "Models" );
+        public static string DocsStringSnippetsDirPath() => Path.Join( DirPath(), "Models" );
 
-        public string DocStringsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Strings.generated.cs" );
+        public static string DocStringsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Strings.generated.cs" );
 
-        public string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
+        public static string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
 
-        public string NewFilesToBuildPath() => Path.Join( DirPath(), NewFilesToBuild );
+        public static string NewFilesToBuildPath() => Path.Join( DirPath(), NewFilesToBuild );
     }
 }

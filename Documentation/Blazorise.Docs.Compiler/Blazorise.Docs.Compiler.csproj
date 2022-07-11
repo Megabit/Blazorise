@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="ColorCode.HTML" Version="2.0.9" />
+    <PackageReference Include="Markdig" Version="0.30.2" />
   </ItemGroup>
 
 </Project>

@@ -236,7 +236,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-
+        
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -335,7 +335,7 @@ namespace Blazorise.DataGrid
             {
                 VirtualizeOptions ??= new();
 
-                if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup )
+                if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && VirtualizeOptions.ScrollRowOnEdit )
                     virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
             }
             else
@@ -1059,6 +1059,7 @@ namespace Blazorise.DataGrid
                 : request.Count;
 
             await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
+            await Task.Yield(); // This line makes sure SetParametersAsync catches up, since we depend upon Data Parameter.
 
             if ( request.CancellationToken.IsCancellationRequested )
                 return new();

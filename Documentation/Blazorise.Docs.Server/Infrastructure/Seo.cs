@@ -12,6 +12,8 @@ namespace Blazorise.Docs.Server.Infrastructure
         {
             var baseUrl = GetBaseUrl( context );
 
+            context.Response.ContentType = "text/plain";
+
             await context.Response.WriteAsync( $"User-agent: *\n" );
             await context.Response.WriteAsync( $"Disallow: \n\n" );
 

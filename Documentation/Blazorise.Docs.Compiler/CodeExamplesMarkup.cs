@@ -7,11 +7,10 @@ using ColorCode;
 
 namespace Blazorise.Docs.Compiler
 {
-    public class ExamplesMarkup
+    public class CodeExamplesMarkup
     {
         public bool Execute()
         {
-            var paths = new Paths();
             var newFiles = new StringBuilder();
             var success = true;
             var noOfFilesUpdated = 0;
@@ -21,13 +20,13 @@ namespace Blazorise.Docs.Compiler
             {
                 var formatter = new HtmlClassFormatter();
                 var lastCheckedTime = new DateTime();
-                if ( File.Exists( paths.NewFilesToBuildPath() ) )
+                if ( File.Exists( Paths.NewFilesToBuildPath() ) )
                 {
-                    var lastNewFilesToBuild = new FileInfo( paths.NewFilesToBuildPath() );
+                    var lastNewFilesToBuild = new FileInfo( Paths.NewFilesToBuildPath() );
                     lastCheckedTime = lastNewFilesToBuild.LastWriteTime;
                 }
 
-                var dirPath = paths.DirPath();
+                var dirPath = Paths.DirPath();
                 var directoryInfo = new DirectoryInfo( dirPath );
 
                 var razorFiles = directoryInfo.GetFiles( "*.razor", SearchOption.AllDirectories );
@@ -36,7 +35,9 @@ namespace Blazorise.Docs.Compiler
 
                 foreach ( var entry in razorFiles.Concat( snippetFiles ).Concat( csharpFiles ) )
                 {
-                    if ( entry.Name.EndsWith( "Code.razor" ) )
+                    // We need to skip blog examples becaouse they are generated from markdown code block and we don't want to process them again
+                    if ( entry.Name.EndsWith( "Code.razor" )
+                        || ( entry.FullName.Contains( $"{Path.DirectorySeparatorChar}Blog{Path.DirectorySeparatorChar}", StringComparison.InvariantCultureIgnoreCase ) && entry.Name.EndsWith( ".snippet" ) ) )
                     {
                         continue;
                     }
@@ -61,56 +62,23 @@ namespace Blazorise.Docs.Compiler
                         Directory.CreateDirectory( markupDir );
                     }
 
-                    var cb = new CodeBuilder();
+                    //var cb = new CodeBuilder();
                     var currentCode = string.Empty;
+                    var builtCode = string.Empty;
                     var isCSharp = entry.FullName.EndsWith( ".csharp" );
-                    var src = StripComponentSource( entry.FullName );
+                    var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
 
-                    if ( isCSharp )
+                    if ( File.Exists( markupPath ) )
                     {
-                        cb.AddLine( "<div class=\"blazorise-codeblock\">" );
-
-                        cb.AddLine(
-                            formatter.GetHtmlString( src, Languages.CSharp )
-                                .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                                .ToLfLineEndings() );
-
-                        cb.AddLine( "</div>" );
-                    }
-                    else
-                    {
-                        var blocks = src.Split( "@code" );
-
-                        var blocks0 = Regex.Replace( blocks[0], @"</?DocsFrame>", string.Empty )
-                            .Replace( "@", "PlaceholdeR" )
-                            .Trim();
-
-                        // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
-                        var html = formatter.GetHtmlString( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
-                        html = AttributePostprocessing( html ).Replace( "@", "<span class=\"atSign\">&#64;</span>" );
-
-                        if ( File.Exists( markupPath ) )
-                        {
-                            currentCode = File.ReadAllText( markupPath );
-                        }
-
-                        cb.AddLine( "<div class=\"blazorise-codeblock\">" );
-                        cb.AddLine( html.ToLfLineEndings() );
-
-                        if ( blocks.Length == 2 )
-                        {
-                            cb.AddLine(
-                                formatter.GetHtmlString( "@code" + blocks[1], Languages.CSharp )
-                                    .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                                    .ToLfLineEndings() );
-                        }
-
-                        cb.AddLine( "</div>" );
+                        currentCode = File.ReadAllText( markupPath );
                     }
 
-                    if ( currentCode != cb.ToString() )
+                    builtCode = new MarkupBuilder( formatter ).Build( source, isCSharp );
+
+                    if ( currentCode != builtCode )
                     {
-                        File.WriteAllText( markupPath, cb.ToString() );
+                        File.WriteAllText( markupPath, builtCode );
+
                         if ( currentCode == string.Empty )
                         {
                             newFiles.AppendLine( markupPath );
@@ -123,7 +91,7 @@ namespace Blazorise.Docs.Compiler
                     }
                 }
 
-                File.WriteAllText( paths.NewFilesToBuildPath(), newFiles.ToString() );
+                File.WriteAllText( Paths.NewFilesToBuildPath(), newFiles.ToString() );
             }
             catch ( Exception e )
             {
@@ -134,13 +102,6 @@ namespace Blazorise.Docs.Compiler
             Console.WriteLine( $"Docs.Compiler updated {noOfFilesUpdated} generated files" );
             Console.WriteLine( $"Docs.Compiler generated {noOfFilesCreated} new files" );
             return success;
-        }
-
-        private static string StripComponentSource( string path )
-        {
-            var source = File.ReadAllText( path, Encoding.UTF8 );
-            source = Regex.Replace( source, "@(namespace|layout|page) .+?\n", string.Empty );
-            return source.Trim();
         }
 
         public static string AttributePostprocessing( string html )

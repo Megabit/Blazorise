@@ -8,8 +8,11 @@ namespace Blazorise.Docs.Components
 {
     public partial class DocsAttributesItem : IDisposable
     {
+        #region Members
+
         private bool disposedValue;
 
+        #endregion
 
         #region Methods
 
@@ -20,6 +23,27 @@ namespace Blazorise.Docs.Components
                 ParentDocsAttributes.AddItem( this );
             }
             return base.OnInitializedAsync();
+        }
+
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( !disposedValue )
+            {
+                if ( disposing )
+                {
+                    if ( ParentDocsAttributes is not null )
+                        ParentDocsAttributes.RemoveItem( this );
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose( disposing: true );
+            GC.SuppressFinalize( this );
         }
 
         #endregion
@@ -46,27 +70,6 @@ namespace Blazorise.Docs.Components
         [Parameter] public string Default { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !disposedValue )
-            {
-                if ( disposing )
-                {
-                    if ( ParentDocsAttributes is not null )
-                        ParentDocsAttributes.RemoveItem( this );
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose( disposing: true );
-            GC.SuppressFinalize( this );
-        }
 
         #endregion
     }
