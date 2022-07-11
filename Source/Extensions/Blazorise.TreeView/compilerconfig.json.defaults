@@ -15,7 +15,7 @@
   },
   "minifiers": {
     "css": {
-      "enabled": false,
+      "enabled": true,
       "termSemicolons": true,
       "gzip": false
     }
