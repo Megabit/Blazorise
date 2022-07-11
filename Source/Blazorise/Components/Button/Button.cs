@@ -125,13 +125,13 @@ namespace Blazorise
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
-        /// <param name="mouseEventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler( MouseEventArgs mouseEventArgs )
+        protected async Task ClickHandler( MouseEventArgs eventArgs )
         {
             if ( !Disabled )
             {
-                await Clicked.InvokeAsync( mouseEventArgs );
+                await Clicked.InvokeAsync( eventArgs );
 
                 // Don't need to check CanExecute again is already part of Disabled check
                 Command?.Execute( CommandParameter );
