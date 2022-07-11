@@ -23,6 +23,14 @@
     .dropdown {
         .custom-file {
             width: auto;
+
+            .custom-file-label {
+                border: 0;
+            }
+        }
+
+        .b-files {
+            width: 100%;
         }
 
         .b-file {

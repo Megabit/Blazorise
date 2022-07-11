@@ -107,6 +107,12 @@ hr.divider.divider-text::before {
 .b-file-picker .dropdown .custom-file {
   width: auto;
 }
+.b-file-picker .dropdown .custom-file .custom-file-label {
+  border: 0;
+}
+.b-file-picker .dropdown .b-files {
+  width: 100%;
+}
 .b-file-picker .dropdown .b-file {
   margin-right: 1.5rem;
 }

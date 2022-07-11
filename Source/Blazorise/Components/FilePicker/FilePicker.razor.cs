@@ -12,6 +12,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using Microsoft.VisualBasic;
 #endregion
 
 namespace Blazorise
@@ -34,6 +35,8 @@ namespace Blazorise
         /// Tracks the current file being uploaded.
         /// </summary>
         IFileEntry fileBeingUploaded;
+
+        private _FilePickerConfirmRemoveModal _FilePickerConfirmRemoveModalRef;
 
         #endregion
 
@@ -141,7 +144,12 @@ namespace Blazorise
             return string.Empty;
         }
 
-        private string GetLocalizedString( string name )
+        /// <summary>
+        /// Gets a FilePicker Localized string.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetLocalizedString( string name )
         {
             if ( FilePickerLocalizer is not null )
                 return FilePickerLocalizer.Invoke( name );
@@ -161,8 +169,8 @@ namespace Blazorise
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        private Task RemoveFileAsTask( IFileEntry file )
-            => RemoveFile( file ).AsTask();
+        private Task RemoveFileWithConfirm( IFileEntry file )
+            => _FilePickerConfirmCancelModalRef.OpenModal( () => RemoveFile( file ).AsTask() );
 
         /// <summary>
         /// Clears the FileEdit by resetting the state.

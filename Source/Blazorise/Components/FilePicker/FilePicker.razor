@@ -5,7 +5,7 @@
 <div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker">
     @if (ShowMode == FilePickerShowMode.Dropdown)
     {
-        <Dropdown  Display="Blazorise.Display.InlineBlock">
+        <Dropdown Display="Blazorise.Display.InlineBlock" Border="@Blazorise.Border.Is1">
 
             <Div Display="Blazorise.Display.InlineBlock">
                 @fileComponentFragment
@@ -64,6 +64,11 @@
 </div>
 
 
+<CascadingValue Value="this" IsFixed>
+    <_FilePickerConfirmRemoveModal @ref="_FilePickerConfirmRemoveModalRef" />
+</CascadingValue>
+
+
 @code {
     private RenderFragment fileComponentFragment => __builder =>
     {
@@ -82,11 +87,11 @@
     {
     @if (FileContent is not null)
         {
-    @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileAsTask)))
+    @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileWithConfirm)))
         }
         else
         {
-    <CloseButton disabled="@IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFile(file))" />
+    <CloseButton disabled="@IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))" />
     <Span Class="b-file-name">@file.Name</Span>
     <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
     @if (IsFileBeingUploaded(file))
