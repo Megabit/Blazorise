@@ -244,7 +244,7 @@ namespace Blazorise.Components
         {
             if ( !DropdownVisible )
             {
-                if ( ConfirmKey( eventArgs ) )
+                if ( IsConfirmKey( eventArgs ) )
                 {
                     if ( FreeTyping && Multiple )
                     {
@@ -252,7 +252,9 @@ namespace Blazorise.Components
                         await ResetSelectedText();
                     }
                 }
+
                 await UnregisterClosableComponent();
+
                 return;
             }
 
@@ -261,7 +263,7 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( ConfirmKey( eventArgs ) )
+            if ( IsConfirmKey( eventArgs ) )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
@@ -359,11 +361,13 @@ namespace Blazorise.Components
             }
         }
 
-        private static bool ConfirmKey( KeyboardEventArgs eventArgs )
+        private bool IsConfirmKey( KeyboardEventArgs eventArgs )
         {
-            return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
-        }
+            if ( ConfirmKey.IsNullOrEmpty() )
+                return false;
 
+            return ConfirmKey.Contains( eventArgs.Code );
+        }
 
         private bool ShouldNotClose()
             => Multiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
@@ -968,6 +972,17 @@ namespace Blazorise.Components
         /// Defauls to true.
         /// </summary>
         [Parameter] public bool CloseOnSelection { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets an array of the keyboard pressed values for the ConfirmKey.
+        /// If this is null or empty, there will be no confirmation key.
+        /// <para>Defauls to: { "Enter", "NumpadEnter", "Tab" }.</para>
+        /// </summary>
+        /// <remarks>
+        /// If the value has a printed representation, this attribute's value is the same as the char attribute.
+        /// Otherwise, it's one of the key value strings specified in 'Key values'.
+        /// </remarks>
+        [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter", "Tab" };
 
         #endregion
     }
