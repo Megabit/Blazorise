@@ -17,13 +17,13 @@ namespace Blazorise.Docs.Components
         {
             get
             {
-                var sb = new StringBuilder( "docs-page-section-content" );
+                var sb = new StringBuilder( "b-docs-page-section-content" );
 
                 if ( Outlined )
-                    sb.Append( " docs-page-section-content-outlined" );
+                    sb.Append( " b-docs-page-section-content-outlined" );
 
                 if ( FullWidth )
-                    sb.Append( " docs-page-section-content-fullwidth" );
+                    sb.Append( " b-docs-page-section-content-fullwidth" );
 
                 return sb.ToString();
             }

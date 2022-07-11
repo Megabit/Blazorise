@@ -2,12 +2,16 @@
 
 <Seo Canonical="/docs/components/slider" Title="Blazorise Slider component" Description="The Slider component is a better visualization of the number input. It is used for gathering numerical user data." />
 
-<DocsPageTitle>
-    Slider component
+<DocsPageTitle Path="Components/Slider">
+    Blazorise Slider component
 </DocsPageTitle>
 
+<DocsPageLead>
+    Sliders allow users to make selections from a range of values.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    The <Code Tag>Slider</Code> component is a better visualization of the number input. It is used for gathering numerical user data.
+    Sliders reflect a range of values along a bar, from which users may select a single value. They are ideal for adjusting settings such as volume, brightness, or applying image filters.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -29,6 +33,26 @@
         you will just use the <Code>TValue</Code> attribute and define the type manually.
     </AlertDescription>
 </Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Min and Max values">
+        With the <Code>Min</Code> and <Code>Max</Code> properties, you can set the minimum and maximum allowed value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SliderMinMaxExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SliderMinMaxExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Steps">
+        You can change the default step increment.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SliderStepExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SliderStepExample" />
+</DocsPageSection>
 
 <DocsPageSubtitle>
     Attributes

@@ -1,0 +1,22 @@
+﻿<Card Shadow="Shadow.Default">
+    <CardBody Padding="Padding.Is2.FromBottom">
+        <CardTitle Size="3">
+            @Name
+        </CardTitle>
+        <Small TextColor="TextColor.Muted">
+            @Description
+        </Small>
+    </CardBody>
+    <CardBody Padding="Padding.Is0.FromTop">
+        <CardActions>
+            <Anchor To="@To">See @Name &raquo;</Anchor>
+        </CardActions>
+    </CardBody>
+</Card>
+@code {
+    [Parameter] public string Name { get; set; }
+
+    [Parameter] public string Description { get; set; }
+
+    [Parameter] public string To { get; set; }
+}

@@ -382,6 +382,123 @@ public class Gender
     }
 }";
 
+        public const string UsingTheSelectComponent_SelectComponentWithComplexTypeExample = @"<Row>
+    <Column>
+        <Field>
+            <Select TValue=""int"" SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
+                @foreach ( var employee in employeeData )
+                {
+                    <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
+                }
+            </Select>
+        </Field>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Employee is : @selectedEmployee.Name
+    </Column>
+</Row>
+
+@code {
+    public Employee selectedEmployee;
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public List<Employee> employeeData;
+
+    protected override void OnInitialized()
+    {
+        employeeData = new()
+        {
+            new (){ Id = 11500, Name = ""John"" },
+            new (){ Id = 11566, Name = ""Julia"" },
+            new (){ Id = 11612, Name = ""Maria"" },
+            new (){ Id = 10989, Name = ""Peter"" }
+        };
+        selectedEmployee = employeeData.First();
+        base.OnInitialized();
+    }
+}";
+
+        public const string UsingTheSelectComponent_SelectComponentWithEnumTypeExample = @"@using System.Text.Json.Serialization
+
+<Row>
+    <Column>
+        <Field>
+            <Select TValue=""Day"" @bind-SelectedValue=""@selectedDay"">
+                @foreach ( var enumValue in Enum.GetValues<Day>() )
+                {
+                    <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
+                }
+            </Select>
+        </Field>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected Day is : @selectedDay.ToString(""g"")
+    </Column>
+</Row>
+
+@code {
+    public Day selectedDay;
+
+    [Flags]
+    [JsonConverter( typeof( System.Text.Json.Serialization.JsonStringEnumConverter ) )]
+    public enum Day
+    {
+        None = 0,
+        Sunday = 1,
+        Monday = 2,
+        Tuesday = 4,
+        Wednesday = 8,
+        Thursday = 16,
+        Friday = 32,
+        Saturday = 64
+    }
+}";
+
+        public const string UsingTheSelectComponent_SelectComponentWithNullableTypeExample = @"<Row>
+    <Column>
+        <Field>
+            <Select TValue=""int?"" @bind-SelectedValue=""@selectedEmployeeId"">
+                <SelectItem Value=""(int?)null""></SelectItem>
+                <SelectItem Value=""11500"">John</SelectItem>
+                <SelectItem Value=""11566"">Julia</SelectItem>
+                <SelectItem Value=""11612"">Maria</SelectItem>
+                <SelectItem Value=""10989"">Peter</SelectItem>
+            </Select>
+        </Field>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        Selected Employee Id is : @(selectedEmployeeId.HasValue ? selectedEmployeeId.Value : ""empty"")
+    </Column>
+</Row>
+
+@code {
+    private int? selectedEmployeeId = null;
+}";
+
+        public const string UsingTheSelectComponent_SelectComponentWithPrimitiveTypeExample = @"<Row>
+    <Column>
+        <Field>
+            <Select TValue=""int"">
+                <SelectItem Value=""11500"">John</SelectItem>
+                <SelectItem Value=""11566"">Julia</SelectItem>
+                <SelectItem Value=""11612"">Maria</SelectItem>
+                <SelectItem Value=""10989"">Peter</SelectItem>
+            </Select>
+        </Field>
+    </Column>
+</Row>";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
@@ -786,13 +903,13 @@ public class Gender
 
         public const string BreadcrumbAutoExample = @"<Breadcrumb Mode=""BreadcrumbMode.Auto"">
     <BreadcrumbItem>
-        <BreadcrumbLink To="""">Home</BreadcrumbLink>
+        <BreadcrumbLink To=""#"">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbItem>
-        <BreadcrumbLink To=""account"">Account</BreadcrumbLink>
+        <BreadcrumbLink To=""#"">Account</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbItem>
-        <BreadcrumbLink To=""account/settings"">Settings</BreadcrumbLink>
+        <BreadcrumbLink To=""#"">Settings</BreadcrumbLink>
     </BreadcrumbItem>
 </Breadcrumb>";
 
@@ -1016,13 +1133,13 @@ public class Gender
 
         public const string CarouselExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide"">
     <CarouselSlide Name=""1"">
-        <Image Source=""img/gallery/1.jpg"" Text=""Lights"" Display=""Display.Block"" Width=""Width.Is100"" />
+        <Image Source=""img/gallery/1.jpg"" Text=""Lights image"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
     <CarouselSlide Name=""2"">
-        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard"" Display=""Display.Block"" Width=""Width.Is100"" />
+        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard image"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
     <CarouselSlide Name=""3"">
-        <Image Source=""img/gallery/3.jpg"" Text=""Road"" Display=""Display.Block"" Width=""Width.Is100"" />
+        <Image Source=""img/gallery/3.jpg"" Text=""Road image"" Display=""Display.Block"" Width=""Width.Is100"" />
     </CarouselSlide>
 </Carousel>
 @code{
@@ -1089,9 +1206,22 @@ public class Gender
     }
 }";
 
-        public const string BasicColorEditExample = @"<ColorEdit Color=""#ff0000"" />";
+        public const string BasicColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
+
+@code {
+    string colorValue = ""#ff0000"";
+}";
 
         public const string BasicColorPickerExample = @"<ColorPicker Color=""#ff0000"" />";
+
+        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
+
+        public const string ColorEditSizeExample = @"<Field>
+    <ColorEdit Color=""#888888"" Size=""Size.Small"" />
+</Field>
+<Field>
+    <ColorEdit Color=""#444444"" Size=""Size.Large"" />
+</Field>";
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
@@ -1153,13 +1283,45 @@ public class Gender
 
         public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
 
-        public const string DashedDividerExample = @"<Divider DividerType=""DividerType.Dashed"" />";
+        public const string DashedDividerExample = @"<Paragraph>
+    What language is thine, O sea?
+</Paragraph>
 
-        public const string DottedDividerExample = @"<Divider DividerType=""DividerType.Dotted"" />";
+<Divider DividerType=""DividerType.Dashed"" />
 
-        public const string SolidDividerExample = @"<Divider />";
+<Paragraph>
+    The language of eternal question.
+</Paragraph>";
 
-        public const string TextContentDividerExample = @"<Divider DividerType=""DividerType.TextContent"" Text=""Hello Blazorise"" />";
+        public const string DottedDividerExample = @"<Paragraph>
+    What language is thy answer, O sky?
+</Paragraph>
+
+<Divider DividerType=""DividerType.Dotted"" />
+
+<Paragraph>
+    The language of eternal silence.
+</Paragraph>";
+
+        public const string SolidDividerExample = @"<Paragraph>
+    I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.
+</Paragraph>
+
+<Divider />
+
+<Paragraph>
+    There little thoughts are the rustle of leaves; they have their whisper of joy in my mind.
+</Paragraph>";
+
+        public const string TextContentDividerExample = @"<Paragraph>
+    What a world of merriment their melody foretells !
+</Paragraph>
+
+<Divider DividerType=""DividerType.TextContent"" Text=""Edgar Allan Poe"" />
+
+<Paragraph>
+    How they tinkle, tinkle, tinkle, In the icy air of night !
+</Paragraph>";
 
         public const string BasicDragDropExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
@@ -1176,7 +1338,7 @@ public class Gender
     <ItemTemplate>
         <Card Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
             <CardBody>
-                <Image Source=""@context.Image"" Style=""width:48px;height:48px;"" />
+                <Image Source=""@context.Image"" Text=""DragDrop image example"" Style=""width:48px;height:48px;"" />
                 @context.Name
             </CardBody>
         </Card>
@@ -1453,6 +1615,11 @@ public class Gender
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
     <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" />
+    <FigureCaption>A caption for the above image.</FigureCaption>
+</Figure>";
+
+        public const string FigureRoundedExample = @"<Figure Size=""FigureSize.Is256x256"">
+    <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" Rounded />
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
@@ -2046,7 +2213,7 @@ public class Gender
     </Layout>
 </Layout>";
 
-        public const string AnchorLinkExample = @"<Link To=""#docs-page-title"">
+        public const string AnchorLinkExample = @"<Link To=""#b-docs-page-title"">
     Link
 </Link>";
 
@@ -2744,6 +2911,30 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
+
+        public const string SliderMinMaxExample = @"<Paragraph>
+    Current value: @value
+</Paragraph>
+
+<Field>
+    <Slider @bind-Value=""@value"" Min=""20"" Max=""80"" />
+</Field>
+
+@code {
+    int value = 60;
+}";
+
+        public const string SliderStepExample = @"<Paragraph>
+    Current value: @value
+</Paragraph>
+
+<Field>
+    <Slider @bind-Value=""@value"" Step=""5"" Max=""100"" />
+</Field>
+
+@code {
+    int value = 40;
+}";
 
         public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>
@@ -5608,9 +5799,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
-        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" />";
+        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
+
+        public const string QRCodeColorExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" DarkColor=""#7474ed"" />";
+
+        public const string QRCodeErrorCorrectionExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.L"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.M"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
 
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 

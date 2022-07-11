@@ -1,0 +1,61 @@
+﻿@if ( Reverse )
+{
+    <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
+        <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
+            <Anchor To="@To" Class="home-feature-info-image">
+                <Image Source="@ImageSource" Text="@ImageText" Fluid />
+            </Anchor>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
+            <Heading Size="HeadingSize.Is2" Margin="Margin.Is0">
+                @Title
+            </Heading>
+            <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is8.IsFull" Padding="Padding.Is0">
+                <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
+                    @TextContent
+                </Paragraph>
+                <Paragraph TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                    @BoldContent
+                </Paragraph>
+            </Column>
+        </Column>
+    </Row>
+}
+else
+{
+    <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is2.OnY">
+        <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen" Class="aos-init aos-animate" data-aos="fade-right">
+            <Heading Size="HeadingSize.Is2" Margin="Margin.Is0">
+                @Title
+            </Heading>
+            <Column ColumnSize="ColumnSize.Is5.OnWidescreen.Is6.OnFullHD" Padding="Padding.Is0">
+                <Paragraph Padding="Padding.Is4.OnY" Margin="Margin.Is0" TextColor="TextColor.Muted">
+                    @TextContent
+                </Paragraph>
+                <Paragraph TextWeight="TextWeight.Bold" TextColor="TextColor.Muted">
+                    @BoldContent
+                </Paragraph>
+            </Column>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen" Padding="Padding.Is0" Class="img-features aos-init aos-animate" data-aos="fade-left">
+            <Anchor To="@To" Class="home-feature-info-image">
+                <Image Source="@ImageSource" Text="@ImageText" Fluid />
+            </Anchor>
+        </Column>
+    </Row>
+}
+@code {
+    [Parameter] public bool Reverse { get; set; }
+
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public RenderFragment TextContent { get; set; }
+
+    [Parameter] public RenderFragment BoldContent { get; set; }
+
+    [Parameter] public string To { get; set; }
+
+    [Parameter] public string ImageSource { get; set; }
+
+    [Parameter] public string ImageText { get; set; }
+}

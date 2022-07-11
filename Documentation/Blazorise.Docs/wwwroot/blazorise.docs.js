@@ -7,7 +7,7 @@
 
     navigation: {
         scrollToTop: () => {
-            var element = document.getElementById("docs-layout-header");
+            var element = document.getElementById("b-docs-layout-header");
 
             if (element) {
                 element.scrollIntoView({
