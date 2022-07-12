@@ -106,10 +106,7 @@ namespace Blazorise.BusyLoading
         [Parameter]
         public BusyLoadingService Service
         {
-            get
-            {
-                return service;
-            }
+            get => service;
             set
             {
                 if ( value != service )
@@ -136,14 +133,8 @@ namespace Blazorise.BusyLoading
         [Parameter]
         public bool IsLoaded
         {
-            get
-            {
-                return isLoaded ?? isLoadedParameter;
-            }
-            set
-            {
-                isLoadedParameter = value;
-            }
+            get => isLoaded ?? isLoadedParameter;
+            set => isLoadedParameter = value;
         }
 
         /// <summary>
@@ -152,14 +143,8 @@ namespace Blazorise.BusyLoading
         [Parameter]
         public bool IsBusy
         {
-            get
-            {
-                return isBusy ?? isBusyParameter;
-            }
-            set
-            {
-                isBusyParameter = value;
-            }
+            get => isBusy ?? isBusyParameter;
+            set => isBusyParameter = value;
         }
 
         /// <summary>
