@@ -5503,6 +5503,32 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
+            Data=""Countries""
+            TextField=""(item) => item.Name""
+            Mode=""ListGroupMode.Static""
+            MaxHeight=""300px"">
+    <ItemTemplate>
+        <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
+            <Heading Margin=""Margin.Is2.FromBottom"">@context.Item.Iso</Heading>
+            <Small>@context.Item.Capital</Small>
+        </Div>
+        <Paragraph Margin=""Margin.Is2.FromBottom"">@context.Text</Paragraph>
+    </ItemTemplate>
+</ListView>
+
+@code{
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string ListViewSelectableExample = @"<ListView TItem=""Country""
             Data=""Countries""
             TextField=""(item) => item.Name""
