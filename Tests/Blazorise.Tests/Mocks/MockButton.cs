@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Moq;
 #endregion
 
@@ -44,7 +45,7 @@ namespace Blazorise.Tests.Mocks
 
         public Task Click()
         {
-            return ClickHandler();
+            return ClickHandler( new MouseEventArgs() );
         }
 
         private bool OnFocusCalled( ElementReference elementReference, string elementId, bool scrollToElement )

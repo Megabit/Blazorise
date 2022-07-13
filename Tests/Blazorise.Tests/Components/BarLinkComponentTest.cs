@@ -3,6 +3,7 @@ using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -22,8 +23,7 @@ namespace Blazorise.Tests.Components
         {
             // setup
             bool wasClicked = false;
-            var testCallback = new EventCallback( null, (Action)( () =>
-                wasClicked = true ) );
+            var testCallback = new EventCallback<MouseEventArgs>( null, ( MouseEventArgs e ) => wasClicked = true );
 
             // test
             var comp = RenderComponent<BarLink>( builder =>
@@ -41,8 +41,7 @@ namespace Blazorise.Tests.Components
         {
             // setup
             bool wasClicked = false;
-            var testCallback = new EventCallback( null, (Action)( () =>
-                wasClicked = true ) );
+            var testCallback = new EventCallback<MouseEventArgs>( null, ( MouseEventArgs e ) => wasClicked = true );
 
             // test
             var comp = RenderComponent<BarLink>( builder =>

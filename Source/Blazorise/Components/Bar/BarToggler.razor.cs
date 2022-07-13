@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -47,12 +48,13 @@ namespace Blazorise
         /// <summary>
         /// Handles the toggler onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler()
+        protected async Task ClickHandler( MouseEventArgs eventArgs )
         {
             if ( Clicked.HasDelegate )
             {
-                await Clicked.InvokeAsync();
+                await Clicked.InvokeAsync( eventArgs );
             }
 
             if ( Bar != null )
@@ -74,7 +76,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Provides options for inline or popout styles. Only supported by Vertical Bar. Uses inline by default.
