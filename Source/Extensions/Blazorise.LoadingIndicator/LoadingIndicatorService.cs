@@ -1,24 +1,24 @@
-﻿namespace Blazorise.BusyLoading
+﻿namespace Blazorise.LoadingIndicator
 {
     /// <summary>
-    /// A service to control BusyLoading components
+    /// A service to control LoadingIndicator components
     /// </summary>
-    public class BusyLoadingService
+    public class LoadingIndicatorService
     {
         internal delegate void StateChanged(bool val);
         internal event StateChanged BusyChanged;
         internal event StateChanged LoadedChanged;
         
         /// <summary>
-        /// Set IsBusy state
+        /// Set Busy state
         /// </summary>
         /// <param name="val">true or false</param>
-        public void Busy(bool val) => BusyChanged.Invoke(val);
+        public void SetBusy(bool val) => BusyChanged.Invoke(val);
 
         /// <summary>
-        /// Set IsLoaded state
+        /// Set Loaded state
         /// </summary>
         /// <param name="val">true or false</param>
-        public void Loaded(bool val) => LoadedChanged.Invoke(val);
+        public void SetLoaded(bool val) => LoadedChanged.Invoke(val);
     }
 }

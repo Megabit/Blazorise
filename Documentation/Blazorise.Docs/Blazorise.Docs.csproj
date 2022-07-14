@@ -22,7 +22,8 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
+	<ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
+	<ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Video\Blazorise.Video.csproj" />
   </ItemGroup>
 
@@ -68,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Docs\Extensions\LoadingIndicator\Code\" />
+    <Folder Include="Pages\Docs\Extensions\LoadingIndicator\Examples\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

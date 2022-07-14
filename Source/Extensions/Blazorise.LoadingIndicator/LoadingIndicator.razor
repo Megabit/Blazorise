@@ -1,20 +1,23 @@
-﻿@namespace Blazorise.BusyLoading
+﻿@namespace Blazorise.LoadingIndicator
 @inherits BaseComponent
 
-@if (GetIsLoaded())
+@if (GetLoaded())
 {
     <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">         
         <CascadingValue Value="@this">
             @ChildContent
         </CascadingValue>
-        @if (GetIsBusy())
+        @if (GetBusy())
         {
-            var overlayTypeClass = IsFullScreen ? "bl-overlay-fixed" : "bl-overlay-relative";
-            <div class="bl-overlay @overlayTypeClass" style="opacity:@ScreenOpacity; background-color:@ScreenColor;" />
-            <div class="bl-overlay @overlayTypeClass bl-indicator">
-                @if (BusyIndicatorTemplate != null)
+            var overlayTypeClass = FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative";
+            var zIndexStyle = ZIndex == null ? "" : $"z-index:{ZIndex};";
+            <div class="bl-overlay @overlayTypeClass" style="opacity:@ScreenOpacity; background-color:@ScreenColor; @zIndexStyle" />
+            <div class="bl-overlay @overlayTypeClass bl-indicator" style="@zIndexStyle">
+                @if (IndicatorTemplate != null)
                 {
-                    @BusyIndicatorTemplate
+                    <CascadingValue Value="@this">
+                        @IndicatorTemplate
+                    </CascadingValue>
                 }
                 else
                 {

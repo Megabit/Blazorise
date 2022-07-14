@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -25,6 +26,8 @@ namespace Blazorise.Demo
             // register demo services to fetch test data
             services.AddScoped<Shared.Data.EmployeeData>();
             services.AddScoped<Shared.Data.CountryData>();
+
+            services.AddScoped<LoadingIndicatorService>();
 
             return services;
         }

@@ -1,3 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject LoadingIndicatorService ApplicationLoadingIndicatorService
 
-@Body
+<LoadingIndicator Service="ApplicationLoadingIndicatorService" SpinnerSize="30%" FullScreen>
+    @Body
+</LoadingIndicator>

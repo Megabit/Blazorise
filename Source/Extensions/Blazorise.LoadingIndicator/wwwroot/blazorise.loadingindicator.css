@@ -1,12 +1,15 @@
 .bl-wrapper {
 }
 
+.bl-wrapper-inline {
+    display: inline-block;
+}
+
 .bl-wrapper-container {
     position: relative;
 }
 
 .bl-overlay {
-    z-index: 2147483647;
     top: 0;
     left: 0;
     width: 100%;
@@ -15,6 +18,7 @@
 
 .bl-overlay-fixed {
     position: fixed;
+    z-index: 2147483647;
 }
 
 .bl-overlay-relative {

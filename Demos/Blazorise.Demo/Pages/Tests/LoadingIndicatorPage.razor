@@ -1,0 +1,130 @@
+﻿@page "/tests/loadingindicator"
+@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Using Reference and Binding</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LoadingIndicator @ref="lineChartIndicator" @bind-Busy="lineChartBusy" @bind-Loaded="lineChartLoaded">
+                    <LineChart @ref="lineChart" Data="lineChartData"/>
+                </LoadingIndicator>
+                <Button Clicked="() => lineChartIndicator.SetBusy(true)" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Busy</Button>
+                <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Busy</Check>
+                <Check TValue="bool" @bind-Checked="lineChartLoaded" Inline >Loaded</Check>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Row>
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Using Service Instance</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <Row>
+                        <Column ColumnSize="ColumnSize.IsHalf">
+                            <LoadingIndicator Service="sharedLoadingIndicatorService">
+                                <LineChart Data="lineChartData"/>
+                            </LoadingIndicator>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.IsHalf">
+                            <LoadingIndicator Service="sharedLoadingIndicatorService">
+                                <LineChart Data="lineChartData"/>
+                            </LoadingIndicator>
+                        </Column>
+                    </Row>
+                    <Row>
+                        <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Set Multiple Indicators</Button>
+                        <Button Margin="Margin.Is2.OnX" Clicked="ShowApplicationIndicator" Color="Color.Secondary">Application Busy</Button>
+                    </Row>
+                </CardBody>
+            </Card>
+        </Row>
+        <Row>
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Wrapping Inline Content</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <LoadingIndicator @ref="textEditIndicator" Inline Busy SpinnerSize="100%">
+                        <TextEdit Disabled="textEditIndicator.Busy" Text="disabled when busy"/>
+                    </LoadingIndicator>
+                    <LoadingIndicator Inline Busy SpinnerSize="100%">
+                        <Button Color="Color.Primary">Loading...</Button>
+                    </LoadingIndicator>
+                </CardBody>
+            </Card>
+        </Row>
+        <Row>
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Customizing Appearance</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <LoadingIndicator @ref="customBasicIndicator" FullScreen SpinnerColor="crimson" SpinnerBackgroundColor="goldenrod" SpinnerSize="100%" ScreenColor="pink" ScreenOpacity="0.7" Inline>
+                        <Button Clicked="ShowCustomBasicIndicator" Color="Color.Primary">Size and Color</Button>
+                    </LoadingIndicator>
+                    <LoadingIndicator @ref="customIndicator" FullScreen Inline Margin="Margin.Is2.OnX">
+                        <IndicatorTemplate>
+                            <SpinKit Type="SpinKitType.Bounce" />
+                            <SpinKit Type="SpinKitType.Circle" />
+                            <SpinKit Type="SpinKitType.Grid" />
+                            <Button Margin="Margin.Is2.OnX" Clicked="() => customIndicator.SetBusy(false)" Color="Color.Primary">Stop</Button>
+                        </IndicatorTemplate>
+                        <ChildContent>
+                            <Button Clicked="() => customIndicator.SetBusy(true)" Color="Color.Secondary">Template</Button>
+                        </ChildContent>
+                    </LoadingIndicator>
+                </CardBody>
+            </Card>
+        </Row>
+    </Column>
+</Row>
+
+@code {
+    private LineChart<double> lineChart;
+    private LoadingIndicator lineChartIndicator;
+    private bool lineChartBusy;
+    private bool lineChartLoaded = true;
+
+    private LoadingIndicatorService sharedLoadingIndicatorService = new();
+
+    private LoadingIndicator textEditIndicator;
+    private LoadingIndicator customBasicIndicator;
+    private LoadingIndicator customIndicator;
+
+    private ChartData<double> lineChartData = new()
+        {
+            Labels = new() { "Jan", "Feb", "Mar", "Apr", "May", "Jun"}, 
+            Datasets = new() {
+                new LineChartDataset<double>()
+                {
+                    Data = new List<double>() { 100, 120, 40, 70, 110, 50 },
+                }
+            }
+        };
+
+    async Task ShowApplicationIndicator()
+    {
+        ApplicationLoadingIndicatorService.SetBusy(true);
+        await Task.Delay(5000);
+        ApplicationLoadingIndicatorService.SetBusy(false);
+    }
+
+    async Task ShowMultipleIndicators()
+    {
+        sharedLoadingIndicatorService.SetBusy(true);
+        await Task.Delay(5000);
+        sharedLoadingIndicatorService.SetBusy(false);
+    }
+
+    async Task ShowCustomBasicIndicator()
+    { 
+        customBasicIndicator.SetBusy(true);
+        await Task.Delay(5000);
+        customBasicIndicator.SetBusy(false);
+    }
+}

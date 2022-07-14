@@ -5,24 +5,24 @@ using Microsoft.AspNetCore.Components;
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.BusyLoading
+namespace Blazorise.LoadingIndicator
 {
     /// <summary>
-    /// A wrapper component that adds a busy spinner or show a loading message.
-    /// Fully templatable, supports two-way binding, direct use using @ref and
+    /// A wrapper component that adds a busy spinner or shows a loading message.
+    /// Fully templatable, supports two-way binding, direct use via @ref and
     /// can be controlled by a service that may be shared by multiple instances.
     /// </summary>
-    public partial class BusyLoading : BaseComponent, IDisposable
+    public partial class LoadingIndicator : BaseComponent, IDisposable
     {
         #region Members
         
-        private BusyLoadingService service;
+        private LoadingIndicatorService service;
 
-        private bool? isLoaded;
-        private bool isLoadedParameter;
+        private bool? loaded;
+        private bool loadedParameter = true;
         
-        private bool? isBusy;
-        private bool isBusyParameter;
+        private bool? busy;
+        private bool busyParameter;
 
         #endregion
 
@@ -30,61 +30,62 @@ namespace Blazorise.BusyLoading
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "bl-wrapper" );
-            builder.Append( "bl-wrapper-container", GetIsBusy() && !IsFullScreen );
+            builder.Append( "bl-wrapper-inline", Inline );
+            builder.Append( "bl-wrapper-container", GetBusy() && !FullScreen );
             base.BuildClasses( builder );
         }
 
         /// <summary>
-        /// Set component IsBusy
+        /// Set component Busy state
         /// </summary>
         /// <param name="val">true or false</param>
-        public void Busy( bool val )
+        public void SetBusy( bool val )
         {
-            if ( GetIsBusy() != val )
+            if ( GetBusy() != val )
             {
-                isBusy = val;
+                busy = val;
                 DirtyClasses();
-                IsBusyChanged.InvokeAsync( val );
+                BusyChanged.InvokeAsync( val );
                 InvokeAsync( StateHasChanged );
             }
         }
 
         /// <summary>
-        /// Set component IsLoaded
+        /// Set component Loaded state
         /// </summary>
         /// <param name="val">true or false</param>
-        public void Loaded( bool val )
+        public void SetLoaded( bool val )
         {
-            if ( GetIsLoaded() != val )
+            if ( GetLoaded() != val )
             {
-                isLoaded = val;
-                IsLoadedChanged.InvokeAsync( val );
+                loaded = val;
+                LoadedChanged.InvokeAsync( val );
                 InvokeAsync( StateHasChanged );
             }
         }
 
-        private void Service_BusyChanged( bool val ) => Busy( val );
-        private void Service_LoadedChanged( bool val ) => Loaded( val );
+        private void Service_BusyChanged( bool val ) => SetBusy( val );
+        private void Service_LoadedChanged( bool val ) => SetLoaded( val );
 
-        private bool GetIsBusy() => isBusy ?? IsBusy;
-        private bool GetIsLoaded() => isLoaded ?? IsLoaded;
+        private bool GetBusy() => busy ?? Busy;
+        private bool GetLoaded() => loaded ?? Loaded;
 
         /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue( nameof( IsLoaded ), out bool newIsLoadedParameter ) )
+            if ( parameters.TryGetValue( nameof( Loaded ), out bool newLoadedParameter ) )
             {
-                if ( isLoadedParameter != newIsLoadedParameter )
+                if ( loadedParameter != newLoadedParameter )
                 {
-                    isLoaded = null; // use parameter instead of local value
+                    loaded = null; // use parameter instead of local value
                 }
             }
 
-            if ( parameters.TryGetValue( nameof( IsBusy ), out bool newIsBusyParameter ) )
+            if ( parameters.TryGetValue( nameof( Busy ), out bool newBusyParameter ) )
             {
-                if ( isBusyParameter != newIsBusyParameter )
+                if ( busyParameter != newBusyParameter )
                 {
-                    isBusy = null; // use parameter instead of local value
+                    busy = null; // use parameter instead of local value
                 }
             }
 
@@ -104,7 +105,7 @@ namespace Blazorise.BusyLoading
         /// Service used to control this instance
         /// </summary>
         [Parameter]
-        public BusyLoadingService Service
+        public LoadingIndicatorService Service
         {
             get => service;
             set
@@ -131,33 +132,37 @@ namespace Blazorise.BusyLoading
         /// Indicates whether component is ready to be rendered
         /// </summary>
         [Parameter]
-        public bool IsLoaded
+        public bool Loaded
         {
-            get => isLoaded ?? isLoadedParameter;
-            set => isLoadedParameter = value;
+            get => loaded ?? loadedParameter;
+            set => loadedParameter = value;
         }
 
         /// <summary>
         /// Indicates whether the component should be covered with a busy screen
         /// </summary>
         [Parameter]
-        public bool IsBusy
+        public bool Busy
         {
-            get => isBusy ?? isBusyParameter;
-            set => isBusyParameter = value;
+            get => busy ?? busyParameter;
+            set
+            {
+                busyParameter = value;
+                DirtyClasses();
+            }
         }
 
         /// <summary>
         /// Occurs when IsLoaded state has changed
         /// </summary>
         [Parameter]
-        public EventCallback<bool> IsLoadedChanged { get; set; }
+        public EventCallback<bool> LoadedChanged { get; set; }
 
         /// <summary>
         /// Occurs when IsBusy state has changed
         /// </summary>
         [Parameter]
-        public EventCallback<bool> IsBusyChanged { get; set; }
+        public EventCallback<bool> BusyChanged { get; set; }
 
         /// <inheritdoc/>
         [Parameter]
@@ -167,7 +172,7 @@ namespace Blazorise.BusyLoading
         /// Busy indicator template
         /// </summary>
         [Parameter]
-        public RenderFragment BusyIndicatorTemplate { get; set; }
+        public RenderFragment IndicatorTemplate { get; set; }
 
         /// <summary>
         /// Loading state template
@@ -209,8 +214,20 @@ namespace Blazorise.BusyLoading
         /// Show busy indicator full screen
         /// </summary>
         [Parameter]
-        public bool IsFullScreen { get; set; }
-        
+        public bool FullScreen { get; set; }
+
+        /// <summary>
+        /// Wrap inline content
+        /// </summary>
+        [Parameter]
+        public bool Inline { get; set; }
+
+        /// <summary>
+        /// Overlay screen z-index
+        /// </summary>
+        [Parameter]
+        public int? ZIndex { get; set; }
+
         #endregion
     }
 }

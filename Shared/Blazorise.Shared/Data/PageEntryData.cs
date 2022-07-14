@@ -104,6 +104,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/sidebar", "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." ),
                 new PageEntry( "docs/extensions/snackbar", "Snackbar", "Snackbar provide brief messages about app processes. The component is also known as a toast." ),
                 new PageEntry( "docs/extensions/spinkit", "SpinKit", "A component used to show loading indicators animated with CSS." ),
+                new PageEntry( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
                 new PageEntry( "docs/extensions/treeview", "TreeView", "The TreeView component is a graphical control element that presents a hierarchical view of information." ),
                 new PageEntry( "docs/extensions/video", "Video", "A Video component used to play a regular or streaming media." ),
                 new PageEntry( "docs/extensions/qrcode", "QRCode", "A component used to generate QR codes." ),
@@ -140,6 +141,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/services/message", "Message", "Message service is used for quick user confirmation actions." ),
                 new PageEntry( "docs/services/notification", "Notification", "Notification service is used to provide feedback to the user." ),
                 new PageEntry( "docs/services/page-progress", "Page Progress", "Page Progress service is used to provide a page loading indicator to the user." ),
+                new PageEntry( "docs/services/loading-indicator", "Loading Indicator", "Loading Indicator service is used to trigger state change in LoadinIndicator components" ),
                 new PageEntry( "docs/faq", "FAQ" ),
                 new PageEntry( "https://commercial.blazorise.com/license", "License" ),
                 }.ToArray() );
