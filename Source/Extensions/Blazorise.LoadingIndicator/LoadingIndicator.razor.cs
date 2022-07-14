@@ -15,24 +15,86 @@ namespace Blazorise.LoadingIndicator
     public partial class LoadingIndicator : BaseComponent, IDisposable
     {
         #region Members
-        
+
+        private ClassBuilder screenClasses;
+        private ClassBuilder indicatorClasses;
+        private StyleBuilder screenStyles;
+        private StyleBuilder indicatorStyles;
+
         private LoadingIndicatorService service;
 
         private bool? loaded;
         private bool loadedParameter = true;
-        
+
         private bool? busy;
         private bool busyParameter;
 
         #endregion
 
         #region Methods
+
+        public LoadingIndicator()
+        {
+            screenClasses = new( BuildScreenClasses );
+            screenStyles = new( BuildScreenStyles );
+            indicatorClasses = new( BuildIndicatorClasses );
+            indicatorStyles = new( BuildIndicatorStyles );
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "bl-wrapper" );
-            builder.Append( "bl-wrapper-inline", Inline );
-            builder.Append( "bl-wrapper-container", GetBusy() && !FullScreen );
             base.BuildClasses( builder );
+        }
+
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            builder.Append( "position:relative", GetBusy() && !FullScreen );
+            builder.Append( "display:inline-block", Inline );
+            base.BuildStyles( builder );
+        }
+        private void BuildScreenClasses( ClassBuilder builder )
+        {
+            builder.Append( "bl-overlay" );
+            builder.Append( FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative" );
+            base.BuildClasses( builder );
+        }
+        private void BuildIndicatorClasses( ClassBuilder builder )
+        {
+            builder.Append( "bl-overlay" );
+            builder.Append( FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative" );
+            builder.Append( "bl-indicator" );
+            base.BuildClasses( builder );
+        }
+
+        private void BuildScreenStyles( StyleBuilder builder )
+        {
+            builder.Append( $"opacity:{ScreenOpacity}" );
+            builder.Append( $"background-color:{ScreenColor}" );
+            builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
+            base.BuildStyles( builder );
+        }
+
+        private void BuildIndicatorStyles( StyleBuilder builder )
+        {
+            builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
+            builder.Append( $"justify-content:start", SpinnerHorizontalPlacement == Placement.Start );
+            builder.Append( $"justify-content:end", SpinnerHorizontalPlacement == Placement.End );
+            builder.Append( $"align-items:top", SpinnerVerticalPlacement == Placement.Top );
+            builder.Append( $"align-items:bottom", SpinnerVerticalPlacement == Placement.Bottom );
+            base.BuildStyles( builder );
+        }
+
+        private void DirtyClassesAndStyles()
+        {
+            DirtyClasses();
+            DirtyStyles();
+
+            screenClasses.Dirty();
+            screenStyles.Dirty();
+
+            indicatorClasses.Dirty();
+            indicatorStyles.Dirty();
         }
 
         /// <summary>
@@ -44,7 +106,7 @@ namespace Blazorise.LoadingIndicator
             if ( GetBusy() != val )
             {
                 busy = val;
-                DirtyClasses();
+                DirtyClassesAndStyles();
                 BusyChanged.InvokeAsync( val );
                 InvokeAsync( StateHasChanged );
             }
@@ -148,7 +210,7 @@ namespace Blazorise.LoadingIndicator
             set
             {
                 busyParameter = value;
-                DirtyClasses();
+                DirtyClassesAndStyles();
             }
         }
 
@@ -193,10 +255,28 @@ namespace Blazorise.LoadingIndicator
         public string SpinnerColor { get; set; } = "#000000";
 
         /// <summary>
-        /// Spinner css size
+        /// Spinner css width
         /// </summary>
         [Parameter]
-        public string SpinnerSize { get; set; } = "64px";
+        public string SpinnerWidth { get; set; } = "64px";
+
+        /// <summary>
+        /// Spinner css height
+        /// </summary>
+        [Parameter]
+        public string SpinnerHeight { get; set; } = "64px";
+
+        /// <summary>
+        /// Indicator vertical position
+        /// </summary>
+        [Parameter]
+        public Placement? SpinnerVerticalPlacement { get; set; }
+
+        /// <summary>
+        /// Indicator horizontal position
+        /// </summary>
+        [Parameter]
+        public Placement? SpinnerHorizontalPlacement { get; set; }
 
         /// <summary>
         /// Busy screen opacity

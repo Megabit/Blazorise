@@ -21,7 +21,7 @@
         <Row>
             <Card Margin="Margin.Is4.OnY">
                 <CardHeader>
-                    <CardTitle>Using Service Instance</CardTitle>
+                    <CardTitle>Using Service Instance and Cascading Parameter</CardTitle>
                 </CardHeader>
                 <CardBody>
                     <Row>
@@ -38,7 +38,8 @@
                     </Row>
                     <Row>
                         <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Set Multiple Indicators</Button>
-                        <Button Margin="Margin.Is2.OnX" Clicked="ShowApplicationIndicator" Color="Color.Secondary">Application Busy</Button>
+                        <Button Margin="Margin.Is2.OnX" Clicked="ShowApplicationIndicator" Color="Color.Secondary">Application Busy Service</Button>
+                        <Button Clicked="ShowApplicationIndicatorCascading" Color="Color.Success">Cascading Loading Indicator</Button>
                     </Row>
                 </CardBody>
             </Card>
@@ -49,10 +50,10 @@
                     <CardTitle>Wrapping Inline Content</CardTitle>
                 </CardHeader>
                 <CardBody>
-                    <LoadingIndicator @ref="textEditIndicator" Inline Busy SpinnerSize="100%">
+                    <LoadingIndicator @ref="textEditIndicator" Inline Busy SpinnerHeight="100%" SpinnerWidth="60px" SpinnerHorizontalPlacement="Placement.End">
                         <TextEdit Disabled="textEditIndicator.Busy" Text="disabled when busy"/>
                     </LoadingIndicator>
-                    <LoadingIndicator Inline Busy SpinnerSize="100%">
+                    <LoadingIndicator Inline Busy SpinnerHeight="100%">
                         <Button Color="Color.Primary">Loading...</Button>
                     </LoadingIndicator>
                 </CardBody>
@@ -64,7 +65,7 @@
                     <CardTitle>Customizing Appearance</CardTitle>
                 </CardHeader>
                 <CardBody>
-                    <LoadingIndicator @ref="customBasicIndicator" FullScreen SpinnerColor="crimson" SpinnerBackgroundColor="goldenrod" SpinnerSize="100%" ScreenColor="pink" ScreenOpacity="0.7" Inline>
+                    <LoadingIndicator @ref="customBasicIndicator" FullScreen SpinnerColor="crimson" SpinnerBackgroundColor="goldenrod" SpinnerHeight="100%" ScreenColor="pink" ScreenOpacity="0.7" Inline>
                         <Button Clicked="ShowCustomBasicIndicator" Color="Color.Primary">Size and Color</Button>
                     </LoadingIndicator>
                     <LoadingIndicator @ref="customIndicator" FullScreen Inline Margin="Margin.Is2.OnX">
@@ -85,6 +86,9 @@
 </Row>
 
 @code {
+    [CascadingParameter]
+    public LoadingIndicator CascadingLoadingIndicator { get; set; }
+
     private LineChart<double> lineChart;
     private LoadingIndicator lineChartIndicator;
     private bool lineChartBusy;
@@ -110,8 +114,15 @@
     async Task ShowApplicationIndicator()
     {
         ApplicationLoadingIndicatorService.SetBusy(true);
-        await Task.Delay(5000);
+        await Task.Delay(3000);
         ApplicationLoadingIndicatorService.SetBusy(false);
+    }
+
+    async Task ShowApplicationIndicatorCascading()
+    {
+        CascadingLoadingIndicator.SetBusy(true);
+        await Task.Delay(3000);
+        CascadingLoadingIndicator.SetBusy(false);
     }
 
     async Task ShowMultipleIndicators()
@@ -124,7 +135,7 @@
     async Task ShowCustomBasicIndicator()
     { 
         customBasicIndicator.SetBusy(true);
-        await Task.Delay(5000);
+        await Task.Delay(3000);
         customBasicIndicator.SetBusy(false);
     }
 }

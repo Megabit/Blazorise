@@ -1,14 +1,6 @@
 .bl-wrapper {
 }
 
-.bl-wrapper-inline {
-    display: inline-block;
-}
-
-.bl-wrapper-container {
-    position: relative;
-}
-
 .bl-overlay {
     top: 0;
     left: 0;

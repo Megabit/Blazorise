@@ -4,25 +4,23 @@
 @if (GetLoaded())
 {
     <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">         
-        <CascadingValue Value="@this">
+        <CascadingValue Value="@this" IsFixed>
             @ChildContent
         </CascadingValue>
         @if (GetBusy())
         {
-            var overlayTypeClass = FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative";
-            var zIndexStyle = ZIndex == null ? "" : $"z-index:{ZIndex};";
-            <div class="bl-overlay @overlayTypeClass" style="opacity:@ScreenOpacity; background-color:@ScreenColor; @zIndexStyle" />
-            <div class="bl-overlay @overlayTypeClass bl-indicator" style="@zIndexStyle">
+            <div class="@screenClasses.Class" style="@screenStyles.Styles" />
+            <div class="@indicatorClasses.Class" style="@indicatorStyles.Styles">
                 @if (IndicatorTemplate != null)
                 {
-                    <CascadingValue Value="@this">
+                    <CascadingValue Value="@this" IsFixed>
                         @IndicatorTemplate
                     </CascadingValue>
                 }
                 else
                 {
-                    // https://icons8.com/preloaders/en/search/spinner#
-                    <svg width="@SpinnerSize" height="@SpinnerSize" viewBox="0 0 128 128">
+                    @*https://icons8.com/preloaders/en/search/spinner#*@
+                    <svg width="@SpinnerWidth" height="@SpinnerHeight" viewBox="0 0 128 128">
                         <g>
                             <path d="M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z" fill="@SpinnerColor" />
                             <path d="M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z" fill="@SpinnerBackgroundColor" transform="rotate(45 64 64)" />
@@ -44,7 +42,7 @@ else
 {
     @if (LoadingTemplate != null)
     {
-        <CascadingValue Value="@this">
+        <CascadingValue Value="@this" IsFixed>
             @LoadingTemplate
         </CascadingValue>
     }
