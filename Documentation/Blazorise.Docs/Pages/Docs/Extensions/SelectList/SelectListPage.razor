@@ -77,8 +77,14 @@
     <DocsAttributesItem Name="SelectedValue" Type="TValue">
         Currently selected value.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValues" Type="IReadOnlyList<TValue>" Default="default">
+        Selected item value when in multi edit mode.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<TValue>">
         Raises an event after the selected value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<IReadOnlyList<TValue>>">
+        Occurs when the selected items value has changed (only when <Code>Multiple</Code>).
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple items can be selected.
