@@ -9,7 +9,7 @@
 </BlogPageTitle>
 
 <BlogPageParagraph>
-    Blazorise as a component library harnesses the power of Blazor WASM to create rich user interfaces. These components are production grade and highly customizable and allow development teams to deliver client-side applications faster.
+    Blazorise as a component library harnesses the power of Blazor WASM to create rich user interfaces. These components are highly customizable, production-grade, and highly customizable, allowing development teams to deliver client-side applications faster.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -29,7 +29,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    In the words of Jay Phelps “WebAssembly is neither web nor assembly”. In simple terms, WebAssembly or WASM, is a stack-based virtual machine.
+    In the words of Jay Phelps, “WebAssembly is neither web nor assembly”. In simple terms, WebAssembly or WASM, is a stack-based virtual machine.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -45,7 +45,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Markdig.Syntax.Inlines.LinkDelimiterInline
+    <Anchor To="https://webassembly.github.io/spec/" Title="Link to The WebAssembly specification">The WebAssembly specification</Anchor> maintains that the standards apply to more than just the browser host, but also to any other compliant host runtime (what the specification refers to as an embedder).
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -61,7 +61,7 @@
 </Heading>
 
 <BlogPageParagraph>
-    The job of the most basic WebAssembly interpreter is to read operation codes and, in response, push or pop values on and off the stack. These kinds of operations are incredibly fast and efficient. A wasm interpreter can supply basic math, memory, and stack management capabilities and thus do its job very quickly and with very little overhead.
+    The job of the most basic WebAssembly interpreter is to read operation codes and, in response, push or pop values on and off the stack. These kinds of operations are incredibly fast and efficient. A WASM interpreter can supply basic math, memory, and stack management capabilities and thus do its job very quickly and with very little overhead.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -77,7 +77,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    This means that business logic encoded into the wasm should work anywhere, and even more importantly, the functions your wasm module imports from the host should also be able to work anywhere.
+    This means that business logic encoded into the WASM should work anywhere, and even more importantly, the functions your WASM module imports from the host should also be able to work anywhere.
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -89,7 +89,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    The deployment size for wasm is exponentially smaller than most of what we’re building today in the world of containers or serverless “bundles”, and that can have a huge impact on how we think about and plan our distributed applications.
+    The deployment size for WASM is exponentially smaller than most of what we’re building today in the world of containers or serverless “bundles”, and that can have a huge impact on how we think about and plan our distributed applications.
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -101,7 +101,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Anything a wasm module does outside its sandbox must go through a host import, a function it asks the host to call. This means the host is free to deny that call at any time. Host imports are the lynchpin of nearly all of the actor models and cloud-native functionality. They are as powerful as they are secure.
+    Anything a WASM module does outside its sandbox must go through a host import, a function it asks the host to call. This means the host is free to deny that call at any time. Host imports are the lynchpin of nearly all of the actor models and cloud-native functionality. They are as powerful as they are secure.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -117,7 +117,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Many of the early WebAssembly technology demonstrations are full of “smoke and mirrors”—illusions or hand-waving where a lot of complexity is hidden from the viewer. As you continue to learn about WebAssembly, wasm code, and technology demonstrations, keep a keen and critical eye out for the boundaries. Watch for where the core WebAssembly stops and the duct tape, bubble gum, and mirrors start.
+    Many of the early WebAssembly technology demonstrations are full of “smoke and mirrors”—illusions or hand-waving where a lot of complexity is hidden from the viewer. As you continue to learn about WebAssembly, WASM code, and technology demonstrations, keep a keen and critical eye out for the boundaries. Watch for where the core WebAssembly stops and the duct tape, bubble gum, and mirrors start.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -131,5 +131,15 @@
 <BlogPageParagraph>
     In our next post, we will take a deeper dive in Blazor WebAssembly and why you should consider it for your client-side applications.
 </BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Related blogs
+</BlogPageSubtitle>
+
+<BlogPageList>
+    <BlogPageListItem>
+        <Anchor To="blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to How to create a Blazorise WASM application: A Beginner's Guide">How to create a Blazorise WASM application: A Beginner's Guide</Anchor>
+    </BlogPageListItem>
+</BlogPageList>
 
 <BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="July 13th, 2022" Read="4 min" />
