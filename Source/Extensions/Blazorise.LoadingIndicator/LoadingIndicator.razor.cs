@@ -80,8 +80,8 @@ namespace Blazorise.LoadingIndicator
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
             builder.Append( $"justify-content:start", SpinnerHorizontalPlacement == Placement.Start );
             builder.Append( $"justify-content:end", SpinnerHorizontalPlacement == Placement.End );
-            builder.Append( $"align-items:top", SpinnerVerticalPlacement == Placement.Top );
-            builder.Append( $"align-items:bottom", SpinnerVerticalPlacement == Placement.Bottom );
+            builder.Append( $"align-items:start", SpinnerVerticalPlacement == Placement.Top );
+            builder.Append( $"align-items:end", SpinnerVerticalPlacement == Placement.Bottom );
             base.BuildStyles( builder );
         }
 
@@ -270,13 +270,13 @@ namespace Blazorise.LoadingIndicator
         /// Indicator vertical position
         /// </summary>
         [Parameter]
-        public Placement? SpinnerVerticalPlacement { get; set; }
+        public Placement SpinnerVerticalPlacement { get; set; } = Placement.Middle;
 
         /// <summary>
         /// Indicator horizontal position
         /// </summary>
         [Parameter]
-        public Placement? SpinnerHorizontalPlacement { get; set; }
+        public Placement SpinnerHorizontalPlacement { get; set; } = Placement.Middle;
 
         /// <summary>
         /// Busy screen opacity

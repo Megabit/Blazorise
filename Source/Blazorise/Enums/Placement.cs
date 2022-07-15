@@ -26,5 +26,10 @@ namespace Blazorise
         /// End side.
         /// </summary>
         End,
+
+        /// <summary>
+        /// Middle.
+        /// </summary>
+        Middle,
     }
 }
