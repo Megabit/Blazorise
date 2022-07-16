@@ -67,8 +67,12 @@
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingBusyExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingWrapperExample.snippet" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingWrapperExample.snippet" />
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingBusyExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />

@@ -1,0 +1,12 @@
+﻿@code
+{
+    [CascadingParameter]
+    LoadingIndicator loadingIndicator;
+    
+    void DoWork()
+    {
+        loadingIndicator.SetBusy(true);
+        // do work ...
+        loadingIndicator.SetBusy(false);
+    }
+}

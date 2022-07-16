@@ -5610,6 +5610,23 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 }";
 
+        public const string LoadingIndicatorCascadingBusyExample = @"@code
+{
+    [CascadingParameter]
+    LoadingIndicator loadingIndicator;
+    
+    void DoWork()
+    {
+        loadingIndicator.SetBusy(true);
+        // do work ...
+        loadingIndicator.SetBusy(false);
+    }
+}";
+
+        public const string LoadingIndicatorCascadingWrapperExample = @"<LoadingIndicator FullScreen>
+    @Body
+</LoadingIndicator>";
+
         public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";

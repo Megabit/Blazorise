@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    A wrapper component which adds busy / loading UI to child content.
+    A wrapper component which adds busy / loading UI to child content. Default spinner courtesy of <Blazorise.Link To="https://icons8.com/preloaders/en/search/spinner#" Target="Target.Blank">icons8.com</Blazorise.Link>.
 </DocsPageLead>
 
 <DocsPageSubtitle>
@@ -37,7 +37,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
-        The basic usage scenario for LoadingIndicator with default settings.
+        The basic usage scenario for <Code>LoadingIndicator</Code> with default settings.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <LoadingIndicatorBasicExample />
@@ -61,6 +61,20 @@
         Inject <Code>LoadingIndicatorService</Code> into your component where you want to trigger the application busy UI from.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorApplicationBusyExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Using as cascading parameter">
+        You may also use the wrapper as a cascading parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        To implement a global application busy UI using cascading parameter add the wrapper to your main layout.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorCascadingWrapperExample" />
+    <DocsPageSectionContent>
+        Declare a <Code>CascadingParameter</Code> of type <Code>LoadingIndicator</Code> in your component.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorCascadingBusyExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -96,7 +110,7 @@
         Set spinner background color.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Service" Type="LoadingIndicatorService" Default="null">
-        Service that can control this LoadingIndicator instance
+        Service that can control this LoadingIndicator instance.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerColor" Type="string" Default="#000000">
         Set spinner color.
@@ -108,7 +122,7 @@
         Spinner horizontal placement.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerVerticalPlacement" Type="Placement" Default="Middle">
-        Spinner vertical placement
+        Spinner vertical placement.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerWidth" Type="string" Default="64px">
         Set spinner width.
