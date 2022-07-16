@@ -126,8 +126,8 @@ namespace Blazorise.LoadingIndicator
             }
         }
 
-        private void Service_BusyChanged( bool val ) => SetBusy( val );
-        private void Service_LoadedChanged( bool val ) => SetLoaded( val );
+        internal void Service_BusyChanged( bool val ) => SetBusy( val );
+        internal void Service_LoadedChanged( bool val ) => SetLoaded( val );
 
         private bool GetBusy() => busy ?? Busy;
         private bool GetLoaded() => loaded ?? Loaded;
@@ -176,15 +176,13 @@ namespace Blazorise.LoadingIndicator
                 {
                     if ( service != null )
                     {
-                        service.BusyChanged -= Service_BusyChanged;
-                        service.LoadedChanged -= Service_LoadedChanged;
+                        service.Unsubscribe( this );
                     }
 
                     service = value;
                     if ( service != null )
                     {
-                        service.BusyChanged += Service_BusyChanged;
-                        service.LoadedChanged += Service_LoadedChanged;
+                        service.Subscribe( this );
                     }
                 }
             }
