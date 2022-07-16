@@ -45,9 +45,9 @@ namespace Blazorise.LoadingIndicator
             lock ( hashLock )
             {
                 indicators.Add( indicator );
+                BusyChanged += indicator.Service_BusyChanged;
+                LoadedChanged += indicator.Service_LoadedChanged;
             }
-            BusyChanged += indicator.Service_BusyChanged;
-            LoadedChanged += indicator.Service_LoadedChanged;
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         internal void Unsubscribe( LoadingIndicator indicator )
         {
-            BusyChanged -= indicator.Service_BusyChanged;
-            LoadedChanged -= indicator.Service_LoadedChanged;
             lock ( hashLock )
             {
+                BusyChanged -= indicator.Service_BusyChanged;
+                LoadedChanged -= indicator.Service_LoadedChanged;
                 indicators.Remove( indicator );
             }
         }
