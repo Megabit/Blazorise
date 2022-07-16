@@ -5562,12 +5562,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string LoadingIndicatorApplicationBusyExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
 
-<LoadingIndicator FullScreen Service=""ApplicationLoadingIndicatorService"">
-    @Body
-</LoadingIndicator>";
-
-        public const string LoadingIndicatorApplicationWrapperExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
-
 @code 
 {
     void DoWork()
@@ -5577,6 +5571,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         ApplicationLoadingIndicatorService.SetBusy(false);
     }
 }";
+
+        public const string LoadingIndicatorApplicationWrapperExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+
+<LoadingIndicator FullScreen Service=""ApplicationLoadingIndicatorService"">
+    @Body
+</LoadingIndicator>";
 
         public const string LoadingIndicatorBasicExample = @"<Row>
     <Column ColumnSize=""ColumnSize.IsThird"">

@@ -69,8 +69,8 @@
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
   </ItemGroup>
   <ItemGroup>

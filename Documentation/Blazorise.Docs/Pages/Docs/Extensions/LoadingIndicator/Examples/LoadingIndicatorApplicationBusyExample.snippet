@@ -1,5 +1,11 @@
 ﻿@inject LoadingIndicatorService ApplicationLoadingIndicatorService
 
-<LoadingIndicator FullScreen Service="ApplicationLoadingIndicatorService">
-    @Body
-</LoadingIndicator>
+@code 
+{
+    void DoWork()
+    {
+        ApplicationLoadingIndicatorService.SetBusy(true);
+        // do work ...
+        ApplicationLoadingIndicatorService.SetBusy(false);
+    }
+}
