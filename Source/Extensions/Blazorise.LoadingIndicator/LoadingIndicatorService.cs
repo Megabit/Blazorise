@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace Blazorise.LoadingIndicator
 {
@@ -17,7 +18,7 @@ namespace Blazorise.LoadingIndicator
 
         #region Members
 
-        private object hashLock = new();
+        private ReaderWriterLockSlim hashLock = new();
         private HashSet<LoadingIndicator> indicators = new();
 
         #endregion
@@ -42,11 +43,16 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         internal void Subscribe( LoadingIndicator indicator )
         {
-            lock ( hashLock )
+            hashLock.EnterWriteLock();
+            try
             {
                 indicators.Add( indicator );
                 BusyChanged += indicator.Service_BusyChanged;
                 LoadedChanged += indicator.Service_LoadedChanged;
+            }
+            finally
+            {
+                hashLock.ExitWriteLock();
             }
         }
 
@@ -56,11 +62,16 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         internal void Unsubscribe( LoadingIndicator indicator )
         {
-            lock ( hashLock )
-            {
+            hashLock.EnterWriteLock();
+            try
+            { 
                 BusyChanged -= indicator.Service_BusyChanged;
                 LoadedChanged -= indicator.Service_LoadedChanged;
                 indicators.Remove( indicator );
+            }
+            finally
+            {
+                hashLock.ExitWriteLock();
             }
         }
 
@@ -75,25 +86,24 @@ namespace Blazorise.LoadingIndicator
         {
             get
             {
-                lock ( hashLock )
+                hashLock.EnterReadLock();
+                bool? val = null;
+                foreach ( var indicator in indicators )
                 {
-                    bool? val = null;
-                    foreach ( var indicator in indicators )
+                    if ( val == null )
                     {
-                        if ( val == null )
+                        val = indicator.Busy;
+                    }
+                    else
+                    {
+                        if ( val != indicator.Busy )
                         {
-                            val = indicator.Busy;
-                        }
-                        else
-                        {
-                            if ( val != indicator.Busy )
-                            {
-                                return null;
-                            }
+                            return null;
                         }
                     }
-                    return val;
                 }
+                hashLock.ExitReadLock();
+                return val;
             }
         }
 
@@ -104,25 +114,24 @@ namespace Blazorise.LoadingIndicator
         {
             get
             {
-                lock ( hashLock )
+                hashLock.EnterReadLock();
+                bool? val = null;
+                foreach ( var indicator in indicators )
                 {
-                    bool? val = null;
-                    foreach ( var indicator in indicators )
+                    if ( val == null )
                     {
-                        if ( val == null )
+                        val = indicator.Loaded;
+                    }
+                    else
+                    {
+                        if ( val != indicator.Loaded )
                         {
-                            val = indicator.Loaded;
-                        }
-                        else
-                        {
-                            if ( val != indicator.Loaded )
-                            {
-                                return null;
-                            }
+                            return null;
                         }
                     }
-                    return val;
                 }
+                hashLock.ExitReadLock();
+                return val;
             }
         }
 
