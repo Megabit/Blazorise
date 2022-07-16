@@ -1,0 +1,16 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>inject LoadingIndicatorService ApplicationLoadingIndicatorService
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code 
+{
+    <span class="keyword">void</span> DoWork()
+    {
+        ApplicationLoadingIndicatorService.SetBusy(<span class="keyword">true</span>);
+        <span class="comment">// do work ...</span>
+        ApplicationLoadingIndicatorService.SetBusy(<span class="keyword">false</span>);
+    }
+}
+</pre></div>
+</div>

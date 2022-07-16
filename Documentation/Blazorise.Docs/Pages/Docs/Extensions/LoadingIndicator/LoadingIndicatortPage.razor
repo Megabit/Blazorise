@@ -1,0 +1,104 @@
+﻿@page "/docs/extensions/loadingindicator"
+
+<Seo Canonical="/docs/extensions/loadingindicator" Title="Blazorise LoadingIndicator component" Description="Learn how to use Blazorise LoadingIndicator extension component." />
+
+<DocsPageTitle Path="Extensions/LoadingIndicator">
+    Blazorise LoadingIndicator component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A wrapper component that adds busy / loading UI to child content.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LoadingIndicatorNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Code>_Imports.razor</Code> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LoadingIndicatorImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static files">
+        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LoadingIndicatorResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        A basic useage scenartio for LoadingIndicator with default settings.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LoadingIndicatorBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Application busy service">
+        You may wrap the main layout of your application to create a global busy UI. Use the provided service class to control the wrapper from elsewhere in your code.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        Add <Code>LoadingIndicatorService</Code> as a scoped service.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorAddScopedExample" />
+    <DocsPageSectionContent>
+        Inject <Code>LoadingIndicatorService</Code> into main layout and set it on the global LoadingIndicator wrapper.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorApplicationWrapperExample" />
+    <DocsPageSectionContent>
+        Inject <Code>LoadingIndicatorService</Code> into your component where you want to trigger the application busy UI from.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorApplicationBusyExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
+        Show spinner fullscreen.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
+        Used when wrapping inline content such as input controls.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScreenColor" Type="string" Default="white">
+        Set screen color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScreenOpacity" Type="double" Default="0.5">
+        Screen opacity.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SpinnerBackgroundColor" Type="string" Default="#c0c0c0">
+        Set spinner background color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SpinnerColor" Type="string" Default="#000000">
+        Set spinner color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SpinnerHeight" Type="string" Default="64px">
+        Set spinner height.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SpinnerHorizontalPlacement" Type="Placement" Default="Middle">
+        Spinner horizontal placement.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SpinnerVerticalPlacement" Type="Placement" Default="Middle">
+        Spinner vertical placement
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SpinnerWidth" Type="string" Default="64px">
+        Set spinner width.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ZIndex" Type="int?" Default="null">
+        Manually set screen z-index.
+    </DocsAttributesItem>
+</DocsAttributes>

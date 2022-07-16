@@ -1,0 +1,11 @@
+﻿@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+
+@code 
+{
+    void DoWork()
+    {
+        ApplicationLoadingIndicatorService.SetBusy(true);
+        // do work ...
+        ApplicationLoadingIndicatorService.SetBusy(false);
+    }
+}

@@ -64,6 +64,16 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
   </ItemGroup>
@@ -72,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\Docs\Extensions\LoadingIndicator\Code\" />
-    <Folder Include="Pages\Docs\Extensions\LoadingIndicator\Examples\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

@@ -5558,6 +5558,64 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string LoadingIndicatorAddScopedExample = @"services.AddScoped<LoadingIndicatorService>();";
+
+        public const string LoadingIndicatorApplicationBusyExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+
+<LoadingIndicator FullScreen Service=""ApplicationLoadingIndicatorService"">
+    @Body
+</LoadingIndicator>";
+
+        public const string LoadingIndicatorApplicationWrapperExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+
+@code 
+{
+    void DoWork()
+    {
+        ApplicationLoadingIndicatorService.SetBusy(true);
+        // do work ...
+        ApplicationLoadingIndicatorService.SetBusy(false);
+    }
+}";
+
+        public const string LoadingIndicatorBasicExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <LoadingIndicator @ref=""loadingIndicator"">
+            <LineChart TItem=""double"" Data=""lineChartData"" />
+        </LoadingIndicator>
+    </Column>
+</Row>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+
+@code 
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task UpdateChart()
+    {
+        loadingIndicator.SetBusy(true);
+        await Task.Delay(3000); // Do work ...
+        loadingIndicator.SetBusy(false);
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>() {
+                Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+
+}";
+
+        public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
