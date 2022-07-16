@@ -68,11 +68,23 @@
 </DocsPageSubtitle>
 
 <DocsAttributes>
+    <DocsAttributesItem Name="Busy" Type="bool" Default="false">
+        Current busy state.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
         Show spinner fullscreen.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="IndicatorTemplate" Type="RenderFragment" Default="null">
+        Busy indicator template.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Used when wrapping inline content such as input controls.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loaded" Type="bool" Default="true">
+        Current loading state.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment" Default="null">
+        Loading state template.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ScreenColor" Type="string" Default="white">
         Set screen color.
@@ -82,6 +94,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerBackgroundColor" Type="string" Default="#c0c0c0">
         Set spinner background color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Service" Type="LoadingIndicatorService" Default="null">
+        Service that can control this LoadingIndicator instance
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerColor" Type="string" Default="#000000">
         Set spinner color.
