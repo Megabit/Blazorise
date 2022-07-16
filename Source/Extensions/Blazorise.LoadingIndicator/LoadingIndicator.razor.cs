@@ -49,7 +49,7 @@ namespace Blazorise.LoadingIndicator
 
         protected override void BuildStyles( StyleBuilder builder )
         {
-            builder.Append( "position:relative", GetBusy() && !FullScreen );
+            builder.Append( "position:relative", Busy && !FullScreen );
             builder.Append( "display:inline-block", Inline );
             base.BuildStyles( builder );
         }
@@ -103,7 +103,7 @@ namespace Blazorise.LoadingIndicator
         /// <param name="val">true or false</param>
         public void SetBusy( bool val )
         {
-            if ( GetBusy() != val )
+            if ( Busy != val )
             {
                 busy = val;
                 DirtyClassesAndStyles();
@@ -118,7 +118,7 @@ namespace Blazorise.LoadingIndicator
         /// <param name="val">true or false</param>
         public void SetLoaded( bool val )
         {
-            if ( GetLoaded() != val )
+            if ( Loaded != val )
             {
                 loaded = val;
                 LoadedChanged.InvokeAsync( val );
@@ -128,9 +128,6 @@ namespace Blazorise.LoadingIndicator
 
         internal void Service_BusyChanged( bool val ) => SetBusy( val );
         internal void Service_LoadedChanged( bool val ) => SetLoaded( val );
-
-        private bool GetBusy() => busy ?? Busy;
-        private bool GetLoaded() => loaded ?? Loaded;
 
         /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
