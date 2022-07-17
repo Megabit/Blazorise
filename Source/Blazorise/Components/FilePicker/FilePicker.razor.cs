@@ -164,12 +164,12 @@ namespace Blazorise
         /// <param name="confirm">Wether to show a confirmation popup.</param>
         public Task RemoveFile( IFileEntry file, bool confirm = false )
         {
-            var removeFileAction = FileEdit.RemoveFile( file.Id ).AsTask();
+            var removeFileAction = () => FileEdit.RemoveFile( file.Id ).AsTask();
 
             if ( confirm )
-                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, () => removeFileAction );
+                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, removeFileAction );
             else
-                return removeFileAction;
+                return removeFileAction.Invoke();
         }
 
         /// <summary>
@@ -178,12 +178,12 @@ namespace Blazorise
         /// <param name="confirm">Wether to show a confirmation popup.</param>
         public Task Clear( bool confirm = false )
         {
-            var clearAction = FileEdit.Reset().AsTask();
+            var clearAction = () => FileEdit.Reset().AsTask();
 
             if ( confirm )
-                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, () => clearAction );
+                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, clearAction );
             else
-                return clearAction;
+                return clearAction.Invoke();
         }
 
 
