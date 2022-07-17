@@ -20,14 +20,14 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Set Busy state
         /// </summary>
-        /// <param name="val">true or false</param>
-        public void SetBusy( bool val )
+        /// <param name="value">true or false</param>
+        public void SetBusy( bool value )
         {
             lock ( hashLock )
             {
                 foreach ( var indicator in indicators )
                 {
-                    indicator.SetBusy( val );
+                    indicator.SetBusy( value );
                 }
             }
         }
@@ -35,14 +35,14 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Set Loaded state
         /// </summary>
-        /// <param name="val">true or false</param>
-        public void SetLoaded( bool val )
+        /// <param name="value">true or false</param>
+        public void SetLoaded( bool value )
         {
             lock ( hashLock )
             {
                 foreach ( var indicator in indicators )
                 {
-                    indicator.SetLoaded( val );
+                    indicator.SetLoaded( value );
                 }
             }
         }
