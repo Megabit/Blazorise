@@ -44,7 +44,7 @@ namespace Blazorise.LoadingIndicator
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "bl-wrapper" );
+            builder.Append( "b-loading-indicator-wrapper" );
             base.BuildClasses( builder );
         }
 
@@ -54,17 +54,20 @@ namespace Blazorise.LoadingIndicator
             builder.Append( "display:inline-block", Inline );
             base.BuildStyles( builder );
         }
+
         private void BuildScreenClasses( ClassBuilder builder )
         {
-            builder.Append( "bl-overlay" );
-            builder.Append( FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative" );
+            builder.Append( "b-loading-indicator-overlay" );
+            builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
+            builder.Append( "b-loading-indicator-screen" );
             base.BuildClasses( builder );
         }
+
         private void BuildIndicatorClasses( ClassBuilder builder )
         {
-            builder.Append( "bl-overlay" );
-            builder.Append( FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative" );
-            builder.Append( "bl-indicator" );
+            builder.Append( "b-loading-indicator-overlay" );
+            builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
+            builder.Append( "b-loading-indicator-indicator" );
             builder.Append( IndicatorPadding?.Class(ClassProvider), IndicatorPadding != null );
             base.BuildClasses( builder );
         }
@@ -72,7 +75,7 @@ namespace Blazorise.LoadingIndicator
         private void BuildScreenStyles( StyleBuilder builder )
         {
             builder.Append( $"opacity:{ScreenOpacity}" );
-            builder.Append( $"background-color:{ScreenColor}" );
+            builder.Append( $"background-color:{ScreenColor.Name}" );
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
             base.BuildStyles( builder );
         }
@@ -80,53 +83,39 @@ namespace Blazorise.LoadingIndicator
         private void BuildIndicatorStyles( StyleBuilder builder )
         {
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
-            builder.Append( $"justify-content:start", IndicatorHorizontalPlacement == Placement.Start );
-            builder.Append( $"justify-content:end", IndicatorHorizontalPlacement == Placement.End );
-            builder.Append( $"align-items:start", IndicatorVerticalPlacement == Placement.Top );
-            builder.Append( $"align-items:end", IndicatorVerticalPlacement == Placement.Bottom );
+            builder.Append( $"justify-content:start", IndicatorHorizontalPlacement == LoadingIndicatorPlacement.Start );
+            builder.Append( $"justify-content:end", IndicatorHorizontalPlacement == LoadingIndicatorPlacement.End );
+            builder.Append( $"align-items:start", IndicatorVerticalPlacement == LoadingIndicatorPlacement.Top );
+            builder.Append( $"align-items:end", IndicatorVerticalPlacement == LoadingIndicatorPlacement.Bottom );
             base.BuildStyles( builder );
         }
 
-        private Dictionary<string, object> SpinnerAttributes
+        protected override void DirtyClasses()
         {
-            get
-            {
-                var attributes = new Dictionary<string, object>();
-                if ( !string.IsNullOrEmpty( SpinnerWidth ) )
-                {
-                    attributes.Add( "width", SpinnerWidth );
-                }
-                if ( !string.IsNullOrEmpty( SpinnerHeight ) )
-                {
-                    attributes.Add( "height", SpinnerHeight );
-                }
-                return attributes;
-            }
+            screenClasses.Dirty();
+            indicatorClasses.Dirty();
+            base.DirtyClasses();
         }
 
-        private void DirtyClassesAndStyles()
+        protected override void DirtyStyles()
         {
-            DirtyClasses();
-            DirtyStyles();
-
-            screenClasses.Dirty();
             screenStyles.Dirty();
-
-            indicatorClasses.Dirty();
             indicatorStyles.Dirty();
+            base.DirtyStyles();
         }
 
         /// <summary>
         /// Set component Busy state
         /// </summary>
-        /// <param name="val">true or false</param>
-        public void SetBusy( bool val )
+        /// <param name="value">true or false</param>
+        public void SetBusy( bool value )
         {
-            if ( Busy != val )
+            if ( Busy != value )
             {
-                busy = val;
-                DirtyClassesAndStyles();
-                BusyChanged.InvokeAsync( val );
+                busy = value;
+                DirtyClasses();
+                DirtyStyles();
+                BusyChanged.InvokeAsync( value );
                 InvokeAsync( StateHasChanged );
             }
         }
@@ -134,13 +123,13 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Set component Loaded state
         /// </summary>
-        /// <param name="val">true or false</param>
-        public void SetLoaded( bool val )
+        /// <param name="value">true or false</param>
+        public void SetLoaded( bool value )
         {
-            if ( Loaded != val )
+            if ( Loaded != value )
             {
-                loaded = val;
-                LoadedChanged.InvokeAsync( val );
+                loaded = value;
+                LoadedChanged.InvokeAsync( value );
                 InvokeAsync( StateHasChanged );
             }
         }
@@ -164,12 +153,20 @@ namespace Blazorise.LoadingIndicator
                 }
             }
 
+            DirtyClasses();
+            DirtyStyles();
+
             return base.SetParametersAsync( parameters );
         }
 
-        void IDisposable.Dispose()
+        protected override void Dispose( bool disposing )
         {
-            Service = null;
+            if (disposing)
+            {
+                Service = null;
+            }
+
+            base.Dispose( disposing );
         }
 
         #endregion
@@ -186,14 +183,14 @@ namespace Blazorise.LoadingIndicator
                 {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width='{SpinnerWidth}'" : "" )}
                 {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
                   <g>
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor}' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(45 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(90 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(135 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(180 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(225 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(270 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(315 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor.Name}' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(45 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(90 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(135 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(180 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(225 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(270 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(315 64 64)' />
                       <animateTransform attributeName = 'transform' type='rotate' values='0 64 64;45 64 64;90 64 64;135 64 64;180 64 64;225 64 64;270 64 64;315 64 64' calcMode='discrete' dur='720ms' repeatCount='indefinite' />
                   </g>
               </svg>";
@@ -241,11 +238,7 @@ namespace Blazorise.LoadingIndicator
         public bool Busy
         {
             get => busy ?? busyParameter;
-            set
-            {
-                busyParameter = value;
-                DirtyClassesAndStyles();
-            }
+            set => busyParameter = value;
         }
 
         /// <summary>
@@ -280,13 +273,13 @@ namespace Blazorise.LoadingIndicator
         /// Spinner background color
         /// </summary>
         [Parameter]
-        public string SpinnerBackgroundColor { get; set; } = "#c0c0c0";
+        public Color SpinnerBackgroundColor { get; set; } = "#c0c0c0";
 
         /// <summary>
         /// Spinner color
         /// </summary>
         [Parameter]
-        public string SpinnerColor { get; set; } = "#000000";
+        public Color SpinnerColor { get; set; } = "#000000";
 
         /// <summary>
         /// Spinner HTML width
@@ -303,14 +296,15 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Indicator vertical position
         /// </summary>
+        LoadingIndicatorPlacement indicatorVerticalPlacement = LoadingIndicatorPlacement.Middle;
         [Parameter]
-        public Placement IndicatorVerticalPlacement { get; set; } = Placement.Middle;
+        public LoadingIndicatorPlacement IndicatorVerticalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
 
         /// <summary>
         /// Indicator horizontal position
         /// </summary>
         [Parameter]
-        public Placement IndicatorHorizontalPlacement { get; set; } = Placement.Middle;
+        public LoadingIndicatorPlacement IndicatorHorizontalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
 
         /// <summary>
         /// Indicator div padding
@@ -328,7 +322,7 @@ namespace Blazorise.LoadingIndicator
         /// Busy screen color
         /// </summary>
         [Parameter]
-        public string ScreenColor { get; set; } = "white";
+        public Color ScreenColor { get; set; } = "white";
 
         /// <summary>
         /// Show busy indicator full screen

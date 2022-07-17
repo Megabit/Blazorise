@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Blazorise
+﻿namespace Blazorise.LoadingIndicator
 {
     /// <summary>
-    /// Defines the placement of an element.
+    /// Defines the placement of the loading indicator.
     /// </summary>
-    public enum Placement
+    public enum LoadingIndicatorPlacement
     {
         /// <summary>
         /// Top side.
@@ -26,5 +24,10 @@ namespace Blazorise
         /// End side.
         /// </summary>
         End,
+
+        /// <summary>
+        /// Middle.
+        /// </summary>
+        Middle,
     }
 }

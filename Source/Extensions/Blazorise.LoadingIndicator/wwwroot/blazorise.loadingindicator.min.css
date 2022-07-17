@@ -1,1 +1,1 @@
-.bl-overlay{top:0;left:0;width:100%;height:100%}.bl-overlay-fixed{position:fixed;z-index:2147483647}.bl-overlay-relative{position:absolute}.bl-indicator{display:flex;justify-content:center;align-items:center}
+.b-loading-indicator-overlay{top:0;left:0;width:100%;height:100%}.b-loading-indicator-overlay-fixed{position:fixed;z-index:2147483647}.b-loading-indicator-overlay-relative{position:absolute}.b-loading-indicator-indicator{display:flex;justify-content:center;align-items:center}

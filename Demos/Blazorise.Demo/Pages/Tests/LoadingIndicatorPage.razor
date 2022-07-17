@@ -24,24 +24,24 @@
                 Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
                 Height (null, 1% .. 100%)<Slider Min="0" Max="100" @bind-Value="spinnerHeight" />
                 Horizontal Placement
-                <Select TValue="Placement" @bind-SelectedValue="spinnerHorizontal">
-                    <SelectItem TValue="Placement" Value="Placement.Start">Start</SelectItem>
-                    <SelectItem TValue="Placement" Value="Placement.Middle">Middle</SelectItem>
-                    <SelectItem TValue="Placement" Value="Placement.End">End</SelectItem>
+                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerHorizontal">
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Start">Start</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.End">End</SelectItem>
                 </Select>
                 Vertical Placement
-                <Select TValue="Placement" @bind-SelectedValue="spinnerVertical">
-                    <SelectItem TValue="Placement" Value="Placement.Top">Top</SelectItem>
-                    <SelectItem TValue="Placement" Value="Placement.Middle">Middle</SelectItem>
-                    <SelectItem TValue="Placement" Value="Placement.Bottom">Bottom</SelectItem>
+                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerVertical">
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Top">Top</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>
                 </Select>
                 <Check TValue="bool" @bind-Checked="usePadding" Inline>Use IndicatorPadding</Check>
                 @if (usePadding)
                 {
                     <style>
-                        #spinner .bl-indicator {
+                        #spinner .b-loading-indicator-indicator {
                             background-clip: content-box,padding-box;
-                            background-image: linear-gradient(lightyellow, lightyellow), linear-gradient(pink, pink);
+                            background-image: linear-gradient(rgba(255, 255, 224, 0.5), rgba(255, 255, 224, 0.5)), linear-gradient(rgba(195, 192, 255, 0.2), rgb(195, 192, 255, 0.2))
                         }
                     </style>
                 }
@@ -64,7 +64,7 @@
             </CardHeader>
             <CardBody>
                 Message
-                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="Placement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
+                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
                     <TextEdit Disabled="textEditIndicator.Busy" Text="disabled when busy" />
                 </LoadingIndicator>
                 <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Busy ?? false)" Clicked="ShowInlineBusy">Send</Button>
@@ -138,8 +138,8 @@
 
     private int spinnerWidth = 0;
     private int spinnerHeight = 30;
-    private Placement spinnerHorizontal = Placement.Middle;
-    private Placement spinnerVertical = Placement.Middle;
+    private LoadingIndicatorPlacement spinnerHorizontal = LoadingIndicatorPlacement.Middle;
+    private LoadingIndicatorPlacement spinnerVertical = LoadingIndicatorPlacement.Middle;
     private bool usePadding;
     private bool showBorder;
 
