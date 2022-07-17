@@ -236,7 +236,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-        
+
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -253,7 +253,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if( ManualReadMode || VirtualizeManualReadMode )
+                if ( ManualReadMode || VirtualizeManualReadMode )
                     await Reload();
 
                 return;
@@ -2097,9 +2097,22 @@ namespace Blazorise.DataGrid
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
-        public int SelectedRowIndex => Virtualize 
-            ? Data.Index( x => x.IsEqual( SelectedRow ) ) 
-            : Data.Index( x => x.IsEqual( SelectedRow ) ) * CurrentPage;
+        /// <summary>
+        /// Returns a zero-based index of the currently selected row if found; otherwise it'll return -1.
+        /// Considers the current pagination.
+        /// </summary>
+        public int SelectedRowIndex
+        {
+            get
+            {
+                var selectedRowDataIdx = Data.Index( x => x.IsEqual( SelectedRow ) );
+                return Virtualize
+                        ? selectedRowDataIdx
+                        : ( selectedRowDataIdx == -1 )
+                            ? -1
+                            : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
+            }
+        }
 
         #endregion
     }
