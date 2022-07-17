@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Blazorise.Utilities;
+using System.Collections.Generic;
 #endregion
 
 namespace Blazorise.LoadingIndicator
@@ -64,6 +65,7 @@ namespace Blazorise.LoadingIndicator
             builder.Append( "bl-overlay" );
             builder.Append( FullScreen ? "bl-overlay-fixed" : "bl-overlay-relative" );
             builder.Append( "bl-indicator" );
+            builder.Append( IndicatorPadding?.Class(ClassProvider), IndicatorPadding != null );
             base.BuildClasses( builder );
         }
 
@@ -82,8 +84,24 @@ namespace Blazorise.LoadingIndicator
             builder.Append( $"justify-content:end", IndicatorHorizontalPlacement == Placement.End );
             builder.Append( $"align-items:start", IndicatorVerticalPlacement == Placement.Top );
             builder.Append( $"align-items:end", IndicatorVerticalPlacement == Placement.Bottom );
-            builder.Append( $"padding:{IndicatorMargin}", !string.IsNullOrEmpty( IndicatorMargin ) );
             base.BuildStyles( builder );
+        }
+
+        private Dictionary<string, object> SpinnerAttributes
+        {
+            get
+            {
+                var attributes = new Dictionary<string, object>();
+                if ( !string.IsNullOrEmpty( SpinnerWidth ) )
+                {
+                    attributes.Add( "width", SpinnerWidth );
+                }
+                if ( !string.IsNullOrEmpty( SpinnerHeight ) )
+                {
+                    attributes.Add( "height", SpinnerHeight );
+                }
+                return attributes;
+            }
         }
 
         private void DirtyClassesAndStyles()
@@ -157,6 +175,29 @@ namespace Blazorise.LoadingIndicator
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Workaround for issue https://github.com/dotnet/aspnetcore/issues/15311
+        /// Settind svg width or height to null if it had a value before throws an exception
+        /// https://icons8.com/preloaders/en/search/spinner#
+        /// </summary>
+        private string SpinnerSVG =>
+            @$"<svg viewBox='0 0 128 128' 
+                {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width='{SpinnerWidth}'" : "" )}
+                {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
+                  <g>
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor}' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(45 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(90 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(135 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(180 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(225 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(270 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor}' transform='rotate(315 64 64)' />
+                      <animateTransform attributeName = 'transform' type='rotate' values='0 64 64;45 64 64;90 64 64;135 64 64;180 64 64;225 64 64;270 64 64;315 64 64' calcMode='discrete' dur='720ms' repeatCount='indefinite' />
+                  </g>
+              </svg>";
+
 
         /// <summary>
         /// Service used to control this instance
@@ -251,7 +292,7 @@ namespace Blazorise.LoadingIndicator
         /// Spinner HTML width
         /// </summary>
         [Parameter]
-        public string SpinnerWidth { get; set; } = "64px";
+        public string SpinnerWidth { get; set; }
 
         /// <summary>
         /// Spinner HTML height
@@ -272,10 +313,10 @@ namespace Blazorise.LoadingIndicator
         public Placement IndicatorHorizontalPlacement { get; set; } = Placement.Middle;
 
         /// <summary>
-        /// Indicator CSS margin (top right bottom left)
+        /// Indicator div padding
         /// </summary>
         [Parameter]
-        public string IndicatorMargin { get; set; }
+        public IFluentSpacing IndicatorPadding { get; set; }
 
         /// <summary>
         /// Busy screen opacity

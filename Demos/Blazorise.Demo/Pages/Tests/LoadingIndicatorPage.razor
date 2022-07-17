@@ -8,10 +8,10 @@
                 <CardTitle>Using Reference and Binding</CardTitle>
             </CardHeader>
             <CardBody>
-                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Busy="lineChartBusy" @bind-Loaded="lineChartLoaded"
-                                  SpinnerWidth="@($"{spinnerWidth}%")" SpinnerHeight="@($"{spinnerHeight}%")"
+                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Busy="lineChartBusy" @bind-Loaded="lineChartLoaded" Overflow="Overflow.Hidden"
+                                  SpinnerWidth="@(spinnerWidth == 0 ? null : $"{spinnerWidth}%")" SpinnerHeight="@(spinnerHeight == 0 ? null : $"{spinnerHeight}%")"
                                   IndicatorHorizontalPlacement="spinnerHorizontal" IndicatorVerticalPlacement="spinnerVertical"
-                                  IndicatorMargin="@spinnerMargin">
+                                  IndicatorPadding="usePadding ? Padding.Is5 : null">
                     <LineChart @ref="lineChart" Data="lineChartData" />
                 </LoadingIndicator>
             </CardBody>
@@ -21,8 +21,8 @@
                 <Check TValue="bool" @bind-Checked="lineChartLoaded" Inline>Loaded</Check>
             </CardBody>
             <CardBody>
-                Width <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
-                Height <Slider Min="1" Max="100" @bind-Value="spinnerHeight" />
+                Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
+                Height (null, 1% .. 100%)<Slider Min="0" Max="100" @bind-Value="spinnerHeight" />
                 Horizontal Placement
                 <Select TValue="Placement" @bind-SelectedValue="spinnerHorizontal">
                     <SelectItem TValue="Placement" Value="Placement.Start">Start</SelectItem>
@@ -35,7 +35,16 @@
                     <SelectItem TValue="Placement" Value="Placement.Middle">Middle</SelectItem>
                     <SelectItem TValue="Placement" Value="Placement.Bottom">Bottom</SelectItem>
                 </Select>
-                Margin (top right bottom left)<TextEdit @bind-Text="spinnerMargin" />
+                <Check TValue="bool" @bind-Checked="usePadding" Inline>Use IndicatorPadding</Check>
+                @if (usePadding)
+                {
+                    <style>
+                        #spinner .bl-indicator {
+                            background-clip: content-box,padding-box;
+                            background-image: linear-gradient(lightyellow, lightyellow), linear-gradient(pink, pink);
+                        }
+                    </style>
+                }
                 <Check TValue="bool" @bind-Checked="showBorder" Inline>Show border</Check>
                 @if (showBorder)
                 {
@@ -55,7 +64,7 @@
             </CardHeader>
             <CardBody>
                 Message
-                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" SpinnerHorizontalPlacement="Placement.End">
+                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="Placement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
                     <TextEdit Disabled="textEditIndicator.Busy" Text="disabled when busy" />
                 </LoadingIndicator>
                 <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Busy ?? false)" Clicked="ShowInlineBusy">Send</Button>
@@ -127,11 +136,11 @@
     private bool lineChartBusy;
     private bool lineChartLoaded = true;
 
-    private int spinnerWidth = 30;
+    private int spinnerWidth = 0;
     private int spinnerHeight = 30;
     private Placement spinnerHorizontal = Placement.Middle;
     private Placement spinnerVertical = Placement.Middle;
-    private string spinnerMargin;
+    private bool usePadding;
     private bool showBorder;
 
     private string spinnerColor = "skyblue";
