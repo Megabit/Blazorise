@@ -88,7 +88,7 @@
 }
 
 .ant-table-fixed-header {
-    .ant-table-container{ 
+    .ant-table-container {
         overflow-y: auto;
     }
 
@@ -97,10 +97,14 @@
         border-spacing: 0;
     }
 
+    thead:not(.ant-table-thead-theme) th {
+        background: white;
+    }
+
+
     thead tr th {
         border-top: none;
         position: sticky;
-        background: white;
         z-index: 1;
     }
 
@@ -108,4 +112,3 @@
         top: 0;
     }
 }
-

@@ -5541,6 +5541,32 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
+            Data=""Countries""
+            TextField=""(item) => item.Name""
+            Mode=""ListGroupMode.Static""
+            MaxHeight=""300px"">
+    <ItemTemplate>
+        <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
+            <Heading Margin=""Margin.Is2.FromBottom"">@context.Item.Iso</Heading>
+            <Small>@context.Item.Capital</Small>
+        </Div>
+        <Paragraph Margin=""Margin.Is2.FromBottom"">@context.Text</Paragraph>
+    </ItemTemplate>
+</ListView>
+
+@code{
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string ListViewSelectableExample = @"<ListView TItem=""Country""
             Data=""Countries""
             TextField=""(item) => item.Name""
@@ -5778,32 +5804,47 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 
-        public const string SelectListExample = @"<SelectList TItem=""MySelectModel""
+        public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
-            Data=""@myDdlData""
-            TextField=""@((item)=>item.MyTextField)""
-            ValueField=""@((item)=>item.MyValueField)""
-            SelectedValue=""@selectedListValue""
-            SelectedValueChanged=""@MyListValueChangedHandler""
+            Data=""@IndexedCountries""
+            TextField=""@((item)=>item.Name)""
+            ValueField=""@((item)=>item.Id)""
+            @bind-SelectedValue=""@selectedListValue""
             DefaultItemText=""Choose your country"" />
 
-@code{
-    public class MySelectModel
+@code {
+    public class MyCountryModel
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 
     static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    static IEnumerable<MyCountryModel> IndexedCountries = Enumerable.Range( 1, Countries.Length ).Select( x => new MyCountryModel { Name = Countries[x - 1], Id = x } );
 
     int selectedListValue { get; set; } = 3;
+}";
 
-    void MyListValueChangedHandler( int newValue )
+        public const string SelectListMultipleExample = @"<SelectList TItem=""MyFruitModel""
+            TValue=""int""
+            Data=""@IndexedFruits""
+            TextField=""@((item)=>item.Name)""
+            ValueField=""@((item)=>item.Id)""
+            Multiple
+            @bind-SelectedValues=""@selectedListValues""
+            DefaultItemText=""Choose your fruit"" />
+
+@code {
+    public class MyFruitModel
     {
-        selectedListValue = newValue;
-        StateHasChanged();
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
+
+    static string[] Fruits = { ""Avocado"", ""Banana"", ""Blackberries"", ""Blueberries"", ""Cherries"", ""Cranberries"", ""Lemon"", ""Mango"", ""Orange"", ""Pineapple"", ""Watermelon"" };
+    static IEnumerable<MyFruitModel> IndexedFruits = Enumerable.Range( 1, Fruits.Length ).Select( x => new MyFruitModel { Name = Fruits[x - 1], Id = x } );
+
+    IReadOnlyList<int> selectedListValues { get; set; }
 }";
 
         public const string SidebarDynamicExample = @"<Sidebar Data=""@sidebarInfo"" />

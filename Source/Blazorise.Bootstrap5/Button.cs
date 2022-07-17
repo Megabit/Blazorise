@@ -3,6 +3,7 @@ using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Bootstrap5
@@ -62,7 +63,7 @@ namespace Blazorise.Bootstrap5
                 builder.AriaExpanded( ParentCollapseHeader.ParentCollapse.Visible.ToString().ToLowerInvariant() );
             }
 
-            builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
+            builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
             builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
 
             builder.Attributes( Attributes );

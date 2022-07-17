@@ -37,6 +37,16 @@
     <DocsPageSectionSource Code="ListViewSelectableExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Extending with custom item content">
+        Customize the way you display the ListView items by providing <Code>ItemTemplate</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ListViewItemTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ListViewItemTemplateExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -77,5 +87,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
         Specifies the content to be rendered inside the ListView.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemTemplate" Type="RenderFragment<ItemContext<TItem>>">
+        Specifies the content to be rendered inside each item of the ListView.
     </DocsAttributesItem>
 </DocsAttributes>
