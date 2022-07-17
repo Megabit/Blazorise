@@ -7,6 +7,12 @@
     "Error uploading": "Fout bij uploaden",
     "Or drop files here": "Of zet bestanden hier neer",
     "Clear": "Duidelijk",
-    "Upload": "Uploaden"
+    "Upload": "Uploaden",
+    "Cancel": "Annuleren",
+    "Confirm": "Bevestigen",
+    "Remove": "Verwijderen",
+    "Are you sure you want to remove the file?": "Weet u zeker dat u het bestand wilt verwijderen?",
+    "Are you sure you want to clear all files?": "Weet u zeker dat u alle bestanden wilt wissen?",
+    "Are you sure you want to cancel the upload?": "Weet je zeker dat je de upload wilt annuleren?"
   }
 }

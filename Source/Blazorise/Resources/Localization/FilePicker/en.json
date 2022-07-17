@@ -7,6 +7,12 @@
     "Error uploading": "Error uploading",
     "Or drop files here": "Or drop files here",
     "Clear": "Clear",
-    "Upload": "Upload"
+    "Upload": "Upload",
+    "Cancel": "Cancel",
+    "Confirm": "Confirm",
+    "Remove": "Remove",
+    "Are you sure you want to remove the file?": "Are you sure you want to remove the file?",
+    "Are you sure you want to clear all files?": "Are you sure you want to clear all files?",
+    "Are you sure you want to cancel the upload?": "Are you sure you want to cancel the upload?"
   }
 }

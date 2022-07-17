@@ -20,10 +20,11 @@ namespace Blazorise
         /// </summary>
         /// <param name="clear">The Clear EventCallback</param>
         /// <param name="upload">The Upload EventCallback</param>
-        public FilePickerButtonContext( EventCallback clear, EventCallback upload )
+        public FilePickerButtonContext( EventCallback clear, EventCallback upload, EventCallback cancelUpload )
         {
             Clear = clear;
             Upload = upload;
+            CancelUpload = cancelUpload;
         }
 
         /// <summary>
@@ -35,5 +36,10 @@ namespace Blazorise
         /// Activates the clear event.
         /// </summary>
         public EventCallback Clear { get; }
+
+        /// <summary>
+        /// Cancels ongoing upload.
+        /// </summary>
+        public EventCallback CancelUpload { get; }
     }
 }

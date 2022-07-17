@@ -50,14 +50,14 @@
 
             @if (ButtonContent is not null)
             {
-                @ButtonContent(new (EventCallback.Factory.Create(this, Clear), EventCallback.Factory.Create(this, UploadAll)))
+                @ButtonContent(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelUploadWithConfirm)))
             }
             else
             {
                 <Buttons Float="Blazorise.Float.End">
-                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@Clear">@GetLocalizedString("Clear")</Button>
+                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
                     <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
-                    <Button Color="Color.Link" Class="b-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUpload">@GetLocalizedString("Cancel")</Button>
+                    <Button Color="Color.Link" Class="b-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
                 </Buttons>
             }
         </div>
@@ -66,7 +66,7 @@
 
 
 <CascadingValue Value="this" IsFixed>
-    <_FilePickerConfirmRemoveModal @ref="_FilePickerConfirmRemoveModalRef" />
+    <_FilePickerConfirmModal @ref="_FilePickerConfirmModalRef" />
 </CascadingValue>
 
 
@@ -88,7 +88,7 @@
     {
     @if (FileContent is not null)
         {
-    @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileWithConfirm)))
+            @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileWithConfirm)))
         }
         else
         {

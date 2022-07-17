@@ -7,6 +7,12 @@
     "Error uploading": "Yüklenirken hata oluştu",
     "Or drop files here": "Veya dosyaları buraya bırakın",
     "Clear": "Açık",
-    "Upload": "Yüklemek"
+    "Upload": "Yüklemek",
+    "Cancel": "İptal",
+    "Confirm": "Onaylamak",
+    "Remove": "Kaldırmak",
+    "Are you sure you want to remove the file?": "Dosyayı kaldırmak istediğinizden emin misiniz?",
+    "Are you sure you want to clear all files?": "Tüm dosyaları silmek istediğinizden emin misiniz?",
+    "Are you sure you want to cancel the upload?": "Yüklemeyi iptal etmek istediğinizden emin misiniz?"
   }
 }

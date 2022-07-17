@@ -7,6 +7,12 @@
     "Error uploading": "Error al cargar",
     "Or drop files here": "O suelte archivos aquí",
     "Clear": "Limpiar",
-    "Upload": "Subir"
+    "Upload": "Subir",
+    "Cancel": "Cancelar",
+    "Confirm": "Confirmar",
+    "Remove": "Remover",
+    "Are you sure you want to remove the file?": "Estás seguro de que quieres eliminar el archivo?",
+    "Are you sure you want to clear all files?": "Estás seguro de que quieres borrar todos los archivos?",
+    "Are you sure you want to cancel the upload?": "Estás seguro de que deseas cancelar la carga?"
   }
 }

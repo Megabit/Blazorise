@@ -4,12 +4,12 @@
         <Form>
             <ModalHeader>
                 <ModalTitle>
-                    @ParentFilePicker.GetLocalizedString( "Remove" )
+                    @ParentFilePicker.GetLocalizedString( title )
                 </ModalTitle>
                 <CloseButton Clicked="@CloseModal" AutoClose="false" />
             </ModalHeader>
             <ModalBody>
-                @ParentFilePicker.GetLocalizedString( "Are you sure you want to remove the file?" )
+                @ParentFilePicker.GetLocalizedString( body )
             </ModalBody>
             <ModalFooter>
                 @{

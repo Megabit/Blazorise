@@ -7,6 +7,12 @@
     "Error uploading": "Pogreška pri prijenosu",
     "Or drop files here": "Ili ispustite datoteke ovdje",
     "Clear": "Očistiti",
-    "Upload": "Učitaj"
+    "Upload": "Učitaj",
+    "Cancel": "Otkazati",
+    "Confirm": "Potvrdi",
+    "Remove": "Ukloniti",
+    "Are you sure you want to remove the file?": "Jeste li sigurni da želite ukloniti datoteku?",
+    "Are you sure you want to clear all files?": "Jeste li sigurni da želite izbrisati sve datoteke?",
+    "Are you sure you want to cancel the upload?": "Jeste li sigurni da želite otkazati prijenos?"
   }
 }

@@ -7,6 +7,12 @@
     "Error uploading": "Ошибка загрузки",
     "Or drop files here": "Или перетащите сюда файлы",
     "Clear": "Прозрачный",
-    "Upload": "Загрузить"
+    "Upload": "Загрузить",
+    "Cancel": "Отмена",
+    "Confirm": "Подтверждать",
+    "Remove": "Удалять",
+    "Are you sure you want to remove the file?": "Вы уверены, что хотите удалить файл?",
+    "Are you sure you want to clear all files?": "Вы уверены, что хотите очистить все файлы?",
+    "Are you sure you want to cancel the upload?": "Вы уверены, что хотите отменить загрузку?"
   }
 }

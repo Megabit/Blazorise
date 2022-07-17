@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Microsoft.VisualBasic;
+using static System.Net.WebRequestMethods;
 #endregion
 
 namespace Blazorise
@@ -36,7 +37,7 @@ namespace Blazorise
         /// </summary>
         IFileEntry fileBeingUploaded;
 
-        private _FilePickerConfirmRemoveModal _FilePickerConfirmRemoveModalRef;
+        private _FilePickerConfirmModal _FilePickerConfirmModalRef;
 
         #endregion
 
@@ -159,25 +160,32 @@ namespace Blazorise
         /// <summary>
         /// Removes the file from FileEdit.
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public ValueTask RemoveFile( IFileEntry file )
-            => FileEdit.RemoveFile( file.Id );
+        /// <param name="file">The file entry to remove.</param>
+        /// <param name="confirm">Wether to show a confirmation popup.</param>
+        public Task RemoveFile( IFileEntry file, bool confirm = false )
+        {
+            var removeFileAction = FileEdit.RemoveFile( file.Id ).AsTask();
 
-        /// <summary>
-        /// Removes the file from FileEdit.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        private Task RemoveFileWithConfirm( IFileEntry file )
-            => _FilePickerConfirmRemoveModalRef.OpenModal( () => RemoveFile( file ).AsTask() );
+            if ( confirm )
+                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, () => removeFileAction );
+            else
+                return removeFileAction;
+        }
 
         /// <summary>
         /// Clears the FileEdit by resetting the state.
         /// </summary>
-        /// <returns></returns>
-        public Task Clear()
-            => FileEdit.Reset().AsTask();
+        /// <param name="confirm">Wether to show a confirmation popup.</param>
+        public Task Clear( bool confirm = false )
+        {
+            var clearAction = FileEdit.Reset().AsTask();
+
+            if ( confirm )
+                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, () => clearAction );
+            else
+                return clearAction;
+        }
+
 
         /// <summary>
         /// Uploads the current files.
@@ -190,7 +198,7 @@ namespace Blazorise
                 cts = new();
                 foreach ( var file in FileEdit.Files )
                 {
-                    if ( file.Status == FileEntryStatus.Ready && !cts.IsCancellationRequested)
+                    if ( file.Status == FileEntryStatus.Ready && !cts.IsCancellationRequested )
                         await Upload.InvokeAsync( new( file ) );
                 }
             }
@@ -198,14 +206,47 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Cancels any ongoing uplaod operation.
+        /// Cancels any ongoing upload operation.
+        /// </summary>
+        /// <param name="confirm">Wether to show a confirmation popup.</param>
+        public Task CancelUpload( bool confirm = false )
+        {
+            var cancelAction = new Func<Task>( () =>
+                {
+                    cts?.Cancel();
+                    fileBeingUploaded.Cancel();
+                    return Task.CompletedTask;
+                }
+            );
+
+            if ( confirm )
+                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.CancelUpload, cancelAction );
+            else
+                return cancelAction.Invoke();
+        }
+
+        /// <summary>
+        /// Internal method. Facilitates named binding.
         /// </summary>
         /// <returns></returns>
-        public void CancelUpload()
-        {
-            cts?.Cancel();
-            fileBeingUploaded.Cancel();
-        }
+        private Task RemoveFileWithConfirm( IFileEntry file )
+            => RemoveFile( file, true );
+
+        /// <summary>
+        /// Internal method. Facilitates named binding.
+        /// </summary>
+        /// <returns></returns>
+        private Task ClearWithConfirm()
+            => Clear( true );
+
+        /// <summary>
+        /// Internal method. Facilitates named binding.
+        /// </summary>
+        /// <returns></returns>
+        private Task CancelUploadWithConfirm()
+            => CancelUpload( true );
+
+
 
         private CancellationTokenSource cts;
 

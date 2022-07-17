@@ -7,6 +7,12 @@
     "Error uploading": "Błąd podczas przesyłania",
     "Or drop files here": "Lub upuść pliki tutaj",
     "Clear": "Jasny",
-    "Upload": "Wgrywać"
+    "Upload": "Wgrywać",
+    "Cancel": "Anulować",
+    "Confirm": "Potwierdzać",
+    "Remove": "Usunąć",
+    "Are you sure you want to remove the file?": "Czy na pewno chcesz usunąć plik?",
+    "Are you sure you want to clear all files?": "Czy na pewno chcesz wyczyścić wszystkie pliki?",
+    "Are you sure you want to cancel the upload?": "Czy na pewno chcesz anulować przesyłanie?"
   }
 }
