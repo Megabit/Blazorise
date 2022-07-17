@@ -78,10 +78,11 @@ namespace Blazorise.LoadingIndicator
         private void BuildIndicatorStyles( StyleBuilder builder )
         {
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
-            builder.Append( $"justify-content:start", SpinnerHorizontalPlacement == Placement.Start );
-            builder.Append( $"justify-content:end", SpinnerHorizontalPlacement == Placement.End );
-            builder.Append( $"align-items:start", SpinnerVerticalPlacement == Placement.Top );
-            builder.Append( $"align-items:end", SpinnerVerticalPlacement == Placement.Bottom );
+            builder.Append( $"justify-content:start", IndicatorHorizontalPlacement == Placement.Start );
+            builder.Append( $"justify-content:end", IndicatorHorizontalPlacement == Placement.End );
+            builder.Append( $"align-items:start", IndicatorVerticalPlacement == Placement.Top );
+            builder.Append( $"align-items:end", IndicatorVerticalPlacement == Placement.Bottom );
+            builder.Append( $"padding:{IndicatorMargin}", !string.IsNullOrEmpty( IndicatorMargin ) );
             base.BuildStyles( builder );
         }
 
@@ -247,13 +248,13 @@ namespace Blazorise.LoadingIndicator
         public string SpinnerColor { get; set; } = "#000000";
 
         /// <summary>
-        /// Spinner css width
+        /// Spinner HTML width
         /// </summary>
         [Parameter]
         public string SpinnerWidth { get; set; } = "64px";
 
         /// <summary>
-        /// Spinner css height
+        /// Spinner HTML height
         /// </summary>
         [Parameter]
         public string SpinnerHeight { get; set; } = "64px";
@@ -262,13 +263,19 @@ namespace Blazorise.LoadingIndicator
         /// Indicator vertical position
         /// </summary>
         [Parameter]
-        public Placement SpinnerVerticalPlacement { get; set; } = Placement.Middle;
+        public Placement IndicatorVerticalPlacement { get; set; } = Placement.Middle;
 
         /// <summary>
         /// Indicator horizontal position
         /// </summary>
         [Parameter]
-        public Placement SpinnerHorizontalPlacement { get; set; } = Placement.Middle;
+        public Placement IndicatorHorizontalPlacement { get; set; } = Placement.Middle;
+
+        /// <summary>
+        /// Indicator CSS margin (top right bottom left)
+        /// </summary>
+        [Parameter]
+        public string IndicatorMargin { get; set; }
 
         /// <summary>
         /// Busy screen opacity

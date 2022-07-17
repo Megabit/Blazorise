@@ -10,7 +10,8 @@
             <CardBody>
                 <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Busy="lineChartBusy" @bind-Loaded="lineChartLoaded"
                                   SpinnerWidth="@($"{spinnerWidth}%")" SpinnerHeight="@($"{spinnerHeight}%")"
-                                  SpinnerHorizontalPlacement="spinnerHorizontal" SpinnerVerticalPlacement="spinnerVertical">
+                                  IndicatorHorizontalPlacement="spinnerHorizontal" IndicatorVerticalPlacement="spinnerVertical"
+                                  IndicatorMargin="@spinnerMargin">
                     <LineChart @ref="lineChart" Data="lineChartData" />
                 </LoadingIndicator>
             </CardBody>
@@ -34,6 +35,7 @@
                     <SelectItem TValue="Placement" Value="Placement.Middle">Middle</SelectItem>
                     <SelectItem TValue="Placement" Value="Placement.Bottom">Bottom</SelectItem>
                 </Select>
+                Margin (top right bottom left)<TextEdit @bind-Text="spinnerMargin" />
                 <Check TValue="bool" @bind-Checked="showBorder" Inline>Show border</Check>
                 @if (showBorder)
                 {
@@ -129,6 +131,7 @@
     private int spinnerHeight = 30;
     private Placement spinnerHorizontal = Placement.Middle;
     private Placement spinnerVertical = Placement.Middle;
+    private string spinnerMargin;
     private bool showBorder;
 
     private string spinnerColor = "skyblue";

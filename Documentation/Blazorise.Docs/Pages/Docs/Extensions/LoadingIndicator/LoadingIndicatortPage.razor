@@ -54,7 +54,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
-        You may wrap the main layout of your application to create a global busy UI. Use the provided service class to control the wrapper from elsewhere in your code. The service class may also be used to control multiple <Code>LoadingIndicator</Code> instances.
+        You can wrap the main layout of your application to create a global busy UI. Use the provided service class to control the wrapper from elsewhere in your code. The service class can also be used to control multiple <Code>LoadingIndicator</Code> instances.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         Add <Code>LoadingIndicatorService</Code> as a scoped service.
@@ -72,7 +72,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Using as cascading parameter">
-        You may also use the wrapper as a cascading parameter.
+        You can also use the wrapper as a cascading parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         To implement a global application busy UI using cascading parameter add the wrapper to your main layout.
@@ -86,7 +86,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Disabling input controls">
-        While the busy screen may prevent clicking events from reaching child content it has no effect on keyboard input. You may want to disable your input controls such as textboxes and buttons while your component is busy.
+        While the busy screen prevents click events from reaching child content it has no effect on keyboard input. You may want to disable your input controls such as textboxes and buttons while your component is busy.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         Using the <Code>Busy</Code> property directly.
@@ -107,10 +107,19 @@
         Current busy state.
     </DocsAttributesItem>
     <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
-        Show spinner fullscreen.
+        Show indicator in full screen mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IndicatorHorizontalPlacement" Type="Placement" Default="Middle">
+        Indicator horizontal placement.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IndicatorMargin" Type="string" Default="Middle">
+        Indicator CSS margin.
     </DocsAttributesItem>
     <DocsAttributesItem Name="IndicatorTemplate" Type="RenderFragment" Default="null">
         Busy indicator template.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IndicatorVerticalPlacement" Type="Placement" Default="Middle">
+        Indicator vertical placement.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Used when wrapping inline content such as input controls.
@@ -138,12 +147,6 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerHeight" Type="string" Default="64px">
         Set spinner height.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SpinnerHorizontalPlacement" Type="Placement" Default="Middle">
-        Spinner horizontal placement.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SpinnerVerticalPlacement" Type="Placement" Default="Middle">
-        Spinner vertical placement.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerWidth" Type="string" Default="64px">
         Set spinner width.

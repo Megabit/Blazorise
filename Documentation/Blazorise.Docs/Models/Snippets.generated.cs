@@ -5664,9 +5664,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         @if (Busy)
         {
             <div Screen />
-            <div Spinner>
-                <SpinnerTemplate />
-            </div Spinner>
+            <div Indicator>
+                <IndicatorTemplate />
+            </div Indicator>
         }
     </div Wrapper>
 }
