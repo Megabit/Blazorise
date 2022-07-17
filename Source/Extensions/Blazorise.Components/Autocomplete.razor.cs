@@ -220,7 +220,10 @@ namespace Blazorise.Components
             if ( string.IsNullOrEmpty( text ) )
                 await Clear();
 
+            Loading = true;
             await SearchChanged.InvokeAsync( CurrentSearch );
+            Loading = false;
+
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
             if ( ManualReadMode )
@@ -241,7 +244,7 @@ namespace Blazorise.Components
         {
             if ( !DropdownVisible )
             {
-                if ( ConfirmKey( eventArgs ) )
+                if ( IsConfirmKey( eventArgs ) )
                 {
                     if ( FreeTyping && Multiple )
                     {
@@ -249,7 +252,9 @@ namespace Blazorise.Components
                         await ResetSelectedText();
                     }
                 }
+
                 await UnregisterClosableComponent();
+
                 return;
             }
 
@@ -258,9 +263,9 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( ConfirmKey( eventArgs ) )
+            if ( IsConfirmKey( eventArgs ) )
             {
-                var item = FilteredData.ElementAtOrDefault( activeItemIndex );
+                var item = FilteredData.ElementAtOrDefault( ActiveItemIndex ?? -1 );
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
@@ -273,11 +278,11 @@ namespace Blazorise.Components
             }
             else if ( eventArgs.Code == "ArrowUp" )
             {
-                await UpdateActiveFilterIndex( --activeItemIndex );
+                await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) - 1 );
             }
             else if ( eventArgs.Code == "ArrowDown" )
             {
-                await UpdateActiveFilterIndex( ++activeItemIndex );
+                await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) + 1 );
             }
         }
 
@@ -327,7 +332,9 @@ namespace Blazorise.Components
             else
             {
                 CurrentSearch = null;
+                Loading = true;
                 await SearchChanged.InvokeAsync( CurrentSearch );
+                Loading = false;
             }
 
             SelectedValue = Converters.ChangeType<TValue>( value );
@@ -354,11 +361,13 @@ namespace Blazorise.Components
             }
         }
 
-        private static bool ConfirmKey( KeyboardEventArgs eventArgs )
+        private bool IsConfirmKey( KeyboardEventArgs eventArgs )
         {
-            return eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab";
-        }
+            if ( ConfirmKey.IsNullOrEmpty() )
+                return false;
 
+            return ConfirmKey.Contains( eventArgs.Code );
+        }
 
         private bool ShouldNotClose()
             => Multiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
@@ -479,7 +488,7 @@ namespace Blazorise.Components
             }
 
             filteredData = query.ToList();
-            ActiveItemIndex = 0;
+            ActiveItemIndex = AutoSelectFirstItem ? 0 : null;
 
             dirtyFilter = false;
         }
@@ -512,7 +521,7 @@ namespace Blazorise.Components
             // update search text with the currently focused item text
             if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
             {
-                var item = FilteredData[ActiveItemIndex];
+                var item = FilteredData[ActiveItemIndex.Value];
 
                 SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
@@ -678,7 +687,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the currently active item index.
         /// </summary>
-        protected int ActiveItemIndex { get; set; }
+        protected int? ActiveItemIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the search field focus state.
@@ -696,7 +705,7 @@ namespace Blazorise.Components
         /// True if the not found content should be visible.
         /// </summary>
         protected bool NotFoundVisible
-            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused && NotFoundContent != null;
+            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused && NotFoundContent != null && !Loading;
 
         /// <summary>
         /// True if the component has the pre-requirements to search
@@ -963,6 +972,23 @@ namespace Blazorise.Components
         /// Defauls to true.
         /// </summary>
         [Parameter] public bool CloseOnSelection { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets an array of the keyboard pressed values for the ConfirmKey.
+        /// If this is null or empty, there will be no confirmation key.
+        /// <para>Defauls to: { "Enter", "NumpadEnter", "Tab" }.</para>
+        /// </summary>
+        /// <remarks>
+        /// If the value has a printed representation, this attribute's value is the same as the char attribute.
+        /// Otherwise, it's one of the key value strings specified in 'Key values'.
+        /// </remarks>
+        [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter", "Tab" };
+
+        /// <summary>
+        /// Gets or sets whether <see cref="Autocomplete{TItem, TValue}"/> auto selects the first item displayed on the dropdown.
+        /// Defauls to true.
+        /// </summary>
+        [Parameter] public bool AutoSelectFirstItem { get; set; } = true;
 
         #endregion
     }

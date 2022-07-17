@@ -1,14 +1,15 @@
 ﻿@page "/docs/extensions/list-view"
 
-<Seo Canonical="/docs/extensions/list-view" Title="Blazorise List View" Description="Learn how to use Blazorise List View extension components." />
+<Seo Canonical="/docs/extensions/list-view" Title="Blazorise List View component" Description="Learn how to use Blazorise List View extension components." />
 
-<DocsPageTitle>
-    List View component
+<DocsPageTitle Path="Extensions/List View">
+    Blazorise List View component
 </DocsPageTitle>
 
-<DocsPageParagraph>
+<DocsPageLead>
     List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source.
-</DocsPageParagraph>
+</DocsPageLead>
+
 <DocsPageParagraph>
     List views use <Code>ListGroup</Code> behind the covers, so you may make use of the <Code>ListGroup</Code> underlying APIs.
 </DocsPageParagraph>
@@ -34,6 +35,16 @@
         <ListViewSelectableExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ListViewSelectableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Extending with custom item content">
+        Customize the way you display the ListView items by providing <Code>ItemTemplate</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ListViewItemTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ListViewItemTemplateExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -76,5 +87,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
         Specifies the content to be rendered inside the ListView.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemTemplate" Type="RenderFragment<ItemContext<TItem>>">
+        Specifies the content to be rendered inside each item of the ListView.
     </DocsAttributesItem>
 </DocsAttributes>

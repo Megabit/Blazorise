@@ -17,7 +17,7 @@
 <BlogPageEntries Year="2022">
     @foreach ( var item in BlogEntryItemInfos.Where( x => x.Text.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
     {
-        <BlogPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" />
+        <BlogPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
 
@@ -27,13 +27,19 @@
         public string Url { get; set; }
         public string Text { get; set; }
         public string Image { get; set; }
+        public string AuthorName { get; set; }
+        public string AuthorImage { get; set; }
+        public string PostedOn { get; set; }
+        public string ReadTime { get; set; }
     }
 
     string search = "";
 
     List<BlogEntryItemInfo> BlogEntryItemInfos = new List<BlogEntryItemInfo>
     {
-        new BlogEntryItemInfo { Url = "blog/blazor-form-validation-with-data-annotations", Text = "Blazorise Form Validation With Data Annotations: A Beginner's Guide", Image = "img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png" },
-        new BlogEntryItemInfo { Url = "blog/how-to-create-a-blazorise-application-beginners-guide", Text = "How to create a Blazorise WASM application: A Beginner's Guide", Image = "img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png" },
+        new BlogEntryItemInfo { Url = "blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm", Text = "Exploring WebAssembly, The Underlying Technology Behind Blazor WASM", Image = "img/blog/2022-07-12/the_underlying_technology_behind_blazor_wasm.png", AuthorName="James Amattey", AuthorImage="james", PostedOn="July 13th, 2022", ReadTime="4 min" },
+        new BlogEntryItemInfo { Url = "blog/how-to-handle-select-with-primitive-and-complex-types", Text = "How to handle binding of primitive and complex types with Blazorise Select component", Image = "img/blog/2022-06-25/Blazorise-Select-Component.png", AuthorName="David Moreira", AuthorImage="david", PostedOn="July 1st, 2022", ReadTime="4 min" },
+        new BlogEntryItemInfo { Url = "blog/blazor-form-validation-with-data-annotations", Text = "Blazorise Form Validation With Data Annotations: A Beginner's Guide", Image = "img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 9th, 2022", ReadTime="5 min"  },
+        new BlogEntryItemInfo { Url = "blog/how-to-create-a-blazorise-application-beginners-guide", Text = "How to create a Blazorise WASM application: A Beginner's Guide", Image = "img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 8th, 2022", ReadTime="5 min"  },
     };
 }

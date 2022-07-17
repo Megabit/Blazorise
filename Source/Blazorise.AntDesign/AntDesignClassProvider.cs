@@ -911,7 +911,7 @@ namespace Blazorise.AntDesign
 
         public override string TableHeader() => "ant-table-thead";
 
-        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-{ToThemeContrast( themeContrast )}";
+        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-theme ant-table-thead-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
 

@@ -1,11 +1,11 @@
 ﻿<Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
     <Card Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default">
-        <CardImage Source="@ImageSource"></CardImage>
+        <CardImage Source="@ImageSource" Alt="News post image"></CardImage>
         <CardBody>
             <CardTitle>
                 @if (To != null)
                 {
-                    <Blazorise.Link To="@To" TextColor="TextColor.Primary">
+                    <Blazorise.Link To="@To">
                         @ToText
                     </Blazorise.Link>
                 }

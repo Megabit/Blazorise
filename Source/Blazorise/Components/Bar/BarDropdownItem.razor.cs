@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -34,21 +35,23 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( FormattableString.Invariant( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1d ) }rem" ), ParentDropdownState.IsInlineDisplay );
+            builder.Append( FormattableString.Invariant( $"padding-left: {Indentation * ( ParentDropdownState.NestedIndex + 1d )}rem" ), ParentDropdownState.IsInlineDisplay );
         }
 
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler()
+        protected async Task ClickHandler( MouseEventArgs eventArgs )
         {
             if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
             {
                 if ( !ParentBarDropdown.WasJustToggled )
                     await ParentBarDropdown.Hide( true );
             }
-            await Clicked.InvokeAsync();
+
+            await Clicked.InvokeAsync( eventArgs );
         }
 
         #endregion
@@ -58,7 +61,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Specifies the URL of the page the link goes to.
