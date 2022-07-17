@@ -1,8 +1,10 @@
-﻿@code
+﻿<Button Clicked="DoWork" />
+
+@code
 {
     [CascadingParameter]
     LoadingIndicator loadingIndicator;
-    
+
     void DoWork()
     {
         loadingIndicator.SetBusy(true);

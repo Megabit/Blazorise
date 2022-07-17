@@ -1,0 +1,17 @@
+﻿@if (Loaded)
+{
+    <div Wapper>
+        <ChildContent />
+        @if (Busy)
+        {
+            <div Screen />
+            <div Spinner>
+                <SpinnerTemplate />
+            </div Spinner>
+        }
+    </div Wrapper>
+}
+else
+{
+    <LoadingTemplate />
+}

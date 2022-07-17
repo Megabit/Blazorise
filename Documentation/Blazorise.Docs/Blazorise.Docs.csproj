@@ -67,10 +67,16 @@
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyReferenceExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyServiceExample.snippet" />
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingBusyExample.snippet" />
     <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingWrapperExample.snippet" />
+    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorStructureExample.snippet" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorStructureExample.snippet" />
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyReferenceExample.snippet" />
+    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyServiceExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingWrapperExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingBusyExample.snippet" />
     <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />

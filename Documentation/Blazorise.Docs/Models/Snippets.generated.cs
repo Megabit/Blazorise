@@ -5607,14 +5607,38 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                 Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
         }}
     };
-
 }";
 
-        public const string LoadingIndicatorCascadingBusyExample = @"@code
+        public const string LoadingIndicatorBusyReferenceExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <Button Disabled=""loadingIndicator.Busy"" Clicked=""DoWork""/>
+</LoadingIndicator>
+
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        if (!loadingIndicator.Busy)
+        {
+            loadingIndicator.SetBusy(true);
+            // do work...
+            loadingIndicator.SetBusy(false);
+        }
+    }
+}";
+
+        public const string LoadingIndicatorBusyServiceExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Button Disabled=""ApplicationLoadingIndicatorService.Busy"" />";
+
+        public const string LoadingIndicatorCascadingBusyExample = @"<Button Clicked=""DoWork"" />
+
+@code
 {
     [CascadingParameter]
     LoadingIndicator loadingIndicator;
-    
+
     void DoWork()
     {
         loadingIndicator.SetBusy(true);
@@ -5632,6 +5656,24 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
+
+        public const string LoadingIndicatorStructureExample = @"@if (Loaded)
+{
+    <div Wapper>
+        <ChildContent />
+        @if (Busy)
+        {
+            <div Screen />
+            <div Spinner>
+                <SpinnerTemplate />
+            </div Spinner>
+        }
+    </div Wrapper>
+}
+else
+{
+    <LoadingTemplate />
+}";
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 

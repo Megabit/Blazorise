@@ -1,0 +1,18 @@
+﻿<LoadingIndicator @ref="loadingIndicator">
+    <Button Disabled="loadingIndicator.Busy" Clicked="DoWork"/>
+</LoadingIndicator>
+
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        if (!loadingIndicator.Busy)
+        {
+            loadingIndicator.SetBusy(true);
+            // do work...
+            loadingIndicator.SetBusy(false);
+        }
+    }
+}

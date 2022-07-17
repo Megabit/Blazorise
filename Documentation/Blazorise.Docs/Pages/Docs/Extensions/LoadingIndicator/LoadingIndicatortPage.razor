@@ -36,6 +36,13 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Component DOM structure">
+        This component adds a screen div positioned in front (on top) of the child content. A spinner div is positioned in front of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LoadingIndicatorStructureExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
         The basic usage scenario for <Code>LoadingIndicator</Code> with default settings.
     </DocsPageSectionHeader>
@@ -47,7 +54,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
-        You may wrap the main layout of your application to create a global busy UI. Use the provided service class to control the wrapper from elsewhere in your code.
+        You may wrap the main layout of your application to create a global busy UI. Use the provided service class to control the wrapper from elsewhere in your code. The service class may also be used to control multiple <Code>LoadingIndicator</Code> instances.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         Add <Code>LoadingIndicatorService</Code> as a scoped service.
@@ -75,6 +82,20 @@
         Declare a <Code>CascadingParameter</Code> of type <Code>LoadingIndicator</Code> in your component.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorCascadingBusyExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabling input controls">
+        While the busy screen may prevent clicking events from reaching child content it has no effect on keyboard input. You may want to disable your input controls such as textboxes and buttons while your component is busy.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        Using the <Code>Busy</Code> property directly.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorBusyReferenceExample" />
+    <DocsPageSectionContent>
+        Disabling your controls using <Code>LoadingIndicatorService</Code>.
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorBusyServiceExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
