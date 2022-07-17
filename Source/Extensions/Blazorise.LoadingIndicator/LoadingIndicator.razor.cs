@@ -126,9 +126,6 @@ namespace Blazorise.LoadingIndicator
             }
         }
 
-        internal void Service_BusyChanged( bool val ) => SetBusy( val );
-        internal void Service_LoadedChanged( bool val ) => SetLoaded( val );
-
         /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {

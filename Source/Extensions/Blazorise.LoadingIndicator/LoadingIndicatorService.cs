@@ -8,14 +8,6 @@ namespace Blazorise.LoadingIndicator
     /// </summary>
     public class LoadingIndicatorService
     {
-        #region Events
-
-        internal delegate void StateChanged( bool val );
-        internal event StateChanged BusyChanged;
-        internal event StateChanged LoadedChanged;
-
-        #endregion
-
         #region Members
 
         private object hashLock = new();
@@ -29,13 +21,31 @@ namespace Blazorise.LoadingIndicator
         /// Set Busy state
         /// </summary>
         /// <param name="val">true or false</param>
-        public void SetBusy( bool val ) => BusyChanged.Invoke( val );
+        public void SetBusy( bool val )
+        {
+            lock ( hashLock )
+            {
+                foreach ( var indicator in indicators )
+                {
+                    indicator.SetBusy( val );
+                }
+            }
+        }
 
         /// <summary>
         /// Set Loaded state
         /// </summary>
         /// <param name="val">true or false</param>
-        public void SetLoaded( bool val ) => LoadedChanged.Invoke( val );
+        public void SetLoaded( bool val )
+        {
+            lock ( hashLock )
+            {
+                foreach ( var indicator in indicators )
+                {
+                    indicator.SetLoaded( val );
+                }
+            }
+        }
 
         /// <summary>
         /// Subscribe indicator to change events and save reference
@@ -46,8 +56,6 @@ namespace Blazorise.LoadingIndicator
             lock ( hashLock )
             {
                 indicators.Add( indicator );
-                BusyChanged += indicator.Service_BusyChanged;
-                LoadedChanged += indicator.Service_LoadedChanged;
             }
         }
 
@@ -59,8 +67,6 @@ namespace Blazorise.LoadingIndicator
         {
             lock ( hashLock )
             {
-                BusyChanged -= indicator.Service_BusyChanged;
-                LoadedChanged -= indicator.Service_LoadedChanged;
                 indicators.Remove( indicator );
             }
         }
