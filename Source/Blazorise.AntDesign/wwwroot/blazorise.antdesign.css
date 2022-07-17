@@ -2755,10 +2755,12 @@ li.ant-list-item-actionable {
   border-collapse: separate;
   border-spacing: 0;
 }
+.ant-table-fixed-header thead:not(.ant-table-thead-theme) th {
+  background: white;
+}
 .ant-table-fixed-header thead tr th {
   border-top: none;
   position: sticky;
-  background: white;
   z-index: 1;
 }
 .ant-table-fixed-header thead tr:nth-child(1) th {
