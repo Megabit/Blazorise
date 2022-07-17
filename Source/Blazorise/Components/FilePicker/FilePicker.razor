@@ -3,7 +3,7 @@
 @inherits BaseComponent
 
 <div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker">
-    @if (ShowMode == FilePickerShowMode.Dropdown)
+    @if ( ShowMode == FilePickerShowMode.Dropdown )
     {
         <Dropdown Display="Blazorise.Display.InlineBlock" Border="@Blazorise.Border.Is1">
 
@@ -12,10 +12,10 @@
                 <DropdownToggle>(@(FileEdit.Files?.Count() ?? 0))</DropdownToggle>
             </Div>
 
-            @if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
+            @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
             {
                 <DropdownMenu Class="b-files">
-                    @foreach (var file in FileEdit.Files)
+                    @foreach ( var file in FileEdit.Files )
                     {
                         <DropdownItem Class="b-file">
                             @fileContentFragment(file)
@@ -32,14 +32,14 @@
 
     <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
 
-    @if (!FileEdit?.Files?.IsNullOrEmpty() ?? false)
+    @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
     {
         <div Class="b-files-container">
-            @if (ShowMode == FilePickerShowMode.List)
+            @if ( ShowMode == FilePickerShowMode.List )
             {
                 <ListGroup Class="b-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
 
-                    @foreach (var file in FileEdit.Files)
+                    @foreach ( var file in FileEdit.Files )
                     {
                         <ListGroupItem @key="file.Id" Class="b-file">
                             @fileContentFragment(file)
@@ -48,9 +48,9 @@
                 </ListGroup>
             }
 
-            @if (ButtonContent is not null)
+            @if ( ButtonTemplate is not null )
             {
-                @ButtonContent(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelUploadWithConfirm)))
+                @ButtonTemplate(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelUploadWithConfirm)))
             }
             else
             {
@@ -73,35 +73,35 @@
 @code {
     private RenderFragment fileComponentFragment => __builder =>
     {
-    <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-            Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
-                <ChildContent>
-                    @ChildContent
-                </ChildContent>
-                <Feedback>
-                    @Feedback
-                </Feedback>
-    </FileEdit>
+        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
+          Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
+            <ChildContent>
+                @ChildTemplate
+            </ChildContent>
+            <Feedback>
+                @Feedback
+            </Feedback>
+        </FileEdit>
     };
 
     private RenderFragment<IFileEntry> fileContentFragment => file => __builder =>
     {
-    @if (FileContent is not null)
+        @if ( FileTemplate is not null )
         {
-            @FileContent(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileWithConfirm)))
+            @FileTemplate(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileWithConfirm)))
         }
         else
         {
-    <CloseButton disabled="@IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))" />
-    <Span Class="b-file-name">@file.Name</Span>
-    <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
-    @if (IsFileBeingUploaded(file))
+            <CloseButton disabled="@IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))" />
+            <Span Class="b-file-name">@file.Name</Span>
+            <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
+            @if ( IsFileBeingUploaded( file ) )
             {
-    <Progress Value="@GetProgressPercentage()" />
+                <Progress Value="@GetProgressPercentage()" />
             }
             else
             {
-    <Span Class="b-file-status">@GetFileStatus(file)</Span>
+                <Span Class="b-file-status">@GetFileStatus(file)</Span>
             }
         }
     };

@@ -317,7 +317,7 @@ namespace Blazorise
         /// <summary>
         /// Input content.
         /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildTemplate { get; set; }
 
         /// <summary>
         /// Placeholder for validation messages.
@@ -398,12 +398,12 @@ namespace Blazorise
         /// <summary>
         /// Provides a custom file content.
         /// </summary>
-        [Parameter] public RenderFragment<FilePickerFileContext> FileContent { get; set; }
+        [Parameter] public RenderFragment<FilePickerFileContext> FileTemplate { get; set; }
 
         /// <summary>
         /// Provides a custom button content.
         /// </summary>
-        [Parameter] public RenderFragment<FilePickerButtonContext> ButtonContent { get; set; }
+        [Parameter] public RenderFragment<FilePickerButtonContext> ButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets or Sets FilePicker's show mode.
