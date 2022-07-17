@@ -29,7 +29,15 @@ namespace Blazorise.Components
         protected Task HandleSelectedValueChanged( TValue value )
         {
             SelectedValue = value;
+
             return SelectedValueChanged.InvokeAsync( value );
+        }
+
+        protected Task HandleSelectedValuesChanged( IReadOnlyList<TValue> value )
+        {
+            SelectedValues = value;
+
+            return SelectedValuesChanged.InvokeAsync( value );
         }
 
         /// <summary>
@@ -78,14 +86,29 @@ namespace Blazorise.Components
         [Parameter] public TValue SelectedValue { get; set; }
 
         /// <summary>
+        /// Gets or sets the multiple selected item values.
+        /// </summary>
+        [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
+
+        /// <summary>
         /// Occurs after the selected value has changed.
         /// </summary>
         [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
+        /// Occurs when the selected items value has changed (only when <see cref="Multiple"/>==true).
+        /// </summary>
+        [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+
+        /// <summary>
         /// Gets or sets an expression that identifies the selected value.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the selected value.
+        /// </summary>
+        [Parameter] public Expression<Func<IReadOnlyList<TValue>>> SelectedValuesExpression { get; set; }
 
         /// <summary>
         /// Display text of the default select item.

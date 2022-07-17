@@ -118,3 +118,32 @@
 <Paragraph>
     Introduced <Code>ReadData</Code> support enabling you to provide that to Autocomplete on demand according to the user's searched text.
 </Paragraph>
+
+<Paragraph>
+    Introduced <Code>ConfirmKey</Code> parameter, you are now able to costumize the keyboard keys that should be considered as a Confirmation Key.
+    Take note :
+    If the value has a printed representation, this attribute's value is the same as the char attribute.
+    Otherwise, it's one of the key value strings specified in 'Key values'.
+</Paragraph>
+
+<Paragraph>
+    Introduced <Code>AutoSelectFirstItem</Code>, this defaults to true, keeping the current behaviour. By setting it to false, the dropdown that shows the options, will no longer auto select the first item.
+    This is specially useful for a use case reported by our users.
+    When you have the <Code>AutoComplete</Code> set to <Code>Multiple</Code> + <Code>FreeTyping</Code>, and want to allow your user to just press the Confirm Key to accept the currently typed text.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    ListView
+</Heading>
+
+<Paragraph>
+    Introduced <Code>ItemTemplate</Code> Parameter, you may now costumize the content that renders in each of the <Code>ListView</Code>'s items.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Other improvements
+</Heading>
+
+<Paragraph>
+    All our <Code>Clicked</Code> parameters on a <Code Tag>Button</Code>, <Code Tag>Link</Code>, <Code Tag>Tab</Code>, and other components, can now recieve a <Code>MouseEventArgs</Code> as an event parameter. This feature will allow you to determine how the clicked event was raised and what buttons and keys were pressed.
+</Paragraph>
