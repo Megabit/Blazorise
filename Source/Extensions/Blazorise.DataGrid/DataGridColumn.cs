@@ -220,13 +220,13 @@ namespace Blazorise.DataGrid
             return sb.ToString().TrimStart( ' ', ';' );
         }
 
-        internal Task ResetMultipleSortOrder()
-            => SetMultipleSortOrder( default );
+        internal Task ResetSortOrder()
+            => SetSortOrder( default );
 
-        internal Task SetMultipleSortOrder( int multipleSortOrder )
+        internal Task SetSortOrder( int sortOrder )
         {
-            MultipleSortOrder = multipleSortOrder;
-            return MultipleSortOrderChanged.InvokeAsync( multipleSortOrder );
+            SortOrder = sortOrder;
+            return SortOrderChanged.InvokeAsync( sortOrder );
         }
 
         #endregion
@@ -490,12 +490,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the order for sorting when Sorting is set to multiple. 
         /// </summary>
-        [Parameter] public int MultipleSortOrder { get; set; }
+        [Parameter] public int SortOrder { get; set; }
 
         /// <summary>
-        /// Raises an event every time that <see cref="MultipleSortOrder"/> is changed.
+        /// Raises an event every time that <see cref="SortOrder"/> is changed.
         /// </summary>
-        [Parameter] public EventCallback<int> MultipleSortOrderChanged { get; set; }
+        [Parameter] public EventCallback<int> SortOrderChanged { get; set; }
 
         #endregion
     }
