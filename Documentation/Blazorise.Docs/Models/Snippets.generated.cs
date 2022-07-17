@@ -1638,7 +1638,7 @@ public class Gender
             Multiple
             Upload=""OnFileUpload""
             ShowMode=""FilePickerShowMode.List"">
-    <FileContent>
+    <FileTemplate>
         <Div Flex=""Flex.JustifyContent.Between"">
             <Div>
                 <Heading Size=""HeadingSize.Is5"">@context.File.Name</Heading>
@@ -1664,14 +1664,14 @@ public class Gender
             </Div>
         </Div>
         <Divider Margin=""Margin.Is0"" />
-    </FileContent>
-    <ButtonContent>
+    </FileTemplate>
+    <ButtonTemplate>
         <Progress Value=""@filePickerCustom.GetProgressPercentage()"" />
         <Buttons>
             <Button Clicked=""@context.Clear"" Color=""Color.Warning""><Icon Name=""IconName.Clear"" /></Button>
             <Button Clicked=""@context.Upload"" Color=""Color.Primary""><Icon Name=""IconName.FileUpload"" /></Button>
         </Buttons>
-    </ButtonContent>
+    </ButtonTemplate>
 </FilePicker>
 @code {
     private FilePicker filePickerCustom;
