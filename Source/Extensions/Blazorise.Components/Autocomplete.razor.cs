@@ -508,31 +508,35 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Multiple && !IsSuggestSelectedItems )
-                query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
-            var currentSearch = CurrentSearch ?? string.Empty;
+            if ( !ManualReadMode )
+            {
+                if ( Multiple && !IsSuggestSelectedItems )
+                    query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
-            if ( CustomFilter != null )
-            {
-                query = from q in query
-                        where q != null
-                        where CustomFilter( q, currentSearch )
-                        select q;
-            }
-            else if ( Filter == AutocompleteFilter.Contains )
-            {
-                query = from q in query
-                        let text = GetItemText( q )
-                        where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
-                        select q;
-            }
-            else
-            {
-                query = from q in query
-                        let text = GetItemText( q )
-                        where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
-                        select q;
+                var currentSearch = CurrentSearch ?? string.Empty;
+
+                if ( CustomFilter != null )
+                {
+                    query = from q in query
+                            where q != null
+                            where CustomFilter( q, currentSearch )
+                            select q;
+                }
+                else if ( Filter == AutocompleteFilter.Contains )
+                {
+                    query = from q in query
+                            let text = GetItemText( q )
+                            where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                            select q;
+                }
+                else
+                {
+                    query = from q in query
+                            let text = GetItemText( q )
+                            where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
+                            select q;
+                }
             }
 
             filteredData = query.ToList();
