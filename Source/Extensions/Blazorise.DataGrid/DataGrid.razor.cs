@@ -2098,14 +2098,14 @@ namespace Blazorise.DataGrid
         public Dictionary<string, object> Attributes { get; set; }
 
         /// <summary>
-        /// Returns a zero-based index of the currently selected row if found; otherwise it'll return -1.
-        /// Considers the current pagination.
+        /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
         /// </summary>
         public int SelectedRowIndex
         {
             get
             {
                 var selectedRowDataIdx = Data.Index( x => x.IsEqual( SelectedRow ) );
+
                 return Virtualize
                         ? selectedRowDataIdx
                         : ( selectedRowDataIdx == -1 )

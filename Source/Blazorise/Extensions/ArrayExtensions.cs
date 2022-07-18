@@ -42,7 +42,7 @@ namespace Blazorise.Extensions
         /// <summary>
         /// Returns the index of an element that matches the specified predicate.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="predicate">The predicate.</param>
         /// <returns>
@@ -50,7 +50,7 @@ namespace Blazorise.Extensions
         /// </returns>
         public static int Index<T>( this IEnumerable<T> collection, Func<T, bool> predicate )
         {
-            return collection?.Select( ( obj , idx) => new { obj, idx} )?.FirstOrDefault( x => predicate( x.obj ) )?.idx ?? -1;
+            return collection?.Select( ( obj, idx ) => new { obj, idx } )?.FirstOrDefault( x => predicate( x.obj ) )?.idx ?? -1;
         }
     }
 }
