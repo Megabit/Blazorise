@@ -274,7 +274,6 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Indicator vertical position
         /// </summary>
-        LoadingIndicatorPlacement indicatorVerticalPlacement = LoadingIndicatorPlacement.Middle;
         [Parameter]
         public LoadingIndicatorPlacement IndicatorVerticalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
 
