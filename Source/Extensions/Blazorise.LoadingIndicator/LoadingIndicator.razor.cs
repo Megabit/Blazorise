@@ -62,6 +62,7 @@ namespace Blazorise.LoadingIndicator
             builder.Append( "b-loading-indicator-wrapper-busy", Busy );
             builder.Append( "b-loading-indicator-wrapper-relative", Busy && !FullScreen );
             builder.Append( "b-loading-indicator-wrapper-inline", Inline );
+            base.BuildClasses( builder );
         }
 
         private void BuildIndicatorClasses( ClassBuilder builder )
@@ -70,14 +71,12 @@ namespace Blazorise.LoadingIndicator
             builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
             builder.Append( IndicatorPadding?.Class( ClassProvider ), IndicatorPadding != null );
             builder.Append( LoadingIndicatorPlacementToFluentFlex().Class( ClassProvider ) );
-            base.BuildClasses( builder );
         }
 
         private void BuildIndicatorStyles( StyleBuilder builder )
         {
             builder.Append( $"background-color:{IndicatorBackground.Name}" );
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
-            base.BuildStyles( builder );
         }
 
         protected override void DirtyClasses()
