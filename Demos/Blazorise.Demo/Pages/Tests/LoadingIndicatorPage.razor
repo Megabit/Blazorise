@@ -109,7 +109,7 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.IsHalf">
-                        <LoadingIndicator @ref="customBasicIndicator" Busy SpinnerColor="@spinnerColor" SpinnerBackground="@spinnerBackground" SpinnerHeight="100%" SpinnerWidth="100%" ScreenColor="@screenColor">
+                        <LoadingIndicator @ref="customBasicIndicator" Busy SpinnerColor="@spinnerColor" SpinnerBackground="@spinnerBackground" SpinnerHeight="100%" SpinnerWidth="100%" IndicatorBackground="@screenColor">
                             <LineChart @ref="lineChart" Data="lineChartData" />
                         </LoadingIndicator>
                     </Column>

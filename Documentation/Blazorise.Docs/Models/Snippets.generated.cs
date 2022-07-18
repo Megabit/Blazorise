@@ -5663,7 +5663,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ChildContent />
         @if (Busy)
         {
-            <div Screen />
             <div Indicator>
                 <IndicatorTemplate />
             </div Indicator>

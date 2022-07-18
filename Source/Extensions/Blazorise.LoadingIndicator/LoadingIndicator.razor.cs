@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Blazorise.Utilities;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 #endregion
 
 namespace Blazorise.LoadingIndicator
@@ -38,35 +39,44 @@ namespace Blazorise.LoadingIndicator
             indicatorStyles = new( BuildIndicatorStyles );
         }
 
+        private IFluentFlex LoadingIndicatorPlacementToFluentFlex()
+        {
+            var flex = IndicatorHorizontalPlacement switch
+            {
+                LoadingIndicatorPlacement.Start => Blazorise.Flex.JustifyContent.Start,
+                LoadingIndicatorPlacement.End => Blazorise.Flex.JustifyContent.End,
+                _ => Blazorise.Flex.JustifyContent.Center
+            };
+
+            return IndicatorVerticalPlacement switch
+            {
+                LoadingIndicatorPlacement.Top => flex.AlignItems.Start,
+                LoadingIndicatorPlacement.Bottom => flex.AlignItems.End,
+                _ => flex.AlignItems.Center
+            };
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-wrapper" );
-            base.BuildClasses( builder );
-        }
-
-        protected override void BuildStyles( StyleBuilder builder )
-        {
-            builder.Append( "position:relative", Busy && !FullScreen );
-            builder.Append( "display:inline-block", Inline );
-            base.BuildStyles( builder );
+            builder.Append( "b-loading-indicator-wrapper-busy", Busy );
+            builder.Append( "b-loading-indicator-wrapper-relative", Busy && !FullScreen );
+            builder.Append( "b-loading-indicator-wrapper-inline", Inline );
         }
 
         private void BuildIndicatorClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-overlay" );
             builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
-            builder.Append( IndicatorPadding?.Class(ClassProvider), IndicatorPadding != null );
+            builder.Append( IndicatorPadding?.Class( ClassProvider ), IndicatorPadding != null );
+            builder.Append( LoadingIndicatorPlacementToFluentFlex().Class( ClassProvider ) );
             base.BuildClasses( builder );
         }
 
         private void BuildIndicatorStyles( StyleBuilder builder )
         {
-            builder.Append( $"background-color:{ScreenColor.Name}" );
+            builder.Append( $"background-color:{IndicatorBackground.Name}" );
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
-            builder.Append( $"justify-content:start", IndicatorHorizontalPlacement == LoadingIndicatorPlacement.Start );
-            builder.Append( $"justify-content:end", IndicatorHorizontalPlacement == LoadingIndicatorPlacement.End );
-            builder.Append( $"align-items:start", IndicatorVerticalPlacement == LoadingIndicatorPlacement.Top );
-            builder.Append( $"align-items:end", IndicatorVerticalPlacement == LoadingIndicatorPlacement.Bottom );
             base.BuildStyles( builder );
         }
 
@@ -139,7 +149,7 @@ namespace Blazorise.LoadingIndicator
 
         protected override void Dispose( bool disposing )
         {
-            if (disposing)
+            if ( disposing )
             {
                 Service = null;
             }
@@ -158,20 +168,20 @@ namespace Blazorise.LoadingIndicator
         /// </summary>
         private string SpinnerSVG =>
             @$"<svg viewBox='0 0 128 128' 
-                {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width='{SpinnerWidth}'" : "" )}
-                {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
-                  <g>
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor.Name}' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(45 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(90 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(135 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(180 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(225 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(270 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(315 64 64)' />
-                      <animateTransform attributeName = 'transform' type='rotate' values='0 64 64;45 64 64;90 64 64;135 64 64;180 64 64;225 64 64;270 64 64;315 64 64' calcMode='discrete' dur='720ms' repeatCount='indefinite' />
-                  </g>
-              </svg>";
+                    {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width='{SpinnerWidth}'" : "" )}
+                    {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
+                      <g>
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor.Name}' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(45 64 64)' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(90 64 64)' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(135 64 64)' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(180 64 64)' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(225 64 64)' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(270 64 64)' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(315 64 64)' />
+                          <animateTransform attributeName = 'transform' type='rotate' values='0 64 64;45 64 64;90 64 64;135 64 64;180 64 64;225 64 64;270 64 64;315 64 64' calcMode='discrete' dur='720ms' repeatCount='indefinite' />
+                      </g>
+                  </svg>";
 
 
         /// <summary>
@@ -293,7 +303,7 @@ namespace Blazorise.LoadingIndicator
         /// Busy screen color
         /// </summary>
         [Parameter]
-        public Color ScreenColor { get; set; } = "rgba(255, 255, 255, 0.7)";
+        public Background IndicatorBackground { get; set; } = "rgba(255, 255, 255, 0.7)";
 
         /// <summary>
         /// Show busy indicator full screen

@@ -109,6 +109,9 @@
     <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
         Show indicator in full screen mode.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="IndicatorBackground" Type="Background" Default="rgba(255, 255, 255, 0.7)">
+        Set overlay background color. Use alpha channel for opacity.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="IndicatorHorizontalPlacement" Type="LoadingIndicatorPlacement" Default="Middle">
         Indicator horizontal placement.
     </DocsAttributesItem>
@@ -130,14 +133,11 @@
     <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment" Default="null">
         Loading state template.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ScreenColor" Type="Color" Default="rgba(255, 255, 255, 0.7)">
-        Set screen color. Use alpha channel for opacity.
+    <DocsAttributesItem Name="Service" Type="LoadingIndicatorService" Default="null">
+        Service that can control this LoadingIndicator instance.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerBackground" Type="Background" Default="#c0c0c0">
         Set spinner background color.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Service" Type="LoadingIndicatorService" Default="null">
-        Service that can control this LoadingIndicator instance.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerColor" Type="Color" Default="#000000">
         Set spinner color.
