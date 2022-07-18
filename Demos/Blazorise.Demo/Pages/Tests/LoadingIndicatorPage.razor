@@ -39,7 +39,7 @@
                 @if (usePadding)
                 {
                     <style>
-                        #spinner .b-loading-indicator-indicator {
+                        #spinner .b-loading-indicator-overlay {
                             background-clip: content-box,padding-box;
                             background-image: linear-gradient(rgba(255, 255, 224, 0.5), rgba(255, 255, 224, 0.5)), linear-gradient(rgba(195, 192, 255, 0.2), rgb(195, 192, 255, 0.2))
                         }
@@ -109,15 +109,14 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.IsHalf">
-                        <LoadingIndicator @ref="customBasicIndicator" Busy SpinnerColor="@spinnerColor" SpinnerBackgroundColor="@spinnerBackgroundColor" SpinnerHeight="100%" SpinnerWidth="100%" ScreenColor="@screenColor" ScreenOpacity="@(screenOpacity/10.0)">
+                        <LoadingIndicator @ref="customBasicIndicator" Busy SpinnerColor="@spinnerColor" SpinnerBackground="@spinnerBackground" SpinnerHeight="100%" SpinnerWidth="100%" ScreenColor="@screenColor">
                             <LineChart @ref="lineChart" Data="lineChartData" />
                         </LoadingIndicator>
                     </Column>
                     <Column ColumnSize="ColumnSize.IsHalf">
                         Spinner color<ColorPicker @bind-Color="spinnerColor" />
-                        Spinner background color<ColorPicker @bind-Color="spinnerBackgroundColor" />
+                        Spinner background color<ColorPicker @bind-Color="spinnerBackground" />
                         Screen color<ColorPicker @bind-Color="screenColor" />
-                        Screen opacity<Slider TValue="int" Min="0" Max="10" @bind-Value="screenOpacity" />
                     </Column>
                 </Row>
             </CardBody>
@@ -144,10 +143,8 @@
     private bool showBorder;
 
     private string spinnerColor = "skyblue";
-    private string spinnerBackgroundColor = "pink";
-    private string screenColor = "white";
-    private int screenOpacity = 5;
-
+    private string spinnerBackground = "pink";
+    private string screenColor = "rgba(255, 255, 255, 0.7)";
 
     private LoadingIndicatorService sharedLoadingIndicatorService = new();
     private LoadingIndicatorService inlineLoadingIndicatorService = new();

@@ -37,7 +37,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Component DOM structure">
-        This component adds a screen div positioned in front (on top) of the child content. A spinner div is positioned in front of the screen.
+        This component adds a div for the indicator positioned in front (on top) of the child content. A spinner is positioned inside the indicator div.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="LoadingIndicatorStructureExample" />
 </DocsPageSection>
@@ -130,13 +130,10 @@
     <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment" Default="null">
         Loading state template.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ScreenColor" Type="Color" Default="white">
-        Set screen color.
+    <DocsAttributesItem Name="ScreenColor" Type="Color" Default="rgba(255, 255, 255, 0.7)">
+        Set screen color. Use alpha channel for opacity.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ScreenOpacity" Type="double" Default="0.5">
-        Set screen opacity.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SpinnerBackgroundColor" Type="Color" Default="#c0c0c0">
+    <DocsAttributesItem Name="SpinnerBackground" Type="Background" Default="#c0c0c0">
         Set spinner background color.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Service" Type="LoadingIndicatorService" Default="null">

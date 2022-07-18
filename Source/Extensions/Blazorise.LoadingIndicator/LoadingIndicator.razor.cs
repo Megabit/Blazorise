@@ -17,9 +17,7 @@ namespace Blazorise.LoadingIndicator
     {
         #region Members
 
-        private ClassBuilder screenClasses;
         private ClassBuilder indicatorClasses;
-        private StyleBuilder screenStyles;
         private StyleBuilder indicatorStyles;
 
         private LoadingIndicatorService service;
@@ -36,8 +34,6 @@ namespace Blazorise.LoadingIndicator
 
         public LoadingIndicator()
         {
-            screenClasses = new( BuildScreenClasses );
-            screenStyles = new( BuildScreenStyles );
             indicatorClasses = new( BuildIndicatorClasses );
             indicatorStyles = new( BuildIndicatorStyles );
         }
@@ -55,33 +51,17 @@ namespace Blazorise.LoadingIndicator
             base.BuildStyles( builder );
         }
 
-        private void BuildScreenClasses( ClassBuilder builder )
-        {
-            builder.Append( "b-loading-indicator-overlay" );
-            builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
-            builder.Append( "b-loading-indicator-screen" );
-            base.BuildClasses( builder );
-        }
-
         private void BuildIndicatorClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-overlay" );
             builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
-            builder.Append( "b-loading-indicator-indicator" );
             builder.Append( IndicatorPadding?.Class(ClassProvider), IndicatorPadding != null );
             base.BuildClasses( builder );
         }
 
-        private void BuildScreenStyles( StyleBuilder builder )
-        {
-            builder.Append( $"opacity:{ScreenOpacity}" );
-            builder.Append( $"background-color:{ScreenColor.Name}" );
-            builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
-            base.BuildStyles( builder );
-        }
-
         private void BuildIndicatorStyles( StyleBuilder builder )
         {
+            builder.Append( $"background-color:{ScreenColor.Name}" );
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
             builder.Append( $"justify-content:start", IndicatorHorizontalPlacement == LoadingIndicatorPlacement.Start );
             builder.Append( $"justify-content:end", IndicatorHorizontalPlacement == LoadingIndicatorPlacement.End );
@@ -92,14 +72,12 @@ namespace Blazorise.LoadingIndicator
 
         protected override void DirtyClasses()
         {
-            screenClasses.Dirty();
             indicatorClasses.Dirty();
             base.DirtyClasses();
         }
 
         protected override void DirtyStyles()
         {
-            screenStyles.Dirty();
             indicatorStyles.Dirty();
             base.DirtyStyles();
         }
@@ -184,13 +162,13 @@ namespace Blazorise.LoadingIndicator
                 {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
                   <g>
                       <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor.Name}' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(45 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(90 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(135 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(180 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(225 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(270 64 64)' />
-                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackgroundColor.Name}' transform='rotate(315 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(45 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(90 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(135 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(180 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(225 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(270 64 64)' />
+                      <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(315 64 64)' />
                       <animateTransform attributeName = 'transform' type='rotate' values='0 64 64;45 64 64;90 64 64;135 64 64;180 64 64;225 64 64;270 64 64;315 64 64' calcMode='discrete' dur='720ms' repeatCount='indefinite' />
                   </g>
               </svg>";
@@ -273,7 +251,7 @@ namespace Blazorise.LoadingIndicator
         /// Spinner background color
         /// </summary>
         [Parameter]
-        public Color SpinnerBackgroundColor { get; set; } = "#c0c0c0";
+        public Background SpinnerBackground { get; set; } = "#c0c0c0";
 
         /// <summary>
         /// Spinner color
@@ -313,16 +291,10 @@ namespace Blazorise.LoadingIndicator
         public IFluentSpacing IndicatorPadding { get; set; }
 
         /// <summary>
-        /// Busy screen opacity
-        /// </summary>
-        [Parameter]
-        public double ScreenOpacity { get; set; } = 0.5;
-
-        /// <summary>
         /// Busy screen color
         /// </summary>
         [Parameter]
-        public Color ScreenColor { get; set; } = "white";
+        public Color ScreenColor { get; set; } = "rgba(255, 255, 255, 0.7)";
 
         /// <summary>
         /// Show busy indicator full screen
