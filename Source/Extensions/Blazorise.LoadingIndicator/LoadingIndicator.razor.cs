@@ -1,10 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Blazorise.Utilities;
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.LoadingIndicator
