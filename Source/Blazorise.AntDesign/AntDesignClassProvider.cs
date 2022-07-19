@@ -843,7 +843,7 @@ namespace Blazorise.AntDesign
 
         public override string PaginationItemActive() => "ant-pagination-item-active";
 
-        public override string PaginationItemDisabled() => Disabled();
+        public override string PaginationItemDisabled() => "ant-pagination-disabled";
 
         public override string PaginationLink() => "ant-pagination-link";
 
