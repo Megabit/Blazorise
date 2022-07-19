@@ -24,14 +24,30 @@ namespace Blazorise.LoadingIndicator
         #endregion
 
         #region Methods
-        /// <inheritdoc>
+
+        /// <inheritdoc />
         public LoadingIndicatorService()
         {
-            // defalut to foreach implementation
+            // default to foreach implementation
+            MultiMode();
+        }
+
+        // use locking implementation
+        private void MultiMode()
+        {
             SetBusyAction = SetBusyMulti;
             SetLoadedAction = SetLoadedMulti;
             GetBusyFunc = GetBusyMulti;
             GetLoadedFunc = GetLoadedMulti;
+        }
+
+        // no lock implementation
+        private void SingleMode( LoadingIndicator indicator )
+        {
+            SetBusyAction = indicator.SetBusy;
+            SetLoadedAction = indicator.SetLoaded;
+            GetBusyFunc = () => indicator.Busy;
+            GetLoadedFunc = () => indicator.Loaded;
         }
 
         /// <summary>
@@ -56,17 +72,11 @@ namespace Blazorise.LoadingIndicator
             {
                 if ( indicators.Count == 0 )
                 {
-                    SetBusyAction = indicator.SetBusy;
-                    SetLoadedAction = indicator.SetLoaded;
-                    GetBusyFunc = () => indicator.Busy;
-                    GetLoadedFunc = () => indicator.Loaded;
-                } 
+                    SingleMode( indicator );
+                }
                 else if ( indicators.Count == 1 )
                 {
-                    SetBusyAction = SetBusyMulti;
-                    SetLoadedAction = SetLoadedMulti;
-                    GetBusyFunc = GetBusyMulti;
-                    GetLoadedFunc = GetLoadedMulti;
+                    MultiMode();
                 }
 
                 indicators.Add( indicator );
@@ -85,16 +95,11 @@ namespace Blazorise.LoadingIndicator
 
                 if ( indicators.Count == 0 )
                 {
-                    SetBusyAction = SetLoadedAction = null;
-                    GetBusyFunc = GetLoadedFunc = null;
+                    MultiMode();
                 }
                 else if ( indicators.Count == 1 )
                 {
-                    indicator = indicators.First();
-                    SetBusyAction = indicator.SetBusy;
-                    SetLoadedAction = indicator.SetLoaded;
-                    GetBusyFunc = () => indicator.Busy;
-                    GetLoadedFunc = () => indicator.Loaded;
+                    SingleMode( indicators.First() );
                 }
             }
         }
