@@ -52,6 +52,7 @@ namespace Blazorise
         private void BuildCloseClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BadgeClose() );
+            builder.Append( ClassProvider.BadgeColor( Color ) );
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
         <span>@ChildContent</span>
         @if ( Closable )
         {
-            <span class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault></span>
+            <a href="#" class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault></a>
         }
     </a>
 }
@@ -15,7 +15,7 @@ else
         <span>@ChildContent</span>
         @if ( Closable )
         {
-            <span class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler"></span>
+            <a href="#" class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault></a>
         }
     </span>
 }
