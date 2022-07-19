@@ -2102,6 +2102,23 @@ namespace Blazorise.DataGrid
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
+        /// <summary>
+        /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
+        /// </summary>
+        public int SelectedRowIndex
+        {
+            get
+            {
+                var selectedRowDataIdx = Data.Index( x => x.IsEqual( SelectedRow ) );
+
+                return Virtualize
+                        ? selectedRowDataIdx
+                        : ( selectedRowDataIdx == -1 )
+                            ? -1
+                            : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
+            }
+        }
+
         #endregion
     }
 }
