@@ -1088,10 +1088,15 @@ namespace Blazorise.DataGrid
 
                 if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
                 {
+                    var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
+                    column.SetSortOrder( nextOrderToSort );
                     SortByColumns.Add( column );
                 }
                 else if ( column.CurrentSortDirection == SortDirection.Default )
+                {
                     SortByColumns.Remove( column );
+                    column.ResetSortOrder();
+                }
 
                 if ( changeSortDirection )
                     InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
@@ -1159,7 +1164,7 @@ namespace Blazorise.DataGrid
             {
                 var firstSort = true;
 
-                foreach ( var sortByColumn in SortByColumns )
+                foreach ( var sortByColumn in SortByColumns.OrderBy( x => x.SortOrder ) )
                 {
                     Func<TItem, object> sortFunction = sortByColumn.GetValueForSort;
 

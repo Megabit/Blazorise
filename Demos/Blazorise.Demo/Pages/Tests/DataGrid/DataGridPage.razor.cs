@@ -189,7 +189,7 @@ namespace Blazorise.Demo.Pages.Tests.DataGrid
             if ( sortByColumns?.Any() ?? false )
             {
                 IOrderedEnumerable<Employee> sortedCols = null;
-                foreach ( var sortByColumn in sortByColumns )
+                foreach ( var sortByColumn in sortByColumns.OrderBy( x => x.SortIndex ) )
                 {
                     var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.SortField );
 

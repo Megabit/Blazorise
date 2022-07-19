@@ -101,7 +101,11 @@
     Added <Code>SelectedRowIndex</Code> getter to <Code>DataGrid</Code>. This is an helper so you can quickly find the Zero-based index of your <Code>SelectedRow</Code>. It can be an useful API in conjuction with the <Code>ScrollToRow</Code> method, that takes in a Zero-based index of <Code>DataGrid</Code> row to scroll to.
 </Paragraph>
 
-
+<Paragraph>
+    Added <Code>SortOrder</Code> parameter to <Code>DataGrid</Code> so when the <Code>DataGrid</Code> sorting mechanism is set to multiple, you are able to configure the order of which the sorting of the columns takes place, this is specially useful, if you want to start the <Code>DataGrid</Code> sorted a certain way.
+    Please do take note, that for the parameter to listen to changes and be able to dynamically be adjusted to the <Code>DataGrid</Code> changes, you should use <Code>bind-SortOrder</Code>.
+    An example is when you have a Column A with a <Code>SortOrder</Code> of 2 And Column B with a <Code>SortOrder</Code> of 1, the moment the user removes the sorting out of Column B, the <Code>DataGrid</Code> will attempt to reset the <Code>SortOrder</Code> back to 0 as to accomodate the natural multiple sorting rules.
+</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     ModalProvider
