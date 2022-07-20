@@ -141,7 +141,7 @@ namespace Blazorise.Modules
         }
 
         /// <inheritdoc/>
-        public virtual async ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
+        public virtual async ValueTask<DomElement> GetElementInfo( ElementReference? elementRef, string elementId )
         {
             var moduleInstance = await Module;
 

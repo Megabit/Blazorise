@@ -242,7 +242,7 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
-            if (Multiple && string.IsNullOrEmpty(SelectedText) && eventArgs.Code == "Backspace")
+            if ( Multiple && string.IsNullOrEmpty( SelectedText ) && eventArgs.Code == "Backspace" )
             {
                 await RemoveMultipleText( SelectedTexts.LastOrDefault() );
                 return;
@@ -560,6 +560,14 @@ namespace Blazorise.Components
 
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+        /// </summary>
+        [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+        private string GetDropdownItemElementId( int? index )
+            => index.HasValue && index >= 0 ? $"{ElementId}_{index}" : null;
+
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
         {
             var count = FilteredData.Count;
@@ -578,6 +586,23 @@ namespace Blazorise.Components
 
                 SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
+            }
+
+            if ( ActiveItemIndex >= 0 )
+            {
+                // ensure item in view
+                var listInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, null );
+                var itemInfo = await JSUtilitiesModule.GetElementInfo( null, GetDropdownItemElementId( ActiveItemIndex ) );
+
+                if ( itemInfo.OffsetTop < listInfo.ScrollTop || itemInfo.ClientHeight > listInfo.ClientHeight )
+                {
+                    await JSUtilitiesModule.SetProperty( ElementRef, "scrollTop", itemInfo.OffsetTop );
+                }
+
+                if ( itemInfo.OffsetTop + itemInfo.OffsetHeight > listInfo.ScrollTop + listInfo.ClientHeight )
+                {
+                    await JSUtilitiesModule.SetProperty( ElementRef, "scrollTop", itemInfo.OffsetTop + itemInfo.OffsetHeight - listInfo.ClientHeight );
+                }
             }
         }
 
