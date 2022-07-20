@@ -249,4 +249,4 @@ Gemfile.lock
 
 # Rider files
 .DS_Store
-.idea
+.idea/
