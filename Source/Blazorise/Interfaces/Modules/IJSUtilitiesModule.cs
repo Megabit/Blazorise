@@ -119,7 +119,7 @@ namespace Blazorise.Modules
         /// <param name="elementRef">Reference to the rendered element.</param>
         /// <param name="elementId">ID of the rendered element.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
+        ValueTask<DomElement> GetElementInfo( ElementReference? elementRef, string elementId );
 
         /// <summary>
         /// Gets the User Agent name.
