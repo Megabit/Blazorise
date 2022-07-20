@@ -11,13 +11,9 @@ posted-on: July 20th, 2022
 read-time: 5 min
 ---
 
-## Excerpt
+# What Is Blazor WASM?
 
 This article builds on the [concepts of WebAssembly](blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm) as an integral part of Blazor WASM and explores what Blazor WASM is, how it works, the problems it solves, its features, and the type of applications it can be used to build.
-
----
-
-## What Is Blazor WASM?
 
 Blazor WASM (or Blazor WebAssembly) is a single-page web application framework built by Microsoft that allows you to build single-page web applications. Built as part of the .NET Core ecosystem, Blazor uses C# to generate dynamic content for a rich client experience.
 
