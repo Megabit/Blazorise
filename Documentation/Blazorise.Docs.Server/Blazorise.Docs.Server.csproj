@@ -10,9 +10,4 @@
     <ProjectReference Include="..\Blazorise.Docs\Blazorise.Docs.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\blog\2022-07-12\" />
-    <Folder Include="wwwroot\img\blog\2022-07-20" />
-  </ItemGroup>
-
 </Project>
