@@ -246,3 +246,7 @@ ModelManifest.xml
 # jekyll
 _site
 Gemfile.lock
+
+# Rider files
+.DS_Store
+.idea
