@@ -5,7 +5,7 @@
         <span>@ChildContent</span>
         @if ( Closable )
         {
-            <span href="#" class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault tabindex="0"></span>
+            <span aria-label="close" class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault tabindex="0" @onkeydown="@OnCloseKeyDownHandler"></span>
         }
     </a>
 }
@@ -15,7 +15,7 @@ else
         <span>@ChildContent</span>
         @if ( Closable )
         {
-            <span href="#" class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault tabindex="0"></span>
+            <span aria-label="close" class="@CloseClassBuilder.Class" @onclick="@OnCloseClickedHandler" @onclick:preventDefault tabindex="0" @onkeydown="@OnCloseKeyDownHandler"></span>
         }
     </span>
 }
