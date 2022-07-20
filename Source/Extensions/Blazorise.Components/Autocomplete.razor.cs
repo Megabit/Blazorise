@@ -372,7 +372,7 @@ namespace Blazorise.Components
             if ( ConfirmKey.IsNullOrEmpty() )
                 return false;
 
-            return ConfirmKey.Contains( eventArgs.Code );
+            return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
         }
 
         private bool ShouldNotClose()
@@ -383,7 +383,6 @@ namespace Blazorise.Components
             if ( ShouldNotClose() )
             {
                 dirtyFilter = true;
-                await Focus();
                 await InvokeAsync( StateHasChanged );
             }
             else

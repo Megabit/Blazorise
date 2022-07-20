@@ -6,9 +6,9 @@
         @ChildContent
         @if ( Closable )
         {
-            <a href="#" class="@CloseClassBuilder.Class" aria-label="Close" @onclick="@OnCloseClickedHandler" @onclick:preventDefault>
+            <span href="#" class="@CloseClassBuilder.Class" aria-label="Close" @onclick="@OnCloseClickedHandler" @onclick:preventDefault tabindex="0" @onkeydown="@OnCloseKeyDownHandler">
                 <span aria-hidden="true">&times;</span>
-            </a>
+            </span>
         }
     </a>
 }
@@ -18,9 +18,9 @@ else
         @ChildContent
         @if ( Closable )
         {
-            <a href="#" class="@CloseClassBuilder.Class" aria-label="Close" @onclick="@OnCloseClickedHandler" @onclick:preventDefault>
+            <span href="#" class="@CloseClassBuilder.Class" aria-label="Close" @onclick="@OnCloseClickedHandler" @onclick:preventDefault tabindex="0" @onkeydown="@OnCloseKeyDownHandler">
                 <span aria-hidden="true">&times;</span>
-            </a>
+            </span>
         }
     </span>
 }
