@@ -247,6 +247,10 @@ ModelManifest.xml
 _site
 Gemfile.lock
 
-# Rider files
-.DS_Store
-.idea/
+# Ignore only specific Rider files/directories
+/.idea/*
+!/.idea/.idea.*
+/.idea/.idea.*/*
+!/.idea/.idea.*/.idea
+/.idea/.idea.*/.idea/*
+!/.idea/.idea.*/.idea/runConfigurations
