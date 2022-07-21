@@ -1,12 +1,9 @@
 ﻿@page "/blog"
-@using SendGrid
-@using System.Text
-@using System.Text.Json
 
 <Seo Canonical="/blog" Title="Blazorise Blog" Description="Read the Blazorise related blog posts." />
 
 <BlogPageTitle>
-    Blog
+    Blazorise Blog
 </BlogPageTitle>
 
 <Row>
@@ -22,7 +19,7 @@
     <Row>
         <Column ColumnSize="ColumnSize.Is8.OnDesktop">
             @{
-                var pinnedBlog = BlogEntryItemInfos.FirstOrDefault( x => x.Pinned );
+                var pinnedBlog = BlogEntries.FirstOrDefault( x => x.Pinned );
 
                 if ( pinnedBlog != null )
                 {
@@ -46,124 +43,29 @@
             }
         </Column>
         <Column ColumnSize="ColumnSize.Is4.OnDesktop">
-            <Row>
-                <Column>
-                    <Heading Size="HeadingSize.Is3">
-                        Latest Posts
-                    </Heading>
-                </Column>
-            </Row>
-            @foreach ( var item in BlogEntryItemInfos.Where( x => !x.Pinned ).Take( 3 ) )
-            {
-                <Row Margin="Margin.Is3.FromBottom">
-                    <Column ColumnSize="ColumnSize.Is5.OnDesktop">
-                        <Anchor To="@item.Url">
-                            <Image Source="@item.Image" Text="Blog post image" Fluid />
-                        </Anchor>
-                    </Column>
-                    <Column ColumnSize="ColumnSize.Is7.OnDesktop">
-                        <Anchor To="@item.Url" Style="font-size: 1rem;">
-                            @item.Text
-                        </Anchor>
-                    </Column>
-                </Row>
-            }
-            <hr />
-            <Row>
-                <Column>
-                    <Heading Size="HeadingSize.Is3">
-                        Be the first to get updates
-                    </Heading>
-                </Column>
-            </Row>
-            <Field>
-                <FieldBody>
-                    <Addons>
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Text="@email" />
-                        </Addon>
-                        <Addon AddonType="AddonType.End">
-                            <Button Color="Color.Primary" Clicked="@Test">Subscribe</Button>
-                        </Addon>
-                    </Addons>
-                </FieldBody>
-            </Field>
-            @if ( emailSent )
-            {
-                <Alert Color="Color.Success" Visible>
-                    <AlertDescription>
-                        Thank you for subscribing.
-                    </AlertDescription>
-                </Alert>
-            }
+            <NewsletterWidget />
+
+            <LatestBlogEntries BlogEntries="@BlogEntries" />
         </Column>
     </Row>
 }
 
 <BlogPageEntries Year="2022">
-    @foreach ( var item in BlogEntryItemInfos.Where( x => x.Text.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
+    @foreach ( var item in BlogEntries.Where( x => x.Text.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
     {
         <BlogPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
 
 @code {
-    class BlogEntryItemInfo
-    {
-        public string Url { get; set; }
-        public string Text { get; set; }
-        public string Image { get; set; }
-        public string AuthorName { get; set; }
-        public string AuthorImage { get; set; }
-        public string PostedOn { get; set; }
-        public string ReadTime { get; set; }
-        public bool Pinned { get; set; }
-    }
-
     string search = "";
-    string email;
-    bool emailSent;
 
-    List<BlogEntryItemInfo> BlogEntryItemInfos = new List<BlogEntryItemInfo>
+    List<BlogEntry> BlogEntries = new List<BlogEntry>
     {
-        new BlogEntryItemInfo { Url = "blog/what-is-blazor-wasm", Text = "What Is Blazor WASM?", Image = "img/blog/2022-07-20/What_Is_Blazor_WASM.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn = "July 20th, 2022", ReadTime = "5 min", Pinned = true },
-        new BlogEntryItemInfo { Url = "blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm", Text = "Exploring WebAssembly, The Underlying Technology Behind Blazor WASM", Image = "img/blog/2022-07-12/the_underlying_technology_behind_blazor_wasm.png", AuthorName="James Amattey", AuthorImage="james", PostedOn="July 13th, 2022", ReadTime="4 min" },
-        new BlogEntryItemInfo { Url = "blog/how-to-handle-select-with-primitive-and-complex-types", Text = "How to bind primitive and complex types with Blazorise Select component", Image = "img/blog/2022-06-25/Blazorise-Select-Component.png", AuthorName="David Moreira", AuthorImage="david", PostedOn="July 1st, 2022", ReadTime="4 min" },
-        new BlogEntryItemInfo { Url = "blog/blazor-form-validation-with-data-annotations", Text = "Blazorise Form Validation With Data Annotations: A Beginner's Guide", Image = "img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 9th, 2022", ReadTime="5 min"  },
-        new BlogEntryItemInfo { Url = "blog/how-to-create-a-blazorise-application-beginners-guide", Text = "How to create a Blazorise WASM application: A Beginner's Guide", Image = "img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 8th, 2022", ReadTime="5 min"  },
+        new BlogEntry { Url = "blog/what-is-blazor-wasm", Text = "What Is Blazor WASM?", Image = "img/blog/2022-07-20/What_Is_Blazor_WASM.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn = "July 20th, 2022", ReadTime = "5 min", Pinned = true },
+        new BlogEntry { Url = "blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm", Text = "Exploring WebAssembly, The Underlying Technology Behind Blazor WASM", Image = "img/blog/2022-07-12/the_underlying_technology_behind_blazor_wasm.png", AuthorName="James Amattey", AuthorImage="james", PostedOn="July 13th, 2022", ReadTime="4 min" },
+        new BlogEntry { Url = "blog/how-to-handle-select-with-primitive-and-complex-types", Text = "How to bind primitive and complex types with Blazorise Select component", Image = "img/blog/2022-06-25/Blazorise-Select-Component.png", AuthorName="David Moreira", AuthorImage="david", PostedOn="July 1st, 2022", ReadTime="4 min" },
+        new BlogEntry { Url = "blog/blazor-form-validation-with-data-annotations", Text = "Blazorise Form Validation With Data Annotations: A Beginner's Guide", Image = "img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 9th, 2022", ReadTime="5 min"  },
+        new BlogEntry { Url = "blog/how-to-create-a-blazorise-application-beginners-guide", Text = "How to create a Blazorise WASM application: A Beginner's Guide", Image = "img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 8th, 2022", ReadTime="5 min"  },
     };
-
-    [Inject] public ISendGridClient SendGridClient { get; set; }
-
-    async Task Test()
-    {
-        emailSent = false;
-
-        try
-        {
-            var content = JsonSerializer.Serialize( new
-            {
-                contacts = new object[]
-                {
-                    new
-                    {
-                        email = email,
-                        associated_lists = "Blazorise",
-                    }
-                }
-            } );
-
-            var response = await SendGridClient.RequestAsync( BaseClient.Method.PUT, content, null, "marketing/contacts" );
-
-            if ( response.IsSuccessStatusCode )
-            {
-                email = null;
-                emailSent = true;
-            }
-        }
-        catch ( Exception exc )
-        {
-            Console.WriteLine( exc.Message );
-        }
-    }
 }

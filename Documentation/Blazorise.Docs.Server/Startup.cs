@@ -70,7 +70,7 @@ namespace Blazorise.Docs.Server
 
             services.AddSendGrid( options =>
             {
-                options.ApiKey = Environment.GetEnvironmentVariable( "BLAZORISE_SEND_GRID_API_KEY" );
+                options.ApiKey = Environment.GetEnvironmentVariable( "BLAZORISE_SEND_GRID_API_KEY", EnvironmentVariableTarget.Machine ) ?? Configuration["SendGrid:ApiKey"];
             } );
         }
 
