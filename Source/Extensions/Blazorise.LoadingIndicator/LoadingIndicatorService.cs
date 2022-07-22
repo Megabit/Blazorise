@@ -1,7 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 #endregion
 
 namespace Blazorise.LoadingIndicator
@@ -41,7 +39,7 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         void ILoadingIndicatorService.Subscribe( LoadingIndicator indicator )
         {
-            if ( indicator != null && this.indicator != indicator )
+            if ( this.indicator != null && this.indicator != indicator )
             {
                 throw new InvalidOperationException( $"{nameof( LoadingIndicatorService )} already initialized. The service supports only one loading indicator." );
             }
