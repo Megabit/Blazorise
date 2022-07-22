@@ -12,7 +12,7 @@ namespace Blazorise.LoadingIndicator
     internal class LoadingIndicatorService : ILoadingIndicatorService
     {
         #region Members
-        
+
         private LoadingIndicator indicator;
 
         #endregion
@@ -41,6 +41,10 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         void ILoadingIndicatorService.Subscribe( LoadingIndicator indicator )
         {
+            if ( indicator != null && this.indicator != indicator )
+            {
+                throw new InvalidOperationException( $"{nameof( LoadingIndicatorService )} already initialized. The service supports only one loading indicator." );
+            }
             this.indicator = indicator;
         }
 
@@ -50,7 +54,7 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         void ILoadingIndicatorService.Unsubscribe( LoadingIndicator indicator )
         {
-            if ( this.indicator == indicator)
+            if ( this.indicator == indicator )
             {
                 this.indicator = null;
             }
