@@ -321,6 +321,9 @@ html, body * {
 .b-docs-page .b-docs-page-section-content.b-docs-page-section-content-fullwidth > .b-docs-page-section-content-inner {
   width: 100%;
 }
+.b-docs-page .b-docs-page-section-content:not(.b-docs-page-section-content-outlined) {
+  padding-left: 0;
+}
 .b-docs-page .b-docs-page-section-content.b-docs-page-section-content-outlined {
   border: 1px solid #e3e3e3;
 }
