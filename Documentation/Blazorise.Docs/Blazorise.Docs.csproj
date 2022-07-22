@@ -22,8 +22,8 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
-	<ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
-	<ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Video\Blazorise.Video.csproj" />
   </ItemGroup>
 
@@ -64,34 +64,11 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyReferenceExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyServiceExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingBusyExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingWrapperExample.snippet" />
-    <None Remove="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorStructureExample.snippet" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorStructureExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyReferenceExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorBusyServiceExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingWrapperExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorCascadingBusyExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationWrapperExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorApplicationBusyExample.snippet" />
-    <Content Include="Pages\Docs\Extensions\LoadingIndicator\Examples\LoadingIndicatorAddScopedExample.snippet" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Docs\Extensions\LoadingIndicator\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
