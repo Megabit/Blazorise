@@ -78,7 +78,7 @@ namespace Blazorise
                 }
             }
 
-            await ItemDropped.InvokeAsync( new DraggableDroppedEventArgs<TItem>( transaction.Item, dropZoneName, index ) );
+            await ItemDropped.InvokeAsync( new DraggableDroppedEventArgs<TItem>( transaction.Item, dropZoneName, transaction.SourceZoneName, index ) );
 
             var transactionFinishedEventArgs = new DraggableTransactionEnded<TItem>( dropZoneName, true, transaction );
 
