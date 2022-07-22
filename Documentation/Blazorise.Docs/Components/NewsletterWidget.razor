@@ -109,7 +109,7 @@ else
             {
                 var content = JsonSerializer.Serialize( new
                 {
-                    list_ids = new[] { Environment.GetEnvironmentVariable( "BLAZORISE_SEND_GRID_LIST_ID" ) ?? Configuration["SendGrid:ListId"] },
+                    list_ids = new[] { Configuration["SendGrid:ListId"] },
                     contacts = new[] { new { email = email } }
                 } );
 
