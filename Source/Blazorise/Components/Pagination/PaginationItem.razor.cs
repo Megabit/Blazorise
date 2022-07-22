@@ -42,6 +42,11 @@ namespace Blazorise
         protected PaginationItemState State => state;
 
         /// <summary>
+        /// Gets the string representing the disabled state.
+        /// </summary>
+        protected string DisabledString => Disabled.ToString().ToLowerInvariant();
+
+        /// <summary>
         /// Indicate the currently active page.
         /// </summary>
         [Parameter]
