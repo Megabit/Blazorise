@@ -5659,7 +5659,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string LoadingIndicatorStructureExample = @"@if (Loaded)
 {
-    <div Wapper>
+    <div Wrapper>
         <ChildContent />
         @if (Busy)
         {
