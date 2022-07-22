@@ -22,18 +22,18 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Set indicator busy state to true
         /// </summary>
-        public void Show() => indicator.Show();
+        public void Show() => indicator?.Show();
 
         /// <summary>
         /// Set indicator busy state to false
         /// </summary>
-        public void Hide() => indicator.Hide();
+        public void Hide() => indicator?.Hide();
 
         /// <summary>
         /// Set Loaded state
         /// </summary>
         /// <param name="value">true or false</param>
-        public void SetLoaded( bool value ) => indicator.SetLoaded( value );
+        public void SetLoaded( bool value ) => indicator?.SetLoaded( value );
 
         /// <summary>
         /// Subscribe indicator to change events and save reference
@@ -63,12 +63,12 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Returns indicator Busy state
         /// </summary>
-        public bool? Busy => indicator.Busy;
+        public bool? Busy => indicator?.Busy;
 
         /// <summary>
         /// Returns indicator Loaded state
         /// </summary>
-        public bool? Loaded => indicator.Loaded;
+        public bool? Loaded => indicator?.Loaded;
 
         #endregion
     }
