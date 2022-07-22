@@ -5558,7 +5558,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
+        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicatorService();";
 
         public const string LoadingIndicatorApplicationBusyExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
 

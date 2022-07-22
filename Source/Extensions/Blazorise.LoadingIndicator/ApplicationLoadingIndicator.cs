@@ -24,7 +24,7 @@ namespace Blazorise.LoadingIndicator
         protected override void OnInitialized()
         {
             service = serviceProvider.GetService<ILoadingIndicatorService>();
-            service.Subscribe( this );
+            service?.Subscribe( this );
             base.OnInitialized();
         }
 
@@ -32,7 +32,7 @@ namespace Blazorise.LoadingIndicator
         {
             if ( disposing )
             {
-                service.Unsubscribe( this );
+                service?.Unsubscribe( this );
             }
             base.Dispose( disposing );
         }

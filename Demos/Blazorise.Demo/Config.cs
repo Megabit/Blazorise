@@ -27,7 +27,7 @@ namespace Blazorise.Demo
             services.AddScoped<Shared.Data.EmployeeData>();
             services.AddScoped<Shared.Data.CountryData>();
 
-            services.AddLoadingIndicator();
+            services.AddLoadingIndicatorService();
 
             return services;
         }

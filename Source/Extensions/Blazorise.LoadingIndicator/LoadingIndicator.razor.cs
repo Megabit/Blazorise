@@ -158,10 +158,14 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Workaround for issue https://github.com/dotnet/aspnetcore/issues/15311
         /// Setting svg width or height to null if it had a value before throws an exception
-        /// https://icons8.com/preloaders/en/search/spinner#
+        /// Using string interpolation insteado of declaring it in a .razor file
+        /// Graphics courtesy of https://icons8.com/preloaders/en/search/spinner#
         /// </summary>
-        private string SpinnerSVG =>
-            @$"<svg viewBox='0 0 128 128' 
+        private RenderFragment Spinner => ( builder ) =>
+        {
+            builder.OpenRegion( 0 );
+            builder.AddMarkupContent( 1, @$"
+                <svg viewBox='0 0 128 128'
                     {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width='{SpinnerWidth}'" : "" )}
                     {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
                       <g>
@@ -175,8 +179,9 @@ namespace Blazorise.LoadingIndicator
                           <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(315 64 64)' />
                           <animateTransform attributeName = 'transform' type='rotate' values='0 64 64;45 64 64;90 64 64;135 64 64;180 64 64;225 64 64;270 64 64;315 64 64' calcMode='discrete' dur='720ms' repeatCount='indefinite' />
                       </g>
-                  </svg>";
-
+                </svg>" );
+            builder.CloseRegion();
+        };
 
         /// <summary>
         /// Indicates whether component is ready to be rendered
