@@ -1,6 +1,8 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
+#endregion
 
 namespace Blazorise.LoadingIndicator
 {

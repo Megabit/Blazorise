@@ -160,7 +160,7 @@ namespace Blazorise.LoadingIndicator
 
         /// <summary>
         /// Workaround for issue https://github.com/dotnet/aspnetcore/issues/15311
-        /// Settind svg width or height to null if it had a value before throws an exception
+        /// Setting svg width or height to null if it had a value before throws an exception
         /// https://icons8.com/preloaders/en/search/spinner#
         /// </summary>
         private string SpinnerSVG =>
@@ -182,7 +182,7 @@ namespace Blazorise.LoadingIndicator
 
 
         /// <summary>
-        /// Service used to control this instance
+        /// Service used to control this instance.
         /// </summary>
         [Parameter]
         public LoadingIndicatorService Service
@@ -198,6 +198,7 @@ namespace Blazorise.LoadingIndicator
                     }
 
                     service = value;
+
                     if ( service != null )
                     {
                         service.Subscribe( this );
@@ -227,98 +228,84 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Occurs when IsLoaded state has changed
+        /// Occurs when IsLoaded state has changed.
         /// </summary>
-        [Parameter]
-        public EventCallback<bool> LoadedChanged { get; set; }
+        [Parameter] public EventCallback<bool> LoadedChanged { get; set; }
 
         /// <summary>
-        /// Occurs when IsBusy state has changed
+        /// Occurs when IsBusy state has changed.
         /// </summary>
-        [Parameter]
-        public EventCallback<bool> BusyChanged { get; set; }
-
-        /// <inheritdoc/>
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        [Parameter] public EventCallback<bool> BusyChanged { get; set; }
 
         /// <summary>
-        /// Busy indicator template
+        /// Specifies the content to be rendered inside this <see cref="LoadingIndicator"/>.
         /// </summary>
-        [Parameter]
-        public RenderFragment IndicatorTemplate { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
-        /// Loading state template
+        /// Busy indicator template.
         /// </summary>
-        [Parameter]
-        public RenderFragment LoadingTemplate { get; set; }
+        [Parameter] public RenderFragment IndicatorTemplate { get; set; }
+
+        /// <summary>
+        /// Loading state template.
+        /// </summary>
+        [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
         /// <summary>
         /// Spinner background color
         /// </summary>
-        [Parameter]
-        public Background SpinnerBackground { get; set; } = "#c0c0c0";
+        [Parameter] public Background SpinnerBackground { get; set; } = "#c0c0c0";
 
         /// <summary>
-        /// Spinner color
+        /// Defines the spinner color in a HEX format.
         /// </summary>
-        [Parameter]
-        public Color SpinnerColor { get; set; } = "#000000";
+        [Parameter] public Color SpinnerColor { get; set; } = "#000000";
 
         /// <summary>
-        /// Spinner HTML width
+        /// Defines the spinner HTML width, eg. "64px".
         /// </summary>
-        [Parameter]
-        public string SpinnerWidth { get; set; }
+        [Parameter] public string SpinnerWidth { get; set; }
 
         /// <summary>
-        /// Spinner HTML height
+        /// Defines the spinner HTML height, eg. "64px".
         /// </summary>
-        [Parameter]
-        public string SpinnerHeight { get; set; } = "64px";
+        [Parameter] public string SpinnerHeight { get; set; } = "64px";
 
         /// <summary>
-        /// Indicator vertical position
+        /// Indicator vertical position.
         /// </summary>
-        [Parameter]
-        public LoadingIndicatorPlacement IndicatorVerticalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
+        [Parameter] public LoadingIndicatorPlacement IndicatorVerticalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
 
         /// <summary>
-        /// Indicator horizontal position
+        /// Indicator horizontal position.
         /// </summary>
-        [Parameter]
-        public LoadingIndicatorPlacement IndicatorHorizontalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
+        [Parameter] public LoadingIndicatorPlacement IndicatorHorizontalPlacement { get; set; } = LoadingIndicatorPlacement.Middle;
 
         /// <summary>
-        /// Indicator div padding
+        /// Indicator div padding.
         /// </summary>
-        [Parameter]
-        public IFluentSpacing IndicatorPadding { get; set; }
+        [Parameter] public IFluentSpacing IndicatorPadding { get; set; }
 
         /// <summary>
-        /// Busy screen color
+        /// Busy screen color.
         /// </summary>
-        [Parameter]
-        public Background IndicatorBackground { get; set; } = "rgba(255, 255, 255, 0.7)";
+        [Parameter] public Background IndicatorBackground { get; set; } = "rgba(255, 255, 255, 0.7)";
 
         /// <summary>
-        /// Show busy indicator full screen
+        /// Show busy indicator full screen.
         /// </summary>
-        [Parameter]
-        public bool FullScreen { get; set; }
+        [Parameter] public bool FullScreen { get; set; }
 
         /// <summary>
-        /// Wrap inline content
+        /// Wrap inline content.
         /// </summary>
-        [Parameter]
-        public bool Inline { get; set; }
+        [Parameter] public bool Inline { get; set; }
 
         /// <summary>
-        /// Overlay screen z-index
+        /// Overlay screen z-index.
         /// </summary>
-        [Parameter]
-        public int? ZIndex { get; set; }
+        [Parameter] public int? ZIndex { get; set; }
 
         #endregion
     }
