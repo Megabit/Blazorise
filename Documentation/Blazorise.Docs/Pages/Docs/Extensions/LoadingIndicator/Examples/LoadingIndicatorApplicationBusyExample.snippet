@@ -4,8 +4,8 @@
 {
     void DoWork()
     {
-        ApplicationLoadingIndicatorService.SetBusy(true);
+        ApplicationLoadingIndicatorService.Show();
         // do work ...
-        ApplicationLoadingIndicatorService.SetBusy(false);
+        ApplicationLoadingIndicatorService.Hide();
     }
 }

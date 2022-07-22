@@ -10,9 +10,9 @@
     {
         if (!loadingIndicator.Busy)
         {
-            loadingIndicator.SetBusy(true);
+            loadingIndicator.Show();
             // do work...
-            loadingIndicator.SetBusy(false);
+            loadingIndicator.Hide();
         }
     }
 }

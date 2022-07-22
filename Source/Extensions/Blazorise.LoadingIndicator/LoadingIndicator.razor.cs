@@ -9,8 +9,7 @@ namespace Blazorise.LoadingIndicator
 {
     /// <summary>
     /// A wrapper component that adds a busy spinner or shows a loading message.
-    /// Fully templatable, supports two-way binding, direct use via @ref and
-    /// can be controlled by a service that may be shared by multiple instances.
+    /// Fully templatable, supports two-way binding, direct use via @ref
     /// </summary>
     public partial class LoadingIndicator : BaseComponent, IDisposable
     {
@@ -18,8 +17,6 @@ namespace Blazorise.LoadingIndicator
 
         private ClassBuilder indicatorClasses;
         private StyleBuilder indicatorStyles;
-
-        private LoadingIndicatorService service;
 
         private bool? loaded;
         private bool loadedParameter = true;
@@ -93,7 +90,7 @@ namespace Blazorise.LoadingIndicator
         /// Set component Busy state
         /// </summary>
         /// <param name="value">true or false</param>
-        public void SetBusy( bool value )
+        internal void SetBusy( bool value )
         {
             if ( Busy != value )
             {
@@ -104,6 +101,16 @@ namespace Blazorise.LoadingIndicator
                 InvokeAsync( StateHasChanged );
             }
         }
+
+        /// <summary>
+        /// Show loading indicator
+        /// </summary>
+        public void Show() => SetBusy( true );
+        
+        /// <summary>
+        /// Hide loading indicator
+        /// </summary>
+        public void Hide() => SetBusy( false );
 
         /// <summary>
         /// Set component Loaded state
@@ -144,16 +151,6 @@ namespace Blazorise.LoadingIndicator
             return base.SetParametersAsync( parameters );
         }
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                Service = null;
-            }
-
-            base.Dispose( disposing );
-        }
-
         #endregion
 
         #region Properties
@@ -180,32 +177,6 @@ namespace Blazorise.LoadingIndicator
                       </g>
                   </svg>";
 
-
-        /// <summary>
-        /// Service used to control this instance.
-        /// </summary>
-        [Parameter]
-        public LoadingIndicatorService Service
-        {
-            get => service;
-            set
-            {
-                if ( value != service )
-                {
-                    if ( service != null )
-                    {
-                        service.Unsubscribe( this );
-                    }
-
-                    service = value;
-
-                    if ( service != null )
-                    {
-                        service.Subscribe( this );
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Indicates whether component is ready to be rendered

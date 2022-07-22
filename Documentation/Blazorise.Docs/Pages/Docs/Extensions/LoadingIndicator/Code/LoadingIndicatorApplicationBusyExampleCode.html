@@ -7,9 +7,9 @@
 {
     <span class="keyword">void</span> DoWork()
     {
-        ApplicationLoadingIndicatorService.SetBusy(<span class="keyword">true</span>);
+        ApplicationLoadingIndicatorService.Show();
         <span class="comment">// do work ...</span>
-        ApplicationLoadingIndicatorService.SetBusy(<span class="keyword">false</span>);
+        ApplicationLoadingIndicatorService.Hide();
     }
 }
 </pre></div>

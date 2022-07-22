@@ -36,13 +36,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Component DOM structure">
-        This component adds a div for the indicator positioned in front (on top) of the child content. A spinner is positioned inside the indicator div.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="LoadingIndicatorStructureExample" />
-</DocsPageSection>
-
-<DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
         The basic usage scenario for <Code>LoadingIndicator</Code> with default settings.
     </DocsPageSectionHeader>
@@ -54,7 +47,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
-        You can wrap the main layout of your application to create a global busy UI. Use the provided service class to control the wrapper from elsewhere in your code. The service class can also be used to control multiple <Code>LoadingIndicator</Code> instances.
+        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Add LoadingIndicator as a scoped service in your configuration. Use dependency injection to obtain the instance of the LoadingIndicator service to control <Code>ApplicationLoadingIndicator</Code>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         Add <Code>LoadingIndicatorService</Code> as a scoped service.
@@ -132,9 +125,6 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment" Default="null">
         Loading state template.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Service" Type="LoadingIndicatorService" Default="null">
-        Service that can control this LoadingIndicator instance.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerBackground" Type="Background" Default="#c0c0c0">
         Set spinner background color.

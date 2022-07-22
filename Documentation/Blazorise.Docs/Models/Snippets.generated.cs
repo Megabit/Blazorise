@@ -5558,7 +5558,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LoadingIndicatorAddScopedExample = @"services.AddScoped<LoadingIndicatorService>();";
+        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
 
         public const string LoadingIndicatorApplicationBusyExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
 
@@ -5566,17 +5566,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 {
     void DoWork()
     {
-        ApplicationLoadingIndicatorService.SetBusy(true);
+        ApplicationLoadingIndicatorService.Show();
         // do work ...
-        ApplicationLoadingIndicatorService.SetBusy(false);
+        ApplicationLoadingIndicatorService.Hide();
     }
 }";
 
-        public const string LoadingIndicatorApplicationWrapperExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
-
-<LoadingIndicator FullScreen Service=""ApplicationLoadingIndicatorService"">
+        public const string LoadingIndicatorApplicationWrapperExample = @"<div>
     @Body
-</LoadingIndicator>";
+</div>
+
+<ApplicationLoadingIndicator />";
 
         public const string LoadingIndicatorBasicExample = @"<Row>
     <Column ColumnSize=""ColumnSize.IsThird"">
@@ -5594,9 +5594,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     async Task UpdateChart()
     {
-        loadingIndicator.SetBusy(true);
+        loadingIndicator.Show();
         await Task.Delay(3000); // Do work ...
-        loadingIndicator.SetBusy(false);
+        loadingIndicator.Hide();
     }
 
     // sample data
@@ -5621,9 +5621,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         if (!loadingIndicator.Busy)
         {
-            loadingIndicator.SetBusy(true);
+            loadingIndicator.Show();
             // do work...
-            loadingIndicator.SetBusy(false);
+            loadingIndicator.Hide();
         }
     }
 }";
@@ -5641,9 +5641,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     void DoWork()
     {
-        loadingIndicator.SetBusy(true);
+        loadingIndicator.Show();
         // do work ...
-        loadingIndicator.SetBusy(false);
+        loadingIndicator.Hide();
     }
 }";
 
@@ -5656,23 +5656,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
-
-        public const string LoadingIndicatorStructureExample = @"@if (Loaded)
-{
-    <div Wrapper>
-        <ChildContent />
-        @if (Busy)
-        {
-            <div Indicator>
-                <IndicatorTemplate />
-            </div Indicator>
-        }
-    </div Wrapper>
-}
-else
-{
-    <LoadingTemplate />
-}";
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 

@@ -15,9 +15,9 @@
 
     async Task UpdateChart()
     {
-        loadingIndicator.SetBusy(true);
+        loadingIndicator.Show();
         await Task.Delay(3000); // Do work ...
-        loadingIndicator.SetBusy(false);
+        loadingIndicator.Hide();
     }
 
     // sample data
