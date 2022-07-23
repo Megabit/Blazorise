@@ -326,6 +326,7 @@ namespace Blazorise.Components
             }
 
             TextFocused = false;
+            dirtyFilter = true;
         }
 
         private async Task OnDropdownItemSelected( object value )
@@ -334,7 +335,7 @@ namespace Blazorise.Components
                 closeOnSelectionAllowClose = false;
             else
             {
-                CurrentSearch = null;
+                CurrentSearch = string.Empty;
                 Loading = true;
                 await SearchChanged.InvokeAsync( CurrentSearch );
                 Loading = false;
