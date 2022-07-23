@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SendGrid.Extensions.DependencyInjection;
 
 namespace Blazorise.Docs.Server
 {
@@ -66,11 +65,6 @@ namespace Blazorise.Docs.Server
                 options.Preload = true;
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays( 365 );
-            } );
-
-            services.AddSendGrid( options =>
-            {
-                options.ApiKey = Configuration["SendGrid:ApiKey"];
             } );
         }
 

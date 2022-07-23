@@ -1,4 +1,5 @@
 ﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Logging
 @using SendGrid
 @using System.Text.Json
@@ -97,8 +98,6 @@ else
 
     [Inject] public IConfiguration Configuration { get; set; }
 
-    [Inject] public ISendGridClient SendGridClient { get; set; }
-
     async Task OnSubscribeClicked()
     {
         emailSent = false;
@@ -107,13 +106,17 @@ else
         {
             if ( await validationsRef.ValidateAll() )
             {
+                var apiKey = Configuration["SendGrid:ApiKey"];
+
                 var content = JsonSerializer.Serialize( new
                 {
                     list_ids = new[] { Configuration["SendGrid:ListId"] },
                     contacts = new[] { new { email = email } }
                 } );
 
-                var response = await SendGridClient.RequestAsync( BaseClient.Method.PUT, content, null, "marketing/contacts" );
+                var sendGridClient = new SendGridClient( apiKey );
+
+                var response = await sendGridClient.RequestAsync( BaseClient.Method.PUT, content, null, "marketing/contacts" );
 
                 if ( response.IsSuccessStatusCode )
                 {
