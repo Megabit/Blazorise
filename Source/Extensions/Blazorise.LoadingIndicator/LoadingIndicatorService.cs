@@ -18,7 +18,7 @@ namespace Blazorise.LoadingIndicator
         // avoid locking in single indicator (app busy) scenario
         Func<bool, Task> SetVisibleFunc;
         Func<bool, Task> SetLoadedFunc;
-        Func<bool?> GetBusyFunc;
+        Func<bool?> GetVisibleFunc;
         Func<bool?> GetLoadedFunc;
 
         #endregion
@@ -37,7 +37,7 @@ namespace Blazorise.LoadingIndicator
         {
             SetVisibleFunc = SetVisibleMulti;
             SetLoadedFunc = SetLoadedMulti;
-            GetBusyFunc = GetBusyMulti;
+            GetVisibleFunc = GetVisibleMulti;
             GetLoadedFunc = GetLoadedMulti;
         }
 
@@ -46,7 +46,7 @@ namespace Blazorise.LoadingIndicator
         {
             SetVisibleFunc = indicator.SetVisible;
             SetLoadedFunc = indicator.SetLoaded;
-            GetBusyFunc = () => indicator.Visible;
+            GetVisibleFunc = () => indicator.Visible;
             GetLoadedFunc = () => indicator.Loaded;
         }
 
@@ -103,31 +103,33 @@ namespace Blazorise.LoadingIndicator
 
         private Task SetVisibleMulti( bool value )
         {
+            List<Task> tasks;
             lock ( hashLock )
             {
+                tasks = new(indicators.Count);
                 foreach ( var indicator in indicators )
                 {
-                    // CS1996: cannot await in the body of a lock statement
-                    _ = indicator.SetVisible( value );
-                }                
-                return Task.CompletedTask;
+                    tasks.Add( indicator.SetVisible( value ) );
+                }
             }
+            return Task.WhenAll( tasks );
         }
 
         private Task SetLoadedMulti( bool value )
         {
+            List<Task> tasks;
             lock ( hashLock )
             {
+                tasks = new( indicators.Count );
                 foreach ( var indicator in indicators )
                 {
-                    // CS1996: cannot await in the body of a lock statement
-                    _ = indicator.SetLoaded( value );
+                    tasks.Add( indicator.SetLoaded( value ) );
                 }
-                return Task.CompletedTask;
             }
+            return Task.WhenAll( tasks );
         }
 
-        private bool? GetBusyMulti()
+        private bool? GetVisibleMulti()
         {
             bool? val = null;
             lock ( hashLock )
@@ -178,7 +180,7 @@ namespace Blazorise.LoadingIndicator
         #region Properties
 
         /// <inheritdoc/>
-        public bool? Visible => GetBusyFunc();
+        public bool? Visible => GetVisibleFunc();
 
         /// <inheritdoc/>
         public bool? Loaded => GetLoadedFunc();
