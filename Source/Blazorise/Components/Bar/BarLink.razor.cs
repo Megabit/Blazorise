@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -32,10 +33,11 @@ namespace Blazorise
         /// <summary>
         /// Handles the link onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task ClickHandler()
+        protected Task ClickHandler( MouseEventArgs eventArgs )
         {
-            return Clicked.InvokeAsync();
+            return Clicked.InvokeAsync( eventArgs );
         }
 
         #endregion
@@ -45,7 +47,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Specifies the URL of the page the link goes to.

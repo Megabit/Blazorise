@@ -11,7 +11,7 @@ posted-on: July 1st, 2022
 read-time: 4 min
 ---
 
-# How to handle binding of primitive and complex types with Blazorise Select component
+# How to bind primitive and complex types with Blazorise Select component
 
 Blazorise's Select component represents a dropdown list and is built upon the standard HTML Select element. See [HTML Select](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select).
 

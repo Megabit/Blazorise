@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 #endregion
@@ -36,6 +37,20 @@ namespace Blazorise.Extensions
         public static bool IsNullOrEmpty<T>( this IEnumerable<T> collection )
         {
             return collection == null || !collection.Any();
+        }
+
+        /// <summary>
+        /// Returns the index of an element that matches the specified predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>
+        /// The zero-based index of the first occurrence of an element that matches the specified <paramref name="predicate"/>, if found; otherwise it'll return -1.
+        /// </returns>
+        public static int Index<T>( this IEnumerable<T> collection, Func<T, bool> predicate )
+        {
+            return collection?.Select( ( obj, idx ) => new { obj, idx } )?.FirstOrDefault( x => predicate( x.obj ) )?.idx ?? -1;
         }
     }
 }

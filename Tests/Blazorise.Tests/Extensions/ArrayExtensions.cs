@@ -24,5 +24,23 @@ namespace Blazorise.Tests.Extensions
         {
             Assert.False( list1.AreEqual( list2 ) );
         }
+
+        [Theory]
+        [InlineData( new[] { "A", "B", "C" }, "A", 0 )]
+        [InlineData( new[] { "A", "B", "C" }, "B", 1 )]
+        [InlineData( new[] { "A", "B", "C" }, "C", 2 )]
+        public void Index_Found_Returns_ActualIndex( string[] list, string search, int expected )
+        {
+            Assert.Equal( expected, list.Index( x => x == search ) );
+        }
+
+        [Theory]
+        [InlineData( null, "A", -1 )]
+        [InlineData( new[] { "A", "B", "C" }, "D", -1 )]
+        [InlineData( new[] { "A", "B", "C" }, null, -1 )]
+        public void Index_NotFound_Returns_Minus1( string[] list, string search, int expected )
+        {
+            Assert.Equal( expected, list.Index( x => x == search ) );
+        }
     }
 }

@@ -6,7 +6,7 @@
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Iso)"
               Placeholder="Search..."
-              Multiple
+              SelectionMode="AutocompleteSelectionMode.Multiple"
               FreeTyping
               @bind-SelectedValues="multipleSelectionData"
               @bind-SelectedTexts="multipleSelectionTexts">

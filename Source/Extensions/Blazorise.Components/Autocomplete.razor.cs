@@ -252,7 +252,7 @@ namespace Blazorise.Components
             {
                 if ( IsConfirmKey( eventArgs ) )
                 {
-                    if ( FreeTyping && Multiple )
+                    if ( FreeTyping && IsMultiple )
                     {
                         await AddMultipleText( SelectedText );
                         await ResetSelectedText();
@@ -275,7 +275,7 @@ namespace Blazorise.Components
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemSelected( ValueField.Invoke( item ) );
-                else if ( FreeTyping && Multiple )
+                else if ( FreeTyping && IsMultiple )
                 {
                     await AddMultipleText( SelectedText );
                     await ResetSelectedText();
@@ -320,18 +320,19 @@ namespace Blazorise.Components
             await Task.Delay( 250 );
             await UnregisterClosableComponent();
 
-            if ( !FreeTyping && ( SelectedValue == null || Multiple ) )
+            if ( !FreeTyping && ( SelectedValue == null || IsMultiple ) )
             {
                 await ResetSelectedText();
             }
 
-            if ( FreeTyping && Multiple )
+            if ( FreeTyping && IsMultiple )
             {
                 await AddMultipleText( SelectedText );
                 await ResetSelectedText();
             }
 
             TextFocused = false;
+            dirtyFilter = true;
         }
 
         private async Task OnDropdownItemSelected( object value )
@@ -340,7 +341,7 @@ namespace Blazorise.Components
                 closeOnSelectionAllowClose = false;
             else
             {
-                CurrentSearch = null;
+                CurrentSearch = string.Empty;
                 Loading = true;
                 await SearchChanged.InvokeAsync( CurrentSearch );
                 Loading = false;
@@ -359,7 +360,7 @@ namespace Blazorise.Components
             await SelectedValueChanged.InvokeAsync( SelectedValue );
 
 
-            if ( Multiple )
+            if ( IsMultiple )
             {
                 await AddMultipleText( selectedValue );
                 await AddMultipleValue( selectedValue );
@@ -394,7 +395,7 @@ namespace Blazorise.Components
         }
 
         private bool ShouldNotClose()
-            => Multiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
+            => IsMultiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
 
         private async Task ResetSelectedText()
         {
@@ -488,7 +489,7 @@ namespace Blazorise.Components
 
         private bool IsSelectedvalue( TValue value )
         {
-            if ( Multiple )
+            if ( IsMultiple )
                 return SelectedValues?.Contains( value ) ?? false;
             else
                 return SelectedValue?.IsEqual( value ) ?? false;
@@ -496,7 +497,7 @@ namespace Blazorise.Components
 
         private bool IsSelectedItem( TItem item )
         {
-            if ( Multiple )
+            if ( IsMultiple )
                 return SelectedValues?.Contains( ValueField.Invoke( item ) ) ?? false;
             else
                 return SelectedValue?.IsEqual( ValueField.Invoke( item ) ) ?? false;
@@ -513,31 +514,35 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Multiple && !IsSuggestSelectedItems )
-                query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
-            var currentSearch = CurrentSearch ?? string.Empty;
+            if ( !ManualReadMode )
+            {
+                if ( IsMultiple && !IsSuggestSelectedItems )
+                    query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
-            if ( CustomFilter != null )
-            {
-                query = from q in query
-                        where q != null
-                        where CustomFilter( q, currentSearch )
-                        select q;
-            }
-            else if ( Filter == AutocompleteFilter.Contains )
-            {
-                query = from q in query
-                        let text = GetItemText( q )
-                        where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
-                        select q;
-            }
-            else
-            {
-                query = from q in query
-                        let text = GetItemText( q )
-                        where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
-                        select q;
+                var currentSearch = CurrentSearch ?? string.Empty;
+
+                if ( CustomFilter != null )
+                {
+                    query = from q in query
+                            where q != null
+                            where CustomFilter( q, currentSearch )
+                            select q;
+                }
+                else if ( Filter == AutocompleteFilter.Contains )
+                {
+                    query = from q in query
+                            let text = GetItemText( q )
+                            where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                            select q;
+                }
+                else
+                {
+                    query = from q in query
+                            let text = GetItemText( q )
+                            where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
+                            select q;
+                }
             }
 
             filteredData = query.ToList();
@@ -649,7 +654,7 @@ namespace Blazorise.Components
         private string GetValidationValue()
         {
             return FreeTyping
-                    ? Multiple
+                    ? IsMultiple
                         ? string.Join( ';', SelectedTexts )
                         : SelectedText?.ToString()
                     : SelectedValue?.ToString();
@@ -695,7 +700,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        private bool IsSuggestSelectedItems => Multiple && ( SuggestSelectedItems || SuggestMultipleCheckbox );
+        private bool IsSuggestSelectedItems => IsMultiple && ( SuggestSelectedItems || SelectionMode == AutocompleteSelectionMode.Checkbox );
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -785,7 +790,7 @@ namespace Blazorise.Components
         /// Gets the custom class-names for dropdown element.
         /// </summary>
         protected string DropdownClassNames
-            => $"{Class} b-is-autocomplete {( Multiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
+            => $"{Class} b-is-autocomplete {( IsMultiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
 
         /// <summary>
         /// Gets the custom class-names for dropdown element.
@@ -798,6 +803,11 @@ namespace Blazorise.Components
         /// </summary>
         protected string DropdownItemId( int index )
             => $"b-is-autocomplete-suggestion-{index}";
+
+        /// <summary>
+        /// Tracks whether the Autocomplete is in a multiple selection state.
+        /// </summary>
+        protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
@@ -1009,35 +1019,36 @@ namespace Blazorise.Components
         /// <summary>
         /// Allows for multiple selection.
         /// </summary>
+        [Obsolete( "Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead." )]
         [Parameter] public bool Multiple { get; set; }
 
         /// <summary>
         /// Sets the Badge color for the multiple selection values.
-        /// Used when <see cref="Multiple"/> is true.
+        /// Used when multiple selection is set.
         /// </summary>
         [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
 
         /// <summary>
         /// Currently selected items values.
-        /// Used when <see cref="Multiple"/> is true.
+        /// Used when multiple selection is set.
         /// </summary>
         [Parameter] public List<TValue> SelectedValues { get; set; }
 
         /// <summary>
         /// Occurs after the selected values have changed.
-        /// Used when <see cref="Multiple"/> is true.
+        /// Used when multiple selection is set.
         /// </summary>
         [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
 
         /// <summary>
         /// Currently selected items texts.
-        /// Used when <see cref="Multiple"/> is true.
+        /// Used when multiple selection is set.
         /// </summary>
         [Parameter] public List<string> SelectedTexts { get; set; }
 
         /// <summary>
         /// Occurs after the selected texts have changed.
-        /// Used when <see cref="Multiple"/> is true.
+        /// Used when multiple selection is set.
         /// </summary>
         [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 
@@ -1047,7 +1058,7 @@ namespace Blazorise.Components
         [Parameter] public RenderFragment<ItemContext<TItem, TValue>> ItemContent { get; set; }
 
         /// <summary>
-        /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when the <see cref="Multiple"/> is set to true.
+        /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when multiple selection is set.
         /// Defauls to true.
         /// </summary>
         [Parameter] public bool CloseOnSelection { get; set; } = true;
@@ -1056,11 +1067,6 @@ namespace Blazorise.Components
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
         [Parameter] public bool SuggestSelectedItems { get; set; }
-
-        /// <summary>
-        /// Suggests already selected option(s) when presenting the options with checkboxes to ease selection when <see cref="Autocomplete{TItem, TValue}"/> is set to Multiple.
-        /// </summary>
-        [Parameter] public bool SuggestMultipleCheckbox { get; set; }
 
         /// <summary>
         /// Gets or sets an array of the keyboard pressed values for the ConfirmKey.
@@ -1078,6 +1084,11 @@ namespace Blazorise.Components
         /// Defauls to true.
         /// </summary>
         [Parameter] public bool AutoSelectFirstItem { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Autocomplete{TItem, TValue}"/> Selection Mode.
+        /// </summary>
+        [Parameter] public AutocompleteSelectionMode SelectionMode { get; set; } = AutocompleteSelectionMode.Default;
 
         #endregion
     }

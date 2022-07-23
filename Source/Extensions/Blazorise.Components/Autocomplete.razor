@@ -6,7 +6,7 @@
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
-        @if ( Multiple && !SelectedTexts.IsNullOrEmpty() )
+        @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
         {
             @foreach ( var selectedText in SelectedTexts )
             {
@@ -69,7 +69,7 @@
                 @if ( ItemContent is not null )
                 {
                     <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemSelected">
-                        @if ( SuggestMultipleCheckbox )
+                        @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                         {
                             <Field Horizontal Margin="Margin.Is0.FromStart">
                                 <Label @onclick:stopPropagation>
@@ -88,7 +88,7 @@
                 else
                 {
                     <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemSelected">
-                        @if ( SuggestMultipleCheckbox )
+                        @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                         {
                             <Field Horizontal Margin="Margin.Is0.FromStart">
                                 <Label @onclick:stopPropagation>
