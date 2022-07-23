@@ -15,9 +15,13 @@ namespace Blazorise.LoadingIndicator
             IndicatorTemplate = BlazoriseSpinner;
         }
 
-        protected override void OnInitialized()
-        {
-            Service = serviceProvider.GetService<ILoadingIndicatorService>();
+        protected override void OnParametersSet()
+        { 
+            if (Service == null)
+            {
+                Service = serviceProvider.GetService<ILoadingIndicatorService>();
+            }
+
             base.OnInitialized();
         }
 
