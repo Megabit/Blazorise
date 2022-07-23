@@ -92,7 +92,11 @@
         }
         else
         {
-            <CloseButton disabled="@IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))" />
+            <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Danger" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))"><Icon Name="IconName.Times"></Icon></Button>
+            @if ( file.Status != FileEntryStatus.Uploaded )
+            {
+                <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Primary" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async() => await UploadFile(file))"><Icon Name="IconName.FileUpload"></Icon></Button>
+            }
             <Span Class="b-file-name">@file.Name</Span>
             <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
             @if ( IsFileBeingUploaded( file ) )

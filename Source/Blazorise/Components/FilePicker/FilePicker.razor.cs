@@ -178,7 +178,11 @@ namespace Blazorise
         /// <param name="confirm">Wether to show a confirmation popup.</param>
         public Task Clear( bool confirm = false )
         {
-            var clearAction = () => FileEdit.Reset().AsTask();
+            var clearAction = async () =>
+            {
+                await CancelUpload();
+                await FileEdit.Reset();
+            };
 
             if ( confirm )
                 return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, clearAction );
@@ -198,11 +202,23 @@ namespace Blazorise
                 cts = new();
                 foreach ( var file in FileEdit.Files )
                 {
-                    if ( file.Status == FileEntryStatus.Ready && !cts.IsCancellationRequested )
-                        await Upload.InvokeAsync( new( file ) );
+                    await UploadFile( file );
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Uploads a single file if the status is set to ready.
+        /// </summary>
+        /// <param name="file">The file to upload.</param>
+        /// <param name="forceUpload">Forces file upload attempt.</param>
+        /// <returns></returns>
+        public async Task UploadFile( IFileEntry file, bool forceUpload = false )
+        {
+            cts ??= new();
+            if ( forceUpload || ( file.Status == FileEntryStatus.Ready && !cts.IsCancellationRequested ) )
+                await Upload.InvokeAsync( new( file ) );
         }
 
         /// <summary>
@@ -214,7 +230,7 @@ namespace Blazorise
             var cancelAction = new Func<Task>( () =>
                 {
                     cts?.Cancel();
-                    fileBeingUploaded.Cancel();
+                    fileBeingUploaded?.Cancel();
                     return Task.CompletedTask;
                 }
             );
