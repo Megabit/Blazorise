@@ -3903,7 +3903,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
               Placeholder=""Search...""
-              Multiple
+              SelectionMode=""AutocompleteSelectionMode.Multiple""
               FreeTyping
               @bind-SelectedValues=""multipleSelectionData""
               @bind-SelectedTexts=""multipleSelectionTexts"">
@@ -3984,8 +3984,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
               Placeholder=""Search...""
-              Multiple
-              SuggestMultipleCheckbox
+              SelectionMode=""AutocompleteSelectionMode.Checkbox""
               CloseOnSelection=""false""
               @bind-SelectedValues=""multipleSelectionData""
               @bind-SelectedTexts=""multipleSelectionTexts"">

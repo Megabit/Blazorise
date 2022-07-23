@@ -146,11 +146,10 @@
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
                                       Placeholder="Search..."
-                                      Multiple
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
                                       MinLength="1"
-                                      SuggestMultipleCheckbox
+                                      SelectionMode="AutocompleteSelectionMode.Checkbox"
                                       @bind-SelectedValues="multipleSelectionData"
                                       @bind-SelectedTexts="multipleSelectionTexts">
                         </Autocomplete>
@@ -216,7 +215,7 @@
                                       TextField="@((item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
                                       Placeholder="Search..."
-                                      Multiple
+                                      SelectionMode="AutocompleteSelectionMode.Multiple"
                                       CloseOnSelection="false"
                                       @bind-SelectedValues="multipleReadDataSelectionData"
                                       @bind-SelectedTexts="multipleReadDataSelectionTexts">
