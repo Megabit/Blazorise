@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.LoadingIndicator
 {
-    /// <summary>
-    /// A service to control LoadingIndicator components
-    /// </summary>
+    /// <inheritdoc />
     public class LoadingIndicatorService: ILoadingIndicatorService
     {
         #region Members
@@ -18,7 +16,7 @@ namespace Blazorise.LoadingIndicator
         private HashSet<LoadingIndicator> indicators = new();
 
         // avoid locking in single indicator (app busy) scenario
-        Func<bool, Task> SetBusyFunc;
+        Func<bool, Task> SetVisibleFunc;
         Func<bool, Task> SetLoadedFunc;
         Func<bool?> GetBusyFunc;
         Func<bool?> GetLoadedFunc;
@@ -27,7 +25,7 @@ namespace Blazorise.LoadingIndicator
 
         #region Methods
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public LoadingIndicatorService()
         {
             // default to foreach implementation
@@ -37,7 +35,7 @@ namespace Blazorise.LoadingIndicator
         // use locking implementation
         private void MultiMode()
         {
-            SetBusyFunc = SetBusyMulti;
+            SetVisibleFunc = SetVisibleMulti;
             SetLoadedFunc = SetLoadedMulti;
             GetBusyFunc = GetBusyMulti;
             GetLoadedFunc = GetLoadedMulti;
@@ -46,26 +44,19 @@ namespace Blazorise.LoadingIndicator
         // no lock implementation
         private void SingleMode( LoadingIndicator indicator )
         {
-            SetBusyFunc = indicator.SetBusy;
+            SetVisibleFunc = indicator.SetVisible;
             SetLoadedFunc = indicator.SetLoaded;
-            GetBusyFunc = () => indicator.Busy;
+            GetBusyFunc = () => indicator.Visible;
             GetLoadedFunc = () => indicator.Loaded;
         }
 
-        /// <summary>
-        /// Show loading indicator
-        /// </summary>
-        public Task Show() => SetBusyFunc( true );
+        /// <inheritdoc/>
+        public Task Show() => SetVisibleFunc( true );
 
-        /// <summary>
-        /// Hide loading indicator
-        /// </summary>
-        public Task Hide() => SetBusyFunc( false );
+        /// <inheritdoc/>
+        public Task Hide() => SetVisibleFunc( false );
 
-        /// <summary>
-        /// Set Loaded state
-        /// </summary>
-        /// <param name="value">true or false</param>
+        /// <inheritdoc/>
         public Task SetLoaded( bool value ) => SetLoadedFunc( value );
 
         /// <summary>
@@ -110,14 +101,14 @@ namespace Blazorise.LoadingIndicator
             }
         }
 
-        private Task SetBusyMulti( bool value )
+        private Task SetVisibleMulti( bool value )
         {
             lock ( hashLock )
             {
                 foreach ( var indicator in indicators )
                 {
                     // CS1996: cannot await in the body of a lock statement
-                    _ = indicator.SetBusy( value );
+                    _ = indicator.SetVisible( value );
                 }                
                 return Task.CompletedTask;
             }
@@ -145,11 +136,11 @@ namespace Blazorise.LoadingIndicator
                 {
                     if ( val == null )
                     {
-                        val = indicator.Busy;
+                        val = indicator.Visible;
                     }
                     else
                     {
-                        if ( val != indicator.Busy )
+                        if ( val != indicator.Visible )
                         {
                             return null;
                         }
@@ -186,14 +177,10 @@ namespace Blazorise.LoadingIndicator
 
         #region Properties
 
-        /// <summary>
-        /// Returns Busy state shared by all indicator instances or null if the state is not the same for all indicators.
-        /// </summary>
-        public bool? Busy => GetBusyFunc();
+        /// <inheritdoc/>
+        public bool? Visible => GetBusyFunc();
 
-        /// <summary>
-        /// Returns Loaded state shared by all indicator instances or null if the state is not the same for all indicators.
-        /// </summary>
+        /// <inheritdoc/>
         public bool? Loaded => GetLoadedFunc();
 
         #endregion

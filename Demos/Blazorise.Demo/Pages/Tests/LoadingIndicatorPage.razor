@@ -8,7 +8,7 @@
                 <CardTitle>Using Reference and Binding</CardTitle>
             </CardHeader>
             <CardBody>
-                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Busy="lineChartBusy" @bind-Loaded="lineChartLoaded" Overflow="Overflow.Hidden"
+                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Visible="lineChartBusy" @bind-Loaded="lineChartLoaded" Overflow="Overflow.Hidden"
                                   SpinnerWidth="@(spinnerWidth == 0 ? null : $"{spinnerWidth}%")" SpinnerHeight="@(spinnerHeight == 0 ? null : $"{spinnerHeight}%")"
                                   IndicatorHorizontalPlacement="spinnerHorizontal" IndicatorVerticalPlacement="spinnerVertical"
                                   IndicatorPadding="usePadding ? Padding.Is5 : null">
@@ -16,8 +16,8 @@
                 </LoadingIndicator>
             </CardBody>
             <CardBody>
-                <Button Clicked="() => lineChartIndicator.Show()" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Busy</Button>
-                <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Busy</Check>
+                <Button Clicked="() => lineChartIndicator.Show()" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Visible</Button>
+                <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Visible</Check>
                 <Check TValue="bool" @bind-Checked="lineChartLoaded" Inline>Loaded</Check>
             </CardBody>
             <CardBody>
@@ -65,9 +65,9 @@
             <CardBody>
                 Message
                 <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
-                    <TextEdit Disabled="textEditIndicator.Busy" Text="disabled when busy" />
+                    <TextEdit Disabled="textEditIndicator.Visible" Text="disabled when busy" />
                 </LoadingIndicator>
-                <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Busy ?? false)" Clicked="ShowInlineBusy">Send</Button>
+                <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
             </CardBody>
         </Card>
         <Card Margin="Margin.Is4.OnY">
@@ -98,7 +98,7 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.IsHalf">
-                        <LoadingIndicator @ref="customBasicIndicator" Busy SpinnerColor="@spinnerColor" SpinnerBackground="@spinnerBackground" SpinnerHeight="100%" SpinnerWidth="100%" IndicatorBackground="@screenColor">
+                        <LoadingIndicator @ref="customBasicIndicator" Visible SpinnerColor="@spinnerColor" SpinnerBackground="@spinnerBackground" SpinnerHeight="100%" SpinnerWidth="100%" IndicatorBackground="@screenColor">
                             <LineChart @ref="lineChart" Data="lineChartData" />
                         </LoadingIndicator>
                     </Column>

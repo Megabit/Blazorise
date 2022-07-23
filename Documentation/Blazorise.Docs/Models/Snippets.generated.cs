@@ -5610,7 +5610,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string LoadingIndicatorBusyReferenceExample = @"<LoadingIndicator @ref=""loadingIndicator"">
-    <Button Disabled=""loadingIndicator.Busy"" Clicked=""DoWork""/>
+    <Button Disabled=""loadingIndicator.Visible"" Clicked=""DoWork""/>
 </LoadingIndicator>
 
 @code
@@ -5619,7 +5619,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     async Task DoWork()
     {
-        if (!loadingIndicator.Busy)
+        if (!loadingIndicator.Visible)
         {
             loadingIndicator.Show();
             // do work...
@@ -5630,7 +5630,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string LoadingIndicatorBusyServiceExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
 
-<Button Disabled=""ApplicationLoadingIndicatorService.Busy"" />";
+<Button Disabled=""ApplicationLoadingIndicatorService.Visible"" />";
 
         public const string LoadingIndicatorCascadingBusyExample = @"<Button Clicked=""DoWork"" />
 

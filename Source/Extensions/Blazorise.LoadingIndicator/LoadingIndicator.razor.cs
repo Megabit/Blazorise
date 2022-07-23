@@ -23,8 +23,8 @@ namespace Blazorise.LoadingIndicator
         private bool? loaded;
         private bool loadedParameter = true;
 
-        private bool? busy;
-        private bool busyParameter;
+        private bool? visible;
+        private bool visibleParameter;
 
         #endregion
 
@@ -56,8 +56,8 @@ namespace Blazorise.LoadingIndicator
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-wrapper" );
-            builder.Append( "b-loading-indicator-wrapper-busy", Busy );
-            builder.Append( "b-loading-indicator-wrapper-relative", Busy && !FullScreen );
+            builder.Append( "b-loading-indicator-wrapper-busy", Visible );
+            builder.Append( "b-loading-indicator-wrapper-relative", Visible && !FullScreen );
             builder.Append( "b-loading-indicator-wrapper-inline", Inline );
             base.BuildClasses( builder );
         }
@@ -92,14 +92,14 @@ namespace Blazorise.LoadingIndicator
         /// Set component Busy state
         /// </summary>
         /// <param name="value">true or false</param>
-        internal async Task SetBusy( bool value )
+        internal async Task SetVisible( bool value )
         {
-            if ( Busy != value )
+            if ( Visible != value )
             {
-                busy = value;
+                visible = value;
                 DirtyClasses();
                 DirtyStyles();
-                await BusyChanged.InvokeAsync( value );
+                await VisibleChanged.InvokeAsync( value );
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -107,12 +107,12 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Show loading indicator
         /// </summary>
-        public Task Show() => SetBusy( true );
+        public Task Show() => SetVisible( true );
         
         /// <summary>
         /// Hide loading indicator
         /// </summary>
-        public Task Hide() => SetBusy( false );
+        public Task Hide() => SetVisible( false );
 
         /// <summary>
         /// Set component Loaded state
@@ -139,11 +139,11 @@ namespace Blazorise.LoadingIndicator
                 }
             }
 
-            if ( parameters.TryGetValue( nameof( Busy ), out bool newBusyParameter ) )
+            if ( parameters.TryGetValue( nameof( Visible ), out bool newVisibleParameter ) )
             {
-                if ( busyParameter != newBusyParameter )
+                if ( visibleParameter != newVisibleParameter )
                 {
-                    busy = null; // use parameter instead of local value
+                    visible = null; // use parameter instead of local value
                 }
             }
 
@@ -170,7 +170,7 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Workaround for issue https://github.com/dotnet/aspnetcore/issues/15311
         /// Setting svg width or height to null if it had a value before throws an exception
-        /// Using string interpolation insteado of declaring it in a .razor file
+        /// Using string interpolation instead of declaring it in a .razor file
         /// Graphics courtesy of https://icons8.com/preloaders/en/search/spinner#
         /// </summary>
         private RenderFragment Spinner => ( builder ) =>
@@ -232,24 +232,24 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Indicates whether the component should be covered with a busy screen
+        /// Indicates whether the loading indicator is visible
         /// </summary>
         [Parameter]
-        public bool Busy
+        public bool Visible
         {
-            get => busy ?? busyParameter;
-            set => busyParameter = value;
+            get => visible ?? visibleParameter;
+            set => visibleParameter = value;
         }
 
         /// <summary>
-        /// Occurs when IsLoaded state has changed.
+        /// Occurs when Loaded state has changed.
         /// </summary>
         [Parameter] public EventCallback<bool> LoadedChanged { get; set; }
 
         /// <summary>
-        /// Occurs when IsBusy state has changed.
+        /// Occurs when Visible state has changed.
         /// </summary>
-        [Parameter] public EventCallback<bool> BusyChanged { get; set; }
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="LoadingIndicator"/>.

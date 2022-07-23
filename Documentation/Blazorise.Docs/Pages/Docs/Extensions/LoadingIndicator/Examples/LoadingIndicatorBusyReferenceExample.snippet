@@ -1,5 +1,5 @@
 ﻿<LoadingIndicator @ref="loadingIndicator">
-    <Button Disabled="loadingIndicator.Busy" Clicked="DoWork"/>
+    <Button Disabled="loadingIndicator.Visible" Clicked="DoWork"/>
 </LoadingIndicator>
 
 @code
@@ -8,7 +8,7 @@
 
     async Task DoWork()
     {
-        if (!loadingIndicator.Busy)
+        if (!loadingIndicator.Visible)
         {
             loadingIndicator.Show();
             // do work...

@@ -7,7 +7,7 @@
         <CascadingValue Value="@this" IsFixed>
             @ChildContent
         </CascadingValue>
-        @if ( Busy )
+        @if ( Visible )
         {
             <div class="@indicatorClasses.Class" style="@indicatorStyles.Styles">
                 @if ( IndicatorTemplate != null )

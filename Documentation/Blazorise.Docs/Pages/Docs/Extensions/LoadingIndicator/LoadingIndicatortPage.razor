@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    A wrapper component that adds busy/loading indicator to a child content. Default spinner courtesy of <Blazorise.Link To="https://icons8.com/preloaders/en/search/spinner#" Target="Target.Blank">icons8.com</Blazorise.Link>.
+    A wrapper component that adds a loading indicator to a child content. Default spinner courtesy of <Blazorise.Link To="https://icons8.com/preloaders/en/search/spinner#" Target="Target.Blank">icons8.com</Blazorise.Link>.
 </DocsPageLead>
 
 <DocsPageSubtitle>
@@ -96,9 +96,6 @@
 </DocsPageSubtitle>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Busy" Type="bool" Default="false">
-        Current busy state.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
         Show indicator in full screen mode.
     </DocsAttributesItem>
@@ -112,7 +109,7 @@
         Indicator div padding.
     </DocsAttributesItem>
     <DocsAttributesItem Name="IndicatorTemplate" Type="RenderFragment" Default="null">
-        Busy indicator template.
+        Loading indicator template.
     </DocsAttributesItem>
     <DocsAttributesItem Name="IndicatorVerticalPlacement" Type="LoadingIndicatorPlacement" Default="Middle">
         Indicator vertical placement.
@@ -137,6 +134,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerWidth" Type="string" Default="null">
         Set spinner width.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Current loading indicator state.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ZIndex" Type="int?" Default="null">
         Manually set screen z-index.
