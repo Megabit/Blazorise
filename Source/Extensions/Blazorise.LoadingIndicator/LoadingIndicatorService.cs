@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.LoadingIndicator
@@ -17,8 +18,8 @@ namespace Blazorise.LoadingIndicator
         private HashSet<LoadingIndicator> indicators = new();
 
         // avoid locking in single indicator (app busy) scenario
-        Action<bool> SetBusyAction;
-        Action<bool> SetLoadedAction;
+        Func<bool, Task> SetBusyFunc;
+        Func<bool, Task> SetLoadedFunc;
         Func<bool?> GetBusyFunc;
         Func<bool?> GetLoadedFunc;
 
@@ -36,8 +37,8 @@ namespace Blazorise.LoadingIndicator
         // use locking implementation
         private void MultiMode()
         {
-            SetBusyAction = SetBusyMulti;
-            SetLoadedAction = SetLoadedMulti;
+            SetBusyFunc = SetBusyMulti;
+            SetLoadedFunc = SetLoadedMulti;
             GetBusyFunc = GetBusyMulti;
             GetLoadedFunc = GetLoadedMulti;
         }
@@ -45,8 +46,8 @@ namespace Blazorise.LoadingIndicator
         // no lock implementation
         private void SingleMode( LoadingIndicator indicator )
         {
-            SetBusyAction = indicator.SetBusy;
-            SetLoadedAction = indicator.SetLoaded;
+            SetBusyFunc = indicator.SetBusy;
+            SetLoadedFunc = indicator.SetLoaded;
             GetBusyFunc = () => indicator.Busy;
             GetLoadedFunc = () => indicator.Loaded;
         }
@@ -54,18 +55,18 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Show loading indicator
         /// </summary>
-        public void Show() => SetBusyAction( true );
+        public Task Show() => SetBusyFunc( true );
 
         /// <summary>
         /// Hide loading indicator
         /// </summary>
-        public void Hide() => SetBusyAction( false );
+        public Task Hide() => SetBusyFunc( false );
 
         /// <summary>
         /// Set Loaded state
         /// </summary>
         /// <param name="value">true or false</param>
-        public void SetLoaded( bool value ) => SetLoadedAction( value );
+        public Task SetLoaded( bool value ) => SetLoadedFunc( value );
 
         /// <summary>
         /// Subscribe indicator to change events and save reference
@@ -109,25 +110,29 @@ namespace Blazorise.LoadingIndicator
             }
         }
 
-        private void SetBusyMulti( bool value )
+        private Task SetBusyMulti( bool value )
         {
             lock ( hashLock )
             {
                 foreach ( var indicator in indicators )
                 {
-                    indicator.SetBusy( value );
-                }
+                    // CS1996: cannot await in the body of a lock statement
+                    _ = indicator.SetBusy( value );
+                }                
+                return Task.CompletedTask;
             }
         }
 
-        private void SetLoadedMulti( bool value )
+        private Task SetLoadedMulti( bool value )
         {
             lock ( hashLock )
             {
                 foreach ( var indicator in indicators )
                 {
-                    indicator.SetLoaded( value );
+                    // CS1996: cannot await in the body of a lock statement
+                    _ = indicator.SetLoaded( value );
                 }
+                return Task.CompletedTask;
             }
         }
 

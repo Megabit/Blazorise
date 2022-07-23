@@ -92,39 +92,39 @@ namespace Blazorise.LoadingIndicator
         /// Set component Busy state
         /// </summary>
         /// <param name="value">true or false</param>
-        internal void SetBusy( bool value )
+        internal async Task SetBusy( bool value )
         {
             if ( Busy != value )
             {
                 busy = value;
                 DirtyClasses();
                 DirtyStyles();
-                BusyChanged.InvokeAsync( value );
-                InvokeAsync( StateHasChanged );
+                await BusyChanged.InvokeAsync( value );
+                await InvokeAsync( StateHasChanged );
             }
         }
 
         /// <summary>
         /// Show loading indicator
         /// </summary>
-        public void Show() => SetBusy( true );
+        public Task Show() => SetBusy( true );
         
         /// <summary>
         /// Hide loading indicator
         /// </summary>
-        public void Hide() => SetBusy( false );
+        public Task Hide() => SetBusy( false );
 
         /// <summary>
         /// Set component Loaded state
         /// </summary>
         /// <param name="value">true or false</param>
-        public void SetLoaded( bool value )
+        public async Task SetLoaded( bool value )
         {
             if ( Loaded != value )
             {
                 loaded = value;
-                LoadedChanged.InvokeAsync( value );
-                InvokeAsync( StateHasChanged );
+                await LoadedChanged.InvokeAsync( value );
+                await InvokeAsync( StateHasChanged );
             }
         }
 

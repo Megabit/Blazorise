@@ -1,13 +1,15 @@
-﻿namespace Blazorise.LoadingIndicator
+﻿using System.Threading.Tasks;
+
+namespace Blazorise.LoadingIndicator
 {
     public interface ILoadingIndicatorService
     {
         bool? Busy { get; }
         bool? Loaded { get; }
 
-        void Hide();
-        void SetLoaded( bool value );
-        void Show();
+        Task Hide();
+        Task SetLoaded( bool value );
+        Task Show();
 
         internal void Subscribe( LoadingIndicator indicator );
         internal void Unsubscribe( LoadingIndicator indicator );
