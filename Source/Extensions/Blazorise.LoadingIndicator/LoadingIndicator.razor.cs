@@ -11,7 +11,7 @@ namespace Blazorise.LoadingIndicator
     /// A wrapper component that adds a busy spinner or shows a loading message.
     /// Fully templatable, supports two-way binding, direct use via @ref
     /// </summary>
-    public partial class LoadingIndicator : BaseComponent
+    public partial class LoadingIndicator : BaseComponent, IDisposable
     {
         #region Members
 
