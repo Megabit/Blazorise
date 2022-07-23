@@ -9,7 +9,7 @@ namespace Blazorise.LoadingIndicator
     /// <summary>
     /// A service to control LoadingIndicator components
     /// </summary>
-    internal class LoadingIndicatorService: ILoadingIndicatorService
+    public class LoadingIndicatorService: ILoadingIndicatorService
     {
         #region Members
 
