@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
 #endregion
 
 namespace Blazorise.LoadingIndicator
@@ -7,31 +9,63 @@ namespace Blazorise.LoadingIndicator
     /// <summary>
     /// A service to control LoadingIndicator components
     /// </summary>
-    internal class LoadingIndicatorService : ILoadingIndicatorService
+    public class LoadingIndicatorService: ILoadingIndicatorService
     {
         #region Members
 
-        private LoadingIndicator indicator;
+        private object hashLock = new();
+        private HashSet<LoadingIndicator> indicators = new();
+
+        // avoid locking in single indicator (app busy) scenario
+        Action<bool> SetBusyAction;
+        Action<bool> SetLoadedAction;
+        Func<bool?> GetBusyFunc;
+        Func<bool?> GetLoadedFunc;
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Set indicator busy state to true
-        /// </summary>
-        public void Show() => indicator?.Show();
+        /// <inheritdoc />
+        public LoadingIndicatorService()
+        {
+            // default to foreach implementation
+            MultiMode();
+        }
+
+        // use locking implementation
+        private void MultiMode()
+        {
+            SetBusyAction = SetBusyMulti;
+            SetLoadedAction = SetLoadedMulti;
+            GetBusyFunc = GetBusyMulti;
+            GetLoadedFunc = GetLoadedMulti;
+        }
+
+        // no lock implementation
+        private void SingleMode( LoadingIndicator indicator )
+        {
+            SetBusyAction = indicator.SetBusy;
+            SetLoadedAction = indicator.SetLoaded;
+            GetBusyFunc = () => indicator.Busy;
+            GetLoadedFunc = () => indicator.Loaded;
+        }
 
         /// <summary>
-        /// Set indicator busy state to false
+        /// Show loading indicator
         /// </summary>
-        public void Hide() => indicator?.Hide();
+        public void Show() => SetBusyAction( true );
+
+        /// <summary>
+        /// Hide loading indicator
+        /// </summary>
+        public void Hide() => SetBusyAction( false );
 
         /// <summary>
         /// Set Loaded state
         /// </summary>
         /// <param name="value">true or false</param>
-        public void SetLoaded( bool value ) => indicator?.SetLoaded( value );
+        public void SetLoaded( bool value ) => SetLoadedAction( value );
 
         /// <summary>
         /// Subscribe indicator to change events and save reference
@@ -39,11 +73,19 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         void ILoadingIndicatorService.Subscribe( LoadingIndicator indicator )
         {
-            if ( this.indicator != null && this.indicator != indicator )
+            lock ( hashLock )
             {
-                throw new InvalidOperationException( $"{nameof( LoadingIndicatorService )} already initialized. The service supports only one loading indicator." );
+                if ( indicators.Count == 0 )
+                {
+                    SingleMode( indicator );
+                }
+                else if ( indicators.Count == 1 )
+                {
+                    MultiMode();
+                }
+
+                indicators.Add( indicator );
             }
-            this.indicator = indicator;
         }
 
         /// <summary>
@@ -52,10 +94,87 @@ namespace Blazorise.LoadingIndicator
         /// <param name="indicator"></param>
         void ILoadingIndicatorService.Unsubscribe( LoadingIndicator indicator )
         {
-            if ( this.indicator == indicator )
+            lock ( hashLock )
             {
-                this.indicator = null;
+                indicators.Remove( indicator );
+
+                if ( indicators.Count == 0 )
+                {
+                    MultiMode();
+                }
+                else if ( indicators.Count == 1 )
+                {
+                    SingleMode( indicators.First() );
+                }
             }
+        }
+
+        private void SetBusyMulti( bool value )
+        {
+            lock ( hashLock )
+            {
+                foreach ( var indicator in indicators )
+                {
+                    indicator.SetBusy( value );
+                }
+            }
+        }
+
+        private void SetLoadedMulti( bool value )
+        {
+            lock ( hashLock )
+            {
+                foreach ( var indicator in indicators )
+                {
+                    indicator.SetLoaded( value );
+                }
+            }
+        }
+
+        private bool? GetBusyMulti()
+        {
+            bool? val = null;
+            lock ( hashLock )
+            {
+                foreach ( var indicator in indicators )
+                {
+                    if ( val == null )
+                    {
+                        val = indicator.Busy;
+                    }
+                    else
+                    {
+                        if ( val != indicator.Busy )
+                        {
+                            return null;
+                        }
+                    }
+                }
+            }
+            return val;
+        }
+
+        private bool? GetLoadedMulti()
+        {
+            bool? val = null;
+            lock ( hashLock )
+            {
+                foreach ( var indicator in indicators )
+                {
+                    if ( val == null )
+                    {
+                        val = indicator.Loaded;
+                    }
+                    else
+                    {
+                        if ( val != indicator.Loaded )
+                        {
+                            return null;
+                        }
+                    }
+                }
+            }
+            return val;
         }
 
         #endregion
@@ -63,14 +182,14 @@ namespace Blazorise.LoadingIndicator
         #region Properties
 
         /// <summary>
-        /// Returns indicator Busy state
+        /// Returns Busy state shared by all indicator instances or null if the state is not the same for all indicators.
         /// </summary>
-        public bool? Busy => indicator?.Busy;
+        public bool? Busy => GetBusyFunc();
 
         /// <summary>
-        /// Returns indicator Loaded state
+        /// Returns Loaded state shared by all indicator instances or null if the state is not the same for all indicators.
         /// </summary>
-        public bool? Loaded => indicator?.Loaded;
+        public bool? Loaded => GetLoadedFunc();
 
         #endregion
     }

@@ -6,12 +6,6 @@ namespace Blazorise.LoadingIndicator
 {
     public class ApplicationLoadingIndicator : LoadingIndicator
     {
-        #region Members
-       
-        ILoadingIndicatorService service;
-
-        #endregion
-
         #region Methods
 
         public ApplicationLoadingIndicator()
@@ -23,8 +17,8 @@ namespace Blazorise.LoadingIndicator
 
         protected override void OnInitialized()
         {
-            service = serviceProvider.GetService<ILoadingIndicatorService>();
-            service?.Subscribe( this );
+            Service = serviceProvider.GetService<ILoadingIndicatorService>();
+            Service?.Subscribe( this );
             base.OnInitialized();
         }
 
@@ -32,7 +26,7 @@ namespace Blazorise.LoadingIndicator
         {
             if ( disposing )
             {
-                service?.Unsubscribe( this );
+                Service?.Unsubscribe( this );
             }
             base.Dispose( disposing );
         }

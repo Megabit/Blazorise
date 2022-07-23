@@ -11,9 +11,11 @@ namespace Blazorise.LoadingIndicator
     /// A wrapper component that adds a busy spinner or shows a loading message.
     /// Fully templatable, supports two-way binding, direct use via @ref
     /// </summary>
-    public partial class LoadingIndicator : BaseComponent, IDisposable
+    public partial class LoadingIndicator : BaseComponent
     {
         #region Members
+
+        private ILoadingIndicatorService service;
 
         private ClassBuilder indicatorClasses;
         private StyleBuilder indicatorStyles;
@@ -151,6 +153,16 @@ namespace Blazorise.LoadingIndicator
             return base.SetParametersAsync( parameters );
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                Service = null;
+            }
+
+            base.Dispose( disposing );
+        }
+
         #endregion
 
         #region Properties
@@ -182,6 +194,32 @@ namespace Blazorise.LoadingIndicator
                 </svg>" );
             builder.CloseRegion();
         };
+
+        /// <summary>
+        /// Service used to control this instance.
+        /// </summary>
+        [Parameter]
+        public ILoadingIndicatorService Service
+        {
+            get => service;
+            set
+            {
+                if ( value != service )
+                {
+                    if ( service != null )
+                    {
+                        service.Unsubscribe( this );
+                    }
+
+                    service = value;
+
+                    if ( service != null )
+                    {
+                        service.Subscribe( this );
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Indicates whether component is ready to be rendered
