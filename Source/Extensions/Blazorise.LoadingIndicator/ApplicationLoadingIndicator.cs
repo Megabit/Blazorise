@@ -18,17 +18,7 @@ namespace Blazorise.LoadingIndicator
         protected override void OnInitialized()
         {
             Service = serviceProvider.GetService<ILoadingIndicatorService>();
-            Service?.Subscribe( this );
             base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                Service?.Unsubscribe( this );
-            }
-            base.Dispose( disposing );
         }
 
         #endregion
