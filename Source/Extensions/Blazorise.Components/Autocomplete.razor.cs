@@ -292,7 +292,10 @@ namespace Blazorise.Components
             }
 
             if ( ActiveItemIndex.HasValue )
+            {
+                await Task.Yield();
                 await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex.Value ) );
+            }
         }
 
 
