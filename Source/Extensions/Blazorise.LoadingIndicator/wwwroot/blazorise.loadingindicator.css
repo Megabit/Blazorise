@@ -24,14 +24,11 @@
 }
 
 @keyframes b-loading-indicator-blazorise-flipper {
-  from {
-    transform: rotateY(0deg);
-  } 
-  to {
+  100% {
     transform: rotateY(360deg);
   } 
 }
 
 .b-loading-indicator-blazorise {
-  animation: b-loading-indicator-blazorise-flipper 1200ms linear infinite alternate;
+  animation: b-loading-indicator-blazorise-flipper 1200ms linear infinite;
 }
