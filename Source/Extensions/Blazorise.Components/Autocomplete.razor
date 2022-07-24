@@ -66,44 +66,36 @@
                 var text = GetItemText( item );
                 var value = GetItemValue( item );
 
-                @if ( ItemContent is not null )
-                {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemSelected">
-                        @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
-                        {
-                            <Field Horizontal Margin="Margin.Is0.FromStart">
-                                <Label @onclick:stopPropagation>
-                                    <Check TValue="bool" Checked="@isActiveItem">
+                <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
+                    @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+                    {
+                        <Field Horizontal Margin="Margin.Is0.FromStart">
+                            <Label @onclick:stopPropagation>
+                                <Check TValue="bool" Checked="@isActiveItem">
+                                    @if (ItemContent is not null)
+                                    {
                                         @ItemContent(new (item, value, text))
-                                    </Check>
-                                </Label>
-                            </Field>
-                        }
-                        else
+                                    }
+                                    else
+                                    {
+                                        @text
+                                    }
+                                </Check>
+                            </Label>
+                        </Field>
+                    }
+                    else
+                    {
+                        @if (ItemContent is not null)
                         {
                             @ItemContent(new (item, value, text))
-                        }
-                    </DropdownItem>
-                }
-                else
-                {
-                    <DropdownItem ElementId="@DropdownItemId(i)" @key="item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="@OnDropdownItemSelected">
-                        @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
-                        {
-                            <Field Horizontal Margin="Margin.Is0.FromStart">
-                                <Label @onclick:stopPropagation>
-                                    <Check TValue="bool" Checked="@isActiveItem" CheckedChanged="@(async (e) => await OnDropdownItemSelected(value))">
-                                        @text
-                                    </Check>
-                                </Label>
-                            </Field>
                         }
                         else
                         {
                             @text
                         }
-                    </DropdownItem>
-                }
+                    }
+                </DropdownItem>
             }
         }
     </DropdownMenu>

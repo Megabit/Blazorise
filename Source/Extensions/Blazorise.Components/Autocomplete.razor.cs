@@ -242,7 +242,7 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
-            if (Multiple && string.IsNullOrEmpty(SelectedText) && eventArgs.Code == "Backspace")
+            if (SelectionMode == AutocompleteSelectionMode.Multiple && string.IsNullOrEmpty(SelectedText) && eventArgs.Code == "Backspace")
             {
                 await RemoveMultipleText( SelectedTexts.LastOrDefault() );
                 return;
