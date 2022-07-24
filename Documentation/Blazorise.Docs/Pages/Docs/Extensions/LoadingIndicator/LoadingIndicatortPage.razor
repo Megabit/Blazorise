@@ -47,7 +47,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
-        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Add LoadingIndicator as a scoped service in your configuration. Use dependency injection to obtain the instance of the LoadingIndicator service to control <Code>ApplicationLoadingIndicator</Code>
+        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Add LoadingIndicatorService as a scoped service in your configuration. Use dependency injection to obtain the instance of the LoadingIndicatorService to control <Code>ApplicationLoadingIndicator</Code>. The application busy UI comes with an awesome Blazorise logo spinner, which is recommended, but if you prefer a boring default spinner instead set <Code>LoadingIndicatorTemplate</Code> to <Code>null</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         Add <Code>LoadingIndicatorService</Code> as a scoped service.
