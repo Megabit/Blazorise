@@ -22,7 +22,7 @@
                             {
                                 @if ( IsCommandVisible )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay">
+                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
@@ -34,14 +34,14 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay">
+                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                         <_DataGridMultiSelectAll TItem="TItem" IsIndeterminate="@IsMultiSelectAllIndeterminate" IsChecked="@IsMultiSelectAllChecked"></_DataGridMultiSelectAll>
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )
@@ -85,7 +85,7 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
                                         @if ( column.FilterTemplate != null && column.Filterable )
                                         {
                                             @(column.FilterTemplate( column.Filter ))
@@ -95,7 +95,7 @@
                             }
                             else if ( !column.Filterable )
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()"></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()"></TableHeaderCell>
                                 continue;
                             }
                             else if ( column.ColumnType == DataGridColumnType.Command )
@@ -103,14 +103,14 @@
                                 @if ( IsCommandVisible )
                                 {
                                     // since Clear Filter is located in the command column it can be visible only when Edit is enabled
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
                                         <_DataGridClearFilterCommand TItem="TItem" />
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
                                     @if ( column.FilterTemplate != null )
                                     {
                                         @(column.FilterTemplate( column.Filter ))

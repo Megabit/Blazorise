@@ -170,6 +170,7 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Allows for multiple selection.
+        Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MultipleBadgeColor" Type="Color" Default="Color.Primary">
         Sets the Badge color for the multiple selection values.
@@ -190,7 +191,7 @@
         Specifies the item content to be rendered inside each dropdown item.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CloseOnSelection" Type="bool" Default="true">
-        Specifies whether Autocomplete's dropdown closes on selection. This is only evaluated when the Autocomplete's Multiple is set to true.
+        Specifies whether Autocomplete's dropdown closes on selection. This is only evaluated when multiple selection is set.
         Defauls to true.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ReadData" Type="EventCallback<AutoCompleteReadDataEventArgs>">
@@ -199,14 +200,14 @@
     <DocsAttributesItem Name="SuggestSelectedItems" Type="bool" Default="false">
         Suggests already selected option(s) when presenting the options.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SuggestMultipleCheckbox" Type="bool" Default="false">
-        Suggests already selected option(s) when presenting the options with checkboxes to ease selection when <Code>Autocomplete</Code> is set to Multiple.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="ConfirmKey" Type="string[]" Default='new[] { "Enter", "NumpadEnter", "Tab" }'>
         Gets or sets an array of the keyboard pressed values for the ConfirmKey.
         If this is null or empty, there will be no confirmation key.
     </DocsAttributesItem>
     <DocsAttributesItem Name="AutoSelectFirstItem" Type="bool" Default="true">
         Gets or sets whether Autocomplete auto selects the first item displayed on the dropdown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="AutocompleteSelectionMode" Default="AutocompleteSelectionMode.Default">
+        Gets or sets the Autocomplete Selection Mode.
     </DocsAttributesItem>
 </DocsAttributes>

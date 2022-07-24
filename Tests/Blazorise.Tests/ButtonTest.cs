@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Tests.Mocks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Xunit;
 #endregion
 
@@ -116,7 +117,7 @@ namespace Blazorise.Tests
             bool clicked = false;
 
             // test
-            button.Clicked = callbackFactory.Create( this, () => { clicked = true; } );
+            button.Clicked = callbackFactory.Create<MouseEventArgs>( this, ( e ) => { clicked = true; } );
             await button.Click();
 
             // validate

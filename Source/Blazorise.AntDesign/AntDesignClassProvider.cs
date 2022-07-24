@@ -843,7 +843,7 @@ namespace Blazorise.AntDesign
 
         public override string PaginationItemActive() => "ant-pagination-item-active";
 
-        public override string PaginationItemDisabled() => Disabled();
+        public override string PaginationItemDisabled() => "ant-pagination-disabled";
 
         public override string PaginationLink() => "ant-pagination-link";
 
@@ -911,7 +911,7 @@ namespace Blazorise.AntDesign
 
         public override string TableHeader() => "ant-table-thead";
 
-        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-{ToThemeContrast( themeContrast )}";
+        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-theme ant-table-thead-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
 

@@ -5,6 +5,7 @@ using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -48,7 +49,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { Indentation * ParentDropdownState.NestedIndex }rem", ParentDropdownState.IsInlineDisplay );
+            builder.Append( $"padding-left: {Indentation * ParentDropdownState.NestedIndex}rem", ParentDropdownState.IsInlineDisplay );
         }
 
         /// <inheritdoc/>
@@ -85,14 +86,15 @@ namespace Blazorise
         /// <summary>
         /// Handles the button click event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>Returns the awaitable task.</returns>
-        protected Task ClickHandler()
+        protected Task ClickHandler( MouseEventArgs eventArgs )
         {
 
             if ( ParentBarDropdown != null )
                 return ParentBarDropdown.Toggle( ElementId );
 
-            return Clicked.InvokeAsync();
+            return Clicked.InvokeAsync( eventArgs );
         }
 
         /// <inheritdoc/>
@@ -159,7 +161,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the toggle button is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Gets or sets the parent dropdown state object.

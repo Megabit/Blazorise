@@ -6,8 +6,7 @@
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Iso)"
               Placeholder="Search..."
-              Multiple
-              SuggestMultipleCheckbox
+              SelectionMode="AutocompleteSelectionMode.Checkbox"
               CloseOnSelection="false"
               @bind-SelectedValues="multipleSelectionData"
               @bind-SelectedTexts="multipleSelectionTexts">

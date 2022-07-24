@@ -1,0 +1,23 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<SelectList TItem="MyFruitModel"
+            TValue="int"
+            Data="@IndexedFruits"
+            TextField="@((item)=>item.Name)"
+            ValueField="@((item)=>item.Id)"
+            Multiple
+            @bind-SelectedValues="@selectedListValues"
+            DefaultItemText="Choose your fruit" />
+
+@code {
+    public class MyFruitModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    static string[] Fruits = { "Avocado", "Banana", "Blackberries", "Blueberries", "Cherries", "Cranberries", "Lemon", "Mango", "Orange", "Pineapple", "Watermelon" };
+    static IEnumerable<MyFruitModel> IndexedFruits = Enumerable.Range( 1, Fruits.Length ).Select( x => new MyFruitModel { Name = Fruits[x - 1], Id = x } );
+
+    IReadOnlyList<int> selectedListValues { get; set; }
+}

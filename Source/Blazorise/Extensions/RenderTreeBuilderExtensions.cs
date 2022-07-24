@@ -182,9 +182,9 @@ namespace Blazorise.Extensions
             return builder;
         }
 
-        public static RenderTreeBuilder OnClick( this RenderTreeBuilder builder, object receiver, EventCallback callback, [CallerLineNumber] int line = 0 )
+        public static RenderTreeBuilder OnClick<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
         {
-            builder.AddAttribute( GetSequence( line ), "onclick", EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>( receiver, callback ) );
+            builder.AddAttribute( GetSequence( line ), "onclick", EventCallback.Factory.Create<T>( receiver, callback ) );
 
             return builder;
         }
