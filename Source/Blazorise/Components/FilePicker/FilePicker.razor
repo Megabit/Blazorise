@@ -101,7 +101,8 @@
             <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
             @if ( IsFileBeingUploaded( file ) )
             {
-                <Progress Value="@GetProgressPercentage()" />
+                var progressPercentage = GetProgressPercentage();
+                <Progress Value="@progressPercentage">@progressPercentage %</Progress>
             }
             else
             {

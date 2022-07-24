@@ -46,7 +46,7 @@ namespace Blazorise
                 throw new IOException( $"Supplied file with size {Size} bytes exceeds the maximum of {maxAllowedSize} bytes." );
             }
 
-            return Owner.OpenReadStream( this, cancellationToken );
+            return Owner.OpenReadStream( this, openReadStreamcancellationTokenSource.Token );
         }
 
         /// <inheritdoc/>

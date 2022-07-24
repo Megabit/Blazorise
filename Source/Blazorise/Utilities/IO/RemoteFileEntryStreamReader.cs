@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -14,11 +15,38 @@ namespace Blazorise
         private readonly int maxMessageSize;
         private readonly long maxFileSize;
 
+        private readonly CancellationTokenSource fillBufferCts;
+        private CancellationTokenSource? copyFileDataCts;
+        private IJSStreamReference? jsStreamReference;
+        private readonly Task<Stream> OpenReadStreamTask;
+
         public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
             : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
         {
             this.maxMessageSize = maxMessageSize;
             this.maxFileSize = maxFileSize;
+
+            fillBufferCts = new CancellationTokenSource();
+            OpenReadStreamTask = OpenReadStreamAsync( fillBufferCts.Token );
+        }
+
+        private async Task<Stream> OpenReadStreamAsync( CancellationToken cancellationToken )
+        {
+            // This method only gets called once, from the constructor, so we're never overwriting an
+            // existing _jsStreamReference value
+            jsStreamReference = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, cancellationToken );
+
+            return await jsStreamReference.OpenReadStreamAsync(
+                this.maxFileSize,
+                cancellationToken: cancellationToken );
+        }
+
+        protected async ValueTask<int> CopyFileDataIntoBuffer( Memory<byte> destination, CancellationToken cancellationToken )
+        {
+
+            var stream = await OpenReadStreamTask;
+            copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+           return await stream.ReadAsync( destination, copyFileDataCts.Token );
         }
 
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
@@ -39,24 +67,17 @@ namespace Blazorise
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    var length = Math.Min( maxMessageSize, FileEntry.Size - position );
-
-                    var buffer = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, position, length, cancellationToken );
-
-                    if ( length != buffer.Length )
-                    {
-                        await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.UnexpectedBufferChunkLength );
-                        return;
-                    }
+                    var length = (int)Math.Min( maxMessageSize, FileEntry.Size - position );
+                    
+                    var buffer = new Memory<byte>( new byte[length], 0, length );
+                    await CopyFileDataIntoBuffer( buffer, cancellationToken );
+                    await stream.WriteAsync( buffer, cancellationToken );
 
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    await stream.WriteAsync( buffer, cancellationToken );
-
-                    position += buffer.Length;
-
+                    position += length;
                     await Task.WhenAll(
-                        FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer ),
+                        FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer.ToArray() ),
                         FileEntryNotifier.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
 
                     await RefreshUI();
@@ -81,9 +102,22 @@ namespace Blazorise
 
                     await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, success, fileInvalidReason );
                 }
+
+
+                fillBufferCts.Cancel();
+                copyFileDataCts?.Cancel();
+
+                //TODO: Disposal
+                try
+                {
+                    _ = jsStreamReference?.DisposeAsync().Preserve();
+                }
+                catch
+                {
+                }
             }
         }
-        
+
         /// <summary>
         /// If we're running on WebAssembly, then we should give time for the single thread to catch up and refresh the UI.
         /// </summary>

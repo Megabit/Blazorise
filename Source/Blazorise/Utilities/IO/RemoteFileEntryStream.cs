@@ -20,29 +20,25 @@ namespace Blazorise
         private readonly ElementReference elementRef;
         private readonly IFileEntry fileEntry;
         private readonly IFileEntryNotifier fileEntryNotifier;
-        private readonly int maxMessageSize;
-        private readonly TimeSpan segmentFetchTimeout;
         private readonly long maxFileSize;
         private readonly CancellationTokenSource fillBufferCts;
         private bool disposed;
         private long position;
 
-        private CancellationTokenSource? _copyFileDataCts;
-        private IJSStreamReference? _jsStreamReference;
+        private CancellationTokenSource? copyFileDataCts;
+        private IJSStreamReference? jsStreamReference;
         private readonly Task<Stream> OpenReadStreamTask;
 
         #endregion
 
         #region Constructors
 
-        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, long maxFileSize, CancellationToken cancellationToken )
+        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, long maxFileSize, CancellationToken cancellationToken )
         {
             this.jsModule = jsModule;
             this.elementRef = elementRef;
             this.fileEntry = fileEntry;
             this.fileEntryNotifier = fileEntryNotifier;
-            this.maxMessageSize = maxMessageSize;
-            this.segmentFetchTimeout = segmentFetchTimeout;
             this.maxFileSize = maxFileSize;
             fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
@@ -57,9 +53,9 @@ namespace Blazorise
         {
             // This method only gets called once, from the constructor, so we're never overwriting an
             // existing _jsStreamReference value
-            _jsStreamReference = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, cancellationToken );
+            jsStreamReference = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, cancellationToken );
 
-            return await _jsStreamReference.OpenReadStreamAsync(
+            return await jsStreamReference.OpenReadStreamAsync(
                 this.maxFileSize,
                 cancellationToken: cancellationToken );
         }
@@ -68,39 +64,42 @@ namespace Blazorise
         {
 
             var stream = await OpenReadStreamTask;
-            _copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-            return await stream.ReadAsync( destination, _copyFileDataCts.Token );
+            copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+            return await stream.ReadAsync( destination, copyFileDataCts.Token );
         }
 
         public override Task<int> ReadAsync( byte[] buffer, int offset, int count, CancellationToken cancellationToken )
             => ReadAsync( new( buffer, offset, count ), cancellationToken ).AsTask();
-
         public override async ValueTask<int> ReadAsync( Memory<byte> buffer, CancellationToken cancellationToken = default )
         {
-            if (Position == 0)
-                await fileEntryNotifier.UpdateFileStartedAsync( fileEntry );
-
-            int maxBytesToRead = (int)( Length - Position );
-
-            if ( maxBytesToRead > buffer.Length )
+            var bytesRead = 0;
+            try
             {
-                maxBytesToRead = buffer.Length;
-            }
+                if ( Position == 0 )
+                    await fileEntryNotifier.UpdateFileStartedAsync( fileEntry );
 
-            if ( maxBytesToRead <= 0 )
+                var bytesAvailableToRead = Length - Position;
+                var maxBytesToRead = (int)Math.Min( bytesAvailableToRead, buffer.Length );
+                if ( maxBytesToRead <= 0 )
+                    return 0;
+
+                bytesRead = await CopyFileDataIntoBuffer( buffer.Slice( 0, maxBytesToRead ), cancellationToken );
+                position += bytesRead;
+
+
+                await Task.WhenAll(
+                    fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, buffer.ToArray() ),
+                    fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytesRead ) );
+
+                if ( position == fileEntry.Size )
+                    await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, true, FileInvalidReason.None );
+
+            }
+            catch ( OperationCanceledException )
             {
-                return 0;
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.TaskCancelled );
+                throw;
             }
-
-            var bytesRead = await CopyFileDataIntoBuffer( buffer.Slice( 0, maxBytesToRead ), cancellationToken );
-            position += bytesRead;
-
-            await Task.WhenAll(
-                fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, buffer.ToArray() ),
-                fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytesRead ) );
-
-            if (position == fileEntry.Size)
-                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, true, FileInvalidReason.None );
 
             return bytesRead;
         }
@@ -131,13 +130,13 @@ namespace Blazorise
 
 
             fillBufferCts.Cancel();
-            _copyFileDataCts?.Cancel();
+            copyFileDataCts?.Cancel();
             // If the browser connection is still live, notify the JS side that it's free to release the Blob
             // and reclaim the memory. If the browser connection is already gone, there's no way for the
             // notification to get through, but we don't want to fail the .NET-side disposal process for this.
             try
             {
-                _ = _jsStreamReference?.DisposeAsync().Preserve();
+                _ = jsStreamReference?.DisposeAsync().Preserve();
             }
             catch
             {

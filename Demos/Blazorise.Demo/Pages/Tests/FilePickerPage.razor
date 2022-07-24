@@ -2,6 +2,9 @@
 @using System.Diagnostics
 @using System.IO
 @using Blazorise.Extensions
+@using System.Net.Http.Headers
+@using System.Text.Json
+@using System.Threading
 
 <Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
@@ -82,19 +85,19 @@
                                 <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
                             </Div>
                             <Div>
-                                @if (context.File.Status == FileEntryStatus.Ready)
+                                @if ( context.File.Status == FileEntryStatus.Ready )
                                 {
                                     <Icon TextColor="TextColor.Primary" Name="IconName.FileUpload" />
                                 }
-                                else if (context.File.Status == FileEntryStatus.Uploading)
+                                else if ( context.File.Status == FileEntryStatus.Uploading )
                                 {
                                     <Icon TextColor="TextColor.Warning" Name="IconName.Bolt" />
                                 }
-                                else if (context.File.Status == FileEntryStatus.Uploaded)
+                                else if ( context.File.Status == FileEntryStatus.Uploaded )
                                 {
                                     <Icon TextColor="TextColor.Success" Name="IconName.CheckCircle" />
                                 }
-                                else if (context.File.Status == FileEntryStatus.Error)
+                                else if ( context.File.Status == FileEntryStatus.Error )
                                 {
                                     <Icon TextColor="TextColor.Danger" Name="IconName.TimesCircle" />
                                 }
@@ -118,81 +121,136 @@
 
 @code {
     private Stopwatch sw = new();
-    private readonly int FileEditMaxChunkSize = 24 * 1024;
+    private readonly int FileEditMaxChunkSize = 1024 * 15;
     private FilePicker filePicker { get; set; }
     private FilePicker filePickerBuffered { get; set; }
     private FilePicker filePickerDropdown { get; set; }
     private FilePicker filePickerCustom { get; set; }
 
 
-    private void OnFileUploadEnded(FileEndedEventArgs e)
+    private void OnFileUploadEnded( FileEndedEventArgs e )
     {
-        Console.WriteLine($"File {e.File.Name} upload {(e.Success ? "succeeded" : "failed")}.");
+        Console.WriteLine( $"File {e.File.Name} upload {( e.Success ? "succeeded" : "failed" )}." );
     }
 
-    private async Task OnFileUpload(FileUploadEventArgs e)
+    private async Task OnFileUpload( FileUploadEventArgs e )
     {
-        var bytes = await FileUpload(e.File);
+        var bytes = await FileUpload( e.File );
     }
 
-    private async Task OnFileUploadBuffered(FileUploadEventArgs e)
+    private async Task OnFileUploadBuffered( FileUploadEventArgs e )
     {
-        var bytes = await FileUploadBuffered(e.File);
+        var bytes = await FileUploadBuffered( e.File );
     }
 
-    private async Task<byte[]> FileUpload(IFileEntry file)
+    private async Task<byte[]> FileUpload( IFileEntry file )
     {
         sw.Restart();
-        byte[] result = await Read(file);
+        byte[] result = await Read( file );
         sw.Stop();
-        Console.WriteLine("file upload without explicit buffering took " + sw.ElapsedMilliseconds + " ms");
+        Console.WriteLine( "file upload without explicit buffering took " + sw.ElapsedMilliseconds + " ms" );
         return result;
     }
 
-    private async Task<byte[]> FileUploadBuffered(IFileEntry file)
+    private async Task<byte[]> FileUploadBuffered( IFileEntry file )
     {
         sw.Restart();
-        byte[] result = await ReadBuffered(file);
+        byte[] result = await ReadBuffered( file );
         sw.Stop();
-        Console.WriteLine("file upload using buffer took " + sw.ElapsedMilliseconds + " ms");
+        Console.WriteLine( "file upload using buffer took " + sw.ElapsedMilliseconds + " ms" );
         return result;
     }
 
-    private async Task<byte[]> Read(IFileEntry file)
+    private async Task<byte[]> Read( IFileEntry file )
     {
-        using (var stream = new MemoryStream())
+        var writeToFile = false;
+        var path = @"D:\BigFileUploaded.mkv";
+        if ( writeToFile )
         {
-            await file.WriteToStreamAsync(stream);
-            stream.Seek(0, SeekOrigin.Begin);
-            return stream.ToArray();
+
+            using ( FileStream fs = new( path, FileMode.Truncate, FileAccess.ReadWrite ) )
+            {
+                await file.WriteToStreamAsync( fs );
+            };
+
         }
+        else
+        {
+            using ( var stream = new MemoryStream() )
+            {
+                await file.WriteToStreamAsync( stream );
+
+
+                stream.Seek( 0, SeekOrigin.Begin );
+                return stream.ToArray();
+            }
+        }
+        return Array.Empty<byte>();
     }
 
-    private async Task<byte[]> ReadBuffered(IFileEntry file, int bufferSizeBytes = 1 * 1024 * 1024)
+
+    private async Task<byte[]> ReadBuffered( IFileEntry file, int bufferSizeBytes = 1024 * 30 )
     {
         var buffer = new byte[bufferSizeBytes];
-
-        using (MemoryStream result = new MemoryStream())
+        var path = @"D:\BigFileUploaded.mkv";
+        if ( OperatingSystem.IsBrowser() )
         {
-            using (var bufferedStream = new BufferedStream(file.OpenReadStream(long.MaxValue), bufferSizeBytes))
+            using var content = new MultipartFormDataContent();
+
+            var fileContent =
+                new StreamContent( file.OpenReadStream( long.MaxValue ) );
+
+            fileContent.Headers.ContentType =
+                new MediaTypeHeaderValue( file.Type );
+
+
+            content.Add(
+                content: fileContent,
+                name: "\"files\"",
+                fileName: file.Name );
+
+            var client = new HttpClient();
+            client.Timeout = Timeout.InfiniteTimeSpan;
+            var testResponse = await client.GetAsync( "https://localhost:7148/FileSave" );
+            var response =
+                await client.PostAsync( "https://localhost:7148/FileSave",
+                content );
+
+            if ( response.IsSuccessStatusCode )
             {
-                int currentBytes;
-                while ((currentBytes = await bufferedStream.ReadAsync(buffer, 0, bufferSizeBytes)) > 0)
-                {
-                    result.Write(buffer, 0, currentBytes);
-                }
+                var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                    };
+
+                using var responseStream =
+                    await response.Content.ReadAsStreamAsync();
+
             }
-            return result.ToArray();
         }
+        else
+        {
+            var stream = file.OpenReadStream( long.MaxValue );
+            var bytesRead = 0;
+            using ( FileStream fs = new( path, FileMode.Truncate, FileAccess.ReadWrite ) )
+            {
+                while ( ( bytesRead = await stream.ReadAsync( buffer ) ) != 0 )
+                {
+                    await fs.WriteAsync( buffer, 0, bytesRead );
+                }
+            };
+        }
+
+        return Array.Empty<byte>();
     }
 
-    private void OnFilePartReceived(FileWrittenEventArgs e)
+    private void OnFilePartReceived( FileWrittenEventArgs e )
     {
-        Console.WriteLine($"File part received. Position: {e.Position} Received data size: {e.Data.Length}");
+        //Console.WriteLine( $"File part received. Position: {e.Position} Received data size: {e.Data.Length}" );
     }
 
-    private void OnFileUploadProgressChanged(FileProgressedEventArgs e)
+    private void OnFileUploadProgressChanged( FileProgressedEventArgs e )
     {
-        Console.WriteLine($"File upload progress: {e.Percentage:0.0} %");
+        //Console.WriteLine( $"File upload progress: {e.Percentage:0.0} %" );
     }
 }

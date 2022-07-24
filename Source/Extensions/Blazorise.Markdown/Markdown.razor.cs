@@ -311,7 +311,7 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, SegmentFetchTimeout, ImageMaxSize, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
         }
 
         [JSInvokable]
@@ -469,7 +469,11 @@ namespace Blazorise.Markdown
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.
+        /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
         /// </summary>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
+        /// </remarks>
         [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
 
         /// <summary>

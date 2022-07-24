@@ -11,6 +11,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using static System.Net.WebRequestMethods;
 #endregion
 
 namespace Blazorise
@@ -222,7 +223,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, SegmentFetchTimeout, MaxFileSize, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxFileSize, cancellationToken );
         }
 
         /// <summary>
@@ -346,7 +347,11 @@ namespace Blazorise
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.
+        /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
         /// </summary>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
+        /// </remarks>
         [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
 
         /// <summary>
