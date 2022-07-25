@@ -61,9 +61,9 @@ namespace Blazorise.Components
         private TValue selectedValue;
 
         /// <summary>
-        /// When CloseOnSelection is set to false, tracks whether the auto complete is in a state where it can actually close.
+        /// Force dropdown visibility or determine automatically
         /// </summary>
-        private bool closeOnSelectionAllowClose = true;
+        bool canShowDropDown;
 
         #endregion
 
@@ -81,8 +81,6 @@ namespace Blazorise.Components
             finally
             {
                 Loading = false;
-
-                await InvokeAsync( StateHasChanged );
             }
         }
 
@@ -100,12 +98,10 @@ namespace Blazorise.Components
 
             if ( ManualReadMode )
             {
-                await InvokeAsync( () => HandleReadData( cancellationToken ) );
+                await HandleReadData( cancellationToken );
             }
-            else
-            {
-                await InvokeAsync( StateHasChanged );
-            }
+
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <inheritdoc/>
@@ -212,27 +208,26 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextChangedHandler( string text )
         {
-            CurrentSearch = text ?? string.Empty;
-            SelectedText = CurrentSearch;
             dirtyFilter = true;
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
+            {
                 await Clear();
+                return;
+            }
 
-            Loading = true;
+            CurrentSearch = text ?? string.Empty;
+            SelectedText = CurrentSearch;
+
             await SearchChanged.InvokeAsync( CurrentSearch );
-            Loading = false;
-
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
             if ( ManualReadMode )
                 await HandleReadData();
 
-            if ( FilteredData?.Count == 0 && NotFound.HasDelegate )
+            if ( NotFound.HasDelegate && !HaveFilteredData )
                 await NotFound.InvokeAsync( CurrentSearch );
-
-            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -242,58 +237,51 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
-            if (SelectionMode == AutocompleteSelectionMode.Multiple && string.IsNullOrEmpty(SelectedText) && eventArgs.Code == "Backspace")
+            canShowDropDown = true;
+
+            if ( IsMultiple && string.IsNullOrEmpty( SelectedText ) && eventArgs.Code == "Backspace" )
             {
-                await RemoveMultipleText( SelectedTexts.LastOrDefault() );
+                await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
                 return;
             }
-
-            if ( !DropdownVisible )
-            {
-                if ( IsConfirmKey( eventArgs ) )
-                {
-                    if ( FreeTyping && IsMultiple )
-                    {
-                        await AddMultipleText( SelectedText );
-                        await ResetSelectedText();
-                    }
-                }
-
-                await UnregisterClosableComponent();
-                ActiveItemIndex = AutoSelectFirstItem ? 0 : null;
-                return;
-            }
-
-            if ( dirtyFilter )
-                FilterData();
-
-            var activeItemIndex = ActiveItemIndex;
 
             if ( IsConfirmKey( eventArgs ) )
             {
-                var item = FilteredData.ElementAtOrDefault( ActiveItemIndex ?? -1 );
-
-                if ( item != null && ValueField != null )
-                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
-                else if ( FreeTyping && IsMultiple )
+                if ( IsMultiple )
                 {
-                    await AddMultipleText( SelectedText );
-                    await ResetSelectedText();
+                    if ( string.IsNullOrEmpty( SelectedText ) && !DropdownVisible )
+                    {
+                        return;
+                    }
+
+                    if ( FreeTyping && ActiveItemIndex < 0 )
+                    {
+                        await AddMultipleText( SelectedText );
+                        await ResetSelectedText();
+                        return;
+                    }
                 }
 
+                var item = FilteredData.ElementAtOrDefault( ActiveItemIndex );
+                if ( item != null && ValueField != null )
+                {
+                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                }
+                return;
             }
-            else if ( eventArgs.Code == "ArrowUp" )
+            
+            if ( eventArgs.Code == "ArrowUp" )
             {
-                await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) - 1 );
+                await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
             }
             else if ( eventArgs.Code == "ArrowDown" )
             {
-                await UpdateActiveFilterIndex( ( ActiveItemIndex ?? -1 ) + 1 );
+                await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
             }
-
-            if ( ActiveItemIndex.HasValue )
+            
+            if ( ActiveItemIndex >= 0 )
             {
-                await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex.Value ) );
+                await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
             }
         }
 
@@ -303,7 +291,7 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected Task OnTextFocusInHandler( FocusEventArgs eventArgs )
+        protected Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
 
@@ -319,7 +307,6 @@ namespace Blazorise.Components
         {
             // Give enough time for other events to do their stuff before closing
             // the dropdown.
-            await Task.Delay( 250 );
             await UnregisterClosableComponent();
 
             if ( !FreeTyping && ( SelectedValue == null || IsMultiple ) )
@@ -339,37 +326,40 @@ namespace Blazorise.Components
 
         private async Task OnDropdownItemSelected( object value )
         {
-            if ( !CloseOnSelection )
-                closeOnSelectionAllowClose = false;
-            else
+            if ( CloseOnSelection )
             {
                 CurrentSearch = string.Empty;
-                Loading = true;
                 await SearchChanged.InvokeAsync( CurrentSearch );
-                Loading = false;
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
-
-            if ( IsSuggestSelectedItems && IsSelectedvalue( selectedTValue ) )
+            if ( IsSelectedvalue( selectedTValue ) )
             {
-                await RemoveMultipleTextAndValue( selectedTValue );
-                await Revalidate();
+                if ( IsMultiple )
+                {
+                    await RemoveMultipleTextAndValue( selectedTValue );
+                    await Revalidate();
+                }
+                else
+                {
+                    SelectedValue = default;
+                    await SelectedValueChanged.InvokeAsync( SelectedValue );
+                }
+
                 return;
             }
 
-            SelectedValue = selectedTValue;
-            await SelectedValueChanged.InvokeAsync( SelectedValue );
-
-
             if ( IsMultiple )
             {
-                await AddMultipleText( selectedValue );
-                await AddMultipleValue( selectedValue );
+                await AddMultipleText( selectedTValue );
+                await AddMultipleValue( selectedTValue );
                 await ResetSelectedText();
             }
             else
             {
+                SelectedValue = selectedTValue;
+                await SelectedValueChanged.InvokeAsync( selectedTValue );
+
                 var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
                 SelectedText = GetItemText( item );
@@ -397,14 +387,13 @@ namespace Blazorise.Components
         }
 
         private bool ShouldNotClose()
-            => IsMultiple && !CloseOnSelection && !closeOnSelectionAllowClose && filteredData.Count > 0;
+            => IsMultiple && !CloseOnSelection && HaveFilteredData;
 
         private async Task ResetSelectedText()
         {
             if ( ShouldNotClose() )
             {
                 dirtyFilter = true;
-                await InvokeAsync( StateHasChanged );
             }
             else
             {
@@ -412,6 +401,7 @@ namespace Blazorise.Components
                 await SelectedTextChanged.InvokeAsync( string.Empty );
             }
         }
+
         private async Task AddMultipleValue( TValue value )
         {
             SelectedValues ??= new();
@@ -427,7 +417,8 @@ namespace Blazorise.Components
             SelectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
 
-            dirtyFilter = true;
+            if ( SelectionMode == AutocompleteSelectionMode.Multiple )
+                dirtyFilter = true;
         }
 
         private Task AddMultipleText( TValue value )
@@ -464,7 +455,8 @@ namespace Blazorise.Components
             SelectedTexts.Remove( text );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
-            dirtyFilter = true;
+            if ( SelectionMode == AutocompleteSelectionMode.Multiple )
+                dirtyFilter = true;
         }
 
         private async Task RemoveMultipleTextAndValue( string text )
@@ -481,6 +473,7 @@ namespace Blazorise.Components
 
         private void FilterData()
         {
+            Console.WriteLine( "Filter Data" );
             FilterData( Data?.AsQueryable() );
         }
 
@@ -515,7 +508,6 @@ namespace Blazorise.Components
 
             if ( TextField == null )
                 return;
-
 
             if ( !ManualReadMode )
             {
@@ -570,32 +562,17 @@ namespace Blazorise.Components
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
         {
             var count = FilteredData.Count;
-            if ( activeItemIndex < 0 )
-                activeItemIndex = 0;
-
-            if ( activeItemIndex > ( count - 1 ) )
-                activeItemIndex = count - 1;
-
+            activeItemIndex = Math.Max( 0, Math.Min( count - 1, activeItemIndex ) );
             ActiveItemIndex = activeItemIndex;
 
             // update search text with the currently focused item text
-            if ( count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( count - 1 ) )
+            if ( ActiveItemIndex >= 0 )
             {
-                var item = FilteredData[ActiveItemIndex.Value];
+                var item = FilteredData[ActiveItemIndex];
 
                 SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
-        }
-
-        /// <summary>
-        /// Sets focus on the input element, if it can be focused.
-        /// </summary>
-        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task Focus( bool scrollToElement = true )
-        {
-            return textEditRef.Focus( scrollToElement );
         }
 
         /// <summary>
@@ -605,7 +582,7 @@ namespace Blazorise.Components
         /// <returns>True if Autocomplete can be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
         {
-            closeOnSelectionAllowClose = ( DropdownMenuRef.ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
+            var closeOnSelectionAllowClose = ( DropdownMenuRef.ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
                 ( closeReason == CloseReason.FocusLostClosing && !isChild );
             return Task.FromResult( closeOnSelectionAllowClose );
         }
@@ -613,9 +590,11 @@ namespace Blazorise.Components
         /// <inheritdoc/>
         public async Task Close( CloseReason closeReason )
         {
+            if (closeReason == CloseReason.EscapeClosing)
+                canShowDropDown = false;
+
             await UnregisterClosableComponent();
-            ActiveItemIndex = AutoSelectFirstItem ? 0 : null;
-            await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( 0 ), false );
+            ActiveItemIndex = AutoSelectFirstItem ? 0 : -1;
         }
 
         /// <summary>
@@ -702,7 +681,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
         /// </summary>
-        private bool IsSuggestSelectedItems => IsMultiple && ( SuggestSelectedItems || SelectionMode == AutocompleteSelectionMode.Checkbox );
+        private bool IsSuggestSelectedItems => SuggestSelectedItems || SelectionMode == AutocompleteSelectionMode.Checkbox;
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -756,7 +735,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the currently active item index.
         /// </summary>
-        protected int? ActiveItemIndex { get; set; }
+        protected int ActiveItemIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the search field focus state.
@@ -768,25 +747,25 @@ namespace Blazorise.Components
         /// Takes into account whether menu was open and whether CloseOnSelection is set to false.
         /// </summary>
         protected bool DropdownVisible
-            => ( CanSearch || ShouldNotClose() ) && TextField != null;
+            => canShowDropDown && IsTextSearchable && TextFocused && HaveFilteredData;
 
         /// <summary>
         /// True if the not found content should be visible.
         /// </summary>
         protected bool NotFoundVisible
-            => FilteredData?.Count == 0 && IsTextSearchable && TextFocused && NotFoundContent != null && !Loading;
-
-        /// <summary>
-        /// True if the component has the pre-requirements to search
-        /// </summary>
-        protected bool CanSearch
-            => FilteredData?.Count > 0 && IsTextSearchable && TextFocused;
+            => canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HaveFilteredData;
 
         /// <summary>
         /// True if the text complies to the search requirements
         /// </summary>
         protected bool IsTextSearchable
             => CurrentSearch?.Length >= MinLength;
+
+        /// <summary>
+        /// True if the filtered data exists
+        /// </summary>
+        protected bool HaveFilteredData
+            => FilteredData?.Count > 0;
 
         /// <summary>
         /// Gets the custom class-names for dropdown element.
@@ -1063,7 +1042,7 @@ namespace Blazorise.Components
         /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when multiple selection is set.
         /// Defauls to true.
         /// </summary>
-        [Parameter] public bool CloseOnSelection { get; set; } = true;
+        [Parameter] public bool CloseOnSelection { get; set; } = false;
 
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
@@ -1079,7 +1058,7 @@ namespace Blazorise.Components
         /// If the value has a printed representation, this attribute's value is the same as the char attribute.
         /// Otherwise, it's one of the key value strings specified in 'Key values'.
         /// </remarks>
-        [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter", "Tab" };
+        [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter" };
 
         /// <summary>
         /// Gets or sets whether <see cref="Autocomplete{TItem, TValue}"/> auto selects the first item displayed on the dropdown.
