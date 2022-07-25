@@ -76,8 +76,17 @@ namespace Blazorise.Components
             {
                 Loading = true;
 
+                // should remove IsTextSearchable and let ReadData decide whetehr text is searchable or not?
                 if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
+                {
                     await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
+                }
+                else
+                {
+                    // no data
+                    filteredData.Clear();
+                    dirtyFilter = false;
+                }
             }
             finally
             {
@@ -197,6 +206,14 @@ namespace Blazorise.Components
 
                 if ( ManualReadMode )
                     await Reload();
+
+                if (AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0)
+                {
+                    SelectedText = GetItemText( FilteredData.First() );
+                    SelectedValue = GetItemValue( FilteredData.First() );
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
+                    await SelectedValueChanged.InvokeAsync( SelectedValue );
+                }
             }
             await base.OnAfterRenderAsync( firstRender );
         }
@@ -215,10 +232,13 @@ namespace Blazorise.Components
             if ( string.IsNullOrEmpty( text ) )
             {
                 await Clear();
+                if ( ManualReadMode )
+                    await HandleReadData();
+
                 return;
             }
 
-            CurrentSearch = text ?? string.Empty;
+            CurrentSearch = text;
             await SearchChanged.InvokeAsync( CurrentSearch );
 
             SelectedText = CurrentSearch;
@@ -227,17 +247,18 @@ namespace Blazorise.Components
             if ( ManualReadMode )
                 await HandleReadData();
 
-            if ( FilteredData?.Count == 1 && GetItemText( FilteredData.First() ) == SelectedText )
+            if ( FilteredData.Count == 1 && GetItemText( FilteredData.First() ) == SelectedText )
             {
                 SelectedValue = GetItemValue( FilteredData.First() );
+                await SelectedValueChanged.InvokeAsync( SelectedValue );
                 ActiveItemIndex = 0;
             }
-            else
+            else if ( !SelectedValue.Equals( default ) )
             {
-                SelectedValue = default;
+                SelectedValues = default;
+                await SelectedValueChanged.InvokeAsync( SelectedValue );
                 ActiveItemIndex = -1;
-            }
-            await SelectedValueChanged.InvokeAsync( SelectedValue );
+            };
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
                 await NotFound.InvokeAsync( CurrentSearch );
@@ -294,7 +315,7 @@ namespace Blazorise.Components
                 await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
             }
 
-            if ( ActiveItemIndex >= 0 )
+            if ( ActiveItemIndex >= 0 && DropdownVisible )
             {
                 await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
             }
@@ -577,23 +598,26 @@ namespace Blazorise.Components
             await SelectedValueChanged.InvokeAsync( selectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
-
         }
 
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
         {
-            var count = FilteredData.Count;
-            activeItemIndex = Math.Max( 0, Math.Min( count - 1, activeItemIndex ) );
-            ActiveItemIndex = activeItemIndex;
+            if ( FilteredData.Count == 0 )
+            {
+                ActiveItemIndex = -1;
+                return;
+            }
+
+            ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
 
             // update search text with the currently focused item text
-            if ( ActiveItemIndex >= 0 )
-            {
-                var item = FilteredData[ActiveItemIndex];
+            var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = GetItemText( item );
-                await SelectedTextChanged.InvokeAsync( SelectedText );
-            }
+            SelectedText = GetItemText( item );
+            await SelectedTextChanged.InvokeAsync( SelectedText );
+
+            SelectedValue = GetItemValue( item );
+            await SelectedValueChanged.InvokeAsync( SelectedValue );
         }
 
         /// <summary>
@@ -785,7 +809,7 @@ namespace Blazorise.Components
         /// True if the filtered data exists
         /// </summary>
         protected bool HaveFilteredData
-            => FilteredData?.Count > 0;
+            => FilteredData.Count > 0;
 
         /// <summary>
         /// Gets the custom class-names for dropdown element.
