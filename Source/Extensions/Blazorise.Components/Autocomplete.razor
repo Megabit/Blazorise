@@ -23,8 +23,8 @@
                   Disabled="@Disabled"
                   TabIndex="@TabIndex"
                   KeyDown="@OnTextKeyDownHandler"
-                  OnFocus ="OnTextFocusHandler"
-                  Blur ="OnTextBlurHandler"
+                  OnFocus="OnTextFocusHandler"
+                  Blur="OnTextBlurHandler"
                   Immediate="@Immediate"
                   Debounce="@Debounce"
                   DebounceInterval="@DebounceInterval"
@@ -66,13 +66,13 @@
                 var text = GetItemText( item );
                 var value = GetItemValue( item );
 
-                <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)" >
+                <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
                     @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                     {
                         <Field Horizontal Margin="Margin.Is0.FromStart">
                             <Label>
                                 <Check TValue="bool" Checked="@isActiveItem" Disabled>
-                                    @if (ItemContent is not null)
+                                    @if ( ItemContent is not null )
                                     {
                                         @ItemContent(new (item, value, text))
                                     }
@@ -86,7 +86,7 @@
                     }
                     else
                     {
-                        @if (ItemContent is not null)
+                        @if ( ItemContent is not null )
                         {
                             @ItemContent(new (item, value, text))
                         }

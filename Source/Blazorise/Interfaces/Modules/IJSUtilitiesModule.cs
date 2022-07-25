@@ -84,7 +84,8 @@ namespace Blazorise.Modules
         /// <summary>
         /// Scrolls the view to the given element.
         /// </summary>
-        /// <param name="anchorTarget">Anchor element id.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <param name="smooth">True if the scroll animation should be smoothed.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask ScrollElementIntoView( string elementId, bool smooth = true );
 
