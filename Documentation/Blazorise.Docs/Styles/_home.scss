@@ -44,6 +44,27 @@
     }
 }
 
+.home-newsletter {
+    &-readmore-link {
+        font-size: 13px;
+        color: var(--b-theme-secondary);
+        font-weight: 500;
+        transition: color 0.5s ease-in-out;
+
+        &:hover {
+            color: var(--b-theme-primary);
+        }
+    }
+
+    &-img-icons {
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
 .home-features {
     @media (max-width: 992px) {
         .flex-item:nth-of-type(1) {
