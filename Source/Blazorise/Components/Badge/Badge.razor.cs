@@ -70,9 +70,9 @@ namespace Blazorise
         /// Handles the close button onclick event.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnCloseKeyDownHandler(KeyboardEventArgs args)
+        protected Task OnCloseKeyDownHandler( KeyboardEventArgs args )
         {
-            if ( (args.Code == "Enter" || args.Code == "NumpadEnter") && !args.IsModifierKey() )
+            if ( ( args.Code == "Enter" || args.Code == "NumpadEnter" ) && !args.IsModifierKey() )
                 return CloseClicked.InvokeAsync();
 
             return Task.CompletedTask;
