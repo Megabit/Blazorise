@@ -222,7 +222,7 @@ namespace Blazorise.Components
             await SearchChanged.InvokeAsync( CurrentSearch );
 
             SelectedText = CurrentSearch;
-            await SelectedTextChanged.InvokeAsync( CurrentSearch );
+            await SelectedTextChanged.InvokeAsync( SelectedText );
 
             if ( ManualReadMode )
                 await HandleReadData();
@@ -237,6 +237,7 @@ namespace Blazorise.Components
                 SelectedValue = default;
                 ActiveItemIndex = -1;
             }
+            await SelectedValueChanged.InvokeAsync( SelectedValue );
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
                 await NotFound.InvokeAsync( CurrentSearch );
