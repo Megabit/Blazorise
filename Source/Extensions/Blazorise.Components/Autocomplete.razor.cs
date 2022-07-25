@@ -208,7 +208,8 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextChangedHandler( string text )
         {
-           dirtyFilter = true;
+            canShowDropDown = true;
+            dirtyFilter = true;
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
@@ -248,8 +249,6 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
-            canShowDropDown = true;
-
             if ( IsMultiple && string.IsNullOrEmpty( SelectedText ) && eventArgs.Code == "Backspace" )
             {
                 await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
@@ -258,17 +257,21 @@ namespace Blazorise.Components
 
             if ( IsConfirmKey( eventArgs ) )
             {
+                if ( string.IsNullOrEmpty( SelectedText ) && !DropdownVisible )
+                {
+                    canShowDropDown = true;
+                    return;
+                }
+
                 if ( IsMultiple )
                 {
-                    if ( string.IsNullOrEmpty( SelectedText ) && !DropdownVisible )
-                    {
-                        return;
-                    }
-
                     if ( FreeTyping && ActiveItemIndex < 0 )
                     {
                         await AddMultipleText( SelectedText );
-                        await ResetSelectedText();
+                        if ( !ShouldNotClose() )
+                        {
+                            await ResetSelectedText();
+                        }
                         return;
                     }
                 }
@@ -326,6 +329,7 @@ namespace Blazorise.Components
                 if ( !FreeTyping && ActiveItemIndex < 0 )
                 {
                     await ResetSelectedText();
+                    await ResetSelectedValue();
                 }
             }
             else
@@ -409,15 +413,14 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedText()
         {
-            if ( ShouldNotClose() )
-            {
-                dirtyFilter = true;
-            }
-            else
-            {
-                SelectedText = string.Empty;
-                await SelectedTextChanged.InvokeAsync( string.Empty );
-            }
+            SelectedText = string.Empty;
+            await SelectedTextChanged.InvokeAsync( SelectedText );
+        }
+
+        private async Task ResetSelectedValue()
+        {
+            SelectedValue = default;
+            await SelectedValueChanged.InvokeAsync( SelectedValue );
         }
 
         private async Task AddMultipleValue( TValue value )
@@ -491,7 +494,6 @@ namespace Blazorise.Components
 
         private void FilterData()
         {
-            Console.WriteLine( "Filter Data" );
             FilterData( Data?.AsQueryable() );
         }
 
