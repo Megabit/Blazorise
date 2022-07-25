@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,7 +153,6 @@ namespace Blazorise.Components
                 if ( SelectedValues is null )
                 {
                     SelectedTexts?.Clear();
-
                 }
                 else
                 {
@@ -208,7 +208,7 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextChangedHandler( string text )
         {
-            dirtyFilter = true;
+           dirtyFilter = true;
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
@@ -218,13 +218,24 @@ namespace Blazorise.Components
             }
 
             CurrentSearch = text ?? string.Empty;
-            SelectedText = CurrentSearch;
-
             await SearchChanged.InvokeAsync( CurrentSearch );
-            await SelectedTextChanged.InvokeAsync( SelectedText );
+
+            SelectedText = CurrentSearch;
+            await SelectedTextChanged.InvokeAsync( CurrentSearch );
 
             if ( ManualReadMode )
                 await HandleReadData();
+
+            if ( FilteredData?.Count == 1 && GetItemText( FilteredData.First() ) == SelectedText )
+            {
+                SelectedValue = GetItemValue( FilteredData.First() );
+                ActiveItemIndex = 0;
+            }
+            else
+            {
+                SelectedValue = default;
+                ActiveItemIndex = -1;
+            }
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
                 await NotFound.InvokeAsync( CurrentSearch );
@@ -269,7 +280,7 @@ namespace Blazorise.Components
                 }
                 return;
             }
-            
+
             if ( eventArgs.Code == "ArrowUp" )
             {
                 await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
@@ -278,7 +289,7 @@ namespace Blazorise.Components
             {
                 await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
             }
-            
+
             if ( ActiveItemIndex >= 0 )
             {
                 await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
@@ -294,6 +305,7 @@ namespace Blazorise.Components
         protected Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
+            dirtyFilter = true;
 
             return Task.CompletedTask;
         }
@@ -309,25 +321,34 @@ namespace Blazorise.Components
             // the dropdown.
             await UnregisterClosableComponent();
 
-            if ( !FreeTyping && ( SelectedValue == null || IsMultiple ) )
+            if ( !IsMultiple )
             {
-                await ResetSelectedText();
+                if ( !FreeTyping && ActiveItemIndex < 0 )
+                {
+                    await ResetSelectedText();
+                }
             }
-
-            if ( FreeTyping && IsMultiple )
+            else
             {
-                await AddMultipleText( SelectedText );
-                await ResetSelectedText();
+                if ( !FreeTyping )
+                {
+                    await ResetSelectedText();
+                }
             }
 
             TextFocused = false;
-            dirtyFilter = true;
         }
 
         private async Task OnDropdownItemSelected( object value )
         {
-            if ( CloseOnSelection )
+            if ( SelectionMode == AutocompleteSelectionMode.Default )
             {
+                canShowDropDown = false;
+            }
+
+            if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
+            {
+                canShowDropDown = false;
                 CurrentSearch = string.Empty;
                 await SearchChanged.InvokeAsync( CurrentSearch );
             }
@@ -339,11 +360,6 @@ namespace Blazorise.Components
                 {
                     await RemoveMultipleTextAndValue( selectedTValue );
                     await Revalidate();
-                }
-                else
-                {
-                    SelectedValue = default;
-                    await SelectedValueChanged.InvokeAsync( SelectedValue );
                 }
 
                 return;
@@ -364,6 +380,8 @@ namespace Blazorise.Components
 
                 SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
+
+                ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
             }
 
             await Revalidate();
@@ -590,11 +608,10 @@ namespace Blazorise.Components
         /// <inheritdoc/>
         public async Task Close( CloseReason closeReason )
         {
-            if (closeReason == CloseReason.EscapeClosing)
+            if ( closeReason == CloseReason.EscapeClosing )
                 canShowDropDown = false;
 
             await UnregisterClosableComponent();
-            ActiveItemIndex = AutoSelectFirstItem ? 0 : -1;
         }
 
         /// <summary>
@@ -908,7 +925,10 @@ namespace Blazorise.Components
         [Parameter]
         public TValue SelectedValue
         {
-            get { return selectedValue; }
+            get
+            {
+                return selectedValue;
+            }
             set
             {
                 if ( selectedValue.IsEqual( value ) )
@@ -1042,7 +1062,7 @@ namespace Blazorise.Components
         /// Specifies whether <see cref="Autocomplete{TItem, TValue}"/> dropdown closes on selection. This is only evaluated when multiple selection is set.
         /// Defauls to true.
         /// </summary>
-        [Parameter] public bool CloseOnSelection { get; set; } = false;
+        [Parameter] public bool CloseOnSelection { get; set; } = true;
 
         /// <summary>
         /// Suggests already selected option(s) when presenting the options.
