@@ -57,11 +57,6 @@ namespace Blazorise.Components
         private bool dirtyFilter = true;
 
         /// <summary>
-        /// Holds internal selected value.
-        /// </summary>
-        private TValue selectedValue;
-
-        /// <summary>
         /// Allow dropdown visibility
         /// </summary>
         bool canShowDropDown;
@@ -79,7 +74,7 @@ namespace Blazorise.Components
                 // should remove IsTextSearchable and let ReadData decide whetehr text is searchable or not?
                 if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
                 {
-                    await ReadData.InvokeAsync( new( SelectedText, cancellationToken ) );
+                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
                     await Task.Yield();
                 }
                 else
@@ -210,9 +205,9 @@ namespace Blazorise.Components
 
                 if (AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0)
                 {
-                    SelectedText = GetItemText( FilteredData.First() );
+                    CurrentSearch = GetItemText( FilteredData.First() );
                     SelectedValue = GetItemValue( FilteredData.First() );
-                    await SelectedTextChanged.InvokeAsync( SelectedText );
+                    await CurrentSearchChanged.InvokeAsync( CurrentSearch );
                     await SelectedValueChanged.InvokeAsync( SelectedValue );
                 }
             }
@@ -233,33 +228,37 @@ namespace Blazorise.Components
             if ( string.IsNullOrEmpty( text ) )
             {
                 await Clear();
+                await ResetCurrentSearch();
+
                 if ( ManualReadMode )
                     await HandleReadData();
 
                 return;
             }
 
-            SelectedText = text;
-            await SelectedTextChanged.InvokeAsync( SelectedText );
+            CurrentSearch = text;
+            await CurrentSearchChanged.InvokeAsync( CurrentSearch );
 
             if ( ManualReadMode )
                 await HandleReadData();
 
-            if ( FilteredData.Count == 1 && GetItemText( FilteredData.First() ) == SelectedText )
+            if ( FilteredData.Count == 1 && GetItemText( FilteredData.First() ) == CurrentSearch )
             {
+                ActiveItemIndex = 0;
+
                 SelectedValue = GetItemValue( FilteredData.First() );
                 await SelectedValueChanged.InvokeAsync( SelectedValue );
-                ActiveItemIndex = 0;
+
+                SelectedText = GetItemText( FilteredData.First() );
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
-            else if ( !SelectedValue.Equals( default ) )
+            else if ( !SelectedValue.Equals( default(TValue?) ) )
             {
-                SelectedValues = default;
-                await SelectedValueChanged.InvokeAsync( SelectedValue );
-                ActiveItemIndex = -1;
-            };
+                await Clear();
+            }
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
-                await NotFound.InvokeAsync( SelectedText );
+                await NotFound.InvokeAsync( CurrentSearch );
         }
 
         /// <summary>
@@ -269,7 +268,7 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
-            if ( IsMultiple && string.IsNullOrEmpty( SelectedText ) && eventArgs.Code == "Backspace" )
+            if ( IsMultiple && string.IsNullOrEmpty( CurrentSearch ) && eventArgs.Code == "Backspace" )
             {
                 await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
                 return;
@@ -281,10 +280,10 @@ namespace Blazorise.Components
                 {
                     if ( FreeTyping && ActiveItemIndex < 0 )
                     {
-                        await AddMultipleText( SelectedText );
+                        await AddMultipleText( CurrentSearch );
                         if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
                         {
-                            await Clear();
+                            await ResetCurrentSearch();
                         }
                         return;
                     }
@@ -344,6 +343,7 @@ namespace Blazorise.Components
                 if ( !FreeTyping && ActiveItemIndex < 0 )
                 {
                     await Clear();
+                    await ResetCurrentSearch();
                 }
             }
             else
@@ -351,6 +351,7 @@ namespace Blazorise.Components
                 if ( !FreeTyping )
                 {
                     await Clear();
+                    await ResetCurrentSearch();
                 }
             }
 
@@ -367,7 +368,7 @@ namespace Blazorise.Components
             if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
             {
                 canShowDropDown = false;
-                await Clear();
+                await ResetCurrentSearch();
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
@@ -394,7 +395,7 @@ namespace Blazorise.Components
 
                 var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
-                SelectedText = GetItemText( item );
+                CurrentSearch = SelectedText = GetItemText( item );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
 
                 ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
@@ -422,7 +423,6 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedText()
         {
-            ActiveItemIndex = -1;
             SelectedText = string.Empty;
             await SelectedTextChanged.InvokeAsync( SelectedText );
         }
@@ -431,6 +431,12 @@ namespace Blazorise.Components
         {
             SelectedValue = default;
             await SelectedValueChanged.InvokeAsync( SelectedValue );
+        }
+
+        private async Task ResetCurrentSearch()
+        {
+            CurrentSearch = string.Empty;
+            await CurrentSearchChanged.InvokeAsync( CurrentSearch );
         }
 
         private async Task AddMultipleValue( TValue value )
@@ -548,21 +554,21 @@ namespace Blazorise.Components
                 {
                     query = from q in query
                             where q != null
-                            where CustomFilter( q, SelectedText )
+                            where CustomFilter( q, CurrentSearch )
                             select q;
                 }
                 else if ( Filter == AutocompleteFilter.Contains )
                 {
                     query = from q in query
                             let text = GetItemText( q )
-                            where text.IndexOf( SelectedText, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                            where text.IndexOf( CurrentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                             select q;
                 }
                 else
                 {
                     query = from q in query
                             let text = GetItemText( q )
-                            where text.StartsWith( SelectedText, StringComparison.OrdinalIgnoreCase )
+                            where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
                             select q;
                 }
             }
@@ -577,6 +583,8 @@ namespace Blazorise.Components
         /// </summary>
         public async Task Clear()
         {
+            ActiveItemIndex = -1;
+            filteredData.Clear();
             await ResetSelectedText();
             await ResetSelectedValue();
         }
@@ -585,7 +593,7 @@ namespace Blazorise.Components
         {
             if ( FilteredData.Count == 0 )
             {
-                ActiveItemIndex = -1;
+                await Clear();
                 return;
             }
 
@@ -599,6 +607,8 @@ namespace Blazorise.Components
 
             SelectedValue = GetItemValue( item );
             await SelectedValueChanged.InvokeAsync( SelectedValue );
+
+
         }
 
         /// <summary>
@@ -662,7 +672,7 @@ namespace Blazorise.Components
             return FreeTyping
                     ? IsMultiple
                         ? string.Join( ';', SelectedTexts )
-                        : SelectedText?.ToString()
+                        : CurrentSearch?.ToString()
                     : SelectedValue?.ToString();
         }
 
@@ -773,13 +783,13 @@ namespace Blazorise.Components
         /// True if the not found content should be visible.
         /// </summary>
         protected bool NotFoundVisible
-            => canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HaveFilteredData;
+            => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HaveFilteredData;
 
         /// <summary>
         /// True if the text complies to the search requirements
         /// </summary>
         protected bool IsTextSearchable
-            => SelectedText?.Length >= MinLength;
+            => CurrentSearch?.Length >= MinLength;
 
         /// <summary>
         /// True if the filtered data exists
@@ -895,19 +905,29 @@ namespace Blazorise.Components
 
         /// <summary>
         /// Allows the value to not be on the data source.
-        /// The value will be bound to the <see cref="SelectedText"/>
+        /// The value will be bound to the <see cref="CurrentSearch"/>
         /// </summary>
         [Parameter] public bool FreeTyping { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected item text.
         /// </summary>
-        [Parameter] public string SelectedText { get; set; } = string.Empty;
+        [Parameter] public string SelectedText { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected item text.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public string CurrentSearch { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
 
         /// <summary>
         /// Method used to get the display field from the supplied data source.
@@ -926,20 +946,7 @@ namespace Blazorise.Components
         /// Currently selected item value.
         /// </summary>
         [Parameter]
-        public TValue SelectedValue
-        {
-            get
-            {
-                return selectedValue;
-            }
-            set
-            {
-                if ( selectedValue.IsEqual( value ) )
-                    return;
-
-                selectedValue = value;
-            }
-        }
+        public TValue? SelectedValue { get; set; }
 
         /// <summary>
         /// Occurs after the selected value has changed.
