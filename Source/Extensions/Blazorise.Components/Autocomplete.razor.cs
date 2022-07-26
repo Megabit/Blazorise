@@ -307,8 +307,9 @@ namespace Blazorise.Components
                 await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
             }
 
-            if ( ActiveItemIndex >= 0 && DropdownVisible )
+            if ( ActiveItemIndex >= 0 )
             {
+                canShowDropDown = true;
                 await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
             }
         }
@@ -901,7 +902,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the currently selected item text.
         /// </summary>
-        [Parameter] public string SelectedText { get; set; }
+        [Parameter] public string SelectedText { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the currently selected item text.
