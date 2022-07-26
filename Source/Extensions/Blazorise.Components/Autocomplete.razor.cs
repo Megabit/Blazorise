@@ -197,7 +197,7 @@ namespace Blazorise.Components
                 if ( ManualReadMode )
                     await Reload();
 
-                if (AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0)
+                if ( AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0 )
                 {
                     CurrentSearch = GetItemText( FilteredData.First() );
                     SelectedValue = GetItemValue( FilteredData.First() );
@@ -221,7 +221,7 @@ namespace Blazorise.Components
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
             {
-                await Clear();
+                await ClearSelected();
                 await ResetCurrentSearch();
 
                 if ( ManualReadMode )
@@ -246,9 +246,9 @@ namespace Blazorise.Components
                 SelectedText = GetItemText( FilteredData.First() );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
-            else if ( !SelectedValue.Equals( default(TValue?) ) )
+            else if ( !SelectedValue.Equals( default( TValue? ) ) )
             {
-                await Clear();
+                await ClearSelected();
             }
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
@@ -268,7 +268,7 @@ namespace Blazorise.Components
                 return;
             }
 
-            if ( IsConfirmKey( eventArgs ) )
+            if ( IsConfirmKey( eventArgs ) && !string.IsNullOrEmpty( CurrentSearch ) )
             {
                 if ( IsMultiple )
                 {
@@ -283,15 +283,29 @@ namespace Blazorise.Components
                     }
                 }
 
-                var item = FilteredData.ElementAtOrDefault( ActiveItemIndex );
-                if ( item != null && ValueField != null )
+                if ( ActiveItemIndex >= 0 )
                 {
-                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                    var item = FilteredData[ActiveItemIndex];
+                    if ( item != null && ValueField != null )
+                    {
+                        await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                        if ( !IsMultiple )
+                        {
+                            CurrentSearch = SelectedText;
+                            await CurrentSearchChanged.InvokeAsync();
+                        }
+                    }
                 }
+
                 return;
             }
 
-            if (DropdownVisible)
+            if ( !canShowDropDown )
+            {
+                canShowDropDown = true;
+                await Task.Yield();
+            }
+            else if ( DropdownVisible )
             {
                 if ( eventArgs.Code == "ArrowUp" )
                 {
@@ -301,7 +315,10 @@ namespace Blazorise.Components
                 {
                     await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
                 }
+            }
 
+            if ( DropdownVisible )
+            {
                 if ( ActiveItemIndex >= 0 )
                 {
                     await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
@@ -336,9 +353,9 @@ namespace Blazorise.Components
 
             if ( !IsMultiple )
             {
-                if ( !FreeTyping && ActiveItemIndex < 0 )
+                if ( !FreeTyping && string.IsNullOrEmpty(SelectedText) )
                 {
-                    await Clear();
+                    await ClearSelected();
                     await ResetCurrentSearch();
                 }
             }
@@ -346,7 +363,7 @@ namespace Blazorise.Components
             {
                 if ( !FreeTyping )
                 {
-                    await Clear();
+                    await ClearSelected();
                     await ResetCurrentSearch();
                 }
             }
@@ -358,13 +375,18 @@ namespace Blazorise.Components
         {
             if ( SelectionMode == AutocompleteSelectionMode.Default )
             {
-                canShowDropDown = false;
+                await Close( CloseReason.UserClosing );
             }
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
             {
-                canShowDropDown = false;
+                await Close( CloseReason.UserClosing );
+                await ResetActiveItemIndex();
                 await ResetCurrentSearch();
+            }
+            else
+            {
+                ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
@@ -394,8 +416,6 @@ namespace Blazorise.Components
                 CurrentSearch = SelectedText = GetItemText( item );
                 await CurrentSearchChanged.InvokeAsync( SelectedText );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
-
-                ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
             }
 
             await Revalidate();
@@ -434,6 +454,12 @@ namespace Blazorise.Components
         {
             CurrentSearch = string.Empty;
             await CurrentSearchChanged.InvokeAsync( CurrentSearch );
+        }
+
+        private Task ResetActiveItemIndex()
+        {
+            ActiveItemIndex = -1;
+            return Task.CompletedTask;
         }
 
         private async Task AddMultipleValue( TValue value )
@@ -578,30 +604,35 @@ namespace Blazorise.Components
         /// <summary>
         /// Clears the selected value and the search field.
         /// </summary>
-        public async Task Clear()
+        public async Task ClearSelected()
         {
-            ActiveItemIndex = -1;
+            await ResetActiveItemIndex();
             await ResetSelectedText();
             await ResetSelectedValue();
         }
 
-        private async Task UpdateActiveFilterIndex( int activeItemIndex )
+        private Task UpdateActiveFilterIndex( int activeItemIndex )
         {
             if ( FilteredData.Count == 0 )
-                return;
+            {
+                ResetActiveItemIndex();
+                return Task.CompletedTask;
+            }
 
             ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
+            return Task.CompletedTask;
 
-            // update search text with the currently focused item text
-            var item = FilteredData[ActiveItemIndex];
+            //if (!IsMultiple)
+            //{
+            //    // update search text with the currently focused item text
+            //    var item = FilteredData[ActiveItemIndex];
 
-            SelectedText = GetItemText( item );
-            await SelectedTextChanged.InvokeAsync( SelectedText );
+            //    SelectedText = GetItemText( item );
+            //    await SelectedTextChanged.InvokeAsync( SelectedText );
 
-            SelectedValue = GetItemValue( item );
-            await SelectedValueChanged.InvokeAsync( SelectedValue );
-
-
+            //    SelectedValue = GetItemValue( item );
+            //    await SelectedValueChanged.InvokeAsync( SelectedValue );
+            //}
         }
 
         /// <summary>
@@ -619,9 +650,7 @@ namespace Blazorise.Components
         /// <inheritdoc/>
         public async Task Close( CloseReason closeReason )
         {
-            if ( closeReason == CloseReason.EscapeClosing )
-                canShowDropDown = false;
-
+            canShowDropDown = false;
             await UnregisterClosableComponent();
         }
 
@@ -636,6 +665,20 @@ namespace Blazorise.Components
                 jsRegistered = false;
 
                 await JSClosableModule.Unregister( this );
+            }
+        }
+
+        /// <summary>
+        /// Registers the closable component.
+        /// </summary>
+        /// <returns></returns>
+        protected async void RegisterClosableComponent()
+        {
+            if ( !jsRegistered )
+            {
+                jsRegistered = true;
+
+                await JSClosableModule.Register( dotNetObjectRef, ElementRef );
             }
         }
 
