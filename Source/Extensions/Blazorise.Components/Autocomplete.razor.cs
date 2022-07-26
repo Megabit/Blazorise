@@ -372,8 +372,7 @@ namespace Blazorise.Components
             if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
             {
                 canShowDropDown = false;
-                SelectedText = string.Empty;
-                await SelectedTextChanged.InvokeAsync( SelectedText );
+                await ResetSelectedText();
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
@@ -392,7 +391,6 @@ namespace Blazorise.Components
             {
                 await AddMultipleText( selectedTValue );
                 await AddMultipleValue( selectedTValue );
-                await ResetSelectedText();
             }
             else
             {
