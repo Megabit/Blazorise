@@ -75,13 +75,7 @@ namespace Blazorise.Components
                 if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
                 {
                     await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
-                    await Task.Yield();
-                }
-                else
-                {
-                    // no data
-                    filteredData.Clear();
-                    dirtyFilter = false;
+                    await Task.Yield(); // rebind Data after ReadData
                 }
             }
             finally
@@ -297,19 +291,21 @@ namespace Blazorise.Components
                 return;
             }
 
-            if ( eventArgs.Code == "ArrowUp" )
+            if (DropdownVisible)
             {
-                await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
-            }
-            else if ( eventArgs.Code == "ArrowDown" )
-            {
-                await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
-            }
+                if ( eventArgs.Code == "ArrowUp" )
+                {
+                    await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
+                }
+                else if ( eventArgs.Code == "ArrowDown" )
+                {
+                    await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
+                }
 
-            if ( ActiveItemIndex >= 0 )
-            {
-                canShowDropDown = true;
-                await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
+                if ( ActiveItemIndex >= 0 )
+                {
+                    await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
+                }
             }
         }
 
@@ -396,6 +392,7 @@ namespace Blazorise.Components
                 var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
                 CurrentSearch = SelectedText = GetItemText( item );
+                await CurrentSearchChanged.InvokeAsync( SelectedText );
                 await SelectedTextChanged.InvokeAsync( SelectedText );
 
                 ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
@@ -584,7 +581,6 @@ namespace Blazorise.Components
         public async Task Clear()
         {
             ActiveItemIndex = -1;
-            filteredData.Clear();
             await ResetSelectedText();
             await ResetSelectedValue();
         }
@@ -592,10 +588,7 @@ namespace Blazorise.Components
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
         {
             if ( FilteredData.Count == 0 )
-            {
-                await Clear();
                 return;
-            }
 
             ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
 
