@@ -62,7 +62,7 @@ namespace Blazorise.Components
         private TValue selectedValue;
 
         /// <summary>
-        /// Force dropdown visibility or determine automatically
+        /// Allow dropdown visibility
         /// </summary>
         bool canShowDropDown;
 
@@ -277,20 +277,14 @@ namespace Blazorise.Components
 
             if ( IsConfirmKey( eventArgs ) )
             {
-                if ( string.IsNullOrEmpty( SelectedText ) && !DropdownVisible )
-                {
-                    canShowDropDown = true;
-                    return;
-                }
-
                 if ( IsMultiple )
                 {
                     if ( FreeTyping && ActiveItemIndex < 0 )
                     {
                         await AddMultipleText( SelectedText );
-                        if ( !ShouldNotClose() )
+                        if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
                         {
-                            await ResetSelectedText();
+                            await Clear();
                         }
                         return;
                     }
@@ -372,7 +366,7 @@ namespace Blazorise.Components
             if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
             {
                 canShowDropDown = false;
-                await ResetSelectedText();
+                await Clear();
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
@@ -425,11 +419,9 @@ namespace Blazorise.Components
             return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
         }
 
-        private bool ShouldNotClose()
-            => IsMultiple && !CloseOnSelection && HaveFilteredData;
-
         private async Task ResetSelectedText()
         {
+            ActiveItemIndex = -1;
             SelectedText = string.Empty;
             await SelectedTextChanged.InvokeAsync( SelectedText );
         }
@@ -584,10 +576,8 @@ namespace Blazorise.Components
         /// </summary>
         public async Task Clear()
         {
-            SelectedText = string.Empty;
-            await SelectedTextChanged.InvokeAsync( SelectedText );
-            SelectedValue = default;
-            await SelectedValueChanged.InvokeAsync( SelectedValue );
+            await ResetSelectedText();
+            await ResetSelectedValue();
         }
 
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
