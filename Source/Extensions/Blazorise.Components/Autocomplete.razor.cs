@@ -79,7 +79,8 @@ namespace Blazorise.Components
                 // should remove IsTextSearchable and let ReadData decide whetehr text is searchable or not?
                 if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
                 {
-                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
+                    await ReadData.InvokeAsync( new( SelectedText, cancellationToken ) );
+                    await Task.Yield();
                 }
                 else
                 {
@@ -238,10 +239,7 @@ namespace Blazorise.Components
                 return;
             }
 
-            CurrentSearch = text;
-            await SearchChanged.InvokeAsync( CurrentSearch );
-
-            SelectedText = CurrentSearch;
+            SelectedText = text;
             await SelectedTextChanged.InvokeAsync( SelectedText );
 
             if ( ManualReadMode )
@@ -261,7 +259,7 @@ namespace Blazorise.Components
             };
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
-                await NotFound.InvokeAsync( CurrentSearch );
+                await NotFound.InvokeAsync( SelectedText );
         }
 
         /// <summary>
@@ -350,15 +348,14 @@ namespace Blazorise.Components
             {
                 if ( !FreeTyping && ActiveItemIndex < 0 )
                 {
-                    await ResetSelectedText();
-                    await ResetSelectedValue();
+                    await Clear();
                 }
             }
             else
             {
                 if ( !FreeTyping )
                 {
-                    await ResetSelectedText();
+                    await Clear();
                 }
             }
 
@@ -375,8 +372,8 @@ namespace Blazorise.Components
             if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
             {
                 canShowDropDown = false;
-                CurrentSearch = string.Empty;
-                await SearchChanged.InvokeAsync( CurrentSearch );
+                SelectedText = string.Empty;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
@@ -556,27 +553,25 @@ namespace Blazorise.Components
                 if ( IsMultiple && !IsSuggestSelectedItems )
                     query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
-                var currentSearch = CurrentSearch ?? string.Empty;
-
                 if ( CustomFilter != null )
                 {
                     query = from q in query
                             where q != null
-                            where CustomFilter( q, currentSearch )
+                            where CustomFilter( q, SelectedText )
                             select q;
                 }
                 else if ( Filter == AutocompleteFilter.Contains )
                 {
                     query = from q in query
                             let text = GetItemText( q )
-                            where text.IndexOf( currentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                            where text.IndexOf( SelectedText, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                             select q;
                 }
                 else
                 {
                     query = from q in query
                             let text = GetItemText( q )
-                            where text.StartsWith( currentSearch, StringComparison.OrdinalIgnoreCase )
+                            where text.StartsWith( SelectedText, StringComparison.OrdinalIgnoreCase )
                             select q;
                 }
             }
@@ -591,13 +586,10 @@ namespace Blazorise.Components
         /// </summary>
         public async Task Clear()
         {
-            CurrentSearch = string.Empty;
             SelectedText = string.Empty;
-            SelectedValue = default;
-
-            await SelectedValueChanged.InvokeAsync( selectedValue );
-            await SearchChanged.InvokeAsync( CurrentSearch );
             await SelectedTextChanged.InvokeAsync( SelectedText );
+            SelectedValue = default;
+            await SelectedValueChanged.InvokeAsync( SelectedValue );
         }
 
         private async Task UpdateActiveFilterIndex( int activeItemIndex )
@@ -772,11 +764,6 @@ namespace Blazorise.Components
         }
 
         /// <summary>
-        /// Gets or sets the current search value.
-        /// </summary>
-        protected string CurrentSearch { get; set; } = string.Empty;
-
-        /// <summary>
         /// Gets or sets the currently active item index.
         /// </summary>
         protected int ActiveItemIndex { get; set; }
@@ -803,7 +790,7 @@ namespace Blazorise.Components
         /// True if the text complies to the search requirements
         /// </summary>
         protected bool IsTextSearchable
-            => CurrentSearch?.Length >= MinLength;
+            => SelectedText?.Length >= MinLength;
 
         /// <summary>
         /// True if the filtered data exists
@@ -969,11 +956,6 @@ namespace Blazorise.Components
         /// Occurs after the selected value has changed.
         /// </summary>
         [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
-
-        /// <summary>
-        /// Occurs on every search text change.
-        /// </summary>
-        [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
         /// <summary>
         /// Occurs on every search text change where the data does not contain the text being searched.
