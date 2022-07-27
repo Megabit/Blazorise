@@ -204,14 +204,14 @@ namespace Blazorise.Components
                 }
             }
 
-            if ( NotFound.HasDelegate && !HaveFilteredData )
+            if ( HaveFilteredData )
             {
-                await NotFound.InvokeAsync( CurrentSearch );
+                ActiveItemIndex = 0;
+                await ScrollItemIntoView( ActiveItemIndex );
             }
             else
             {
-                ActiveItemIndex = 0;
-                await ScrollItemIntoView( 0 );
+                await NotFound.InvokeAsync( CurrentSearch );
             }
         }
 
