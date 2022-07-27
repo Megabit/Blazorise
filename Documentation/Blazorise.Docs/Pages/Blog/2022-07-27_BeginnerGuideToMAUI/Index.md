@@ -1,8 +1,8 @@
 ---
 title: A Beginner's Guide To .NET MAUI
 description: Get an overview of Microsoft's latest multi-platform app UI framework
-permalink: blog/a-beginner-guide-to-maui
-canonical: blog/a-beginner-guide-to-maui
+permalink: blog/a-beginners-guide-to-maui
+canonical: blog/a-beginners-guide-to-maui
 image-url: img/blog/A_Beginners_Guide_To_.NET_MAUI.png
 image-title: A Beginner's Guide To .NET MAUI
 author-name: James Amattey
