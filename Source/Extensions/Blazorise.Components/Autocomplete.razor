@@ -46,10 +46,6 @@
 
         @if ( DropdownVisible )
         {
-            // once the menu is opened we need to register it as closable so that user could properly close it with escape key
-            // without accidentally triggering the parent component closing
-            RegisterClosableComponent();
-
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];

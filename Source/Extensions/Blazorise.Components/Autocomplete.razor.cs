@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,26 +23,16 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, ICloseActivator, IAsyncDisposable
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAsyncDisposable
     {
         class NullableT<T>
         {
             public NullableT( T t ) => Value = t;
             public T Value;
-            public static implicit operator T( NullableT<T> nullable ) => nullable.Value;
+            public static implicit operator T( NullableT<T> nullable ) => nullable == null ? default : nullable.Value;
         }
 
         #region Members
-
-        /// <summary>
-        /// Tells us that modal is tracked by the JS interop.
-        /// </summary>
-        private bool jsRegistered;
-
-        /// <summary>
-        /// A JS interop object reference used to access this modal.
-        /// </summary>
-        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         /// <summary>
         /// Reference to the TextEdit component.
@@ -61,7 +52,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Marks the autocomplete to reload entire data source based on the current filter settings.
         /// </summary>
-        private bool dirtyFilter = true;
+        private bool dirtyFilter;
 
         /// <summary>
         /// Allow dropdown visibility
@@ -98,6 +89,16 @@ namespace Blazorise.Components
             return Enumerable.SequenceEqual( first, second );
         }
 
+        bool NullableTEqual<T>( NullableT<T> nullable, T tvalue )
+        {
+            if ( ( nullable == null || nullable.Value == null ) && tvalue == null )
+                return true;
+            if ( nullable == null || nullable.Value == null || tvalue == null )
+                return false;
+
+            return nullable.Value.Equals( tvalue );
+        }
+
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
@@ -106,12 +107,9 @@ namespace Blazorise.Components
                 currentSearch = null;
             }
 
-            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) )
+            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !NullableTEqual( selectedValueParam, paramSelectedValue ) )
             {
-                if ( selectedValueParam != null && selectedValueParam.Value != null && !selectedValueParam.Value.Equals( paramSelectedValue ) )
-                {
-                    selectedValue = null;
-                }
+                selectedValue = null;
             }
 
             if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
@@ -121,7 +119,7 @@ namespace Blazorise.Components
 
             if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !SequenceEqual( selectedValuesParam, paramSelectedValues ) )
             {
-                if (selectedValues != paramSelectedValues )
+                if ( selectedValues != paramSelectedValues )
                 {
                     selectedValues.Clear();
                     selectedValues.AddRange( paramSelectedValues );
@@ -130,7 +128,7 @@ namespace Blazorise.Components
 
             if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !SequenceEqual( selectedTextsParam, paramSelectedTexts ) )
             {
-                if (selectedTexts != paramSelectedTexts)
+                if ( selectedTexts != paramSelectedTexts )
                 {
                     selectedTexts.Clear();
                     selectedTexts.AddRange( paramSelectedTexts );
@@ -141,28 +139,24 @@ namespace Blazorise.Components
         }
 
         /// <inheritdoc/>
-        protected async override Task OnAfterRenderAsync( bool firstRender )
+        protected override async Task OnInitializedAsync()
         {
-            if ( firstRender )
+            if ( ManualReadMode )
+                await Reload();
+
+            if ( AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0 )
             {
-                dotNetObjectRef ??= DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+                currentSearch = selectedText = GetItemText( FilteredData.First() );
+                selectedValue = new( GetItemValue( FilteredData.First() ) );
 
-                if ( ManualReadMode )
-                    await Reload();
-
-                if ( AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0 )
-                {
-                    currentSearch = selectedText = GetItemText( FilteredData.First() );
-                    selectedValue = new( GetItemValue( FilteredData.First() ) );
-
-                    await Task.WhenAll(
-                        CurrentSearchChanged.InvokeAsync( currentSearch ),
-                        SelectedTextChanged.InvokeAsync( selectedText ),
-                        SelectedValueChanged.InvokeAsync( selectedValue )
-                    );
-                }
+                await Task.WhenAll(
+                    CurrentSearchChanged.InvokeAsync( currentSearch ),
+                    SelectedTextChanged.InvokeAsync( selectedText ),
+                    SelectedValueChanged.InvokeAsync( selectedValue )
+                );
             }
-            await base.OnAfterRenderAsync( firstRender );
+
+            await base.OnInitializedAsync();
         }
 
         /// <summary>
@@ -172,8 +166,8 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextChangedHandler( string text )
         {
-            canShowDropDown = true;
-            dirtyFilter = true;
+            DirtyFilter();
+            await Open();
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
@@ -193,7 +187,7 @@ namespace Blazorise.Components
             if ( ManualReadMode )
                 await InvokeReadData();
 
-            if ( FilteredData.Count == 1 && GetItemText( FilteredData.First() ) == CurrentSearch )
+            if ( FilteredData.Count > 0 && GetItemText( FilteredData.First() ) == CurrentSearch )
             {
                 ActiveItemIndex = 0;
 
@@ -220,6 +214,12 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
+            if ( eventArgs.Code == "Escape" )
+            {
+                await Close();
+                return;
+            }
+
             if ( IsMultiple && string.IsNullOrEmpty( CurrentSearch ) && eventArgs.Code == "Backspace" )
             {
                 await RemoveMultipleTextAndValue( selectedTexts.LastOrDefault() );
@@ -258,12 +258,11 @@ namespace Blazorise.Components
                 return;
             }
 
-            if ( !canShowDropDown )
+            if ( !DropdownVisible )
             {
-                canShowDropDown = true;
-                await Task.Yield();
+                await Open();
             }
-            else if ( DropdownVisible )
+            else
             {
                 if ( eventArgs.Code == "ArrowUp" )
                 {
@@ -289,12 +288,10 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected Task OnTextFocusHandler( FocusEventArgs eventArgs )
+        protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
-            dirtyFilter = true;
-
-            return Task.CompletedTask;
+            DirtyFilter();
         }
 
         /// <summary>
@@ -304,9 +301,7 @@ namespace Blazorise.Components
         /// <returns>Returns awaitable task</returns>
         protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
         {
-            // Give enough time for other events to do their stuff before closing
-            // the dropdown.
-            await UnregisterClosableComponent();
+            await Close();
 
             if ( !IsMultiple )
             {
@@ -332,12 +327,12 @@ namespace Blazorise.Components
         {
             if ( SelectionMode == AutocompleteSelectionMode.Default )
             {
-                await Close( CloseReason.UserClosing );
+                await Close();
             }
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
             {
-                await Close( CloseReason.UserClosing );
+                await Close();
                 await ResetActiveItemIndex();
                 await ResetCurrentSearch();
             }
@@ -364,6 +359,11 @@ namespace Blazorise.Components
                     AddMultipleText( selectedTValue ),
                     AddMultipleValue( selectedTValue )
                 );
+
+                if ( !IsSuggestSelectedItems )
+                {
+                    DirtyFilter();
+                }
             }
             else
             {
@@ -415,7 +415,7 @@ namespace Blazorise.Components
                 await InvokeReadData( cancellationToken );
             }
 
-            dirtyFilter = true;
+            DirtyFilter();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -436,7 +436,7 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedValue()
         {
-            selectedValue = new(default);
+            selectedValue = new( default );
             await SelectedValueChanged.InvokeAsync( default );
         }
 
@@ -467,7 +467,7 @@ namespace Blazorise.Components
             await SelectedValuesChanged.InvokeAsync( selectedValues );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
-                dirtyFilter = true;
+                DirtyFilter();
         }
 
         private Task AddMultipleText( TValue value )
@@ -501,7 +501,7 @@ namespace Blazorise.Components
             await SelectedTextsChanged.InvokeAsync( selectedTexts );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
-                dirtyFilter = true;
+                DirtyFilter();
         }
 
         private async Task RemoveMultipleTextAndValue( string text )
@@ -585,18 +585,6 @@ namespace Blazorise.Components
 
             ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
             return Task.CompletedTask;
-
-            //if (!IsMultiple)
-            //{
-            //    // update search text with the currently focused item text
-            //    var item = FilteredData[ActiveItemIndex];
-
-            //    SelectedText = GetItemText( item );
-            //    await SelectedTextChanged.InvokeAsync( SelectedText );
-
-            //    SelectedValue = GetItemValue( item );
-            //    await SelectedValueChanged.InvokeAsync( SelectedValue );
-            //}
         }
 
         /// <summary>
@@ -612,59 +600,22 @@ namespace Blazorise.Components
         }
 
         /// <inheritdoc/>
-        public async Task Close( CloseReason closeReason )
+        public Task Close()
         {
             canShowDropDown = false;
-            await UnregisterClosableComponent();
+            return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Unregisters the closable component.
-        /// </summary>
-        /// <returns></returns>
-        protected async Task UnregisterClosableComponent()
+        /// <inheritdoc/>
+        public Task Open()
         {
-            if ( jsRegistered )
-            {
-                jsRegistered = false;
-
-                await JSClosableModule.Unregister( this );
-            }
+            canShowDropDown = true;
+            return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Registers the closable component.
-        /// </summary>
-        /// <returns></returns>
-        protected async void RegisterClosableComponent()
+        public void DirtyFilter()
         {
-            if ( !jsRegistered )
-            {
-                jsRegistered = true;
-
-                await JSClosableModule.Register( dotNetObjectRef, ElementRef );
-            }
-        }
-
-        protected override async ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                var task = UnregisterClosableComponent();
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-
-                dotNetObjectRef?.Dispose();
-                dotNetObjectRef = null;
-            }
-
-            await base.DisposeAsync( disposing );
+            dirtyFilter = true;
         }
 
         private bool IsConfirmKey( KeyboardEventArgs eventArgs )
@@ -908,7 +859,7 @@ namespace Blazorise.Components
                 {
                     data = value;
                     // make sure everything is recalculated
-                    dirtyFilter = true;
+                    DirtyFilter();
                 }
             }
         }
@@ -957,17 +908,11 @@ namespace Blazorise.Components
         [Parameter]
         public TValue SelectedValue
         {
-            get
-            {
-                return selectedValue ?? selectedValueParam;
-            }
+            get => selectedValue ?? selectedValueParam;
             set
             {
-                if ( selectedValueParam != null && selectedValueParam.Value != null && selectedValueParam.Value.Equals( value ) )
+                if ( NullableTEqual( selectedValueParam, value ) )
                     return;
-                if ( value == null && ( selectedValueParam == null || selectedValueParam.Value == null ) )
-                    return;
-
                 selectedValueParam = new( value );
             }
         }
@@ -1011,13 +956,7 @@ namespace Blazorise.Components
         public string CurrentSearch
         {
             get => currentSearch ?? currentSearchParam ?? string.Empty;
-            set
-            {
-                if ( currentSearchParam == value )
-                    return;
-
-                currentSearchParam = value;
-            }
+            set => currentSearchParam = value;
         }
 
         /// <summary>
@@ -1038,7 +977,7 @@ namespace Blazorise.Components
                 if ( SequenceEqual( selectedValuesParam, value ) )
                     return;
 
-                selectedValuesParam = value;
+                selectedValuesParam = new List<TValue>( value );
             }
         }
 
@@ -1061,7 +1000,7 @@ namespace Blazorise.Components
                 if ( SequenceEqual( selectedTextsParam, value ) )
                     return;
 
-                selectedTextsParam = value;
+                selectedTextsParam = new List<string>( value );
             }
         }
 
