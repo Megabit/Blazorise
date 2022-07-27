@@ -210,6 +210,7 @@ namespace Blazorise.Components
             }
             else
             {
+                ActiveItemIndex = 0;
                 await ScrollItemIntoView( 0 );
             }
         }
