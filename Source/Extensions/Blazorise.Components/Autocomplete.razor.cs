@@ -178,34 +178,48 @@ namespace Blazorise.Components
 
                 if ( ManualReadMode )
                     await InvokeReadData();
-
-                return;
-            }
-
-            currentSearch = text;
-            await CurrentSearchChanged.InvokeAsync( currentSearch );
-
-            if ( ManualReadMode )
-                await InvokeReadData();
-
-            if ( FilteredData.Count > 0 && GetItemText( FilteredData.First() ) == CurrentSearch )
-            {
-                ActiveItemIndex = 0;
-
-                selectedValue = new( GetItemValue( FilteredData.First() ) );
-                selectedText = GetItemText( FilteredData.First() );
-                await Task.WhenAll(
-                    SelectedValueChanged.InvokeAsync( selectedValue ),
-                    SelectedTextChanged.InvokeAsync( selectedText )
-                    );
             }
             else
             {
-                await ClearSelected();
+                currentSearch = text;
+                await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+                if ( ManualReadMode )
+                    await InvokeReadData();
+
+                if ( FilteredData.Count > 0 && GetItemText( FilteredData.First() ) == CurrentSearch )
+                {
+                    ActiveItemIndex = 0;
+
+                    selectedValue = new( GetItemValue( FilteredData.First() ) );
+                    selectedText = GetItemText( FilteredData.First() );
+                    await Task.WhenAll(
+                        SelectedValueChanged.InvokeAsync( selectedValue ),
+                        SelectedTextChanged.InvokeAsync( selectedText )
+                        );
+                }
+                else
+                {
+                    await ClearSelected();
+                }
             }
 
             if ( NotFound.HasDelegate && !HaveFilteredData )
+            {
                 await NotFound.InvokeAsync( CurrentSearch );
+            }
+            else
+            {
+                await ScrollItemIntoView( 0 );
+            }
+        }
+
+        private async Task ScrollItemIntoView( int index )
+        {
+            if ( DropdownVisible && index >= 0 )
+            {
+                await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( index ) );
+            }
         }
 
         /// <summary>
@@ -275,13 +289,7 @@ namespace Blazorise.Components
                 }
             }
 
-            if ( DropdownVisible )
-            {
-                if ( ActiveItemIndex >= 0 )
-                {
-                    await JSUtilitiesModule.ScrollElementIntoView( DropdownItemId( ActiveItemIndex ) );
-                }
-            }
+            await ScrollItemIntoView( ActiveItemIndex );
         }
 
         /// <summary>
@@ -289,10 +297,11 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
+        protected Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
             DirtyFilter();
+            return Task.CompletedTask;
         }
 
         /// <summary>
