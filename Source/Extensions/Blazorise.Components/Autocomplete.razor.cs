@@ -24,6 +24,13 @@ namespace Blazorise.Components
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
     public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, ICloseActivator, IAsyncDisposable
     {
+        class NullableT<T>
+        {
+            public NullableT( T t ) => Value = t;
+            public T Value;
+            public static implicit operator T( NullableT<T> nullable ) => nullable.Value;
+        }
+
         #region Members
 
         /// <summary>
@@ -61,130 +68,76 @@ namespace Blazorise.Components
         /// </summary>
         bool canShowDropDown;
 
+        string currentSearch;
+        string currentSearchParam;
+
+        string selectedText;
+        string selectedTextParam;
+
+        NullableT<TValue> selectedValue;
+        NullableT<TValue> selectedValueParam = new( default );
+
+        List<TValue> selectedValues = new();
+        IEnumerable<TValue> selectedValuesParam;
+
+        List<string> selectedTexts = new();
+        IEnumerable<string> selectedTextsParam;
+
         #endregion
 
         #region Methods
 
-        protected async Task HandleReadData( CancellationToken cancellationToken = default )
+        bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
         {
-            try
-            {
-                Loading = true;
+            if ( first == null && second == null )
+                return true;
 
-                // should remove IsTextSearchable and let ReadData decide whetehr text is searchable or not?
-                if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
-                {
-                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
-                    await Task.Yield(); // rebind Data after ReadData
-                }
-            }
-            finally
-            {
-                Loading = false;
-            }
-        }
+            if ( first == null || second == null )
+                return false;
 
-        /// <summary>
-        /// Triggers the reload of the <see cref="Autocomplete{TItem, TValue}"/> data.
-        /// Makes sure not to reload if the <see cref="Autocomplete{TItem, TValue}"/> is in a loading state.
-        /// </summary>
-        /// <returns>Returns the awaitable task.</returns>
-        public async Task Reload( CancellationToken cancellationToken = default )
-        {
-            if ( Loading )
-                return;
-
-            dirtyFilter = true;
-
-            if ( ManualReadMode )
-            {
-                await HandleReadData( cancellationToken );
-            }
-
-            await InvokeAsync( StateHasChanged );
+            return Enumerable.SequenceEqual( first, second );
         }
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var selectedValueHasChanged = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue )
-                && !paramSelectedValue.IsEqual( SelectedValue );
+            if ( parameters.TryGetValue<string>( nameof( CurrentSearch ), out var paramCurrentSearch ) && currentSearchParam != paramCurrentSearch )
+            {
+                currentSearch = null;
+            }
 
-            var selectedValuesHaveChanged = parameters.TryGetValue<List<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
-                && !paramSelectedValues.IsEqual( SelectedValues );
+            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) )
+            {
+                if ( selectedValueParam != null && selectedValueParam.Value != null && !selectedValueParam.Value.Equals( paramSelectedValue ) )
+                {
+                    selectedValue = null;
+                }
+            }
 
-            var selectedTextsHaveChanged = parameters.TryGetValue<List<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
-                && !paramSelectedTexts.IsEqual( SelectedTexts );
+            if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
+            {
+                selectedText = null;
+            }
 
-            List<TValue> staleValues = null;
-            List<string> staleTexts = null;
+            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !SequenceEqual( selectedValuesParam, paramSelectedValues ) )
+            {
+                if (selectedValues != paramSelectedValues )
+                {
+                    selectedValues.Clear();
+                    selectedValues.AddRange( paramSelectedValues );
+                }
+            }
 
-            if ( selectedValuesHaveChanged && paramSelectedValues is not null && !SelectedValues.IsNullOrEmpty() )
-                staleValues = SelectedValues.Where( x => !paramSelectedValues.Contains( x ) ).ToList();
-
-            if ( selectedTextsHaveChanged && paramSelectedTexts is not null && !SelectedTexts.IsNullOrEmpty() )
-                staleTexts = SelectedTexts.Where( x => !paramSelectedTexts.Contains( x ) ).ToList();
+            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !SequenceEqual( selectedTextsParam, paramSelectedTexts ) )
+            {
+                if (selectedTexts != paramSelectedTexts)
+                {
+                    selectedTexts.Clear();
+                    selectedTexts.AddRange( paramSelectedTexts );
+                }
+            }
 
             await base.SetParametersAsync( parameters );
-
-            // Override after parameters have already been set.
-            // Avoids property setters running out of order
-            if ( selectedValueHasChanged )
-            {
-                ExecuteAfterRender( async () =>
-                {
-                    var item = GetItemByValue( paramSelectedValue );
-
-                    SelectedText = GetItemText( item );
-                    await SelectedTextChanged.InvokeAsync( SelectedText );
-
-                    if ( textEditRef != null )
-                    {
-                        await textEditRef.Revalidate();
-                    }
-
-                    await InvokeAsync( StateHasChanged );
-                } );
-            }
-
-            if ( selectedValuesHaveChanged )
-            {
-                if ( SelectedValues is null )
-                {
-                    SelectedTexts?.Clear();
-                }
-                else
-                {
-                    if ( !staleValues.IsNullOrEmpty() )
-                    {
-                        foreach ( var staleValue in staleValues )
-                            await RemoveMultipleText( GetItemText( staleValue ) );
-                    }
-
-                    foreach ( var selectedValue in SelectedValues )
-                        await AddMultipleText( GetItemText( selectedValue ) );
-                }
-
-            }
-
-            if ( selectedTextsHaveChanged )
-            {
-                if ( SelectedTexts is null )
-                {
-                    SelectedValues?.Clear();
-                }
-                else
-                {
-                    if ( !staleTexts.IsNullOrEmpty() )
-                    {
-                        foreach ( var staleText in staleTexts )
-                            await RemoveMultipleValue( GetValueByText( staleText ) );
-                    }
-
-                    foreach ( var selectedText in SelectedTexts )
-                        await AddMultipleValue( GetValueByText( selectedText ) );
-                }
-            }
         }
 
         /// <inheritdoc/>
@@ -199,10 +152,14 @@ namespace Blazorise.Components
 
                 if ( AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0 )
                 {
-                    CurrentSearch = GetItemText( FilteredData.First() );
-                    SelectedValue = GetItemValue( FilteredData.First() );
-                    await CurrentSearchChanged.InvokeAsync( CurrentSearch );
-                    await SelectedValueChanged.InvokeAsync( SelectedValue );
+                    currentSearch = selectedText = GetItemText( FilteredData.First() );
+                    selectedValue = new( GetItemValue( FilteredData.First() ) );
+
+                    await Task.WhenAll(
+                        CurrentSearchChanged.InvokeAsync( currentSearch ),
+                        SelectedTextChanged.InvokeAsync( selectedText ),
+                        SelectedValueChanged.InvokeAsync( selectedValue )
+                    );
                 }
             }
             await base.OnAfterRenderAsync( firstRender );
@@ -225,28 +182,29 @@ namespace Blazorise.Components
                 await ResetCurrentSearch();
 
                 if ( ManualReadMode )
-                    await HandleReadData();
+                    await InvokeReadData();
 
                 return;
             }
 
-            CurrentSearch = text;
-            await CurrentSearchChanged.InvokeAsync( CurrentSearch );
+            currentSearch = text;
+            await CurrentSearchChanged.InvokeAsync( currentSearch );
 
             if ( ManualReadMode )
-                await HandleReadData();
+                await InvokeReadData();
 
             if ( FilteredData.Count == 1 && GetItemText( FilteredData.First() ) == CurrentSearch )
             {
                 ActiveItemIndex = 0;
 
-                SelectedValue = GetItemValue( FilteredData.First() );
-                await SelectedValueChanged.InvokeAsync( SelectedValue );
-
-                SelectedText = GetItemText( FilteredData.First() );
-                await SelectedTextChanged.InvokeAsync( SelectedText );
+                selectedValue = new( GetItemValue( FilteredData.First() ) );
+                selectedText = GetItemText( FilteredData.First() );
+                await Task.WhenAll(
+                    SelectedValueChanged.InvokeAsync( selectedValue ),
+                    SelectedTextChanged.InvokeAsync( selectedText )
+                    );
             }
-            else if ( !SelectedValue.Equals( default( TValue? ) ) )
+            else
             {
                 await ClearSelected();
             }
@@ -291,8 +249,8 @@ namespace Blazorise.Components
                         await OnDropdownItemSelected( ValueField.Invoke( item ) );
                         if ( !IsMultiple )
                         {
-                            CurrentSearch = SelectedText;
-                            await CurrentSearchChanged.InvokeAsync();
+                            currentSearch = SelectedText;
+                            await CurrentSearchChanged.InvokeAsync( currentSearch );
                         }
                     }
                 }
@@ -326,7 +284,6 @@ namespace Blazorise.Components
             }
         }
 
-
         /// <summary>
         /// Handles the search field onfocusin event.
         /// </summary>
@@ -353,7 +310,7 @@ namespace Blazorise.Components
 
             if ( !IsMultiple )
             {
-                if ( !FreeTyping && string.IsNullOrEmpty(SelectedText) )
+                if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
                 {
                     await ClearSelected();
                     await ResetCurrentSearch();
@@ -403,22 +360,63 @@ namespace Blazorise.Components
 
             if ( IsMultiple )
             {
-                await AddMultipleText( selectedTValue );
-                await AddMultipleValue( selectedTValue );
+                await Task.WhenAll(
+                    AddMultipleText( selectedTValue ),
+                    AddMultipleValue( selectedTValue )
+                );
             }
             else
             {
-                SelectedValue = selectedTValue;
-                await SelectedValueChanged.InvokeAsync( selectedTValue );
-
+                selectedValue = new( selectedTValue );
                 var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
+                currentSearch = selectedText = GetItemText( item );
 
-                CurrentSearch = SelectedText = GetItemText( item );
-                await CurrentSearchChanged.InvokeAsync( SelectedText );
-                await SelectedTextChanged.InvokeAsync( SelectedText );
+                await Task.WhenAll(
+                    SelectedValueChanged.InvokeAsync( selectedValue ),
+                    CurrentSearchChanged.InvokeAsync( currentSearch ),
+                    SelectedTextChanged.InvokeAsync( SelectedText )
+                );
             }
 
             await Revalidate();
+        }
+
+        protected async Task InvokeReadData( CancellationToken cancellationToken = default )
+        {
+            try
+            {
+                Loading = true;
+
+                // should remove IsTextSearchable and let ReadData decide whetehr text is searchable or not?
+                if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
+                {
+                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
+                    await Task.Yield(); // rebind Data after ReadData
+                }
+            }
+            finally
+            {
+                Loading = false;
+            }
+        }
+
+        /// <summary>
+        /// Triggers the reload of the <see cref="Autocomplete{TItem, TValue}"/> data.
+        /// Makes sure not to reload if the <see cref="Autocomplete{TItem, TValue}"/> is in a loading state.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        public async Task Reload( CancellationToken cancellationToken = default )
+        {
+            if ( Loading )
+                return;
+
+            if ( ManualReadMode )
+            {
+                await InvokeReadData( cancellationToken );
+            }
+
+            dirtyFilter = true;
+            await InvokeAsync( StateHasChanged );
         }
 
         private Task Revalidate()
@@ -430,30 +428,22 @@ namespace Blazorise.Components
             return Task.CompletedTask;
         }
 
-        private bool IsConfirmKey( KeyboardEventArgs eventArgs )
-        {
-            if ( ConfirmKey.IsNullOrEmpty() )
-                return false;
-
-            return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
-        }
-
         private async Task ResetSelectedText()
         {
-            SelectedText = string.Empty;
+            selectedText = null;
             await SelectedTextChanged.InvokeAsync( SelectedText );
         }
 
         private async Task ResetSelectedValue()
         {
-            SelectedValue = default;
-            await SelectedValueChanged.InvokeAsync( SelectedValue );
+            selectedValue = null;
+            await SelectedValueChanged.InvokeAsync( default );
         }
 
         private async Task ResetCurrentSearch()
         {
-            CurrentSearch = string.Empty;
-            await CurrentSearchChanged.InvokeAsync( CurrentSearch );
+            currentSearch = null;
+            await CurrentSearchChanged.InvokeAsync( currentSearch );
         }
 
         private Task ResetActiveItemIndex()
@@ -464,17 +454,16 @@ namespace Blazorise.Components
 
         private async Task AddMultipleValue( TValue value )
         {
-            SelectedValues ??= new();
             if ( !SelectedValues.Contains( value ) && value != null )
             {
-                SelectedValues.Add( value );
+                selectedValues.Add( value );
                 await SelectedValuesChanged.InvokeAsync( SelectedValues );
             }
         }
 
         private async Task RemoveMultipleValue( TValue value )
         {
-            SelectedValues.Remove( value );
+            selectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
@@ -486,11 +475,9 @@ namespace Blazorise.Components
 
         private Task AddMultipleText( string text )
         {
-            SelectedTexts ??= new();
-
             if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
-                SelectedTexts.Add( text );
+                selectedTexts.Add( text );
                 return SelectedTextsChanged.InvokeAsync( SelectedTexts );
             }
 
@@ -499,12 +486,10 @@ namespace Blazorise.Components
 
         private Task AddMultipleText( List<string> texts )
         {
-            SelectedTexts ??= new();
-
             foreach ( var text in texts )
             {
                 if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
-                    SelectedTexts.Add( text );
+                    selectedTexts.Add( text );
             }
 
             return SelectedTextsChanged.InvokeAsync( SelectedTexts );
@@ -512,7 +497,7 @@ namespace Blazorise.Components
 
         private async Task RemoveMultipleText( string text )
         {
-            SelectedTexts.Remove( text );
+            selectedTexts.Remove( text );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
@@ -534,27 +519,6 @@ namespace Blazorise.Components
         private void FilterData()
         {
             FilterData( Data?.AsQueryable() );
-        }
-
-        private bool IsActiveItem( TItem item, int index )
-        {
-            return ( IsSuggestSelectedItems && IsSelectedItem( item ) );
-        }
-
-        private bool IsSelectedvalue( TValue value )
-        {
-            if ( IsMultiple )
-                return SelectedValues?.Contains( value ) ?? false;
-            else
-                return SelectedValue?.IsEqual( value ) ?? false;
-        }
-
-        private bool IsSelectedItem( TItem item )
-        {
-            if ( IsMultiple )
-                return SelectedValues?.Contains( ValueField.Invoke( item ) ) ?? false;
-            else
-                return SelectedValue?.IsEqual( ValueField.Invoke( item ) ) ?? false;
         }
 
         private void FilterData( IQueryable<TItem> query )
@@ -701,6 +665,35 @@ namespace Blazorise.Components
             }
 
             await base.DisposeAsync( disposing );
+        }
+
+        private bool IsConfirmKey( KeyboardEventArgs eventArgs )
+        {
+            if ( ConfirmKey.IsNullOrEmpty() )
+                return false;
+
+            return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
+        }
+
+        private bool IsActiveItem( TItem item, int index )
+        {
+            return ( IsSuggestSelectedItems && IsSelectedItem( item ) );
+        }
+
+        private bool IsSelectedvalue( TValue value )
+        {
+            if ( IsMultiple )
+                return SelectedValues?.Contains( value ) ?? false;
+            else
+                return SelectedValue?.IsEqual( value ) ?? false;
+        }
+
+        private bool IsSelectedItem( TItem item )
+        {
+            if ( IsMultiple )
+                return SelectedValues?.Contains( ValueField.Invoke( item ) ) ?? false;
+            else
+                return SelectedValue.IsEqual( ValueField.Invoke( item ) );
         }
 
         private string GetValidationValue()
@@ -908,15 +901,15 @@ namespace Blazorise.Components
         [Parameter]
         public IEnumerable<TItem> Data
         {
-            get { return data; }
+            get => data;
             set
             {
-                if ( data.IsEqual( value ) )
-                    return;
-                data = value;
-
-                // make sure everything is recalculated
-                dirtyFilter = true;
+                if ( !data.IsEqual( value ) )
+                {
+                    data = value;
+                    // make sure everything is recalculated
+                    dirtyFilter = true;
+                }
             }
         }
 
@@ -946,26 +939,6 @@ namespace Blazorise.Components
         [Parameter] public bool FreeTyping { get; set; }
 
         /// <summary>
-        /// Gets or sets the currently selected item text.
-        /// </summary>
-        [Parameter] public string SelectedText { get; set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected item text.
-        /// </summary>
-        [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected item text.
-        /// </summary>
-        [Parameter] public string CurrentSearch { get; set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected item text.
-        /// </summary>
-        [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
-
-        /// <summary>
         /// Method used to get the display field from the supplied data source.
         /// </summary>
         [EditorRequired]
@@ -982,7 +955,22 @@ namespace Blazorise.Components
         /// Currently selected item value.
         /// </summary>
         [Parameter]
-        public TValue? SelectedValue { get; set; }
+        public TValue SelectedValue
+        {
+            get
+            {
+                return selectedValue ?? selectedValueParam;
+            }
+            set
+            {
+                if ( selectedValueParam != null && selectedValueParam.Value != null && selectedValueParam.Value.Equals( value ) )
+                    return;
+                if ( value == null && ( selectedValueParam == null || selectedValueParam.Value == null ) )
+                    return;
+
+                selectedValueParam = new( value );
+            }
+        }
 
         /// <summary>
         /// Occurs after the selected value has changed.
@@ -990,9 +978,103 @@ namespace Blazorise.Components
         [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
-        /// Occurs on every search text change where the data does not contain the text being searched.
+        /// Gets or sets the currently selected item text.
         /// </summary>
-        [Parameter] public EventCallback<string> NotFound { get; set; }
+        [Parameter]
+        public string SelectedText
+        {
+            get
+            {
+                var text = selectedText ?? selectedTextParam;
+                return string.IsNullOrEmpty( text )
+                    ? ( FreeTyping ? CurrentSearch : ( text ?? string.Empty ) )
+                    : ( text ?? string.Empty );
+            }
+            set
+            {
+                if ( !IsMultiple )
+                {
+                    if ( selectedTextParam == value )
+                        return;
+
+                    selectedTextParam = value;
+                    currentSearch = value;
+                    CurrentSearchChanged.InvokeAsync( currentSearch );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter]
+        public string CurrentSearch
+        {
+            get => currentSearch ?? currentSearchParam ?? string.Empty;
+            set
+            {
+                if ( currentSearchParam == value )
+                    return;
+
+                currentSearchParam = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
+
+        /// <summary>
+        /// Currently selected items values.
+        /// Used when multiple selection is set.
+        /// </summary>
+        [Parameter]
+        public IEnumerable<TValue> SelectedValues
+        {
+            get => selectedValues;
+            set
+            {
+                if ( SequenceEqual( selectedValuesParam, value ) )
+                    return;
+
+                selectedValuesParam = value;
+            }
+        }
+
+        /// <summary>
+        /// Occurs after the selected values have changed.
+        /// Used when multiple selection is set.
+        /// </summary>
+        [Parameter] public EventCallback<IEnumerable<TValue>> SelectedValuesChanged { get; set; }
+
+        /// <summary>
+        /// Currently selected items texts.
+        /// Used when multiple selection is set.
+        /// </summary>
+        [Parameter]
+        public IEnumerable<string> SelectedTexts
+        {
+            get => selectedTexts;
+            set
+            {
+                if ( SequenceEqual( selectedTextsParam, value ) )
+                    return;
+
+                selectedTextsParam = value;
+            }
+        }
+
+        /// <summary>
+        /// Occurs after the selected texts have changed.
+        /// Used when multiple selection is set.
+        /// </summary>
+        [Parameter] public EventCallback<IEnumerable<string>> SelectedTextsChanged { get; set; }
 
         /// <summary>
         /// Custom class-name for dropdown element.
@@ -1054,6 +1136,11 @@ namespace Blazorise.Components
         [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
 
         /// <summary>
+        /// Occurs on every search text change where the data does not contain the text being searched.
+        /// </summary>
+        [Parameter] public EventCallback<string> NotFound { get; set; }
+
+        /// <summary>
         /// Handler for custom filtering on Autocomplete's data source.
         /// </summary>
         [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
@@ -1069,30 +1156,6 @@ namespace Blazorise.Components
         /// Used when multiple selection is set.
         /// </summary>
         [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
-
-        /// <summary>
-        /// Currently selected items values.
-        /// Used when multiple selection is set.
-        /// </summary>
-        [Parameter] public List<TValue> SelectedValues { get; set; }
-
-        /// <summary>
-        /// Occurs after the selected values have changed.
-        /// Used when multiple selection is set.
-        /// </summary>
-        [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
-
-        /// <summary>
-        /// Currently selected items texts.
-        /// Used when multiple selection is set.
-        /// </summary>
-        [Parameter] public List<string> SelectedTexts { get; set; }
-
-        /// <summary>
-        /// Occurs after the selected texts have changed.
-        /// Used when multiple selection is set.
-        /// </summary>
-        [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 
         /// <summary>
         /// Specifies the item content to be rendered inside each dropdown item.

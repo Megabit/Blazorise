@@ -157,10 +157,10 @@
                 </Field>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Values: @string.Join(',', multipleSelectionData)
+                        Selected Values: @string.Join(',', multipleSelectionData ?? new string[] {""})
                     </FieldBody>
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Texts: @string.Join(',', multipleSelectionTexts)
+                        Selected Texts: @string.Join(',', multipleSelectionTexts ?? new string[] {""})
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -308,11 +308,11 @@
     private string selectedAutoCompleteText { get; set; }
     private bool autocompleteFreeTyping = false;
 
-    private List<string> multipleReadDataSelectionData;
-    private List<string> multipleReadDataSelectionTexts;
+    private IEnumerable<string> multipleReadDataSelectionData;
+    private IEnumerable<string> multipleReadDataSelectionTexts;
 
-    private List<string> multipleSelectionData;
-    private List<string> multipleSelectionTexts = new();
+    private IEnumerable<string> multipleSelectionData;
+    private IEnumerable<string> multipleSelectionTexts;
     private bool multipleAutocompleteFreeTyping = false;
 
 
@@ -342,6 +342,7 @@
     {
         Countries = await CountryData.GetDataAsync();
         multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso.ToString(), Countries.ElementAt( 3 ).Iso.ToString() };
+        multipleSelectionTexts = new List<string>() { Countries.ElementAt( 1 ).Name.ToString(), Countries.ElementAt( 3 ).Name.ToString() };
         await base.OnInitializedAsync();
     }
 
