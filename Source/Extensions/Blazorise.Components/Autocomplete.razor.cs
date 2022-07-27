@@ -189,8 +189,6 @@ namespace Blazorise.Components
 
                 if ( FilteredData.Count > 0 && GetItemText( FilteredData.First() ) == CurrentSearch )
                 {
-                    ActiveItemIndex = 0;
-
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
                     selectedText = GetItemText( FilteredData.First() );
                     await Task.WhenAll(
@@ -211,7 +209,10 @@ namespace Blazorise.Components
             }
             else
             {
-                await NotFound.InvokeAsync( CurrentSearch );
+                if ( !string.IsNullOrEmpty( CurrentSearch ) )
+                {
+                    await NotFound.InvokeAsync( CurrentSearch );
+                }
             }
         }
 
