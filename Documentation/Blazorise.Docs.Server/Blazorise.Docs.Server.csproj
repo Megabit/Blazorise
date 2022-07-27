@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\blog\2022-07-12\" />
+    <Folder Include="wwwroot\img\blog\2022-07-27" />
   </ItemGroup>
 
 </Project>
