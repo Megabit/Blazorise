@@ -66,7 +66,7 @@ namespace Blazorise.Components
         string selectedTextParam;
 
         NullableT<TValue> selectedValue;
-        NullableT<TValue> selectedValueParam = new( default );
+        TValue selectedValueParam;
 
         List<TValue> selectedValues = new();
         IEnumerable<TValue> selectedValuesParam;
@@ -89,14 +89,15 @@ namespace Blazorise.Components
             return Enumerable.SequenceEqual( first, second );
         }
 
-        bool NullableTEqual<T>( NullableT<T> nullable, T tvalue )
+        bool TValueEqual<T>( T first, T second )
         {
-            if ( ( nullable == null || nullable.Value == null ) && tvalue == null )
+            if ( first == null && second == null )
                 return true;
-            if ( nullable == null || nullable.Value == null || tvalue == null )
+
+            if ( first == null || second == null )
                 return false;
 
-            return nullable.Value.Equals( tvalue );
+            return first.Equals( second );
         }
 
         /// <inheritdoc/>
@@ -107,7 +108,7 @@ namespace Blazorise.Components
                 currentSearch = null;
             }
 
-            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !NullableTEqual( selectedValueParam, paramSelectedValue ) )
+            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !TValueEqual( selectedValueParam, paramSelectedValue ) )
             {
                 selectedValue = null;
             }
@@ -909,12 +910,7 @@ namespace Blazorise.Components
         public TValue SelectedValue
         {
             get => selectedValue ?? selectedValueParam;
-            set
-            {
-                if ( NullableTEqual( selectedValueParam, value ) )
-                    return;
-                selectedValueParam = new( value );
-            }
+            set => selectedValueParam = value;
         }
 
         /// <summary>
@@ -928,20 +924,8 @@ namespace Blazorise.Components
         [Parameter]
         public string SelectedText
         {
-            get
-            {
-                return selectedText ?? selectedTextParam;
-            }
-            set
-            {
-                if ( !IsMultiple )
-                {
-                    if ( selectedTextParam == value )
-                        return;
-
-                    selectedTextParam = value;
-                }
-            }
+            get => selectedText ?? selectedTextParam;
+            set => selectedTextParam = value;
         }
 
         /// <summary>
