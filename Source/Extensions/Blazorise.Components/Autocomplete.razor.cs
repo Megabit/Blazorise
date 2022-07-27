@@ -222,7 +222,7 @@ namespace Blazorise.Components
         {
             if ( IsMultiple && string.IsNullOrEmpty( CurrentSearch ) && eventArgs.Code == "Backspace" )
             {
-                await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
+                await RemoveMultipleTextAndValue( selectedTexts.LastOrDefault() );
                 return;
             }
 
@@ -374,7 +374,7 @@ namespace Blazorise.Components
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
                     CurrentSearchChanged.InvokeAsync( currentSearch ),
-                    SelectedTextChanged.InvokeAsync( SelectedText )
+                    SelectedTextChanged.InvokeAsync( selectedText )
                 );
             }
 
@@ -431,12 +431,12 @@ namespace Blazorise.Components
         private async Task ResetSelectedText()
         {
             selectedText = null;
-            await SelectedTextChanged.InvokeAsync( SelectedText );
+            await SelectedTextChanged.InvokeAsync( selectedText );
         }
 
         private async Task ResetSelectedValue()
         {
-            selectedValue = null;
+            selectedValue = new(default);
             await SelectedValueChanged.InvokeAsync( default );
         }
 
@@ -457,14 +457,14 @@ namespace Blazorise.Components
             if ( !SelectedValues.Contains( value ) && value != null )
             {
                 selectedValues.Add( value );
-                await SelectedValuesChanged.InvokeAsync( SelectedValues );
+                await SelectedValuesChanged.InvokeAsync( selectedValues );
             }
         }
 
         private async Task RemoveMultipleValue( TValue value )
         {
             selectedValues.Remove( value );
-            await SelectedValuesChanged.InvokeAsync( SelectedValues );
+            await SelectedValuesChanged.InvokeAsync( selectedValues );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
                 dirtyFilter = true;
@@ -478,7 +478,7 @@ namespace Blazorise.Components
             if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
                 selectedTexts.Add( text );
-                return SelectedTextsChanged.InvokeAsync( SelectedTexts );
+                return SelectedTextsChanged.InvokeAsync( selectedTexts );
             }
 
             return Task.CompletedTask;
@@ -488,17 +488,17 @@ namespace Blazorise.Components
         {
             foreach ( var text in texts )
             {
-                if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+                if ( !string.IsNullOrEmpty( text ) && !selectedTexts.Contains( text ) )
                     selectedTexts.Add( text );
             }
 
-            return SelectedTextsChanged.InvokeAsync( SelectedTexts );
+            return SelectedTextsChanged.InvokeAsync( selectedTexts );
         }
 
         private async Task RemoveMultipleText( string text )
         {
             selectedTexts.Remove( text );
-            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+            await SelectedTextsChanged.InvokeAsync( selectedTexts );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
                 dirtyFilter = true;
@@ -985,10 +985,7 @@ namespace Blazorise.Components
         {
             get
             {
-                var text = selectedText ?? selectedTextParam;
-                return string.IsNullOrEmpty( text )
-                    ? ( FreeTyping ? CurrentSearch : ( text ?? string.Empty ) )
-                    : ( text ?? string.Empty );
+                return selectedText ?? selectedTextParam;
             }
             set
             {
@@ -998,8 +995,6 @@ namespace Blazorise.Components
                         return;
 
                     selectedTextParam = value;
-                    currentSearch = value;
-                    CurrentSearchChanged.InvokeAsync( currentSearch );
                 }
             }
         }
