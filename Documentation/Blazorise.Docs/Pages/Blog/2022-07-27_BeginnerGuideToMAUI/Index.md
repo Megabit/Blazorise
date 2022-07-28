@@ -11,7 +11,7 @@ posted-on: July 27, 2022
 read-time: 4 min
 ---
 
-## Excerpt
+# A Beginner's Guide To .NET MAUI
 
 This article provides a beginner-level introduction to .NET MAUI. It explores the history behind its evolution and what makes it a compelling choice for teams developing with tools in the .NET ecosystem.
 
