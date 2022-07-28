@@ -246,3 +246,11 @@ ModelManifest.xml
 # jekyll
 _site
 Gemfile.lock
+
+# Ignore only specific Rider files/directories
+/.idea/*
+!/.idea/.idea.*
+/.idea/.idea.*/*
+!/.idea/.idea.*/.idea
+/.idea/.idea.*/.idea/*
+!/.idea/.idea.*/.idea/runConfigurations
