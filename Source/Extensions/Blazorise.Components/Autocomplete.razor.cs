@@ -1,9 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +11,6 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Components
@@ -69,25 +66,14 @@ namespace Blazorise.Components
         TValue selectedValueParam;
 
         List<TValue> selectedValues = new();
-        IEnumerable<TValue> selectedValuesParam;
+        List<TValue> selectedValuesParam;
 
         List<string> selectedTexts = new();
-        IEnumerable<string> selectedTextsParam;
+        List<string> selectedTextsParam;
 
         #endregion
 
         #region Methods
-
-        bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
-        {
-            if ( first == second )
-                return true;
-
-            if ( first == null || second == null )
-                return false;
-
-            return Enumerable.SequenceEqual( first, second );
-        }
 
         bool TValueEqual<T>( T first, T second )
         {
@@ -118,28 +104,14 @@ namespace Blazorise.Components
                 selectedText = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !SequenceEqual( selectedValuesParam, paramSelectedValues ) )
+            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && selectedValuesParam != paramSelectedValues )
             {
-                if ( selectedValues != paramSelectedValues )
-                {
-                    selectedValues.Clear();
-                    if (paramSelectedValues != null)
-                    {
-                        selectedValues.AddRange( paramSelectedValues );
-                    }
-                }
+                selectedValues = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !SequenceEqual( selectedTextsParam, paramSelectedTexts ) )
+            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && selectedTextsParam != paramSelectedTexts )
             {
-                if ( selectedTexts != paramSelectedTexts )
-                {
-                    selectedTexts.Clear();
-                    if ( paramSelectedTexts != null )
-                    {
-                        selectedTexts.AddRange( paramSelectedTexts );
-                    }
-                }
+                selectedTexts = null;
             }
 
             await base.SetParametersAsync( parameters );
@@ -245,7 +217,7 @@ namespace Blazorise.Components
 
             if ( IsMultiple && string.IsNullOrEmpty( CurrentSearch ) && eventArgs.Code == "Backspace" )
             {
-                await RemoveMultipleTextAndValue( selectedTexts.LastOrDefault() );
+                await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
                 return;
             }
 
@@ -474,15 +446,15 @@ namespace Blazorise.Components
         {
             if ( !SelectedValues.Contains( value ) && value != null )
             {
-                selectedValues.Add( value );
-                await SelectedValuesChanged.InvokeAsync( selectedValues );
+                SelectedValues.Add( value );
+                await SelectedValuesChanged.InvokeAsync( SelectedValues );
             }
         }
 
         private async Task RemoveMultipleValue( TValue value )
         {
-            selectedValues.Remove( value );
-            await SelectedValuesChanged.InvokeAsync( selectedValues );
+            SelectedValues.Remove( value );
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
                 DirtyFilter();
@@ -495,8 +467,8 @@ namespace Blazorise.Components
         {
             if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
-                selectedTexts.Add( text );
-                return SelectedTextsChanged.InvokeAsync( selectedTexts );
+                SelectedTexts.Add( text );
+                return SelectedTextsChanged.InvokeAsync( SelectedTexts );
             }
 
             return Task.CompletedTask;
@@ -506,17 +478,17 @@ namespace Blazorise.Components
         {
             foreach ( var text in texts )
             {
-                if ( !string.IsNullOrEmpty( text ) && !selectedTexts.Contains( text ) )
-                    selectedTexts.Add( text );
+                if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+                    SelectedTexts.Add( text );
             }
 
-            return SelectedTextsChanged.InvokeAsync( selectedTexts );
+            return SelectedTextsChanged.InvokeAsync( SelectedTexts );
         }
 
         private async Task RemoveMultipleText( string text )
         {
-            selectedTexts.Remove( text );
-            await SelectedTextsChanged.InvokeAsync( selectedTexts );
+            SelectedTexts.Remove( text );
+            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
             if ( SelectionMode == AutocompleteSelectionMode.Multiple )
                 DirtyFilter();
@@ -970,62 +942,34 @@ namespace Blazorise.Components
         /// Used when multiple selection is set.
         /// </summary>
         [Parameter]
-        public IEnumerable<TValue> SelectedValues
+        public List<TValue> SelectedValues
         {
-            get => selectedValues; // always use inner container in case parameter is one-way bound to null
-            set
-            {
-                if ( value == selectedValues )
-                {
-                    // common case for two way binding
-                    selectedValuesParam = value;
-                }
-                else if ( !SequenceEqual( selectedValuesParam, value ) )
-                {
-                    selectedValuesParam = value == null ? value : new List<TValue>( value );
-                }
-            }
+            get => selectedValuesParam ?? ( selectedValues ??= new() );
+            set => selectedValuesParam = value;
         }
 
         /// <summary>
         /// Occurs after the selected values have changed.
         /// Used when multiple selection is set.
         /// </summary>
-        [Parameter] public EventCallback<IEnumerable<TValue>> SelectedValuesChanged { get; set; }
+        [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
 
         /// <summary>
         /// Currently selected items texts.
         /// Used when multiple selection is set.
         /// </summary>
         [Parameter]
-        public IEnumerable<string> SelectedTexts
+        public List<string> SelectedTexts
         {
-            get => selectedTexts;
-            set
-            {
-                if ( selectedTexts == value )
-                {
-                    // in a typical two-way binding scenario the bound parameter
-                    // will be updated to the IEnumerable to inner container
-                    // it will then be set as a parameter so skip making a copy
-                    // since we control changing the contents of the container
-                    selectedTextsParam = value;
-                }
-                else if ( !SequenceEqual( selectedTextsParam, value ) )
-                {
-                    // if we use a reference to value instead of List<> and
-                    // if the contents of refrence changes we won't know that
-                    // because we need old values to compare to the new ones
-                    selectedTextsParam = value == null ? null : new List<string>( value );
-                }
-            }
+            get => selectedTextsParam ?? ( selectedTexts ??= new() );
+            set => selectedTextsParam = value;
         }
 
         /// <summary>
         /// Occurs after the selected texts have changed.
         /// Used when multiple selection is set.
         /// </summary>
-        [Parameter] public EventCallback<IEnumerable<string>> SelectedTextsChanged { get; set; }
+        [Parameter] public EventCallback<List<string>> SelectedTextsChanged { get; set; }
 
         /// <summary>
         /// Custom class-name for dropdown element.

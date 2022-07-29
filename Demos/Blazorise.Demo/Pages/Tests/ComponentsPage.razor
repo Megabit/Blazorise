@@ -157,10 +157,10 @@
                 </Field>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Values: @string.Join(',', multipleSelectionData ?? new string[] {""})
+                        Selected Values: @(multipleSelectionData != null ? string.Join(',', multipleSelectionData) : "");
                     </FieldBody>
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Texts: @string.Join(',', multipleSelectionTexts ?? new string[] {""})
+                        Selected Texts: @(multipleSelectionTexts != null ? string.Join(',', multipleSelectionTexts) : "");
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -308,11 +308,11 @@
     private string selectedAutoCompleteText { get; set; }
     private bool autocompleteFreeTyping = false;
 
-    private IEnumerable<string> multipleReadDataSelectionData;
-    private IEnumerable<string> multipleReadDataSelectionTexts;
+    private List<string> multipleReadDataSelectionData = new();
+    private List<string> multipleReadDataSelectionTexts;
 
-    private IEnumerable<string> multipleSelectionData;
-    private IEnumerable<string> multipleSelectionTexts;
+    private List<string> multipleSelectionData;
+    private List<string> multipleSelectionTexts = new();
     private bool multipleAutocompleteFreeTyping = false;
 
 
