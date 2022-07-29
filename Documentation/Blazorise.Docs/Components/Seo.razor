@@ -27,6 +27,8 @@
 
         if ( string.IsNullOrEmpty( ImageUrl ) )
             ImageUrl = NavigationManager.ToAbsoluteUri( "img/logos/blazorise-social-logo.png" ).AbsoluteUri;
+        else
+            ImageUrl = NavigationManager.ToAbsoluteUri( ImageUrl ).AbsoluteUri;
 
         base.OnInitialized();
     }
