@@ -80,7 +80,7 @@ namespace Blazorise.Components
 
         bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
         {
-            if ( first == null && second == null )
+            if ( first == second )
                 return true;
 
             if ( first == null || second == null )
