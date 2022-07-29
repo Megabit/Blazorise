@@ -1,5 +1,5 @@
 ﻿---
-title: Using the primitive and complex types with Blazorise Select component
+title: Blazorise Select component with primitive and complex types
 description: In this blog post we will look at how to use Blazorise Select Component to bind both primitive and complex types, the select element's limitations, and how to work around them.
 permalink: /blog/how-to-handle-select-with-primitive-and-complex-types
 canonical: /blog/how-to-handle-select-with-primitive-and-complex-types

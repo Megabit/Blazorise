@@ -1,5 +1,5 @@
 ﻿---
-title: Blazorise Form Validation With Data Annotations: A Beginner's Guide
+title: Blazorise Form Validation With Data Annotations
 description: Learn all about how to utilize Blazorise form validation to quickly validate your input fields without the model instance.
 permalink: /blog/blazor-form-validation-with-data-annotations
 canonical: /blog/blazor-form-validation-with-data-annotations
