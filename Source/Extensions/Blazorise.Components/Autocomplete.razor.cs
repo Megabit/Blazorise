@@ -123,7 +123,10 @@ namespace Blazorise.Components
                 if ( selectedValues != paramSelectedValues )
                 {
                     selectedValues.Clear();
-                    selectedValues.AddRange( paramSelectedValues );
+                    if (paramSelectedValues != null)
+                    {
+                        selectedValues.AddRange( paramSelectedValues );
+                    }
                 }
             }
 
@@ -132,7 +135,10 @@ namespace Blazorise.Components
                 if ( selectedTexts != paramSelectedTexts )
                 {
                     selectedTexts.Clear();
-                    selectedTexts.AddRange( paramSelectedTexts );
+                    if ( paramSelectedTexts != null )
+                    {
+                        selectedTexts.AddRange( paramSelectedTexts );
+                    }
                 }
             }
 
@@ -966,13 +972,18 @@ namespace Blazorise.Components
         [Parameter]
         public IEnumerable<TValue> SelectedValues
         {
-            get => selectedValues;
+            get => selectedValues; // always use inner container in case parameter is one-way bound to null
             set
             {
-                if ( SequenceEqual( selectedValuesParam, value ) )
-                    return;
-
-                selectedValuesParam = new List<TValue>( value );
+                if ( value == selectedValues )
+                {
+                    // common case for two way binding
+                    selectedValuesParam = value;
+                }
+                else if ( !SequenceEqual( selectedValuesParam, value ) )
+                {
+                    selectedValuesParam = value == null ? value : new List<TValue>( value );
+                }
             }
         }
 
@@ -992,10 +1003,21 @@ namespace Blazorise.Components
             get => selectedTexts;
             set
             {
-                if ( SequenceEqual( selectedTextsParam, value ) )
-                    return;
-
-                selectedTextsParam = new List<string>( value );
+                if ( selectedTexts == value )
+                {
+                    // in a typical two-way binding scenario the bound parameter
+                    // will be updated to the IEnumerable to inner container
+                    // it will then be set as a parameter so skip making a copy
+                    // since we control changing the contents of the container
+                    selectedTextsParam = value;
+                }
+                else if ( !SequenceEqual( selectedTextsParam, value ) )
+                {
+                    // if we use a reference to value instead of List<> and
+                    // if the contents of refrence changes we won't know that
+                    // because we need old values to compare to the new ones
+                    selectedTextsParam = value == null ? null : new List<string>( value );
+                }
             }
         }
 
