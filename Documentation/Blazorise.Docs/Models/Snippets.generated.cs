@@ -3927,11 +3927,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         Countries = await CountryData.GetDataAsync();
         multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        multipleSelectionTexts = new List<string>() { Countries.ElementAt( 1 ).Name, Countries.ElementAt( 3 ).Name };
         await base.OnInitializedAsync();
     }
 
     List<string> multipleSelectionData;
-    List<string> multipleSelectionTexts = new();
+    List<string> multipleSelectionTexts;
 }";
 
         public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
@@ -4008,11 +4009,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         Countries = await CountryData.GetDataAsync();
         multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        multipleSelectionTexts = new List<string>() { Countries.ElementAt( 1 ).Name, Countries.ElementAt( 3 ).Name };
         await base.OnInitializedAsync();
     }
 
     List<string> multipleSelectionData;
-    List<string> multipleSelectionTexts = new();
+    List<string> multipleSelectionTexts;
 }";
 
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />

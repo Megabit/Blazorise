@@ -233,7 +233,7 @@ namespace Blazorise.Components
                 if ( IsMultiple && FreeTyping && ActiveItemIndex < 0 )
                 {
                     await AddMultipleText( CurrentSearch );
-                    if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
+                    if ( CloseOnSelection )
                     {
                         await ResetCurrentSearch();
                         await Close();
@@ -329,7 +329,7 @@ namespace Blazorise.Components
                 await Close();
             }
 
-            if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
+            if ( IsMultiple && CloseOnSelection )
             {
                 await Close();
                 await ResetActiveItemIndex();
@@ -386,7 +386,6 @@ namespace Blazorise.Components
             {
                 Loading = true;
 
-                // should remove IsTextSearchable and let ReadData decide whetehr text is searchable or not?
                 if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
                 {
                     await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
