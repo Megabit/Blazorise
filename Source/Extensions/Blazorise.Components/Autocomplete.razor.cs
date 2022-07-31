@@ -123,7 +123,7 @@ namespace Blazorise.Components
             if ( ManualReadMode )
                 await Reload();
 
-            if ( AutoSelectFirstItem && !IsMultiple && FilteredData.Count > 0 )
+            if ( AutoSelectFirstItem && !IsMultiple && HaveFilteredData )
             {
                 currentSearch = selectedText = GetItemText( FilteredData.First() );
                 selectedValue = new( GetItemValue( FilteredData.First() ) );
@@ -165,8 +165,9 @@ namespace Blazorise.Components
                 if ( ManualReadMode )
                     await InvokeReadData();
 
-                if ( FilteredData.Count > 0 && GetItemText( FilteredData.First() ) == CurrentSearch )
+                if ( HaveFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
                 {
+                    ActiveItemIndex = 0;
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
                     selectedText = GetItemText( FilteredData.First() );
                     await Task.WhenAll(
@@ -176,21 +177,25 @@ namespace Blazorise.Components
                 }
                 else
                 {
-                    await ClearSelected();
+                    await ResetActiveItemIndex();
+                    await ResetSelectedValue();
+
+                    if ( FreeTyping )
+                    {
+                        selectedText = CurrentSearch;
+                        await SelectedTextChanged.InvokeAsync( selectedText );
+                    }
+                    else
+                    {
+                        await ResetSelectedText();
+                    }
                 }
             }
 
-            if ( HaveFilteredData )
+            if ( !HaveFilteredData && !string.IsNullOrEmpty( CurrentSearch ) )
             {
-                ActiveItemIndex = 0;
-                await ScrollItemIntoView( ActiveItemIndex );
-            }
-            else
-            {
-                if ( !string.IsNullOrEmpty( CurrentSearch ) )
-                {
-                    await NotFound.InvokeAsync( CurrentSearch );
-                }
+                // should fire in freetyping mode?
+                await NotFound.InvokeAsync( CurrentSearch );
             }
         }
 
@@ -223,17 +228,15 @@ namespace Blazorise.Components
 
             if ( IsConfirmKey( eventArgs ) && !string.IsNullOrEmpty( CurrentSearch ) )
             {
-                if ( IsMultiple )
+                if ( IsMultiple && FreeTyping && ActiveItemIndex < 0 )
                 {
-                    if ( FreeTyping && ActiveItemIndex < 0 )
+                    await AddMultipleText( CurrentSearch );
+                    if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
                     {
-                        await AddMultipleText( CurrentSearch );
-                        if ( SelectionMode == AutocompleteSelectionMode.Multiple && CloseOnSelection )
-                        {
-                            await ResetCurrentSearch();
-                        }
-                        return;
+                        await ResetCurrentSearch();
+                        await Close();
                     }
+                    return;
                 }
 
                 if ( ActiveItemIndex >= 0 )
@@ -432,7 +435,7 @@ namespace Blazorise.Components
 
         private async Task ResetCurrentSearch()
         {
-            currentSearch = null;
+            currentSearch = string.Empty;
             await CurrentSearchChanged.InvokeAsync( currentSearch );
         }
 
