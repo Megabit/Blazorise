@@ -146,12 +146,11 @@ namespace Blazorise.Components
         protected async Task OnTextChangedHandler( string text )
         {
             DirtyFilter();
-            await Open();
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
             {
-                await ClearSelected();
+                await ResetSelected();
                 await ResetCurrentSearch();
 
                 if ( ManualReadMode )
@@ -192,10 +191,13 @@ namespace Blazorise.Components
                 }
             }
 
-            if ( !HaveFilteredData && !string.IsNullOrEmpty( CurrentSearch ) )
+            if ( !HaveFilteredData )
             {
                 // should fire in freetyping mode?
-                await NotFound.InvokeAsync( CurrentSearch );
+                if ( !string.IsNullOrEmpty( CurrentSearch ) )
+                {
+                    await NotFound.InvokeAsync( CurrentSearch );
+                }
             }
         }
 
@@ -259,6 +261,7 @@ namespace Blazorise.Components
             if ( !DropdownVisible )
             {
                 await Open();
+                await Task.Yield(); // allow the component to render dropdown
             }
             else
             {
@@ -272,7 +275,10 @@ namespace Blazorise.Components
                 }
             }
 
-            await ScrollItemIntoView( ActiveItemIndex );
+            if ( DropdownVisible )
+            {
+                await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
+            }
         }
 
         /// <summary>
@@ -300,7 +306,7 @@ namespace Blazorise.Components
             {
                 if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
                 {
-                    await ClearSelected();
+                    await ResetSelected();
                     await ResetCurrentSearch();
                 }
             }
@@ -308,7 +314,7 @@ namespace Blazorise.Components
             {
                 if ( !FreeTyping )
                 {
-                    await ClearSelected();
+                    await ResetSelected();
                     await ResetCurrentSearch();
                 }
             }
@@ -561,7 +567,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Clears the selected value and the search field.
         /// </summary>
-        public async Task ClearSelected()
+        public async Task ResetSelected()
         {
             await ResetActiveItemIndex();
             await ResetSelectedText();
