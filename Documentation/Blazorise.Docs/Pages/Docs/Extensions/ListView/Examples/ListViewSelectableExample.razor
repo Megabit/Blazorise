@@ -3,6 +3,7 @@
 <ListView TItem="Country"
             Data="Countries"
             TextField="(item) => item.Name"
+            ValueField="(item) => item.Iso"
             Mode="ListGroupMode.Selectable"
             MaxHeight="300px"
             @bind-SelectedItem="@selectedListViewItem">
@@ -10,7 +11,7 @@
 
 <Field Horizontal>
     <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected Item Text: @selectedListViewItem?.Name
+        Selected Item: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 

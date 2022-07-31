@@ -5487,6 +5487,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string BasicListViewExample = @"<ListView TItem=""Country""
             Data=""Countries""
             TextField=""(item) => item.Name""
+            ValueField=""(item) => item.Iso""
             Mode=""ListGroupMode.Static""
             MaxHeight=""300px"">
 </ListView>
@@ -5506,6 +5507,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
             Data=""Countries""
             TextField=""(item) => item.Name""
+            ValueField=""(item) => item.Iso""
             Mode=""ListGroupMode.Static""
             MaxHeight=""300px"">
     <ItemTemplate>
@@ -5532,6 +5534,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ListViewSelectableExample = @"<ListView TItem=""Country""
             Data=""Countries""
             TextField=""(item) => item.Name""
+            ValueField=""(item) => item.Iso""
             Mode=""ListGroupMode.Selectable""
             MaxHeight=""300px""
             @bind-SelectedItem=""@selectedListViewItem"">
@@ -5539,7 +5542,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 <Field Horizontal>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Item Text: @selectedListViewItem?.Name
+        Selected Item: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 

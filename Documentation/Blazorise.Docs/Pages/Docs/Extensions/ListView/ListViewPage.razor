@@ -29,7 +29,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Selectable items">
-        Add <Code>SelectedItem</Code> and provide <Code>TextField</Code> to indicate the current active selection.
+        Add <Code>SelectedItem</Code> and provide <Code>TextField</Code> to setup the display text and <Code>ValueField</Code> to uniquely identify the current active selection.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ListViewSelectableExample />
@@ -63,6 +63,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="TextField" Type="Func<TItem, string>">
         Method used to get the display field from the supplied data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueField" Type="Func<TItem, string>">
+        Method used to get the value field from the supplied data source.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Class" Type="string">
         Custom css class-names.
