@@ -17,7 +17,7 @@
         Selected Values: <span class="atSign">&#64;</span>string.Join(&#39;,&#39;, multipleSelectionData)
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        Selected Texts: <span class="atSign">&#64;</span>string.Join(&#39;,&#39;, multipleSelectionTexts)
+        Selected Texts: <span class="atSign">&#64;</span>(multipleSelectionTexts == null ? null : string.Join(&#39;,&#39;, multipleSelectionTexts))
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
@@ -31,7 +31,6 @@
     {
         Countries = <span class="keyword">await</span> CountryData.GetDataAsync();
         multipleSelectionData = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;() { Countries.ElementAt( <span class="number">1</span> ).Iso, Countries.ElementAt( <span class="number">3</span> ).Iso };
-        multipleSelectionTexts = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;() { Countries.ElementAt( <span class="number">1</span> ).Name, Countries.ElementAt( <span class="number">3</span> ).Name };
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
 

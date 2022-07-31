@@ -3914,7 +3914,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Selected Values: @string.Join(',', multipleSelectionData)
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Texts: @string.Join(',', multipleSelectionTexts)
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
     </FieldBody>
 </Field>
 
@@ -3927,7 +3927,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         Countries = await CountryData.GetDataAsync();
         multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
-        multipleSelectionTexts = new List<string>() { Countries.ElementAt( 1 ).Name, Countries.ElementAt( 3 ).Name };
         await base.OnInitializedAsync();
     }
 
@@ -3996,7 +3995,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Selected Values: @string.Join(',', multipleSelectionData)
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Texts: @string.Join(',', multipleSelectionTexts)
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
     </FieldBody>
 </Field>
 
@@ -4009,7 +4008,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         Countries = await CountryData.GetDataAsync();
         multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
-        multipleSelectionTexts = new List<string>() { Countries.ElementAt( 1 ).Name, Countries.ElementAt( 3 ).Name };
         await base.OnInitializedAsync();
     }
 

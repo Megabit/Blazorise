@@ -86,6 +86,17 @@ namespace Blazorise.Components
             return first.Equals( second );
         }
 
+        bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
+        {
+            if ( first == second )
+                return true;
+
+            if ( first == null || second == null )
+                return false;
+
+            return Enumerable.SequenceEqual( first, second );
+        }
+
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
@@ -104,17 +115,53 @@ namespace Blazorise.Components
                 selectedText = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && selectedValuesParam != paramSelectedValues )
+            bool selectedValuesParamChanged = false;
+            bool selectedTextsParamChanged = false;
+
+            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !SequenceEqual( selectedValuesParam, paramSelectedValues ) )
             {
+                selectedValuesParamChanged = true;
                 selectedValues = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && selectedTextsParam != paramSelectedTexts )
+            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !SequenceEqual( selectedTextsParam, paramSelectedTexts ) )
             {
+                selectedTextsParamChanged = true;
                 selectedTexts = null;
             }
 
             await base.SetParametersAsync( parameters );
+
+            List<TValue> values = null;
+            List<string> texts = null;
+
+            if ( selectedTextsParamChanged )
+            {
+                values = SelectedValues.Union( SelectedTexts.Select( e => GetValueByText( e ) ) ).Distinct().ToList();
+            }
+
+            if ( selectedValuesParamChanged )
+            {
+                texts = SelectedTexts.Union( SelectedValues.Select( e => GetItemText( e ) ) ).Distinct().ToList();
+            }
+
+            if ( !values.IsNullOrEmpty() )
+            {
+                SelectedValues.Clear();
+                SelectedValues.AddRange( values );
+            }
+
+            if ( !texts.IsNullOrEmpty() )
+            {
+                SelectedTexts.Clear();
+                SelectedTexts.AddRange( texts );
+            }
+
+            if ( !values.IsNullOrEmpty() )
+                await SelectedValuesChanged.InvokeAsync( values );
+
+            if ( !texts.IsNullOrEmpty() )
+                await SelectedTextsChanged.InvokeAsync( texts );
         }
 
         /// <inheritdoc/>
@@ -261,18 +308,17 @@ namespace Blazorise.Components
             if ( !DropdownVisible )
             {
                 await Open();
-                await Task.Yield(); // allow the component to render dropdown
+                ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );                
+                return;
             }
-            else
+
+            if ( eventArgs.Code == "ArrowUp" )
             {
-                if ( eventArgs.Code == "ArrowUp" )
-                {
-                    await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
-                }
-                else if ( eventArgs.Code == "ArrowDown" )
-                {
-                    await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
-                }
+                await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
+            }
+            else if ( eventArgs.Code == "ArrowDown" )
+            {
+                await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
             }
 
             if ( DropdownVisible )
@@ -312,11 +358,8 @@ namespace Blazorise.Components
             }
             else
             {
-                if ( !FreeTyping )
-                {
-                    await ResetSelected();
-                    await ResetCurrentSearch();
-                }
+                await ResetSelected();
+                await ResetCurrentSearch();
             }
 
             TextFocused = false;
@@ -329,11 +372,19 @@ namespace Blazorise.Components
                 await Close();
             }
 
-            if ( IsMultiple && CloseOnSelection )
+            if ( IsMultiple )
             {
-                await Close();
-                await ResetActiveItemIndex();
-                await ResetCurrentSearch();
+                if ( CloseOnSelection )
+                {
+                    await Close();
+                    await ResetActiveItemIndex();
+                    await ResetCurrentSearch();
+                }
+
+                if ( !IsSuggestSelectedItems )
+                {
+                    await ResetActiveItemIndex();
+                }
             }
             else
             {
@@ -953,7 +1004,7 @@ namespace Blazorise.Components
         public List<TValue> SelectedValues
         {
             get => selectedValuesParam ?? ( selectedValues ??= new() );
-            set => selectedValuesParam = value;
+            set => selectedValuesParam = ( value == null ? null : new( value ) );
         }
 
         /// <summary>
@@ -970,7 +1021,7 @@ namespace Blazorise.Components
         public List<string> SelectedTexts
         {
             get => selectedTextsParam ?? ( selectedTexts ??= new() );
-            set => selectedTextsParam = value;
+            set => selectedTextsParam = ( value == null ? null : new( value ) );
         }
 
         /// <summary>

@@ -312,7 +312,7 @@
     private List<string> multipleReadDataSelectionTexts;
 
     private List<string> multipleSelectionData;
-    private List<string> multipleSelectionTexts = new();
+    private List<string> multipleSelectionTexts;
     private bool multipleAutocompleteFreeTyping = false;
 
 
@@ -342,7 +342,6 @@
     {
         Countries = await CountryData.GetDataAsync();
         multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso.ToString(), Countries.ElementAt( 3 ).Iso.ToString() };
-        multipleSelectionTexts = new List<string>() { Countries.ElementAt( 1 ).Name.ToString(), Countries.ElementAt( 3 ).Name.ToString() };
         await base.OnInitializedAsync();
     }
 
