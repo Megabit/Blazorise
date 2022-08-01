@@ -51,7 +51,6 @@ namespace Blazorise.Components
             return default;
         }
 
-
         protected string ListGroupClassNames
             => $"b-list-view {Class}";
 
