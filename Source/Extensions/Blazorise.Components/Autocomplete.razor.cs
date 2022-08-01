@@ -166,7 +166,7 @@ namespace Blazorise.Components
             if ( ManualReadMode )
                 await Reload();
 
-            if ( AutoSelectFirstItem && !IsMultiple && HaveFilteredData )
+            if ( AutoSelectFirstItem && !IsMultiple && HasFilteredData )
             {
                 currentSearch = selectedText = GetItemText( FilteredData.First() );
                 selectedValue = new( GetItemValue( FilteredData.First() ) );
@@ -207,7 +207,7 @@ namespace Blazorise.Components
                 if ( ManualReadMode )
                     await InvokeReadData();
 
-                if ( HaveFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
+                if ( HasFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
                 {
                     ActiveItemIndex = 0;
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
@@ -234,7 +234,7 @@ namespace Blazorise.Components
                 }
             }
 
-            if ( !HaveFilteredData )
+            if ( !HasFilteredData )
             {
                 // should fire in freetyping mode?
                 if ( !string.IsNullOrEmpty( CurrentSearch ) )
@@ -816,13 +816,13 @@ namespace Blazorise.Components
         /// Takes into account whether menu was open and whether CloseOnSelection is set to false.
         /// </summary>
         protected bool DropdownVisible
-            => canShowDropDown && IsTextSearchable && TextFocused && HaveFilteredData;
+            => canShowDropDown && IsTextSearchable && TextFocused && HasFilteredData;
 
         /// <summary>
         /// True if the not found content should be visible.
         /// </summary>
         protected bool NotFoundVisible
-            => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HaveFilteredData;
+            => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HasFilteredData;
 
         /// <summary>
         /// True if the text complies to the search requirements
@@ -833,7 +833,7 @@ namespace Blazorise.Components
         /// <summary>
         /// True if the filtered data exists
         /// </summary>
-        protected bool HaveFilteredData
+        protected bool HasFilteredData
             => FilteredData.Count > 0;
 
         /// <summary>
