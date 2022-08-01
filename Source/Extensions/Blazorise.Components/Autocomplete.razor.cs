@@ -135,13 +135,13 @@ namespace Blazorise.Components
             List<TValue> values = null;
             List<string> texts = null;
 
-            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() )
+            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && Data != null )
             {
                 var availableValues = Data.IntersectBy( SelectedTexts, e => TextField( e ) ).Select( e => GetItemValue( e ) );
                 values = SelectedValues.Union( availableValues ).Distinct().ToList();
             }
 
-            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() )
+            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && Data != null )
             {
                 var availableTexts = Data.IntersectBy( SelectedValues, e => ValueField( e ) ).Select( e => GetItemText( e ) );
                 texts = SelectedTexts.Union( availableTexts ).Distinct().ToList();
