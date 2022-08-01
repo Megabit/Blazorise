@@ -1,6 +1,6 @@
 ---
 title: A Beginner's Guide To .NET MAUI
-description: Get an overview of Microsoft's latest multi-platform app UI framework
+description: Learn all about the MAUI, a Microsoft's latest multi-platform app UI framework for building Blazor and mobile apps.
 permalink: /blog/a-beginners-guide-to-maui
 canonical: /blog/a-beginners-guide-to-maui
 image-url: img/blog/2022-07-27/A_Beginners_Guide_To_NET_MAUI.png
