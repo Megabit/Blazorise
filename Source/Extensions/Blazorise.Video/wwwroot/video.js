@@ -45,6 +45,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         resetOnEnd: options.resetOnEnd || false,
         ratio: options.ratio,
         invertTime: options.invertTime || true,
+        controls: options.controlsList,
         previewThumbnails: {
             enabled: options.poster && options.poster.length > 0,
             src: options.poster

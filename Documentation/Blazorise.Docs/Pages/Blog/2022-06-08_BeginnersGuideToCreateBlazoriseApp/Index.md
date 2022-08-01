@@ -1,6 +1,6 @@
 ﻿---
-title: How to create a Blazorise WASM application: A Beginner's Guide
-description: Learn How to create a Blazorise WASM application: A Beginner's Guide.
+title: How to create a Blazorise WASM application
+description: In this article we will learn how to create a Blazorise WebAssembly (WASM) application. As an example, we will also use basic Blazorise components to setup a simple form.
 permalink: /blog/how-to-create-a-blazorise-application-beginners-guide
 canonical: /blog/how-to-create-a-blazorise-application-beginners-guide
 image-url: img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png
@@ -13,7 +13,7 @@ read-time: 5 min
 
 # How to create a Blazorise WASM application: A Beginner's Guide
 
-In this **_Imports.razor** article we will learn how to create a Blazorise WebAssembly (WASM) application. As an example, we will also use basic Blazorise components to setup a simple form.
+In this article we will learn how to create a Blazorise WebAssembly (WASM) application. As an example, we will also use basic Blazorise components to setup a simple form.
 
 ## Prerequisites
 
