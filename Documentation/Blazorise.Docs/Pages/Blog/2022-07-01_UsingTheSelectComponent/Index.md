@@ -1,6 +1,6 @@
 ﻿---
-title: How to handle binding of primitive and complex types with Blazorise Select component
-description: Learn how to handle binding of primitive and complex types with Blazorise Select component.
+title: Blazorise Select component with primitive and complex types
+description: In this blog post we will look at how to use Blazorise Select Component to bind both primitive and complex types, the select element's limitations, and how to work around them.
 permalink: /blog/how-to-handle-select-with-primitive-and-complex-types
 canonical: /blog/how-to-handle-select-with-primitive-and-complex-types
 image-url: img/blog/2022-06-25/Blazorise-Select-Component.png
@@ -11,7 +11,7 @@ posted-on: July 1st, 2022
 read-time: 4 min
 ---
 
-# How to bind primitive and complex types with Blazorise Select component
+# Using the primitive and complex types with Blazorise Select component
 
 Blazorise's Select component represents a dropdown list and is built upon the standard HTML Select element. See [HTML Select](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select).
 
