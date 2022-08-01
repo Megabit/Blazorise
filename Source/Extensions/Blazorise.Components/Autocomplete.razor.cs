@@ -135,33 +135,29 @@ namespace Blazorise.Components
             List<TValue> values = null;
             List<string> texts = null;
 
-            if ( selectedTextsParamChanged )
+            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() )
             {
-                values = SelectedValues.Union( SelectedTexts.Select( e => GetValueByText( e ) ) ).Distinct().ToList();
+                var availableValues = Data.IntersectBy( SelectedTexts, e => TextField( e ) ).Select( e => GetItemValue( e ) );
+                values = SelectedValues.Union( availableValues ).Distinct().ToList();
             }
 
-            if ( selectedValuesParamChanged )
+            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() )
             {
-                texts = SelectedTexts.Union( SelectedValues.Select( e => GetItemText( e ) ) ).Distinct().ToList();
-            }
-
-            if ( !values.IsNullOrEmpty() )
-            {
-                SelectedValues.Clear();
-                SelectedValues.AddRange( values );
-            }
-
-            if ( !texts.IsNullOrEmpty() )
-            {
-                SelectedTexts.Clear();
-                SelectedTexts.AddRange( texts );
+                var availableTexts = Data.IntersectBy( SelectedValues, e => ValueField( e ) ).Select( e => GetItemText( e ) );
+                texts = SelectedTexts.Union( availableTexts ).Distinct().ToList();
             }
 
             if ( !values.IsNullOrEmpty() )
+            {
+                selectedValues = values;
                 await SelectedValuesChanged.InvokeAsync( values );
+            }
 
             if ( !texts.IsNullOrEmpty() )
+            {
+                selectedTexts = texts;
                 await SelectedTextsChanged.InvokeAsync( texts );
+            }
         }
 
         /// <inheritdoc/>
@@ -308,7 +304,7 @@ namespace Blazorise.Components
             if ( !DropdownVisible )
             {
                 await Open();
-                ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );                
+                ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );
                 return;
             }
 
@@ -418,7 +414,7 @@ namespace Blazorise.Components
             else
             {
                 selectedValue = new( selectedTValue );
-                var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
+                var item = GetItemByValue( selectedValue );
                 currentSearch = selectedText = GetItemText( item );
 
                 await Task.WhenAll(
@@ -707,7 +703,7 @@ namespace Blazorise.Components
 
         private string GetItemText( TValue value )
         {
-            var item = Data.FirstOrDefault( x => ValueField.Invoke( x ).Equals( value ) );
+            var item = GetItemByValue( value );
 
             return item is null
                 ? string.Empty
@@ -722,6 +718,15 @@ namespace Blazorise.Components
             return TextField?.Invoke( item ) ?? string.Empty;
         }
 
+        private TValue GetItemValue( string text )
+        {
+            var item = GetItemByText( text );
+
+            return item is null
+                ? default
+                : GetItemValue( item );
+        }
+
         private TValue GetItemValue( TItem item )
         {
             if ( item is null || ValueField == null )
@@ -733,6 +738,11 @@ namespace Blazorise.Components
         private TItem GetItemByValue( TValue value )
             => Data != null
                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+                   : default;
+
+        private TItem GetItemByText( string text )
+            => Data != null
+                   ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
                    : default;
 
         private TValue GetValueByText( string text )
