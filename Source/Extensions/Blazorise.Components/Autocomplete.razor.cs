@@ -383,10 +383,7 @@ namespace Blazorise.Components
                 await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
             }
 
-            if ( DropdownVisible )
-            {
-                await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
-            }
+            await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
         }
 
         /// <summary>
