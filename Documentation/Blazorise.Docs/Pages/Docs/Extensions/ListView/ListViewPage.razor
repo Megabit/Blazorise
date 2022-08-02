@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/list-view"
 
-<Seo Canonical="/docs/extensions/list-view" Title="Blazorise List View component" Description="Learn how to use Blazorise List View extension components." />
+<Seo Canonical="/docs/extensions/list-view" Title="Blazorise List View component" Description="Learn to use and work with the Blazorise ListView component, a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source." />
 
 <DocsPageTitle Path="Extensions/List View">
     Blazorise List View component
@@ -29,7 +29,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Selectable items">
-        Add <Code>SelectedItem</Code> and provide <Code>TextField</Code> to indicate the current active selection.
+        Set the <Code>ListView</Code> <Code>Mode</Code> to <Code>ListGroupMode.Selectable</Code>.
+        Bind <Code>SelectedItem</Code> and provide <Code>TextField</Code> to setup the display text and <Code>ValueField</Code> to uniquely identify the current active selection.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ListViewSelectableExample />
@@ -39,7 +40,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Extending with custom item content">
-        Customize the way you display the ListView items by providing <Code>ItemTemplate</Code>.
+        Customize the way you display the <Code>ListView</Code> items by providing <Code>ItemTemplate</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ListViewItemTemplateExample />
@@ -63,6 +64,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="TextField" Type="Func<TItem, string>">
         Method used to get the display field from the supplied data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueField" Type="Func<TItem, string>">
+        Method used to get the value field from the supplied data source.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Class" Type="string">
         Custom css class-names.

@@ -5485,13 +5485,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 +   .AddFontAwesomeIcons();";
 
         public const string BasicListViewExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Static""
-            MaxHeight=""300px"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Static""
+          MaxHeight=""300px"">
 </ListView>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -5504,10 +5505,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Static""
-            MaxHeight=""300px"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Static""
+          MaxHeight=""300px"">
     <ItemTemplate>
         <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
             <Heading Margin=""Margin.Is2.FromBottom"">@context.Item.Iso</Heading>
@@ -5517,7 +5519,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </ItemTemplate>
 </ListView>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -5530,21 +5532,22 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ListViewSelectableExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Selectable""
-            MaxHeight=""300px""
-            @bind-SelectedItem=""@selectedListViewItem"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Selectable""
+          MaxHeight=""300px""
+          @bind-SelectedItem=""@selectedListViewItem"">
 </ListView>
 
 <Field Horizontal>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Item Text: @selectedListViewItem?.Name
+        Selected Item: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -6751,11 +6754,11 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.0.4.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.0.4.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.0.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.0.6.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.0.4.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.0.4.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.0.6.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.0.6.0""></script>";
 
     }
 }
