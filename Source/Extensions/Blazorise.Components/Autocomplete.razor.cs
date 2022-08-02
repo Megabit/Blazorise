@@ -105,14 +105,19 @@ namespace Blazorise.Components
                 currentSearch = null;
             }
 
+            bool selectedValueParamChanged = false;
+            bool selectedTextParamChanged = false;
+
             if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !TValueEqual( selectedValueParam, paramSelectedValue ) )
             {
                 selectedValue = null;
+                selectedValueParamChanged = true;
             }
 
             if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
             {
                 selectedText = null;
+                selectedTextParamChanged = true;
             }
 
             bool selectedValuesParamChanged = false;
@@ -132,28 +137,68 @@ namespace Blazorise.Components
 
             await base.SetParametersAsync( parameters );
 
+            if ( selectedTextParamChanged )
+            {
+                var item = GetItemByText( SelectedText );
+                if ( item != null )
+                {
+                    var value = GetItemValue( item );
+                    if ( !TValueEqual( SelectedValue, value ) )
+                    {
+                        selectedValue = new( value );
+                        await SelectedValueChanged.InvokeAsync( value );
+                    }
+                }
+
+                if ( !IsMultiple )
+                {
+                    currentSearch = SelectedText;
+                    await CurrentSearchChanged.InvokeAsync( currentSearch );
+                }
+            }
+
+            if ( selectedValueParamChanged )
+            {
+                var item = GetItemByValue( SelectedValue );
+                if ( item != null )
+                {
+                    var text = GetItemText( item );
+                    if ( text != SelectedText )
+                    {
+                        selectedText = text;
+                        await SelectedTextChanged.InvokeAsync( selectedText );
+
+                        if ( !IsMultiple )
+                        {
+                            currentSearch = text;
+                            await CurrentSearchChanged.InvokeAsync( currentSearch );
+                        }
+                    }
+                }
+            }
+
             List<TValue> values = null;
             List<string> texts = null;
 
-            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && Data != null )
+            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
             {
                 var availableValues = Data.IntersectBy( SelectedTexts, e => TextField( e ) ).Select( e => GetItemValue( e ) );
                 values = SelectedValues.Union( availableValues ).Distinct().ToList();
             }
 
-            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && Data != null )
+            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
             {
                 var availableTexts = Data.IntersectBy( SelectedValues, e => ValueField( e ) ).Select( e => GetItemText( e ) );
                 texts = SelectedTexts.Union( availableTexts ).Distinct().ToList();
             }
 
-            if ( !values.IsNullOrEmpty() )
+            if ( !values.IsNullOrEmpty() && !SequenceEqual( SelectedValues, values ) )
             {
                 selectedValues = values;
                 await SelectedValuesChanged.InvokeAsync( values );
             }
 
-            if ( !texts.IsNullOrEmpty() )
+            if ( !texts.IsNullOrEmpty() && !SequenceEqual( SelectedTexts, texts ) )
             {
                 selectedTexts = texts;
                 await SelectedTextsChanged.InvokeAsync( texts );
