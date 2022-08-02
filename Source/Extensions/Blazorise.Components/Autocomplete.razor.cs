@@ -139,22 +139,25 @@ namespace Blazorise.Components
             await base.SetParametersAsync( parameters );
 
             // autoselect value based on selected text
-            if ( selectedTextParamChanged && !string.IsNullOrEmpty( SelectedText ) )
+            if ( selectedTextParamChanged )
             {
-                var item = GetItemByText( SelectedText );
-                if ( item != null )
+                if ( !string.IsNullOrEmpty( SelectedText ) )
                 {
-                    NullableT<TValue> value = new( GetItemValue( item ) );
-                    if ( !TValueEqual( SelectedValue, value ) )
+                    var item = GetItemByText( SelectedText );
+                    if ( item != null )
                     {
-                        selectedValue = new( value );
-                        await SelectedValueChanged.InvokeAsync( value );
+                        NullableT<TValue> value = new( GetItemValue( item ) );
+                        if ( !TValueEqual( SelectedValue, value ) )
+                        {
+                            selectedValue = new( value );
+                            await SelectedValueChanged.InvokeAsync( value );
+                        }
                     }
-                }
-                else if ( !FreeTyping )
-                {
-                    selectedTextParam = null;
-                    await SelectedTextChanged.InvokeAsync( selectedTextParam );
+                    else if ( !FreeTyping )
+                    {
+                        selectedTextParam = null;
+                        await SelectedTextChanged.InvokeAsync( selectedTextParam );
+                    }
                 }
 
                 if ( !IsMultiple && currentSearch != SelectedText )
