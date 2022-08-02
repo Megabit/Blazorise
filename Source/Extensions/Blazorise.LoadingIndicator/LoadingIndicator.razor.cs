@@ -17,9 +17,6 @@ namespace Blazorise.LoadingIndicator
 
         private ILoadingIndicatorService service;
 
-        private ClassBuilder indicatorClasses;
-        private StyleBuilder indicatorStyles;
-
         private bool? loaded;
         private bool loadedParameter = true;
 
@@ -28,13 +25,17 @@ namespace Blazorise.LoadingIndicator
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         public LoadingIndicator()
         {
-            indicatorClasses = new( BuildIndicatorClasses );
-            indicatorStyles = new( BuildIndicatorStyles );
+            IndicatorClassBuilder = new( BuildIndicatorClasses );
+            IndicatorStyleBuilder = new( BuildIndicatorStyles );
         }
+
+        #endregion
+
+        #region Methods
 
         private IFluentFlex LoadingIndicatorPlacementToFluentFlex()
         {
@@ -76,15 +77,19 @@ namespace Blazorise.LoadingIndicator
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
         }
 
+        /// <inheritdoc/>
         protected override void DirtyClasses()
         {
-            indicatorClasses.Dirty();
+            IndicatorClassBuilder.Dirty();
+
             base.DirtyClasses();
         }
 
+        /// <inheritdoc/>
         protected override void DirtyStyles()
         {
-            indicatorStyles.Dirty();
+            IndicatorStyleBuilder.Dirty();
+
             base.DirtyStyles();
         }
 
@@ -97,9 +102,12 @@ namespace Blazorise.LoadingIndicator
             if ( Visible != value )
             {
                 visible = value;
+
                 DirtyClasses();
                 DirtyStyles();
+
                 await VisibleChanged.InvokeAsync( value );
+
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -108,7 +116,7 @@ namespace Blazorise.LoadingIndicator
         /// Show loading indicator
         /// </summary>
         public Task Show() => SetVisible( true );
-        
+
         /// <summary>
         /// Hide loading indicator
         /// </summary>
@@ -166,6 +174,26 @@ namespace Blazorise.LoadingIndicator
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Indicator class builder.
+        /// </summary>
+        protected ClassBuilder IndicatorClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets indicator class-names.
+        /// </summary>
+        protected string IndicatorClassNames => IndicatorClassBuilder.Class;
+
+        /// <summary>
+        /// Indicator style builder.
+        /// </summary>
+        protected StyleBuilder IndicatorStyleBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets indicator style-names.
+        /// </summary>
+        protected string IndicatorStyleNames => IndicatorStyleBuilder.Styles;
 
         /// <summary>
         /// Workaround for issue https://github.com/dotnet/aspnetcore/issues/15311
