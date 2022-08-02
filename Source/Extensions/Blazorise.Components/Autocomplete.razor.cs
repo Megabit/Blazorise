@@ -165,7 +165,7 @@ namespace Blazorise.Components
                     }
                 }
 
-                if ( !IsMultiple && CurrentSearch != SelectedText )
+                if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                 {
                     currentSearch = SelectedText;
                     await CurrentSearchChanged.InvokeAsync( currentSearch );
@@ -184,7 +184,7 @@ namespace Blazorise.Components
                         selectedText = text;
                         await SelectedTextChanged.InvokeAsync( selectedText );
 
-                        if ( !IsMultiple && CurrentSearch != SelectedText )
+                        if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                         {
                             currentSearch = SelectedText;
                             await CurrentSearchChanged.InvokeAsync( currentSearch );
@@ -307,7 +307,6 @@ namespace Blazorise.Components
 
             if ( !HasFilteredData )
             {
-                // should fire in freetyping mode?
                 if ( !string.IsNullOrEmpty( CurrentSearch ) )
                 {
                     await NotFound.InvokeAsync( CurrentSearch );
