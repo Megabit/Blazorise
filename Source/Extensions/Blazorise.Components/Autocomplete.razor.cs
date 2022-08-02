@@ -135,63 +135,81 @@ namespace Blazorise.Components
                 selectedTexts = null;
             }
 
+            // set properties
             await base.SetParametersAsync( parameters );
 
-            if ( selectedTextParamChanged )
+            // autoselect value based on selected text
+            if ( selectedTextParamChanged && !string.IsNullOrEmpty( SelectedText ) )
             {
                 var item = GetItemByText( SelectedText );
                 if ( item != null )
                 {
-                    var value = GetItemValue( item );
+                    NullableT<TValue> value = new( GetItemValue( item ) );
                     if ( !TValueEqual( SelectedValue, value ) )
                     {
                         selectedValue = new( value );
                         await SelectedValueChanged.InvokeAsync( value );
                     }
                 }
+                else if ( !FreeTyping )
+                {
+                    selectedTextParam = null;
+                    await SelectedTextChanged.InvokeAsync( selectedTextParam );
+                }
 
-                if ( !IsMultiple )
+                if ( !IsMultiple && currentSearch != SelectedText )
                 {
                     currentSearch = SelectedText;
                     await CurrentSearchChanged.InvokeAsync( currentSearch );
                 }
             }
 
+            // autoselect text based on selected value
             if ( selectedValueParamChanged )
             {
                 var item = GetItemByValue( SelectedValue );
                 if ( item != null )
                 {
-                    var text = GetItemText( item );
+                    string text = GetItemText( item );
                     if ( text != SelectedText )
                     {
                         selectedText = text;
                         await SelectedTextChanged.InvokeAsync( selectedText );
 
-                        if ( !IsMultiple )
+                        if ( !IsMultiple && currentSearch != SelectedText )
                         {
-                            currentSearch = text;
+                            currentSearch = SelectedText;
                             await CurrentSearchChanged.InvokeAsync( currentSearch );
                         }
                     }
+                }
+                else
+                {
+                    selectedValue = new( default );
+                    await SelectedValueChanged.InvokeAsync( selectedValue );
                 }
             }
 
             List<TValue> values = null;
             List<string> texts = null;
 
+            // autoselect values based on texts
             if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
             {
-                var availableValues = Data.IntersectBy( SelectedTexts, e => TextField( e ) ).Select( e => GetItemValue( e ) );
-                values = SelectedValues.Union( availableValues ).Distinct().ToList();
+                values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
+                if ( !FreeTyping )
+                {
+                    texts = Data.Select( e => GetItemText( e ) ).Intersect( SelectedTexts ).ToList();
+                }
             }
 
+            // autoselect texts based on values
             if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
             {
-                var availableTexts = Data.IntersectBy( SelectedValues, e => ValueField( e ) ).Select( e => GetItemText( e ) );
-                texts = SelectedTexts.Union( availableTexts ).Distinct().ToList();
+                texts = Data.IntersectBy( SelectedValues, e => GetItemValue( e ) ).Select( e => GetItemText( e ) ).ToList();
             }
 
+            // fire change events
             if ( !values.IsNullOrEmpty() && !SequenceEqual( SelectedValues, values ) )
             {
                 selectedValues = values;
