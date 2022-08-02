@@ -160,7 +160,7 @@ namespace Blazorise.Components
                     }
                 }
 
-                if ( !IsMultiple && currentSearch != SelectedText )
+                if ( !IsMultiple && CurrentSearch != SelectedText )
                 {
                     currentSearch = SelectedText;
                     await CurrentSearchChanged.InvokeAsync( currentSearch );
@@ -179,7 +179,7 @@ namespace Blazorise.Components
                         selectedText = text;
                         await SelectedTextChanged.InvokeAsync( selectedText );
 
-                        if ( !IsMultiple && currentSearch != SelectedText )
+                        if ( !IsMultiple && CurrentSearch != SelectedText )
                         {
                             currentSearch = SelectedText;
                             await CurrentSearchChanged.InvokeAsync( currentSearch );
