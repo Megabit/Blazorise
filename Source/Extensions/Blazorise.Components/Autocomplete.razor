@@ -39,6 +39,7 @@
     <DropdownMenu @ref="DropdownMenuRef">
         @if ( NotFoundVisible )
         {
+            RegisterClosableComponent();
             <DropdownItem Disabled>
                 @NotFoundContent( CurrentSearch )
             </DropdownItem>
@@ -46,6 +47,7 @@
 
         @if ( DropdownVisible )
         {
+            RegisterClosableComponent();
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];

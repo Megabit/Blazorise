@@ -11,6 +11,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Components
@@ -20,7 +21,7 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAsyncDisposable
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, ICloseActivator, IAsyncDisposable
     {
         class NullableT<T>
         {
@@ -30,6 +31,10 @@ namespace Blazorise.Components
         }
 
         #region Members
+        /// <summary>
+        /// Indicated colosable component registered
+        /// </summary>
+        private bool jsRegistered;
 
         /// <summary>
         /// Reference to the TextEdit component.
@@ -696,6 +701,36 @@ namespace Blazorise.Components
         }
 
         /// <summary>
+        /// Unregisters the closable component.
+        /// </summary>
+        /// <returns></returns>
+        protected async Task UnregisterClosableComponent()
+        {
+            if ( jsRegistered )
+            {
+                await JSClosableModule.Unregister( this );
+                jsRegistered = false;
+            }
+        }
+
+        /// <summary>
+        /// Registers the closable component.
+        /// </summary>
+        /// <returns></returns>
+        protected void RegisterClosableComponent()
+        {
+            if ( !jsRegistered )
+            {
+                jsRegistered = true;
+                ExecuteAfterRender( async () =>
+                {
+                    var dotNetObjectRef = DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
+                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
+                } );
+            }
+        }
+
+        /// <summary>
         /// Determines if Autocomplete can be closed
         /// Only accounts for Escape Key, Lost focus is handled by the component onBlur event.
         /// </summary>
@@ -707,11 +742,18 @@ namespace Blazorise.Components
             return Task.FromResult( closeOnSelectionAllowClose );
         }
 
+        async Task ICloseActivator.Close( CloseReason closeReason )
+        {
+            await Close();
+            await ResetActiveItemIndex();
+            await InvokeAsync( StateHasChanged );
+        }
+
         /// <inheritdoc/>
-        public Task Close()
+        public async Task Close()
         {
             canShowDropDown = false;
-            return Task.CompletedTask;
+            await UnregisterClosableComponent();
         }
 
         /// <inheritdoc/>
