@@ -5597,17 +5597,20 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     async Task UpdateChart()
     {
-        loadingIndicator.Show();
+        await loadingIndicator.Show();
+
         await Task.Delay(3000); // Do work ...
-        loadingIndicator.Hide();
+
+        await loadingIndicator.Hide();
     }
 
     // sample data
     ChartData<double> lineChartData = new()
     {
         Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
-        Datasets = new() { new LineChartDataset<double>() {
-                Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
         }}
     };
 }";
