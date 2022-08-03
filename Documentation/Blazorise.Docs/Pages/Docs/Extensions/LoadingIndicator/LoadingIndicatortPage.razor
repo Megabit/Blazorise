@@ -47,18 +47,18 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
-        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Add LoadingIndicatorService as a scoped service in your configuration. Use dependency injection to obtain the instance of the LoadingIndicatorService to control <Code>ApplicationLoadingIndicator</Code>. The application busy UI comes with an awesome Blazorise logo spinner, which is recommended, but if you prefer a boring default spinner instead set <Code>LoadingIndicatorTemplate</Code> to <Code>null</Code>.
+        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Add ILoadingIndicatorService as a scoped service in your configuration. Use dependency injection to obtain a reference to the ILoadingIndicatorService to control <Code>ApplicationLoadingIndicator</Code>. The application busy UI comes with an awesome Blazorise logo spinner, which is recommended, but if you prefer a boring default spinner instead set <Code>LoadingIndicatorTemplate</Code> to <Code>null</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
-        Add <Code>LoadingIndicatorService</Code> as a scoped service.
+        Add <Code>ILoadingIndicatorService</Code> as a scoped service.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorAddScopedExample" />
     <DocsPageSectionContent>
-        Inject <Code>LoadingIndicatorService</Code> into main layout and set it on the global <Code>LoadingIndicator</Code> wrapper.
+        Add <Code>ApplicationLoadingIndicator</Code> into main layout.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorApplicationWrapperExample" />
     <DocsPageSectionContent>
-        Inject <Code>LoadingIndicatorService</Code> into your component where you want to trigger the application busy UI from.
+        Inject <Code>ILoadingIndicatorService</Code> into your component where you want to trigger the application busy UI from.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorApplicationBusyExample" />
 </DocsPageSection>
@@ -82,7 +82,7 @@
         While the busy screen prevents click events from reaching child content it has no effect on keyboard input. You may want to disable your input controls such as textboxes and buttons while your component is busy.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
-        Using the <Code>Busy</Code> property directly.
+        Using the <Code>Visible</Code> property directly.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorBusyReferenceExample" />
     <DocsPageSectionContent>

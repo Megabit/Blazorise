@@ -5561,9 +5561,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicatorService();";
+        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
 
-        public const string LoadingIndicatorApplicationBusyExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+        public const string LoadingIndicatorApplicationBusyExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
 
 @code 
 {
@@ -5638,7 +5638,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LoadingIndicatorBusyServiceExample = @"@inject LoadingIndicatorService ApplicationLoadingIndicatorService
+        public const string LoadingIndicatorBusyServiceExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
 
 <Button Disabled=""ApplicationLoadingIndicatorService.Visible"" />";
 
