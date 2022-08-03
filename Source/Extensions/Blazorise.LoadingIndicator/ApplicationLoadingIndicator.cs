@@ -22,7 +22,7 @@ namespace Blazorise.LoadingIndicator
                 Service = serviceProvider.GetService<ILoadingIndicatorService>();
             }
 
-            base.OnInitialized();
+            base.OnParametersSet();
         }
 
         #endregion
