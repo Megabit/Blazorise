@@ -9,7 +9,7 @@ namespace Blazorise.LoadingIndicator
         /// </summary>
         /// <param name="serviceCollection"></param>
         /// <returns></returns>
-        public static IServiceCollection AddLoadingIndicatorService( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddLoadingIndicator( this IServiceCollection serviceCollection )
         {
             return serviceCollection.AddScoped<ILoadingIndicatorService, LoadingIndicatorService>();
         }

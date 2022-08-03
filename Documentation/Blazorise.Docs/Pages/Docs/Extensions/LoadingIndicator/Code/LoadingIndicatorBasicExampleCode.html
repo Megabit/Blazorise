@@ -17,17 +17,20 @@
 
     <span class="keyword">async</span> Task UpdateChart()
     {
-        loadingIndicator.Show();
+        <span class="keyword">await</span> loadingIndicator.Show();
+
         <span class="keyword">await</span> Task.Delay(<span class="number">3000</span>); <span class="comment">// Do work ...</span>
-        loadingIndicator.Hide();
+
+        <span class="keyword">await</span> loadingIndicator.Hide();
     }
 
     <span class="comment">// sample data</span>
     ChartData&lt;<span class="keyword">double</span>&gt; lineChartData = <span class="keyword">new</span>()
     {
         Labels = <span class="keyword">new</span>() { <span class="string">&quot;Jan&quot;</span>, <span class="string">&quot;Feb&quot;</span>, <span class="string">&quot;Mar&quot;</span>, <span class="string">&quot;Apr&quot;</span>, <span class="string">&quot;May&quot;</span>, <span class="string">&quot;Jun&quot;</span> },
-        Datasets = <span class="keyword">new</span>() { <span class="keyword">new</span> LineChartDataset&lt;<span class="keyword">double</span>&gt;() {
-                Data = <span class="keyword">new</span> List&lt;<span class="keyword">double</span>&gt;() { <span class="number">70</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">80</span>, <span class="number">100</span> },
+        Datasets = <span class="keyword">new</span>() { <span class="keyword">new</span> LineChartDataset&lt;<span class="keyword">double</span>&gt;()
+        {
+            Data = <span class="keyword">new</span> List&lt;<span class="keyword">double</span>&gt;() { <span class="number">70</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">80</span>, <span class="number">100</span> },
         }}
     };
 }

@@ -36,7 +36,7 @@
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>
                 </Select>
                 <Check TValue="bool" @bind-Checked="usePadding" Inline>Use IndicatorPadding</Check>
-                @if (usePadding)
+                @if ( usePadding )
                 {
                     <style>
                         #spinner .b-loading-indicator-overlay {
@@ -46,7 +46,7 @@
                     </style>
                 }
                 <Check TValue="bool" @bind-Checked="showBorder" Inline>Show border</Check>
-                @if (showBorder)
+                @if ( showBorder )
                 {
                     <style>
                         #spinner, #spinner svg {
@@ -74,7 +74,7 @@
             <CardHeader>
                 <CardTitle>Using Service Instance and Templating</CardTitle>
             </CardHeader>
-           <CardBody>
+            <CardBody>
                 <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
                     <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Set</Button>
                 </LoadingIndicator>
@@ -166,35 +166,35 @@
     async Task ShowApplicationIndicator()
     {
         await ApplicationLoadingIndicatorService.Show();
-        await Task.Delay(3000);
+        await Task.Delay( 3000 );
         await ApplicationLoadingIndicatorService.Hide();
     }
 
     async Task ShowApplicationIndicatorCascading()
     {
         await CascadingLoadingIndicator.Show();
-        await Task.Delay(3000);
+        await Task.Delay( 3000 );
         await CascadingLoadingIndicator.Hide();
     }
 
     async Task ShowCustomBasicIndicator()
     {
         await customBasicIndicator.Show();
-        await Task.Delay(3000);
+        await Task.Delay( 3000 );
         await customBasicIndicator.Hide();
     }
 
     async Task ShowInlineBusy()
     {
         await textEditIndicator.Show();
-        await Task.Delay(3000);
+        await Task.Delay( 3000 );
         await textEditIndicator.Hide();
     }
 
     async Task ShowMultipleIndicators()
     {
         await sharedLoadingIndicatorService.Show();
-        await Task.Delay(5000);
+        await Task.Delay( 5000 );
         await sharedLoadingIndicatorService.Hide();
     }
 }

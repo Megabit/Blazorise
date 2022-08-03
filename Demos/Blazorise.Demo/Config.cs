@@ -19,15 +19,14 @@ namespace Blazorise.Demo
                 {
                     options.UseBubbleTheme = true;
                     options.UseShowTheme = true;
-                } );
+                } )
+                .AddLoadingIndicator();
 
             services.AddMemoryCache();
 
             // register demo services to fetch test data
             services.AddScoped<Shared.Data.EmployeeData>();
             services.AddScoped<Shared.Data.CountryData>();
-
-            services.AddLoadingIndicatorService();
 
             return services;
         }

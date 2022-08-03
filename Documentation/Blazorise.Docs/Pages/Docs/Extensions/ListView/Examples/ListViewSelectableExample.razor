@@ -1,21 +1,22 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <ListView TItem="Country"
-            Data="Countries"
-            TextField="(item) => item.Name"
-            Mode="ListGroupMode.Selectable"
-            MaxHeight="300px"
-            @bind-SelectedItem="@selectedListViewItem">
+          Data="Countries"
+          TextField="(item) => item.Name"
+          ValueField="(item) => item.Iso"
+          Mode="ListGroupMode.Selectable"
+          MaxHeight="300px"
+          @bind-SelectedItem="@selectedListViewItem">
 </ListView>
 
 <Field Horizontal>
     <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected Item Text: @selectedListViewItem?.Name
+        Selected Item: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;

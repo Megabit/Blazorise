@@ -5,10 +5,12 @@
     [CascadingParameter]
     LoadingIndicator loadingIndicator;
 
-    void DoWork()
+    async Task DoWork()
     {
-        loadingIndicator.Show();
+        await loadingIndicator.Show();
+        
         // do work ...
-        loadingIndicator.Hide();
+        
+        await loadingIndicator.Hide();
     }
 }

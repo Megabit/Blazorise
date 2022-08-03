@@ -8,11 +8,13 @@
 
     async Task DoWork()
     {
-        if (!loadingIndicator.Visible)
+        if ( !loadingIndicator.Visible )
         {
-            loadingIndicator.Show();
+            await loadingIndicator.Show();
+            
             // do work...
-            loadingIndicator.Hide();
+            
+            await loadingIndicator.Hide();
         }
     }
 }

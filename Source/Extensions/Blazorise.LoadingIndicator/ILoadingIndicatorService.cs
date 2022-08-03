@@ -21,7 +21,7 @@ namespace Blazorise.LoadingIndicator
         /// Show loading indicator
         /// </summary>
         Task Show();
-        
+
         /// <summary>
         /// Hide loading indicator
         /// </summary>
