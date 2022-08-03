@@ -2,10 +2,12 @@
 
 @code 
 {
-    void DoWork()
+    async Task DoWork()
     {
-        ApplicationLoadingIndicatorService.Show();
+        await ApplicationLoadingIndicatorService.Show();
+        
         // do work ...
-        ApplicationLoadingIndicatorService.Hide();
+        
+        await ApplicationLoadingIndicatorService.Hide();
     }
 }

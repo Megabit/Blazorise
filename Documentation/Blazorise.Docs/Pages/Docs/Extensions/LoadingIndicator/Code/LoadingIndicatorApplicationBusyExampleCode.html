@@ -5,11 +5,13 @@
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code 
 {
-    <span class="keyword">void</span> DoWork()
+    <span class="keyword">async</span> Task DoWork()
     {
-        ApplicationLoadingIndicatorService.Show();
+        <span class="keyword">await</span> ApplicationLoadingIndicatorService.Show();
+        
         <span class="comment">// do work ...</span>
-        ApplicationLoadingIndicatorService.Hide();
+        
+        <span class="keyword">await</span> ApplicationLoadingIndicatorService.Hide();
     }
 }
 </pre></div>

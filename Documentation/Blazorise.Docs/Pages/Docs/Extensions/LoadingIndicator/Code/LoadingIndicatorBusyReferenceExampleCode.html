@@ -11,11 +11,13 @@
 
     <span class="keyword">async</span> Task DoWork()
     {
-        <span class="keyword">if</span> (!loadingIndicator.Visible)
+        <span class="keyword">if</span> ( !loadingIndicator.Visible )
         {
-            loadingIndicator.Show();
+            <span class="keyword">await</span> loadingIndicator.Show();
+            
             <span class="comment">// do work...</span>
-            loadingIndicator.Hide();
+            
+            <span class="keyword">await</span> loadingIndicator.Hide();
         }
     }
 }

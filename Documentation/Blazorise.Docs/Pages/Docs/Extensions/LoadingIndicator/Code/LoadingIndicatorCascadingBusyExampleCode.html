@@ -8,11 +8,13 @@
     [CascadingParameter]
     LoadingIndicator loadingIndicator;
 
-    <span class="keyword">void</span> DoWork()
+    <span class="keyword">async</span> Task DoWork()
     {
-        loadingIndicator.Show();
+        <span class="keyword">await</span> loadingIndicator.Show();
+        
         <span class="comment">// do work ...</span>
-        loadingIndicator.Hide();
+        
+        <span class="keyword">await</span> loadingIndicator.Hide();
     }
 }
 </pre></div>

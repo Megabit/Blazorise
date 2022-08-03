@@ -5567,11 +5567,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 @code 
 {
-    void DoWork()
+    async Task DoWork()
     {
-        ApplicationLoadingIndicatorService.Show();
+        await ApplicationLoadingIndicatorService.Show();
+        
         // do work ...
-        ApplicationLoadingIndicatorService.Hide();
+        
+        await ApplicationLoadingIndicatorService.Hide();
     }
 }";
 
@@ -5625,11 +5627,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     async Task DoWork()
     {
-        if (!loadingIndicator.Visible)
+        if ( !loadingIndicator.Visible )
         {
-            loadingIndicator.Show();
+            await loadingIndicator.Show();
+            
             // do work...
-            loadingIndicator.Hide();
+            
+            await loadingIndicator.Hide();
         }
     }
 }";
@@ -5645,11 +5649,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     [CascadingParameter]
     LoadingIndicator loadingIndicator;
 
-    void DoWork()
+    async Task DoWork()
     {
-        loadingIndicator.Show();
+        await loadingIndicator.Show();
+        
         // do work ...
-        loadingIndicator.Hide();
+        
+        await loadingIndicator.Hide();
     }
 }";
 
