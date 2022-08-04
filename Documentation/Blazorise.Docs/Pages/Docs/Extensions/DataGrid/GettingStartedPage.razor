@@ -207,35 +207,17 @@
     <DocsAttributesItem Name="PageSizeChanged" Type="EventCallback<int>">
         Occurs after the page size has changed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
-        Define the display template for empty data cell.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
-        Define the display template for empty data collection.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
-        Define the display template for empty filter data collection.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
-        Define the display template for empty filter data collection.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="PopupSize" Type="ModalSize" Default="Default">
         Defines the size of popup modal.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PopupClosing" Type="Func<ModalClosingEventArgs, Task>">
         Occurs before the popup dialog is closed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
-        Template for custom title of edit popup dialog
-    </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemCreator" Type="Func<TItem>">
         Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemDefaultSetter" Type="Action<TItem>">
         Action will be called for setting default values of property, when create new entry
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderTemplate<PageButtonContext>">
-        Define the format a pagination button
     </DocsAttributesItem>
     <DocsAttributesItem Name="UseValidation" Type="bool" Default="false">
         If true, validation will be used when editing the fields
@@ -306,6 +288,27 @@
     <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
         Used to prevent the default action for an <Code>RowContextMenu</Code> event.
     </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DataGrid Templates">
+    <DocsAttributesItem Name="DataGridColumns" Type="RenderFragment">
+        Template for holding the datagrid columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataGridAggregates" Type="RenderFragment">
+        Template for holding the datagrid aggregate columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
+        Define the display template for empty data cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
+        Define the display template for empty data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="ButtonRowTemplate" Type="RenderFragment<ButtonRowContext<TItem>>">
         Gets or sets content of button row of pager.
     </DocsAttributesItem>
@@ -335,6 +338,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<TItem>">
         Gets or sets content of total items grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
+        Template for custom title of edit popup dialog
     </DocsAttributesItem>
 </DocsAttributes>
 
