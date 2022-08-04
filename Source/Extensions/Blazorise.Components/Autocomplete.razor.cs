@@ -453,6 +453,11 @@ namespace Blazorise.Components
                 if ( IsMultiple )
                 {
                     await RemoveMultipleTextAndValue( selectedTValue );
+                    if ( !IsSuggestSelectedItems )
+                    {
+                        DirtyFilter();
+                    }
+
                     await Revalidate();
                 }
 
@@ -465,7 +470,6 @@ namespace Blazorise.Components
                     AddMultipleText( selectedTValue ),
                     AddMultipleValue( selectedTValue )
                 );
-
                 if ( !IsSuggestSelectedItems )
                 {
                     DirtyFilter();
@@ -570,9 +574,6 @@ namespace Blazorise.Components
         {
             SelectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
-
-            if ( SelectionMode == AutocompleteSelectionMode.Multiple )
-                DirtyFilter();
         }
 
         private Task AddMultipleText( TValue value )
