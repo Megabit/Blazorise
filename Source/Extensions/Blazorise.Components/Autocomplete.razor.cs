@@ -360,11 +360,6 @@ namespace Blazorise.Components
                     if ( item != null && ValueField != null )
                     {
                         await OnDropdownItemSelected( ValueField.Invoke( item ) );
-                        if ( !IsMultiple )
-                        {
-                            currentSearch = SelectedText;
-                            await CurrentSearchChanged.InvokeAsync( currentSearch );
-                        }
                     }
                 }
 
@@ -433,7 +428,6 @@ namespace Blazorise.Components
             if ( SelectionMode == AutocompleteSelectionMode.Default )
             {
                 await Close();
-                await ResetActiveItemIndex();
             }
 
             if ( IsMultiple )
@@ -441,7 +435,6 @@ namespace Blazorise.Components
                 if ( CloseOnSelection )
                 {
                     await Close();
-                    await ResetActiveItemIndex();
                     await ResetCurrentSearch();
                 }
                 else if ( !IsSuggestSelectedItems )
@@ -736,15 +729,12 @@ namespace Blazorise.Components
         /// <returns>True if Autocomplete can be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
         {
-            var closeOnSelectionAllowClose = ( DropdownMenuRef.ElementId == elementId && closeReason == CloseReason.EscapeClosing ) ||
-                ( closeReason == CloseReason.FocusLostClosing && !isChild );
-            return Task.FromResult( closeOnSelectionAllowClose );
+            return Task.FromResult(false);
         }
 
         async Task ICloseActivator.Close( CloseReason closeReason )
         {
             await Close();
-            await ResetActiveItemIndex();
             await InvokeAsync( StateHasChanged );
         }
 
@@ -752,6 +742,7 @@ namespace Blazorise.Components
         public async Task Close()
         {
             canShowDropDown = false;
+            await ResetActiveItemIndex();
             await UnregisterClosableComponent();
         }
 
