@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.LoadingIndicator
 {
     /// <summary>
-    /// A wrapper component that adds a busy spinner or shows a loading message.
+    /// A wrapper component that adds a loading spinner or shows a loading message.
     /// Fully templatable, supports two-way binding, direct use via @ref
     /// </summary>
     public partial class LoadingIndicator : BaseComponent, IDisposable
@@ -37,44 +37,45 @@ namespace Blazorise.LoadingIndicator
 
         #region Methods
 
-        private IFluentFlex LoadingIndicatorPlacementToFluentFlex()
+        /// <inheritdoc/>
+        public override Task SetParametersAsync( ParameterView parameters )
         {
-            var flex = IndicatorHorizontalPlacement switch
+            if ( parameters.TryGetValue( nameof( Loaded ), out bool newLoadedParameter ) && loadedParameter != newLoadedParameter )
             {
-                LoadingIndicatorPlacement.Start => Blazorise.Flex.JustifyContent.Start,
-                LoadingIndicatorPlacement.End => Blazorise.Flex.JustifyContent.End,
-                _ => Blazorise.Flex.JustifyContent.Center
-            };
+                loaded = null; // use parameter instead of local value
+            }
 
-            return IndicatorVerticalPlacement switch
+            if ( parameters.TryGetValue( nameof( Visible ), out bool newVisibleParameter ) && visibleParameter != newVisibleParameter )
             {
-                LoadingIndicatorPlacement.Top => flex.AlignItems.Start,
-                LoadingIndicatorPlacement.Bottom => flex.AlignItems.End,
-                _ => flex.AlignItems.Center
-            };
+                visible = null; // use parameter instead of local value
+            }
+
+            DirtyClasses();
+            DirtyStyles();
+
+            return base.SetParametersAsync( parameters );
         }
 
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                Service = null;
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-wrapper" );
             builder.Append( "b-loading-indicator-wrapper-busy", Visible );
             builder.Append( "b-loading-indicator-wrapper-relative", Visible && !FullScreen );
             builder.Append( "b-loading-indicator-wrapper-inline", Inline );
+
             base.BuildClasses( builder );
-        }
-
-        private void BuildIndicatorClasses( ClassBuilder builder )
-        {
-            builder.Append( "b-loading-indicator-overlay" );
-            builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
-            builder.Append( IndicatorPadding?.Class( ClassProvider ), IndicatorPadding != null );
-            builder.Append( LoadingIndicatorPlacementToFluentFlex().Class( ClassProvider ) );
-        }
-
-        private void BuildIndicatorStyles( StyleBuilder builder )
-        {
-            builder.Append( $"background-color:{IndicatorBackground.Name}" );
-            builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
         }
 
         /// <inheritdoc/>
@@ -92,6 +93,30 @@ namespace Blazorise.LoadingIndicator
 
             base.DirtyStyles();
         }
+
+        private void BuildIndicatorClasses( ClassBuilder builder )
+        {
+            builder.Append( "b-loading-indicator-overlay" );
+            builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
+            builder.Append( IndicatorPadding?.Class( ClassProvider ), IndicatorPadding != null );
+            builder.Append( LoadingIndicatorPlacementToFluentFlex().Class( ClassProvider ) );
+        }
+
+        private void BuildIndicatorStyles( StyleBuilder builder )
+        {
+            builder.Append( $"background-color:{IndicatorBackground.Name}" );
+            builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
+        }
+
+        /// <summary>
+        /// Show loading indicator
+        /// </summary>
+        public Task Show() => SetVisible( true );
+
+        /// <summary>
+        /// Hide loading indicator
+        /// </summary>
+        public Task Hide() => SetVisible( false );
 
         /// <summary>
         /// Set component Busy state
@@ -113,16 +138,6 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Show loading indicator
-        /// </summary>
-        public Task Show() => SetVisible( true );
-
-        /// <summary>
-        /// Hide loading indicator
-        /// </summary>
-        public Task Hide() => SetVisible( false );
-
-        /// <summary>
         /// Set component Loaded state
         /// </summary>
         /// <param name="value">true or false</param>
@@ -136,39 +151,21 @@ namespace Blazorise.LoadingIndicator
             }
         }
 
-        /// <inheritdoc/>
-        public override Task SetParametersAsync( ParameterView parameters )
+        private IFluentFlex LoadingIndicatorPlacementToFluentFlex()
         {
-            if ( parameters.TryGetValue( nameof( Loaded ), out bool newLoadedParameter ) )
+            var flex = IndicatorHorizontalPlacement switch
             {
-                if ( loadedParameter != newLoadedParameter )
-                {
-                    loaded = null; // use parameter instead of local value
-                }
-            }
+                LoadingIndicatorPlacement.Start => Blazorise.Flex.JustifyContent.Start,
+                LoadingIndicatorPlacement.End => Blazorise.Flex.JustifyContent.End,
+                _ => Blazorise.Flex.JustifyContent.Center
+            };
 
-            if ( parameters.TryGetValue( nameof( Visible ), out bool newVisibleParameter ) )
+            return IndicatorVerticalPlacement switch
             {
-                if ( visibleParameter != newVisibleParameter )
-                {
-                    visible = null; // use parameter instead of local value
-                }
-            }
-
-            DirtyClasses();
-            DirtyStyles();
-
-            return base.SetParametersAsync( parameters );
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                Service = null;
-            }
-
-            base.Dispose( disposing );
+                LoadingIndicatorPlacement.Top => flex.AlignItems.Start,
+                LoadingIndicatorPlacement.Bottom => flex.AlignItems.End,
+                _ => flex.AlignItems.Center
+            };
         }
 
         #endregion
