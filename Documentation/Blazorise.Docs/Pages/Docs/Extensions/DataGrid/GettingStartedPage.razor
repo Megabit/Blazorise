@@ -306,6 +306,33 @@
     <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
         Used to prevent the default action for an <Code>RowContextMenu</Code> event.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonRowTemplate" Type="RenderFragment<ButtonRowContext<TItem>>">
+        Gets or sets content of button row of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FirstPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of first button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LastPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of last button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PreviousPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of previous button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NextPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of next button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderFragment<PageButtonContext>">
+        Gets or sets content of page buttons of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsPerPageTemplate" Type="RenderFragment">
+        Gets or sets content of items per page of grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsShortTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of total items grid for small devices.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of total items grid.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
@@ -459,4 +486,6 @@
     <DocsAttributesItem Name="SortOrderChanged" Type="EventCallback<int>">
         Raises an event every time that SortOrder is changed.
     </DocsAttributesItem>
+
+
 </DocsAttributes>
