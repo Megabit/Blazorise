@@ -99,7 +99,7 @@ namespace Blazorise.Components
             if ( first == null || second == null )
                 return false;
 
-            return Enumerable.SequenceEqual( first, second );
+            return Enumerable.SequenceEqual( first.OrderBy( e => e ), second.OrderBy( e => e ) );
         }
 
         /// <inheritdoc/>
@@ -433,6 +433,7 @@ namespace Blazorise.Components
             if ( SelectionMode == AutocompleteSelectionMode.Default )
             {
                 await Close();
+                await ResetActiveItemIndex();
             }
 
             if ( IsMultiple )
@@ -443,15 +444,14 @@ namespace Blazorise.Components
                     await ResetActiveItemIndex();
                     await ResetCurrentSearch();
                 }
-
-                if ( !IsSuggestSelectedItems )
+                else if ( !IsSuggestSelectedItems )
                 {
                     await ResetActiveItemIndex();
                 }
-            }
-            else
-            {
-                ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
+                else
+                {
+                    ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
+                }
             }
 
             var selectedTValue = Converters.ChangeType<TValue>( value );
