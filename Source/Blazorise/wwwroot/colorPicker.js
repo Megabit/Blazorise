@@ -1,5 +1,5 @@
-﻿import "./vendors/Pickr.js?v=1.0.6.0";
-import * as utilities from "./utilities.js?v=1.0.6.0";
+﻿import "./vendors/Pickr.js?v=1.1.0.0-preview1";
+import * as utilities from "./utilities.js?v=1.1.0.0-preview1";
 
 const _instancesInfos = [];
 
