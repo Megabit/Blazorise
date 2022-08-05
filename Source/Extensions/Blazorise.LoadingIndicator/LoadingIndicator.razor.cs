@@ -247,7 +247,7 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Indicates whether component is ready to be rendered
+        /// Indicates whether component should display initializing or actual content
         /// </summary>
         [Parameter]
         public bool Initializing
