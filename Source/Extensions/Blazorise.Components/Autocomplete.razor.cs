@@ -21,7 +21,7 @@ namespace Blazorise.Components
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, ICloseActivator, IAsyncDisposable
+    public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAsyncDisposable
     {
         class NullableT<T>
         {
@@ -31,10 +31,6 @@ namespace Blazorise.Components
         }
 
         #region Members
-        /// <summary>
-        /// Indicated colosable component registered
-        /// </summary>
-        private bool jsRegistered;
 
         /// <summary>
         /// Reference to the TextEdit component.
@@ -234,6 +230,8 @@ namespace Blazorise.Components
         /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
+            ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
+
             if ( ManualReadMode )
                 await Reload();
 
@@ -248,7 +246,7 @@ namespace Blazorise.Components
                     SelectedValueChanged.InvokeAsync( selectedValue )
                 );
             }
-
+            
             await base.OnInitializedAsync();
         }
 
@@ -693,50 +691,29 @@ namespace Blazorise.Components
             return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Unregisters the closable component.
-        /// </summary>
-        /// <returns></returns>
-        protected async Task UnregisterClosableComponent()
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
-            if ( jsRegistered )
+            if ( disposing )
             {
-                await JSClosableModule.Unregister( this );
-                jsRegistered = false;
-            }
-        }
-
-        /// <summary>
-        /// Registers the closable component.
-        /// </summary>
-        /// <returns></returns>
-        protected void RegisterClosableComponent()
-        {
-            if ( !jsRegistered )
-            {
-                jsRegistered = true;
-                ExecuteAfterRender( async () =>
+                if ( Rendered )
                 {
-                    var dotNetObjectRef = DotNetObjectReference.Create( new CloseActivatorAdapter( this ) );
-                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
-                } );
+                    var task = JSClosableModule.UnregisterLight( ElementRef );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
+                    catch ( Microsoft.JSInterop.JSDisconnectedException )
+                    {
+                    }
+                }
             }
-        }
 
-        /// <summary>
-        /// Determines if Autocomplete can be closed
-        /// Only accounts for Escape Key, Lost focus is handled by the component onBlur event.
-        /// </summary>
-        /// <returns>True if Autocomplete can be closed.</returns>
-        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
-        {
-            return Task.FromResult(false);
-        }
-
-        async Task ICloseActivator.Close( CloseReason closeReason )
-        {
-            await Close();
-            await InvokeAsync( StateHasChanged );
+            await base.DisposeAsync( disposing );
         }
 
         /// <inheritdoc/>
@@ -744,7 +721,6 @@ namespace Blazorise.Components
         {
             canShowDropDown = false;
             await ResetActiveItemIndex();
-            await UnregisterClosableComponent();
         }
 
         /// <inheritdoc/>
@@ -864,19 +840,9 @@ namespace Blazorise.Components
         protected bool Loading { get; set; }
 
         /// <summary>
-        /// Gets the DropdownMenu reference.
-        /// </summary>
-        public DropdownMenu DropdownMenuRef { get; set; }
-
-        /// <summary>
         /// Gets the Element Reference
         /// </summary>
-        public ElementReference ElementRef => DropdownMenuRef.ElementRef;
-
-        /// <summary>
-        /// Gets the DropdownMenu ElementId.
-        /// </summary>
-        public string DropdownElementId { get; set; }
+        public ElementReference ElementRef => textEditRef.ElementRef;
 
         /// <summary>
         /// Gets the dropdown CSS styles.

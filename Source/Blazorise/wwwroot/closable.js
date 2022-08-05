@@ -1,30 +1,13 @@
 ﻿let closableComponents = [];
+let closableLightComponents = [];
 let lastClickedDocumentElement = null;
 
 function addClosableComponent(elementId, dotnetAdapter) {
     closableComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
 }
 
-function findClosableComponent(elementId) {
-    let index = 0;
-
-    for (index = 0; index < closableComponents.length; ++index) {
-        if (closableComponents[index].elementId === elementId)
-            return closableComponents[index];
-    }
-
-    return null;
-}
-
-function findClosableComponentIndex(elementId) {
-    let index = 0;
-
-    for (index = 0; index < closableComponents.length; ++index) {
-        if (closableComponents[index].elementId === elementId)
-            return index;
-    }
-
-    return -1;
+function addClosableLightComponent(elementId) {
+    closableLightComponents.push({ elementId: elementId });
 }
 
 function isClosableComponent(elementId) {
@@ -36,6 +19,39 @@ function isClosableComponent(elementId) {
     }
 
     return false;
+}
+
+function isClosableLightComponent(elementId) {
+    let index = 0;
+
+    for (index = 0; index < closableLightComponents.length; ++index) {
+        if (closableLightComponents[index].elementId === elementId)
+            return true;
+    }
+
+    return false;
+}
+
+function findClosableComponentIndex(elementId) {
+    let index = 0;
+
+    for (index = 0; index < closableComponents.length; ++index) {
+        if (closableComponents[index].elementId === elementId)
+            return closableComponents[index];
+    }
+
+    return null;
+}
+
+function findClosableLightComponentIndex(elementId) {
+    let index = 0;
+
+    for (index = 0; index < closableLightComponents.length; ++index) {
+        if (closableLightComponents[index].elementId === elementId)
+            return closableLightComponents[index];
+    }
+
+    return null;
 }
 
 function tryClose(closable, targetElementId, isEscapeKey, isChildClicked) {
@@ -58,10 +74,34 @@ function tryClose(closable, targetElementId, isEscapeKey, isChildClicked) {
     }
 }
 
+function hasParentInTree(element, parentElementId) {
+    if (!element.parentElement) return false;
+    if (element.parentElement.id === parentElementId) return true;
+    return hasParentInTree(element.parentElement, parentElementId);
+}
+
 export function registerClosableComponent(dotnetAdapter, element) {
     if (element) {
         if (isClosableComponent(element.id) !== true) {
             addClosableComponent(element.id, dotnetAdapter);
+        }
+    }
+}
+
+/// Adds a lighter closable component, that is tracked for close events.
+export function registerClosableLightComponent(element) {
+    if (element) {
+        if (isClosableLightComponent(element.id) !== true) {
+            addClosableLightComponent(element.id);
+        }
+    }
+}
+
+export function unregisterClosableLightComponent(element) {
+    if (element) {
+        const index = findClosableLightComponentIndex(element.id);
+        if (index !== -1) {
+            closableLightComponents.splice(index, 1);
         }
     }
 }
@@ -75,17 +115,14 @@ export function unregisterClosableComponent(element) {
     }
 }
 
-function hasParentInTree(element, parentElementId) {
-    if (!element.parentElement) return false;
-    if (element.parentElement.id === parentElementId) return true;
-    return hasParentInTree(element.parentElement, parentElementId);
-}
-
 document.addEventListener('mousedown', function handler(evt) {
     lastClickedDocumentElement = evt.target;
 });
 
 document.addEventListener('mouseup', function handler(evt) {
+    if (isClosableLightComponent(evt.target.id))
+        return;
+
     if (evt.button === 0 && evt.target === lastClickedDocumentElement && closableComponents && closableComponents.length > 0) {
         const lastClosable = closableComponents[closableComponents.length - 1];
         if (lastClosable) {
@@ -95,9 +132,11 @@ document.addEventListener('mouseup', function handler(evt) {
 });
 
 document.addEventListener('keyup', function handler(evt) {
+    if (isClosableLightComponent(evt.target.id))
+        return;
+
     if (evt.keyCode === 27 && closableComponents && closableComponents.length > 0) {
         const lastClosable = closableComponents[closableComponents.length - 1];
-
         if (lastClosable) {
             tryClose(lastClosable, lastClosable.elementId, true, hasParentInTree(evt.target, lastClosable.elementId));
         }
