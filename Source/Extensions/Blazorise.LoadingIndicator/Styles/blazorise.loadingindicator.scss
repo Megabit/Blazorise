@@ -1,3 +1,16 @@
+@keyframes b-loading-indicator-fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  } 
+}
+
+.b-loading-indicator-overlay-fadein {
+    animation: b-loading-indicator-fadein 700ms ease-in;
+}
+
 .b-loading-indicator-overlay {
     top: 0;
     left: 0;

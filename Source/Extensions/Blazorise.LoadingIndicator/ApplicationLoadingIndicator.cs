@@ -12,6 +12,7 @@ namespace Blazorise.LoadingIndicator
         {
             SpinnerHeight = "128px";
             FullScreen = true;
+            FadeIn = true;
             IndicatorTemplate = BlazoriseSpinner;
         }
 

@@ -97,6 +97,7 @@ namespace Blazorise.LoadingIndicator
         private void BuildIndicatorClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-overlay" );
+            builder.Append( "b-loading-indicator-overlay-fadein", FadeIn );
             builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
             builder.Append( IndicatorPadding?.Class( ClassProvider ), IndicatorPadding != null );
             builder.Append( LoadingIndicatorPlacementToFluentFlex().Class( ClassProvider ) );
@@ -335,6 +336,11 @@ namespace Blazorise.LoadingIndicator
         /// Show busy indicator full screen.
         /// </summary>
         [Parameter] public bool FullScreen { get; set; }
+
+        /// <summary>
+        /// Fade in indicator into view
+        /// </summary>
+        [Parameter] public bool FadeIn { get; set; }
 
         /// <summary>
         /// Wrap inline content.
