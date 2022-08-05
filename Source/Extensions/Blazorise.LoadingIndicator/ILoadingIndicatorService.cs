@@ -13,9 +13,9 @@ namespace Blazorise.LoadingIndicator
         bool? Visible { get; }
 
         /// <summary>
-        /// Returns Loaded state shared by all indicator instances or null if the state is not the same for all indicators.
+        /// Returns Initializing state shared by all indicator instances or null if the state is not the same for all indicators.
         /// </summary>
-        bool? Loaded { get; }
+        bool? Initializing { get; }
 
         /// <summary>
         /// Show loading indicator
@@ -28,12 +28,12 @@ namespace Blazorise.LoadingIndicator
         Task Hide();
 
         /// <summary>
-        /// Set Loaded state
+        /// Set Initializing state
         /// </summary>
         /// <param name="value">true or false</param>
-        Task SetLoaded( bool value );
+        Task SetInitializing( bool value );
 
-        internal void Subscribe( LoadingIndicator indicator );
-        internal void Unsubscribe( LoadingIndicator indicator );
+        public void Subscribe( LoadingIndicator indicator );
+        public void Unsubscribe( LoadingIndicator indicator );
     }
 }

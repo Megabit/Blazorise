@@ -5577,9 +5577,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LoadingIndicatorApplicationWrapperExample = @"<div>
-    @Body
-</div>
+        public const string LoadingIndicatorApplicationWrapperExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+	<Found>...</Found>
+	<NotFound>...</NotFound>
+</Router>
 
 <ApplicationLoadingIndicator />";
 
@@ -5616,6 +5617,45 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         }}
     };
 }";
+
+        public const string LoadingIndicatorBusyBindingExample  = @"<LoadingIndicator @binding-Visible=""running"">
+    <ChildContent>
+		<Button Disabled=""running"" Clicked=""Start"" />
+    </ChildContent>
+    <IndicatorTemplate>
+		<Button Clicked=""Cancel"" />
+    </IndicatorTemplate>
+</LoadingIndicator>
+
+@code
+{
+    bool running;
+
+    async Task Start()
+    {
+        if ( !running )
+        {
+            running = true;
+            await StartLongRunningTask();
+        }
+    }
+
+    async Task Cancel()
+    {
+        await CancelTask();
+        running = false;
+	}
+}";
+
+        public const string LoadingIndicatorBusyFormExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<form action=""/action_page.php"">
+    <fieldset disabled=""ApplicationLoadingIndicatorService.Visible""> 
+        <label for=""fname"">Message:</label>
+        <input type=""text"" id=""message"" name=""message"">
+        <input type=""submit"" value=""Send"">
+     </fieldset>
+</form>";
 
         public const string LoadingIndicatorBusyReferenceExample = @"<LoadingIndicator @ref=""loadingIndicator"">
     <Button Disabled=""loadingIndicator.Visible"" Clicked=""DoWork""/>

@@ -37,24 +37,28 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
-        The basic usage scenario for <Code>LoadingIndicator</Code> with default settings.
+        The basic usage scenario for <Code>LoadingIndicator</Code> with default settings using indicator reference.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <LoadingIndicatorBasicExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorBasicExample" />
+    <DocsPageSectionContent>
+        Use binding to control the indicator instead of reference if your scenario calls for it
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorBusyBindingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
-        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Add ILoadingIndicatorService as a scoped service in your configuration. Use dependency injection to obtain a reference to the ILoadingIndicatorService to control <Code>ApplicationLoadingIndicator</Code>. The application busy UI comes with an awesome Blazorise logo spinner, which is recommended, but if you prefer a boring default spinner instead set <Code>LoadingIndicatorTemplate</Code> to <Code>null</Code>.
+        Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Register <Code>ILoadingIndicatorService</Code> as a scoped service in your configuration. <Code>ApplicationLoadingIndicator</Code> automatically registers with <Code>ILoadingIndicatorService</Code> if one is registered or unless <Code>Service</Code> property is set directly. Use dependency injection to obtain a reference to the <Code>ILoadingIndicatorService</Code> to control <Code>ApplicationLoadingIndicator</Code>. The application busy UI comes with an awesome Blazorise logo spinner, which is recommended, but if you prefer the default spinner set <Code>IndicatorTemplate</Code> to <Code>null</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         Add <Code>ILoadingIndicatorService</Code> as a scoped service.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorAddScopedExample" />
     <DocsPageSectionContent>
-        Add <Code>ApplicationLoadingIndicator</Code> into main layout.
+        Add <Code>ApplicationLoadingIndicator</Code> to your <Code>App.razor</Code> file.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorApplicationWrapperExample" />
     <DocsPageSectionContent>
@@ -89,6 +93,10 @@
         Disabling your controls using <Code>LoadingIndicatorService</Code>.
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorBusyServiceExample" />
+    <DocsPageSectionContent>
+        Disable the entire input form using <Code>&lt;fieldset&gt;</Code>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorBusyFormExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -114,14 +122,14 @@
     <DocsAttributesItem Name="IndicatorVerticalPlacement" Type="LoadingIndicatorPlacement" Default="Middle">
         Indicator vertical placement.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Initializing" Type="bool" Default="false">
+        Current initializing state.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="InitializingTemplate" Type="RenderFragment" Default="null">
+        Initializing state template. Use this to display placeholder UI while your component is initializing (e.g. loading data from server).
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Used when wrapping inline content such as input controls.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Loaded" Type="bool" Default="true">
-        Current loading state.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment" Default="null">
-        Loading state template.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SpinnerBackground" Type="Background" Default="#c0c0c0">
         Set spinner background color.

@@ -8,7 +8,7 @@
                 <CardTitle>Using Reference and Binding</CardTitle>
             </CardHeader>
             <CardBody>
-                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Visible="lineChartBusy" @bind-Loaded="lineChartLoaded" Overflow="Overflow.Hidden"
+                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Visible="lineChartBusy" @bind-Initializing="lineChartInitializing" Overflow="Overflow.Hidden"
                                   SpinnerWidth="@(spinnerWidth == 0 ? null : $"{spinnerWidth}%")" SpinnerHeight="@(spinnerHeight == 0 ? null : $"{spinnerHeight}%")"
                                   IndicatorHorizontalPlacement="spinnerHorizontal" IndicatorVerticalPlacement="spinnerVertical"
                                   IndicatorPadding="usePadding ? Padding.Is5 : null">
@@ -18,7 +18,7 @@
             <CardBody>
                 <Button Clicked="() => lineChartIndicator.Show()" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Visible</Button>
                 <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Visible</Check>
-                <Check TValue="bool" @bind-Checked="lineChartLoaded" Inline>Loaded</Check>
+                <Check TValue="bool" @bind-Checked="lineChartInitializing" Inline>Initializing</Check>
             </CardBody>
             <CardBody>
                 Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
@@ -133,7 +133,7 @@
     private LineChart<double> lineChart;
     private LoadingIndicator lineChartIndicator;
     private bool lineChartBusy;
-    private bool lineChartLoaded = true;
+    private bool lineChartInitializing = false;
 
     private int spinnerWidth = 0;
     private int spinnerHeight = 30;

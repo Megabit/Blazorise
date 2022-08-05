@@ -17,8 +17,8 @@ namespace Blazorise.LoadingIndicator
 
         private ILoadingIndicatorService service;
 
-        private bool? loaded;
-        private bool loadedParameter = true;
+        private bool? initializing;
+        private bool initializingParameter;
 
         private bool? visible;
         private bool visibleParameter;
@@ -40,9 +40,9 @@ namespace Blazorise.LoadingIndicator
         /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue( nameof( Loaded ), out bool newLoadedParameter ) && loadedParameter != newLoadedParameter )
+            if ( parameters.TryGetValue( nameof( Initializing ), out bool newLoadedParameter ) && initializingParameter != newLoadedParameter )
             {
-                loaded = null; // use parameter instead of local value
+                initializing = null; // use parameter instead of local value
             }
 
             if ( parameters.TryGetValue( nameof( Visible ), out bool newVisibleParameter ) && visibleParameter != newVisibleParameter )
@@ -141,12 +141,12 @@ namespace Blazorise.LoadingIndicator
         /// Set component Loaded state
         /// </summary>
         /// <param name="value">true or false</param>
-        public async Task SetLoaded( bool value )
+        public async Task SetInitializing( bool value )
         {
-            if ( Loaded != value )
+            if ( Initializing != value )
             {
-                loaded = value;
-                await LoadedChanged.InvokeAsync( value );
+                initializing = value;
+                await InitializingChanged.InvokeAsync( value );
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -250,10 +250,10 @@ namespace Blazorise.LoadingIndicator
         /// Indicates whether component is ready to be rendered
         /// </summary>
         [Parameter]
-        public bool Loaded
+        public bool Initializing
         {
-            get => loaded ?? loadedParameter;
-            set => loadedParameter = value;
+            get => initializing ?? initializingParameter;
+            set => initializingParameter = value;
         }
 
         /// <summary>
@@ -267,9 +267,9 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Occurs when Loaded state has changed.
+        /// Occurs when Initializing state has changed.
         /// </summary>
-        [Parameter] public EventCallback<bool> LoadedChanged { get; set; }
+        [Parameter] public EventCallback<bool> InitializingChanged { get; set; }
 
         /// <summary>
         /// Occurs when Visible state has changed.
@@ -289,7 +289,7 @@ namespace Blazorise.LoadingIndicator
         /// <summary>
         /// Loading state template.
         /// </summary>
-        [Parameter] public RenderFragment LoadingTemplate { get; set; }
+        [Parameter] public RenderFragment InitializingTemplate { get; set; }
 
         /// <summary>
         /// Spinner background color

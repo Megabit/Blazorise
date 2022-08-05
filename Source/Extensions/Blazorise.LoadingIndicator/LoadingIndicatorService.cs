@@ -17,9 +17,9 @@ namespace Blazorise.LoadingIndicator
 
         // avoid locking in single indicator (app busy) scenario
         Func<bool, Task> SetVisibleFunc;
-        Func<bool, Task> SetLoadedFunc;
+        Func<bool, Task> SetInitializingFunc;
         Func<bool?> GetVisibleFunc;
-        Func<bool?> GetLoadedFunc;
+        Func<bool?> GetInitializingFunc;
 
         #endregion
 
@@ -36,18 +36,18 @@ namespace Blazorise.LoadingIndicator
         private void MultiMode()
         {
             SetVisibleFunc = SetVisibleMulti;
-            SetLoadedFunc = SetLoadedMulti;
+            SetInitializingFunc = SetInitializingMulti;
             GetVisibleFunc = GetVisibleMulti;
-            GetLoadedFunc = GetLoadedMulti;
+            GetInitializingFunc = GetInitializingMulti;
         }
 
         // no lock implementation
         private void SingleMode( LoadingIndicator indicator )
         {
             SetVisibleFunc = indicator.SetVisible;
-            SetLoadedFunc = indicator.SetLoaded;
+            SetInitializingFunc = indicator.SetInitializing;
             GetVisibleFunc = () => indicator.Visible;
-            GetLoadedFunc = () => indicator.Loaded;
+            GetInitializingFunc = () => indicator.Initializing;
         }
 
         /// <inheritdoc/>
@@ -57,7 +57,7 @@ namespace Blazorise.LoadingIndicator
         public Task Hide() => SetVisibleFunc( false );
 
         /// <inheritdoc/>
-        public Task SetLoaded( bool value ) => SetLoadedFunc( value );
+        public Task SetInitializing( bool value ) => SetInitializingFunc( value );
 
         /// <summary>
         /// Subscribe indicator to change events and save reference
@@ -67,16 +67,16 @@ namespace Blazorise.LoadingIndicator
         {
             lock ( hashLock )
             {
-                if ( indicators.Count == 0 )
+                indicators.Add( indicator );
+
+                if ( indicators.Count == 1 )
                 {
                     SingleMode( indicator );
                 }
-                else if ( indicators.Count == 1 )
+                else
                 {
                     MultiMode();
                 }
-
-                indicators.Add( indicator );
             }
         }
 
@@ -115,7 +115,7 @@ namespace Blazorise.LoadingIndicator
             return Task.WhenAll( tasks );
         }
 
-        private Task SetLoadedMulti( bool value )
+        private Task SetInitializingMulti( bool value )
         {
             List<Task> tasks;
             lock ( hashLock )
@@ -123,7 +123,7 @@ namespace Blazorise.LoadingIndicator
                 tasks = new( indicators.Count );
                 foreach ( var indicator in indicators )
                 {
-                    tasks.Add( indicator.SetLoaded( value ) );
+                    tasks.Add( indicator.SetInitializing( value ) );
                 }
             }
             return Task.WhenAll( tasks );
@@ -152,7 +152,7 @@ namespace Blazorise.LoadingIndicator
             return val;
         }
 
-        private bool? GetLoadedMulti()
+        private bool? GetInitializingMulti()
         {
             bool? val = null;
             lock ( hashLock )
@@ -161,11 +161,11 @@ namespace Blazorise.LoadingIndicator
                 {
                     if ( val == null )
                     {
-                        val = indicator.Loaded;
+                        val = indicator.Initializing;
                     }
                     else
                     {
-                        if ( val != indicator.Loaded )
+                        if ( val != indicator.Initializing )
                         {
                             return null;
                         }
@@ -183,7 +183,7 @@ namespace Blazorise.LoadingIndicator
         public bool? Visible => GetVisibleFunc();
 
         /// <inheritdoc/>
-        public bool? Loaded => GetLoadedFunc();
+        public bool? Initializing => GetInitializingFunc();
 
         #endregion
     }
