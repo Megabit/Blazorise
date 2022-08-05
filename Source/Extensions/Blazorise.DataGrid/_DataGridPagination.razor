@@ -40,7 +40,7 @@
         {
             @paginationFragment
         }
-        @if ( GetTotalItemsPosition() == PagerElementPosition.End )
+        @if ( GetTotalItemsPosition() == PagerElementPosition.End || GetTotalItemsPosition() == PagerElementPosition.Default )
         {
             @totalItemsFragment
         }
