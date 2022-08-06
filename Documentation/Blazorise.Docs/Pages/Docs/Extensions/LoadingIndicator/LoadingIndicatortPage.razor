@@ -99,6 +99,16 @@
     <DocsPageSectionSource Code="LoadingIndicatorBusyFormExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Using animation">
+        Loading indicator can animate its visibility state by fading into view. This is on by default for <Code>ApplicationLoadingIndicator</Code>. You can also use the <Code>Animate</Code> component to add a visual effect.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LoadingIndicatorAnimationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorAnimationExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -106,6 +116,9 @@
 <DocsAttributes>
     <DocsAttributesItem Name="FadeIn" Type="bool" Default="false">
         Fade in indicator screen into view. Default true for ApplicationLoadingIndicator.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FadeInDuration" Type="TimeSpan" Default="700ms">
+        Fade in animation duration 
     </DocsAttributesItem>
     <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
         Show indicator in full screen mode. Default true for ApplicationLoadingIndicator.

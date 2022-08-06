@@ -97,7 +97,6 @@ namespace Blazorise.LoadingIndicator
         private void BuildIndicatorClasses( ClassBuilder builder )
         {
             builder.Append( "b-loading-indicator-overlay" );
-            builder.Append( "b-loading-indicator-overlay-fadein", FadeIn );
             builder.Append( FullScreen ? "b-loading-indicator-overlay-fixed" : "b-loading-indicator-overlay-relative" );
             builder.Append( IndicatorPadding?.Class( ClassProvider ), IndicatorPadding != null );
             builder.Append( LoadingIndicatorPlacementToFluentFlex().Class( ClassProvider ) );
@@ -105,6 +104,7 @@ namespace Blazorise.LoadingIndicator
 
         private void BuildIndicatorStyles( StyleBuilder builder )
         {
+            builder.Append( $"animation:b-loading-indicator-overlay-fadein {FadeInDuration.TotalMilliseconds}ms ease-in;", FadeIn );
             builder.Append( $"background-color:{IndicatorBackground.Name}" );
             builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
         }
@@ -133,7 +133,6 @@ namespace Blazorise.LoadingIndicator
                 DirtyStyles();
 
                 await VisibleChanged.InvokeAsync( value );
-
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -341,6 +340,11 @@ namespace Blazorise.LoadingIndicator
         /// Fade in indicator into view
         /// </summary>
         [Parameter] public bool FadeIn { get; set; }
+
+        /// <summary>
+        /// Fade in duration 
+        /// </summary>
+        [Parameter] public TimeSpan FadeInDuration { get; set; } = TimeSpan.FromMilliseconds( 700 );
 
         /// <summary>
         /// Wrap inline content.

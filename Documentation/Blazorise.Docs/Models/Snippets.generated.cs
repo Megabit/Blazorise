@@ -5563,6 +5563,31 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
 
+        public const string LoadingIndicatorAnimationExample = @"<LoadingIndicator @ref=""loadingIndicator"" FullScreen FadeIn>
+    <ChildContent>
+        <Button Clicked=""ShowIndicator"" Color=""Color.Primary"">Show indicator</Button>
+    </ChildContent>
+    <IndicatorTemplate>
+        <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""loadingIndicator.FadeInDuration"">
+            <Div><SpinKit Type=""SpinKitType.Wave"" Size=""100px""/></Div>
+        </Animate>
+    </IndicatorTemplate>
+</LoadingIndicator>
+
+@code 
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task ShowIndicator()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay(3000); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+}";
+
         public const string LoadingIndicatorApplicationBusyExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
 
 @code 
