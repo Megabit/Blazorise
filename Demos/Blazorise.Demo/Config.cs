@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -18,7 +19,8 @@ namespace Blazorise.Demo
                 {
                     options.UseBubbleTheme = true;
                     options.UseShowTheme = true;
-                } );
+                } )
+                .AddLoadingIndicator();
 
             services.AddMemoryCache();
 

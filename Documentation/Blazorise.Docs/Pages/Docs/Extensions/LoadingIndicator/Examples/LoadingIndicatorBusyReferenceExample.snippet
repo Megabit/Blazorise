@@ -1,0 +1,20 @@
+﻿<LoadingIndicator @ref="loadingIndicator">
+    <Button Disabled="loadingIndicator.Visible" Clicked="DoWork"/>
+</LoadingIndicator>
+
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        if ( !loadingIndicator.Visible )
+        {
+            await loadingIndicator.Show();
+            
+            // do work...
+            
+            await loadingIndicator.Hide();
+        }
+    }
+}

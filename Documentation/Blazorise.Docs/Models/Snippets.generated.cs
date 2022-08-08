@@ -5561,6 +5561,204 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
+
+        public const string LoadingIndicatorAnimationExample = @"<LoadingIndicator @ref=""loadingIndicator"" FullScreen FadeIn>
+    <ChildContent>
+        <Button Clicked=""ShowIndicator"" Color=""Color.Primary"">Show indicator</Button>
+    </ChildContent>
+    <IndicatorTemplate>
+        <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""TimeSpan.FromMilliseconds( 700 )"">
+            <Div>
+                <SpinKit Type=""SpinKitType.Wave"" Size=""100px"" />
+            </Div>
+        </Animate>
+    </IndicatorTemplate>
+</LoadingIndicator>
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task ShowIndicator()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorApplicationBusyExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+@code 
+{
+    async Task DoWork()
+    {
+        await ApplicationLoadingIndicatorService.Show();
+        
+        // do work ...
+        
+        await ApplicationLoadingIndicatorService.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorApplicationWrapperExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+	<Found>...</Found>
+	<NotFound>...</NotFound>
+</Router>
+
+<ApplicationLoadingIndicator />";
+
+        public const string LoadingIndicatorBasicExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code 
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task UpdateChart()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay(3000); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}";
+
+        public const string LoadingIndicatorBusyBindingExample  = @"<LoadingIndicator @binding-Visible=""running"">
+    <ChildContent>
+		<Button Disabled=""running"" Clicked=""Start"" />
+    </ChildContent>
+    <IndicatorTemplate>
+		<Button Clicked=""Cancel"" />
+    </IndicatorTemplate>
+</LoadingIndicator>
+
+@code
+{
+    bool running;
+
+    async Task Start()
+    {
+        if ( !running )
+        {
+            running = true;
+            await StartLongRunningTask();
+        }
+    }
+
+    async Task Cancel()
+    {
+        await CancelTask();
+        running = false;
+	}
+}";
+
+        public const string LoadingIndicatorBusyFormExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<form action=""/action_page.php"">
+    <fieldset disabled=""ApplicationLoadingIndicatorService.Visible""> 
+        <label for=""fname"">Message:</label>
+        <input type=""text"" id=""message"" name=""message"">
+        <input type=""submit"" value=""Send"">
+     </fieldset>
+</form>";
+
+        public const string LoadingIndicatorBusyReferenceExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <Button Disabled=""loadingIndicator.Visible"" Clicked=""DoWork""/>
+</LoadingIndicator>
+
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        if ( !loadingIndicator.Visible )
+        {
+            await loadingIndicator.Show();
+            
+            // do work...
+            
+            await loadingIndicator.Hide();
+        }
+    }
+}";
+
+        public const string LoadingIndicatorBusyServiceExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Button Disabled=""ApplicationLoadingIndicatorService.Visible"" />";
+
+        public const string LoadingIndicatorCascadingBusyExample = @"<Button Clicked=""DoWork"" />
+
+@code
+{
+    [CascadingParameter]
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        await loadingIndicator.Show();
+        
+        // do work ...
+        
+        await loadingIndicator.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorCascadingWrapperExample = @"<LoadingIndicator FullScreen>
+    @Body
+</LoadingIndicator>";
+
+        public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
+
+        public const string LoadingIndicatorTwoWayBindingExample = @"<LoadingIndicator @bind-Visible=""@visible"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code
+{
+    bool visible;
+
+    async Task UpdateChart()
+    {
+        visible = true;
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        visible = false;
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
