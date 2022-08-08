@@ -26,27 +26,10 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 
-    .dropdown-item {
-        &.active {
-            .custom-control-label {
-                color: $white;
-            }
-        }
-
-        &.focus {
-            color: #16181b !important;
-            text-decoration: none;
-            background-color: #e9ecef;
-
-            .custom-control-label {
-                color: #16181b;
-            }
-        }
-    }
-
-    .custom-control-label {
-        cursor: pointer;
-        color: #16181b;
+    .dropdown-item.focus {
+        color: #16181b !important;
+        text-decoration: none;
+        background-color: #e9ecef;
     }
 }
 
