@@ -93,7 +93,7 @@
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
+                        <Autocomplete TItem="Country" MinLength="0"
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
@@ -148,7 +148,7 @@
                                       Placeholder="Search..."
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
-                                      MinLength="1"
+                                      MinLength="0"
                                       SelectionMode="AutocompleteSelectionMode.Checkbox"
                                       @bind-SelectedValues="multipleSelectionData"
                                       @bind-SelectedTexts="multipleSelectionTexts">
@@ -178,7 +178,7 @@
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
+                        <Autocomplete TItem="Country" MinLength="0"
                                       TValue="string"
                                       Data="@ReadDataCountries"
                                       ReadData="HandleReadData"
@@ -214,7 +214,7 @@
                                       ReadData="HandleMultipleReadData"
                                       TextField="@((item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search..."
+                                      Placeholder="Search..." MinLength="0"
                                       SelectionMode="AutocompleteSelectionMode.Multiple"
                                       CloseOnSelection="false"
                                       @bind-SelectedValues="multipleReadDataSelectionData"
