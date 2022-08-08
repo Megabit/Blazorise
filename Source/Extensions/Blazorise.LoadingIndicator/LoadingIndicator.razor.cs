@@ -342,7 +342,7 @@ namespace Blazorise.LoadingIndicator
         [Parameter] public bool FadeIn { get; set; }
 
         /// <summary>
-        /// Fade in duration 
+        /// Fade in duration in milliseconds
         /// </summary>
         [Parameter] public TimeSpan FadeInDuration { get; set; } = TimeSpan.FromMilliseconds( 700 );
 
