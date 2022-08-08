@@ -37,16 +37,22 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
-        The basic usage scenario for <Code>LoadingIndicator</Code> with default settings using indicator reference.
+        The basic usage scenario for <Code>LoadingIndicator</Code> with default settings using a <Code>LoadingIndicator</Code> object reference.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <LoadingIndicatorBasicExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorBasicExample" />
-    <DocsPageSectionContent>
-        Use binding to control the indicator instead of reference if your scenario calls for it
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way Binding Example">
+        Having a more declarative approach to control the indicator is also supported. To make it work, you just need to bind a variable to the <Code>Visible</Code> parameter, and it will work.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LoadingIndicatorTwoWayBindingExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorBusyBindingExample" />
+    <DocsPageSectionSource Code="LoadingIndicatorTwoWayBindingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -118,7 +124,7 @@
         Fade in indicator screen into view. Default true for ApplicationLoadingIndicator.
     </DocsAttributesItem>
     <DocsAttributesItem Name="FadeInDuration" Type="TimeSpan" Default="700ms">
-        Fade in animation duration 
+        Fade in animation duration
     </DocsAttributesItem>
     <DocsAttributesItem Name="FullScreen" Type="bool" Default="false">
         Show indicator in full screen mode. Default true for ApplicationLoadingIndicator.

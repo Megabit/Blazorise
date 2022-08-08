@@ -5,14 +5,16 @@
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ShowIndicator</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show indicator<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">IndicatorTemplate</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Animate</span> <span class="htmlAttributeName">Animation</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Animations</span><span class="enumValue">.FadeDownRight</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Auto</span> <span class="htmlAttributeName">Duration</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">loadingIndicator.FadeInDuration</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SpinKit</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SpinKitType</span><span class="enumValue">.Wave</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100px</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Animate</span> <span class="htmlAttributeName">Animation</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Animations</span><span class="enumValue">.FadeDownRight</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Auto</span> <span class="htmlAttributeName">Duration</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TimeSpan.FromMilliseconds( 700 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SpinKit</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SpinKitType</span><span class="enumValue">.Wave</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100px</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Animate</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">IndicatorTemplate</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LoadingIndicator</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
-<span class="atSign">&#64;</span>code 
+<span class="atSign">&#64;</span>code
 {
     LoadingIndicator loadingIndicator;
 
@@ -20,7 +22,7 @@
     {
         <span class="keyword">await</span> loadingIndicator.Show();
 
-        <span class="keyword">await</span> Task.Delay(<span class="number">3000</span>); <span class="comment">// Do work ...</span>
+        <span class="keyword">await</span> Task.Delay( <span class="number">3000</span> ); <span class="comment">// Do work ...</span>
 
         <span class="keyword">await</span> loadingIndicator.Hide();
     }

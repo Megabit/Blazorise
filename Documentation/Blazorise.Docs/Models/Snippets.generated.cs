@@ -5568,13 +5568,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Button Clicked=""ShowIndicator"" Color=""Color.Primary"">Show indicator</Button>
     </ChildContent>
     <IndicatorTemplate>
-        <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""loadingIndicator.FadeInDuration"">
-            <Div><SpinKit Type=""SpinKitType.Wave"" Size=""100px""/></Div>
+        <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""TimeSpan.FromMilliseconds( 700 )"">
+            <Div>
+                <SpinKit Type=""SpinKitType.Wave"" Size=""100px"" />
+            </Div>
         </Animate>
     </IndicatorTemplate>
 </LoadingIndicator>
-
-@code 
+@code
 {
     LoadingIndicator loadingIndicator;
 
@@ -5582,7 +5583,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         await loadingIndicator.Show();
 
-        await Task.Delay(3000); // Do work ...
+        await Task.Delay( 3000 ); // Do work ...
 
         await loadingIndicator.Hide();
     }
@@ -5609,16 +5610,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 <ApplicationLoadingIndicator />";
 
-        public const string LoadingIndicatorBasicExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.IsThird"">
-        <LoadingIndicator @ref=""loadingIndicator"">
-            <LineChart TItem=""double"" Data=""lineChartData"" />
-        </LoadingIndicator>
-    </Column>
-</Row>
+        public const string LoadingIndicatorBasicExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
 
 <Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
-
 @code 
 {
     LoadingIndicator loadingIndicator;
@@ -5733,6 +5729,35 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
+
+        public const string LoadingIndicatorTwoWayBindingExample = @"<LoadingIndicator @bind-Visible=""@visible"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code
+{
+    bool visible;
+
+    async Task UpdateChart()
+    {
+        visible = true;
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        visible = false;
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}";
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 

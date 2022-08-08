@@ -1,20 +1,20 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-<LoadingIndicator @ref="loadingIndicator">
+<LoadingIndicator @bind-Visible="@visible">
     <LineChart TItem="double" Data="lineChartData" />
 </LoadingIndicator>
 
 <Button Clicked="UpdateChart" Color="Color.Primary">Update</Button>
-@code 
+@code
 {
-    LoadingIndicator loadingIndicator;
+    bool visible;
 
     async Task UpdateChart()
     {
-        await loadingIndicator.Show();
+        visible = true;
 
-        await Task.Delay(3000); // Do work ...
+        await Task.Delay( 3000 ); // Do work ...
 
-        await loadingIndicator.Hide();
+        visible = false;
     }
 
     // sample data
