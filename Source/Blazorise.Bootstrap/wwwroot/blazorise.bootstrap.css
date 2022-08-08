@@ -156,10 +156,20 @@
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll;
 }
+.b-is-autocomplete .dropdown-menu .dropdown-item.active .custom-control-label {
+  color: #fff;
+}
 .b-is-autocomplete .dropdown-menu .dropdown-item.focus {
   color: #16181b !important;
   text-decoration: none;
   background-color: #e9ecef;
+}
+.b-is-autocomplete .dropdown-menu .dropdown-item.focus .custom-control-label {
+  color: #16181b;
+}
+.b-is-autocomplete .dropdown-menu .custom-control-label {
+  cursor: pointer;
+  color: #16181b;
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
