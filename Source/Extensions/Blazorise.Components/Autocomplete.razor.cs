@@ -366,6 +366,9 @@ namespace Blazorise.Components
 
             if ( !DropdownVisible )
             {
+                if ( ManualReadMode )
+                    await InvokeReadData();
+
                 await Open();
                 ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );
                 return;
@@ -388,11 +391,10 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected Task OnTextFocusHandler( FocusEventArgs eventArgs )
+        protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
-            DirtyFilter();
-            return Task.CompletedTask;
+            await OnTextKeyDownHandler( new KeyboardEventArgs() );
         }
 
         /// <summary>
