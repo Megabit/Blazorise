@@ -93,7 +93,7 @@
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country" MinLength="0"
+                        <Autocomplete TItem="Country"
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
@@ -148,7 +148,7 @@
                                       Placeholder="Search..."
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
-                                      MinLength="0"
+                                      MinLength="1"
                                       SelectionMode="AutocompleteSelectionMode.Checkbox"
                                       @bind-SelectedValues="multipleSelectionData"
                                       @bind-SelectedTexts="multipleSelectionTexts">
@@ -178,12 +178,13 @@
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country" MinLength="0"
+                        <Autocomplete TItem="Country"
                                       TValue="string"
                                       Data="@ReadDataCountries"
                                       ReadData="HandleReadData"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
+                                      MinLength="0"
                                       Placeholder="Search...">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
