@@ -57,8 +57,16 @@
                 <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
                     @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                     {
-                        <Field Horizontal Margin="Margin.Is0.FromStart">
-                            <Check TValue="bool" Checked="@isActiveItem" Disabled>
+                        <Field Horizontal>
+                            @if ( isActiveItem )
+                            {
+                                <Icon Name="IconName.CheckSquare" TextColor="TextColor.Primary"></Icon>
+                            }
+                            else
+                            {
+                                <Icon Name="IconName.Square" TextColor="TextColor.Primary"></Icon>
+                            }
+                            <FieldBody>
                                 @if ( ItemContent is not null )
                                 {
                                     @ItemContent(new (item, value, text))
@@ -67,7 +75,7 @@
                                 {
                                     @text
                                 }
-                            </Check>
+                            </FieldBody>
                         </Field>
                     }
                     else
