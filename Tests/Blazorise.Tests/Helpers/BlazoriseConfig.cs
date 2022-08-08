@@ -111,6 +111,8 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "import", _ => true ).SetVoidResult();
                 module.SetupVoid( "registerClosableComponent", _ => true ).SetVoidResult();
                 module.SetupVoid( "unregisterClosableComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "registerClosableLightComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "unregisterClosableLightComponent", _ => true ).SetVoidResult();
             }
 
             public static void AddNumericEdit( BunitJSInterop jsInterop )
@@ -140,7 +142,6 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "open", _ => true ).SetVoidResult();
                 module.SetupVoid( "close", _ => true ).SetVoidResult();
             }
-
 
 
             public static void AddTable( BunitJSInterop jsInterop )
