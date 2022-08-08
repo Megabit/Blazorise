@@ -174,26 +174,9 @@ input[type=button].btn-block {
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll;
 }
-.b-is-autocomplete .dropdown-menu .dropdown-item.active .form-check-label {
-  opacity: 1;
-  color: #fff;
-}
 .b-is-autocomplete .dropdown-menu .dropdown-item.focus {
   color: #1e2125 !important;
-  text-decoration: none;
   background-color: #e9ecef;
-}
-.b-is-autocomplete .dropdown-menu .dropdown-item.focus .form-check-label {
-  opacity: 1;
-  color: #1e2125;
-}
-.b-is-autocomplete .dropdown-menu .form-check-input {
-  opacity: 1;
-}
-.b-is-autocomplete .dropdown-menu .form-check-label {
-  opacity: 1;
-  cursor: pointer;
-  color: #1e2125;
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
