@@ -58,18 +58,16 @@
                     @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                     {
                         <Field Horizontal Margin="Margin.Is0.FromStart">
-                            <Label>
-                                <Check TValue="bool" Checked="@isActiveItem" Disabled>
-                                    @if ( ItemContent is not null )
-                                    {
-                                        @ItemContent(new (item, value, text))
-                                    }
-                                    else
-                                    {
-                                        @text
-                                    }
-                                </Check>
-                            </Label>
+                            <Check TValue="bool" Checked="@isActiveItem" Disabled>
+                                @if ( ItemContent is not null )
+                                {
+                                    @ItemContent(new (item, value, text))
+                                }
+                                else
+                                {
+                                    @text
+                                }
+                            </Check>
                         </Field>
                     }
                     else
