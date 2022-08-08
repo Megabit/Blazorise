@@ -26,27 +26,10 @@
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 
-    .dropdown-item {
-        &.active {
-            i {
-                color: $white;
-            }
-        }
-
-        &.focus {
-            color: #16181b !important;
-            text-decoration: none;
-            background-color: #e9ecef;
-
-            i {
-                color: $primary;
-            }
-        }
-    }
-
-    i {
-        color: $primary;
-        margin-right: 0.25rem;
+    .dropdown-item.focus {
+        color: #16181b !important;
+        text-decoration: none;
+        background-color: #e9ecef;
     }
 }
 

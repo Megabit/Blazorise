@@ -156,20 +156,10 @@
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll;
 }
-.b-is-autocomplete .dropdown-menu .dropdown-item.active i {
-  color: #fff;
-}
 .b-is-autocomplete .dropdown-menu .dropdown-item.focus {
   color: #16181b !important;
   text-decoration: none;
   background-color: #e9ecef;
-}
-.b-is-autocomplete .dropdown-menu .dropdown-item.focus i {
-  color: #007bff;
-}
-.b-is-autocomplete .dropdown-menu i {
-  color: #007bff;
-  margin-right: 0.25rem;
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
