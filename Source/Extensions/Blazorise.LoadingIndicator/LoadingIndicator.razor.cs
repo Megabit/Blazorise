@@ -247,7 +247,7 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Indicates whether component should display initializing or actual content
+        /// Indicates whether component should display initializing or actual content.
         /// </summary>
         [Parameter]
         public bool Initializing
@@ -257,7 +257,7 @@ namespace Blazorise.LoadingIndicator
         }
 
         /// <summary>
-        /// Indicates whether the loading indicator is visible
+        /// Indicates whether the loading indicator is visible.
         /// </summary>
         [Parameter]
         public bool Visible
@@ -292,7 +292,7 @@ namespace Blazorise.LoadingIndicator
         [Parameter] public RenderFragment InitializingTemplate { get; set; }
 
         /// <summary>
-        /// Spinner background color
+        /// Spinner background color.
         /// </summary>
         [Parameter] public Background SpinnerBackground { get; set; } = "#c0c0c0";
 
@@ -337,12 +337,12 @@ namespace Blazorise.LoadingIndicator
         [Parameter] public bool FullScreen { get; set; }
 
         /// <summary>
-        /// Fade in indicator into view
+        /// Fade in indicator into view.
         /// </summary>
         [Parameter] public bool FadeIn { get; set; }
 
         /// <summary>
-        /// Fade in duration in milliseconds
+        /// Fade in duration in milliseconds. Default is 700 ms.
         /// </summary>
         [Parameter] public TimeSpan FadeInDuration { get; set; } = TimeSpan.FromMilliseconds( 700 );
 
