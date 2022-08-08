@@ -35,6 +35,7 @@ namespace Blazorise.Tests.Components
             // validate
             // validate Dropdown initialize / textfield initialize
             this.JSInterop.VerifyInvoke( "initialize", 2 );
+            this.JSInterop.VerifyInvoke( "registerClosableLightComponent", 1 );
             for ( int i = 0; i < selectedTexts?.Count; i++ )
             {
                 Assert.Single( expectedSelectedTexts, selectedTexts[i] );
@@ -71,6 +72,7 @@ namespace Blazorise.Tests.Components
             // validate
             // validate Dropdown initialize / textfield initialize
             this.JSInterop.VerifyInvoke( "initialize", 2 );
+            this.JSInterop.VerifyInvoke( "registerClosableLightComponent", 1 );
             for ( int i = 0; i < selectedTexts?.Count; i++ )
             {
                 Assert.Single( expectedSelectedTexts, selectedTexts[i] );
