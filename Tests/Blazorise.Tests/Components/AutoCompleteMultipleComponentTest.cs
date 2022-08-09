@@ -113,6 +113,29 @@ namespace Blazorise.Tests.Components
         }
 
         [Theory]
+        [InlineData( new[] { "Portugal", "Croatia" }, new[] { "MyCustomValue", "YetAnotherCustomValue" }, new[] { "Portugal", "Croatia", "MyCustomValue", "YetAnotherCustomValue" } )]
+        public void FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
+        {
+            var comp = RenderComponent<AutocompleteMultipleComponent>(
+parameters =>
+                 parameters.Add( x => x.selectedTexts, startTexts.ToList() ) );
+
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            foreach ( var expectedText in expectedTexts )
+            {
+                autoComplete.Focus();
+                autoComplete.Input( expectedText );
+                autoComplete.KeyDown( Key.Enter );
+            }
+
+            var badges = comp.FindAll( ".b-is-autocomplete .badge" );
+            for ( int i = 0; i < badges?.Count; i++ )
+            {
+                Assert.Single( expectedTexts, badges[i].TextContent.Replace( "×", "" ) );
+            }
+        }
+
+        [Theory]
         [InlineData( new[] { "Portugal", "Croatia" }, new[] { "Croatia" }, new[] { "Portugal" } )]
         [InlineData( new[] { "Portugal", "Croatia" }, new[] { "Croatia", "Portugal" }, new string[0] )]
         [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }
