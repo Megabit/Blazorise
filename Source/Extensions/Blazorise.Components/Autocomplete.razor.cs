@@ -232,21 +232,6 @@ namespace Blazorise.Components
         {
             ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
 
-            if ( ManualReadMode )
-                await Reload();
-
-            if ( AutoSelectFirstItem && !IsMultiple && HasFilteredData )
-            {
-                currentSearch = selectedText = GetItemText( FilteredData.First() );
-                selectedValue = new( GetItemValue( FilteredData.First() ) );
-
-                await Task.WhenAll(
-                    CurrentSearchChanged.InvokeAsync( currentSearch ),
-                    SelectedTextChanged.InvokeAsync( selectedText ),
-                    SelectedValueChanged.InvokeAsync( selectedValue )
-                );
-            }
-            
             await base.OnInitializedAsync();
         }
 
@@ -288,7 +273,9 @@ namespace Blazorise.Components
                 }
                 else
                 {
-                    await ResetActiveItemIndex();
+                    if ( !HasFilteredData )
+                        await ResetActiveItemIndex();
+
                     await ResetSelectedValue();
 
                     if ( FreeTyping )
@@ -368,6 +355,9 @@ namespace Blazorise.Components
             {
                 if ( ManualReadMode )
                     await InvokeReadData();
+
+                if (HasFilteredData && AutoSelectFirstItem)
+                    ActiveItemIndex = 0;
 
                 await Open();
                 ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );
