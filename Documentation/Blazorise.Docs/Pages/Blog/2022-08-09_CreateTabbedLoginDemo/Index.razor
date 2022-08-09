@@ -1,12 +1,12 @@
 @page "/blog/create-a-tabbed-login-form-with-blazorise-components"
 
-<Seo Canonical="/blog/create-a-tabbed-login-form-with-blazorise-components" Title="Guide: Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes" Description="This post guides you on how to create a login page using blazorise components." ImageUrl="img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png" />
+<Seo Canonical="/blog/create-a-tabbed-login-form-with-blazorise-components" Title="Guide: Create A Tabbed Login and Register Page With Blazorise Components In 5 Minutes" Description="This post guides you on how to create a login page using blazorise components." ImageUrl="img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png" />
 
 <BlogPageImage Source="img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png" Text="Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes" />
 
-<BlogPageSubtitle>
-    Excerpt
-</BlogPageSubtitle>
+<BlogPageTitle>
+    Guide: Create A Tabbed Login and Register Page With Blazorise Components In 5 Minutes
+</BlogPageTitle>
 
 <BlogPageParagraph>
     This focuses on just the structure and markup of the user interface and is intended to demonstrate the use of Blazorise components and does not cover advanced topics such as tokens, cryptography, and hashing.
@@ -37,7 +37,7 @@
 </Heading>
 
 <BlogPageParagraph>
-    The page is structured by using Blazorise Tabs to have both the login and registration form on the same page. That way, both new and existing users can be onboarded to the platform.
+    The page is structured by using <Anchor To="docs/components/tab" Title="Link to Blazorise Tabs">Blazorise Tabs</Anchor> to have both the login and registration form on the same page. That way, both new and existing users can be onboarded to the platform.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -46,7 +46,7 @@
 
 <BlogPageParagraph>
     <Blockquote>
-        To begin, scaffold a new Blazor WebAssembly project. <Anchor To="" Title="Link to Click here">Click here</Anchor> for more information on how to setup <Anchor To="" Title="Link to blazor wasm">blazor wasm</Anchor> with <Anchor To="" Title="Link to blazorise components">blazorise components</Anchor>.
+        To begin, scaffold a new Blazor WebAssembly project. <Anchor To="blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to Click here">Click here</Anchor> for more information on how to setup <Anchor To="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Title="Link to Blazor WASM">Blazor WASM</Anchor> with <Anchor To="docs/components" Title="Link to Blazorise components">Blazorise components</Anchor>.
     </Blockquote>
 </BlogPageParagraph>
 
@@ -59,11 +59,11 @@
 </Heading>
 
 <BlogPageParagraph>
-    To make sure your login page is accessible, you need to add a Markdig.Syntax.Inlines.HtmlInline to your sidebar menu.
+    To make sure your login page is accessible, you need to add a <Code Tag>nav link</Code> to your sidebar menu.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    You can either create a new one from scratch by copy/pasting the snippet below into the NavMenu.razor file or edit any of the preexisting div-class elements. The second option might affect other pages in the project.
+    You can either create a new one from scratch by copy/pasting the snippet below into the <Strong>NavMenu.razor</Strong> file or edit any of the preexisting div-class elements. The second option might affect other pages in the project.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CreateTabbedLoginDemo1" />
@@ -73,7 +73,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    In the pages folder of your Blazor project, create a new razor file and name it login. razor
+    In the pages folder of your Blazor project, create a new razor file and name it <Strong>Login.razor</Strong>
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -93,7 +93,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    In the Markdig.Syntax.Inlines.HtmlInline element, you can embed other elements or components to complete the markup of the tab. In our case, we will use the Markdig.Syntax.Inlines.HtmlInline component to building out our login form.
+    In the <Code Tag>content</Code> element, you can embed other elements or components to complete the markup of the tab. In our case, we will use the <Code Tag>Field</Code> component to building out our login form.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CreateTabbedLoginDemo2" />
@@ -105,7 +105,7 @@
 <BlogPageSourceBlock Code="CreateTabbedLoginDemo3" />
 
 <BlogPageParagraph>
-    <Anchor To="https://blazorise.com/docs/components/tab" Title="Link to Click here to read more about Blazorise Tabs Component">Click here to read more about Blazorise Tabs Component</Anchor>
+    <Anchor To="docs/components/tab" Title="Link to Click here to read more about Blazorise Tabs Component">Click here to read more about Blazorise Tabs Component</Anchor>
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -113,7 +113,7 @@
 </Heading>
 
 <BlogPageParagraph>
-    After creating the tabs component, we have to fill it with content. Since we are building a login form, the Fields component will be embedded into the Tab Content element.
+    After creating the tabs component, we have to fill it with content. Since we are building a login form, the <Code>Field</Code> component will be embedded into the Tab Content element.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -138,7 +138,7 @@
 
 <BlogPageParagraph>
     <Blockquote>
-        <Anchor To="https://blazorise.com/docs/components/field" Title="Link to Click here to read more about Blazorise Field Components">Click here to read more about Blazorise Field Components</Anchor>
+        <Anchor To="docs/components/field" Title="Link to Click here to read more about Blazorise Field Components">Click here to read more about Blazorise Field Components</Anchor>
     </Blockquote>
 </BlogPageParagraph>
 
@@ -148,7 +148,7 @@
 
 <BlogPageParagraph>
     <Blockquote>
-        <Anchor To="https://blazorise.com/docs/components/button" Title="Link to Click here to read more about the Button Component">Click here to read more about the Button Component</Anchor>
+        <Anchor To="docs/components/button" Title="Link to Click here to read more about the Button Component">Click here to read more about the Button Component</Anchor>
     </Blockquote>
 </BlogPageParagraph>
 
@@ -177,7 +177,7 @@
 <BlogPageSourceBlock Code="CreateTabbedLoginDemo7" />
 
 <BlogPageParagraph>
-    <Anchor To="https://blazorise.com/docs/components/validation" Title="Link to Read more about Blazorise Validation Component">Read more about Blazorise Validation Component</Anchor>
+    <Anchor To="docs/components/validation" Title="Link to Read more about Blazorise Validation Component">Read more about Blazorise Validation Component</Anchor>
 </BlogPageParagraph>
 
 <BlogPageSubtitle>

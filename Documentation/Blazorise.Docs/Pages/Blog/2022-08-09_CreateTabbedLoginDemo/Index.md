@@ -1,5 +1,5 @@
 ---
-title: Guide: Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes
+title: Guide: Create A Tabbed Login and Register Page With Blazorise Components In 5 Minutes
 description: This post guides you on how to create a login page using blazorise components.
 permalink: /blog/create-a-tabbed-login-form-with-blazorise-components
 canonical: /blog/create-a-tabbed-login-form-with-blazorise-components
@@ -11,7 +11,7 @@ posted-on: August 9th, 2022
 read-time: 5 min
 ---
 
-## Excerpt
+# Guide: Create A Tabbed Login and Register Page With Blazorise Components In 5 Minutes
 
 This focuses on just the structure and markup of the user interface and is intended to demonstrate the use of Blazorise components and does not cover advanced topics such as tokens, cryptography, and hashing.
 
@@ -29,22 +29,23 @@ Security starts with design, whether architecturally or via the UI and the struc
 
 ### Outline of the page
 
-The page is structured by using Blazorise Tabs to have both the login and registration form on the same page. That way, both new and existing users can be onboarded to the platform.
+The page is structured by using [Blazorise Tabs](docs/components/tab) to have both the login and registration form on the same page. That way, both new and existing users can be onboarded to the platform.
 
 ---
 
 ## Step 2 - Create a Blazorise Application.
 
-> To begin, scaffold a new Blazor WebAssembly project. [Click here]() for more information on how to setup [blazor wasm]() with [blazorise components]().
+> To begin, scaffold a new Blazor WebAssembly project. [Click here](blog/how-to-create-a-blazorise-application-beginners-guide) for more information on how to setup [Blazor WASM](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) with [Blazorise components](docs/components).
 
 Blazorise components use semantic HTML elements and this gives meaning to both the browser and the developer. For SEO-intensive applications, semantic HTML is a better option than non-semantic elements such as div and p
 
 ---
 
 ### Create A Sidebar Menu Item.
-To make sure your login page is accessible, you need to add a <nav link> to your sidebar menu.
 
-You can either create a new one from scratch by copy/pasting the snippet below into the NavMenu.razor file or edit any of the preexisting div-class elements. The second option might affect other pages in the project.
+To make sure your login page is accessible, you need to add a `<nav link>` to your sidebar menu.
+
+You can either create a new one from scratch by copy/pasting the snippet below into the **NavMenu.razor** file or edit any of the preexisting div-class elements. The second option might affect other pages in the project.
 
 ```html
 <div class="nav-item px-4">
@@ -58,18 +59,19 @@ You can either create a new one from scratch by copy/pasting the snippet below i
 
 ## Step Three - Create a login.razor page.
 
-In the pages folder of your Blazor project, create a new razor file and name it login. razor
+In the pages folder of your Blazor project, create a new razor file and name it **Login.razor**
 
 Copy and paste the code snippet below to create the markup.
 
 ---
 
 ### Creating Tabs
+
 The tabs element allow users to navigate to different sections of a single-page application. We embedded the login and register forms into tabs to allow users to switch easily without creating a single page for each.
 
 The Tab Items represent the various tab menus. It is used to contain the name of the tab.
 
-In the <content> element, you can embed other elements or components to complete the markup of the tab. In our case, we will use the <Field> component to building out our login form.
+In the `<content>` element, you can embed other elements or components to complete the markup of the tab. In our case, we will use the `<Field>` component to building out our login form.
 
 ```html
 <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
@@ -103,12 +105,13 @@ Now define the selectedTab variable in the @@code block section of the razor pag
 }
 ``` 
 
-[Click here to read more about Blazorise Tabs Component](https://blazorise.com/docs/components/tab)
+[Click here to read more about Blazorise Tabs Component](docs/components/tab)
 
 ---
 
 ### Adding Fields
-After creating the tabs component, we have to fill it with content. Since we are building a login form, the Fields component will be embedded into the Tab Content element.
+
+After creating the tabs component, we have to fill it with content. Since we are building a login form, the `Field` component will be embedded into the Tab Content element.
 
 Fields are used to layout input elements to build a form.
 
@@ -130,11 +133,13 @@ After creating form fields, add a button to submit user input.
 <Button Color="Color.Primary">Login</Button>
 ```
 
-Blazorise Field Component 
-> [Click here to read more about Blazorise Field Components](https://blazorise.com/docs/components/field)
+Blazorise Field Component
 
-Blazorise Button Component 
-> [Click here to read more about the Button Component](https://blazorise.com/docs/components/button)
+> [Click here to read more about Blazorise Field Components](docs/components/field)
+
+Blazorise Button Component
+
+> [Click here to read more about the Button Component](docs/components/button)
 
 ### Implementing Validation
 
@@ -170,7 +175,7 @@ Add variable definitions in the @@code section of the razor page
 }
 ```
 
-[Read more about Blazorise Validation Component](https://blazorise.com/docs/components/validation)
+[Read more about Blazorise Validation Component](docs/components/validation)
 
 ## Conclusion
 
@@ -185,18 +190,18 @@ By the end, your razor page should look something like this.
     <Content>
         <TabPanel Name="login">
             Welcome Back, Please Login
-            <Field>
-                <FieldLabel>Username</FieldLabel>
-				<Validation Validator="ValidatorRule.IsNotEmpty">
-                	<TextEdit Placeholder="Enter Username...">
-						<Feedback>
-							<ValidationNone>Please Enter A Username. </ValidationNone>
-							<ValidationSuccess>Username is good</ValidationSuccess>
-							<ValidationError>Please Enter A Valid Username</ValidationError>
-						</Feedback>
-					</TextEdit>
-				</Validation>
-            </Field>
+            <Validation Validator="ValidatorRule.IsNotEmpty">
+                <Field>
+                    <FieldLabel>Username</FieldLabel>
+                    <TextEdit Placeholder="Enter Username...">
+                        <Feedback>
+                            <ValidationNone>Please Enter A Username. </ValidationNone>
+                            <ValidationSuccess>Username is good</ValidationSuccess>
+                            <ValidationError>Please Enter A Valid Username</ValidationError>
+                        </Feedback>
+                    </TextEdit>
+                </Field>
+            </Validation>
             <Field>
                 <FieldLabel>Password</FieldLabel>
                 <TextEdit Placeholder="Enter Password.." />
@@ -211,21 +216,21 @@ By the end, your razor page should look something like this.
                 <FieldLabel>Name</FieldLabel>
                 <TextEdit Placeholder="Enter Your Name" />
             </Field>
-            <Field>
-                <FieldLabel>Email</FieldLabel>
-				<Validation Validator="ValidateEmail">
-                	<TextEdit Placeholder="Enter Your Email">
-						<Feedback>
-							<ValidationNone>Please Enter your email.</ValidationNone>
-							<ValidationSuccess>Email is valid</ValidationSuccess>
-							<VlaidationError>Enter Valid email </VlaidationError>
-						</Feedback>
-					</TextEdit>
-				</Validation>
-            </Field>
+            <Validation Validator="ValidateEmail">
+                <Field>
+                    <FieldLabel>Email</FieldLabel>
+                    <TextEdit Placeholder="Enter Your Email">
+                        <Feedback>
+                            <ValidationNone>Please Enter your email.</ValidationNone>
+                            <ValidationSuccess>Email is valid</ValidationSuccess>
+                            <VlaidationError>Enter Valid email </VlaidationError>
+                        </Feedback>
+                    </TextEdit>
+                </Field>
+            </Validation>
             <Field>
                 <FieldLabel>Password</FieldLabel>
-                <TextEdit Placeholder="Enter Email" />		
+                <TextEdit Placeholder="Enter Email" />
                 <FieldHelp>Password Strength: <Text TextColor="TextColor.Danger">Strong</Text></FieldHelp>
             </Field>
             <Button Color="Color.Primary">
