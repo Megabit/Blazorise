@@ -1,6 +1,6 @@
 ---
-title: Guide: Create A Tabbed Login and Register Page With Blazorise Components In 5 Minutes
-description: This post guides you on how to create a login page using blazorise components.
+title: Guide: Create A Login and Register Page With Blazorise
+description: This blog post guides you on how to create a tabbed login and register page by using blazorise components.
 permalink: /blog/create-a-tabbed-login-form-with-blazorise-components
 canonical: /blog/create-a-tabbed-login-form-with-blazorise-components
 image-url: img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png
@@ -11,7 +11,7 @@ posted-on: August 9th, 2022
 read-time: 5 min
 ---
 
-# Guide: Create A Tabbed Login and Register Page With Blazorise Components In 5 Minutes
+# Guide: Create A Tabbed Login and Register Page With Blazorise
 
 This focuses on just the structure and markup of the user interface and is intended to demonstrate the use of Blazorise components and does not cover advanced topics such as tokens, cryptography, and hashing.
 
