@@ -1,17 +1,15 @@
 ---
 title: Guide: Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes
 description: This post guides you on how to create a login page using blazorise components.
-permalink: blog/create-a-tabbed-login-form-with-blazorise-components
-canonical: blog/create-a-tabbed-login-form-with-blazorise-components
+permalink: /blog/create-a-tabbed-login-form-with-blazorise-components
+canonical: /blog/create-a-tabbed-login-form-with-blazorise-components
 image-url: img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png
 image-title: Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes
 author-name: James Amattey
 author-image: james
 posted-on: August 9th, 2022
 read-time: 5 min
-
 ---
-
 
 ## Excerpt
 
@@ -48,12 +46,12 @@ To make sure your login page is accessible, you need to add a <nav link> to your
 
 You can either create a new one from scratch by copy/pasting the snippet below into the NavMenu.razor file or edit any of the preexisting div-class elements. The second option might affect other pages in the project.
 
-``` HTML
+```html
 <div class="nav-item px-4">
-            <NavLink class="nav-link" href="login">
-                <span class="oi oi-list-rich" aria-hidden="true"></span>Login
-            </NavLink>
-        </div>
+    <NavLink class="nav-link" href="login">
+        <span class="oi oi-list-rich" aria-hidden="true"></span>Login
+    </NavLink>
+</div>
 ```
 
 ---
@@ -73,7 +71,7 @@ The Tab Items represent the various tab menus. It is used to contain the name of
 
 In the <content> element, you can embed other elements or components to complete the markup of the tab. In our case, we will use the <Field> component to building out our login form.
 
-``` HTML
+```html
 <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
     <Items>
         <Tab Name="login">Login</Tab>
@@ -90,8 +88,9 @@ In the <content> element, you can embed other elements or components to complete
 </Tabs>
 ```
 
-Now define the selectedTab variable in the @code block section of the razor page.
-``` c#
+Now define the selectedTab variable in the @@code block section of the razor page.
+
+```csharp
 @code{
     string selectedTab = "login";
 
@@ -112,7 +111,8 @@ Now define the selectedTab variable in the @code block section of the razor page
 After creating the tabs component, we have to fill it with content. Since we are building a login form, the Fields component will be embedded into the Tab Content element.
 
 Fields are used to layout input elements to build a form.
-``` HTML
+
+```html
 <Field>
     <FieldLabel>Username</FieldLabel>
     <TextEdit Placeholder="Enter username" />
@@ -125,12 +125,10 @@ Fields are used to layout input elements to build a form.
 You can repeat this for the register tab.
 
 After creating form fields, add a button to submit user input.
-``` HTML
+
+```html
 <Button Color="Color.Primary">Login</Button>
-
 ```
-
-
 
 Blazorise Field Component 
 > [Click here to read more about Blazorise Field Components](https://blazorise.com/docs/components/field)
@@ -139,13 +137,14 @@ Blazorise Button Component
 > [Click here to read more about the Button Component](https://blazorise.com/docs/components/button)
 
 ### Implementing Validation
+
 Now that we have structured both the login and register tabs, we have to ensure that users enter the correct data. The validation component allows you to verify user inputs by finding and correcting errors such as email, or the length of a password. It guides the user to input the correct form of data.
 
 You can either validate through method handlers or through data annotations.
 
 The code snippet below illustrates how you can validate the email field.
 
-``` HTML
+```html
 <Validation Validator="ValidateEmail">
     <TextEdit Placeholder="Enter email">
         <Feedback>
@@ -157,8 +156,9 @@ The code snippet below illustrates how you can validate the email field.
 </Validation>
 ```
 
-Add variable definitions in the @code section of the razor page
-``` c#
+Add variable definitions in the @@code section of the razor page
+
+```csharp
 @code{
     void ValidateEmail( ValidatorEventArgs e )
     {
@@ -170,13 +170,13 @@ Add variable definitions in the @code section of the razor page
 }
 ```
 
-
 [Read more about Blazorise Validation Component](https://blazorise.com/docs/components/validation)
 
 ## Conclusion
+
 By the end, your razor page should look something like this.
 
-``` HTML
+```html
 <Tabs @bind-SelectedTab="@SelectedTab">
     <Items>
         <Tab Name="login">Login</Tab>
@@ -236,7 +236,7 @@ By the end, your razor page should look something like this.
 </Tabs>
 ```
 
-``` c#
+```csharp
 @code {
     bool rememberMe;
     string SelectedTab = "login";
@@ -248,7 +248,4 @@ By the end, your razor page should look something like this.
 			email.Contains("@") ? ValidationStatus.Success : ValidationStatus.Error;
 	}
 }
-
 ```
-
-
