@@ -7,7 +7,8 @@
               @bind-SelectedText="selectedAutoCompleteText"
               Placeholder="Search..."
               FreeTyping
-              MinLength="@MinLength">
+              MinLength="@MinLength"
+              AutoSelectFirstItem="@AutoSelectFirstItem">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
@@ -30,4 +31,7 @@
 
     [Parameter]
     public int MinLength { get; set; } = 1;
+
+    [Parameter]
+    public bool AutoSelectFirstItem { get; set; } = true;
 }

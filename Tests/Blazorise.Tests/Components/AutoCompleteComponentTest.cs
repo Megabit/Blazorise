@@ -39,12 +39,14 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void Should_AutoPreSelectFirstItem()
+        public void AutoSelectFirstItem_True_Should_AutoPreSelectFirstItem()
         {
             // setup
-            var comp = RenderComponent<AutocompleteComponent>( parameters =>
-                    parameters.Add( x => x.MinLength, 0 ) );
-
+            var comp = RenderComponent<AutocompleteComponent>( parameters => { 
+                    parameters.Add( x => x.MinLength, 0 );
+                    parameters.Add( x => x.AutoSelectFirstItem, true );
+            } );
+            
             // test
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
             autoComplete.Input( "" );
@@ -53,10 +55,29 @@ namespace Blazorise.Tests.Components
             var preSelected = comp.Find( ".b-is-autocomplete-suggestion.focus" );
 
             Assert.NotNull( preSelected );
-
         }
+
         [Fact]
-        public void MinLength0_ShouldShowOptions_OnFocus()
+        public void AutoSelectFirstItem_False_ShouldNot_AutoPreSelectFirstItem()
+        {
+            // setup
+            var comp = RenderComponent<AutocompleteComponent>( parameters => {
+                parameters.Add( x => x.MinLength, 0 );
+                parameters.Add( x => x.AutoSelectFirstItem, false );
+            } );
+
+            // test
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            autoComplete.Input( "" );
+            autoComplete.Focus();
+
+            var preSelected = comp.FindAll( ".b-is-autocomplete-suggestion.focus" );
+
+            Assert.Empty( preSelected );
+        }
+
+        [Fact]
+        public void MinLength_0_ShouldShowOptions_OnFocus()
         {
             // setup
             var comp = RenderComponent<AutocompleteComponent>( parameters =>
@@ -73,7 +94,7 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void MinLengthBiggerThen0_ShouldNotShowOptions_OnFocus()
+        public void MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
         {
             // setup
             var comp = RenderComponent<AutocompleteComponent>( parameters =>
