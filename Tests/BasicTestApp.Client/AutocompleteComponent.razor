@@ -1,16 +1,17 @@
 ﻿<Autocomplete TItem="Country"
-                TValue="string"
-                Data="@Countries"
-                TextField="@(( item ) => item.Name)"
-                ValueField="@(( item ) => item.Iso)"
-                @bind-SelectedValue="selectedSearchValue"
-                @bind-SelectedText="selectedAutoCompleteText"
-                Placeholder="Search..."
-                FreeTyping>
+              TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-SelectedValue="selectedSearchValue"
+              @bind-SelectedText="selectedAutoCompleteText"
+              Placeholder="Search..."
+              FreeTyping
+              MinLength="@MinLength">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -26,4 +27,7 @@
 
     [Parameter]
     public string selectedAutoCompleteText { get; set; }
+
+    [Parameter]
+    public int MinLength { get; set; } = 1;
 }

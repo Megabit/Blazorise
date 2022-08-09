@@ -38,6 +38,40 @@ namespace Blazorise.Tests.Components
             Assert.Equal( expectedSelectedText, inputText );
         }
 
+        [Fact]
+        public void MinLength0_ShouldShowOptions_OnFocus()
+        {
+            // setup
+            var comp = RenderComponent<AutocompleteComponent>( parameters =>
+                    parameters.Add( x => x.MinLength, 0 ) );
+            
+            // test
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            autoComplete.Input( "" );
+            autoComplete.Focus();
+
+            var options = comp.FindAll( ".b-is-autocomplete-suggestion" );
+            
+            Assert.NotEmpty( options );
+        }
+
+        [Fact]
+        public void MinLengthBiggerThen0_ShouldNotShowOptions_OnFocus()
+        {
+            // setup
+            var comp = RenderComponent<AutocompleteComponent>( parameters =>
+                    parameters.Add( x => x.MinLength, 1 ) );
+
+            // test
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            autoComplete.Input( "" );
+            autoComplete.Focus();
+
+            var options = comp.FindAll( ".b-is-autocomplete-suggestion" );
+
+            Assert.Empty( options );
+        }
+
         [Theory]
         [InlineData( "CN", "China" )]
         [InlineData( "PT", "Portugal" )]
