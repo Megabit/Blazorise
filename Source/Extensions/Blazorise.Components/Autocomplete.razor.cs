@@ -140,7 +140,7 @@ namespace Blazorise.Components
             await base.SetParametersAsync( parameters );
 
             // autoselect value based on selected text
-            if ( selectedTextParamChanged )
+            if ( selectedTextParamChanged && !selectedValueParamChanged )
             {
                 if ( !string.IsNullOrEmpty( SelectedText ) )
                 {
@@ -198,7 +198,7 @@ namespace Blazorise.Components
             List<string> texts = null;
 
             // autoselect values based on texts
-            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
+            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
             {
                 values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
                 if ( !FreeTyping )

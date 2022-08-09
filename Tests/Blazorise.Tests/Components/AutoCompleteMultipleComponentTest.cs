@@ -131,6 +131,7 @@ namespace Blazorise.Tests.Components
                 var badgeToRemove = badges.Single( x => x.TextContent.Replace( "×", "" ) == removeText );
                 var removeButton = badgeToRemove.GetElementsByTagName( "span" )[0];
                 removeButton.Click();
+                badges.Refresh();
             }
 
             badges.Refresh();

@@ -4,7 +4,7 @@
                 TextField="@(( item ) => item.Name)"
                 ValueField="@(( item ) => item.Iso)"
                 @bind-SelectedValues="selectedValues"
-              @bind-SelectedTexts="selectedTexts"
+                @bind-SelectedTexts="selectedTexts"
                 Placeholder="Search..."
                 FreeTyping
                 SelectionMode="AutocompleteSelectionMode.Multiple">
@@ -23,7 +23,7 @@
     }
 
     [Parameter]
-    public List<string> selectedValues { get; set; } = new() { "PT", "HR" };
+    public List<string> selectedValues { get; set; }
 
     [Parameter]
     public List<string> selectedTexts { get; set; }
