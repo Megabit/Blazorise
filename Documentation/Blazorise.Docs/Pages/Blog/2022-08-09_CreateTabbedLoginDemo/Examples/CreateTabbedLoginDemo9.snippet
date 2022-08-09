@@ -1,0 +1,11 @@
+@code {
+    bool rememberMe;
+    string SelectedTab = "login";
+	string Username;
+	void ValidateEmail (ValidatorEventArgs e)
+	{
+		var email = Convert.ToString(e.Value);
+		e.Status = string.IsNullOrEmpty(email) ? ValidationStatus.None:
+			email.Contains("@") ? ValidationStatus.Success : ValidationStatus.Error;
+	}
+}

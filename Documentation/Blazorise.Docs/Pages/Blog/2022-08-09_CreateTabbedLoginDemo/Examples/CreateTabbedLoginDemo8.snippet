@@ -1,0 +1,57 @@
+<Tabs @bind-SelectedTab="@SelectedTab">
+    <Items>
+        <Tab Name="login">Login</Tab>
+        <Tab Name="register">Register</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="login">
+            Welcome Back, Please Login
+            <Field>
+                <FieldLabel>Username</FieldLabel>
+				<Validation Validator="ValidatorRule.IsNotEmpty">
+                	<TextEdit Placeholder="Enter Username...">
+						<Feedback>
+							<ValidationNone>Please Enter A Username. </ValidationNone>
+							<ValidationSuccess>Username is good</ValidationSuccess>
+							<ValidationError>Please Enter A Valid Username</ValidationError>
+						</Feedback>
+					</TextEdit>
+				</Validation>
+            </Field>
+            <Field>
+                <FieldLabel>Password</FieldLabel>
+                <TextEdit Placeholder="Enter Password.." />
+            </Field>
+            <Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
+            <Button Color="Color.Primary">Login</Button>
+            <Button Color="Color.Secondary">Forgot Password</Button>
+        </TabPanel>
+        <TabPanel Name="register">
+            New Here? Create An Account
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit Placeholder="Enter Your Name" />
+            </Field>
+            <Field>
+                <FieldLabel>Email</FieldLabel>
+				<Validation Validator="ValidateEmail">
+                	<TextEdit Placeholder="Enter Your Email">
+						<Feedback>
+							<ValidationNone>Please Enter your email.</ValidationNone>
+							<ValidationSuccess>Email is valid</ValidationSuccess>
+							<VlaidationError>Enter Valid email </VlaidationError>
+						</Feedback>
+					</TextEdit>
+				</Validation>
+            </Field>
+            <Field>
+                <FieldLabel>Password</FieldLabel>
+                <TextEdit Placeholder="Enter Email" />		
+                <FieldHelp>Password Strength: <Text TextColor="TextColor.Danger">Strong</Text></FieldHelp>
+            </Field>
+            <Button Color="Color.Primary">
+                Create Account
+            </Button>
+        </TabPanel>
+    </Content>
+</Tabs>

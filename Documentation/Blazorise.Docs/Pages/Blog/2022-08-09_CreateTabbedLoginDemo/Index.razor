@@ -1,0 +1,195 @@
+@page "blog/create-a-tabbed-login-form-with-blazorise-components"
+
+<Seo Canonical="blog/create-a-tabbed-login-form-with-blazorise-components" Title="Guide: Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes" Description="This post guides you on how to create a login page using blazorise components." ImageUrl="img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png" />
+
+<BlogPageImage Source="img/blog/2022-08-09/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png" Text="Create A  Tabbed Login and Register Page With Blazorise Components In 5 Minutes" />
+
+<BlogPageSubtitle>
+    Excerpt
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    This focuses on just the structure and markup of the user interface and is intended to demonstrate the use of Blazorise components and does not cover advanced topics such as tokens, cryptography, and hashing.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Introduction
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    The login page is an entry point to a web application and grants authorized users access to application resources and functionality.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    According to the Open Web Application Security Project Foundation Top 10, the confirmation of the user's identity, authentication, and session management is critical to protect against authentication-related attacks, which is currently no. 7 on the OWASP Top 10.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Security starts with design, whether architecturally or via the UI and the structure and layout must be designed and properly implemented to ensure user information is exchanged quickly and securely.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Step One - Setup
+</BlogPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Outline of the page
+</Heading>
+
+<BlogPageParagraph>
+    The page is structured by using Blazorise Tabs to have both the login and registration form on the same page. That way, both new and existing users can be onboarded to the platform.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Step 2 - Create a Blazorise Application.
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    <Blockquote>
+        To begin, scaffold a new Blazor WebAssembly project. <Anchor To="" Title="Link to Click here">Click here</Anchor> for more information on how to setup <Anchor To="" Title="Link to blazor wasm">blazor wasm</Anchor> with <Anchor To="" Title="Link to blazorise components">blazorise components</Anchor>.
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Blazorise components use semantic HTML elements and this gives meaning to both the browser and the developer. For SEO-intensive applications, semantic HTML is a better option than non-semantic elements such as div and p
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Create A Sidebar Menu Item.
+</Heading>
+
+<BlogPageParagraph>
+    To make sure your login page is accessible, you need to add a Markdig.Syntax.Inlines.HtmlInline to your sidebar menu.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can either create a new one from scratch by copy/pasting the snippet below into the NavMenu.razor file or edit any of the preexisting div-class elements. The second option might affect other pages in the project.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo1" />
+
+<BlogPageSubtitle>
+    Step Three - Create a login.razor page.
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    In the pages folder of your Blazor project, create a new razor file and name it login. razor
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Copy and paste the code snippet below to create the markup.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Creating Tabs
+</Heading>
+
+<BlogPageParagraph>
+    The tabs element allow users to navigate to different sections of a single-page application. We embedded the login and register forms into tabs to allow users to switch easily without creating a single page for each.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The Tab Items represent the various tab menus. It is used to contain the name of the tab.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In the Markdig.Syntax.Inlines.HtmlInline element, you can embed other elements or components to complete the markup of the tab. In our case, we will use the Markdig.Syntax.Inlines.HtmlInline component to building out our login form.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo2" />
+
+<BlogPageParagraph>
+    Now define the selectedTab variable in the @code block section of the razor page.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo3" />
+
+<BlogPageParagraph>
+    <Anchor To="https://blazorise.com/docs/components/tab" Title="Link to Click here to read more about Blazorise Tabs Component">Click here to read more about Blazorise Tabs Component</Anchor>
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Adding Fields
+</Heading>
+
+<BlogPageParagraph>
+    After creating the tabs component, we have to fill it with content. Since we are building a login form, the Fields component will be embedded into the Tab Content element.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Fields are used to layout input elements to build a form.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo4" />
+
+<BlogPageParagraph>
+    You can repeat this for the register tab.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    After creating form fields, add a button to submit user input.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo5" />
+
+<BlogPageParagraph>
+    Blazorise Field Component
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        <Anchor To="https://blazorise.com/docs/components/field" Title="Link to Click here to read more about Blazorise Field Components">Click here to read more about Blazorise Field Components</Anchor>
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Blazorise Button Component
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        <Anchor To="https://blazorise.com/docs/components/button" Title="Link to Click here to read more about the Button Component">Click here to read more about the Button Component</Anchor>
+    </Blockquote>
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Implementing Validation
+</Heading>
+
+<BlogPageParagraph>
+    Now that we have structured both the login and register tabs, we have to ensure that users enter the correct data. The validation component allows you to verify user inputs by finding and correcting errors such as email, or the length of a password. It guides the user to input the correct form of data.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can either validate through method handlers or through data annotations.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The code snippet below illustrates how you can validate the email field.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo6" />
+
+<BlogPageParagraph>
+    Add variable definitions in the @code section of the razor page
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo7" />
+
+<BlogPageParagraph>
+    <Anchor To="https://blazorise.com/docs/components/validation" Title="Link to Read more about Blazorise Validation Component">Read more about Blazorise Validation Component</Anchor>
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Conclusion
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    By the end, your razor page should look something like this.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo8" />
+
+<BlogPageSourceBlock Code="CreateTabbedLoginDemo9" />
+
+<BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="August 9th, 2022" Read="5 min" />
