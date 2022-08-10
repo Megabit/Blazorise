@@ -1716,8 +1716,7 @@ public class Gender
         public const string FilePickerDropdownExample = @"@using System.IO
 
 <Field>
-    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.Dropdown"">
-    </FilePicker>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.Dropdown"" />
 </Field>
 
 @code {
@@ -1760,8 +1759,7 @@ public class Gender
         public const string FilePickerListExample = @"@using System.IO
 
 <Field>
-    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"">
-    </FilePicker>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
 </Field>
 
 @code {

@@ -6,12 +6,12 @@ namespace Blazorise
     /// <summary>
     /// Context for File Picker's Buttons
     /// </summary>
-    public class FilePickerButtonContext
+    public class FilePickerButtonsContext
     {
         /// <summary>
         /// Default context constructor.
         /// </summary>
-        public FilePickerButtonContext(  )
+        public FilePickerButtonsContext(  )
         {
         }
 
@@ -20,7 +20,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="clear">The Clear EventCallback</param>
         /// <param name="upload">The Upload EventCallback</param>
-        public FilePickerButtonContext( EventCallback clear, EventCallback upload, EventCallback cancelUpload )
+        public FilePickerButtonsContext( EventCallback clear, EventCallback upload, EventCallback cancelUpload )
         {
             Clear = clear;
             Upload = upload;

@@ -420,7 +420,7 @@ namespace Blazorise
         /// <summary>
         /// Provides a custom content for upload, clear and cancel buttons.
         /// </summary>
-        [Parameter] public RenderFragment<FilePickerButtonContext> ButtonsTemplate { get; set; }
+        [Parameter] public RenderFragment<FilePickerButtonsContext> ButtonsTemplate { get; set; }
 
         /// <summary>
         /// Gets or Sets FilePicker's show mode.
