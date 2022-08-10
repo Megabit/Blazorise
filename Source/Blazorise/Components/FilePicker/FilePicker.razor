@@ -14,11 +14,11 @@
 
             @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
             {
-                <DropdownMenu Class="b-files">
+                <DropdownMenu Class="b-file-picker-files">
                     @foreach ( var file in FileEdit.Files )
                     {
-                        <DropdownItem Class="b-file">
-                            @fileContentFragment(file)
+                        <DropdownItem @key="@file" Class="b-file-picker-file">
+                            @FileContentFragment(file)
                         </DropdownItem>
                     }
                 </DropdownMenu>
@@ -34,15 +34,15 @@
 
     @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
     {
-        <div Class="b-files-container">
+        <div Class="b-file-picker-files-container">
             @if ( ShowMode == FilePickerShowMode.List )
             {
-                <ListGroup Class="b-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
+                <ListGroup Class="b-file-picker-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
 
                     @foreach ( var file in FileEdit.Files )
                     {
-                        <ListGroupItem @key="file.Id" Class="b-file">
-                            @fileContentFragment(file)
+                        <ListGroupItem @key="file.Id" Class="b-file-picker-file">
+                            @FileContentFragment(file)
                         </ListGroupItem>
                     }
                 </ListGroup>
@@ -55,20 +55,20 @@
             else
             {
                 <Buttons Float="Blazorise.Float.End">
-                    <Button Color="Color.Info" Class="b-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
-                    <Button Color="Color.Primary" Class="b-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
-                    <Button Color="Color.Link" Class="b-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
+                    <Button Color="Color.Info" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
+                    <Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
+
+
+                    <Button Color="Color.Link" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
                 </Buttons>
             }
         </div>
     }
 </div>
 
-
 <CascadingValue Value="this" IsFixed>
     <_FilePickerConfirmModal @ref="_FilePickerConfirmModalRef" />
 </CascadingValue>
-
 
 @code {
     private RenderFragment fileComponentFragment => __builder =>
@@ -84,7 +84,7 @@
         </FileEdit>
     };
 
-    private RenderFragment<IFileEntry> fileContentFragment => file => __builder =>
+    private RenderFragment<IFileEntry> FileContentFragment => file => __builder =>
     {
         @if ( FileTemplate is not null )
         {
@@ -92,22 +92,31 @@
         }
         else
         {
-            <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Danger" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))"><Icon Name="IconName.Times"></Icon></Button>
-            @if ( file.Status != FileEntryStatus.Uploaded )
-            {
-                <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Primary" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async() => await UploadFile(file))"><Icon Name="IconName.FileUpload"></Icon></Button>
-            }
-            <Span Class="b-file-name">@file.Name</Span>
-            <Span Class="b-file-size">@GetFileSizeReadable(file)</Span>
-            @if ( IsFileBeingUploaded( file ) )
-            {
-                var progressPercentage = GetProgressPercentage();
-                <Progress Value="@progressPercentage">@progressPercentage %</Progress>
-            }
-            else
-            {
-                <Span Class="b-file-status">@GetFileStatus(file)</Span>
-            }
+            <Row>
+                <Column>
+                    <Span Class="b-file-picker-file-name">@file.Name</Span>
+                    <Span Class="b-file-picker-file-size">@GetFileSizeReadable(file)</Span>
+                    @if ( IsFileBeingUploaded( file ) )
+                    {
+                        var progressPercentage = GetProgressPercentage();
+
+                        <Progress Value="@progressPercentage">@progressPercentage %</Progress>
+                    }
+                    else
+                    {
+                        <Span Class="b-file-picker-file-status">@GetFileStatus(file)</Span>
+                    }
+                </Column>
+                <Column ColumnSize="ColumnSize.IsAuto">
+                    <Buttons>
+                        <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Danger" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))"><Icon Name="IconName.Times"></Icon></Button>
+                        @if ( file.Status != FileEntryStatus.Uploaded )
+                        {
+                            <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Primary" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async() => await UploadFile(file))"><Icon Name="IconName.FileUpload"></Icon></Button>
+                        }
+                    </Buttons>
+                </Column>
+            </Row>
         }
     };
 }

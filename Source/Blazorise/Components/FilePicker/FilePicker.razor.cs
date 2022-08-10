@@ -142,6 +142,7 @@ namespace Blazorise
                 default:
                     break;
             }
+
             return string.Empty;
         }
 
@@ -228,12 +229,12 @@ namespace Blazorise
         public Task CancelUpload( bool confirm = false )
         {
             var cancelAction = new Func<Task>( () =>
-                {
-                    cts?.Cancel();
-                    fileBeingUploaded?.Cancel();
-                    return Task.CompletedTask;
-                }
-            );
+            {
+                cts?.Cancel();
+                fileBeingUploaded?.Cancel();
+
+                return Task.CompletedTask;
+            } );
 
             if ( confirm )
                 return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.CancelUpload, cancelAction );

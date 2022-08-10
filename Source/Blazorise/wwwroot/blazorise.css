@@ -98,10 +98,10 @@ hr.divider.divider-text::before {
   text-align: center;
   font-size: 0.75rem;
 }
-.b-file-picker .b-file span {
+.b-file-picker .b-file-picker-file span {
   display: block;
 }
-.b-file-picker .b-file .b-file-size, .b-file-picker .b-file .b-file-status {
+.b-file-picker .b-file-picker-file .b-file-picker-file-size, .b-file-picker .b-file-picker-file .b-file-picker-file-status {
   font-size: 0.75rem;
 }
 .b-file-picker .dropdown .custom-file {
@@ -110,10 +110,10 @@ hr.divider.divider-text::before {
 .b-file-picker .dropdown .custom-file .custom-file-label {
   border: 0;
 }
-.b-file-picker .dropdown .b-files {
+.b-file-picker .dropdown .b-file-picker-files {
   width: 100%;
 }
-.b-file-picker .dropdown .b-file {
+.b-file-picker .dropdown .b-file-picker-file {
   margin-right: 1.5rem;
 }
 

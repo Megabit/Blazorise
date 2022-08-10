@@ -10,12 +10,12 @@
         font-size: 0.75rem;
     }
 
-    .b-file {
+    .b-file-picker-file {
         span {
             display: block;
         }
 
-        .b-file-size, .b-file-status {
+        .b-file-picker-file-size, .b-file-picker-file-status {
             font-size: 0.75rem;
         }
     }
@@ -29,11 +29,11 @@
             }
         }
 
-        .b-files {
+        .b-file-picker-files {
             width: 100%;
         }
 
-        .b-file {
+        .b-file-picker-file {
             margin-right: 1.5rem;
         }
     }
