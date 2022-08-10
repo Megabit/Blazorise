@@ -1665,13 +1665,13 @@ public class Gender
         </Div>
         <Divider Margin=""Margin.Is0"" />
     </FileTemplate>
-    <ButtonTemplate>
+    <ButtonsTemplate>
         <Progress Value=""@filePickerCustom.GetProgressPercentage()"" />
         <Buttons>
             <Button Clicked=""@context.Clear"" Color=""Color.Warning""><Icon Name=""IconName.Clear"" /></Button>
             <Button Clicked=""@context.Upload"" Color=""Color.Primary""><Icon Name=""IconName.FileUpload"" /></Button>
         </Buttons>
-    </ButtonTemplate>
+    </ButtonsTemplate>
 </FilePicker>
 @code {
     private FilePicker filePickerCustom;

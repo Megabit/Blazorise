@@ -54,9 +54,9 @@
                 </ListGroup>
             }
 
-            @if ( ButtonTemplate is not null )
+            @if ( ButtonsTemplate is not null )
             {
-                @ButtonTemplate(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelUploadWithConfirm)))
+                @ButtonsTemplate(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelUploadWithConfirm)))
             }
             else
             {

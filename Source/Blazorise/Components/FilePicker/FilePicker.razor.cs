@@ -418,9 +418,9 @@ namespace Blazorise
         [Parameter] public RenderFragment<FilePickerFileContext> FileTemplate { get; set; }
 
         /// <summary>
-        /// Provides a custom button content.
+        /// Provides a custom content for upload, clear and cancel buttons.
         /// </summary>
-        [Parameter] public RenderFragment<FilePickerButtonContext> ButtonTemplate { get; set; }
+        [Parameter] public RenderFragment<FilePickerButtonContext> ButtonsTemplate { get; set; }
 
         /// <summary>
         /// Gets or Sets FilePicker's show mode.
