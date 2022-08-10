@@ -7,7 +7,7 @@
     {
         <Addons>
             <Addon AddonType="AddonType.Body">
-                @fileComponentFragment
+                @FileComponentFragment
             </Addon>
             <Addon AddonType="AddonType.End">
                 <Dropdown RightAligned>
@@ -34,7 +34,7 @@
     }
     else
     {
-        @fileComponentFragment
+        @FileComponentFragment
     }
 
     <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
@@ -44,8 +44,7 @@
         <div Class="b-file-picker-files-container">
             @if ( ShowMode == FilePickerShowMode.List )
             {
-                <ListGroup Class="b-file-picker-files" Margin="Blazorise.Margin.Is1.FromBottom.Is1.FromTop">
-
+                <ListGroup Class="b-file-picker-files" Margin="Blazorise.Margin.Is2.OnY">
                     @foreach ( var file in FileEdit.Files )
                     {
                         <ListGroupItem @key="file.Id" Class="b-file-picker-file">
@@ -65,7 +64,6 @@
                     <Button Color="Color.Secondary" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
                     <Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
 
-
                     <Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
                 </Buttons>
             }
@@ -78,7 +76,7 @@
 </CascadingValue>
 
 @code {
-    private RenderFragment fileComponentFragment => __builder =>
+    private RenderFragment FileComponentFragment => __builder =>
     {
         <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
           Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
