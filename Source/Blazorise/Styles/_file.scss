@@ -1,16 +1,20 @@
 ﻿.b-file-picker {
     display: inline-block;
-    border: 1px solid rgba(0,0,0,0.15);
-    padding: 1rem;
+    width: 100%;
 
     .b-text-drop {
+        border: 1px solid rgba(0,0,0,0.15);
         margin-top: 0.5rem;
         display: block;
         text-align: center;
         font-size: 0.75rem;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
     }
 
     .b-file-picker-file {
+        min-width: 25rem;
+
         span {
             display: block;
         }
@@ -19,8 +23,7 @@
             font-size: 0.75rem;
         }
     }
-
-    .dropdown {
+    /*.dropdown {
         .custom-file {
             width: auto;
 
@@ -36,5 +39,5 @@
         .b-file-picker-file {
             margin-right: 1.5rem;
         }
-    }
+    }*/
 }

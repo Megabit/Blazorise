@@ -5,25 +5,32 @@
 <div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker">
     @if ( ShowMode == FilePickerShowMode.Dropdown )
     {
-        <Dropdown Display="Blazorise.Display.InlineBlock" Border="@Blazorise.Border.Is1">
-
-            <Div Display="Blazorise.Display.InlineBlock">
+        <Addons>
+            <Addon AddonType="AddonType.Body">
                 @fileComponentFragment
-                <DropdownToggle>(@(FileEdit.Files?.Count() ?? 0))</DropdownToggle>
-            </Div>
+            </Addon>
+            <Addon AddonType="AddonType.End">
+                <Dropdown RightAligned>
+                    <DropdownToggle Color="Color.Light">
+                        (@(FileEdit.Files?.Count() ?? 0))
+                    </DropdownToggle>
 
-            @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
-            {
-                <DropdownMenu Class="b-file-picker-files">
-                    @foreach ( var file in FileEdit.Files )
+                    @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
                     {
-                        <DropdownItem @key="@file" Class="b-file-picker-file">
-                            @FileContentFragment(file)
-                        </DropdownItem>
+                        <DropdownMenu Class="b-file-picker-files">
+                            @foreach ( var file in FileEdit.Files )
+                            {
+                                <DropdownItem @key="@file" Class="b-file-picker-file">
+                                    @FileContentFragment(file)
+                                </DropdownItem>
+                            }
+                        </DropdownMenu>
                     }
-                </DropdownMenu>
-            }
-        </Dropdown>
+                </Dropdown>
+            </Addon>
+        </Addons>
+
+
     }
     else
     {
@@ -55,11 +62,11 @@
             else
             {
                 <Buttons Float="Blazorise.Float.End">
-                    <Button Color="Color.Info" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
+                    <Button Color="Color.Secondary" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
                     <Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
 
 
-                    <Button Color="Color.Link" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
+                    <Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
                 </Buttons>
             }
         </div>
