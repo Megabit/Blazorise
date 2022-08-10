@@ -264,14 +264,14 @@ namespace Blazorise
         [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
 
         /// <summary>
-        /// Specifies how many options should be shown at once.
-        /// </summary>
-        [Parameter] public int? MaxVisibleItems { get; set; }
-
-        /// <summary>
         /// Gets or sets an expression that identifies the selected value.
         /// </summary>
         [Parameter] public Expression<Func<IReadOnlyList<TValue>>> SelectedValuesExpression { get; set; }
+
+        /// <summary>
+        /// Specifies how many options should be shown at once.
+        /// </summary>
+        [Parameter] public int? MaxVisibleItems { get; set; }
 
         /// <summary>
         /// Gets or sets loading property.

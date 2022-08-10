@@ -1,0 +1,34 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LoadingIndicator</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">loadingIndicator</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LineChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">lineChartData</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LoadingIndicator</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">UpdateChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Update<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code 
+{
+    LoadingIndicator loadingIndicator;
+
+    <span class="keyword">async</span> Task UpdateChart()
+    {
+        <span class="keyword">await</span> loadingIndicator.Show();
+
+        <span class="keyword">await</span> Task.Delay(<span class="number">3000</span>); <span class="comment">// Do work ...</span>
+
+        <span class="keyword">await</span> loadingIndicator.Hide();
+    }
+
+    <span class="comment">// sample data</span>
+    ChartData&lt;<span class="keyword">double</span>&gt; lineChartData = <span class="keyword">new</span>()
+    {
+        Labels = <span class="keyword">new</span>() { <span class="string">&quot;Jan&quot;</span>, <span class="string">&quot;Feb&quot;</span>, <span class="string">&quot;Mar&quot;</span>, <span class="string">&quot;Apr&quot;</span>, <span class="string">&quot;May&quot;</span>, <span class="string">&quot;Jun&quot;</span> },
+        Datasets = <span class="keyword">new</span>() { <span class="keyword">new</span> LineChartDataset&lt;<span class="keyword">double</span>&gt;()
+        {
+            Data = <span class="keyword">new</span> List&lt;<span class="keyword">double</span>&gt;() { <span class="number">70</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">80</span>, <span class="number">100</span> },
+        }}
+    };
+}
+</pre></div>
+</div>

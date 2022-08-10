@@ -1,7 +1,7 @@
 ﻿@page "/docs/extensions/datagrid"
 @page "/docs/extensions/datagrid/getting-started"
 
-<Seo Canonical="/docs/extensions/datagrid/getting-started" Title="Blazorise DataGrid component" Description="Learn how to use Blazorise DataGrid extension components." />
+<Seo Canonical="/docs/extensions/datagrid/getting-started" Title="Blazorise DataGrid component" Description="Learn to use and work with the Blazorise DataGrid extension components to build an advanced CRUD based data-tables." />
 
 <DocsPageTitle Path="Extensions/DataGrid">
     Blazorise DataGrid: Getting Started
@@ -144,7 +144,7 @@
     <DocsAttributesItem Name="CurrentPage" Type="int" Default="1">
         Current page number.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PageSize" Type="int" Default="5">
+    <DocsAttributesItem Name="PageSize" Type="int" Default="10">
         Maximum number of items for each page.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Striped" Type="bool" Default="false">
@@ -207,35 +207,17 @@
     <DocsAttributesItem Name="PageSizeChanged" Type="EventCallback<int>">
         Occurs after the page size has changed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
-        Define the display template for empty data cell.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
-        Define the display template for empty data collection.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
-        Define the display template for empty filter data collection.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
-        Define the display template for empty filter data collection.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="PopupSize" Type="ModalSize" Default="Default">
         Defines the size of popup modal.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PopupClosing" Type="Func<ModalClosingEventArgs, Task>">
         Occurs before the popup dialog is closed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
-        Template for custom title of edit popup dialog
-    </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemCreator" Type="Func<TItem>">
         Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemDefaultSetter" Type="Action<TItem>">
         Action will be called for setting default values of property, when create new entry
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderTemplate<PageButtonContext>">
-        Define the format a pagination button
     </DocsAttributesItem>
     <DocsAttributesItem Name="UseValidation" Type="bool" Default="false">
         If true, validation will be used when editing the fields
@@ -305,6 +287,60 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
         Used to prevent the default action for an <Code>RowContextMenu</Code> event.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DataGrid Templates">
+    <DocsAttributesItem Name="DataGridColumns" Type="RenderFragment">
+        Template for holding the datagrid columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataGridAggregates" Type="RenderFragment">
+        Template for holding the datagrid aggregate columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
+        Define the display template for empty data cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
+        Define the display template for empty data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonRowTemplate" Type="RenderFragment<ButtonRowContext<TItem>>">
+        Gets or sets content of button row of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FirstPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of first button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LastPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of last button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PreviousPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of previous button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NextPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of next button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderFragment<PageButtonContext>">
+        Gets or sets content of page buttons of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsPerPageTemplate" Type="RenderFragment">
+        Gets or sets content of items per page of grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsShortTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of total items grid for small devices.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of total items grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<TItem>">
+        Gets or sets content of total items grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
+        Template for custom title of edit popup dialog
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -453,4 +489,12 @@
     <DocsAttributesItem Name="ShowDefaultSortIcon" Type="bool" Default="false">
         Gets or sets whether default sort icon should display.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SortOrder" Type="int">
+        Gets or sets the order for sorting when Sorting is set to multiple.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortOrderChanged" Type="EventCallback<int>">
+        Raises an event every time that SortOrder is changed.
+    </DocsAttributesItem>
+
+
 </DocsAttributes>

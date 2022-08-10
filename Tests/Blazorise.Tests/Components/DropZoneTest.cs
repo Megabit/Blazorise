@@ -418,5 +418,32 @@ namespace Blazorise.Tests.Components
 
             comp.Instance.IndexHistory.Should().ContainInOrder( new[] { 2, 2, 2, 1 } );
         }
+
+        [Fact]
+        public async Task DropZone_SourceZone_MatchesTransactionSourceZone()
+        {
+            // Arrange
+            DraggableDroppedEventArgs<object> returnedArgs = null;
+
+            DropContainer<object> sut = new DropContainer<object>()
+            {
+                ItemDropped = new EventCallback<DraggableDroppedEventArgs<object>>( null, DropEvent )
+            };
+
+            void DropEvent( DraggableDroppedEventArgs<object> e )
+            {
+                returnedArgs = e;
+            }
+
+            sut.StartTransaction( new object(), "source_zone_name", 0, () => Task.CompletedTask, () => Task.CompletedTask );
+
+            // Act
+            await sut.CommitTransaction( "destination_zone_name", false );
+
+            // Assert
+            returnedArgs.Should().NotBe( null );
+            returnedArgs.SourceDropZoneName.Should().Be( "source_zone_name" );
+            returnedArgs.DropZoneName.Should().Be( "destination_zone_name" );
+        }
     }
 }

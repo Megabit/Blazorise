@@ -5641,13 +5641,41 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 +   .AddFontAwesomeIcons();";
 
         public const string BasicListViewExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Static""
-            MaxHeight=""300px"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Static""
+          MaxHeight=""300px"">
 </ListView>
 
-@code{
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Static""
+          MaxHeight=""300px"">
+    <ItemTemplate>
+        <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
+            <Heading Margin=""Margin.Is2.FromBottom"">@context.Item.Iso</Heading>
+            <Small>@context.Item.Capital</Small>
+        </Div>
+        <Paragraph Margin=""Margin.Is2.FromBottom"">@context.Text</Paragraph>
+    </ItemTemplate>
+</ListView>
+
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -5660,21 +5688,22 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ListViewSelectableExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Selectable""
-            MaxHeight=""300px""
-            @bind-SelectedItem=""@selectedListViewItem"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Selectable""
+          MaxHeight=""300px""
+          @bind-SelectedItem=""@selectedListViewItem"">
 </ListView>
 
 <Field Horizontal>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Item Text: @selectedListViewItem?.Name
+        Selected Item: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -5686,6 +5715,204 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+}";
+
+        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
+
+        public const string LoadingIndicatorAnimationExample = @"<LoadingIndicator @ref=""loadingIndicator"" FullScreen FadeIn>
+    <ChildContent>
+        <Button Clicked=""ShowIndicator"" Color=""Color.Primary"">Show indicator</Button>
+    </ChildContent>
+    <IndicatorTemplate>
+        <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""TimeSpan.FromMilliseconds( 700 )"">
+            <Div>
+                <SpinKit Type=""SpinKitType.Wave"" Size=""100px"" />
+            </Div>
+        </Animate>
+    </IndicatorTemplate>
+</LoadingIndicator>
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task ShowIndicator()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorApplicationBusyExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+@code 
+{
+    async Task DoWork()
+    {
+        await ApplicationLoadingIndicatorService.Show();
+        
+        // do work ...
+        
+        await ApplicationLoadingIndicatorService.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorApplicationWrapperExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+	<Found>...</Found>
+	<NotFound>...</NotFound>
+</Router>
+
+<ApplicationLoadingIndicator />";
+
+        public const string LoadingIndicatorBasicExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code 
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task UpdateChart()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay(3000); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}";
+
+        public const string LoadingIndicatorBusyBindingExample  = @"<LoadingIndicator @binding-Visible=""running"">
+    <ChildContent>
+		<Button Disabled=""running"" Clicked=""Start"" />
+    </ChildContent>
+    <IndicatorTemplate>
+		<Button Clicked=""Cancel"" />
+    </IndicatorTemplate>
+</LoadingIndicator>
+
+@code
+{
+    bool running;
+
+    async Task Start()
+    {
+        if ( !running )
+        {
+            running = true;
+            await StartLongRunningTask();
+        }
+    }
+
+    async Task Cancel()
+    {
+        await CancelTask();
+        running = false;
+	}
+}";
+
+        public const string LoadingIndicatorBusyFormExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<form action=""/action_page.php"">
+    <fieldset disabled=""ApplicationLoadingIndicatorService.Visible""> 
+        <label for=""fname"">Message:</label>
+        <input type=""text"" id=""message"" name=""message"">
+        <input type=""submit"" value=""Send"">
+     </fieldset>
+</form>";
+
+        public const string LoadingIndicatorBusyReferenceExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <Button Disabled=""loadingIndicator.Visible"" Clicked=""DoWork""/>
+</LoadingIndicator>
+
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        if ( !loadingIndicator.Visible )
+        {
+            await loadingIndicator.Show();
+            
+            // do work...
+            
+            await loadingIndicator.Hide();
+        }
+    }
+}";
+
+        public const string LoadingIndicatorBusyServiceExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Button Disabled=""ApplicationLoadingIndicatorService.Visible"" />";
+
+        public const string LoadingIndicatorCascadingBusyExample = @"<Button Clicked=""DoWork"" />
+
+@code
+{
+    [CascadingParameter]
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        await loadingIndicator.Show();
+        
+        // do work ...
+        
+        await loadingIndicator.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorCascadingWrapperExample = @"<LoadingIndicator FullScreen>
+    @Body
+</LoadingIndicator>";
+
+        public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
+
+        public const string LoadingIndicatorTwoWayBindingExample = @"<LoadingIndicator @bind-Visible=""@visible"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code
+{
+    bool visible;
+
+    async Task UpdateChart()
+    {
+        visible = true;
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        visible = false;
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
 }";
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
@@ -5896,32 +6123,47 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 
-        public const string SelectListExample = @"<SelectList TItem=""MySelectModel""
+        public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
-            Data=""@myDdlData""
-            TextField=""@((item)=>item.MyTextField)""
-            ValueField=""@((item)=>item.MyValueField)""
-            SelectedValue=""@selectedListValue""
-            SelectedValueChanged=""@MyListValueChangedHandler""
+            Data=""@IndexedCountries""
+            TextField=""@((item)=>item.Name)""
+            ValueField=""@((item)=>item.Id)""
+            @bind-SelectedValue=""@selectedListValue""
             DefaultItemText=""Choose your country"" />
 
-@code{
-    public class MySelectModel
+@code {
+    public class MyCountryModel
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 
     static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    static IEnumerable<MyCountryModel> IndexedCountries = Enumerable.Range( 1, Countries.Length ).Select( x => new MyCountryModel { Name = Countries[x - 1], Id = x } );
 
     int selectedListValue { get; set; } = 3;
+}";
 
-    void MyListValueChangedHandler( int newValue )
+        public const string SelectListMultipleExample = @"<SelectList TItem=""MyFruitModel""
+            TValue=""int""
+            Data=""@IndexedFruits""
+            TextField=""@((item)=>item.Name)""
+            ValueField=""@((item)=>item.Id)""
+            Multiple
+            @bind-SelectedValues=""@selectedListValues""
+            DefaultItemText=""Choose your fruit"" />
+
+@code {
+    public class MyFruitModel
     {
-        selectedListValue = newValue;
-        StateHasChanged();
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
+
+    static string[] Fruits = { ""Avocado"", ""Banana"", ""Blackberries"", ""Blueberries"", ""Cherries"", ""Cranberries"", ""Lemon"", ""Mango"", ""Orange"", ""Pineapple"", ""Watermelon"" };
+    static IEnumerable<MyFruitModel> IndexedFruits = Enumerable.Range( 1, Fruits.Length ).Select( x => new MyFruitModel { Name = Fruits[x - 1], Id = x } );
+
+    IReadOnlyList<int> selectedListValues { get; set; }
 }";
 
         public const string SidebarDynamicExample = @"<Sidebar Data=""@sidebarInfo"" />
@@ -6767,11 +7009,11 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.0.4.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.0.4.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.0.0-preview1"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.0.0-preview1"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.0.4.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.0.4.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.0.0-preview1""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.0.0-preview1""></script>";
 
     }
 }

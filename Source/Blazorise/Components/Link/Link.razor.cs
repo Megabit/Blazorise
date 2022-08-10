@@ -6,6 +6,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -109,15 +110,16 @@ namespace Blazorise
         /// <summary>
         /// Handles the link onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task OnClickHandler()
+        protected async Task OnClickHandler( MouseEventArgs eventArgs )
         {
             if ( !string.IsNullOrEmpty( anchorTarget ) )
             {
                 await JSUtilitiesModule.ScrollAnchorIntoView( anchorTarget );
             }
 
-            await Clicked.InvokeAsync();
+            await Clicked.InvokeAsync( eventArgs );
         }
 
         private bool ShouldMatch( string currentUriAbsolute )
@@ -255,7 +257,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the link is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Link"/>.

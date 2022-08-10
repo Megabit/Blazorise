@@ -1,6 +1,7 @@
 ﻿<PageTitle>@Title</PageTitle>
 
 <HeadContent>
+    <meta name="title" content="@Title" />
     <meta name="description" content="@Description" />
 
     <meta name="og:title" content="@Title" />
@@ -23,14 +24,16 @@
     protected override void OnInitialized()
     {
         Url = NavigationManager.ToAbsoluteUri( Canonical ).AbsoluteUri;
-        ImageUrl = NavigationManager.ToAbsoluteUri( "img/logos/blazorise-social-logo.png" ).AbsoluteUri;
+
+        if ( string.IsNullOrEmpty( ImageUrl ) )
+            ImageUrl = NavigationManager.ToAbsoluteUri( "img/logos/blazorise-social-logo.png" ).AbsoluteUri;
+        else
+            ImageUrl = NavigationManager.ToAbsoluteUri( ImageUrl ).AbsoluteUri;
 
         base.OnInitialized();
     }
 
     public string Url { get; set; }
-
-    public string ImageUrl { get; set; }
 
     [Inject] protected NavigationManager NavigationManager { get; set; }
 
@@ -39,4 +42,6 @@
     [Parameter] public string Description { get; set; }
 
     [Parameter] public string Canonical { get; set; }
+
+    [Parameter] public string ImageUrl { get; set; }
 }

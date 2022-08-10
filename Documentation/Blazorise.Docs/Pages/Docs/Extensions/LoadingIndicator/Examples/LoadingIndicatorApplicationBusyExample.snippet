@@ -1,0 +1,13 @@
+﻿@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+@code 
+{
+    async Task DoWork()
+    {
+        await ApplicationLoadingIndicatorService.Show();
+        
+        // do work ...
+        
+        await ApplicationLoadingIndicatorService.Hide();
+    }
+}

@@ -6,7 +6,7 @@
     Announcing Blazorise 1.1
 </NewsPageTitle>
 
-<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 4st, 2022" Read="7 min" />
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="Septembed 1st, 2022" Read="7 min" />
 
 
 
@@ -28,7 +28,7 @@
 </NewsPageSubtitle>
 
 <Paragraph>
-    There are no breaking changes, but we will slowly start with some API changes by making existing obsolete and introducing new as a replacements. Once we reach stable v2.0 the APIs marked with obsolete will eventually be removed.
+    There are no breaking changes, but we will slowly start with some API changes by making existing APIs obsolete and introducing new as a replacements. Once we reach stable <Strong>v2.0</Strong> the APIs marked with obsolete will eventually be removed.
 </Paragraph>
 
 
@@ -100,6 +100,20 @@
     Added <Code>ScrollRowOnEdit</Code> parameter to <Code>DataGrid</Code> <Code>VirtualizeOptions</Code>. When <Code>Virtualize</Code> is set, you may now disable the behaviour of scrolling the row to the top on edit when on <Code>DataGridEditMode.Inline</Code> or <Code>DataGridEditMode.Form</Code> by setting this new option to false.
 </Paragraph>
 
+<Paragraph>
+    Added <Code>SelectedRowIndex</Code> getter to <Code>DataGrid</Code>. This is an helper so you can quickly find the Zero-based index of your <Code>SelectedRow</Code>. It can be an useful API in conjuction with the <Code>ScrollToRow</Code> method, that takes in a Zero-based index of <Code>DataGrid</Code> row to scroll to.
+</Paragraph>
+
+<Paragraph>
+    Added <Code>SortOrder</Code> parameter to <Code>DataGrid</Code> so when the <Code>DataGrid</Code> sorting mechanism is set to multiple, you are able to configure the order of which the sorting of the columns takes place, this is specially useful, if you want to start the <Code>DataGrid</Code> sorted a certain way.
+    Please do take note, that for the parameter to listen to changes and be able to dynamically be adjusted to the <Code>DataGrid</Code> changes, you should use <Code>bind-SortOrder</Code>.
+    An example is when you have a Column A with a <Code>SortOrder</Code> of 2 And Column B with a <Code>SortOrder</Code> of 1, the moment the user removes the sorting out of Column B, the <Code>DataGrid</Code> will attempt to reset the <Code>SortOrder</Code> back to 0 as to accomodate the natural multiple sorting rules.
+</Paragraph>
+
+<Paragraph>
+    Increased default <Code>PageSize</Code> parameter value from <Strong>5</Strong> to <Strong>10</Strong>.
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     ModalProvider
 </Heading>
@@ -156,4 +170,37 @@
     Introduced <Code>AutoSelectFirstItem</Code>, this defaults to true, keeping the current behaviour. By setting it to false, the dropdown that shows the options, will no longer auto select the first item.
     This is specially useful for a use case reported by our users.
     When you have the <Code>AutoComplete</Code> set to <Code>Multiple</Code> + <Code>FreeTyping</Code>, and want to allow your user to just press the Confirm Key to accept the currently typed text.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    ListView
+</Heading>
+
+<Paragraph>
+    Introduced <Code>ItemTemplate</Code> Parameter, you may now costumize the content that renders in each of the <Code>ListView</Code>'s items.
+</Paragraph>
+
+<Paragraph>
+    Introduced a much needed missing <Code>ValueField</Code> Parameter, so you may uniquely identify each item in your list. 
+    This has been introduced with a return value of <Code>String</Code> for now. However we plan to make it return a generic type <Code>TValue</Code> in a future version, much like some of our other <Code>ValueField</Code> based components, so you can choose what type does your unique value return.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Loading Indicator
+</Heading>
+
+<Paragraph>
+    This excellent component is done by <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members. The amount of work that went into it is astounding. The purpose of this component is, as its names suggest, to indicate to the user that a long-running operation is happening. It supports many different working scenarios, like two-way binding, methods calls via reference, global control through the service, and many more.
+</Paragraph>
+
+<Paragraph>
+    To see it in action with various examples just open the <Anchor To="docs/extensions/loadingindicator">Loading Indicator</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Other improvements
+</Heading>
+
+<Paragraph>
+    All our <Code>Clicked</Code> parameters on a <Code Tag>Button</Code>, <Code Tag>Link</Code>, <Code Tag>Tab</Code>, and other components, can now recieve a <Code>MouseEventArgs</Code> as an event parameter. This feature will allow you to determine how the clicked event was raised and what buttons and keys were pressed.
 </Paragraph>

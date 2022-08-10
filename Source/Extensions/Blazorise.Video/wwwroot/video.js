@@ -1,8 +1,8 @@
-﻿import "./vendors/plyr.js?v=1.0.4.0";
-import "./vendors/dash.js?v=1.0.4.0";
-import "./vendors/hls.js?v=1.0.4.0";
+﻿import "./vendors/plyr.js?v=1.1.0.0-preview1";
+import "./vendors/dash.js?v=1.1.0.0-preview1";
+import "./vendors/hls.js?v=1.1.0.0-preview1";
 
-import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.0.4.0";
+import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.1.0.0-preview1";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
 
@@ -45,6 +45,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         resetOnEnd: options.resetOnEnd || false,
         ratio: options.ratio,
         invertTime: options.invertTime || true,
+        controls: options.controlsList,
         previewThumbnails: {
             enabled: options.poster && options.poster.length > 0,
             src: options.poster

@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/selectlist"
 
-<Seo Canonical="/docs/extensions/selectlist" Title="Blazorise SelectList" Description="Learn how to use Blazorise SelectList extension components." />
+<Seo Canonical="/docs/extensions/selectlist" Title="Blazorise SelectList" Description="Learn to use and work with the Blazorise SelectList component, which allows you to select a value from a list of predefined items." />
 
 <DocsPageTitle Path="Extensions/SelectList">
     Blazorise SelectList component
@@ -31,13 +31,27 @@
     <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Example">
+    <DocsPageSectionHeader Title="Basic Example">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SelectListExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="SelectListExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Multiple Selections">
+        Just like with a regular <Code Tag>Select</Code> component, add the <Code>Multiple</Code> parameter to allow more than one option to be selected. Also, bind the <Code>SelectedValues</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SelectListMultipleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SelectListMultipleExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -63,8 +77,14 @@
     <DocsAttributesItem Name="SelectedValue" Type="TValue">
         Currently selected value.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValues" Type="IReadOnlyList<TValue>" Default="default">
+        Selected item value when in multi edit mode.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<TValue>">
         Raises an event after the selected value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<IReadOnlyList<TValue>>">
+        Occurs when the selected items value has changed (only when <Code>Multiple</Code>).
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple items can be selected.

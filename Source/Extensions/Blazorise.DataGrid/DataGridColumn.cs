@@ -220,9 +220,34 @@ namespace Blazorise.DataGrid
             return sb.ToString().TrimStart( ' ', ';' );
         }
 
+        internal Task ResetSortOrder()
+            => SetSortOrder( default );
+
+        internal Task SetSortOrder( int sortOrder )
+        {
+            SortOrder = sortOrder;
+            return SortOrderChanged.InvokeAsync( sortOrder );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Builds the Filter cell background.
+        /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+        /// </summary>
+        /// <returns></returns>
+        internal Background FilterCellBackground()
+            => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.FilterRowStyling?.Background ?? Background.Default ) : Background.Default;
+
+        /// <summary>
+        /// Builds the Header cell background.
+        /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+        /// </summary>
+        /// <returns></returns>
+        internal Background HeaderCellBackground()
+            => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.HeaderRowStyling?.Background ?? Background.Default ) : Background.Default;
 
         internal bool IsDisplayable => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
 
@@ -461,6 +486,16 @@ namespace Blazorise.DataGrid
         /// Will set @onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
         /// </summary>
         [Parameter] public bool PreventRowClick { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order for sorting when Sorting is set to multiple. 
+        /// </summary>
+        [Parameter] public int SortOrder { get; set; }
+
+        /// <summary>
+        /// Raises an event every time that <see cref="SortOrder"/> is changed.
+        /// </summary>
+        [Parameter] public EventCallback<int> SortOrderChanged { get; set; }
 
         #endregion
     }

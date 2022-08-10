@@ -236,7 +236,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-        
+
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -253,7 +253,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if( ManualReadMode || VirtualizeManualReadMode )
+                if ( ManualReadMode || VirtualizeManualReadMode )
                     await Reload();
 
                 return;
@@ -1088,10 +1088,15 @@ namespace Blazorise.DataGrid
 
                 if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
                 {
+                    var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
+                    column.SetSortOrder( nextOrderToSort );
                     SortByColumns.Add( column );
                 }
                 else if ( column.CurrentSortDirection == SortDirection.Default )
+                {
                     SortByColumns.Remove( column );
+                    column.ResetSortOrder();
+                }
 
                 if ( changeSortDirection )
                     InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
@@ -1159,7 +1164,7 @@ namespace Blazorise.DataGrid
             {
                 var firstSort = true;
 
-                foreach ( var sortByColumn in SortByColumns )
+                foreach ( var sortByColumn in SortByColumns.OrderBy( x => x.SortOrder ) )
                 {
                     Func<TItem, object> sortFunction = sortByColumn.GetValueForSort;
 
@@ -1294,6 +1299,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
+        internal bool IsFixedHeader
+            => Virtualize || FixedHeader;
+
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
@@ -1311,7 +1319,6 @@ namespace Blazorise.DataGrid
                 return sb.ToString();
             }
         }
-
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
@@ -2094,6 +2101,23 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
+
+        /// <summary>
+        /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
+        /// </summary>
+        public int SelectedRowIndex
+        {
+            get
+            {
+                var selectedRowDataIdx = Data.Index( x => x.IsEqual( SelectedRow ) );
+
+                return Virtualize
+                        ? selectedRowDataIdx
+                        : ( selectedRowDataIdx == -1 )
+                            ? -1
+                            : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
+            }
+        }
 
         #endregion
     }

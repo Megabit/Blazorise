@@ -40,10 +40,11 @@ namespace Blazorise
         /// <summary>
         /// Handles the icon onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnClickHandler()
+        protected Task OnClickHandler( MouseEventArgs eventArgs )
         {
-            return Clicked.InvokeAsync();
+            return Clicked.InvokeAsync( eventArgs );
         }
 
         /// <summary>
@@ -138,7 +139,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the icon is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Occurs when the mouse has entered the icon area.
