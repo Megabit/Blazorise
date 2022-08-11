@@ -50,7 +50,7 @@ namespace Blazorise.Tests.Components
         [InlineData( "GB", "United Kingdom" )]
         public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
         {
-            TestProgramaticallySetSelectedValue<AutocompleteReadDataComponent>(selectedValue, expectedSelectedText);
+            TestProgramaticallySetSelectedValue<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText);
         }
     }
 }

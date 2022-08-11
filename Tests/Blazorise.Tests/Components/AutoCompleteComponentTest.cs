@@ -22,7 +22,7 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void InitialSelectedValue_ShouldSet_SelectedText()
         {
-            TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.selectedAutoCompleteText, "China" );
+            TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText);
         }
 
 
@@ -56,7 +56,7 @@ namespace Blazorise.Tests.Components
         [InlineData( "GB", "United Kingdom" )]
         public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
         {
-            TestProgramaticallySetSelectedValue<AutocompleteComponent>( selectedValue, expectedSelectedText );
+            TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
         }
     }
 }

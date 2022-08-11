@@ -1,10 +1,11 @@
 ﻿<Autocomplete TItem="Country"
               TValue="string"
               Data="@ReadDataCountries"
+              ReadData="@OnHandleReadData"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Iso)"
-              @bind-SelectedValue="selectedSearchValue"
-              @bind-SelectedText="selectedAutoCompleteText"
+              @bind-SelectedValue="SelectedValue"
+              @bind-SelectedText="SelectedText"
               Placeholder="Search..."
               FreeTyping
               MinLength="@MinLength"
@@ -22,14 +23,15 @@
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
+        ReadDataCountries = Countries;
         await base.OnInitializedAsync();
     }
 
     [Parameter]
-    public string selectedSearchValue { get; set; }
+    public string SelectedValue { get; set; }
 
     [Parameter]
-    public string selectedAutoCompleteText { get; set; }
+    public string SelectedText { get; set; }
 
     [Parameter]
     public int MinLength { get; set; } = 1;
