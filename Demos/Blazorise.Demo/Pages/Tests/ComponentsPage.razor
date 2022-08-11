@@ -26,7 +26,7 @@
                     </FieldBody>
                 </Field>
             </CardBody>
-             <CardBody>
+            <CardBody>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -157,10 +157,10 @@
                 </Field>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Values: @(multipleSelectionData != null ? string.Join(',', multipleSelectionData) : "");
+                        Selected Values: @(multipleSelectionData != null ? string.Join( ',', multipleSelectionData ) : "");
                     </FieldBody>
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Texts: @(multipleSelectionTexts != null ? string.Join(',', multipleSelectionTexts) : "");
+                        Selected Texts: @(multipleSelectionTexts != null ? string.Join( ',', multipleSelectionTexts ) : "");
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -327,16 +327,28 @@
     private ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     private Random random = new();
 
-    private Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
     }
 
-    private Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
+            }
+        }
     }
 
     protected override async Task OnInitializedAsync()
