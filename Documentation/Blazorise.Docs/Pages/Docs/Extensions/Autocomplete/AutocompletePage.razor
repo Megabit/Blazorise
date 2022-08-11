@@ -209,8 +209,11 @@
         Gets or sets an array of the keyboard pressed values for the ConfirmKey.
         If this is null or empty, there will be no confirmation key.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="AutoSelectFirstItem" Type="bool" Default="true">
-        Gets or sets whether Autocomplete auto preselects the first item displayed on the dropdown.
+    <DocsAttributesItem Name="AutoPreSelect" Type="bool" Default="true">
+        Gets or sets whether Autocomplete auto preselects the first item when the drop down opens.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoSelectFirstItem" Type="bool" Default="false">
+        Gets or sets whether Autocomplete auto preselects the first item from the data list on initialization. This overrides initial SelectedValue.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectionMode" Type="AutocompleteSelectionMode" Default="AutocompleteSelectionMode.Default">
         Gets or sets the Autocomplete Selection Mode.
