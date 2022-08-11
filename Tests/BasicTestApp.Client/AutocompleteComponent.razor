@@ -8,7 +8,7 @@
               Placeholder="Search..."
               FreeTyping
               MinLength="@MinLength"
-              AutoSelectFirstItem="@AutoSelectFirstItem">
+              AutoPreSelect="@AutoPreSelect">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
@@ -33,5 +33,5 @@
     public int MinLength { get; set; } = 1;
 
     [Parameter]
-    public bool AutoSelectFirstItem { get; set; } = true;
+    public bool AutoPreSelect { get; set; } = true;
 }

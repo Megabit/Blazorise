@@ -41,12 +41,12 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void AutoSelectFirstItem_True_Should_AutoPreSelectFirstItem()
+        public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()
         {
             // setup
             var comp = RenderComponent<AutocompleteComponent>( parameters => { 
                     parameters.Add( x => x.MinLength, 0 );
-                    parameters.Add( x => x.AutoSelectFirstItem, true );
+                    parameters.Add( x => x.AutoPreSelect, true );
             } );
             
             // test
@@ -60,12 +60,12 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void AutoSelectFirstItem_False_ShouldNot_AutoPreSelectFirstItem()
+        public void AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
         {
             // setup
             var comp = RenderComponent<AutocompleteComponent>( parameters => {
                 parameters.Add( x => x.MinLength, 0 );
-                parameters.Add( x => x.AutoSelectFirstItem, false );
+                parameters.Add( x => x.AutoPreSelect, false );
             } );
 
             // test

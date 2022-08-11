@@ -356,7 +356,7 @@ namespace Blazorise.Components
                 if ( ManualReadMode )
                     await InvokeReadData();
 
-                if (HasFilteredData && AutoSelectFirstItem)
+                if (HasFilteredData && AutoPreSelect)
                     ActiveItemIndex = 0;
 
                 await Open();
@@ -1203,10 +1203,10 @@ namespace Blazorise.Components
         [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter" };
 
         /// <summary>
-        /// Gets or sets whether <see cref="Autocomplete{TItem, TValue}"/> auto selects the first item displayed on the dropdown.
+        /// Gets or sets whether <see cref="Autocomplete{TItem, TValue}"/> auto preselects the first item displayed on the dropdown.
         /// Defauls to true.
         /// </summary>
-        [Parameter] public bool AutoSelectFirstItem { get; set; } = true;
+        [Parameter] public bool AutoPreSelect { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the <see cref="Autocomplete{TItem, TValue}"/> Selection Mode.
