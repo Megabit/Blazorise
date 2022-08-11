@@ -232,6 +232,24 @@ namespace Blazorise.Components
         {
             ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
 
+            if ( AutoSelectFirstItem && !IsMultiple )
+            {
+                if ( ManualReadMode )
+                    await Reload();
+                
+                if ( HasFilteredData )
+                {
+                    currentSearch = selectedText = GetItemText( FilteredData.First() );
+                    selectedValue = new( GetItemValue( FilteredData.First() ) );
+
+                    await Task.WhenAll(
+                        CurrentSearchChanged.InvokeAsync( currentSearch ),
+                        SelectedTextChanged.InvokeAsync( selectedText ),
+                        SelectedValueChanged.InvokeAsync( selectedValue )
+                    );
+                }
+            }
+
             await base.OnInitializedAsync();
         }
 
@@ -354,9 +372,12 @@ namespace Blazorise.Components
             if ( !DropdownVisible )
             {
                 if ( ManualReadMode )
+                {
                     await InvokeReadData();
+                    DirtyFilter();
+                }
 
-                if (HasFilteredData && AutoPreSelect)
+                if ( HasFilteredData && AutoPreSelect )
                     ActiveItemIndex = 0;
 
                 await Open();
@@ -858,7 +879,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets or sets the currently active item index.
         /// </summary>
-        protected int ActiveItemIndex { get; set; }
+        protected int ActiveItemIndex { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets the search field focus state.
@@ -1212,6 +1233,11 @@ namespace Blazorise.Components
         /// Gets or sets the <see cref="Autocomplete{TItem, TValue}"/> Selection Mode.
         /// </summary>
         [Parameter] public AutocompleteSelectionMode SelectionMode { get; set; } = AutocompleteSelectionMode.Default;
+
+        /// <summary>
+        /// Gets or sets the whether first item in the list should be selected
+        /// </summary>
+        [Parameter] public bool AutoSelectFirstItem { get; set; }
 
         #endregion
     }
