@@ -33,6 +33,11 @@ namespace Blazorise.Components
         #region Members
 
         /// <summary>
+        /// Gets the CancellationTokenSource which could be used to issue a cancellation.
+        /// </summary>
+        private CancellationTokenSource cancellationTokenSource;
+
+        /// <summary>
         /// Reference to the TextEdit component.
         /// </summary>
         private TextEdit textEditRef;
@@ -506,11 +511,15 @@ namespace Blazorise.Components
         {
             try
             {
+                cancellationTokenSource?.Cancel();
+                cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+                
+
                 Loading = true;
 
-                if ( !cancellationToken.IsCancellationRequested && IsTextSearchable )
+                if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
                 {
-                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken ) );
+                    await ReadData.InvokeAsync( new( CurrentSearch, cancellationTokenSource.Token ) );
                     await Task.Yield(); // rebind Data after ReadData
                 }
             }
