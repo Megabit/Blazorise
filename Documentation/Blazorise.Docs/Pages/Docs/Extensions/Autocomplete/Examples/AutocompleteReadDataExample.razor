@@ -28,6 +28,8 @@
     public IEnumerable<Country> Countries;
     public IEnumerable<Country> ReadDataCountries;
 
+    private Random random = new();
+
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
 
@@ -37,9 +39,15 @@
         await base.OnInitializedAsync();
     }
 
-    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
     }
 }

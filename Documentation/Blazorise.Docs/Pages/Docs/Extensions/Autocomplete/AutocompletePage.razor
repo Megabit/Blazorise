@@ -66,6 +66,11 @@
     <DocsPageSectionHeader Title="Searching with data on demand (ReadData)">
         Frequently, you'll want to read data on demand rather than loading everything into memory at startup. You can do it with the <Code>ReadData</Code> API.
         It will provide you with enough information for you to call an external data-source, which will return new data, which you can then reassign to the <Code>Data</Code> parameter.
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> Make sure to check the <Code>CancellationToken</Code> before commiting your values to <Code>Data</Code>. This will make sure to avoid race conditions and keep your <Code>Data</Code> updated according to the user's last key stroke.
+            </AlertDescription>
+        </Alert>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AutocompleteReadDataExample />
