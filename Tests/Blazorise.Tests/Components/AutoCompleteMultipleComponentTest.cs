@@ -11,9 +11,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Blazorise.Tests.Components
 {
-    public class AutoCompleteMultipleComponentTest : TestContext
+    public class AutocompleteMultipleComponentTest : TestContext
     {
-        public AutoCompleteMultipleComponentTest()
+        public AutocompleteMultipleComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
             BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
