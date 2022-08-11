@@ -13,7 +13,7 @@ read-time: 5 min
 
 # Guide: Create A Tabbed Login and Register Page With Blazorise
 
-This focuses on just the structure and markup of the user interface and is intended to demonstrate the use of Blazorise components and does not cover advanced topics such as tokens, cryptography, and hashing.
+In this post, I am going demonstrate how to use Blazorise Components to embed a login and registration form into an HTML tab. I will also demonstrate how to ensure data quality by validating form submissions. This focuses on just the structure and markup of the user interface and is intended to demonstrate the use of Blazorise components and does not cover advanced topics such as tokens, cryptography, and hashing.
 
 ---
 
@@ -254,3 +254,9 @@ By the end, your razor page should look something like this.
 	}
 }
 ```
+
+Registration and login are an important component of web security. Form validation also helps users to submit the right data, and increasing data quality in the process. 
+
+In this post, we demonstrated how you can embed login and registration forms into a tab element. We also demonstrated how you can guide users to enter the right kind of data into your forms, using validations. 
+
+From the post, we established how easy it is to build modern web functionality with Blazorise components in a few lines of code. We invite [try Blazorise components for free](https://blazorise.com/docs) or [apply for a license](https://commercial.blazorise.com/pricing) on commercial products and get assistance from a dedicated [Blazorise Mentor](https://commercial.blazorise.com/enterprise-plus).
