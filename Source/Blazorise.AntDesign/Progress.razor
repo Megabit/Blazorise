@@ -6,7 +6,7 @@
                 <div class="ant-progress-inner">
                     @if ( !HasProgressBar )
                     {
-                        <div class="@ProgressBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
+                        <div id="@ElementId" class="@ProgressBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
                             @ChildContent
                         </div>
                     }
