@@ -23,7 +23,9 @@ namespace Blazorise.Tests.Components
         public void InitialSelectedValue_ShouldSet_SelectedText()
         {
             // setup
-            var comp = RenderComponent<AutocompleteComponent>();
+            var comp = RenderComponent<AutocompleteComponent>(parameters =>
+                parameters.Add( x => x.selectedSearchValue, "CN" )
+            );
             var selectedText = comp.Instance.selectedAutoCompleteText;
             var expectedSelectedText = "China";
 
