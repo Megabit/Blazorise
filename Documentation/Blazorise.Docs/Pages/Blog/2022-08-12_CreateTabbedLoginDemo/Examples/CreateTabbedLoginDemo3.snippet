@@ -1,0 +1,10 @@
+@code{
+    string selectedTab = "login";
+
+    private Task OnSelectedTabChanged( string name )
+    {
+        selectedTab = name;
+
+        return Task.CompletedTask;
+    }
+}
