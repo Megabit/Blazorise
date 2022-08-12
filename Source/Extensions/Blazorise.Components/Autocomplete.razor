@@ -58,16 +58,18 @@
                 <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
                     @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                     {
-                        <Field Horizontal>
-                            @if ( isActiveItem )
-                            {
-                                <Icon Name="IconName.CheckSquare" TextColor="isFocusedItem ? TextColor.Primary : TextColor.White" Margin="Margin.Is1.FromEnd"></Icon>
-                            }
-                            else
-                            {
-                                <Icon Name="IconName.Square" TextColor="TextColor.Primary" Margin="Margin.Is1.FromEnd"></Icon>
-                            }
-                            <FieldBody>
+                        <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is1.OnY">
+                            <Div Margin="Margin.Is1">
+                                @if ( isActiveItem )
+                                {
+                                    <Icon Name="IconName.CheckSquare" TextColor="isFocusedItem ? TextColor.Primary : TextColor.White"></Icon>
+                                }
+                                else
+                                {
+                                    <Icon Name="IconName.Square" TextColor="TextColor.Primary"></Icon>
+                                }
+                            </Div>
+                            <Div Margin="Margin.Is1.OnY">
                                 @if ( ItemContent is not null )
                                 {
                                     @ItemContent(new (item, value, text))
@@ -76,8 +78,8 @@
                                 {
                                     @text
                                 }
-                            </FieldBody>
-                        </Field>
+                            </Div>
+                        </Div>
                     }
                     else
                     {
