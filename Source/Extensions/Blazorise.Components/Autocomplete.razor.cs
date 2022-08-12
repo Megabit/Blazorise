@@ -496,6 +496,7 @@ namespace Blazorise.Components
                 selectedValue = new( selectedTValue );
                 var item = GetItemByValue( selectedValue );
                 currentSearch = selectedText = GetItemText( item );
+                DirtyFilter();
 
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
