@@ -1,13 +1,10 @@
 <div class="blazorise-codeblock">
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    <span class="keyword">void</span> ValidateEmail( ValidatorEventArgs e )
-    {
-        <span class="keyword">var</span> email = Convert.ToString( e.Value );
-
-        e.Status = <span class="keyword">string</span>.IsNullOrEmpty( email ) ? ValidationStatus.None :
-            email.Contains( <span class="string">&quot;<span class="atSign">&#64;</span>&quot;</span> ) ? ValidationStatus.Success : ValidationStatus.Error;
-    }
+    <span class="keyword">string</span> name;
+    <span class="keyword">string</span> email;
+    <span class="keyword">string</span> password;
+    <span class="keyword">bool</span> rememberMe;
 }
 </pre></div>
 </div>

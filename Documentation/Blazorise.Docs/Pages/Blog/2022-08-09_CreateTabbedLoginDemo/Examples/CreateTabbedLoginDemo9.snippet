@@ -1,11 +1,31 @@
 @code {
+    Validations loginValidationsRef;
+    Validations registerValidationsRef;
+
+    string selectedTab = "login";
+
+    string name;
+    string email;
+    string password;
     bool rememberMe;
-    string SelectedTab = "login";
-	string Username;
-	void ValidateEmail (ValidatorEventArgs e)
-	{
-		var email = Convert.ToString(e.Value);
-		e.Status = string.IsNullOrEmpty(email) ? ValidationStatus.None:
-			email.Contains("@") ? ValidationStatus.Success : ValidationStatus.Error;
-	}
+
+    async Task OnLoginClicked()
+    {
+        if ( await loginValidationsRef.ValidateAll() )
+        {
+            // do the real login here
+
+            await loginValidationsRef.ClearAll();
+        }
+    }
+
+    async Task OnRegisterClicked()
+    {
+        if ( await registerValidationsRef.ValidateAll() )
+        {
+            // do the real login here
+
+            await registerValidationsRef.ClearAll();
+        }
+    }
 }
