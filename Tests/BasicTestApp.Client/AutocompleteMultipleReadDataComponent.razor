@@ -1,6 +1,7 @@
 ﻿<Autocomplete TItem="Country"
                 TValue="string"
-                Data="@Countries"
+                Data="@ReadDataCountries"
+                ReadData="@OnHandleReadData"
                 TextField="@(( item ) => item.Name)"
                 ValueField="@(( item ) => item.Iso)"
               @bind-SelectedValues="SelectedValues"
@@ -15,10 +16,14 @@
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
+    private Random random = new();
+
 
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
+        ReadDataCountries = Countries;
         await base.OnInitializedAsync();
     }
 
@@ -27,4 +32,16 @@
 
     [Parameter]
     public List<string> SelectedTexts { get; set; }
+
+    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
+    }
 }
