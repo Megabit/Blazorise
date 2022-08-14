@@ -81,6 +81,11 @@ namespace Blazorise.Components
         [Parameter] public Func<TItem, TValue> ValueField { get; set; }
 
         /// <summary>
+        /// Method used to determine if an item should be disabled.
+        /// </summary>
+        [Parameter] public Func<TItem, bool> DisabledField { get; set; }
+
+        /// <summary>
         /// Currently selected item value.
         /// </summary>
         [Parameter] public TValue SelectedValue { get; set; }
