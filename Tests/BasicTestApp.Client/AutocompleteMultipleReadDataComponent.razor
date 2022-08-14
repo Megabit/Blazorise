@@ -23,7 +23,6 @@
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
-        ReadDataCountries = Countries;
         await base.OnInitializedAsync();
     }
 

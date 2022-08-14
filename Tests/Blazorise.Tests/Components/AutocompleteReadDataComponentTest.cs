@@ -35,7 +35,7 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void MinLength_0_ShouldShowOptions_OnFocus()
         {
-            TestMinLen0ShowsOptions<AutocompleteReadDataComponent>( );
+            TestMinLen0ShowsOptions<AutocompleteReadDataComponent>();
         }
 
         [Fact]
@@ -44,13 +44,5 @@ namespace Blazorise.Tests.Components
             TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
         }
 
-        [Theory]
-        [InlineData( "CN", "China" )]
-        [InlineData( "PT", "Portugal" )]
-        [InlineData( "GB", "United Kingdom" )]
-        public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
-        {
-            TestProgramaticallySetSelectedValue<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
-        }
     }
 }

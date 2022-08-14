@@ -17,25 +17,6 @@ namespace Blazorise.Tests.Components
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
-        [Fact]
-        public void InitialSelectedValues_ShouldSet_SelectedTexts()
-        {
-            TestInitialSelectedValues<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
-        }
-
-
-        [Theory]
-        [InlineData( new[] { "PT", "HR" }, new[] { "Portugal", "Croatia" } )]
-        [InlineData( new[] { "CN", "GB" }, new[] { "China", "United Kingdom" } )]
-        [InlineData( new[] {
-            "AQ", "AE", "AF", "CA", "US", "AO", "AR", "CH", "CN", "GB", "PT", "HR" },
-            new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "United States", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" } )]
-        [InlineData( null, null )]
-        public void ProgramaticallySetSelectedValues_ShouldSet_SelectedTexts( string[] selectedValues, string[] expectedSelectedTexts )
-        {
-            TestProgramaticallySetSelectedValues<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray(), selectedValues, expectedSelectedTexts );
-        }
-
         [Theory]
         [InlineData( new[] { "Portugal", "Croatia" }, "" )]
         [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]

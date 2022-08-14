@@ -49,7 +49,7 @@ namespace Blazorise.Tests.Components
             autoComplete.Input( "A" );
             autoComplete.Focus();
 
-            comp.WaitForAssertion( () => comp.Find( ".b-is-autocomplete-suggestion.focus" ) );
+            comp.WaitForAssertion( () => comp.Find( ".b-is-autocomplete-suggestion.focus" ), TestExtensions.WaitTime );
         }
 
         public void TestHasNotPreselection<TComponent>() where TComponent : IComponent
@@ -83,7 +83,7 @@ namespace Blazorise.Tests.Components
             autoComplete.Input( "" );
             autoComplete.Focus();
 
-            comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ) );
+            comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ), TestExtensions.WaitTime );
         }
 
         public void TestMinLenBiggerThen0DoesNotShowOptions<TComponent>() where TComponent : IComponent
@@ -201,14 +201,28 @@ namespace Blazorise.Tests.Components
                 autoComplete.Focus();
                 autoComplete.Input( expectedText );
 
-                var firstSuggestion = comp.Find( ".b-is-autocomplete-suggestion" );
-                firstSuggestion.MouseUp();
+
+                var iterations = 0;
+                while ( true )
+                {
+                    if ( iterations > 10 )
+                        throw new Exception( $"Could not find a valid suggestion for {expectedText}" );
+                    var firstSuggestion = comp.WaitForElement( ".b-is-autocomplete-suggestion", TestExtensions.WaitTime );
+                    if ( firstSuggestion.TextContent == expectedText )
+                    {
+                        firstSuggestion.MouseUp();
+                        break;
+                    }
+                    Thread.Sleep( 100 );
+                    iterations++;
+                }
             }
 
             var badges = comp.FindAll( ".b-is-autocomplete .badge" );
 
+
             if ( expectedTexts is not null && expectedTexts.Length > 0 )
-                Assert.NotEmpty( badges );
+                comp.WaitForAssertion( () => { badges.Refresh(); Assert.NotEmpty( badges ); }, TestExtensions.WaitTime );
 
             for ( int i = 0; i < badges?.Count; i++ )
             {
