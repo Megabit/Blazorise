@@ -208,7 +208,7 @@ namespace Blazorise.Tests.Components
                     if ( iterations > 10 )
                         throw new Exception( $"Could not find a valid suggestion for {expectedText}" );
                     var firstSuggestion = comp.WaitForElement( ".b-is-autocomplete-suggestion", TestExtensions.WaitTime );
-                    if ( firstSuggestion.TextContent == expectedText )
+                    if ( firstSuggestion.TextContent.Contains( expectedText ) )
                     {
                         firstSuggestion.MouseUp();
                         break;
