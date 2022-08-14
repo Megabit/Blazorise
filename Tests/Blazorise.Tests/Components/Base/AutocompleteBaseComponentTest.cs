@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using BasicTestApp.Client;
+using Blazorise.Tests.Extensions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Xunit;
@@ -13,10 +14,10 @@ namespace Blazorise.Tests.Components
 {
     public class AutocompleteBaseComponentTest : TestContext
     {
-        public void TestInitialSelectedValue<TComponent>(Func<IRenderedComponent<TComponent>, string> getSelectedText) where TComponent : IComponent
+        public void TestInitialSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
         {
             // setup
-            var comp = RenderComponent<TComponent>( parameters => 
+            var comp = RenderComponent<TComponent>( parameters =>
                     parameters.TryAdd( "SelectedValue", "CN" )
                 );
 
@@ -34,34 +35,36 @@ namespace Blazorise.Tests.Components
             Assert.Equal( expectedSelectedText, inputText );
         }
 
-        public void TestHasPreselection<TComponent>( ) where TComponent : IComponent
+        public void TestHasPreselection<TComponent>() where TComponent : IComponent
         {
-            var comp = RenderComponent<TComponent>( parameters => {
-                parameters.TryAdd( "MinLength", 0 );
+            var comp = RenderComponent<TComponent>( parameters =>
+            {
+                parameters.TryAdd( "MinLength", 1 );
                 parameters.TryAdd( "AutoPreSelect", true );
             } );
 
             // test
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
-            autoComplete.Input( "" );
+            autoComplete.KeyDown( "A" );
+            autoComplete.Input( "A" );
             autoComplete.Focus();
 
-            var preSelected = comp.Find( ".b-is-autocomplete-suggestion.focus" );
-
-            Assert.NotNull( preSelected );
+            comp.WaitForAssertion( () => comp.Find( ".b-is-autocomplete-suggestion.focus" ) );
         }
 
-        public void TestHasNotPreselection<TComponent>( ) where TComponent : IComponent
+        public void TestHasNotPreselection<TComponent>() where TComponent : IComponent
         {
             // setup
-            var comp = RenderComponent<TComponent>( parameters => {
-                parameters.TryAdd( "MinLength", 0 );
+            var comp = RenderComponent<TComponent>( parameters =>
+            {
+                parameters.TryAdd( "MinLength", 1 );
                 parameters.TryAdd( "AutoPreSelect", false );
             } );
 
             // test
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
-            autoComplete.Input( "" );
+            autoComplete.KeyDown( "A" );
+            autoComplete.Input( "A" );
             autoComplete.Focus();
 
             var preSelected = comp.FindAll( ".b-is-autocomplete-suggestion.focus" );
@@ -80,9 +83,7 @@ namespace Blazorise.Tests.Components
             autoComplete.Input( "" );
             autoComplete.Focus();
 
-            var options = comp.FindAll( ".b-is-autocomplete-suggestion" );
-
-            Assert.NotEmpty( options );
+            comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ) );
         }
 
         public void TestMinLenBiggerThen0DoesNotShowOptions<TComponent>() where TComponent : IComponent
@@ -101,7 +102,7 @@ namespace Blazorise.Tests.Components
             Assert.Empty( options );
         }
 
-        public void TestProgramaticallySetSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText, string selectedValue, string expectedSelectedText) where TComponent : IComponent
+        public void TestProgramaticallySetSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText, string selectedValue, string expectedSelectedText ) where TComponent : IComponent
         {
             // setup
             var comp = RenderComponent<TComponent>(
@@ -128,7 +129,7 @@ namespace Blazorise.Tests.Components
         {
             // setup
             var comp = RenderComponent<TComponent>( parameters =>
-                    parameters.TryAdd( "SelectedValues", new List<string> {"PT","HR" } )
+                    parameters.TryAdd( "SelectedValues", new List<string> { "PT", "HR" } )
                 );
 
             var selectedTexts = getSelectedTexts( comp );

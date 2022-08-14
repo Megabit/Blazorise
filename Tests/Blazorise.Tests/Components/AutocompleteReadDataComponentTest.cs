@@ -29,13 +29,13 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
         {
-            TestHasNotPreselection<AutocompleteReadDataComponent>( );
+            TestHasNotPreselection<AutocompleteReadDataComponent>();
         }
 
         [Fact]
         public void MinLength_0_ShouldShowOptions_OnFocus()
         {
-            TestMinLen0ShowsOptions<AutocompleteReadDataComponent>();
+            TestMinLen0ShowsOptions<AutocompleteReadDataComponent>( );
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace Blazorise.Tests.Components
         [InlineData( "GB", "United Kingdom" )]
         public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
         {
-            TestProgramaticallySetSelectedValue<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText);
+            TestProgramaticallySetSelectedValue<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
         }
     }
 }
