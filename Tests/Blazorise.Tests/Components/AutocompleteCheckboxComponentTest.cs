@@ -12,59 +12,75 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Blazorise.Tests.Components
 {
     public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseComponentTest
+    {
+        public AutocompleteCheckboxComponentTest()
         {
-            public AutocompleteCheckboxComponentTest()
-            {
-                BlazoriseConfig.AddBootstrapProviders( Services );
-                BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-                BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
-                BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-                BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
-            }
-
-            [Fact]
-            public void InitialSelectedValues_ShouldSet_SelectedTexts()
-            {
-                TestInitialSelectedValues<AutocompleteCheckboxComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
-            }
+            BlazoriseConfig.AddBootstrapProviders( Services );
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
+            BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        }
 
 
-            [Theory]
-            [InlineData( new[] { "PT", "HR" }, new[] { "Portugal", "Croatia" } )]
-            [InlineData( new[] { "CN", "GB" }, new[] { "China", "United Kingdom" } )]
-            [InlineData( new[] {
+        [Fact]
+        public void Suggestions_ShouldShow_Checkboxes()
+        {
+            var comp = RenderComponent<AutocompleteCheckboxComponent>();
+
+            // test
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            autoComplete.Input( "A" );
+            autoComplete.Focus();
+
+            var suggestions = comp.FindAll( ".b-is-autocomplete-suggestion" );
+
+            Assert.All( suggestions, ( x ) => Assert.True( x.InnerHtml.Contains( "b-is-autocomplete-suggestion-checkbox" ) && x.InnerHtml.Contains( "</i>" ) ) );
+        }
+
+        [Fact]
+        public void InitialSelectedValues_ShouldSet_SelectedTexts()
+        {
+            TestInitialSelectedValues<AutocompleteCheckboxComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+        }
+
+
+        [Theory]
+        [InlineData( new[] { "PT", "HR" }, new[] { "Portugal", "Croatia" } )]
+        [InlineData( new[] { "CN", "GB" }, new[] { "China", "United Kingdom" } )]
+        [InlineData( new[] {
             "AQ", "AE", "AF", "CA", "US", "AO", "AR", "CH", "CN", "GB", "PT", "HR" },
-                new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "United States", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" } )]
-            [InlineData( null, null )]
-            public void ProgramaticallySetSelectedValues_ShouldSet_SelectedTexts( string[] selectedValues, string[] expectedSelectedTexts )
-            {
-                TestProgramaticallySetSelectedValues<AutocompleteCheckboxComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray(), selectedValues, expectedSelectedTexts );
-            }
+            new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "United States", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" } )]
+        [InlineData( null, null )]
+        public void ProgramaticallySetSelectedValues_ShouldSet_SelectedTexts( string[] selectedValues, string[] expectedSelectedTexts )
+        {
+            TestProgramaticallySetSelectedValues<AutocompleteCheckboxComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray(), selectedValues, expectedSelectedTexts );
+        }
 
-            [Theory]
-            [InlineData( new[] { "Portugal", "Croatia" }, "" )]
-            [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]
-            public void SelectValues_ShouldSet( string[] expectedTexts, string dummy )
-            {
-                TestSelectValues<AutocompleteCheckboxComponent>( expectedTexts );
-            }
+        [Theory]
+        [InlineData( new[] { "Portugal", "Croatia" }, "" )]
+        [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]
+        public void SelectValues_ShouldSet( string[] expectedTexts, string dummy )
+        {
+            TestSelectValues<AutocompleteCheckboxComponent>( expectedTexts );
+        }
 
-            [Theory]
-            [InlineData( new[] { "Portugal", "Croatia" }, new[] { "MyCustomValue", "YetAnotherCustomValue" }, new[] { "Portugal", "Croatia", "MyCustomValue", "YetAnotherCustomValue" } )]
-            public void FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
-            {
-                TestFreeTypedValue<AutocompleteCheckboxComponent>( startTexts, addTexts, expectedTexts );
-            }
+        [Theory]
+        [InlineData( new[] { "Portugal", "Croatia" }, new[] { "MyCustomValue", "YetAnotherCustomValue" }, new[] { "Portugal", "Croatia", "MyCustomValue", "YetAnotherCustomValue" } )]
+        public void FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
+        {
+            TestFreeTypedValue<AutocompleteCheckboxComponent>( startTexts, addTexts, expectedTexts );
+        }
 
-            [Theory]
-            [InlineData( new[] { "Portugal", "Croatia" }, new[] { "Croatia" }, new[] { "Portugal" } )]
-            [InlineData( new[] { "Portugal", "Croatia" }, new[] { "Croatia", "Portugal" }, new string[0] )]
-            [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }
-            , new[] { "Antarctica", "Argentina", "United Kingdom", "Canada" }
-            , new[] { "United Arab Emirates", "Afghanistan", "Angola", "Switzerland", "China", "Portugal", "Croatia" } )]
-            public void RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
-            {
-                TestRemoveValues<AutocompleteCheckboxComponent>( startTexts, removeTexts, expectedTexts );
-            }
+        [Theory]
+        [InlineData( new[] { "Portugal", "Croatia" }, new[] { "Croatia" }, new[] { "Portugal" } )]
+        [InlineData( new[] { "Portugal", "Croatia" }, new[] { "Croatia", "Portugal" }, new string[0] )]
+        [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }
+        , new[] { "Antarctica", "Argentina", "United Kingdom", "Canada" }
+        , new[] { "United Arab Emirates", "Afghanistan", "Angola", "Switzerland", "China", "Portugal", "Croatia" } )]
+        public void RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
+        {
+            TestRemoveValues<AutocompleteCheckboxComponent>( startTexts, removeTexts, expectedTexts );
         }
     }
+}

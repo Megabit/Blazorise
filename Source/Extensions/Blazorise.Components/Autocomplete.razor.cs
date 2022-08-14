@@ -934,6 +934,11 @@ namespace Blazorise.Components
             => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
 
         /// <summary>
+        /// Gets the custom class-names for checkbox element.
+        /// </summary>
+        protected string DropdownCheckboxItemClassNames = $"b-is-autocomplete-suggestion-checkbox";
+
+        /// <summary>
         /// Provides an index based id for the dropdown suggestion items.
         /// </summary>
         protected string DropdownItemId( int index )

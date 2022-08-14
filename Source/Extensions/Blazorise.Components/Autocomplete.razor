@@ -58,7 +58,7 @@
                 <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
                     @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
                     {
-                        <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is1.OnY">
+                        <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is1.OnY" Class="@DropdownCheckboxItemClassNames">
                             <Div Margin="Margin.Is1">
                                 @if ( isActiveItem )
                                 {
