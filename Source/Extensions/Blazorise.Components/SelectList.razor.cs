@@ -83,7 +83,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Method used to determine if an item should be disabled.
         /// </summary>
-        [Parameter] public Func<TItem, bool> DisabledField { get; set; }
+        [Parameter] public Func<TItem, bool> ItemDisabled { get; set; }
 
         /// <summary>
         /// Currently selected item value.
