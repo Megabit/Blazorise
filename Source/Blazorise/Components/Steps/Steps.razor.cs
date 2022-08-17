@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -174,6 +175,17 @@ namespace Blazorise
                 if ( value == state.SelectedStep )
                     return;
 
+                var allowNavigation = NavigationAllowed?.Invoke( new StepNavigationContext
+                {
+                    CurrentStepName = state.SelectedStep,
+                    CurrentStepIndex = IndexOfStep( state.SelectedStep ),
+                    NextStepName = value,
+                    NextStepIndex = IndexOfStep( value ),
+                } );
+
+                if ( allowNavigation == false )
+                    return;
+
                 state = state with { SelectedStep = value };
 
                 // raise the changed notification
@@ -191,7 +203,7 @@ namespace Blazorise
         /// <summary>
         /// Disables navigation by clicking on step.
         /// </summary>
-        [Parameter] public bool DisableClickNavigation { get; set; }
+        [Parameter] public Func<StepNavigationContext, bool> NavigationAllowed { get; set; }
 
         /// <summary>
         /// Template for placing the <see cref="Step"/> items.
