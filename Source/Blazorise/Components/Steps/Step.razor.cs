@@ -105,7 +105,7 @@ namespace Blazorise
         {
             await Clicked.InvokeAsync( eventArgs );
 
-            if ( ParentSteps != null )
+            if ( ParentSteps != null && !ParentSteps.DisableClickNavigation )
                 await ParentSteps.SelectStep( Name );
         }
 

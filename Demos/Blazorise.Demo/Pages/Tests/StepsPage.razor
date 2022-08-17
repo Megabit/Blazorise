@@ -63,8 +63,27 @@
                     <Step Name="9" Color="Color.Link">Link</Step>
                 </Steps>
             </CardBody>
+            <CardBody>
+                <Steps @ref="stepsRef" DisableClickNavigation>
+                    <Step Name="1">Step 1</Step>
+                    <Step Name="2">Step 2</Step>
+                    <Step Name="3">Step 3</Step>
+                    <Step Name="4">Step 4</Step>
+                </Steps>
+                <Div Display="Display.Flex" Class="justify-content-center">
+                    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd"
+                            Clicked="() => stepsRef.PreviousStep()">
+                        Previous
+                    </Button>
+                    <Button Color="Color.Primary"
+                            Clicked="() => stepsRef.NextStep()">
+                        Next
+                    </Button>
+                </Div>
+            </CardBody>
         </Card>
     </Column>
 </Row>
-@code{
+@code {
+    private Steps stepsRef;
 }
