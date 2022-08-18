@@ -181,7 +181,7 @@ namespace Blazorise
                     CurrentStepIndex = IndexOfStep( state.SelectedStep ),
                     NextStepName = value,
                     NextStepIndex = IndexOfStep( value ),
-                } );
+                } ) ?? true;
 
                 if ( allowNavigation == false )
                     return;
