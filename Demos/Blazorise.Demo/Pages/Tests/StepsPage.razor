@@ -63,6 +63,19 @@
                     <Step Name="9" Color="Color.Link">Link</Step>
                 </Steps>
             </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card>
+            <CardHeader>
+                <CardTitle>Navigation control</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>To control the navigation based on the user input you can use <Code>NavigationAllowed</Code> function.</CardText>
+            </CardBody>
             <CardBody>
                 <Steps @ref="stepsRef" @bind-SelectedStep="selectedStep" NavigationAllowed="NavigationAllowed">
                     <Items>
@@ -92,12 +105,10 @@
                     </Content>
                 </Steps>
                 <Div Display="Display.Flex" Class="justify-content-center">
-                    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd"
-                            Clicked="() => stepsRef.PreviousStep()">
+                    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="() => stepsRef.PreviousStep()">
                         Previous
                     </Button>
-                    <Button Color="Color.Primary"
-                            Clicked="() => stepsRef.NextStep()">
+                    <Button Color="Color.Primary" Clicked="() => stepsRef.NextStep()">
                         Next
                     </Button>
                 </Div>
@@ -112,7 +123,7 @@
 
     private bool NavigationAllowed( StepNavigationContext context )
     {
-        if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && string.IsNullOrEmpty( email ) )
+        if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
         {
             return false;
         }
