@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -87,6 +88,42 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Goes to the next step.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task NextStep()
+        {
+            var selectedStepIndex = stepItems.IndexOf( SelectedStep );
+
+            if ( selectedStepIndex == stepItems.Count - 1 )
+            {
+                return Task.CompletedTask;
+            }
+
+            SelectedStep = stepItems[selectedStepIndex + 1];
+
+            return InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
+        /// Goes to the previous step.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task PreviousStep()
+        {
+            var selectedStepIndex = stepItems.IndexOf( SelectedStep );
+
+            if ( selectedStepIndex <= 0 )
+            {
+                return Task.CompletedTask;
+            }
+
+            SelectedStep = stepItems[selectedStepIndex - 1];
+
+            return InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
         /// Returns the index of the step item.
         /// </summary>
         /// <param name="name">Name of the step item.</param>
@@ -138,6 +175,17 @@ namespace Blazorise
                 if ( value == state.SelectedStep )
                     return;
 
+                var allowNavigation = NavigationAllowed?.Invoke( new StepNavigationContext
+                {
+                    CurrentStepName = state.SelectedStep,
+                    CurrentStepIndex = IndexOfStep( state.SelectedStep ),
+                    NextStepName = value,
+                    NextStepIndex = IndexOfStep( value ),
+                } ) ?? true;
+
+                if ( allowNavigation == false )
+                    return;
+
                 state = state with { SelectedStep = value };
 
                 // raise the changed notification
@@ -151,6 +199,11 @@ namespace Blazorise
         /// Occurs after the selected step has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedStepChanged { get; set; }
+
+        /// <summary>
+        /// Disables navigation by clicking on step.
+        /// </summary>
+        [Parameter] public Func<StepNavigationContext, bool> NavigationAllowed { get; set; }
 
         /// <summary>
         /// Template for placing the <see cref="Step"/> items.

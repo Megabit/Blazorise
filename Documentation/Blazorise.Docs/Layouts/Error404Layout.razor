@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+
+@using Microsoft.AspNetCore.Http
+@using System.Net
+@inject IHttpContextAccessor httpContextAccessor
+
+<Container Height="Height.Is100">
+    <Row Height="Height.Is100">
+        <Column ColumnSize="ColumnSize.Is10.OnMobile.Is8.OnDesktop.Is6.OnWidescreen" Margin="Margin.IsAuto" Display="Display.Table" Height="Height.Is100">
+            <Div Display="Display.TableCell" VerticalAlignment="VerticalAlignment.Middle">
+                <Div TextAlignment="TextAlignment.Center">
+                    <DisplayHeading Size="DisplayHeadingSize.Is1" TextWeight="TextWeight.Bold">404</DisplayHeading>
+                    <Heading Size="HeadingSize.Is2">Page not found.</Heading>
+                    @Body
+                    <Button To="" Type="ButtonType.Link" Color="Color.Primary" Size="Size.Large">
+                        Return to website
+                    </Button>
+                </Div>
+            </Div>
+        </Column>
+    </Row>
+</Container>
+@code {
+    protected override void OnInitialized()
+    {
+        if ( httpContextAccessor.HttpContext != null && !httpContextAccessor.HttpContext.Response.HasStarted )
+        {
+            httpContextAccessor.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+        }
+    }
+}

@@ -26,6 +26,19 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Gets the name of the heading element based on current <see cref="Size"/> parameter.
+        /// </summary>
+        /// <returns>The h element name.</returns>
+        protected string GetHeadingElementName() => size switch
+        {
+            JumbotronTitleSize.Is1 => "h1",
+            JumbotronTitleSize.Is2 => "h2",
+            JumbotronTitleSize.Is3 => "h3",
+            JumbotronTitleSize.Is4 => "h4",
+            _ => "h1",
+        };
+
         #endregion
 
         #region Properties

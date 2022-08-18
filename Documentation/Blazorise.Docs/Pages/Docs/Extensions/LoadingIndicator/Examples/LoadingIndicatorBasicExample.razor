@@ -1,0 +1,29 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+<LoadingIndicator @ref="loadingIndicator">
+    <LineChart TItem="double" Data="lineChartData" />
+</LoadingIndicator>
+
+<Button Clicked="UpdateChart" Color="Color.Primary">Update</Button>
+@code 
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task UpdateChart()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay(3000); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { "Jan", "Feb", "Mar", "Apr", "May", "Jun" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}

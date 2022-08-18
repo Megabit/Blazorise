@@ -1,0 +1,39 @@
+﻿@namespace Blazorise.LoadingIndicator
+@inherits BaseComponent
+
+@if ( !Initializing )
+{
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <CascadingValue Value="@this" IsFixed>
+            @ChildContent
+        </CascadingValue>
+        @if ( Visible )
+        {
+            <div class="@IndicatorClassNames" style="@IndicatorStyleNames">
+                @if ( IndicatorTemplate != null )
+                {
+                    <CascadingValue Value="@this" IsFixed>
+                        @IndicatorTemplate
+                    </CascadingValue>
+                }
+                else
+                {
+                    @Spinner
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    @if ( InitializingTemplate != null )
+    {
+        <CascadingValue Value="@this" IsFixed>
+            @InitializingTemplate
+        </CascadingValue>
+    }
+    else
+    {
+        <p>Initializing...</p>
+    }
+}
