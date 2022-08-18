@@ -1,11 +1,10 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <ListView TItem="Country"
-          Data="Countries"
-          TextField="(item) => item.Name"
-          ValueField="(item) => item.Iso"
-          Mode="ListGroupMode.Static"
-          MaxHeight="300px">
+            Data="Countries"
+            TextField="(item) => item.Name"
+            Mode="ListGroupMode.Static"
+            MaxHeight="300px">
     <ItemTemplate>
         <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
             <Heading Margin="Margin.Is2.FromBottom">@context.Item.Iso</Heading>
@@ -15,7 +14,7 @@
     </ItemTemplate>
 </ListView>
 
-@code {
+@code{
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;

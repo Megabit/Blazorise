@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Blazorise.Components.ListView;
-using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Components
@@ -18,34 +17,18 @@ namespace Blazorise.Components
     {
         #region Methods
 
-        private string GetItemText( TItem item )
+        protected Task SelectedListGroupItemChanged( string text )
         {
-            if ( item is null || TextField is null )
-                return string.Empty;
-
-            return TextField.Invoke( item );
-        }
-
-        private string GetItemValue( TItem item )
-        {
-            if ( item is null || ValueField is null )
-                return string.Empty;
-
-            return ValueField.Invoke( item );
-        }
-
-        protected Task SelectedListGroupItemChanged( string value )
-        {
-            SelectedItem = GetItemBySelectedValue( value );
+            SelectedItem = GetItemBySelectedText( text );
 
             return SelectedItemChanged.InvokeAsync( SelectedItem );
         }
 
-        private TItem GetItemBySelectedValue( string selectedValue )
+        private TItem GetItemBySelectedText( string selectedText )
         {
-            if ( !Data.IsNullOrEmpty() && ValueField is not null )
+            if ( Data is not null && TextField is not null )
             {
-                return Data.FirstOrDefault( x => ValueField.Invoke( x ) == selectedValue );
+                return Data.FirstOrDefault( x => TextField.Invoke( x ) == selectedText );
             }
 
             return default;
@@ -98,12 +81,6 @@ namespace Blazorise.Components
         /// </summary>
         [EditorRequired]
         [Parameter] public Func<TItem, string> TextField { get; set; }
-
-        /// <summary>
-        /// Method used to get the value field from the supplied data source.
-        /// </summary>
-        [EditorRequired]
-        [Parameter] public Func<TItem, string> ValueField { get; set; }
 
         /// <summary>
         /// Currently selected item.

@@ -12,9 +12,8 @@
             {
                 var text = TextField?.Invoke( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
-                var disabled = ItemDisabled != null ? ItemDisabled.Invoke( item ) : false;
 
-                <SelectItem @key="@value" Value="@value" Disabled="@disabled">@text</SelectItem>
+                <SelectItem @key="@value" Value="@value">@text</SelectItem>
             }
         }
         @ChildContent

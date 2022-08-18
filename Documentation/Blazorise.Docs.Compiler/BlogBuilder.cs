@@ -30,7 +30,7 @@ namespace Blazorise.Docs.Compiler
         {
             sb.Append( $"@page \"{url}\"" ).Append( NewLine ).Append( NewLine );
 
-            sb.Append( $"<Seo Canonical=\"{url}\" Title=\"{title}\" Description=\"{description}\" ImageUrl=\"{imageUrl}\" />" ).Append( NewLine ).Append( NewLine );
+            sb.Append( $"<Seo Canonical=\"{url}\" Title=\"{title}\" Description=\"{description}\" />" ).Append( NewLine ).Append( NewLine );
 
             sb.Append( $"<BlogPageImage Source=\"{imageUrl}\" Text=\"{imageTitle}\" />" ).Append( NewLine ).Append( NewLine );
         }

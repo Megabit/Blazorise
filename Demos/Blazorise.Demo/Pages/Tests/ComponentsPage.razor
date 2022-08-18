@@ -289,11 +289,10 @@
                           Data="@Countries"
                           @bind-SelectedItem="@selectedListViewItem"
                           TextField="@((item) => item.Name)"
-                          ValueField="@((item) => item.Iso)"
                           Mode="ListGroupMode.Selectable">
                 </ListView>
                 <Paragraph Margin="Margin.Is3.FromTop">
-                    Selected Item: @selectedListViewItem?.Name
+                    Selected Item Text: @selectedListViewItem?.Name
                 </Paragraph>
             </CardBody>
         </Card>

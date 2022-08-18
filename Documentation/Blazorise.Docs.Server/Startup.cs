@@ -28,7 +28,6 @@ namespace Blazorise.Docs.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddHttpContextAccessor();
 
             services
               .AddBlazorise( options =>

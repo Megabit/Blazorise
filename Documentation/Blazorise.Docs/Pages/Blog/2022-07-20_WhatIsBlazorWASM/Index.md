@@ -1,6 +1,6 @@
 ---
 title: What is Blazor WASM?
-description: In this article we will discover what Blazor WASM is, its features and what the kind of applications it can build.
+description: Discover what Blazor WASM is, its features and the kind of applications it can build.
 permalink: /blog/what-is-blazor-wasm
 canonical: /blog/what-is-blazor-wasm
 image-url: img/blog/2022-07-20/What_Is_Blazor_WASM.png
