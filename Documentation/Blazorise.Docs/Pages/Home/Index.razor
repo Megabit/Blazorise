@@ -452,22 +452,9 @@
         </section>
         <Divider Margin="Margin.Is5.OnY" />
         <section class="home-newsletter" id="newsletter-section">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Subscribe To Our Newsletter</Heading>
-                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.FromBottom" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Be the first to learn about new Blazorise Resources and Tips.
-                    </Heading>
-                </Column>
-            </Row>
-
-            <Row>
-                <Column>
-                    <Div Margin="Margin.IsAuto.OnX" Flex="Flex.AlignSelf.Center" Width="Width.Is75">
-                        <NewsletterWidget Small ShowHeading="false" />
-                    </Div>
-                </Column>
-            </Row>
+            <Container>
+                <HomeNewsletterWidget />
+            </Container>
         </section>
     </Container>
 </Div>
