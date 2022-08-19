@@ -3914,7 +3914,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Selected Values: @string.Join(',', multipleSelectionData)
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Texts: @string.Join(',', multipleSelectionTexts)
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
     </FieldBody>
 </Field>
 
@@ -3931,7 +3931,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 
     List<string> multipleSelectionData;
-    List<string> multipleSelectionTexts = new();
+    List<string> multipleSelectionTexts;
 }";
 
         public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
@@ -3962,6 +3962,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     public IEnumerable<Country> Countries;
     public IEnumerable<Country> ReadDataCountries;
 
+    private Random random = new();
+
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
 
@@ -3971,10 +3973,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         await base.OnInitializedAsync();
     }
 
-    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
     }
 }";
 
@@ -3995,7 +4003,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Selected Values: @string.Join(',', multipleSelectionData)
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Texts: @string.Join(',', multipleSelectionTexts)
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
     </FieldBody>
 </Field>
 
@@ -4012,7 +4020,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 
     List<string> multipleSelectionData;
-    List<string> multipleSelectionTexts = new();
+    List<string> multipleSelectionTexts;
 }";
 
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />

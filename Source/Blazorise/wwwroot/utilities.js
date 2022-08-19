@@ -87,10 +87,15 @@ export function scrollElementIntoView(elementId, smooth) {
     var element = document.getElementById(elementId);
 
     if (element) {
-        element.scrollIntoView({
-            behavior: smooth ? "smooth" : "instant",
-            block: "nearest"
-        });
+        var top;
+        if (element.offsetTop < element.parentElement.scrollTop || element.clientHeight > element.parentElement.clientHeight) {
+            top = element.offsetTop;
+        } else if (element.offsetTop + element.offsetHeight > element.parentElement.scrollTop + element.parentElement.clientHeight) {
+            top = element.offsetTop + element.offsetHeight - element.parentElement.clientHeight;
+        }
+
+        var behavior = smooth ? "smooth" : "instant";
+        element.parentElement.scrollTo({ top: top, behavior: behavior });
     }
 }
 

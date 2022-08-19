@@ -107,7 +107,6 @@ namespace Blazorise.Modules
             await moduleInstance.InvokeVoidAsync( "scrollElementIntoView", elementId, smooth );
         }
 
-
         /// <inheritdoc/>
         public virtual async ValueTask SetCaret( ElementReference elementRef, int caret )
         {

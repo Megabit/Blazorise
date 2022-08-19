@@ -8,12 +8,12 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Blazorise.Tests.Components
 {
-    public class AutoCompleteComponentTest : TestContext
+    public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
-        public AutoCompleteComponentTest()
+        public AutocompleteComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
-            BlazoriseConfig.JSInterop.AddTextEdit(this.JSInterop);
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
             BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
             BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
@@ -22,20 +22,32 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void InitialSelectedValue_ShouldSet_SelectedText()
         {
-            // setup
-            var comp = RenderComponent<AutocompleteComponent>();
-            var selectedText = comp.Instance.selectedAutoCompleteText;
-            var expectedSelectedText = "China";
+            TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText);
+        }
 
-            // test
-            var input = comp.Find( ".b-is-autocomplete input" );
-            var inputText = input.GetAttribute( "value" );
-            
-            // validate
-            // validate Dropdown initialize / textfield initialize
-            this.JSInterop.VerifyInvoke( "initialize", 2 );
-            Assert.Equal( expectedSelectedText, selectedText );
-            Assert.Equal( expectedSelectedText, inputText );
+
+        [Fact]
+        public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()
+        {
+            TestHasPreselection<AutocompleteComponent>();
+        }
+
+        [Fact]
+        public void AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
+        {
+            TestHasNotPreselection<AutocompleteComponent>();
+        }
+
+        [Fact]
+        public void MinLength_0_ShouldShowOptions_OnFocus()
+        {
+            TestMinLen0ShowsOptions<AutocompleteComponent>();
+        }
+
+        [Fact]
+        public void MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+        {
+            TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
         }
 
         [Theory]
@@ -44,22 +56,7 @@ namespace Blazorise.Tests.Components
         [InlineData( "GB", "United Kingdom" )]
         public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
         {
-            // setup
-            var comp = RenderComponent<AutocompleteComponent>(
-                 parameters =>
-                    parameters.Add( x => x.selectedSearchValue, selectedValue ) );
-
-            var selectedText = comp.Instance.selectedAutoCompleteText;
-
-            // test
-            var input = comp.Find( ".b-is-autocomplete input" );
-            var inputText = input.GetAttribute( "value" );
-
-            // validate
-            // validate Dropdown initialize / textfield initialize
-            this.JSInterop.VerifyInvoke( "initialize", 2 );
-            Assert.Equal( expectedSelectedText, selectedText );
-            Assert.Equal( expectedSelectedText, inputText );
+            TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
         }
     }
 }
