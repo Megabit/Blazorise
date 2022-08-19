@@ -6,11 +6,11 @@
     Blazorise Blog
 </BlogPageTitle>
 
-<Row Margin="Margin.Is3.FromBottom">
-    <Column ColumnSize="ColumnSize.Is8.OnDesktop">
+<Row>
+    <Column ColumnSize="ColumnSize.Is8.OnDesktop" Margin="Margin.Is3.FromBottom">
         <BlogCategorySelect Categories="@BlogEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
     </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnDesktop">
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
         <TextEdit Placeholder="Search..." @bind-Text="@search" />
     </Column>
 </Row>
@@ -65,12 +65,12 @@
     List<BlogEntry> BlogEntries = new List<BlogEntry>
     {
         new BlogEntry { Category = "Community", Url = "blog/reactive-ui-blazorise-fluent-validation", Text = "ReactiveUI, Blazorise & FluentValidation?", Image = "img/blog/2022-08-19/ReactiveUI_Blazorise_FluentValidation.png", AuthorName = "Rich Bryant", AuthorImage = "richbryant", PostedOn = "August 19th, 2022", ReadTime = "5 min", Pinned = true},
-        new BlogEntry { Category = "Tutorials", Url = "blog/create-a-tabbed-login-form-with-blazorise-components", Text = "Guide: Create A Tabbed Login and Register Page With Blazorise", Image = "img/blog/2022-08-12/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn = "August 12th, 2022", ReadTime = "5 min"},
-        new BlogEntry { Category = "Engineering", Url = "blog/a-beginners-guide-to-maui", Text = "A Beginner's Guide To .NET MAUI", Image = "img/blog/2022-07-27/A_Beginners_Guide_To_NET_MAUI.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn="July 27th, 2022", ReadTime="4 min" },
-        new BlogEntry { Category = "Engineering", Url = "blog/what-is-blazor-wasm", Text = "What Is Blazor WASM?", Image = "img/blog/2022-07-20/What_Is_Blazor_WASM.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn = "July 20th, 2022", ReadTime = "5 min" },
-        new BlogEntry { Category = "Engineering", Url = "blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm", Text = "Exploring WebAssembly, The Underlying Technology Behind Blazor WASM", Image = "img/blog/2022-07-12/the_underlying_technology_behind_blazor_wasm.png", AuthorName="James Amattey", AuthorImage="james", PostedOn="July 13th, 2022", ReadTime="4 min" },
-        new BlogEntry { Category = "Tutorials", Url = "blog/how-to-handle-select-with-primitive-and-complex-types", Text = "How to bind primitive and complex types with Blazorise Select component", Image = "img/blog/2022-06-25/Blazorise-Select-Component.png", AuthorName="David Moreira", AuthorImage="david", PostedOn="July 1st, 2022", ReadTime="4 min" },
-        new BlogEntry { Category = "Tutorials", Url = "blog/blazor-form-validation-with-data-annotations", Text = "Blazorise Form Validation With Data Annotations: A Beginner's Guide", Image = "img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 9th, 2022", ReadTime="5 min"  },
-        new BlogEntry { Category = "Tutorials", Url = "blog/how-to-create-a-blazorise-application-beginners-guide", Text = "How to create a Blazorise WASM application: A Beginner's Guide", Image = "img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 8th, 2022", ReadTime="5 min" },
+        new BlogEntry { Category = "How To Guides", Url = "blog/create-a-tabbed-login-form-with-blazorise-components", Text = "Guide: Create A Tabbed Login and Register Page With Blazorise", Image = "img/blog/2022-08-12/Create_A_Tabbed_Login_and_Register_Page_In_5_Minutes_In_Blazor_With_Blazorise_Components.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn = "August 12th, 2022", ReadTime = "5 min"},
+        new BlogEntry { Category = "Blazor", Url = "blog/a-beginners-guide-to-maui", Text = "A Beginner's Guide To .NET MAUI", Image = "img/blog/2022-07-27/A_Beginners_Guide_To_NET_MAUI.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn="July 27th, 2022", ReadTime="4 min" },
+        new BlogEntry { Category = "Blazor", Url = "blog/what-is-blazor-wasm", Text = "What Is Blazor WASM?", Image = "img/blog/2022-07-20/What_Is_Blazor_WASM.png", AuthorName = "James Amattey", AuthorImage = "james", PostedOn = "July 20th, 2022", ReadTime = "5 min" },
+        new BlogEntry { Category = "Blazor", Url = "blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm", Text = "Exploring WebAssembly, The Underlying Technology Behind Blazor WASM", Image = "img/blog/2022-07-12/the_underlying_technology_behind_blazor_wasm.png", AuthorName="James Amattey", AuthorImage="james", PostedOn="July 13th, 2022", ReadTime="4 min" },
+        new BlogEntry { Category = "How To Guides", Url = "blog/how-to-handle-select-with-primitive-and-complex-types", Text = "How to bind primitive and complex types with Blazorise Select component", Image = "img/blog/2022-06-25/Blazorise-Select-Component.png", AuthorName="David Moreira", AuthorImage="david", PostedOn="July 1st, 2022", ReadTime="4 min" },
+        new BlogEntry { Category = "How To Guides", Url = "blog/blazor-form-validation-with-data-annotations", Text = "Blazorise Form Validation With Data Annotations: A Beginner's Guide", Image = "img/blog/2022-06-09/Blazorise-Form-Validation-With-Data-Annotations.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 9th, 2022", ReadTime="5 min"  },
+        new BlogEntry { Category = "How To Guides", Url = "blog/how-to-create-a-blazorise-application-beginners-guide", Text = "How to create a Blazorise WASM application: A Beginner's Guide", Image = "img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png", AuthorName="Mladen Macanović", AuthorImage="mladen", PostedOn="June 8th, 2022", ReadTime="5 min" },
     };
 }
