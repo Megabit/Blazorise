@@ -72,7 +72,12 @@ namespace Blazorise.Docs.Compiler
                         sb.Append( $"<Code Tag>" ).Append( content ).Append( "</Code>" );
                     }
                     else
+                    {
+                        content = content.Replace( "<", "&lt;" );
+                        content = content.Replace( ">", "&gt;" );
+
                         sb.Append( $"<Code>" ).Append( content ).Append( "</Code>" );
+                    }
                 }
                 else
                     sb.Append( inline.ToString() );
