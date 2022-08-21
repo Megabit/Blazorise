@@ -1,0 +1,28 @@
+﻿<LoadingIndicator @binding-Visible="running">
+    <ChildContent>
+		<Button Disabled="running" Clicked="Start" />
+    </ChildContent>
+    <IndicatorTemplate>
+		<Button Clicked="Cancel" />
+    </IndicatorTemplate>
+</LoadingIndicator>
+
+@code
+{
+    bool running;
+
+    async Task Start()
+    {
+        if ( !running )
+        {
+            running = true;
+            await StartLongRunningTask();
+        }
+    }
+
+    async Task Cancel()
+    {
+        await CancelTask();
+        running = false;
+	}
+}

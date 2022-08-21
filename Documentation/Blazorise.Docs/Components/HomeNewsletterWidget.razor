@@ -1,0 +1,139 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Logging
+@using SendGrid
+@using System.Text.Json
+<Row Class="home-newsletter-container">
+    <Column ColumnSize="ColumnSize.Is12.Is6.OnWidescreen" Padding="Padding.Is0.FromStart">
+        <Heading Size="HeadingSize.Is3" TextColor="TextColor.White">Subscribe to the Newsletter</Heading>
+        <Paragraph TextColor="TextColor.White">
+            Get information about happenings in Blazorise like new releases, free sources, posts, and more.
+        </Paragraph>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.Is6.OnWidescreen">
+        <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" ValidateOnLoad>
+            @if ( emailSent )
+            {
+                <Alert Color="Color.Success" Visible>
+                    <AlertDescription>
+                        Thank you for subscribing.
+                    </AlertDescription>
+                </Alert>
+            }
+            else
+            {
+                <Row Margin="Margin.Is2.FromBottom">
+                    <Column ColumnSize="ColumnSize.Is8.Is9.OnDesktop" Padding="Padding.Is2.FromEnd">
+                        <Validation Validator="ValidationRule.IsEmail">
+                            <Field>
+                                <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Text="@email" aria-label="Subscription email">
+                                    <Feedback>
+                                        <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Warning">Please complete this required field.</ValidationError>
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4.Is3.OnDesktop" Padding="Padding.Is0">
+                        <Button Color="Color.Primary" Clicked="@OnSubscribeClicked">Subscribe</Button>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Validation Validator="ValidationRule.IsChecked">
+                            <Field Margin="Margin.Is1.FromBottom">
+                                <Check @bind-Checked="@termsAgreed">
+                                    <ChildContent>
+                                        I agree to the <Anchor To="terms" TextColor="TextColor.White">Terms &amp; Conditions</Anchor> and <Anchor To="privacy" TextColor="TextColor.White">Privacy Policy</Anchor>.
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Warning">You must agree to our terms and privacy policy.</ValidationError>
+                                    </Feedback>
+                                </Check>
+                            </Field>
+                        </Validation>
+                        <Field>
+                            <Check TValue="bool" @bind-Checked="@marketingAgreed">
+                                I would like to receive marketing materials like product deals &amp; special offers.
+                            </Check>
+                        </Field>
+                    </Column>
+                </Row>
+            }
+        </Validations>
+    </Column>
+</Row>
+
+@code {
+    Validations validationsRef;
+    string email;
+    bool termsAgreed;
+    bool marketingAgreed;
+    bool emailSent;
+
+    [Parameter] public bool ShowHeading { get; set; } = true;
+
+    [Parameter] public bool Small { get; set; }
+
+    [Inject] public ILogger<NewsletterWidget> Logger { get; set; }
+
+    [Inject] public IConfiguration Configuration { get; set; }
+
+    class CustomFieldsResult
+    {
+        public List<CustomField> custom_fields { get; set; }
+
+        public class CustomField
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+            public string type { get; set; }
+        }
+    }
+
+    async Task OnSubscribeClicked()
+    {
+        emailSent = false;
+
+        try
+        {
+            if ( await validationsRef.ValidateAll() )
+            {
+                var apiKey = Configuration["SendGrid:ApiKey"];
+
+                var sendGridClient = new SendGridClient( apiKey );
+
+                var response = await sendGridClient.RequestAsync( method: SendGridClient.Method.GET, urlPath: "marketing/field_definitions" );
+
+                // Sending field names is not supported by the SendGrid API. To contruct the contacts request we must know the custom_fields IDs.
+                var customFields = JsonSerializer.Deserialize<CustomFieldsResult>( await response.Body.ReadAsStringAsync() );
+                var terms_field_id = customFields.custom_fields.First( x => x.name == "terms" ).id;
+                var marketing_field_id = customFields.custom_fields.First( x => x.name == "marketing" ).id;
+
+                var content = JsonSerializer.Serialize( new
+                {
+                    list_ids = new[] { Configuration["SendGrid:ListId"] },
+                    contacts = new[] { new { email = email, custom_fields = new { terms_field_placeholder = termsAgreed.ToString().ToLowerInvariant(), marketing_field_placeholder = marketingAgreed.ToString().ToLowerInvariant() } } },
+                } );
+
+                content = content.Replace( "terms_field_placeholder", terms_field_id );
+                content = content.Replace( "marketing_field_placeholder", marketing_field_id );
+
+                response = await sendGridClient.RequestAsync( BaseClient.Method.PUT, content, null, "marketing/contacts" );
+
+                if ( response.IsSuccessStatusCode )
+                {
+                    email = null;
+                    emailSent = true;
+                }
+
+                await validationsRef.ClearAll();
+            }
+        }
+        catch ( Exception exc )
+        {
+            Logger.LogError( exc.Message );
+        }
+    }
+}

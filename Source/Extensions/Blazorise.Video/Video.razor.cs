@@ -69,6 +69,7 @@ namespace Blazorise.Video
                 await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
                 {
                     Controls,
+                    ControlsList,
                     AutomaticallyHideControls,
                     AutoPlay,
                     AutoPause,
@@ -606,6 +607,11 @@ namespace Blazorise.Video
         /// Defines the protection token for the http header that is sent to the server.
         /// </summary>
         [Parameter] public string ProtectionHttpRequestHeaders { get; set; }
+
+        /// <summary>
+        /// Defines the customized list of player controls. 
+        /// </summary>
+        [Parameter] public string[] ControlsList { get; set; } = new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen };
 
         /// <summary>
         /// Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute.

@@ -4,14 +4,15 @@
     {
         @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
         {
-            var text = TextField?.Invoke( item ) ?? string.Empty;
+            var itemText = GetItemText( item );
+            var itemValue = GetItemValue( item );
             @if ( ItemTemplate is not null )
             {
-                <ListGroupItem @key="item" Name="@text">@ItemTemplate( new( item, text ) )</ListGroupItem>
+                <ListGroupItem @key="item" Name="@itemValue">@ItemTemplate( new( item, itemText, itemValue ) )</ListGroupItem>
             }
             else
             {
-                <ListGroupItem @key="item" Name="@text">@text</ListGroupItem>
+                <ListGroupItem @key="item" Name="@itemValue">@itemText</ListGroupItem>
             }
         }
     }

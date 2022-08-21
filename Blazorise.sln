@@ -104,6 +104,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.QRCode", "Source\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Generator", "Documentation\Blazorise.Docs.Generator\Blazorise.Docs.Generator.csproj", "{F4C121CA-C204-43C4-AF1D-DEE56392526F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LoadingIndicator", "Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj", "{F7975395-2F45-4F4E-850E-ADD4BFFA2D86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -274,6 +276,10 @@ Global
 		{F4C121CA-C204-43C4-AF1D-DEE56392526F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C121CA-C204-43C4-AF1D-DEE56392526F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4C121CA-C204-43C4-AF1D-DEE56392526F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7975395-2F45-4F4E-850E-ADD4BFFA2D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7975395-2F45-4F4E-850E-ADD4BFFA2D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7975395-2F45-4F4E-850E-ADD4BFFA2D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7975395-2F45-4F4E-850E-ADD4BFFA2D86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -322,6 +328,7 @@ Global
 		{7D4C9E83-5211-41C4-BB10-AB4599CA6C3D} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{81EDE0C8-05A4-4B5C-88AC-BD100FEC0471} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{F4C121CA-C204-43C4-AF1D-DEE56392526F} = {700B33A3-A855-46C3-BD5A-C6954FC7274B}
+		{F7975395-2F45-4F4E-850E-ADD4BFFA2D86} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

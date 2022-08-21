@@ -30,7 +30,7 @@ namespace Blazorise.Docs.Compiler
         {
             sb.Append( $"@page \"{url}\"" ).Append( NewLine ).Append( NewLine );
 
-            sb.Append( $"<Seo Canonical=\"{url}\" Title=\"{title}\" Description=\"{description}\" />" ).Append( NewLine ).Append( NewLine );
+            sb.Append( $"<Seo Canonical=\"{url}\" Title=\"{title}\" Description=\"{description}\" ImageUrl=\"{imageUrl}\" />" ).Append( NewLine ).Append( NewLine );
 
             sb.Append( $"<BlogPageImage Source=\"{imageUrl}\" Text=\"{imageTitle}\" />" ).Append( NewLine ).Append( NewLine );
         }
@@ -72,7 +72,12 @@ namespace Blazorise.Docs.Compiler
                         sb.Append( $"<Code Tag>" ).Append( content ).Append( "</Code>" );
                     }
                     else
+                    {
+                        content = content.Replace( "<", "&lt;" );
+                        content = content.Replace( ">", "&gt;" );
+
                         sb.Append( $"<Code>" ).Append( content ).Append( "</Code>" );
+                    }
                 }
                 else
                     sb.Append( inline.ToString() );

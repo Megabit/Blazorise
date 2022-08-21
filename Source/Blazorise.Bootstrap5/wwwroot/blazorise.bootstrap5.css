@@ -1505,7 +1505,7 @@ tr.table-row-selectable:hover {
   border-collapse: separate;
   border-spacing: 0;
 }
-.table-fixed-header > .table > thread:not(.table-thead-theme) > th {
+.table-fixed-header > .table > thead:not(.table-thead-theme) > th {
   background: white;
 }
 .table-fixed-header > .table > thead > tr > th {

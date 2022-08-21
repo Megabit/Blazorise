@@ -1,6 +1,6 @@
 ﻿@page "/docs/components/step"
 
-<Seo Canonical="/docs/components/step" Title="Blazorise Step component" Description="The Step component displays progress through numbered steps." />
+<Seo Canonical="/docs/components/step" Title="Blazorise Step component" Description="Learn to use and work with the Blazorise Step component that displays progress through numbered steps." />
 
 <DocsPageTitle Path="Components/Step">
     Blazorise Step component
@@ -78,6 +78,21 @@
     <DocsPageSectionSource Code="BasicStepExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Navigation Control">
+        <Paragraph>
+            Basic steps navigation has no constraints, so it is possible to jump to any steps by clicking on them. However, this is usually impossible in real-world scenarios as sometimes a user is required to enter valid data before proceeding to the next step.
+        </Paragraph>
+        <Paragraph>
+            To control the navigation between the steps, you need to use the <Code>NavigationAllowed</Code> parameter, which acts as a function that has all the information you need to validate the page switch.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StepNavigationAllowedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StepNavigationAllowedExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Functions
 </DocsPageSubtitle>
@@ -107,6 +122,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedStepChanged" Type="EventCallback<string>">
         Occurs after the selected step has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NavigationAllowed" Type="Func<StepNavigationContext, bool>">
+        Determines if navigation to a step should be allowed.
     </DocsAttributesItem>
 </DocsAttributes>
 

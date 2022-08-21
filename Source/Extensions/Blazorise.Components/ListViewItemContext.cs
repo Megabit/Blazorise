@@ -11,14 +11,20 @@
 
         }
 
-        public ItemContext( TItem item, string text ) : base( item )
+        public ItemContext( TItem item, string text, string value ) : base( item )
         {
             Text = text;
+            Value = value;
         }
 
         /// <summary>
         /// Holds current ListView Item Text.
         /// </summary>
         public string Text { get; }
+
+        /// <summary>
+        /// Holds current ListView Item Value.
+        /// </summary>
+        public string Value { get; }
     }
 }

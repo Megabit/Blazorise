@@ -1,6 +1,6 @@
 ﻿---
-title: Exploring WebAssembly, The Underlying Technology Behind Blazor WASM
-description: 
+title: The Underlying Technology Behind Blazor WebAssembly
+description: Learn all about the WebAssembly, The Underlying Technology Behind Blazor WASM, and how it can help you to build a rich UI applications.
 permalink: /blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm
 canonical: /blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm
 image-url: img/blog/2022-07-12/the_underlying_technology_behind_blazor_wasm.png

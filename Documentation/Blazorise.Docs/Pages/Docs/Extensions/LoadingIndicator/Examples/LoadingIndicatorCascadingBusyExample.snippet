@@ -1,0 +1,16 @@
+﻿<Button Clicked="DoWork" />
+
+@code
+{
+    [CascadingParameter]
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        await loadingIndicator.Show();
+        
+        // do work ...
+        
+        await loadingIndicator.Hide();
+    }
+}

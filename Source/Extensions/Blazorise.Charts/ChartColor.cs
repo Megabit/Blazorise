@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.Text.Json.Serialization;
 using Blazorise.Utilities;
@@ -44,7 +45,7 @@ namespace Blazorise.Charts
         /// <summary>
         /// Implicitly convert color to the string representation that is understood by the ChartJs.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">The string formated color.</param>
         public static implicit operator string( ChartColor color ) => color.ToJsRgba();
 
         /// <summary>
@@ -82,6 +83,9 @@ namespace Blazorise.Charts
         /// </summary>
         /// <returns></returns>
         public string ToJsRgba() => $"rgba({R},{G},{B},{( A ?? 0 ).ToString( CultureInfo.InvariantCulture )})";
+
+        /// <inheritdoc/>
+        public override string ToString() => ToJsRgba();
 
         #endregion
 

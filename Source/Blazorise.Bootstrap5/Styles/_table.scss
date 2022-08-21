@@ -13,7 +13,7 @@ tr.table-row-selectable:hover {
         border-collapse: separate;
         border-spacing: 0;
 
-        > thread:not(.table-thead-theme) > th {
+        > thead:not(.table-thead-theme) > th {
             background: white;
         }
 
