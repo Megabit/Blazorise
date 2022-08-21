@@ -175,6 +175,12 @@
                 <CardTitle>Autocomplete : ReadData</CardTitle>
             </CardHeader>
             <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@autocompleteReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -182,6 +188,9 @@
                                       TValue="string"
                                       Data="@ReadDataCountries"
                                       ReadData="HandleReadData"
+                                      @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteReadDataText"
+                                      FreeTyping="autocompleteReadDataFreeTyping"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
                                       MinLength="0"
@@ -197,6 +206,14 @@
                         </Autocomplete>
                     </FieldBody>
                 </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected search value: @selectedAutoCompleteReadDataSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteReadDataText
+                    </FieldBody>
+                </Field>
             </CardBody>
         </Card>
     </Column>
@@ -206,6 +223,12 @@
                 <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
             </CardHeader>
             <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@multipleAutocompleteReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -219,7 +242,8 @@
                                       SelectionMode="AutocompleteSelectionMode.Multiple"
                                       CloseOnSelection="false"
                                       @bind-SelectedValues="multipleReadDataSelectionData"
-                                      @bind-SelectedTexts="multipleReadDataSelectionTexts">
+                                      @bind-SelectedTexts="multipleReadDataSelectionTexts"
+                                      FreeTyping="multipleAutocompleteReadDataFreeTyping">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
@@ -229,6 +253,14 @@
                                 <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
                             </ItemContent>
                         </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Values: @(multipleReadDataSelectionData != null ? string.Join( ',', multipleReadDataSelectionData ) : "");
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Texts: @(multipleReadDataSelectionTexts != null ? string.Join( ',', multipleReadDataSelectionTexts ) : "");
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -308,7 +340,10 @@
 
     private string selectedAutoCompleteSearchValue { get; set; }
     private string selectedAutoCompleteText { get; set; }
+    private string selectedAutoCompleteReadDataSearchValue { get; set; }
+    private string selectedAutoCompleteReadDataText { get; set; }
     private bool autocompleteFreeTyping = false;
+    private bool autocompleteReadDataFreeTyping = false;
 
     private List<string> multipleReadDataSelectionData = new();
     private List<string> multipleReadDataSelectionTexts;
@@ -316,6 +351,7 @@
     private List<string> multipleSelectionData;
     private List<string> multipleSelectionTexts;
     private bool multipleAutocompleteFreeTyping = false;
+    private bool multipleAutocompleteReadDataFreeTyping = false;
 
 
     private string selectedListValue { get; set; }
