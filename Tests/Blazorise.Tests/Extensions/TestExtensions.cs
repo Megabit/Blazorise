@@ -11,7 +11,7 @@ namespace Blazorise.Tests.Extensions
 {
     internal static class TestExtensions
     {
-        public static TimeSpan WaitTime = TimeSpan.FromSeconds( 3 );
+        public static TimeSpan WaitTime = TimeSpan.FromSeconds( 5 );
 
         public static void Click<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent
         {

@@ -19,6 +19,35 @@ namespace Blazorise.Tests.Components
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
+        [Theory]
+        [InlineData( "Portugal" )]
+        [InlineData( "Antarctica" )]
+        [InlineData( "United Kingdom" )]
+        [InlineData( "China" )]
+        public void SelectValue_ShouldSet( string expectedText )
+        {
+            TestSelectValue<AutocompleteReadDataComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Theory]
+        [InlineData( "MyCustomValue" )]
+        public void FreeTypedValue_ShouldSet( string freeTyped )
+        {
+            TestFreeTypedValue<AutocompleteReadDataComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Theory]
+        [InlineData( true, "Portuga", "Portugal" )]
+        [InlineData( true, "Chin", "China" )]
+        [InlineData( true, "United King", "United Kingdom" )]
+        [InlineData( false, "Portuga", "Portuga" )]
+        [InlineData( false, "Chin", "Chin" )]
+        [InlineData( false, "United King", "United King" )]
+        public void FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
+        {
+            TestFreeTypedValue_AutoPreSelect<AutocompleteReadDataComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
+        }
+
 
         [Fact]
         public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()

@@ -25,6 +25,34 @@ namespace Blazorise.Tests.Components
             TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText);
         }
 
+        [Theory]
+        [InlineData( "Portugal")]
+        [InlineData( "Antarctica")]
+        [InlineData( "United Kingdom" )]
+        [InlineData( "China" )]
+        public void SelectValue_ShouldSet( string expectedText )
+        {
+            TestSelectValue<AutocompleteComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Theory]
+        [InlineData( "MyCustomValue" )]
+        public void FreeTypedValue_ShouldSet( string freeTyped )
+        {
+            TestFreeTypedValue<AutocompleteComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Theory]
+        [InlineData( true, "Portuga", "Portugal" )]
+        [InlineData( true, "Chin", "China" )]
+        [InlineData( true, "United King", "United Kingdom" )]
+        [InlineData( false, "Portuga", "Portuga" )]
+        [InlineData( false, "Chin", "Chin" )]
+        [InlineData( false, "United King", "United King" )]
+        public void FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
+        {
+            TestFreeTypedValue_AutoPreSelect<AutocompleteComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
+        }
 
         [Fact]
         public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()
