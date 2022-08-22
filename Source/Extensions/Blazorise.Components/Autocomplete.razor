@@ -49,7 +49,7 @@
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
-                var isActiveItem = IsActiveItem( item, i );
+                var isActiveItem = IsSuggestedActiveItem( item );
                 var isFocusedItem = i == ActiveItemIndex;
 
                 var text = GetItemText( item );

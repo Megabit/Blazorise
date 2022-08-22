@@ -81,7 +81,7 @@ namespace Blazorise.Components
 
         #region Methods
 
-        bool TValueEqual<T>( T first, T second )
+        private bool TValueEqual<T>( T first, T second )
         {
             if ( first == null && second == null )
                 return true;
@@ -92,7 +92,7 @@ namespace Blazorise.Components
             return first.Equals( second );
         }
 
-        bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
+        private bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
         {
             if ( first == second )
                 return true;
@@ -241,7 +241,7 @@ namespace Blazorise.Components
             {
                 if ( ManualReadMode )
                     await Reload();
-                
+
                 if ( HasFilteredData )
                 {
                     currentSearch = selectedText = GetItemText( FilteredData.First() );
@@ -482,10 +482,8 @@ namespace Blazorise.Components
 
             if ( IsMultiple )
             {
-                await Task.WhenAll(
-                    AddMultipleText( selectedTValue ),
-                    AddMultipleValue( selectedTValue )
-                );
+                await AddMultipleTextAndValue( selectedTValue );
+                
                 if ( !IsSuggestSelectedItems )
                 {
                     DirtyFilter();
@@ -514,7 +512,7 @@ namespace Blazorise.Components
             {
                 cancellationTokenSource?.Cancel();
                 cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-                
+
 
                 Loading = true;
 
@@ -591,12 +589,6 @@ namespace Blazorise.Components
             }
         }
 
-        private async Task RemoveMultipleValue( TValue value )
-        {
-            SelectedValues.Remove( value );
-            await SelectedValuesChanged.InvokeAsync( SelectedValues );
-        }
-
         private Task AddMultipleText( TValue value )
             => AddMultipleText( GetItemText( value ) );
 
@@ -611,17 +603,6 @@ namespace Blazorise.Components
             return Task.CompletedTask;
         }
 
-        private Task AddMultipleText( List<string> texts )
-        {
-            foreach ( var text in texts )
-            {
-                if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
-                    SelectedTexts.Add( text );
-            }
-
-            return SelectedTextsChanged.InvokeAsync( SelectedTexts );
-        }
-
         private async Task RemoveMultipleText( string text )
         {
             SelectedTexts.Remove( text );
@@ -631,13 +612,42 @@ namespace Blazorise.Components
                 DirtyFilter();
         }
 
-        private async Task RemoveMultipleTextAndValue( string text )
+        private async Task RemoveMultipleValue( TValue value )
+        {
+            SelectedValues.Remove( value );
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
+        }
+
+        /// <summary>
+        /// Adds a Multiple Selection.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task AddMultipleTextAndValue(TValue value )
+        {
+            await Task.WhenAll(
+                AddMultipleText( value ),
+                AddMultipleValue( value )
+            );
+        }
+
+        /// <summary>
+        /// Removes a Multiple Selection.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public async Task RemoveMultipleTextAndValue( string text )
         {
             await RemoveMultipleText( text );
             await RemoveMultipleValue( GetValueByText( text ) );
         }
 
-        private async Task RemoveMultipleTextAndValue( TValue value )
+        /// <summary>
+        /// Removes a Multiple Selection.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task RemoveMultipleTextAndValue( TValue value )
         {
             await RemoveMultipleText( GetItemText( value ) );
             await RemoveMultipleValue( value );
@@ -747,13 +757,17 @@ namespace Blazorise.Components
         }
 
         /// <inheritdoc/>
-        public Task Open()
+        private Task Open()
         {
             canShowDropDown = true;
             return Task.CompletedTask;
         }
 
-        protected async Task OpenDropdown()
+        /// <summary>
+        /// Opens the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
+        /// </summary>
+        /// <returns></returns>
+        public async Task OpenDropdown()
         {
             await Open();
             if ( HasFilteredData && AutoPreSelect )
@@ -763,7 +777,7 @@ namespace Blazorise.Components
             }
         }
 
-        public void DirtyFilter()
+        private void DirtyFilter()
         {
             dirtyFilter = true;
         }
@@ -776,12 +790,17 @@ namespace Blazorise.Components
             return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
         }
 
-        private bool IsActiveItem( TItem item, int index )
+        private bool IsSuggestedActiveItem( TItem item )
         {
             return ( IsSuggestSelectedItems && IsSelectedItem( item ) );
         }
 
-        private bool IsSelectedvalue( TValue value )
+        /// <summary>
+        /// Gets whether the <typeparamref name="TValue"/> is selected.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool IsSelectedvalue( TValue value )
         {
             if ( IsMultiple )
                 return SelectedValues?.Contains( value ) ?? false;
@@ -789,7 +808,12 @@ namespace Blazorise.Components
                 return SelectedValue?.IsEqual( value ) ?? false;
         }
 
-        private bool IsSelectedItem( TItem item )
+        /// <summary>
+        /// Gets whether the <typeparamref name="TItem"/> is selected.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool IsSelectedItem( TItem item )
         {
             if ( IsMultiple )
                 return SelectedValues?.Contains( ValueField.Invoke( item ) ) ?? false;
@@ -840,15 +864,26 @@ namespace Blazorise.Components
             return ValueField.Invoke( item );
         }
 
-        private TItem GetItemByValue( TValue value )
+        /// <summary>
+        /// Gets a <typeparamref name="TItem"/> from <see cref="Data"/> by using the provided <see cref="ValueField"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public TItem GetItemByValue( TValue value )
             => Data != null
                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
                    : default;
 
-        private TItem GetItemByText( string text )
+        /// <summary>
+        /// Gets a <typeparamref name="TItem"/> from <see cref="Data"/> by using the provided <see cref="TextField"/>.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public TItem GetItemByText( string text )
             => Data != null
                    ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
                    : default;
+
 
         private TValue GetValueByText( string text )
             => SelectedValues.FirstOrDefault( x => GetItemText( x ) == text );
