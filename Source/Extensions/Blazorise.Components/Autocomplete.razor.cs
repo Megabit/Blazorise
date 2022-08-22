@@ -326,7 +326,12 @@ namespace Blazorise.Components
             }
         }
 
-        private async Task ScrollItemIntoView( int index )
+        /// <summary>
+        /// Scrolls an item into view.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public async Task ScrollItemIntoView( int index )
         {
             if ( DropdownVisible && index >= 0 )
             {
