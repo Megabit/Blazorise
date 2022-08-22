@@ -297,7 +297,9 @@ namespace Blazorise.Components
                 else
                 {
                     if ( !HasFilteredData )
+                    {
                         await ResetActiveItemIndex();
+                    }
 
                     await ResetSelectedValue();
 
@@ -312,6 +314,8 @@ namespace Blazorise.Components
                     }
                 }
             }
+
+            await OpenDropdown();
 
             if ( !HasFilteredData )
             {
@@ -382,11 +386,7 @@ namespace Blazorise.Components
                     DirtyFilter();
                 }
 
-                if ( HasFilteredData && AutoPreSelect )
-                    ActiveItemIndex = 0;
-
-                await Open();
-                ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );
+                await OpenDropdown();
                 return;
             }
 
@@ -410,7 +410,7 @@ namespace Blazorise.Components
         protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
-            await OnTextKeyDownHandler( new KeyboardEventArgs() );
+            await OpenDropdown();
         }
 
         /// <summary>
@@ -751,6 +751,16 @@ namespace Blazorise.Components
         {
             canShowDropDown = true;
             return Task.CompletedTask;
+        }
+
+        protected async Task OpenDropdown()
+        {
+            await Open();
+            if ( HasFilteredData && AutoPreSelect )
+            {
+                ActiveItemIndex = 0;
+                ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );
+            }
         }
 
         public void DirtyFilter()
