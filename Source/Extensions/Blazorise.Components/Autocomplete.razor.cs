@@ -754,14 +754,20 @@ namespace Blazorise.Components
             await base.DisposeAsync( disposing );
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Closes the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
+        /// </summary>
+        /// <returns></returns>
         public async Task Close()
         {
             canShowDropDown = false;
             await ResetActiveItemIndex();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Opens the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
+        /// </summary>
+        /// <returns></returns>
         private Task Open()
         {
             canShowDropDown = true;
