@@ -132,7 +132,14 @@
 </Paragraph>
     
 <Paragraph>
-    Introduced <Code>SuggestMultipleCheckbox</Code> that builds upon <Code>SuggestSelectedItems</Code> feature, and adds in checkboxes for selection/de-selection support.
+    Introduced <Code>AutocompleteSelectionMode</Code>
+    <UnorderedList>
+        <UnorderedListItem><Strong>Default</Strong> : Default mode. Selection is single.</UnorderedListItem>
+        <UnorderedListItem><Strong>Multiple</Strong> : Multiple mode. Selection is multiple.</UnorderedListItem>
+        <UnorderedListItem><Strong>Checkbox</Strong> : Checkbox mode. Selection is multiple with checkbox selection support.</UnorderedListItem>
+    </UnorderedList>
+    
+    You may still use the existing <Code>Multiple</Code> parameter to set the <Code>Autocomplete</Code> into Multiple selection mode, however take note that this Parameter has now been marked as <Code>Obsolete</Code> and will be removed in a future version. Please use the new <Code>SelectionMode</Code> Parameter.
 </Paragraph>
 
 <Paragraph>
@@ -146,6 +153,20 @@
     Introduced <Code>AutoPreSelect</Code>, this defaults to true, keeping the current behaviour. By setting it to false, the dropdown that shows the options, will no longer auto select the first item.
     This is specially useful for a use case reported by our users.
     When you have the <Code>AutoComplete</Code> set to <Code>Multiple</Code> + <Code>FreeTyping</Code>, and want to allow your user to just press the Confirm Key to accept the currently typed text.
+</Paragraph>
+
+<Paragraph>
+    Improved keyboard support. 
+    You can now select items and remove selection using keyboard alone. 
+    Use navigation arrows to select an item in the dropdown. 
+    In multi-select mode use Backspace to remove most recently selected item or use [Shift-]Tab and Enter key to remove any previously selected item.
+    Contributed by : <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
+</Paragraph>
+
+<Paragraph>
+    Introduced <Code>AutoSelectFirstItem</Code> parameter for single-select mode. 
+    Use this parameter to automatically select the first item from <Code>Data</Code> during <Code>Autocomplete</Code> initialization.
+    Contributed by : <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
