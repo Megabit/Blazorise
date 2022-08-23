@@ -7,7 +7,7 @@
 </BlogPageTitle>
 
 <Row>
-    <Column ColumnSize="ColumnSize.Is8.OnDesktop" Margin="Margin.Is3.FromBottom">
+    <Column ColumnSize="ColumnSize.Is8.OnDesktop">
         <BlogCategorySelect Categories="@BlogEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
     </Column>
     <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
@@ -15,7 +15,7 @@
     </Column>
 </Row>
 
-@if ( string.IsNullOrEmpty( search ) )
+@if ( !IsCustomSearch )
 {
     <Row>
         <Column ColumnSize="ColumnSize.Is8.OnDesktop">
@@ -59,6 +59,8 @@
 </BlogPageEntries>
 
 @code {
+    bool IsCustomSearch => selectedCategory != "All" || !string.IsNullOrEmpty( search );
+
     string search = "";
     string selectedCategory = "All";
 
