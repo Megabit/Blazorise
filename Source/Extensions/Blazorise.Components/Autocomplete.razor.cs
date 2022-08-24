@@ -237,11 +237,11 @@ namespace Blazorise.Components
         {
             ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
 
+            if ( ManualReadMode )
+                await Reload();
+
             if ( AutoSelectFirstItem && !IsMultiple )
             {
-                if ( ManualReadMode )
-                    await Reload();
-
                 if ( HasFilteredData )
                 {
                     currentSearch = selectedText = GetItemText( FilteredData.First() );
@@ -358,9 +358,9 @@ namespace Blazorise.Components
                 return;
             }
 
-            if ( IsConfirmKey( eventArgs ) && !string.IsNullOrEmpty( CurrentSearch ) )
+            if ( IsConfirmKey( eventArgs ) )
             {
-                if ( IsMultiple && FreeTyping && ActiveItemIndex < 0 )
+                if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( CurrentSearch ) && ActiveItemIndex < 0 )
                 {
                     await AddMultipleText( CurrentSearch );
                     if ( CloseOnSelection )
@@ -385,12 +385,6 @@ namespace Blazorise.Components
 
             if ( !DropdownVisible )
             {
-                if ( ManualReadMode )
-                {
-                    await InvokeReadData();
-                    DirtyFilter();
-                }
-
                 await OpenDropdown();
                 return;
             }
@@ -415,6 +409,9 @@ namespace Blazorise.Components
         protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
         {
             TextFocused = true;
+            if ( ManualReadMode )
+                await InvokeReadData();
+
             await OpenDropdown();
         }
 
@@ -460,7 +457,14 @@ namespace Blazorise.Components
                 }
                 else if ( !IsSuggestSelectedItems )
                 {
-                    await ResetActiveItemIndex();
+                    if ( AutoPreSelect )
+                    {
+                        ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count, ActiveItemIndex ) );
+                    }
+                    else
+                    {
+                        await ResetActiveItemIndex();
+                    }
                 }
                 else
                 {
@@ -517,7 +521,6 @@ namespace Blazorise.Components
             {
                 cancellationTokenSource?.Cancel();
                 cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-
 
                 Loading = true;
 
@@ -784,7 +787,7 @@ namespace Blazorise.Components
             if ( HasFilteredData && AutoPreSelect )
             {
                 ActiveItemIndex = 0;
-                ExecuteAfterRender( () => ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) ) );
+                ExecuteAfterRender( () => ScrollItemIntoView( ActiveItemIndex ) );
             }
         }
 
