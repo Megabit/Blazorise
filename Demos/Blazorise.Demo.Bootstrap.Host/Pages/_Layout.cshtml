@@ -1,5 +1,11 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@namespace Blazorise.Demo.Bootstrap.Host.Pages
+@using Blazorise.Demo
+@using Microsoft.AspNetCore.Components.Web
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width">
@@ -24,21 +30,20 @@
     <link href="_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css?v=1.0.6.0" rel="stylesheet" />
     <link href="_content/Blazorise.Demo/demo.css?v=1.0.6.0" rel="stylesheet" />
 
-    <link href="css/site.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="WebAssemblyPrerendered" />
 </head>
 <body>
-    <div id="app">
-        <div class="sk-cube-grid">
-            <div class="sk-cube sk-cube1"></div>
-            <div class="sk-cube sk-cube2"></div>
-            <div class="sk-cube sk-cube3"></div>
-            <div class="sk-cube sk-cube4"></div>
-            <div class="sk-cube sk-cube5"></div>
-            <div class="sk-cube sk-cube6"></div>
-            <div class="sk-cube sk-cube7"></div>
-            <div class="sk-cube sk-cube8"></div>
-            <div class="sk-cube sk-cube9"></div>
-        </div>
+    @RenderBody()
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
     </div>
 
     <!-- EXTENSIONS -->
