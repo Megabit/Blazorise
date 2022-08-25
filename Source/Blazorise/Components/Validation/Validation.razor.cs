@@ -286,15 +286,15 @@ namespace Blazorise
 
                 if ( Validator is not null || AsyncValidator is not null )
                 {
-                    return typeof( ValidatorValidationHandler );
+                    return ValidationHandlerType.Validator;
                 }
                 else if ( UsePattern && hasPattern )
                 {
-                    return typeof( PatternValidationHandler );
+                    return ValidationHandlerType.Pattern;
                 }
                 else if ( EditContext is not null && hasFieldIdentifier )
                 {
-                    return typeof( DataAnnotationValidationHandler );
+                    return ValidationHandlerType.DataAnnotation;
                 }
                 else
                     throw new NotImplementedException( "Unable to determine the validator " );
@@ -390,7 +390,7 @@ namespace Blazorise
         [Parameter] public bool UsePattern { get; set; }
 
         /// <summary>
-        /// Forces the custom validation handler to be uses while validating the values.
+        /// Forces the custom validation handler to be used while validating the values.
         /// </summary>
         [Parameter] public Type HandlerType { get; set; }
 
