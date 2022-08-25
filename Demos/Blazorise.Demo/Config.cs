@@ -25,7 +25,7 @@ namespace Blazorise.Demo
                 .AddLoadingIndicator()
                 .AddBlazoriseFluentValidation();
 
-            services.AddValidatorsFromAssembly( typeof( Config ).Assembly );
+            services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
             services.AddMemoryCache();
 
