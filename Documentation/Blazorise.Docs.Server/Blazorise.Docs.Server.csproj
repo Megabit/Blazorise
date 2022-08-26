@@ -10,4 +10,5 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\Blazorise.Docs\Blazorise.Docs.csproj" />
   </ItemGroup>
+
 </Project>
