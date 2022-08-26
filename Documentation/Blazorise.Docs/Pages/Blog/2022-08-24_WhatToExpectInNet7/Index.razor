@@ -1,8 +1,8 @@
-@page "blog/what-to-expect-in-net7"
+@page "/blog/what-to-expect-in-net7"
 
-<Seo Canonical="blog/what-to-expect-in-net7" Title="What To Expect In .NET 7" Description="we analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022" ImageUrl="img/blog/2022-08-24/NET7.png" />
+<Seo Canonical="/blog/what-to-expect-in-net7" Title="What To Expect In .NET 7" Description="we analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022" ImageUrl="img/blog/2022-08-24/NET7.png" />
 
-<BlogPageImage Source="img/blog/2022-08-24/NET7.png" Text="hat To Expect In .NET7" />
+<BlogPageImage Source="img/blog/2022-08-24/NET7.png" Text="What To Expect In .NET7" />
 
 <BlogPageSubtitle>
     Microsoft's .NET Release Cycle
@@ -12,9 +12,7 @@
     In 2016, Microsoft released .NET 3.0 as a cross-platform framework. Since the official release of .NET 5 in November, Microsoft has committed to an annual release cycle for .NET as it focuses on making .NET a multiplatform environment.  The "new .NET" combines the power of Mono and .NET Core into a single framework that allows developers to create applications for any platform forming the basis for the launch of products such as  .NET MAUI.
 </BlogPageParagraph>
 
-<BlogPageParagraph>
-    ![Release Schedule](img/blog/2022-08-24/ReleaseCycle.png align="left")
-</BlogPageParagraph>
+<BlogPageImageModal ImageSource="img/blog/2022-08-24/ReleaseCycle.png" ImageTitle="Release Schedule" />
 
 <BlogPageParagraph>
     .NET releases in even numbers are the targetted for LTS and receive support and updates for 3 years, whilst odd number versions have short-term support for 18 months. This information is critical as it allows you to determine how far ahead you need to plan for a major upgrade of your applications and the version compatibility of your Nuget packages.
@@ -112,10 +110,6 @@
     In .NET 7, the developer's experience with building and deploying containerized applications will be simplified regarding the setup and configuration required to implement secure authentication and authorization while improving the performance of application startup and runtime execution.
 </BlogPageParagraph>
 
-<BlogPageParagraph>
-    ![Containerized Images](img/blog/2022-08-24/ContainerizedImages.png align="left")
-</BlogPageParagraph>
-
 <BlogPageSourceBlock Code="WhatToExpectInNet76" />
 
 <BlogPageParagraph>
@@ -147,6 +141,19 @@
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="WhatToExpectInNet77" />
+
+<BlogPageParagraph>
+    This code configures port 5001 to:
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Use HTTP/3 alongside HTTP/1.1 and HTTP/2 by specifying <Code>HttpProtocols.Http1AndHttp2AndHttp3</Code>.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Enable HTTPS with <Code>UseHttps</Code>. HTTP/3 requires HTTPS.
+    </BlogPageListItem>
+</BlogPageList>
 
 <Heading Size="HeadingSize.Is3">
     Minimal APIs Improvements

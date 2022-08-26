@@ -1,10 +1,10 @@
 ﻿---
 title: What To Expect In .NET 7
 description: we analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022
-permalink: blog/what-to-expect-in-net7
-canonical: blog/what-to-expect-in-net7
+permalink: /blog/what-to-expect-in-net7
+canonical: /blog/what-to-expect-in-net7
 image-url: img/blog/2022-08-24/NET7.png
-image-title:What To Expect In .NET7
+image-title: What To Expect In .NET7
 author-name: James Amattey
 author-image: james
 posted-on: August 23rd, 2022
@@ -17,7 +17,7 @@ read-time: 5 min
 In 2016, Microsoft released .NET 3.0 as a cross-platform framework. Since the official release of .NET 5 in November, Microsoft has committed to an annual release cycle for .NET as it focuses on making .NET a multiplatform environment.  The "new .NET" combines the power of Mono and .NET Core into a single framework that allows developers to create applications for any platform forming the basis for the launch of products such as  .NET MAUI.
 
 
-![Release Schedule](img/blog/2022-08-24/ReleaseCycle.png align="left")
+![Release Schedule](img/blog/2022-08-24/ReleaseCycle.png)
 
 .NET releases in even numbers are the targetted for LTS and receive support and updates for 3 years, whilst odd number versions have short-term support for 18 months. This information is critical as it allows you to determine how far ahead you need to plan for a major upgrade of your applications and the version compatibility of your Nuget packages. 
 
@@ -31,17 +31,16 @@ Every new release of .NET ships with a corresponding release of C#. Available wi
 #### Required members
 You can set the required modifier to properties of a class or a struct that must be initialized.
 
-``` c#
+```cs
 public class RequiredMember
 {
   public required string Name
 }
-
 ```
 
 This means that without declaring the Name variable, the compiler will throw an error. 
 
-``` c#
+```cs
 using Blazorise.CSharp11.Features
 
 var requiredMember = new requiredMember { Name = "James" }
@@ -49,9 +48,8 @@ var requiredMember = new requiredMember { Name = "James" }
 
 You can use the serialized attribute [SetsRequiredMember] to parse the RequiredMember parameter into the constructor and set it with init. 
 
-``` c#
+```cs
 public class RequiredMember
-
 {
     [SetsRequiredMembers]
     public RequiredMember (string name)
@@ -61,7 +59,6 @@ public class RequiredMember
 }
 
 public required string Name { get; init; }
-
 ```
 
 This indicates that a constructor sets all required members so callers using that constructor must initialize all required members using object initializers.
@@ -73,7 +70,7 @@ In C# 10, if a struct has a constructor, we have to set the properties within it
 
 In our example below, the number will be set to zero 
 
-``` CSharp
+```cs
 public struct AutoDefaultStruct
 {
     public int Number { get; set; }
@@ -88,11 +85,10 @@ public struct AutoDefaultStruct
 #### Generic Attributes
 An attribute with a generic type can be used as part of an attribute within a class as a fully constructed type.
 
-```csharp
+```cs
 public class Attr<T1> : Attribute { }
 
 public class GenericAttribute
-
 {
     [Attr<string>]
     public void myClass ()
@@ -115,21 +111,21 @@ Blazor Hybrid Support allows us to take existing Blazor Components such as Blazo
 In .NET 7, the developer's experience with building and deploying containerized applications will be simplified regarding the setup and configuration required to implement secure authentication and authorization while improving the performance of application startup and runtime execution. 
 
 
-```yaml
-    # create a new project and move to its directory
-    dotnet new blazorwasm -n my-container-app
-    cd my-container-app
+```
+# create a new project and move to its directory
+dotnet new blazorwasm -n my-container-app
+cd my-container-app
 
-    # add a reference to a (temporary) package that creates the container
-    dotnet add package Microsoft.NET.Build.Containers
+# add a reference to a (temporary) package that creates the container
+dotnet add package Microsoft.NET.Build.Containers
 
-    # publish your project for linux-x64
-    dotnet publish --os linux --arch x64 -
-    p:PublishProfile=DefaultContainer
+# publish your project for linux-x64
+dotnet publish --os linux --arch x64 -
+p:PublishProfile=DefaultContainer
 
-    # run your app using the new container
+# run your app using the new container
 
-    docker run -it --rm 5010:80 my-container-app:1.0:0
+docker run -it --rm 5010:80 my-container-app:1.0:0
 ```
 
 We also expect to see a preview of Microsoft Orleans, a cross-platform framework for distributed applications. 
@@ -143,7 +139,7 @@ Additional performance improvements in .NET 7 have made it faster and more effic
 ### Official HTTP 3 Support
 Http 3 was shipped as a preview feature in .Net 6 & will be a part of .Net 7 & enabled by default. In future .Net 7 preview versions, we’ll see performance improvements & additional TLS features. The HTTP/3 specification isn't finalized and behavioral or performance issues may exist in HTTP/3.
 
-``` CSharp
+```cs
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel((context, options) =>
@@ -178,4 +174,3 @@ Applications written in .NET 5 should also migrate to .NET 6 as support for .NET
 Applications running on .NET 6 do not need to migrate unless your you want to take advantage of specific features .NET7
 
 You can use the preview SDK for .NET 7 to test compatibility for your application and Nuget packages before you make migration decisions.
-

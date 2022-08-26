@@ -1,10 +1,10 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
-var builder = WebApplication.CreateBuilder(args);
+<div class="csharp"><pre>
+<span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel((context, options) =&gt;
 {
-    options.ListenAnyIP(5001, listenOptions =&gt;
+    options.ListenAnyIP(<span class="number">5001</span>, listenOptions =&gt;
     {
         listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
         listenOptions.UseHttps();
