@@ -82,6 +82,66 @@ namespace Blazorise.Modules
             }
         }
 
+        /// <summary>
+        /// Save invocation on the JavaScript <see cref="Module"/>.
+        /// </summary>
+        /// <param name="identifier">An identifier for the function to invoke. For example, the value <c>"someScope.someFunction"</c> will invoke the function <c>someScope.someFunction</c> on the target instance.</param>
+        /// <param name="args">JSON-serializable arguments.</param>
+        protected async ValueTask InvokeSafeVoidAsync( string identifier, params object[] args )
+        {
+            if ( IsUnsafe )
+            {
+                return;
+            }
+
+            try
+            {
+                var module = await moduleTask;
+
+                if ( AsyncDisposed )
+                {
+                    return;
+                }
+
+                await module.InvokeVoidAsync( identifier, args );
+            }
+            catch ( Exception e )
+                when ( e is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
+            {
+            }
+        }
+
+        /// <summary>
+        /// Save invocation on the JavaScript <see cref="Module"/>.
+        /// </summary>
+        /// <typeparam name="TValue">The JSON-serializable return type.</typeparam>
+        /// <param name="identifier">An identifier for the function to invoke. For example, the value <c>"someScope.someFunction"</c> will invoke the function <c>someScope.someFunction</c> on the target instance.</param>
+        /// <param name="args">JSON-serializable arguments.</param>
+        /// <returns>An instance of <typeparamref name="TValue"/> obtained by JSON-deserializing the return value.</returns>
+        protected async ValueTask<TValue> InvokeSafeAsync<TValue>( string identifier, params object[] args )
+        {
+            if ( IsUnsafe )
+            {
+                return default;
+            }
+
+            try
+            {
+                var module = await moduleTask;
+
+                if ( AsyncDisposed )
+                {
+                    return default;
+                }
+
+                return await module.InvokeAsync<TValue>( identifier, args );
+            }
+            catch ( Exception e )
+                when ( e is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
+            {
+                return default;
+            }
+        }
         #endregion
 
         #region Properties
