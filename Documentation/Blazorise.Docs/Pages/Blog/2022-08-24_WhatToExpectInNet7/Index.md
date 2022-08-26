@@ -115,7 +115,6 @@ Blazor Hybrid Support allows us to take existing Blazor Components such as Blazo
 In .NET 7, the developer's experience with building and deploying containerized applications will be simplified regarding the setup and configuration required to implement secure authentication and authorization while improving the performance of application startup and runtime execution. 
 
 
-![Containerized Images](img/blog/2022-08-24/ContainerizedImages.png align="left")
 ```yaml
     # create a new project and move to its directory
     dotnet new blazorwasm -n my-container-app
