@@ -1,0 +1,191 @@
+@page "blog/what-to-expect-in-net7"
+
+<Seo Canonical="blog/what-to-expect-in-net7" Title="What To Expect In .NET 7" Description="we analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022" ImageUrl="img/blog/2022-08-24/NET7.png" />
+
+<BlogPageImage Source="img/blog/2022-08-24/NET7.png" Text="hat To Expect In .NET7" />
+
+<BlogPageSubtitle>
+    Microsoft's .NET Release Cycle
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    In 2016, Microsoft released .NET 3.0 as a cross-platform framework. Since the official release of .NET 5 in November, Microsoft has committed to an annual release cycle for .NET as it focuses on making .NET a multiplatform environment.  The "new .NET" combines the power of Mono and .NET Core into a single framework that allows developers to create applications for any platform forming the basis for the launch of products such as  .NET MAUI.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    ![Release Schedule](img/blog/2022-08-24/ReleaseCycle.png align="left")
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    .NET releases in even numbers are the targetted for LTS and receive support and updates for 3 years, whilst odd number versions have short-term support for 18 months. This information is critical as it allows you to determine how far ahead you need to plan for a major upgrade of your applications and the version compatibility of your Nuget packages.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Notable Changes
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    In this section, we will highlight the most significant changes you can expect from .NET 7. It is becoming noticeable that Short Term Release versions will have fewer major features than versions with LTS, with a majority of the focus going towards improvement and enhancement.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    C# 11
+</Heading>
+
+<BlogPageParagraph>
+    Every new release of .NET ships with a corresponding release of C#. Available with the <Anchor To="https://dotnet.microsoft.com/en-us/download/dotnet/7.0" Title="Link to preview SDK">preview SDK</Anchor>, C# 11 comes with new features such as
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is4">
+    Required members
+</Heading>
+
+<BlogPageParagraph>
+    You can set the required modifier to properties of a class or a struct that must be initialized.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet71" />
+
+<BlogPageParagraph>
+    This means that without declaring the Name variable, the compiler will throw an error.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet72" />
+
+<BlogPageParagraph>
+    You can use the serialized attribute [SetsRequiredMember] to parse the RequiredMember parameter into the constructor and set it with init.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet73" />
+
+<BlogPageParagraph>
+    This indicates that a constructor sets all required members so callers using that constructor must initialize all required members using object initializers.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is4">
+    Auto-default struct
+</Heading>
+
+<BlogPageParagraph>
+    In C# 10, if a struct has a constructor, we have to set the properties within it.  In C# 11, if a property is not set, it will be set as its default value.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In our example below, the number will be set to zero
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet74" />
+
+<Heading Size="HeadingSize.Is4">
+    Generic Attributes
+</Heading>
+
+<BlogPageParagraph>
+    An attribute with a generic type can be used as part of an attribute within a class as a fully constructed type.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet75" />
+
+<Heading Size="HeadingSize.Is3">
+    Extended MAUI Support and Blazor Hybrid
+</Heading>
+
+<BlogPageParagraph>
+    At the time of writing, .NET MAUI is in preview 13. The official release of MAUI will ship with .NET 7 but based on .NET 6 with tooling and performance improvements.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        Suggested Reading - <Anchor To="/blog/a-beginners-guide-to-maui" Title="Link to What Is .NET MAUI">What Is .NET MAUI</Anchor>
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Blazor Hybrid Support allows us to take existing Blazor Components such as Blazorise (https://blazorise.com/docs/components/) or a WPF or WinForms application and bundle them into a desktop application using a webview control with access to all underlying hardware APIs. It will allow developers to use web technologies to build desktop applications with access to system resources such as the local file system or a webcam.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Containerized Images
+</Heading>
+
+<BlogPageParagraph>
+    In .NET 7, the developer's experience with building and deploying containerized applications will be simplified regarding the setup and configuration required to implement secure authentication and authorization while improving the performance of application startup and runtime execution.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    ![Containerized Images](img/blog/2022-08-24/ContainerizedImages.png align="left")
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet76" />
+
+<BlogPageParagraph>
+    We also expect to see a preview of Microsoft Orleans, a cross-platform framework for distributed applications.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Other Improvements & features
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Let's take a look at some improvements enhancements in .NET 7
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Performance Improvements
+</Heading>
+
+<BlogPageParagraph>
+    Additional performance improvements in .NET 7 have made it faster and more efficient. Already, .Net 6 has huge improvements in performance with JIT, AOT, inlining method calls, and devirtualization, and .Net 7 will take this even further. This will improve the performance of containerized applications without altering your source code running in the cloud.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Official HTTP 3 Support
+</Heading>
+
+<BlogPageParagraph>
+    Http 3 was shipped as a preview feature in .Net 6 & will be a part of .Net 7 & enabled by default. In future .Net 7 preview versions, we’ll see performance improvements & additional TLS features. The HTTP/3 specification isn't finalized and behavioral or performance issues may exist in HTTP/3.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="WhatToExpectInNet77" />
+
+<Heading Size="HeadingSize.Is3">
+    Minimal APIs Improvements
+</Heading>
+
+<BlogPageParagraph>
+    Minimal APIs were introduced in .Net 6 to allow you to create lightweight APIs without the overhead of controllers. These APIs have seen massive improvements with the introduction of the new Microsoft.AspNetCore.OpenApi package to provide APIs for interacting with the OpenAPI specification in minimal APIs.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Also, endpoint filters will allow you to implement crosscutting concerns that you can only do with controllers using action filters today.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Will Blazorise Components Support .NET7
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Blazorise 1.1.0 will ship with support for .NET 7 to implement required keywords and  INumber interfaces for generic components like NumericEdit and NumericPicker.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Should You Migrate To .NET 7?
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Applications running in .NET Core 3.0 or 3.1 must migrate to .NET 6 at the very least, as it is the current version with LTS. Support for .NET Core 3.1 will end in December 2022.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Applications written in .NET 5 should also migrate to .NET 6 as support for .NET 5 ended in May 2022.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Applications running on .NET 6 do not need to migrate unless your you want to take advantage of specific features .NET7
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can use the preview SDK for .NET 7 to test compatibility for your application and Nuget packages before you make migration decisions.
+</BlogPageParagraph>
+
+<BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="August 23rd, 2022" Read="5 min" />

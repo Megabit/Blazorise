@@ -1,0 +1,11 @@
+public class RequiredMember
+
+{
+    [SetsRequiredMembers]
+    public RequiredMember (string name)
+    {
+        Name = name
+    }
+}
+
+public required string Name { get; init; }
