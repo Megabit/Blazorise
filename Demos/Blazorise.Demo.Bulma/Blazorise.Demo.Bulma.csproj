@@ -2,6 +2,7 @@
 
   <Import Project="..\..\Build\Blazorise.Client.props" />
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Blazorise.Demo.Bulma.Client' " />
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bulma\Blazorise.Bulma.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />

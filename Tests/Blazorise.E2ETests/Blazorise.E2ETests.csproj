@@ -15,6 +15,7 @@
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Blazorise.UnitTests' " />
   <ItemGroup>
     <Compile Include="$(SharedSourceRoot)Process\**\*.cs" LinkBase="Shared" />
   </ItemGroup>
