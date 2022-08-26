@@ -157,6 +157,11 @@ builder.WebHost.ConfigureKestrel((context, options) =>
 });
 ```
 
+This code configures port 5001 to:
+
+- Use HTTP/3 alongside HTTP/1.1 and HTTP/2 by specifying ```HttpProtocols.Http1AndHttp2AndHttp3```.
+- Enable HTTPS with ```UseHttps```. HTTP/3 requires HTTPS.
+
 ### Minimal APIs Improvements
 Minimal APIs were introduced in .Net 6 to allow you to create lightweight APIs without the overhead of controllers. These APIs have seen massive improvements with the introduction of the new Microsoft.AspNetCore.OpenApi package to provide APIs for interacting with the OpenAPI specification in minimal APIs. 
 
