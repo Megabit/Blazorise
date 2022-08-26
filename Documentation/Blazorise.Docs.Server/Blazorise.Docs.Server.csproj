@@ -10,11 +10,4 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\Blazorise.Docs\Blazorise.Docs.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\img\blog\2022-08-24\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\img\blog\2022-08-24\" />
-  </ItemGroup>
 </Project>
