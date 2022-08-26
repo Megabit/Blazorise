@@ -89,14 +89,14 @@ namespace Blazorise.Modules
         /// <param name="args">JSON-serializable arguments.</param>
         protected async ValueTask InvokeSafeVoidAsync( string identifier, params object[] args )
         {
-            if ( IsUnsafe )
+            if ( AsyncDisposed )
             {
                 return;
             }
 
             try
             {
-                var module = await moduleTask;
+                var module = await Module;
 
                 if ( AsyncDisposed )
                 {
@@ -120,14 +120,14 @@ namespace Blazorise.Modules
         /// <returns>An instance of <typeparamref name="TValue"/> obtained by JSON-deserializing the return value.</returns>
         protected async ValueTask<TValue> InvokeSafeAsync<TValue>( string identifier, params object[] args )
         {
-            if ( IsUnsafe )
+            if ( AsyncDisposed )
             {
                 return default;
             }
 
             try
             {
-                var module = await moduleTask;
+                var module = await Module;
 
                 if ( AsyncDisposed )
                 {
@@ -141,6 +141,16 @@ namespace Blazorise.Modules
             {
                 return default;
             }
+        }
+
+        private Task<IJSObjectReference> GetModule()
+        {
+            if ( AsyncDisposed )
+            {
+                throw new ObjectDisposedException( ModuleFileName );
+            }
+
+            return moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
         }
         #endregion
 
@@ -157,8 +167,7 @@ namespace Blazorise.Modules
         protected bool AsyncDisposed { get; private set; }
 
         /// <inheritdoc/>
-        public Task<IJSObjectReference> Module
-            => moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
+        public Task<IJSObjectReference> Module => GetModule();
 
         /// <inheritdoc/>
         public abstract string ModuleFileName { get; }
