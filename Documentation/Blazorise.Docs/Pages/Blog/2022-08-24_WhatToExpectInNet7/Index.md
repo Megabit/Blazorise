@@ -82,6 +82,10 @@ public struct AutoDefaultStruct
 }
 ```
 
+Auto-default structs allows your code to be more maintainable. Imagine that you add an extra field to the Struct, you will need to change all the places where the Constructor is invoked.
+
+
+
 #### Generic Attributes
 An attribute with a generic type can be used as part of an attribute within a class as a fully constructed type.
 
