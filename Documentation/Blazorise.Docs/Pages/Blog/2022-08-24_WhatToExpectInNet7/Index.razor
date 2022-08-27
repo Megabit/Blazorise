@@ -9,13 +9,13 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    In 2016, Microsoft released .NET 3.0 as a cross-platform framework. Since the official release of .NET 5 in November, Microsoft has committed to an annual release cycle for .NET as it focuses on making .NET a multiplatform environment.  The "new .NET" combines the power of Mono and .NET Core into a single framework that allows developers to create applications for any platform forming the basis for the launch of products such as  .NET MAUI.
+    In 2016, Microsoft released .NET 3.0 as a cross-platform framework. Since the official release of .NET 5 in November, Microsoft has committed to an annual release cycle for .NET as it focuses on making .NET a multiplatform environment. The "new .NET" combines the power of Mono and .NET Core into a single framework that allows developers to create applications for any platform, forming the basis for the launch of products such as .NET MAUI.
 </BlogPageParagraph>
 
 <BlogPageImageModal ImageSource="img/blog/2022-08-24/ReleaseCycle.png" ImageTitle="Release Schedule" />
 
 <BlogPageParagraph>
-    .NET releases in even numbers are the targetted for LTS and receive support and updates for 3 years, whilst odd number versions have short-term support for 18 months. This information is critical as it allows you to determine how far ahead you need to plan for a major upgrade of your applications and the version compatibility of your Nuget packages.
+    .NET releases in even numbers are the targetted for LTS and receive support and updates for three years, while odd number versions have short-term support for 18 months. This information is critical as it allows you to determine how far ahead you need to plan for a significant upgrade of your applications and the version compatibility of your Nuget packages.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -23,7 +23,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    In this section, we will highlight the most significant changes you can expect from .NET 7. It is becoming noticeable that Short Term Release versions will have fewer major features than versions with LTS, with a majority of the focus going towards improvement and enhancement.
+    This section will highlight the most significant changes you can expect from .NET 7. It is becoming noticeable that STR(Short Term Release) versions will have fewer major features than versions with LTS, with most of the focus on improvement and enhancement.
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -31,7 +31,7 @@
 </Heading>
 
 <BlogPageParagraph>
-    Every new release of .NET ships with a corresponding release of C#. Available with the <Anchor To="https://dotnet.microsoft.com/en-us/download/dotnet/7.0" Title="Link to preview SDK">preview SDK</Anchor>, C# 11 comes with new features such as
+    Every new release of .NET ships with a corresponding release of C#. Available with the <Anchor To="https://dotnet.microsoft.com/en-us/download/dotnet/7.0" Title="Link to .NET 7 Preview SDK">.NET 7 Preview SDK</Anchor>, C# 11 comes with new features such as
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -45,13 +45,13 @@
 <BlogPageSourceBlock Code="WhatToExpectInNet71" />
 
 <BlogPageParagraph>
-    This means that without declaring the Name variable, the compiler will throw an error.
+    This means that without declaring the <Code>Name</Code> variable, the compiler will throw an error.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="WhatToExpectInNet72" />
 
 <BlogPageParagraph>
-    You can use the serialized attribute [SetsRequiredMember] to parse the RequiredMember parameter into the constructor and set it with init.
+    You can use the serialized attribute [SetsRequiredMember] to parse the <Code>Student</Code> parameter into the constructor and set it with init.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="WhatToExpectInNet73" />
@@ -65,11 +65,11 @@
 </Heading>
 
 <BlogPageParagraph>
-    In C# 10, if a struct has a constructor, we have to set the properties within it.  In C# 11, if a property is not set, it will be set as its default value.
+    In C# 10, if a struct has a constructor, we have to set the properties within it. In C# 11, if a property is not set, it will be set as its default value.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    In our example below, the number will be set to zero
+    In our example below, the <Code>Number</Code> will be set to zero once the struct is used in variable.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="WhatToExpectInNet74" />
@@ -99,7 +99,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Blazor Hybrid Support allows us to take existing Blazor Components such as Blazorise (https://blazorise.com/docs/components/) or a WPF or WinForms application and bundle them into a desktop application using a webview control with access to all underlying hardware APIs. It will allow developers to use web technologies to build desktop applications with access to system resources such as the local file system or a webcam.
+    Blazor Hybrid Support allows us to take existing Blazor Components such as <Anchor To="docs/components" Title="Link to Blazorise components">Blazorise components</Anchor> or a WPF or WinForms application and bundle them into a desktop application using a webview control with access to all underlying hardware APIs. It will allow developers to use web technologies to build desktop applications with access to system resources such as the local file system or a webcam.
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -172,7 +172,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Blazorise 1.1.0 will ship with support for .NET 7 to implement required keywords and  INumber interfaces for generic components like NumericEdit and NumericPicker.
+    Blazorise v1.1 will ship with support for .NET 7. We will also implement the required keywords in certain places. Other features like INumber interfaces for generic components like NumericEdit and NumericPicker are considered breaking changes and will be available in Blazorise v2.0.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -188,11 +188,11 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Applications running on .NET 6 do not need to migrate unless your you want to take advantage of specific features .NET7
+    Applications running on .NET 6 do not need to migrate unless you want to take advantage of specific features .NET7.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    You can use the preview SDK for .NET 7 to test compatibility for your application and Nuget packages before you make migration decisions.
+    Before making migration decisions, you can use the preview SDK for .NET 7 to test compatibility for your application and Nuget packages.
 </BlogPageParagraph>
 
 <BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="August 23rd, 2022" Read="5 min" />
