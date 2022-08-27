@@ -163,7 +163,7 @@ Minimal APIs were introduced in .Net 6 to allow you to create lightweight APIs w
 Also, endpoint filters will allow you to implement crosscutting concerns that you can only do with controllers using action filters today.
 
 ## Will Blazorise Components Support .NET7
-Blazorise 1.1.0 will ship with support for .NET 7 to implement required keywords and  INumber interfaces for generic components like NumericEdit and NumericPicker.
+Blazorise 1.1.0 will ship with support for .NET 7 to implement required keywords. INumber interfaces for generic components like NumericEdit and NumericPicker will be available in v2.0
 
 ## Should You Migrate To .NET 7?
 
