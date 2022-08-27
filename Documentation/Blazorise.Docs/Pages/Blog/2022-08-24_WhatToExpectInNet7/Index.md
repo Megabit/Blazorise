@@ -104,6 +104,8 @@ public class GenericAttribute
 }
 ```
 
+This provides a more convenient syntax for attributes that require a System.Type parameter.
+
 ### Extended MAUI Support and Blazor Hybrid
 
 At the time of writing, .NET MAUI is in preview 13. The official release of MAUI will ship with .NET 7 but based on .NET 6 with tooling and performance improvements.
