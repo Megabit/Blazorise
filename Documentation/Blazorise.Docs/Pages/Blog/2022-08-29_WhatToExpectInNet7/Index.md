@@ -4,12 +4,11 @@ description: we analyze new features currently available in preview 7 of .NET 7,
 permalink: /blog/what-to-expect-in-net7
 canonical: /blog/what-to-expect-in-net7
 image-url: img/blog/2022-08-29/NET7.png
-image-title: What To Expect In .NET7
+image-title: What To Expect In .NET 7
 author-name: James Amattey
 author-image: james
 posted-on: August 23rd, 2022
 read-time: 5 min
-
 ---
 
 
@@ -83,7 +82,7 @@ public struct AutoDefaultStruct
 }
 ```
 
-Auto-default structs allows your code to be more maintainable. Imagine that you add an extra field to the Struct, you will need to change all the places where the Constructor is invoked.
+Auto-default structs allows your code to be more maintainable. Imagine that you add an extra field to the struct, you will need to change all the places where the Constructor is invoked.
 
 
 
@@ -143,11 +142,11 @@ Let's take a look at some improvements enhancements in .NET 7
 
 ### Performance Improvements
 
-Additional performance improvements in .NET 7 have made it faster and more efficient. Already, .Net 6 has huge improvements in performance with JIT, AOT, inlining method calls, and devirtualization, and .Net 7 will take this even further. This will improve the performance of containerized applications without altering your source code running in the cloud.
+Additional performance improvements in .NET 7 have made it faster and more efficient. Already, .NET 6 has huge improvements in performance with JIT, AOT, inlining method calls, and devirtualization, and .NET 7 will take this even further. This will improve the performance of containerized applications without altering your source code running in the cloud.
 
 ### Official HTTP 3 Support
 
-Http 3 was shipped as a preview feature in .Net 6 & will be a part of .Net 7 & enabled by default. In future .Net 7 preview versions, we’ll see performance improvements & additional TLS features. The HTTP/3 specification isn't finalized and behavioral or performance issues may exist in HTTP/3.
+Http 3 was shipped as a preview feature in .NET 6 & will be a part of .NET 7 & enabled by default. In future .NET 7 preview versions, we’ll see performance improvements & additional TLS features. The HTTP/3 specification isn't finalized and behavioral or performance issues may exist in HTTP/3.
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
@@ -169,13 +168,13 @@ This code configures port 5001 to:
 
 ### Minimal APIs Improvements
 
-Minimal APIs were introduced in .Net 6 to allow you to create lightweight APIs without the overhead of controllers. These APIs have seen massive improvements with the introduction of the new Microsoft.AspNetCore.OpenApi package to provide APIs for interacting with the OpenAPI specification in minimal APIs. 
+Minimal APIs were introduced in .NET 6 to allow you to create lightweight APIs without the overhead of controllers. These APIs have seen massive improvements with the introduction of the new Microsoft.AspNetCore.OpenApi package to provide APIs for interacting with the OpenAPI specification in minimal APIs. 
 
 Also, endpoint filters will allow you to implement crosscutting concerns that you can only do with controllers using action filters today.
 
-## Will Blazorise Components Support .NET7
+## Will Blazorise Components Support .NET 7
 
-Blazorise v1.1 will ship with support for .NET 7. We will also implement the required keywords in certain places. Other features like INumber interfaces for generic components like NumericEdit and NumericPicker are considered breaking changes and will be available in Blazorise v2.0.
+Blazorise v1.1 will ship with basic support for .NET 7. We will also implement the `required` keywords in certain places. Other features like `INumber` constraint for generic components like NumericEdit and NumericPicker are considered breaking changes and will be available in Blazorise v2.0.
 
 ## Should You Migrate To .NET 7?
 
@@ -183,6 +182,6 @@ Applications running in .NET Core 3.0 or 3.1 must migrate to .NET 6 at the very 
  
 Applications written in .NET 5 should also migrate to .NET 6 as support for .NET 5 ended in May 2022.
  
-Applications running on .NET 6 do not need to migrate unless you want to take advantage of specific features .NET7.
+Applications running on .NET 6 do not need to migrate unless you want to take advantage of specific features .NET 7.
  
 Before making migration decisions, you can use the preview SDK for .NET 7 to test compatibility for your application and Nuget packages.
