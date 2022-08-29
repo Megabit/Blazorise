@@ -31,12 +31,22 @@ namespace Blazorise.Modules
             => InvokeSafeVoidAsync( "registerBreakpointComponent", dotNetObjectRef, elementId );
 
         /// <inheritdoc/>
-        public virtual ValueTask UnregisterBreakpoint( IBreakpointActivator component )
-            => InvokeSafeVoidAsync( "unregisterBreakpointComponent", component.ElementId );
+        public virtual async ValueTask UnregisterBreakpoint( IBreakpointActivator component )
+        {
+            if ( IsUnsafe )
+                return;
+
+            await InvokeSafeVoidAsync( "unregisterBreakpointComponent", component.ElementId );
+        }
 
         /// <inheritdoc/>
-        public virtual ValueTask<string> GetBreakpoint()
-            => InvokeSafeAsync<string>( "getBreakpoint" );
+        public virtual async ValueTask<string> GetBreakpoint()
+        {
+            if ( IsUnsafe )
+                return default;
+
+            return await InvokeSafeAsync<string>( "getBreakpoint" );
+        }
 
         #endregion
 
