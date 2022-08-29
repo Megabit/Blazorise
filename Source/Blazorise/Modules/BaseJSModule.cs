@@ -89,11 +89,6 @@ namespace Blazorise.Modules
         /// <param name="args">JSON-serializable arguments.</param>
         protected async ValueTask InvokeSafeVoidAsync( string identifier, params object[] args )
         {
-            if ( AsyncDisposed )
-            {
-                return;
-            }
-
             try
             {
                 var module = await Module;
@@ -105,8 +100,7 @@ namespace Blazorise.Modules
 
                 await module.InvokeVoidAsync( identifier, args );
             }
-            catch ( Exception e )
-                when ( e is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
+            catch ( Exception exc ) when ( exc is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
             {
             }
         }
@@ -120,11 +114,6 @@ namespace Blazorise.Modules
         /// <returns>An instance of <typeparamref name="TValue"/> obtained by JSON-deserializing the return value.</returns>
         protected async ValueTask<TValue> InvokeSafeAsync<TValue>( string identifier, params object[] args )
         {
-            if ( AsyncDisposed )
-            {
-                return default;
-            }
-
             try
             {
                 var module = await Module;
@@ -136,8 +125,7 @@ namespace Blazorise.Modules
 
                 return await module.InvokeAsync<TValue>( identifier, args );
             }
-            catch ( Exception e )
-                when ( e is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
+            catch ( Exception exc ) when ( exc is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
             {
                 return default;
             }
