@@ -3,7 +3,7 @@ title: What To Expect In .NET 7
 description: we analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022
 permalink: /blog/what-to-expect-in-net7
 canonical: /blog/what-to-expect-in-net7
-image-url: img/blog/2022-08-24/NET7.png
+image-url: img/blog/2022-08-29/NET7.png
 image-title: What To Expect In .NET7
 author-name: James Amattey
 author-image: james
@@ -17,7 +17,7 @@ read-time: 5 min
 
 In 2016, Microsoft released .NET 3.0 as a cross-platform framework. Since the official release of .NET 5 in November, Microsoft has committed to an annual release cycle for .NET as it focuses on making .NET a multiplatform environment. The "new .NET" combines the power of Mono and .NET Core into a single framework that allows developers to create applications for any platform, forming the basis for the launch of products such as .NET MAUI.
 
-![Release Schedule](img/blog/2022-08-24/ReleaseCycle.png)
+![Release Schedule](img/blog/2022-08-29/ReleaseCycle.png)
 
 .NET releases in even numbers are the targetted for LTS and receive support and updates for three years, while odd number versions have short-term support for 18 months. This information is critical as it allows you to determine how far ahead you need to plan for a significant upgrade of your applications and the version compatibility of your Nuget packages.
 
