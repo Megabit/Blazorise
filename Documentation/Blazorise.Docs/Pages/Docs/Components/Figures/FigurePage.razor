@@ -1,14 +1,22 @@
 ﻿@page "/docs/components/figure"
 
-<Seo Canonical="/docs/components/figure" Title="Blazorise Figure component" Description="Figures are used as containers for responsive images." />
+<Seo Canonical="/docs/components/figure" Title="Blazorise Figure component" Description="Learn to use and work with the Blazorise Figure component, which is used as container for responsive images." />
 
-<DocsPageTitle>
-    Figure
+<DocsPageTitle Path="Components/Figure">
+    Blazorise Figure component
 </DocsPageTitle>
 
+<DocsPageLead>
+    Documentation and examples for displaying related images and text with the figure component in Blazorise.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    Figures are used as containers for responsive images.
+    Anytime you need to display a piece of content—like an image with an optional caption, consider using a <Code>Figure</Code>.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -24,13 +32,28 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic Example">
+        Use the included <Code Tag>Figure</Code>, <Code Tag>FigureImage</Code> and <Code Tag>FigureCaption</Code> classes to provide some baseline styles for the HTML5 <Code>figure</Code> and <Code>figcaption</Code> elements.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <FigureExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="FigureExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Rounded">
+        Making the figure rounded is easy with the <Code>Rounded</Code> attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <FigureRoundedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FigureRoundedExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

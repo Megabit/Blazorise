@@ -1,0 +1,20 @@
+﻿<Badge Style="cursor: pointer;" Color="@(SelectedCategory == "All" ? Color.Primary : Color.Light)" Pill Border="Border.Is1" Margin="Margin.Is2.FromEnd.Is2.FromBottom" Padding="Padding.Is2.Is3.OnX" @onclick="@(()=>OnCategoryClicked("All"))">All</Badge>
+
+@foreach ( var category in Categories )
+{
+    <Badge @key="@category" Style="cursor: pointer;" Color="@(SelectedCategory == category ? Color.Primary : Color.Light)" Pill Border="Border.Is1" Margin="Margin.Is2.FromEnd.Is2.FromBottom" Padding="Padding.Is2.Is3.OnX" @onclick="@(()=>OnCategoryClicked(category))">@category</Badge>
+}
+@code {
+    private Task OnCategoryClicked( string category )
+    {
+        SelectedCategory = category;
+
+        return SelectedCategoryChanged.InvokeAsync( SelectedCategory );
+    }
+
+    [Parameter] public string SelectedCategory { get; set; }
+
+    [Parameter] public EventCallback<string> SelectedCategoryChanged { get; set; }
+
+    [Parameter] public IEnumerable<string> Categories { get; set; }
+}

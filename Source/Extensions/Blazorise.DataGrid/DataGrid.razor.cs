@@ -237,7 +237,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-
+        
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -1055,6 +1055,7 @@ namespace Blazorise.DataGrid
                 : request.Count;
 
             await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
+            await Task.Yield(); // This line makes sure SetParametersAsync catches up, since we depend upon Data Parameter.
 
             if ( request.CancellationToken.IsCancellationRequested )
                 return new();
@@ -1289,6 +1290,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
+        internal bool IsFixedHeader
+            => Virtualize || FixedHeader;
+
         /// <summary>
         /// Gets the DataGrid standard class and other existing Class
         /// </summary>
@@ -1306,7 +1310,6 @@ namespace Blazorise.DataGrid
                 return sb.ToString();
             }
         }
-
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.

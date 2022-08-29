@@ -1,13 +1,17 @@
 ﻿@page "/docs/extensions/icons"
 
-<Seo Canonical="/docs/extensions/icons" Title="Blazorise Icons" Description="Learn how to use Blazorise Icons extension components." />
+<Seo Canonical="/docs/extensions/icons" Title="Blazorise Icons" Description="Learn to use and work with the Blazorise Icon component, symbols that can be used to represent various options within an application." />
 
-<DocsPageTitle>
-    Icons
+<DocsPageTitle Path="Extensions/Icons">
+    Blazorise Icons
 </DocsPageTitle>
 
+<DocsPageLead>
+    Icons are symbols that can be used to represent various options within an application.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    Icons extension is used to have a strongly typed list of icons
+    Blazorise comes with over 300 icons. These icons are part of the default icon library. If you prefer, you can register custom icon libraries as well.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -23,14 +27,14 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Font Awesome Icons CSS">
-        Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FontAwesomeCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Material Icons CSS">
-        Note: If instead of FontAwesome icons you want to use Material icons you will need to define static <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
+        Note: If instead of FontAwesome icons you want to use Material icons you will need to define static <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="MaterialCSSExample"></DocsPageSectionSource>
 </DocsPageSection>

@@ -1,10 +1,20 @@
 ﻿@page "/docs/start"
 
-<Seo Canonical="/docs/start" Title="Blazorise Start" Description="Blazorise is designed to work with different CSS frameworks." />
+<Seo Canonical="/docs/start" Title="Blazorise Quick Start Guide" Description="Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined by a different NuGet package." />
 
-<DocsPageTitle>
-    Blazorise Quick Start
+<DocsPageTitle Path="Start">
+    Blazorise Quick Start Guide
 </DocsPageTitle>
+
+<DocsPageLead>
+    Quickly install Blazorise, one of the world's most popular Blazor UI framework.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined
+    by a different NuGet package. Please see the <Blazorise.Link To="docs/usage">usage page</Blazorise.Link>
+    to find a list of supported frameworks and how to use them.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <Alert Color="Color.Info" Visible>
@@ -24,12 +34,6 @@
             <Blazorise.Link To="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" Target="Target.Blank">Blazor website</Blazorise.Link> is the best source for you to start.
         </AlertDescription>
     </Alert>
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined
-    by a different NuGet package. Please see the <Blazorise.Link To="docs/usage">usage page</Blazorise.Link>
-    to find a list of supported frameworks and how to use them.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -60,7 +64,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        The next step is to change your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
+        The next step is to change your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="BootstrapGuideSourceFilesExample" />
 </DocsPageSection>

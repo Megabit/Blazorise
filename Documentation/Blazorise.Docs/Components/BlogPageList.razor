@@ -1,0 +1,21 @@
+﻿<Paragraph>
+    <CascadingValue Value="@this" IsFixed>
+        @if ( Ordered )
+        {
+            <OrderedList>
+                @ChildContent
+            </OrderedList>
+        }
+        else
+        {
+            <UnorderedList>
+                @ChildContent
+            </UnorderedList>
+        }
+    </CascadingValue>
+</Paragraph>
+@code {
+    [Parameter] public bool Ordered { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

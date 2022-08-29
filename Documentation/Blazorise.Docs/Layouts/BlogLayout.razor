@@ -1,0 +1,47 @@
+﻿@inherits LayoutComponentBase
+
+<Layout Class="b-blog">
+    <LayoutHeader>
+        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default">
+            <Container>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink Class="top-bar-brand-link" To="">
+                            <BarIcon IconName="customIcon" Display="Display.InlineBlock" />
+                            Blazorise
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="">
+                                Community
+                            </BarLink>
+                        </BarItem>
+                        <BarItem Margin="Margin.Is3.FromEnd">
+                            <BarLink To="https://commercial.blazorise.com/">
+                                Commercial
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <TopMenuEnd />
+                    </BarEnd>
+                </BarMenu>
+            </Container>
+        </Bar>
+    </LayoutHeader>
+    <LayoutContent Class="b-blog-content">
+        <Container>
+            @Body
+        </Container>
+    </LayoutContent>
+    <LayoutFooter Padding="Padding.Is4.FromTop.Is5.FromTop.OnDesktop" Margin="Margin.Is5.OnY.OnDesktop" Border="Border.OnTop">
+        <Footer />
+    </LayoutFooter>
+</Layout>
+@code {
+    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;
+}

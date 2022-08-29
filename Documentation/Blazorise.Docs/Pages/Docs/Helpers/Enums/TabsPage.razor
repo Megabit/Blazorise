@@ -1,19 +1,23 @@
 ﻿@page "/docs/helpers/enums/tabs"
 
-<Seo Canonical="/docs/helpers/enums/tabs" Title="Enums: Tabs" Description="Learn about the Blazorise Tabs enums." />
+<Seo Canonical="/docs/helpers/enums/tabs" Title="Enums: Tabs" Description="Learn to use and work with the Blazorise Tab enums that help you to modify the tabs appearance and their behavior." />
 
 <DocsPageTitle>
     Enums: Tabs
 </DocsPageTitle>
 
+<DocsPageParagraph>
+    Use these tab helpers for quickly configuring the position or rendering of the elements.
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="TabPosition">
-        <Paragraph>Defines the placement of a tab items.</Paragraph>
+        <Paragraph>
+            Defines the placement of a tab items.
+        </Paragraph>
         <UnorderedList>
             <UnorderedListItem><Code>TabPosition.Top</Code> Top side.</UnorderedListItem>
             <UnorderedListItem><Code>TabPosition.Bottom</Code> Bottom side.</UnorderedListItem>
-            <UnorderedListItem><Code>TabPosition.Left</Code> Left side.</UnorderedListItem>
-            <UnorderedListItem><Code>TabPosition.Right</Code> Right side.</UnorderedListItem>
             <UnorderedListItem><Code>TabPosition.Start</Code> Start side.</UnorderedListItem>
             <UnorderedListItem><Code>TabPosition.End</Code> End side.</UnorderedListItem>
         </UnorderedList>
@@ -22,7 +26,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="TabsRenderMode">
-        <Paragraph>Defines the Tabs Mode.</Paragraph>
+        <Paragraph>
+            With <Code>TabsRenderMode</Code> you can control how the tabs content will behave. For example you can postpone rendering until the tab is selected or you can just render them all at once.
+        </Paragraph>
         <UnorderedList>
             <UnorderedListItem><Code>TabsRenderMode.Default</Code> Always renders the tabs html content to the DOM.</UnorderedListItem>
             <UnorderedListItem><Code>TabsRenderMode.LazyLoad</Code> Lazy loads tabs, meaning each tab will only be rendered/loaded the first time it is visited.</UnorderedListItem>

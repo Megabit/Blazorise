@@ -927,7 +927,7 @@ namespace Blazorise.Bulma
 
         public override string TableHeader() => null;
 
-        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"has-background-{ToThemeContrast( themeContrast )}";
+        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme has-background-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
 

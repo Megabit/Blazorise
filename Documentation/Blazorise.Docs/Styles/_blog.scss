@@ -1,0 +1,112 @@
+﻿.b-blog {
+    .b-blog-content {
+        line-height: 1.5;
+        font-size: 1.25rem;
+
+        @media (max-width:48rem) {
+            font-size: 1.125rem;
+        }
+
+        @media (max-width:40rem) {
+            font-size: 1rem;
+        }
+
+        a {
+            color: #3f4d62;
+            border-bottom: 2px solid var(--b-theme-primary);
+            text-decoration: none;
+        }
+
+        p {
+            margin-bottom: 1.3rem;
+
+            dl {
+                padding-top: 0.5em;
+                padding-bottom: 0.5em;
+            }
+
+            .blockquote {
+                border-left: 4px solid #d6d6d7;
+                padding: 0 0 0 1.25rem;
+                margin: 0 0 1.25rem 0;
+            }
+        }
+
+        h2 {
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid #f2f3f3;
+        }
+
+        h3 {
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid #f2f3f3;
+        }
+
+        h4 {
+            padding-bottom: 0.5em;
+        }
+
+        p, a, li, td {
+            > code {
+                padding-top: 0.1rem;
+                padding-bottom: 0.1rem;
+                font-size: 0.8em;
+                background: #fafafa;
+                border-radius: 4px;
+
+                &:before {
+                    letter-spacing: -0.2em;
+                    content: "\00a0";
+                }
+
+                &:after {
+                    letter-spacing: -0.2em;
+                    content: "\00a0";
+                }
+            }
+        }
+
+        :not(pre) > code {
+            background-color: #f5f5f5;
+            color: #ff3860;
+            font-weight: 400;
+        }
+    }
+
+    .b-blog-post-info {
+        .b-blog-post-info-user {
+            font-size: 1.125rem;
+        }
+
+        .b-blog-post-info-date {
+            font-size: 1rem;
+        }
+    }
+}
+
+.blog-page-section-source {
+    position: relative;
+    height: 100%;
+
+    .blog-page-section-source-toolbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    & .blog-page-section-source-code {
+        height: 100%;
+
+        &.blog-page-section-source-code-show {
+            display: block;
+        }
+
+        &.blog-page-section-source-code-hide {
+            display: none;
+        }
+    }
+
+    .btn {
+        color: #576b85;
+    }
+}

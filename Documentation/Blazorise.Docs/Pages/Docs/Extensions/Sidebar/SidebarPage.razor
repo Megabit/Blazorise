@@ -1,14 +1,16 @@
 ﻿@page "/docs/extensions/sidebar"
 
-<Seo Canonical="/docs/extensions/sidebar" Title="Blazorise Sidebar" Description="Learn how to use Blazorise Sidebar extension components." />
+<Seo Canonical="/docs/extensions/sidebar" Title="Blazorise Sidebar component" Description="Learn to use and work with the Blazorise Sidebar component, an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." />
 
-<DocsPageTitle>
-    Sidebar
+<DocsPageTitle Path="Extensions/Sidebar">
+    Blazorise Sidebar component
 </DocsPageTitle>
 
-<DocsPageParagraph>
+<DocsPageLead>
     The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage.
+</DocsPageLead>
 
+<DocsPageParagraph>
     The sidebar extension is defined of several different components:
 </DocsPageParagraph>
 
@@ -39,6 +41,12 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<Alert Color="Color.Warning" Visible>
+    <AlertDescription>
+        Please be aware that the sidebar component is obsolete and that is generally replaced by the newset <Anchor To="docs/components/bar" Title="Link to bar component">Bar</Anchor> component.
+    </AlertDescription>
+</Alert>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
@@ -59,7 +67,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static files">
-        Include CSS link into your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="SidebarResourcesExample" />
 </DocsPageSection>

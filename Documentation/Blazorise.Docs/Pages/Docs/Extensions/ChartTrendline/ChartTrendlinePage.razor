@@ -1,16 +1,18 @@
 ﻿@page "/docs/extensions/chart-trendline"
 
-<Seo Canonical="/docs/extensions/chart-trendline" Title="Blazorise Chart Trendline" Description="Learn how to use Blazorise trendline extension components." />
+<Seo Canonical="/docs/extensions/chart-trendline" Title="Blazorise Chart Trendline component" Description="Learn to use and work with the Blazorise trendline extension components, which draws a linear trendline in your Chart." />
 
-<DocsPageTitle>
-    Chart Trendline
+<DocsPageTitle Path="Extensions/Chart Trendline">
+    Blazorise Chart Trendline component
 </DocsPageTitle>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Trendline">
-        Trendline is made possible with the help of <Blazorise.Link To="https://github.com/Makanz/chartjs-plugin-trendline" Target="Target.Blank">chartjs-plugin-trendline</Blazorise.Link>.
-    </DocsPageSectionHeader>
-</DocsPageSection>
+<DocsPageLead>
+    This plugin draws an linear trendline in your Chart.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Trendline is made possible with the help of <Anchor To="https://github.com/Makanz/chartjs-plugin-trendline" Title="Link to chart trendline plugin" Target="Target.Blank">chartjs-plugin-trendline</Anchor>.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     Installation
@@ -25,7 +27,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static Files">
-        If you’re using Blazor WebAssembly, include these script references in your <Code>index.html</Code>. If you're using Blazor Server, include them in your <Code>_Host.cshtml</Code> file. Note: you may already have the chartjs reference in there. If so, only include the trendline script.
+        If you’re using Blazor WebAssembly, include these script references in your <Code>index.html</Code>. If you're using Blazor Server, include them in your <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. Note: you may already have the chartjs reference in there. If so, only include the trendline script.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ChartTrendlineResourcesExample" />
 </DocsPageSection>

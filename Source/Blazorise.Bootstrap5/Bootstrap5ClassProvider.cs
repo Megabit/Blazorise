@@ -560,7 +560,7 @@ namespace Blazorise.Bootstrap5
 
         #region Card
 
-        public override string CardDeck() => "row row-cols-1 row-cols-md-3";
+        public override string CardDeck() => "card-deck row row-cols-1 row-cols-md-3";
 
         public override string CardGroup() => "card-group";
 
@@ -907,7 +907,7 @@ namespace Blazorise.Bootstrap5
 
         public override string TableHeader() => null;
 
-        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-{ToThemeContrast( themeContrast )}";
+        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme table-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
 

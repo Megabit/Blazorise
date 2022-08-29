@@ -1,23 +1,51 @@
 ﻿@page "/docs/components/color"
 
-<Seo Canonical="/docs/components/color" Title="Blazorise Color component" Description="Native color picker allows you to select different colors." />
+<Seo Canonical="/docs/components/color" Title="Blazorise Color component" Description="Learn to use and work with the Blazorise ColorEdit component, a native color picker that allows you to select different colors." />
 
-<DocsPageTitle>
-    Color component
+<DocsPageTitle Path="Components/Close Edit">
+    Blazorise ColorEdit component
 </DocsPageTitle>
 
+<DocsPageLead>
+    The <Code>ColorEdit</Code> allow the user to select a color.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    Native color picker allows you to select different colors.
+    This component works with standard <Code Tag>input type="color"</Code> elements. That is, the browser will control the look and feel, which may differ between Chrome, Firefox, and Edge.
 </DocsPageParagraph>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic Example">
-        Click the red area to activate the color picker. This is the basic variation of it.
+    <DocsPageSectionHeader Title="Basic">
+        Use the <Code>Color</Code> attribute to set an initial value for the color picker.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicColorEditExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicColorEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Sizes">
+        Use the <Code>Size</Code> attribute to change the color picker's size.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColorEditSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorEditSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabled">
+        To disable ColorEdit just define a <Code>Disabled</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColorEditDisabledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorEditDisabledExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -30,5 +58,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ColorChanged" Type="EventCallback<string>">
         Occurs when the color has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Prevents user interactions and make it appear lighter.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="Size" Default="Default">
+        Component size variations.
     </DocsAttributesItem>
 </DocsAttributes>

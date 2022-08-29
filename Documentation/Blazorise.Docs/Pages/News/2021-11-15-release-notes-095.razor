@@ -1,12 +1,14 @@
 ﻿@page "/news/release-notes/095"
 
-<Seo Canonical="news/release-notes/095" Title="Blazorise v0.9.5" Description="Blazorise v0.9.5 release notes and changelog." />
+<Seo Canonical="news/release-notes/095" Title="Blazorise v0.9.5" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v0.9.5 release." ImageUrl="img/news/095/v095.png" />
 
 <NewsPageTitle>
     Announcing Blazorise 0.9.5
 </NewsPageTitle>
 
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="November 15, 2021" Read="8 min 40 sec" />
+
+<NewsPageImage Source="img/news/095/v095.png" Text="Blazorise 0.9.5" />
 
 <Paragraph>
     Today, we are happy to announce the release of Blazorise 0.9.5. In this post, we’re covering a lot of the new Blazorise features
@@ -265,7 +267,7 @@
 </Paragraph>
 
 <Paragraph>
-    <Strong>7.</Strong> Remove Blazorise static files from <Code>index.html</Code>> or <Code>_Host.cshtml</Code>. Files that are safe to be removed are:
+    <Strong>7.</Strong> Remove Blazorise static files from <Code>index.html</Code>> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code>. Files that are safe to be removed are:
     <UnorderedList>
         <UnorderedListItem><Code>_content/Blazorise/blazorise.js</Code></UnorderedListItem>
         <UnorderedListItem><Code>_content/Blazorise.Bootstrap/blazorise.bootstrap.js</Code></UnorderedListItem>
@@ -302,7 +304,7 @@
 </Heading>
 
 <Paragraph>
-    We have refactored major parts of Blazorise internals to make use of <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</Anchor>. As a result of all the hard work, we have made it easier to set up Blazorise projects, and manually importing Javascript static files is not needed anymore. All Blazorise static files can safely be removed from all your <Code>index.html</Code> and <Code>_Host.cshtml</Code> files.
+    We have refactored major parts of Blazorise internals to make use of <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</Anchor>. As a result of all the hard work, we have made it easier to set up Blazorise projects, and manually importing Javascript static files is not needed anymore. All Blazorise static files can safely be removed from all your <Code>index.html</Code> and <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> files.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">

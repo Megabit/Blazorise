@@ -197,6 +197,9 @@ namespace Blazorise
                 {
                     DirtyClasses();
                     DirtyStyles();
+
+                    if ( ShowBackdrop )
+                        BackdropVisible = true;
                 }
 
                 await InvokeAsync( StateHasChanged );
@@ -232,6 +235,9 @@ namespace Blazorise
                 {
                     DirtyClasses();
                     DirtyStyles();
+
+                    if ( ShowBackdrop )
+                        BackdropVisible = false;
                 }
 
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
@@ -429,7 +435,10 @@ namespace Blazorise
         public Task BeginAnimation( bool visible )
         {
             if ( visible )
+            {
+                BackdropVisible = ShowBackdrop;
                 DirtyStyles();
+            }
             else
                 DirtyClasses();
 
@@ -444,6 +453,8 @@ namespace Blazorise
             else
                 DirtyStyles();
 
+            BackdropVisible = ShowBackdrop && visible;
+
             return InvokeAsync( StateHasChanged );
         }
 
@@ -455,6 +466,11 @@ namespace Blazorise
         /// Returns true if the modal should be visible.
         /// </summary>
         protected internal bool IsVisible => State.Visible == true;
+
+        /// <summary>
+        /// Returns true if the modal backdrop should be visible.
+        /// </summary>
+        protected internal bool BackdropVisible = false;
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
