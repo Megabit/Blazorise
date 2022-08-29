@@ -145,13 +145,9 @@ namespace Blazorise.Modules
 
         private Task<IJSObjectReference> GetModule()
         {
-            if ( AsyncDisposed )
-            {
-                throw new ObjectDisposedException( ModuleFileName );
-            }
-
             return moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
         }
+
         #endregion
 
         #region Properties
