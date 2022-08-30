@@ -3,22 +3,22 @@ title: Practical CSS Tips For Developers
 description: 
 permalink: blog/practical-css-tips-for-developers
 canonical: blog/practical-css-tips-for-developers
-image-url: img/blog/2022-08-31/
-image-text:
-author-name:
-author-image;
-posted-on:
-read-time:
-
+image-url: img/blog/2022-08-31/css.png
+image-text: Practical CSS Tips For Developers
+author-name: James Amattey
+author-image: james
+posted-on: August1 31st, 2022
+read-time: 3 min
 
 ---
 
 Cascading Style Sheet, the beauty behind the web, friend to some, a devil to many but a necessary evil. Cascading Style Sheets, at their root, are intended to separate the style of a webpage from the content.
 
-CSS files can grow significantly
+Whether you are using Blazorise with [bootstrap](https://bootstrapdemo.blazorise.com/), [bulma](https://bulmademo.blazorise.com/) or [antdesign](https://antdesigndemo.blazorise.com/), CSS will be a huge part of your job. 
 
 Fortunately, here are some great CSS tips for developers.
 
+---
 
 ## Center anything in three lines of code
 To center one `div` inside another, we make the containing `div` a flex container. Next, set align-items to center to perform centering on the block axis, and justify-content to center to perform centering on the inline axis.
@@ -38,6 +38,8 @@ The CSS `justify-items` property defines the default justify-self for all items 
   align-items: center;
 }
 ```
+
+---
 
 ## Resize An Image To Fit
 
@@ -69,8 +71,10 @@ object-fit: contain
 }
 ```
 
+---
+
 ## Truncate Text With Ellipsis
-If you have a `TextEdit` or `FieldLabel` Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
+If you have a `TextEdit` (https://blazorise.com/docs/components/textedit) or `FieldLabel`(https://blazorise.com/docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
 
 ``` CSS
 .truncate {
@@ -102,4 +106,10 @@ Using the example from our truncating example, we can set the number of the CVV 
   webkit-line-clamp: 10;
 }
 ```
-The -webkit-line-clamp CSS property allows limiting of the contents of a block container to the specified number of lines. 
+The -webkit-line-clamp CSS property allows limiting of the contents of a block container to the specified number of lines.
+
+---
+
+## Conclusion
+
+Blazorise is compatible with your favorite CSS frameworks such as [Bootstrap](https://bootstrapdemo.blazorise.com/), [AntDesign](https://antdesigndemo.blazorise.com/) and [Material](https://materialdemo.blazorise.com/). Read our [documentation](https://blazorise.com/docs/components) and learn how you can add Blazorise UI Component to your Blazor project for rapid application development. 
