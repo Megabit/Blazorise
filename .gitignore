@@ -254,3 +254,4 @@ Gemfile.lock
 !/.idea/.idea.*/.idea
 /.idea/.idea.*/.idea/*
 !/.idea/.idea.*/.idea/runConfigurations
+Documentation/Blazorise.Docs.Server/wwwroot/img/blog/.DS_Store
