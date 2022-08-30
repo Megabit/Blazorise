@@ -62,6 +62,9 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Pages\Blog\2022-08-31_CSSTipsForDevelopers\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
   </ItemGroup>
@@ -73,6 +76,9 @@
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+  <ItemGroup>
+    <Folder Include="Pages\Blog\2022-08-31_CSSTipsForDevelopers\" />
+  </ItemGroup>
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
     <PropertyGroup>
       <CleanGeneratedFiles>false</CleanGeneratedFiles>
