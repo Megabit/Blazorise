@@ -1,15 +1,19 @@
 @page "/blog/practical-css-tips-for-developers"
 
-<Seo Canonical="/blog/practical-css-tips-for-developers" Title="Practical CSS Tips For Developers" Description="" ImageUrl="/img/blog/2022-08-31/css.png" />
+<Seo Canonical="/blog/practical-css-tips-for-developers" Title="Practical CSS Tips For Developers" Description="In this blog post we will learn some practical tips for applying custom CSS to Blazor and Blazorise components." ImageUrl="/img/blog/2022-08-31/css.png" />
 
 <BlogPageImage Source="/img/blog/2022-08-31/css.png" Text="" />
 
+<BlogPageTitle>
+    Practical CSS Tips For Developers
+</BlogPageTitle>
+
 <BlogPageParagraph>
-    Cascading Style Sheet, the beauty behind the web, friend to some, a devil to many but a necessary evil. Cascading Style Sheets, at their root, are intended to separate the style of a webpage from the content.
+    <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS" Title="Link to Cascading Style Sheet">Cascading Style Sheet</Anchor>, the beauty behind the web, friend to some, a devil to many but a necessary evil. Cascading Style Sheets, at their root, are intended to separate the style of a webpage from the content.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Whether you are using Blazorise with <Anchor To="https://bootstrapdemo.blazorise.com/" Title="Link to bootstrap">bootstrap</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Title="Link to bulma">bulma</Anchor> or <Anchor To="https://antdesigndemo.blazorise.com/" Title="Link to antdesign">antdesign</Anchor>, CSS will be a huge part of your job.
+    Whether you are using Blazorise with <Anchor To="https://bootstrapdemo.blazorise.com/" Title="Link to Bootstrap">Bootstrap</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Title="Link to Bulma">Bulma</Anchor> or <Anchor To="https://antdesigndemo.blazorise.com/" Title="Link to AntDesign">AntDesign</Anchor>, CSS will be a huge part of your job.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -21,7 +25,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    To center one <Code>div</Code> inside another, we make the containing <Code>div</Code> a flex container. Next, set align-items to center to perform centering on the block axis, and justify-content to center to perform centering on the inline axis.
+    To center one <Code>div</Code> inside another, we make the containing <Code>div</Code> a flex container. Next, set <Code>align-items</Code> to center to perform centering on the block axis, and <Code>justify-content</Code> to center to perform centering on the inline axis.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -39,7 +43,7 @@
 <BlogPageSourceBlock Code="CSSTipsForDevelopers1" />
 
 <BlogPageSubtitle>
-    Resize An Image To Fit
+    Resize an image to fit
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
@@ -47,29 +51,31 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Using a <Anchor To="/docs/components/card" Title="Link to Blazorise Card Component">Blazorise Card Component</Anchor>, we will demonstrate how we fit an image with 4 lines of code.
+    Using a <Anchor To="docs/components/card" Title="Link to Blazorise Card Component">Blazorise Card Component</Anchor>, we will demonstrate how we fit an image with 4 lines of code.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CSSTipsForDevelopers2" />
 
 <BlogPageParagraph>
-    The object-fit CSS property sets how the content of a replaced element, such as an <Code>img</Code> should be resized to fit its container
+    The <Code>object-fit</Code> CSS property sets how the content of a replaced element, such as an <Code>img</Code> should be resized to fit its container
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CSSTipsForDevelopers3" />
 
 <BlogPageSubtitle>
-    Truncate Text With Ellipsis
+    Truncate text with ellipsis
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    If you have a <Code>TextEdit</Code> (/docs/components/textedit) or <Code>FieldLabel</Code>(/docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit.
+    If you have a <Anchor To="docs/components/text" Title="Link to TextEdit">TextEdit</Anchor> or <Anchor To="docs/components/field" Title="Link to FieldLabel">FieldLabel</Anchor> Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CSSTipsForDevelopers4" />
 
 <BlogPageParagraph>
-    You can use a tooltip to display additional information that is required by the user. In the demo below, we use a tooltip to demonstrate how you can use the Blazorise tooltip component to display additional information, without increasing the size of a widget.
+    <Blockquote>
+        Extra tip: You can use a toltip to display additional information that is required by the user. In the demo below, we use a tooltip to demonstrate how you can use the <Anchor To="docs/components/tooltip" Title="Link to Blazorise Tooltip">Blazorise Tooltip</Anchor> component to display additional information, without increasing the size of a widget.
+    </Blockquote>
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CSSTipsForDevelopers5" />
@@ -79,7 +85,7 @@
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Set Limited Content In Paragraph
+    Set limited content in paragraph
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
@@ -93,7 +99,7 @@
 <BlogPageSourceBlock Code="CSSTipsForDevelopers6" />
 
 <BlogPageParagraph>
-    The -webkit-line-clamp CSS property allows limiting of the contents of a block container to the specified number of lines.
+    The <Code>-webkit-line-clamp</Code> CSS property allows limiting of the contents of a block container to the specified number of lines.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -102,6 +108,10 @@
 
 <BlogPageParagraph>
     Blazorise is compatible with your favorite CSS frameworks such as <Anchor To="https://bootstrapdemo.blazorise.com/" Title="Link to Bootstrap">Bootstrap</Anchor>, <Anchor To="https://antdesigndemo.blazorise.com/" Title="Link to AntDesign">AntDesign</Anchor> and <Anchor To="https://materialdemo.blazorise.com/" Title="Link to Material">Material</Anchor>. Read our <Anchor To="https://blazorise.com/docs/components" Title="Link to documentation">documentation</Anchor> and learn how you can add Blazorise UI Component to your Blazor project for rapid application development.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In one of the next blog posts we will show you how to work with the <Anchor To="docs/helpers/utilities" Title="Link to Blazorise Utilities">Blazorise Utilities</Anchor> instead of writing custom CSS rules.
 </BlogPageParagraph>
 
 <BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="August1 31st, 2022" Read="3 min" />
