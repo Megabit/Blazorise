@@ -9,7 +9,6 @@ author-name: James Amattey
 author-image: james
 posted-on: August1 31st, 2022
 read-time: 3 min
-
 ---
 
 Cascading Style Sheet, the beauty behind the web, friend to some, a devil to many but a necessary evil. Cascading Style Sheets, at their root, are intended to separate the style of a webpage from the content.
@@ -21,6 +20,7 @@ Fortunately, here are some great CSS tips for developers.
 ---
 
 ## Center anything in three lines of code
+
 To center one `div` inside another, we make the containing `div` a flex container. Next, set align-items to center to perform centering on the block axis, and justify-content to center to perform centering on the inline axis.
 
 In the future, we may be able to center elements without needing to turn the parent into a flex container, as the Box Alignment properties used here are specified to apply to block layout too.
@@ -29,7 +29,7 @@ The CSS `justify-content` property defines how the browser distributes space bet
 
 The CSS `justify-items` property defines the default justify-self for all items of the box, giving them all a default way of justifying each box along the appropriate axis.
 
-``` css
+```css
 .center {
   width: 300px;
   height: 400px;
@@ -74,9 +74,10 @@ object-fit: contain
 ---
 
 ## Truncate Text With Ellipsis
+
 If you have a `TextEdit` (/docs/components/textedit) or `FieldLabel`(/docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
 
-``` css
+```css
 .truncate {
 width: 250px;
 white-space: nowrap;
@@ -84,8 +85,10 @@ overflow: hidden;
 text-overflow: ellipsis;
 }
 ```
+
 You can use a tooltip to display additional information that is required by the user. In the demo below, we use a tooltip to demonstrate how you can use the Blazorise tooltip component to display additional information, without increasing the size of a widget. 
-```HTML
+
+```html
   <Div ElementId="tooltip-custom-target">
     <Field>
       <FieldLabel>Enter CVV</FieldLabel>
@@ -95,13 +98,16 @@ You can use a tooltip to display additional information that is required by the 
       </FieldLabel>
 </Div>
 ```
+
 When you truncate a text, it means that you make it shorter so that it takes less resources to save or load. The process of truncating text is called Ellipsing and this is usually denoted by 3 dots at the end of the last text.
 
 ## Set Limited Content In Paragraph
+
 For a paragraph element, you can set the exact number of texts you want in the paragraph. This is an explicit form of truncating as this is more specific. If you set a paragraph to contain 5 letters, it will contain up to 5 letters and nothing more. 
 
 Using the example from our truncating example, we can set the number of the CVV field to three, as most CVV codes are three digits
-``` css 
+
+```css
 .FieldLabel {
   webkit-line-clamp: 10;
 }
