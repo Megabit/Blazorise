@@ -218,7 +218,7 @@ namespace Blazorise.Docs.Compiler
             var parsedCodeBlock = ParseCodeBlock( fencedCodeBlock );
 
             var builtCodeBlock = new MarkupBuilder( formatter )
-                .Build( parsedCodeBlock, fencedCodeBlock.Info != null && ( fencedCodeBlock.Info.StartsWith( "csharp" ) || fencedCodeBlock.Info.StartsWith( "cs" ) ) );
+                .Build( parsedCodeBlock, ParseLanguage( fencedCodeBlock.Info ) );
 
             sb.Append( "\"" );
 
@@ -228,6 +228,23 @@ namespace Blazorise.Docs.Compiler
                 sb.Append( NewLine );
 
             return (builtCodeBlock, parsedCodeBlock);
+        }
+
+        private static string ParseLanguage( string info )
+        {
+            if ( string.IsNullOrEmpty( info ) )
+                return null;
+
+            if ( info.StartsWith( "csharp" ) || info.StartsWith( "cs" ) )
+                return "cs";
+            else if ( info.StartsWith( "bash" ) )
+                return "powershell";
+            else if ( info.StartsWith( "html" ) )
+                return "html";
+            else if ( info.StartsWith( "css" ) )
+                return "css";
+
+            return null;
         }
 
         public void PersistCodeBlock( FencedCodeBlock fencedCodeBlock, int indentLevel )

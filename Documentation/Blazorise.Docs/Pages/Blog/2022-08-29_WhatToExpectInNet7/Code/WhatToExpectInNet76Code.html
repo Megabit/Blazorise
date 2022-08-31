@@ -1,0 +1,18 @@
+<div class="blazorise-codeblock">
+<div class="powershell"><pre>
+<span class="comment"># create a new project and move to its directory</span>
+dotnet new blazorwasm <span class="powershellOperator">-</span>n my<span class="powershellOperator">-</span>container<span class="powershellOperator">-</span>app
+cd my<span class="powershellOperator">-</span>container<span class="powershellOperator">-</span>app
+
+<span class="comment"># add a reference to a (temporary) package that creates the container</span>
+dotnet add package Microsoft.NET.Build.Containers
+
+<span class="comment"># publish your project for linux-x64</span>
+dotnet publish <span class="powershellOperator">--</span>os linux <span class="powershellOperator">--</span>arch x64 <span class="powershellOperator">-</span>
+p:PublishProfile<span class="powershellOperator">=</span>DefaultContainer
+
+<span class="comment"># run your app using the new container</span>
+
+docker run <span class="powershellOperator">-</span>it <span class="powershellOperator">--</span>rm 5010:80 my<span class="powershellOperator">-</span>container<span class="powershellOperator">-</span>app:1.0:0
+</pre></div>
+</div>
