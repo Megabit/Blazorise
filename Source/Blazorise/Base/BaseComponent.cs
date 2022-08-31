@@ -334,6 +334,11 @@ namespace Blazorise
         public string StyleNames => StyleBuilder.Styles;
 
         /// <summary>
+        /// Holds the information about the Blazorise global options.
+        /// </summary>
+        [Inject] protected BlazoriseOptions Options { get; set; }
+
+        /// <summary>
         /// Gets or set the javascript runner.
         /// </summary>
         [Inject] protected IIdGenerator IdGenerator { get; set; }
@@ -341,14 +346,12 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the classname provider.
         /// </summary>
-        [Inject]
-        protected IClassProvider ClassProvider { get; set; }
+        [Inject] protected IClassProvider ClassProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the style provider.
         /// </summary>
-        [Inject]
-        protected IStyleProvider StyleProvider { get; set; }
+        [Inject] protected IStyleProvider StyleProvider { get; set; }
 
         /// <summary>
         /// Custom css classname.

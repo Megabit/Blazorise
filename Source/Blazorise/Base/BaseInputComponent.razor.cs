@@ -399,11 +399,6 @@ namespace Blazorise
         [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
         /// <summary>
-        /// Holds the information about the Blazorise global options.
-        /// </summary>
-        [Inject] protected BlazoriseOptions Options { get; set; }
-
-        /// <summary>
         /// Sets the size of the input control.
         /// </summary>
         [Parameter]

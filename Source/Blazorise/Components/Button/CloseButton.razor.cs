@@ -68,11 +68,6 @@ namespace Blazorise
             => Disabled.ToString().ToLowerInvariant();
 
         /// <summary>
-        /// Holds the information about the Blazorise global options.
-        /// </summary>
-        [Inject] protected BlazoriseOptions Options { get; set; }
-
-        /// <summary>
         /// Flag to indicate that the button is not responsive for user interaction.
         /// </summary>
         [Parameter] public bool Disabled { get; set; }

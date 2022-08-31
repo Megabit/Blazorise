@@ -118,11 +118,6 @@ namespace Blazorise
         protected FocusTrap FocusTrapRef { get; set; }
 
         /// <summary>
-        /// Holds the information about the Blazorise global options.
-        /// </summary>
-        [Inject] protected BlazoriseOptions Options { get; set; }
-
-        /// <summary>
         /// Centers the modal vertically.
         /// </summary>
         [Parameter]

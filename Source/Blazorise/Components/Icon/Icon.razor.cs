@@ -82,11 +82,6 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Holds the information about the Blazorise global options.
-        /// </summary>
-        [Inject] protected BlazoriseOptions Options { get; set; }
-
-        /// <summary>
         /// An icon provider that is responsible to give the icon a class-name.
         /// </summary>
         [Inject] protected IIconProvider IconProvider { get; set; }
