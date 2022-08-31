@@ -62,9 +62,6 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Pages\Blog\2022-08-31_CSSTipsForDevelopers\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
   </ItemGroup>
