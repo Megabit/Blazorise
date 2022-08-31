@@ -112,7 +112,7 @@ Using the example from our truncating example, we can set the number of the CVV 
 
 ```css
 .field-label {
-    -webkit-line-clamp: 10;
+    -webkit-line-clamp: 2;
 }
 ```
 
