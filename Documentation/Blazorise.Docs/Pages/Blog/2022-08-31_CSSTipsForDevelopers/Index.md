@@ -1,9 +1,9 @@
 ﻿---
 title: Practical CSS Tips For Developers
 description: 
-permalink: blog/practical-css-tips-for-developers
-canonical: blog/practical-css-tips-for-developers
-image-url: img/blog/2022-08-31/css.png
+permalink: /blog/practical-css-tips-for-developers
+canonical: /blog/practical-css-tips-for-developers
+image-url: /img/blog/2022-08-31/css.png
 image-text: Practical CSS Tips For Developers
 author-name: James Amattey
 author-image: james
@@ -29,7 +29,7 @@ The CSS `justify-content` property defines how the browser distributes space bet
 
 The CSS `justify-items` property defines the default justify-self for all items of the box, giving them all a default way of justifying each box along the appropriate axis.
 
-``` CSS
+``` css
 .center {
   width: 300px;
   height: 400px;
@@ -47,9 +47,9 @@ Images can be a tough customer. When you create a container for a div, you usual
 
 Using a [Blazorise Card Component](/docs/components/card), we will demonstrate how we fit an image with 4 lines of code. 
 
-```HTML
+```html
 <Card Margin="Margin.Is4.OnY">
-    <CardImage Source="https://blazorise.com/img/gallery/7.jpg" Alt="Placeholder image">
+    <CardImage Source="/img/gallery/7.jpg" Alt="Placeholder image">
     </CardImage>
     <CardBody>
         <CardTitle Size="5">Card title</CardTitle>
@@ -63,7 +63,7 @@ Using a [Blazorise Card Component](/docs/components/card), we will demonstrate h
 
 The object-fit CSS property sets how the content of a replaced element, such as an `img` should be resized to fit its container
 
-```CSS
+```css
 .cardimage {
 height: 100%;
 width: 100%;
@@ -74,9 +74,9 @@ object-fit: contain
 ---
 
 ## Truncate Text With Ellipsis
-If you have a `TextEdit` (https://blazorise.com/docs/components/textedit) or `FieldLabel`(https://blazorise.com/docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
+If you have a `TextEdit` (/docs/components/textedit) or `FieldLabel`(/docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
 
-``` CSS
+``` css
 .truncate {
 width: 250px;
 white-space: nowrap;
@@ -101,11 +101,12 @@ When you truncate a text, it means that you make it shorter so that it takes les
 For a paragraph element, you can set the exact number of texts you want in the paragraph. This is an explicit form of truncating as this is more specific. If you set a paragraph to contain 5 letters, it will contain up to 5 letters and nothing more. 
 
 Using the example from our truncating example, we can set the number of the CVV field to three, as most CVV codes are three digits
-``` CSS 
+``` css 
 .FieldLabel {
   webkit-line-clamp: 10;
 }
 ```
+
 The -webkit-line-clamp CSS property allows limiting of the contents of a block container to the specified number of lines.
 
 ---
