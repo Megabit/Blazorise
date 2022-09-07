@@ -7,7 +7,7 @@ image-url: /img/blog/2022-08-31/css.png
 image-text: Practical CSS Tips For Developers
 author-name: James Amattey
 author-image: james
-posted-on: August1 31st, 2022
+posted-on: August 31st, 2022
 read-time: 3 min
 
 ---
