@@ -1,0 +1,21 @@
+{
+  "culture": "zh",
+  "translations": {
+    "New": "新建",
+    "Edit": "编辑",
+    "Delete": "删除",
+    "Save": "保存",
+    "Cancel": "取消",
+    "Clear Filter": "清除过滤",
+    "First": "首页",
+    "Last": "尾页",
+    "Prev": "上一页",
+    "Next": "下一页",
+    "items": "项目",
+    "items per page": "每页数量",
+    "{0} - {1} of {2} items": "{0} - {1} 条，共 {2} 条",
+    "Row Edit": "编辑行",
+    "Row Create": "创建行",
+    "Create": "创建"
+  }
+}
