@@ -1,0 +1,6 @@
+public class MyClass {
+    public async Task<string> GetDocumentContent()
+    {
+        return await File.ReadAllTextAsync("Document.txt");
+    }
+}

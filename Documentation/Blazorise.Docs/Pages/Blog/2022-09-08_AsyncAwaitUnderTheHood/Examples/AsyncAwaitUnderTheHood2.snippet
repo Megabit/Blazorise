@@ -1,0 +1,14 @@
+public Task<string> GetDocumentContent()
+{
+    var content = File.ReadAllTextAsync(@"Document.txt")
+        .ContinueWith(t =>
+        {
+	    if (t.IsFaulted)
+            {
+                Console.WriteLine(t.Exception);
+            }
+					
+            return t.Result;
+        });
+    return content;
+}
