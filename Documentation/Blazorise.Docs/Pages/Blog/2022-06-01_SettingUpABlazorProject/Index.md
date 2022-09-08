@@ -1,25 +1,22 @@
 ﻿---
-title: Setting Up A Blazor WASM Application
+title: How To Create A Blazor Application
 description: In this blog post we will demonstrate how to setup a blazor application
-permalink: /blog/setup-a-blazor-application
-canonical: /blog/setup-a-blazor-application
-image-url: /img/blog/2022-08-31/css.png
+permalink: /blog/create-a-blazor-application
+canonical: /blog/create-a-blazor-application
+image-url: /img/blog/2022-06-1/create-new-blazor-app.png
 image-text: Create A New Blazor Project
 author-name: James Amattey
 author-image: james
-posted-on: March 20th, 2022
-read-time: 2 min
+posted-on: June 1st, 2022
+read-time: 3 min
 ---
 
-This post will run you through the process of creating a new blazor project.
-
-
-
+This post will run you through the process of creating a new blazor application.
 
 ---
 
 
-Blazor applications can be developed in one of two ways
+Blazor applications can be created using one of two ways
 
 - An Integrated Development Environment
 - The .NET CLI
@@ -75,7 +72,7 @@ Click the next button to continue to the project configuration page. Here, you c
 Leave all default selections and click create button. This will scaffold your application into a solution directory.
 (/img/blog/2022-06-1/solution-explorer-after-project-create.png)
 
-> In naming your application, always begin the first letter in uppercase. This is more of a best practice than a rule. If your app name contains two or more words, write the first letter of each word in uppercase, as with our example ```BlazorApp```.
+> In naming your application, always begin the first letter in uppercase. This is more of a best practice than a rule. If your app name contains two or more words, write the first letter of each word in uppercase, as with our example `BlazorApp`.
 
 ## Create A Blazor Application With .NET CLI
 
@@ -95,9 +92,17 @@ Blazor Server
 dotnet new blazorserver -n BlazorServerApp
 ```
 
-The CLI executes the command in the current working directory by default. Adding `-n` tag will create a new directory called "BlazorServerApp" as with our example and place project files in there.
+The CLI executes the command in the current working directory by default. Adding `-n` tag will create a new directory called "BlazorServerApp" as with our example and place project files in that directory.
 
- 
+You can now run `code .` in the folder to open Visual Studio Code.
+
+> Visual Studio Code and other editors will require additional setup and configuration to support your blazor application.
+
+## Conclusion
+
+With your blazor project, you can now build client and server functionality using razor components. Fortunately, you do not have to build components from scratch as Blazorise has built and tested production ready components for almost any web functionality.
+
+Read our documentation for more information or join our newsletter as we demonstrate how to implement Blazorise components and functionality into your projects.
 
  
 
