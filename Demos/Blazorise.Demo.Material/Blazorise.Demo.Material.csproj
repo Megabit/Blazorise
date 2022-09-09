@@ -2,6 +2,9 @@
 
   <Import Project="..\..\Build\Blazorise.Client.props" />
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Blazorise.Demo.Material.Client' ">
+    <ExternalConsole>true</ExternalConsole>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Material\Blazorise.Material.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.Material\Blazorise.Icons.Material.csproj" />
