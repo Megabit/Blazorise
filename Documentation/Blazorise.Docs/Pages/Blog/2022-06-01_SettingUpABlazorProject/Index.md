@@ -81,28 +81,33 @@ You can the .NET CLI to convert a command-line application into a headless IDE t
 Command line applications allow you to run commands and talk directly to the shell of your operating system. You may require administrator priviledges in some cases to run these CLI commands.
 
 Create a blazor webassembly and server application by running the following commands respectively. To check if you have .NET installed, run the command `dotnet --info` to display all the information about your copy of dotnet.
+(/img/blog/2022-06-1/dotnet-info.png)
 
 Blazor Wasm
 ```shell
 dotnet new blazorwasm -n BlazorWasmApp
 ```
 
+> Further Reading [Exploring Web Assembly](/blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm)
+
 Blazor Server
-``` shell
+```shell
 dotnet new blazorserver -n BlazorServerApp
 ```
 
-The CLI executes the command in the current working directory by default. Adding `-n` tag will create a new directory called "BlazorServerApp" as with our example and place project files in that directory.
+The CLI executes the command in the working directory by default. Adding `-n` tag will create a new directory called "BlazorServerApp" as with our example and place project files in that directory.
 
-You can now run `code .` in the folder to open Visual Studio Code.
+You can now run `code .` command in the folder to open Visual Studio Code.
 
-> Visual Studio Code and other editors will require additional setup and configuration to support your blazor application.
+> Visual Studio Code and other code editors will require additional setup and configuration to support your blazor application.
 
 ## Conclusion
 
 With your blazor project, you can now build client and server functionality using razor components. Fortunately, you do not have to build components from scratch as Blazorise has built and tested production ready components for almost any web functionality.
 
-Read our documentation for more information or join our newsletter as we demonstrate how to implement Blazorise components and functionality into your projects.
+Read our [documentation](/docs/component) for more information or join our newsletter as we demonstrate how to implement [Blazorise components](/blog/how-to-create-a-blazorise-application-beginners-guide) and functionality into your projects.
+
+
 
  
 
