@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -130,6 +129,11 @@ namespace Blazorise
         {
             if ( firstRender )
             {
+                if ( LicenseChecker.ShouldPrint() )
+                {
+                    ExecuteAfterRender( async () => await JSRuntime.InvokeVoidAsync( "console.warn", "You are using a free version of the Blazorise component library. Blazorise library is free of charge for personal use. To hide this message, please purchase a commercial license from https://commercial.blazorise.com/. We thank you for playing fair!" ) );
+                }
+
                 await OnFirstAfterRenderAsync();
             }
 
@@ -352,6 +356,16 @@ namespace Blazorise
         /// Gets or sets the style provider.
         /// </summary>
         [Inject] protected IStyleProvider StyleProvider { get; set; }
+
+        /// <summary>
+        /// Gets or sets the jsRuntime reference.
+        /// </summary>
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the license checker for the user session.
+        /// </summary>
+        [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
         /// <summary>
         /// Custom css classname.

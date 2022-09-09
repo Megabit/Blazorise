@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Include="Blazorise.BuildDateTime">
-      <_Parameter1>$([System.DateTime]::Now.ToString("yyyy-MM-dd"))</_Parameter1>
+    <AssemblyAttribute Include="Blazorise.Licensing.AssemblyBuildDateAttribute">
+      <_Parameter1>$([System.DateTime]::Now)</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 

@@ -34,6 +34,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Defines the license key issued by the Blazorise licensing system.
+        /// </summary>
+        public string LicenseKey { get; set; }
+
+        /// <summary>
         /// If true the text in <see cref="TextEdit"/> will be changed after each key press.
         /// </summary>
         public bool Immediate { get; set; } = true;
