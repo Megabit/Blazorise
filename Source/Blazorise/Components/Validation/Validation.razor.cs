@@ -280,10 +280,6 @@ namespace Blazorise
         {
             if ( HandlerType is null )
             {
-                // In case we have a handler defined on a parent validation we will use that.
-                if ( ParentValidations?.HandlerType is not null )
-                    return ParentValidations.HandlerType;
-
                 if ( Validator is not null || AsyncValidator is not null )
                 {
                     return ValidationHandlerType.Validator;
@@ -294,6 +290,12 @@ namespace Blazorise
                 }
                 else if ( EditContext is not null && hasFieldIdentifier )
                 {
+                    // In case we have a handler defined on a parent validation we will use that.
+                    if ( ParentValidations?.HandlerType is not null )
+                    {
+                        return ParentValidations.HandlerType;
+                    }
+
                     return ValidationHandlerType.DataAnnotation;
                 }
                 else
