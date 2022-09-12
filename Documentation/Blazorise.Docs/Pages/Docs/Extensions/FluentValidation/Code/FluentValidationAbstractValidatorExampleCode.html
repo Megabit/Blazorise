@@ -1,0 +1,20 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+public class PersonValidator : AbstractValidator<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Person</span><span class="htmlTagDelimiter">&gt;</span>
+{
+    public PersonValidator()
+    {
+        RuleFor( vm =&gt; vm.FirstName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm =&gt; vm.LastName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm =&gt; vm.Age )
+            .GreaterThanOrEqualTo( 18 );
+    }
+}
+</pre></div>
+</div>
