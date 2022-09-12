@@ -299,7 +299,7 @@ namespace Blazorise
                     return ValidationHandlerType.DataAnnotation;
                 }
                 else
-                    throw new NotImplementedException( "Unable to determine the validator " );
+                    throw new NotImplementedException( "Unable to determine the validator type." );
             }
 
             return HandlerType;
