@@ -116,6 +116,16 @@
             color: #57a64a;
         }
     }
+
+    & .powershell {
+        & .comment {
+            color: #57a64a;
+        }
+
+        & .powershellOperator {
+            color: red;
+        }
+    }
 }
 
 code {
