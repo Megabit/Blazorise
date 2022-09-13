@@ -1,6 +1,10 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise
@@ -11,6 +15,12 @@ namespace Blazorise
     /// </summary>
     public class ComponentActivator : IComponentActivator
     {
+        #region Members
+
+        private readonly IList<object> disposables;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -20,6 +30,7 @@ namespace Blazorise
         public ComponentActivator( IServiceProvider serviceProvider )
         {
             ServiceProvider = serviceProvider;
+            disposables = LoadServiceProviderDisposableList();
         }
 
         #endregion
@@ -33,6 +44,8 @@ namespace Blazorise
         /// <returns>Return the newly created component or raises an exception if the specified typo is invalid.</returns>
         public IComponent CreateInstance( Type componentType )
         {
+            RemoveDisposedComponents();
+
             var instance = ServiceProvider.GetService( componentType );
 
             if ( instance == null )
@@ -46,6 +59,34 @@ namespace Blazorise
             }
 
             return component;
+        }
+
+        /// <summary>
+        /// Loads the ServiceProvider's list of disposables
+        /// </summary>
+        /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
+        private IList<object> LoadServiceProviderDisposableList()
+        {
+            var disposablesPropertyInfo = ServiceProvider.GetType()
+                .GetProperty( "Disposables", BindingFlags.Instance | BindingFlags.NonPublic );
+            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object>;
+        }
+
+        /// <summary>
+        /// Removes all disposed Blazorise components from the ServiceProvider's disposables list.
+        /// This prevents a memory leak where these references were being held permanently.
+        /// </summary>
+        private void RemoveDisposedComponents()
+        {
+            var disposedComponents = disposables
+                .OfType<BaseAfterRenderComponent>()
+                .Where( x => x.Disposed || x.AsyncDisposed )
+                .ToList();
+
+            foreach ( var component in disposedComponents )
+            {
+                disposables.Remove( component );
+            }
         }
 
         #endregion
