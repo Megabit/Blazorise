@@ -2,69 +2,24 @@
 <div class="html"><pre>
 <span class="atSign">&#64;</span>inherits LayoutComponentBase
 
-<span class="atSign">&#64;</span>if ( layoutType == &quot;fixed-header&quot; )
-{
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span> <span class="htmlAttributeName">Sider</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutSider</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutSiderContent</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SideMenu</span> <span class="htmlTagDelimiter">/&gt;</span>
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutSiderContent</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutSider</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutHeader</span> <span class="htmlAttributeName">Fixed</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TopMenu</span> <span class="htmlAttributeName">ThemeEnabledChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeEnabledChanged</span><span class="quot">&quot;</span>
-                         <span class="htmlAttributeName">ThemeGradientChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeGradientChanged</span><span class="quot">&quot;</span>
-                         <span class="htmlAttributeName">ThemeRoundedChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeRoundedChanged</span><span class="quot">&quot;</span>
-                         <span class="htmlAttributeName">ThemeColorChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeColorChanged</span><span class="quot">&quot;</span>
-                         <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-LayoutType</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>layoutType</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutHeader</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutContent</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Padding.Is4.OnX</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="atSign">&#64;</span>Body
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutContent</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-}
-else if ( layoutType == &quot;fixed-header-footer-only&quot; )
-{
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span> <span class="htmlAttributeName">Sider</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutSider</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutSiderContent</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SideMenu</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutSiderContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutSider</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutHeader</span> <span class="htmlAttributeName">Fixed</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TopMenu</span> <span class="htmlAttributeName">ThemeEnabledChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeEnabledChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName">ThemeGradientChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeGradientChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName">ThemeRoundedChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeRoundedChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName">ThemeColorChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeColorChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-LayoutType</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>layoutType</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                        <span class="htmlAttributeName">ThemeGradientChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeGradientChanged</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName">ThemeRoundedChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeRoundedChanged</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName">ThemeColorChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeColorChanged</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-LayoutType</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>layoutType</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutHeader</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutContent</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Padding.Is4.OnX</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="atSign">&#64;</span>Body
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutContent</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutFooter</span> <span class="htmlAttributeName">Fixed</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FooterMenu</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FooterMenu</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutFooter</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-}
-else if ( layoutType == &quot;sider-with-header-on-top&quot; )
-{
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutHeader</span> <span class="htmlAttributeName">Fixed</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TopMenu</span> <span class="htmlAttributeName">ThemeEnabledChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeEnabledChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName">ThemeGradientChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeGradientChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName">ThemeRoundedChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeRoundedChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName">ThemeColorChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnThemeColorChanged</span><span class="quot">&quot;</span>
-                     <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-LayoutType</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>layoutType</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutHeader</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span> <span class="htmlAttributeName">Sider</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutSider</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutSiderContent</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SideMenu</span> <span class="htmlTagDelimiter">/&gt;</span>
-                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutSiderContent</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutSider</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LayoutContent</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Padding.Is4.OnX</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="atSign">&#64;</span>Body
-                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LayoutContent</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
-}
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Layout</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 </div>
