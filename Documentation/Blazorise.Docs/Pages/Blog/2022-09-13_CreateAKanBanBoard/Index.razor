@@ -60,4 +60,74 @@
     The drag-and-drop functionality of our web application will be demonstrated using <Anchor To="https://blazorise.com/docs/components/dragdrop" Title="Link to Blazorise Components">Blazorise Components</Anchor>.
 </BlogPageParagraph>
 
+<BlogPageParagraph>
+    To begin, let's edit the sidebar with the <Anchor To="/docs/components/bar" Title="Link to Blazorise Bar Component">Blazorise Bar Component</Anchor>.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateAKanBanBoard1" />
+
+<BlogPageSubtitle>
+    The Structure of A Kanban Board
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Let's analyze the components that come together to form a Kanban Board.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    ![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1662979515435/SRMrlmJKi.png align="left")
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    A Kanban Board has columns that are used to group a set of related items. These could be work items, user stories, or tasks.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Each task is placed on a card that can be moved across various columns depending on their status.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The WIP count refers to the total number of work items that are being worked on at the same time.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Kanban swimlanes split the board into sections. For example, if you have a development team, you can create sections for work items to be done by frontend and backend teams.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    For this demo, we want to demonstrate how you can create columns and cards and demonstrate the ability to move cards between columns.Markdig.Syntax.Inlines.LineBreakInlineSwimlanes and WIP are more advanced topics of Kanban and will not be the focus of this demo.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Creating The Kanban Board Page
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Create a page for the Kanban Board and add a page directory to the razor file. Remember to add the link to the sidebar so that you can easily access it from the sidebar menu.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Defining the Container
+</Heading>
+
+<BlogPageParagraph>
+    The <Code Tag>DropContainer</Code> element defines the area for the Kanban board.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateAKanBanBoard2" />
+
+<BlogPageParagraph>
+    The container is where the multiple columns will be hosted.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Defining the Columns
+</Heading>
+
+<BlogPageParagraph>
+    Kanban Columns are individual panels used to group related items of work. The column is defined as a <Code Tag>DropZone</Code> as cards can be dropped into them.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateAKanBanBoard3" />
+
 <BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="September 13th, 2022" Read="6 min" />
