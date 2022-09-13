@@ -77,7 +77,7 @@
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
   <ItemGroup>
-    <Folder Include="Pages\Blog\2022-06-01_SettingUpABlazorProject\" />
+    <Folder Include="Pages\Blog\2022-09-13_SettingUpABlazorProject\" />
   </ItemGroup>
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
     <PropertyGroup>

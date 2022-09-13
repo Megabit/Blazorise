@@ -15,6 +15,6 @@
     <Content Remove="wwwroot\img\blog\2022-06-01\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\img\blog\2022-06-01\" />
+    <Folder Include="wwwroot\img\blog\2022-09-13\" />
   </ItemGroup>
 </Project>
