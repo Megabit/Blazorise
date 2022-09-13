@@ -55,7 +55,7 @@ There are two types of Blazor Applications.
 
 Blazor WebAssembly (WASM) is a client-side blazor application that runs in the browser.
 
-> Read More About [Blazor WebAssembly](/blog/what-is-blazorwasm)
+> Read More About [Blazor WebAssembly](blog/what-is-blazorwasm)
 
 Blazor Server is a server-side application that processes client-side request
 
@@ -97,7 +97,7 @@ Blazor Wasm
 dotnet new blazorwasm -n BlazorWasmApp
 ```
 
-> Further Reading [Exploring Web Assembly](/blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm)
+> Further Reading [Exploring Web Assembly](blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm)
 
 Blazor Server
 ```shell
@@ -114,4 +114,4 @@ You can now run `code .` command in the folder to open Visual Studio Code.
 
 With your blazor project, you can now build client and server functionality using razor components. Fortunately, you do not have to build components from scratch as Blazorise has built and tested production ready components for almost any web functionality.
 
-Read our [documentation](/docs/component) for more information or join our newsletter as we demonstrate how to implement [Blazorise components](/blog/how-to-create-a-blazorise-application-beginners-guide) and functionality into your projects.
+Read our [documentation](docs/component) for more information or join our newsletter as we demonstrate how to implement [Blazorise components](blog/how-to-create-a-blazorise-application-beginners-guide) and functionality into your projects.
