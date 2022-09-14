@@ -69,7 +69,7 @@ namespace Blazorise
         {
             var disposablesPropertyInfo = ServiceProvider.GetType()
                 .GetProperty( "Disposables", BindingFlags.Instance | BindingFlags.NonPublic );
-            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object>;
+            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
         }
 
         /// <summary>
