@@ -17,6 +17,8 @@
 		<PackageReference Include="Markdig" Version="0.25.0" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+		<PackageReference Include="FluentValidation" Version="11.2.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />
 	</ItemGroup>
 	
 </Project>

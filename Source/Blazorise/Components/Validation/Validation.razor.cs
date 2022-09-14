@@ -282,18 +282,24 @@ namespace Blazorise
             {
                 if ( Validator is not null || AsyncValidator is not null )
                 {
-                    return typeof( ValidatorValidationHandler );
+                    return ValidationHandlerType.Validator;
                 }
                 else if ( UsePattern && hasPattern )
                 {
-                    return typeof( PatternValidationHandler );
+                    return ValidationHandlerType.Pattern;
                 }
                 else if ( EditContext is not null && hasFieldIdentifier )
                 {
-                    return typeof( DataAnnotationValidationHandler );
+                    // In case we have a handler defined on a parent validation we will use that.
+                    if ( ParentValidations?.HandlerType is not null )
+                    {
+                        return ParentValidations.HandlerType;
+                    }
+
+                    return ValidationHandlerType.DataAnnotation;
                 }
                 else
-                    throw new NotImplementedException( "Unable to determine the validator " );
+                    throw new NotImplementedException( "Unable to determine the validator type." );
             }
 
             return HandlerType;
@@ -386,7 +392,7 @@ namespace Blazorise
         [Parameter] public bool UsePattern { get; set; }
 
         /// <summary>
-        /// Forces the custom validation handler to be uses while validating the values.
+        /// Forces the custom validation handler to be used while validating the values.
         /// </summary>
         [Parameter] public Type HandlerType { get; set; }
 

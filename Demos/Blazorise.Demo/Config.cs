@@ -1,6 +1,8 @@
 ﻿#region Using directives
+using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -20,7 +22,10 @@ namespace Blazorise.Demo
                     options.UseBubbleTheme = true;
                     options.UseShowTheme = true;
                 } )
-                .AddLoadingIndicator();
+                .AddLoadingIndicator()
+                .AddBlazoriseFluentValidation();
+
+            services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
             services.AddMemoryCache();
 
