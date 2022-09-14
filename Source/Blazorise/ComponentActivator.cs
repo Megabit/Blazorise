@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise
@@ -16,6 +15,8 @@ namespace Blazorise
     public class ComponentActivator : IComponentActivator
     {
         #region Members
+
+        private bool disposePossible;
 
         private readonly IList<object> disposables;
 
@@ -44,7 +45,8 @@ namespace Blazorise
         /// <returns>Return the newly created component or raises an exception if the specified typo is invalid.</returns>
         public IComponent CreateInstance( Type componentType )
         {
-            RemoveDisposedComponents();
+            if ( disposePossible )
+                RemoveDisposedComponents();
 
             var instance = ServiceProvider.GetService( componentType );
 
@@ -67,8 +69,10 @@ namespace Blazorise
         /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
         private IList<object> LoadServiceProviderDisposableList()
         {
-            var disposablesPropertyInfo = ServiceProvider.GetType()
-                .GetProperty( "Disposables", BindingFlags.Instance | BindingFlags.NonPublic );
+            var disposablesPropertyInfo = ServiceProvider.GetType().GetProperty( "Disposables", BindingFlags.Instance | BindingFlags.NonPublic );
+
+            disposePossible = disposablesPropertyInfo is not null;
+
             return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
         }
 
