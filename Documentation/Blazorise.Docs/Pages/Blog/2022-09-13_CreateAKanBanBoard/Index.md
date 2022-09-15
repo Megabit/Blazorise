@@ -115,7 +115,19 @@ Columns must have droppable characteristics to make this work.
 The above code block will create a column with the name To-Do. You can repeat the `<dropzone element>` code block to create as many columns as you want.
 
 ### Defining Card Items
-Card items are individual items on a board that can be moved between columns. 
+Card items are individual items on a board that can be moved between columns.
+
+Cards are defined in the `@code` part of your razor file.
+
+```csharp
+private List<DropItem> items = new ()
+    {
+        new DropItem() {Name = "Contact Form", Group = "To-Do"},
+        new DropItem() {Name = "Profile Image", Group = "Ongoing"},
+        new DropItem() {Name = "Login Form", Group = "Completed"},
+        new DropItem() {Name = "Password Reset", Group = "Ongoing"},
+    }
+``
 
 By the end of your tutorial, your code razor file should look like this. 
 
