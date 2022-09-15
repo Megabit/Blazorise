@@ -53,8 +53,8 @@ namespace Blazorise
 
             if ( component is BaseAfterRenderComponent afterRenderComponent && ( afterRenderComponent.Disposed || afterRenderComponent.AsyncDisposed ) )
             {
-                // does it makes sense to check if component exists in the collection?
-                disposables.Remove( component );
+                if (disposables.Contains( component ))
+                    disposables.Remove( component );
             }
         }
 
