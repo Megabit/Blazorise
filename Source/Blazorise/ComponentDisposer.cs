@@ -53,7 +53,7 @@ namespace Blazorise
 
             if ( component is BaseAfterRenderComponent afterRenderComponent && ( afterRenderComponent.Disposed || afterRenderComponent.AsyncDisposed ) )
             {
-                if (disposables.Contains( component ))
+                if ( disposables.Contains( component ) )
                     disposables.Remove( component );
             }
         }
@@ -68,7 +68,7 @@ namespace Blazorise
 
             disposePossible = disposablesPropertyInfo is not null;
 
-            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
+            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? new List<object>();
         }
 
         #endregion
