@@ -135,7 +135,7 @@ namespace Blazorise
         /// <summary>
         /// Service that frees the component from the memory.
         /// </summary>
-        [Inject] protected IComponentDisposer ComponentDisposer { get; private set; }
+        [Inject] protected internal IComponentDisposer ComponentDisposer { get; set; }
 
         #endregion
     }
