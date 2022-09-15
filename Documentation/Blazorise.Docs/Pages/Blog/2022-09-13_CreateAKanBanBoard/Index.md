@@ -98,9 +98,11 @@ The `<DropContainer>` element defines the area for the Kanban board.
 
 The container is where the multiple columns will be hosted.
 
-### Defining the Columns
+### Adding Column Columns
 
-Kanban Columns are individual panels used to group related items of work. The column is defined as a `<DropZone>` as cards can be dropped into them.
+Kanban Columns are individual panels used to group related items of work. The column is defined as a `<DropZone>` as cards can be dropped into them. Cards are also removed (dragged) from them and dropped into other columns.
+
+Columns must have droppable characteristics to make this work. 
 
 ```html
  <ChildContent>
@@ -110,7 +112,12 @@ Kanban Columns are individual panels used to group related items of work. The co
 </ChildContent>
 ```
 
-The above code block will create a column and name it To-Do. You can repeat the `<dropzone element>` code block to create as many columns as you want.
+The above code block will create a column with the name To-Do. You can repeat the `<dropzone element>` code block to create as many columns as you want.
+
+### Defining Card Items
+Card items are individual items on a board that can be moved between columns. 
+
+By the end of your tutorial, your code razor file should look like this. 
 
 @page "/kanban"
 
