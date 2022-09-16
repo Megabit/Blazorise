@@ -68,7 +68,7 @@ namespace Blazorise
 
             disposePossible = disposablesPropertyInfo is not null;
 
-            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? new List<object>();
+            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
         }
 
         #endregion
