@@ -65,10 +65,11 @@ namespace Blazorise
         private IList<object> LoadServiceProviderDisposableList()
         {
             var disposablesPropertyInfo = ServiceProvider.GetType().GetProperty( "Disposables", BindingFlags.Instance | BindingFlags.NonPublic );
+            var disposables = disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
 
-            disposePossible = disposablesPropertyInfo is not null;
+            disposePossible = disposables is not null && !disposables.GetType().IsArray;
 
-            return disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
+            return disposables;
         }
 
         #endregion
