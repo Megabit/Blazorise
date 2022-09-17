@@ -299,6 +299,9 @@
     <DocsAttributesItem Name="ValidateOnLoad" Type="bool" Default="false">
         Run validation only when user starts entering values.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="HandlerType" Type="Type" Default="null">
+        Defines the default handler type that will be used by the validation, unless it is overriden by <Code>Validation.HandlerType</Code> property.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="Validation">
@@ -319,6 +322,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="MessageLocalizer" Type="Func<ValidationMessageLocalizerEventArgs, IEnumerable<string>>" Default="null">
         Custom handler used to override error messages in case the localization is needed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HandlerType" Type="Type" Default="null">
+        Forces the custom validation handler to be used while validating the values.
     </DocsAttributesItem>
 </DocsAttributes>
 

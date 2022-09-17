@@ -73,7 +73,7 @@ namespace Blazorise.Docs.Compiler
                         currentCode = File.ReadAllText( markupPath );
                     }
 
-                    builtCode = new MarkupBuilder( formatter ).Build( source, isCSharp );
+                    builtCode = new MarkupBuilder( formatter ).Build( source, isCSharp ? "cs" : null );
 
                     if ( currentCode != builtCode )
                     {

@@ -19,18 +19,40 @@ namespace Blazorise.Docs.Compiler
             this.formatter = formatter;
         }
 
-        public string Build( string source, bool isCSharp )
+        public string Build( string source, string language )
         {
             var cb = new CodeBuilder();
 
             var strippedSource = StripComponentSource( source );
 
-            if ( isCSharp )
+            if ( language == "cs" )
             {
                 cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
                 cb.AddLine(
                     formatter.GetHtmlString( strippedSource, Languages.CSharp )
+                        .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
+                        .ToLfLineEndings() );
+
+                cb.AddLine( "</div>" );
+            }
+            else if ( language == "css" )
+            {
+                cb.AddLine( "<div class=\"blazorise-codeblock\">" );
+
+                cb.AddLine(
+                    formatter.GetHtmlString( strippedSource, Languages.Css )
+                        .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
+                        .ToLfLineEndings() );
+
+                cb.AddLine( "</div>" );
+            }
+            else if ( language == "powershell" )
+            {
+                cb.AddLine( "<div class=\"blazorise-codeblock\">" );
+
+                cb.AddLine(
+                    formatter.GetHtmlString( strippedSource, Languages.PowerShell )
                         .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
                         .ToLfLineEndings() );
 

@@ -1,6 +1,6 @@
 ---
 title: ReactiveUI, Blazorise & FluentValidation?
-description: This blog post guides you on how to implement ReactiveUI, Blazorise & FluentValidation.
+description: In this blog post guides you will learn how to implement ReactiveUI, Blazorise components & FluentValidation.
 permalink: /blog/reactive-ui-blazorise-fluent-validation
 canonical: /blog/reactive-ui-blazorise-fluent-validation
 image-url: img/blog/2022-08-19/ReactiveUI_Blazorise_FluentValidation.png

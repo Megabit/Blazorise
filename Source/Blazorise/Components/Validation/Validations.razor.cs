@@ -199,6 +199,11 @@ namespace Blazorise
         [Parameter] public string MissingFieldsErrorMessage { get; set; }
 
         /// <summary>
+        /// Defines the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
+        /// </summary>
+        [Parameter] public Type HandlerType { get; set; }
+
+        /// <summary>
         /// Event is fired only after all of the validation are successful.
         /// </summary>
         [Parameter] public EventCallback ValidatedAll { get; set; }

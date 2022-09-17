@@ -108,6 +108,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/treeview", "TreeView", "The TreeView component is a graphical control element that presents a hierarchical view of information." ),
                 new PageEntry( "docs/extensions/video", "Video", "A Video component used to play a regular or streaming media." ),
                 new PageEntry( "docs/extensions/qrcode", "QRCode", "A component used to generate QR codes." ),
+                new PageEntry( "docs/extensions/fluent-validation", "FluentValidation", "A validation component for building strongly-typed validation rules." ),
 
                 new PageEntry( "docs/usage/ant-design", "AntDesign Usage" ),
                 new PageEntry( "docs/usage/bootstrap4", "Bootstrap 4 Usage" ),
