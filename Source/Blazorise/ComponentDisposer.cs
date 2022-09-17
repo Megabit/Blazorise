@@ -1,8 +1,13 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise
@@ -27,6 +32,10 @@ namespace Blazorise
         private bool disposePossible;
 
         private readonly IList<object> disposables;
+
+        private const string PROPERTY_DISPOSABLES = "Disposables";
+
+        private static Func<object, IList<object>> disposablesGetter;
 
         #endregion
 
@@ -64,10 +73,12 @@ namespace Blazorise
         /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
         private IList<object> LoadServiceProviderDisposableList()
         {
-            var disposablesPropertyInfo = ServiceProvider.GetType().GetProperty( "Disposables", BindingFlags.Instance | BindingFlags.NonPublic );
-            var disposables = disposablesPropertyInfo?.GetValue( ServiceProvider ) as IList<object> ?? Array.Empty<object>();
+            if ( disposablesGetter is null )
+                disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
 
-            disposePossible = disposables is not null && !disposables.GetType().IsArray;
+            var disposables = disposablesGetter( ServiceProvider );
+
+            disposePossible = !disposables.IsNullOrEmpty();
 
             return disposables;
         }
