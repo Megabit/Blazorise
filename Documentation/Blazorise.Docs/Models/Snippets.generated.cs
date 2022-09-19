@@ -2996,6 +2996,57 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""NavigationAllowed"">
+    <Items>
+        <Step Name=""1"">Step 1</Step>
+        <Step Name=""2"">Step 2</Step>
+        <Step Name=""3"">Step 3</Step>
+        <Step Name=""4"">Step 4</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""1"">
+            Step 1
+        </StepPanel>
+        <StepPanel Name=""2"">
+            <Field>
+                <FieldLabel>Email address</FieldLabel>
+                <TextEdit @bind-Text=""email"" Placeholder=""Enter email"">
+                    <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
+                </TextEdit>
+            </Field>
+        </StepPanel>
+        <StepPanel Name=""3"">
+            Step 3
+        </StepPanel>
+        <StepPanel Name=""4"">
+            Step 4
+        </StepPanel>
+    </Content>
+</Steps>
+<Div Display=""Display.Flex"" Class=""justify-content-center"">
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""() => stepsRef.PreviousStep()"">
+        Previous
+    </Button>
+    <Button Color=""Color.Primary"" Clicked=""() => stepsRef.NextStep()"">
+        Next
+    </Button>
+</Div>
+@code {
+    private Steps stepsRef;
+    private string email;
+    private string selectedStep = ""2"";
+
+    private bool NavigationAllowed( StepNavigationContext context )
+    {
+        if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
+        {
+            return false;
+        }
+
+        return true;
+    }
+}";
+
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
 
         public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Checked=""@rememberMe"">Remember Me</Switch>
@@ -3989,7 +4040,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.0.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.0-preview3""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -5618,6 +5669,91 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 }";
 
+        public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
+
+<Validations @ref=""@fluentValidations"" Mode=""ValidationMode.Manual"" Model=""@person"" HandlerType=""typeof(FluentValidationHandler)"">
+    <Validation>
+        <Field>
+            <FieldLabel>First name</FieldLabel>
+            <TextEdit Placeholder=""Enter first name..."" @bind-Text=""@person.FirstName"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Last name</FieldLabel>
+            <TextEdit Placeholder=""Enter last name..."" @bind-Text=""@person.LastName"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Age</FieldLabel>
+            <NumericEdit Placeholder=""Enter age..."" @bind-Value=""@person.Age"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </NumericEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Color=""Color.Primary"" Clicked=""@OnSavePerson"">Save</Button>
+
+@code {
+    Validations fluentValidations;
+
+    Person person = new();
+
+    protected async Task OnSavePerson()
+    {
+        if ( await fluentValidations.ValidateAll() )
+        {
+            // the person is validated and we can proceed with the saving process
+        }
+    }
+}";
+
+        public const string FluentValidationAbstractValidatorExample = @"public class PersonValidator : AbstractValidator<Person>
+{
+    public PersonValidator()
+    {
+        RuleFor( vm => vm.FirstName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.LastName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.Age )
+            .GreaterThanOrEqualTo( 18 );
+    }
+}";
+
+        public const string FluentValidationImportExample = @"@using Blazorise.FluentValidation";
+
+        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation";
+
+        public const string FluentValidationRegisterValidatorsExample = @"using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+using Blazorise.FluentValidation;
+
+builder.Services
+    .AddBlazorise()
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons()
+    .AddBlazoriseFluentValidation();
+
+services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
+
         public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
@@ -7029,11 +7165,11 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.0.0-preview1"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.0.0-preview1"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.0.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.0.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.1.0.0-preview1""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.0.0-preview1""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.0.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.0.0""></script>";
 
     }
 }

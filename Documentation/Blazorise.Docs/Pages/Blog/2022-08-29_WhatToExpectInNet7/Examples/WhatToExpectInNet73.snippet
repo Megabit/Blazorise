@@ -1,0 +1,10 @@
+public class Student
+{
+    public required string Name { get; init; }
+
+    [SetsRequiredMembers]
+    public Student( string name )
+    {
+        Name = name
+    }
+}

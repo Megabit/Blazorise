@@ -2,8 +2,10 @@ using System;
 using System.IO.Compression;
 using Blazorise.Bootstrap5;
 using Blazorise.Docs.Server.Infrastructure;
+using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -28,6 +30,7 @@ namespace Blazorise.Docs.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHttpContextAccessor();
 
             services
               .AddBlazorise( options =>
@@ -36,7 +39,10 @@ namespace Blazorise.Docs.Server
               } )
               .AddBootstrap5Providers()
               .AddFontAwesomeIcons()
-              .AddBlazoriseRichTextEdit();
+              .AddBlazoriseRichTextEdit()
+              .AddBlazoriseFluentValidation();
+
+            services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
             services.AddMemoryCache();
             services.AddScoped<Shared.Data.EmployeeData>();

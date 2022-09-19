@@ -1,14 +1,14 @@
 ﻿@page "/news/release-notes/110"
 
-<Seo Canonical="news/release-notes/110" Title="Blazorise v1.1" Description="Blazorise v1.1" />
+<Seo Canonical="news/release-notes/110" Title="Blazorise v1.1" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.1 release." ImageUrl="img/news/110/v110.png" />
 
 <NewsPageTitle>
     Announcing Blazorise 1.1
 </NewsPageTitle>
 
-<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="Septembed 1st, 2022" Read="7 min" />
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="September 1st, 2022" Read="7 min" />
 
-
+<NewsPageImage Source="img/news/110/v110.png" Text="Blazorise v1.1" />
 
 <NewsPageSubtitle>
     Blazorise 1.1 Highlights 💡
@@ -59,7 +59,7 @@
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Focus Trap
+    FocusTrap component
 </Heading>
 
 <Paragraph>
@@ -71,11 +71,27 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Highlighter
+    Highlighter component
 </Heading>
 
 <Paragraph>
     This is a relatively small component, but it can be beneficial when designing the UI for your application. For example, it helps you visually distinguish parts of the text by highlighting them based on the search term.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FluentValidation component
+</Heading>
+
+<Paragraph>
+    One of the most requested features we get from our community is a way to validate forms by using the <Anchor To="https://github.com/FluentValidation/FluentValidation" Title="Link to FluentValidation">FluentValidation</Anchor> library. In this Blazorise release, we are finally bringing it.
+</Paragraph>
+
+<Paragraph>
+    With the help from <Anchor To="https://github.com/aladotnet" Title="Link to GitHub user">aladotnet</Anchor>, a community member that has implemented the feature and was willing to give it away as part of the Blazorise core repository. He did all the hard work. We have only made minor optimizations to the API and added examples to the documentation.
+</Paragraph>
+
+<Paragraph>
+    Big thanks to <Anchor To="https://github.com/aladotnet" Title="Link to GitHub user">aladotnet</Anchor> for his help in making it happen.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -181,7 +197,7 @@
 </Paragraph>
 
 <Paragraph>
-    Introduced a much needed missing <Code>ValueField</Code> Parameter, so you may uniquely identify each item in your list. 
+    Introduced a much needed missing <Code>ValueField</Code> Parameter, so you may uniquely identify each item in your list.
     This has been introduced with a return value of <Code>String</Code> for now. However we plan to make it return a generic type <Code>TValue</Code> in a future version, much like some of our other <Code>ValueField</Code> based components, so you can choose what type does your unique value return.
 </Paragraph>
 
@@ -203,4 +219,28 @@
 
 <Paragraph>
     All our <Code>Clicked</Code> parameters on a <Code Tag>Button</Code>, <Code Tag>Link</Code>, <Code Tag>Tab</Code>, and other components, can now recieve a <Code>MouseEventArgs</Code> as an event parameter. This feature will allow you to determine how the clicked event was raised and what buttons and keys were pressed.
+</Paragraph>
+
+<NewsPageSubtitle>
+    PRs
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Steps Navigation
+</Heading>
+
+<Paragraph>
+    This feature was created by <Anchor To="https://github.com/Jimmys20">Jimmys20</Anchor>, one of our community members.
+</Paragraph>
+
+<Paragraph>
+    Basic steps navigation has no constraints, so it is possible to jump to any steps by clicking on them. However, this is usually impossible in real-world scenarios as sometimes a user is required to enter valid data before proceeding to the next step.
+</Paragraph>
+
+<Paragraph>
+    To control the navigation between the steps, it is now possible to use <Code>NavigationAllowed</Code> parameter, which acts as a function that has all the information you need to validate the page switch.
+</Paragraph>
+
+<Paragraph>
+    The new feature can be seen on <Anchor To="docs/components/step">Step component</Anchor> page.
 </Paragraph>
