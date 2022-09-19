@@ -1852,7 +1852,7 @@ public class Gender
     </Alert>
 </Container>";
 
-        public const string GridGutterExample = @"<Row Gutter=""(32, 16)"">
+        public const string GridGutterExample = @"<Row HorizontalGutter=""32"" VerticalGutter=""16"">
     <Column ColumnSize=""ColumnSize.Is8"">
         <Alert Color=""Color.Primary"" Visible>
             I have padding
