@@ -79,7 +79,7 @@
     private RenderFragment FileComponentFragment => __builder =>
     {
         <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-          Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
+          Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
             <ChildContent>
                 @ChildTemplate
             </ChildContent>
@@ -101,7 +101,7 @@
                 <Column>
                     <Span Class="b-file-picker-file-name">@file.Name</Span>
                     <Span Class="b-file-picker-file-size">@GetFileSizeReadable(file)</Span>
-                    @if ( IsFileBeingUploaded( file ) )
+                    @if ( IsFileBeingUploaded( file ) && !DisableProgressReport )
                     {
                         var progressPercentage = GetProgressPercentage();
 

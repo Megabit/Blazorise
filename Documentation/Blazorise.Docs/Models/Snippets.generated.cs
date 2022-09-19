@@ -1684,22 +1684,14 @@ public class Gender
 
 @code {
     private FilePicker filePickerCustom;
-    const int OneMb = 1024 * 1024;
 
     async Task OnFileUpload( FileUploadEventArgs e )
     {
         try
         {
-            var buffer = new byte[OneMb];
-            using ( var bufferedStream = new BufferedStream( e.File.OpenReadStream( long.MaxValue ), OneMb ) )
+            using ( MemoryStream result = new MemoryStream() )
             {
-                int readCount = 0;
-                int readBytes;
-                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-                {
-                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
-                    // Do work on the first 1MB of data
-                }
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) ;
             }
         }
         catch ( Exception exc )
@@ -1763,22 +1755,14 @@ public class Gender
 </Field>
 
 @code {
-    const int OneMb = 1024 * 1024;
 
     async Task OnFileUpload( FileUploadEventArgs e )
     {
         try
         {
-            var buffer = new byte[OneMb];
-            using ( var bufferedStream = new BufferedStream( e.File.OpenReadStream( long.MaxValue ), OneMb ) )
+            using ( MemoryStream result = new MemoryStream() )
             {
-                int readCount = 0;
-                int readBytes;
-                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-                {
-                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
-                    // Do work on the first 1MB of data
-                }
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )
@@ -1810,8 +1794,6 @@ public class Gender
 </Field>
 
 @code {
-    const int OneMb = 1024 * 1024;
-
     async Task OnChanged( FileChangedEventArgs e )
     {
         try
@@ -1822,16 +1804,9 @@ public class Gender
                 return;
             }
 
-            var buffer = new byte[OneMb];
-            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            using ( MemoryStream result = new MemoryStream() )
             {
-                int readCount = 0;
-                int readBytes;
-                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-                {
-                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
-                    // Do work on the first 1MB of data
-                }
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )

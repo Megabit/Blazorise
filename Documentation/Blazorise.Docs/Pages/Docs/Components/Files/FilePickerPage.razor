@@ -111,4 +111,8 @@
     <DocsAttributesItem Name="ShowMode" Type="FilePickerShowMode" Default="FilePickerShowMode.List">
         Gets or Sets FilePicker's show mode. Defaults to <Code>FilePickerShowMode.List</Code>.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
+        Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+        This setting can speed up file transfer considerably.
+    </DocsAttributesItem>
 </DocsAttributes>

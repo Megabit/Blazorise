@@ -94,7 +94,6 @@
     <DocsAttributesItem Name="ValueChanged" Type="EventCallback<string>" Default="Solid">
         An event that occurs after the markdown value has changed.
     </DocsAttributesItem>
-
     <DocsAttributesItem Name="AutoDownloadFontAwesome" Type="bool?" Default="null">
         If set to true, force downloads Font Awesome (used for icons). If set to false, prevents downloading.
     </DocsAttributesItem>
@@ -284,5 +283,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="UnorderedListStyle" Type="string" Default="*">
         can be *, - or +. Defaults to *.
+    </DocsAttributesItem>
+        <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
+        Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
+        This setting can speed up file transfer considerably.
     </DocsAttributesItem>
 </DocsAttributes>

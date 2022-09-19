@@ -426,6 +426,12 @@ namespace Blazorise
         /// </summary>
         [Parameter] public FilePickerShowMode ShowMode { get; set; } = FilePickerShowMode.List;
 
+        /// <summary>
+        /// Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+        /// <para>This setting can speed up file transfer considerably.</para>
+        /// </summary>
+        [Parameter] public bool DisableProgressReport { get; set; } = false;
+
         #endregion
     }
 }

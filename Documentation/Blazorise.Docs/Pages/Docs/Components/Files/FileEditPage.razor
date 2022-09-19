@@ -185,4 +185,8 @@
     <DocsAttributesItem Name="MaxFileSize" Type="long" Default="long.MaxValue">
         Maximum file size in bytes, checked before starting upload (note: never trust client, always check file size at server-side). Defaults to long.MaxValue.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
+        Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+        This setting can speed up file transfer considerably.
+    </DocsAttributesItem>
 </DocsAttributes>

@@ -193,12 +193,18 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             return InvokeAsync( async () => await Written.InvokeAsync( new( fileEntry, position, data ) ) );
         }
 
         /// <inheritdoc/>
         public Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             ProgressProgress += progressProgress;
 
             var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
@@ -399,6 +405,12 @@ namespace Blazorise
         /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
         [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+        /// <para>This setting can speed up file transfer considerably.</para>
+        /// </summary>
+        [Parameter] public bool DisableProgressReport { get; set; } = false;
 
         #endregion
     }
