@@ -146,6 +146,7 @@ namespace Blazorise.Markdown
                     StyleSelectedText,
                     SyncSideBySidePreviewScroll,
                     UnorderedListStyle,
+                    ToolbarButtonClassPrefix
                 } );
 
                 Initialized = true;
@@ -454,6 +455,11 @@ namespace Blazorise.Markdown
         /// If set to false, disable toolbar button tips. Defaults to true.
         /// </summary>
         [Parameter] public bool ToolbarTips { get; set; } = true;
+
+        /// <summary>
+        /// Adds a prefix to the toolbar button classes when set. For example, a value of `"mde"` results in `"mde-bold"` for the Bold button.
+        /// </summary>
+        [Parameter] public string ToolbarButtonClassPrefix { get; set; } = "b-mde";
 
         /// <summary>
         /// Occurs after the custom toolbar button is clicked.

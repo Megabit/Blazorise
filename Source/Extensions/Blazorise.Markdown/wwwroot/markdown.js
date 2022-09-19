@@ -125,7 +125,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         status: options.status,
         styleSelectedText: options.styleSelectedText,
         syncSideBySidePreviewScroll: options.syncSideBySidePreviewScroll,
-        unorderedListStyle: options.unorderedListStyle
+        unorderedListStyle: options.unorderedListStyle,
+        toolbarButtonClassPrefix: options.toolbarButtonClassPrefix
     };
 
     if (!mdeOptions.status) {
