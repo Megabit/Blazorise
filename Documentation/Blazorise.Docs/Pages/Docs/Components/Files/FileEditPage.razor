@@ -80,6 +80,12 @@
 <DocsPageParagraph Title="Progressed">
     Similar to the <Code>Written</Code>, this event will also be called while file is writing to the destination stream but it will
     contain only the progress and percentage on how much the file is being uploaded.
+
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> If <Code>Progressed</Code>  and <Code>Written</Code> events aren't important to you, we highly advise you the usage of the <Code>DisableProgressReport</Code> Parameter, as it will improve file transfer significantly.
+        </AlertDescription>
+    </Alert>
 </DocsPageParagraph>
 
 <DocsPageParagraph Title="Started">

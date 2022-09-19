@@ -1806,7 +1806,7 @@ public class Gender
 
             using ( MemoryStream result = new MemoryStream() )
             {
-                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )
