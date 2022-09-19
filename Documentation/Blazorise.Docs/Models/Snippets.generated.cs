@@ -6301,45 +6301,40 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
+          AllExpanded=""allExpanded""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
-          @bind-SelectedNode=""selectedNode""
-          @bind-ExpandedNodes=""ExpandedNodes"">
+          @bind-SelectedNode=""selectedNode"">
     <NodeContent>@context.Text</NodeContent>
 </TreeView>
 
 @code{
-    public class Item
-    {
-        public string Text { get; set; }
-        public IEnumerable<Item> Children { get; set; }
-    }
 
-    IEnumerable<Item> Items = new[]
+    IEnumerable<TreeNode> Items = new List<TreeNode>
     {
-        new Item { Text = ""Item 1"" },
-        new Item {
+        new TreeNode { Text = ""Item 1"" },
+        new TreeNode {
             Text = ""Item 2"",
-            Children = new []
-    {
-                new Item { Text = ""Item 2.1"" },
-                new Item { Text = ""Item 2.2"", Children = new []
-        {
-                    new Item { Text = ""Item 2.2.1"" },
-                    new Item { Text = ""Item 2.2.2"" },
-                    new Item { Text = ""Item 2.2.3"" },
-                    new Item { Text = ""Item 2.2.4"" }
+            Children = new List<TreeNode>
+            {
+                new TreeNode { Text = ""Item 2.1"" },
+                new TreeNode { Text = ""Item 2.2"", Children = new List<TreeNode>
+                {
+                    new TreeNode { Text = ""Item 2.2.1"" },
+                    new TreeNode { Text = ""Item 2.2.2"" },
+                    new TreeNode { Text = ""Item 2.2.3"" },
+                    new TreeNode { Text = ""Item 2.2.4"" }
                 }
             },
-            new Item { Text = ""Item 2.3"" },
-            new Item { Text = ""Item 2.4"" }
+            new TreeNode { Text = ""Item 2.3"" },
+            new TreeNode { Text = ""Item 2.4"" }
             }
         },
-        new Item { Text = ""Item 3"" },
+        new TreeNode { Text = ""Item 3"" },
     };
 
-    IList<Item> ExpandedNodes = new List<Item>();
-    Item selectedNode;
+    TreeNode selectedNode;
+    bool allExpanded = true;
 }";
 
         public const string TreeViewImportsExample = @"@using Blazorise.TreeView";

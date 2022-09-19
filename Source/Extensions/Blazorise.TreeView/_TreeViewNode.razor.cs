@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView
 {
-    public partial class _TreeViewNode<TNode> : BaseComponent
+    public partial class _TreeViewNode : BaseComponent
     {
         #region Members
 
@@ -21,71 +21,40 @@ namespace Blazorise.TreeView
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "tree-view" );
-            builder.Append( "tree-view-collapsed", !Expanded );
+            builder.Append( "tree-view-collapsed", !IsExpanded );
 
             base.BuildClasses( builder );
         }
 
-        //protected Task OnToggleNode()
-        //{
-        //    Expanded = !Expanded;
 
-        //    return Task.CompletedTask;
-        //}
-
-        protected void OnToggleNode( TNode node, bool expand )
+        protected void OnToggleNode(TreeNode node)
         {
-            bool expanded = ExpandedNodes.Contains( node );
+            IsExpanded = !node.IsExpanded;
+            node.IsExpanded = !node.IsExpanded;
 
-            if ( expanded && !expand )
-            {
-                ExpandedNodes.Remove( node );
-                ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
-            }
-            else if ( !expanded && expand )
-            {
-                ExpandedNodes.Add( node );
-                ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
-            }
-
-            InvokeAsync( StateHasChanged );
+            InvokeAsync(StateHasChanged);
         }
 
-        private Action<TNode, NodeStyling> ResolveNodeStylingAction( Action<TNode, NodeStyling> action )
+        private Action<TreeNode, NodeStyling> ResolveNodeStylingAction( Action<TreeNode, NodeStyling> action )
         {
-            return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
+            return action ?? new Action<TreeNode, NodeStyling>( ( item, style ) => { return; } );
         }
 
         #endregion
 
         #region Properties
 
-        [Parameter] public IEnumerable<TNode> Nodes { get; set; }
+        [Parameter] public IEnumerable<TreeNode> Nodes { get; set; }
 
-        [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
+        [Parameter] public RenderFragment<TreeNode> NodeContent { get; set; }
 
-        [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
+        [Parameter] public Func<TreeNode, IEnumerable<TreeNode>> GetChildNodes { get; set; }
 
-        [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
+        [Parameter] public Func<TreeNode, bool> HasChildNodes { get; set; } = node => true;
 
-        [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
+        [Parameter] public bool IsExpanded { get; set; } = true;
 
-        [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
-
-        [Parameter]
-        public bool Expanded
-        {
-            get => expanded;
-            set
-            {
-                if ( value == expanded )
-                    return;
-
-                expanded = value;
-
-                DirtyClasses();
-            }
-        }
+        [Parameter] public bool AllExpanded { get; set; }
 
         /// <summary>
         /// Defines the name of the treenode expand icon.
@@ -117,19 +86,19 @@ namespace Blazorise.TreeView
         /// </summary>
         [Parameter] public IconSize? CollapseIconSize { get; set; }
 
-        [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
+        [CascadingParameter] public _TreeViewNode ParentNode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
         /// Gets or sets selected node styling.
         /// </summary>
-        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+        [Parameter] public Action<TreeNode, NodeStyling> SelectedNodeStyling { get; set; }
 
         /// <summary>
         /// Gets or sets node styling.
         /// </summary>
-        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+        [Parameter] public Action<TreeNode, NodeStyling> NodeStyling { get; set; }
 
         #endregion
     }

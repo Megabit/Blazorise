@@ -1,18 +1,15 @@
-﻿@typeparam TNode
-@inherits BaseComponent
+﻿@inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
+        @foreach ( TreeNode node in Nodes ?? Enumerable.Empty<TreeNode>() )
         {
-            //bool nodeExpanded = ParentNode == null || Expanded;
-            bool nodeExpanded = ExpandedNodes.Contains( node );
             bool hasChildren = HasChildNodes( node );
 
             <div>
                 @if ( hasChildren )
                 {
-                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
-                        @if ( nodeExpanded )
+                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node))">
+                        @if ( node.IsExpanded )
                         {
                             <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />
                         }
@@ -29,14 +26,12 @@
                     @NodeContent( node )
                 </_TreeViewNodeContent>
 
-                @if ( nodeExpanded && hasChildren )
+                @if ( node.IsExpanded && hasChildren )
                 {
                     <_TreeViewNode Nodes="GetChildNodes(node)"
                                    NodeContent="NodeContent"
                                    GetChildNodes="GetChildNodes"
-                                   ExpandedNodes="ExpandedNodes"
-                                   ExpandedNodesChanged="ExpandedNodesChanged"
-                                   Expanded="nodeExpanded"
+                                   IsExpanded="node.IsExpanded"
                                    HasChildNodes="HasChildNodes"
                                    NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
                                    SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))"

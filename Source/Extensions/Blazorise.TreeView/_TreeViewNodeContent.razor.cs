@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView
 {
-    public partial class _TreeViewNodeContent<TNode> : BaseComponent
+    public partial class _TreeViewNodeContent : BaseComponent
     {
         #region Constructors
 
@@ -31,7 +31,7 @@ namespace Blazorise.TreeView
 
         #region Members
 
-        private TreeViewState<TNode> treeViewState;
+        private TreeViewState<TreeNode> treeViewState;
 
         private NodeStyling selectedNodeStyling;
 
@@ -78,12 +78,12 @@ namespace Blazorise.TreeView
         protected bool Selected
             => TreeViewState.SelectedNode != null && TreeViewState.SelectedNode.Equals( Node );
 
-        [Parameter] public TNode Node { get; set; }
+        [Parameter] public TreeNode Node { get; set; }
 
-        [CascadingParameter] public TreeView<TNode> Parent { get; set; }
+        [CascadingParameter] public TreeView Parent { get; set; }
 
         [CascadingParameter]
-        protected TreeViewState<TNode> TreeViewState
+        protected TreeViewState<TreeNode> TreeViewState
         {
             get => treeViewState;
             set
@@ -102,12 +102,12 @@ namespace Blazorise.TreeView
         /// <summary>
         /// Gets or sets selected node styling.
         /// </summary>
-        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+        [Parameter] public Action<TreeNode, NodeStyling> SelectedNodeStyling { get; set; }
 
         /// <summary>
         /// Gets or sets node styling.
         /// </summary>
-        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+        [Parameter] public Action<TreeNode, NodeStyling> NodeStyling { get; set; }
 
         #endregion
     }

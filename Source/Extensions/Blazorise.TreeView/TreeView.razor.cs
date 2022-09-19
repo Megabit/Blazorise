@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView
 {
-    public partial class TreeView<TNode> : BaseComponent
+    public partial class TreeView : BaseComponent
     {
         #region Members
 
-        private TreeViewState<TNode> state = new()
+        private TreeViewState<TreeNode> state = new()
         {
         };
 
@@ -19,7 +19,7 @@ namespace Blazorise.TreeView
 
         #region Methods
 
-        public void SelectNode( TNode node )
+        public void SelectNode(TreeNode node)
         {
             SelectedNode = node;
 
@@ -29,6 +29,8 @@ namespace Blazorise.TreeView
         #endregion
 
         #region Properties
+
+        [Parameter] public bool AllExpanded { get; set; }
 
         /// <summary>
         /// Defines the name of the treenode expand icon.
@@ -63,18 +65,18 @@ namespace Blazorise.TreeView
         /// <summary>
         /// Collection of child TreeView items (child nodes)
         /// </summary>
-        [Parameter] public IEnumerable<TNode> Nodes { get; set; }
+        [Parameter] public IEnumerable<TreeNode> Nodes { get; set; }
 
         /// <summary>
         /// Template to display content for the node
         /// </summary>
-        [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
+        [Parameter] public RenderFragment<TreeNode> NodeContent { get; set; }
 
         /// <summary>
         /// Currently selected TreeView item/node.
         /// </summary>
         [Parameter]
-        public TNode SelectedNode
+        public TreeNode SelectedNode
         {
             get => state.SelectedNode;
             set
@@ -93,40 +95,52 @@ namespace Blazorise.TreeView
         /// <summary>
         /// Occurs when the selected TreeView node has changed.
         /// </summary>
-        [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
-
-        /// <summary>
-        /// List of currently expanded TreeView items (child nodes).
-        /// </summary>
-        [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
-
-        /// <summary>
-        /// Occurs when the collection of expanded nodes has changed.
-        /// </summary>
-        [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
+        [Parameter] public EventCallback<TreeNode> SelectedNodeChanged { get; set; }
 
         /// <summary>
         /// Gets the list of child nodes for each node.
         /// </summary>
-        [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
+        [Parameter] public Func<TreeNode, IEnumerable<TreeNode>> GetChildNodes { get; set; }
 
         /// <summary>
         /// Indicates if the node has child elements.
         /// </summary>
-        [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
+        [Parameter] public Func<TreeNode, bool> HasChildNodes { get; set; } = node => true;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
         /// Gets or sets selected node styling.
         /// </summary>
-        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+        [Parameter] public Action<TreeNode, NodeStyling> SelectedNodeStyling { get; set; }
 
         /// <summary>
         /// Gets or sets node styling.
         /// </summary>
-        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+        [Parameter] public Action<TreeNode, NodeStyling> NodeStyling { get; set; }
 
         #endregion
+
+        protected override void OnInitialized()
+        {
+            if (AllExpanded)
+            {
+                ExpandAllNodes(Nodes);
+            }
+
+            base.OnInitialized();
+        }
+
+        private void ExpandAllNodes(IEnumerable<TreeNode> nodes)
+        {
+            foreach (var item in nodes)
+            {
+                item.IsExpanded = true;
+                if (item.Children != null)
+                {
+                    ExpandAllNodes(item.Children);
+                }
+            }
+        }
     }
 }
