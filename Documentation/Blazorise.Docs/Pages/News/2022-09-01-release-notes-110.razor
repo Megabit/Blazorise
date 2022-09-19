@@ -28,6 +28,17 @@
     There are no breaking changes, but we will slowly start with some API changes by making existing APIs obsolete and introducing new as a replacements. Once we reach stable <Strong>v2.0</Strong> the APIs marked with obsolete will eventually be removed.
 </Paragraph>
 
+<Paragraph>
+    🛑 Due to a <Anchor To="https://github.com/dotnet/razor-compiler/issues/332">bug in Visual Studio razor tooling</Anchor> you might experience problems if you try to define tuple values as a component parameter. In Blazorise case, this problem might manifest itself on the <Anchor To="docs/components/grid">Row component</Anchor>.
+</Paragraph>
+
+<Paragraph>
+    For example if you have <Code Tag>Row Gutter="(32, 16)"</Code> you will get build errors. To workaround it we have introduced new parameters, named <Code>HorizontalGutter</Code>, and <Code>VerticalGutter</Code>.
+</Paragraph>
+
+<Paragraph>
+    To use them you will just need to define it as <Code Tag>Row HorizontalGutter="32" VerticalGutter="16"</Code>.
+</Paragraph>
 
 <OrderedList>
     <UnorderedListItem>
