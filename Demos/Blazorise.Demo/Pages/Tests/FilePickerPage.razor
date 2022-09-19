@@ -172,18 +172,24 @@
     {
         var buffer = new byte[bufferSizeBytes];
 
-        using (MemoryStream result = new MemoryStream())
+        using ( MemoryStream result = new MemoryStream() )
         {
-            using (var bufferedStream = new BufferedStream(file.OpenReadStream(long.MaxValue), bufferSizeBytes))
-            {
-                int currentBytes;
-                while ((currentBytes = await bufferedStream.ReadAsync(buffer, 0, bufferSizeBytes)) > 0)
-                {
-                    result.Write(buffer, 0, currentBytes);
-                }
-            }
+             await InvokeAsync(async () => await file.OpenReadStream( long.MaxValue ).CopyToAsync( result ));
             return result.ToArray();
         }
+
+        //using (MemoryStream result = new MemoryStream())
+        //{
+        //    using (var bufferedStream = new BufferedStream(file.OpenReadStream(long.MaxValue), bufferSizeBytes))
+        //    {
+        //        int currentBytes;
+        //        while ((currentBytes = await bufferedStream.ReadAsync(buffer, 0, bufferSizeBytes)) > 0)
+        //        {
+        //            result.Write(buffer, 0, currentBytes);
+        //        }
+        //    }
+        //    return result.ToArray();
+        //}
     }
 
     private void OnFilePartReceived(FileWrittenEventArgs e)

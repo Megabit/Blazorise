@@ -125,7 +125,7 @@ namespace Blazorise
             // Because of that we're going to skip CurrentValueHandler and implement all the
             // update logic here.
 
-            var updatedFiles = InternalValue?.Where(x=> files.Any(file => file.Id == x.Id)).ToList() ?? new();
+            var updatedFiles = InternalValue?.Where( x => files.Any( file => file.Id == x.Id ) ).ToList() ?? new();
             foreach ( var file in files )
             {
                 if ( !updatedFiles.Any( x => x.Id == file.Id ) )
@@ -184,16 +184,16 @@ namespace Blazorise
 
             if ( AutoReset )
             {
-                await Reset();
+                await InvokeAsync( async () => await Reset() );
             }
 
-            await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) );
+            await InvokeAsync( async () => await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) ) );
         }
 
         /// <inheritdoc/>
         public Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
-            return Written.InvokeAsync( new( fileEntry, position, data ) );
+            return InvokeAsync( async () => await Written.InvokeAsync( new( fileEntry, position, data ) ) );
         }
 
         /// <inheritdoc/>
@@ -207,7 +207,7 @@ namespace Blazorise
             {
                 Progress = progress;
 
-                return Progressed.InvokeAsync( new( fileEntry, Progress ) );
+                return InvokeAsync( async () => await Progressed.InvokeAsync( new( fileEntry, Progress ) ) );
             }
 
             return Task.CompletedTask;
