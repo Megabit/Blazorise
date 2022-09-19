@@ -14,7 +14,7 @@
 		<Company>Megabit</Company>
 		<Copyright>Copyright 2018-2022 Megabit</Copyright>
 		
-		<TargetFrameworks>net6.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<LangVersion>10.0</LangVersion>
@@ -25,9 +25,25 @@
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" />
+	</ItemGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<DefineConstants>$(DefineConstants);NET7_0</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />		
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.0-rc.1.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0-rc.1.*" />
 	</ItemGroup>
 
 </Project>
