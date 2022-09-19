@@ -1,58 +1,11 @@
 <div class="blazorise-codeblock">
 <div class="csharp"><pre>
 <span class="keyword">private</span> List&lt;DropItem&gt; items = <span class="keyword">new</span> ()
-    {
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Contact Form&quot;</span>, Group = <span class="string">&quot;To-Do&quot;</span>},
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Profile Image&quot;</span>, Group = <span class="string">&quot;Ongoing&quot;</span>},
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Login Form&quot;</span>, Group = <span class="string">&quot;Completed&quot;</span>},
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Password Reset&quot;</span>, Group = <span class="string">&quot;Ongoing&quot;</span>},
-    }
-``
-
-By the end of your tutorial, your code razor file should look like <span class="keyword">this</span>. 
-
-
-&lt;PageTitle&gt;Index&lt;/PageTitle&gt;
-
-&lt;h1&gt;Hello, world!&lt;/h1&gt;
-
-Welcome to your Kanban Board.
-
-&lt;DropContainer TItem=<span class="string">&quot;DropItem&quot;</span> Items=<span class="string">&quot;<span class="atSign">&#64;</span>items&quot;</span> ItemsFilter=<span class="string">&quot;<span class="atSign">&#64;</span>((item, dropZone) =&gt; item.Group == dropZone)&quot;</span> ItemDropped=<span class="string">&quot;<span class="atSign">&#64;</span>itemsDropped&quot;</span> Flex=<span class="string">&quot;Flex.Wrap.Grow.Is1&quot;</span>&gt;
-    &lt;ChildContent&gt;
-        &lt;DropZone TItem=<span class="string">&quot;DropItem&quot;</span> Name=<span class="string">&quot;To-Do&quot;</span> Border=<span class="string">&quot;Boarder.Rounded&quot;</span> Background=<span class="string">&quot;Background.Light&quot;</span> Padding=<span class="string">&quot;Padding.Is3&quot;</span> Margin=<span class="string">&quot;Margin.Is3&quot;</span> Flex=<span class="string">&quot;Flex.Grow.Is1&quot;</span>&gt;
-            &lt;Heading Size=<span class="string">&quot;HeadingSize.Is4&quot;</span> Margin=<span class="string">&quot;Margin.Is3.FromBottom&quot;</span>&gt;To Do&lt;/Heading&gt;
-        &lt;/DropZone&gt;
-        &lt;DropZone TItem=<span class="string">&quot;DropItem&quot;</span> Name=<span class="string">&quot;Ongoing&quot;</span> Border=<span class="string">&quot;Boarder.Rounded&quot;</span> Background=<span class="string">&quot;Background.Light&quot;</span> Padding=<span class="string">&quot;Padding.Is3&quot;</span> Margin=<span class="string">&quot;Margin.Is3&quot;</span> Flex=<span class="string">&quot;Flex.Grow.Is1&quot;</span>&gt;
-            &lt;Heading Size=<span class="string">&quot;HeadingSize.Is4&quot;</span> Margin=<span class="string">&quot;Margin.Is3.FromBottom&quot;</span>&gt;Ongoing&lt;/Heading&gt;
-        &lt;/DropZone&gt;
-        &lt;DropZone TItem=<span class="string">&quot;DropItem&quot;</span> Name=<span class="string">&quot;Completed&quot;</span> Border=<span class="string">&quot;Boarder.Rounded&quot;</span> Background=<span class="string">&quot;Background.Light&quot;</span> Padding=<span class="string">&quot;Padding.Is3&quot;</span> Margin=<span class="string">&quot;Margin.Is3&quot;</span> Flex=<span class="string">&quot;Flex.Grow.Is1&quot;</span>&gt;
-            &lt;Heading Size=<span class="string">&quot;HeadingSize.Is4&quot;</span> Margin=<span class="string">&quot;Margin.Is3.FromBottom&quot;</span>&gt;Completed&lt;/Heading&gt;
-        &lt;/DropZone&gt;
-    &lt;/ChildContent&gt;
-    &lt;ItemTemplate&gt;
-        &lt;Card Shadow=<span class="string">&quot;Shadow.Default&quot;</span> Margin=<span class="string">&quot;Margin.Is3.OnY&quot;</span>&gt;
-            &lt;CardBody&gt;
-                <span class="atSign">&#64;</span>context.Name
-            &lt;/CardBody&gt;
-        &lt;/Card&gt;
-    &lt;/ItemTemplate&gt;
-&lt;/DropContainer&gt;
-
-<span class="atSign">&#64;</span>code {
-    <span class="keyword">public</span> <span class="keyword">class</span> DropItem
-    {
-        <span class="keyword">public</span> <span class="keyword">string</span> Name { <span class="keyword">get</span>; init; }
-        <span class="keyword">public</span> <span class="keyword">string</span> Group { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-    }
-
-    <span class="keyword">private</span> List&lt;DropItem&gt; items = <span class="keyword">new</span> ()
-    {
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Contact Form&quot;</span>, Group = <span class="string">&quot;To-Do&quot;</span>},
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Profile Image&quot;</span>, Group = <span class="string">&quot;Ongoing&quot;</span>},
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Login Form&quot;</span>, Group = <span class="string">&quot;Completed&quot;</span>},
-        <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Password Reset&quot;</span>, Group = <span class="string">&quot;Ongoing&quot;</span>},
-    }
+{
+    <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Contact Form&quot;</span>, Group = <span class="string">&quot;To-Do&quot;</span>},
+    <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Profile Image&quot;</span>, Group = <span class="string">&quot;Ongoing&quot;</span>},
+    <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Login Form&quot;</span>, Group = <span class="string">&quot;Completed&quot;</span>},
+    <span class="keyword">new</span> DropItem() {Name = <span class="string">&quot;Password Reset&quot;</span>, Group = <span class="string">&quot;Ongoing&quot;</span>},
 }
 </pre></div>
 </div>
