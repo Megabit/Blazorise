@@ -29,7 +29,7 @@ namespace Blazorise.Tests.Extensions
         [Theory]
         [InlineData( null, null )]
         [InlineData( new[] { "A", "B", "C" }, new[] { "A", "C", "B" } )]
-        [InlineData( new[] { "1", "2", "3" }, new[] { "3", "3", "1" } )]
+        [InlineData( new[] { "1", "2", "3" }, new[] { "3", "2", "1" } )]
         public void AreEqualOrdered_Returns_True( string[] list1, string[] list2 )
         {
             Assert.True( list1.AreEqualOrdered( list2 ) );
