@@ -81,17 +81,6 @@ namespace Blazorise.Components
 
         #region Methods
 
-        private bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
-        {
-            if ( first == second )
-                return true;
-
-            if ( first == null || second == null )
-                return false;
-
-            return Enumerable.SequenceEqual( first.OrderBy( e => e ), second.OrderBy( e => e ) );
-        }
-
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
@@ -118,13 +107,13 @@ namespace Blazorise.Components
             bool selectedValuesParamChanged = false;
             bool selectedTextsParamChanged = false;
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !SequenceEqual( selectedValuesParam, paramSelectedValues ) )
+            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
             {
                 selectedValuesParamChanged = true;
                 selectedValues = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !SequenceEqual( selectedTextsParam, paramSelectedTexts ) )
+            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
             {
                 selectedTextsParamChanged = true;
                 selectedTexts = null;
@@ -208,13 +197,13 @@ namespace Blazorise.Components
             }
 
             // fire change events
-            if ( !values.IsNullOrEmpty() && !SequenceEqual( SelectedValues, values ) )
+            if ( !values.IsNullOrEmpty() && !SelectedValues.AreEqualOrdered( values ) )
             {
                 selectedValues = values;
                 await SelectedValuesChanged.InvokeAsync( values );
             }
 
-            if ( !texts.IsNullOrEmpty() && !SequenceEqual( SelectedTexts, texts ) )
+            if ( !texts.IsNullOrEmpty() && !SelectedTexts.AreEqualOrdered( texts ) )
             {
                 selectedTexts = texts;
                 await SelectedTextsChanged.InvokeAsync( texts );
