@@ -33,7 +33,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
-            builder.Append( StyleProvider.RowGutter( Gutter ), Gutter != default );
+            builder.Append( StyleProvider.RowGutter( GutterState ), GutterState != default );
 
             base.BuildStyles( builder );
         }
@@ -41,6 +41,12 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the current gutter value based on the supplied parameters.
+        /// </summary>
+        protected (int Horizontal, int Vertical) GutterState
+            => Gutter ?? (HorizontalGutter ?? 0, VerticalGutter ?? 0);
 
         /// <summary>
         /// Defines the number of columns to show in a row.
@@ -60,7 +66,17 @@ namespace Blazorise
         /// <summary>
         /// Row grid spacing - we recommend setting Horizontal and/or Vertical it to (16 + 8n). (n stands for natural number.)
         /// </summary>
-        [Parameter] public (int Horizontal, int Vertical) Gutter { get; set; }
+        [Parameter] public (int Horizontal, int Vertical)? Gutter { get; set; }
+
+        /// <summary>
+        /// Row grid Horizontal spacing. (n stands for natural number.)
+        /// </summary>
+        [Parameter] public int? HorizontalGutter { get; set; }
+
+        /// <summary>
+        /// Row grid Vertical spacing. (n stands for natural number.)
+        /// </summary>
+        [Parameter] public int? VerticalGutter { get; set; }
 
         /// <summary>
         /// Removes the negative margins from row and the horizontal padding from all immediate children columns.
