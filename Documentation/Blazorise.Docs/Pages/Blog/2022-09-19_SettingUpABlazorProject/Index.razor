@@ -1,19 +1,19 @@
 @page "/blog/create-a-blazor-application"
 
-<Seo Canonical="/blog/create-a-blazor-application" Title="How To Create A Blazor Application" Description="In this blog post we will demonstrate how to setup a blazor application" ImageUrl="/img/blog/2022-09-13/create-new-blazor-app.png" />
+<Seo Canonical="/blog/create-a-blazor-application" Title="How To Create A Blazor Application" Description="So far, in our blog posts, we were mainly focused on creating the Blazor app by integrating it with the Blazorise library. This post will run you through the process of creating a new and basic Blazor application." ImageUrl="/img/blog/2022-09-19/create-new-blazor-app.png" />
 
-<BlogPageImage Source="/img/blog/2022-09-13/create-new-blazor-app.png" Text="" />
+<BlogPageImage Source="/img/blog/2022-09-19/create-new-blazor-app.png" Text="" />
 
 <BlogPageTitle>
     How To Create A Blazor Application
 </BlogPageTitle>
 
 <BlogPageParagraph>
-    This post will run you through the process of creating a new blazor application.
+    So far, in our blog posts, we were mainly focused on creating the Blazor app by integrating it with the Blazorise library. This post will run you through the process of creating a new and basic Blazor application.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Blazor applications can be created using one of two ways
+    Blazor applications can be created using one of two ways.
 </BlogPageParagraph>
 
 <BlogPageList>
@@ -69,10 +69,10 @@
 
 <BlogPageList>
     <BlogPageListItem>
-        <Anchor To="https://www.jetbrains.com/rider/buy/?fromIDE#personal" Title="Link to Rider by JetBrains">Rider by JetBrains</Anchor>
+        <Anchor To="https://visualstudio.microsoft.com/" Title="Link to Visual Studio for PC/Mac">Visual Studio for PC/Mac</Anchor>, or
     </BlogPageListItem>
     <BlogPageListItem>
-        <Anchor To="https://aka.ms/blazor-vs-install" Title="Link to Visual Studio for PC/Mac">Visual Studio for PC/Mac</Anchor>
+        <Anchor To="https://www.jetbrains.com/rider/buy/?fromIDE#personal" Title="Link to Rider by JetBrains">Rider by JetBrains</Anchor>
     </BlogPageListItem>
 </BlogPageList>
 
@@ -81,7 +81,9 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    The .NET command-line interface (CLI) is a cross-platform toolchain for developing, building, running, and publishing .NET applications.
+    <Blockquote>
+        The .NET command-line interface (CLI) is a cross-platform toolchain for developing, building, running, and publishing .NET applications.
+    </Blockquote>
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -92,48 +94,39 @@
     There are two types of Blazor Applications.
 </BlogPageParagraph>
 
-<BlogPageParagraph>
-    Blazor WebAssembly (WASM) is a client-side blazor application that runs in the browser.
-</BlogPageParagraph>
+<BlogPageList>
+    <BlogPageListItem>
+        Blazor WebAssembly (WASM) is a client-side Blazor application that runs in the browser.
+    </BlogPageListItem>
+</BlogPageList>
 
 <BlogPageParagraph>
     <Blockquote>
-        Read More About <Anchor To="/blog/what-is-blazorwasm" Title="Link to Blazor WebAssembly">Blazor WebAssembly</Anchor>
+        Read More About <Anchor To="blog/what-is-blazorwasm" Title="Link to Blazor WebAssembly">Blazor WebAssembly</Anchor>
     </Blockquote>
 </BlogPageParagraph>
 
-<BlogPageParagraph>
-    Blazor Server is a server-side application that processes client-side request
-</BlogPageParagraph>
+<BlogPageList>
+    <BlogPageListItem>
+        Blazor Server is a server-side application that processes client-side request on the server and then send the HTML difference back to the client.
+    </BlogPageListItem>
+</BlogPageList>
 
 <BlogPageSubtitle>
     Create Up A Blazor Application With IDE
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    For this example, we will demonstrate how to use the Visual Studio IDE to create a Blazor Application. You can use
+    For this example, we will demonstrate how to use the <Strong>Visual Studio IDE</Strong> to create a Blazor Application. Open your Visual Studio IDE after installation and create a new project.
 </BlogPageParagraph>
 
-<BlogPageList>
-    <BlogPageListItem>
-        .NET 5.0 requires Visual Studio 2019 16.8 or later.
-    </BlogPageListItem>
-    <BlogPageListItem>
-        .NET 6.0 requires Visual Studio 2022 17.0 Preview 4.1 or later.
-    </BlogPageListItem>
-</BlogPageList>
+<BlogPageImageModal ImageSource="img/blog/2022-09-19/create-project.png" ImageTitle="Create project" />
 
 <BlogPageParagraph>
-    Open your Visual Studio IDE after installation and create a new project
+    In the <Strong>Create New Project Dialog</Strong> box, search for Blazor. Select <Strong>Blazor WebAssembly App</Strong> to create a Blazor client-side application or a Blazor Server App to create a server-side blazor application.
 </BlogPageParagraph>
 
-<BlogPageImageModal ImageSource="img/blog/2022-09-13/create-project.png" ImageTitle="Create project" />
-
-<BlogPageParagraph>
-    In the Create New Project Dialog box, search for Blazor. Select Blazor WebAssembly App to create a blazor client-side application or a Blazor Server App to create a server-side blazor application.
-</BlogPageParagraph>
-
-<BlogPageImageModal ImageSource="img/blog/2022-09-13/pick-blazor.png" ImageTitle="Pick Blazor" />
+<BlogPageImageModal ImageSource="img/blog/2022-09-19/pick-blazor.png" ImageTitle="Pick Blazor" />
 
 <BlogPageParagraph>
     Click the next button to continue to the project configuration page. Here, you can name your Blazor application and select the target framework plus a host of other configurations.
@@ -143,7 +136,7 @@
     Leave all default selections and click create button. This will scaffold your application into a solution directory.
 </BlogPageParagraph>
 
-<BlogPageImageModal ImageSource="img/blog/2022-09-13/solution-explorer-after-project-create.png" ImageTitle="Solution explorer" />
+<BlogPageImageModal ImageSource="img/blog/2022-09-19/solution-explorer-after-project-create.png" ImageTitle="Solution explorer" />
 
 <BlogPageParagraph>
     <Blockquote>
@@ -164,20 +157,20 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Create a blazor webassembly and server application by running the following commands respectively. To check if you have .NET installed, run the command <Code>dotnet --info</Code> to display all the information about your copy of dotnet.
+    Create a Blazor WebAssembly or Server application by running the following commands respectively. To check if you have .NET installed, run the command <Code>dotnet --info</Code> to display all the information about your copy of dotnet.
 </BlogPageParagraph>
 
-<BlogPageImageModal ImageSource="img/blog/2022-09-13/dotnet-info.png" ImageTitle="dotnet info" />
+<BlogPageImageModal ImageSource="img/blog/2022-09-19/dotnet-info.png" ImageTitle="dotnet info" />
 
 <BlogPageParagraph>
-    Blazor Wasm
+    Blazor WebAssembly
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="SettingUpABlazorProject1" />
 
 <BlogPageParagraph>
     <Blockquote>
-        Further Reading <Anchor To="/blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm" Title="Link to Exploring Web Assembly">Exploring Web Assembly</Anchor>
+        Further Reading <Anchor To="blog/exploring-webassembly-the-underlying-technology-behind-blazor-wasm" Title="Link to Exploring Web Assembly">Exploring Web Assembly</Anchor>
     </Blockquote>
 </BlogPageParagraph>
 
@@ -197,7 +190,7 @@
 
 <BlogPageParagraph>
     <Blockquote>
-        Visual Studio Code and other code editors will require additional setup and configuration to support your blazor application.
+        Visual Studio Code and other code editors will require additional setup and configuration to support your Blazor application.
     </Blockquote>
 </BlogPageParagraph>
 
@@ -206,11 +199,11 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    With your blazor project, you can now build client and server functionality using razor components. Fortunately, you do not have to build components from scratch as Blazorise has built and tested production ready components for almost any web functionality.
+    With your Blazor project, you can now build client and server functionality using razor components. Fortunately, you do not have to build components from scratch as Blazorise has built and tested production ready components for almost any web functionality.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Read our <Anchor To="/docs/component" Title="Link to documentation">documentation</Anchor> for more information or join our newsletter as we demonstrate how to implement <Anchor To="/blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to Blazorise components">Blazorise components</Anchor> and functionality into your projects.
+    Read our <Anchor To="docs/component" Title="Link to documentation">documentation</Anchor> for more information or join our newsletter as we demonstrate how to implement <Anchor To="blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to Blazorise components">Blazorise components</Anchor> and functionality into your projects.
 </BlogPageParagraph>
 
-<BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="September 13th, 2022" Read="3 min" />
+<BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="September 19th, 2022" Read="3 min" />
