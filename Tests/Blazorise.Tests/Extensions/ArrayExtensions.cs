@@ -37,7 +37,7 @@ namespace Blazorise.Tests.Extensions
 
         [Theory]
         [InlineData( null, new[] { "data" } )]
-        [InlineData( new[] { "A", "B", "C" }, new[] { "C", "B", "A" } )]
+        [InlineData( new[] { "A", "B", "C" }, new[] { "C", "B", "A", "D" } )]
         [InlineData( new[] { "1", "2", "3" }, new[] { "1", "2", "3", "4" } )]
         public void AreEqualOrdered_Returns_False( string[] list1, string[] list2 )
         {
