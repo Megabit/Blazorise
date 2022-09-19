@@ -41,7 +41,7 @@ namespace Blazorise.Tests.Extensions
         [InlineData( new[] { "1", "2", "3" }, new[] { "1", "2", "3", "4" } )]
         public void AreEqualOrdered_Returns_False( string[] list1, string[] list2 )
         {
-            Assert.False( list1.AreEqual( list2 ) );
+            Assert.False( list1.AreEqualOrdered( list2 ) );
         }
 
         [Theory]
