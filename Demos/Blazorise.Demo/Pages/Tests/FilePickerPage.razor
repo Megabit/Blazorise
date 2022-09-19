@@ -168,28 +168,13 @@
         }
     }
 
-    private async Task<byte[]> ReadBuffered(IFileEntry file, int bufferSizeBytes = 1 * 1024 * 1024)
+    private async Task<byte[]> ReadBuffered(IFileEntry file)
     {
-        var buffer = new byte[bufferSizeBytes];
-
         using ( MemoryStream result = new MemoryStream() )
         {
              await InvokeAsync(async () => await file.OpenReadStream( long.MaxValue ).CopyToAsync( result ));
             return result.ToArray();
         }
-
-        //using (MemoryStream result = new MemoryStream())
-        //{
-        //    using (var bufferedStream = new BufferedStream(file.OpenReadStream(long.MaxValue), bufferSizeBytes))
-        //    {
-        //        int currentBytes;
-        //        while ((currentBytes = await bufferedStream.ReadAsync(buffer, 0, bufferSizeBytes)) > 0)
-        //        {
-        //            result.Write(buffer, 0, currentBytes);
-        //        }
-        //    }
-        //    return result.ToArray();
-        //}
     }
 
     private void OnFilePartReceived(FileWrittenEventArgs e)

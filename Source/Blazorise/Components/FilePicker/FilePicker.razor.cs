@@ -263,8 +263,6 @@ namespace Blazorise
         private Task CancelUploadWithConfirm()
             => CancelUpload( true );
 
-
-
         private CancellationTokenSource cts;
 
         /// <summary>
