@@ -123,17 +123,35 @@
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
-    Defining the Columns
+    Adding Column Columns
 </Heading>
 
 <BlogPageParagraph>
-    Kanban Columns are individual panels used to group related items of work. The column is defined as a <Code Tag>DropZone</Code> as cards can be dropped into them.
+    Kanban Columns are individual panels used to group related items of work. The column is defined as a <Code Tag>DropZone</Code> as cards can be dropped into them. Cards are also removed (dragged) from them and dropped into other columns.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Columns must have droppable characteristics to make this work.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="CreateAKanBanBoard3" />
 
 <BlogPageParagraph>
-    The above code block will create a column and name it To-Do. You can repeat the <Code Tag>dropzone element</Code> code block to create as many columns as you want.
+    The above code block will create a column with the name To-Do. You can repeat the <Code Tag>dropzone element</Code> code block to create as many columns as you want.
 </BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Defining Card Items
+</Heading>
+
+<BlogPageParagraph>
+    Card items are individual items on a board that can be moved between columns.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Cards are defined in the <Code>@code</Code> part of your razor file.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="CreateAKanBanBoard4" />
 
 <BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="September 13th, 2022" Read="6 min" />
