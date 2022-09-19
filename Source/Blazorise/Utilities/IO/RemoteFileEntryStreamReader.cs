@@ -10,8 +10,10 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    internal class RemoteFileEntryStreamReader : FileEntryStreamReader
+    internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable, IAsyncDisposable
     {
+        private bool disposed;
+
         private readonly int maxMessageSize;
         private readonly long maxFileSize;
 
@@ -90,6 +92,8 @@ namespace Blazorise
             }
             finally
             {
+                Reset();
+
                 if ( !cancellationToken.IsCancellationRequested )
                 {
                     var success = position == FileEntry.Size;
@@ -103,18 +107,6 @@ namespace Blazorise
                     await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, success, fileInvalidReason );
                 }
 
-
-                fillBufferCts.Cancel();
-                copyFileDataCts?.Cancel();
-
-                //TODO: Disposal
-                try
-                {
-                    _ = jsStreamReference?.DisposeAsync().Preserve();
-                }
-                catch
-                {
-                }
             }
         }
 
@@ -127,6 +119,53 @@ namespace Blazorise
             if ( OperatingSystem.IsBrowser() )
                 return Task.Delay( 1 );
             return Task.CompletedTask;
+        }
+
+        private void Reset()
+        {
+            fillBufferCts.Cancel();
+            copyFileDataCts?.Cancel();
+            // If the browser connection is still live, notify the JS side that it's free to release the Blob
+            // and reclaim the memory. If the browser connection is already gone, there's no way for the
+            // notification to get through, but we don't want to fail the .NET-side disposal process for this.
+            try
+            {
+                _ = jsStreamReference?.DisposeAsync().Preserve();
+            }
+            catch
+            {
+            }
+        }
+
+        public virtual void Dispose()
+        {
+            Dispose( true );
+            GC.SuppressFinalize( this );
+        }
+
+        protected void Dispose( bool disposing )
+        {
+            if ( disposed )
+            {
+                return;
+            }
+
+            Reset();
+
+            disposed = true;
+        }
+
+        public virtual ValueTask DisposeAsync()
+        {
+            try
+            {
+                Dispose();
+                return default;
+            }
+            catch ( Exception exc )
+            {
+                return ValueTask.FromException( exc );
+            }
         }
     }
 

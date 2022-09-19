@@ -128,7 +128,6 @@ namespace Blazorise
                 return;
             }
 
-
             fillBufferCts.Cancel();
             copyFileDataCts?.Cancel();
             // If the browser connection is still live, notify the JS side that it's free to release the Blob
@@ -145,21 +144,6 @@ namespace Blazorise
             disposed = true;
 
             base.Dispose( disposing );
-        }
-
-        public override ValueTask DisposeAsync()
-        {
-            if ( disposed )
-            {
-                return ValueTask.CompletedTask;
-            }
-
-            disposed = true;
-
-            fillBufferCts.Cancel();
-            fillBufferCts.Dispose();
-
-            return base.DisposeAsync();
         }
 
         #endregion

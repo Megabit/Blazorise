@@ -211,9 +211,9 @@ namespace Blazorise
 
             if ( Math.Abs( progress - Progress ) > double.Epsilon )
             {
-                    Progress = progress;
+                Progress = progress;
 
-                    return InvokeAsync( async () => await Progressed.InvokeAsync( new( fileEntry, Progress ) ) );
+                return InvokeAsync( async () => await Progressed.InvokeAsync( new( fileEntry, Progress ) ) );
             }
 
             return Task.CompletedTask;
