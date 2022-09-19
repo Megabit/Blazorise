@@ -81,17 +81,6 @@ namespace Blazorise.Components
 
         #region Methods
 
-        private bool TValueEqual<T>( T first, T second )
-        {
-            if ( first == null && second == null )
-                return true;
-
-            if ( first == null || second == null )
-                return false;
-
-            return first.Equals( second );
-        }
-
         private bool SequenceEqual<T>( IEnumerable<T> first, IEnumerable<T> second )
         {
             if ( first == second )
@@ -114,7 +103,7 @@ namespace Blazorise.Components
             bool selectedValueParamChanged = false;
             bool selectedTextParamChanged = false;
 
-            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !TValueEqual( selectedValueParam, paramSelectedValue ) )
+            if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !selectedValueParam.IsEqual( paramSelectedValue ) )
             {
                 selectedValue = null;
                 selectedValueParamChanged = true;
@@ -153,7 +142,7 @@ namespace Blazorise.Components
                     if ( item != null )
                     {
                         NullableT<TValue> value = new( GetItemValue( item ) );
-                        if ( !TValueEqual( SelectedValue, value ) )
+                        if ( !SelectedValue.IsEqual( value ) )
                         {
                             selectedValue = new( value );
                             await SelectedValueChanged.InvokeAsync( value );
@@ -492,7 +481,7 @@ namespace Blazorise.Components
             if ( IsMultiple )
             {
                 await AddMultipleTextAndValue( selectedTValue );
-                
+
                 if ( !IsSuggestSelectedItems )
                 {
                     DirtyFilter();
@@ -631,7 +620,7 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task AddMultipleTextAndValue(TValue value )
+        public async Task AddMultipleTextAndValue( TValue value )
         {
             await Task.WhenAll(
                 AddMultipleText( value ),
