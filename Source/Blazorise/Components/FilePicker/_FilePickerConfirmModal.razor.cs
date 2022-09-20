@@ -13,9 +13,15 @@ namespace Blazorise
     {
         #region Members
 
+        /// <summary>
+        /// Reference to the modal component.
+        /// </summary>
         protected Modal modalRef;
 
-        private Func<Task> onConfirm;
+        /// <summary>
+        /// Callback action for the confirm button.
+        /// </summary>
+        private Func<Task> confirmed;
 
         /// <summary>
         /// Identifies the FilePicker's popup confirm operation.
@@ -26,10 +32,12 @@ namespace Blazorise
             /// Remove file confirm operation.
             /// </summary>
             RemoveFile,
+
             /// <summary>
             /// Clear confirm operation.
             /// </summary>
             Clear,
+
             /// <summary>
             /// Cancels ongoing upload.
             /// </summary>
@@ -37,13 +45,20 @@ namespace Blazorise
         }
 
         private string title = string.Empty;
+
         private string body = string.Empty;
 
         #endregion
 
         #region Methods
 
-        protected internal async Task OpenModal( ConfirmOperation confirmOperation, Func<Task> onConfirm )
+        /// <summary>
+        /// Opens the modal.
+        /// </summary>
+        /// <param name="confirmOperation">Type of the confirm operation.</param>
+        /// <param name="confirmed">Function to execute after the action was confirmed.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task OpenModal( ConfirmOperation confirmOperation, Func<Task> confirmed )
         {
             switch ( confirmOperation )
             {
@@ -62,28 +77,37 @@ namespace Blazorise
                 default:
                     break;
             }
-            this.onConfirm = onConfirm;
+
+            this.confirmed = confirmed;
+
             await modalRef.Show();
         }
 
-        protected internal Task CloseModal()
+        /// <summary>
+        /// Closes the modal.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected internal Task OnCloseModalClicked()
             => modalRef.Hide();
 
-        private async Task Confirm()
+        private async Task OnConfirmClicked()
         {
-            await onConfirm.Invoke();
-            await modalRef.Hide();
-        }
+            if ( confirmed is not null )
+                await confirmed.Invoke();
 
+            if ( modalRef is not null )
+                await modalRef.Hide();
+        }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Parent file picker.
+        /// </summary>
         [CascadingParameter] public Blazorise.FilePicker ParentFilePicker { get; set; }
 
         #endregion
     }
-
-    
 }

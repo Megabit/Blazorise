@@ -6,7 +6,7 @@
                 <ModalTitle>
                     @ParentFilePicker.GetLocalizedString( title )
                 </ModalTitle>
-                <CloseButton Clicked="@CloseModal" AutoClose="false" />
+                <CloseButton Clicked="@OnCloseModalClicked" AutoClose="false" />
             </ModalHeader>
             <ModalBody>
                 @ParentFilePicker.GetLocalizedString( body )
@@ -14,16 +14,16 @@
             <ModalFooter>
                 @{
                     var cancelBtn = ParentFilePicker.GetLocalizedString( "Cancel" );
-                    <Button Color="Color.Link" Clicked="@CloseModal">
+
+                    <Button Color="Color.Link" Clicked="@OnCloseModalClicked">
                         @cancelBtn
                     </Button>
 
                     var confirmBtn = ParentFilePicker.GetLocalizedString( "Confirm" );
 
-                    <Button Color="Color.Link" Clicked="@Confirm">
+                    <Button Color="Color.Link" Clicked="@OnConfirmClicked">
                         @confirmBtn
                     </Button>
-
                 }
             </ModalFooter>
         </Form>
