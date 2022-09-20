@@ -181,7 +181,7 @@ namespace Blazorise
         {
             var clearAction = async () =>
             {
-                await CancelUpload();
+                await Cancel();
                 await FileEdit.Reset();
             };
 
@@ -190,7 +190,6 @@ namespace Blazorise
             else
                 return clearAction.Invoke();
         }
-
 
         /// <summary>
         /// Uploads the current files.
@@ -206,7 +205,6 @@ namespace Blazorise
                     await UploadFile( file );
                 }
             }
-
         }
 
         /// <summary>
@@ -226,7 +224,7 @@ namespace Blazorise
         /// Cancels any ongoing upload operation.
         /// </summary>
         /// <param name="confirm">Wether to show a confirmation popup.</param>
-        public Task CancelUpload( bool confirm = false )
+        public Task Cancel( bool confirm = false )
         {
             var cancelAction = new Func<Task>( () =>
             {
@@ -260,8 +258,8 @@ namespace Blazorise
         /// Internal method. Facilitates named binding.
         /// </summary>
         /// <returns></returns>
-        private Task CancelUploadWithConfirm()
-            => CancelUpload( true );
+        private Task CancelWithConfirm()
+            => Cancel( true );
 
         private CancellationTokenSource cts;
 

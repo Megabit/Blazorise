@@ -6,12 +6,13 @@
     public enum FilePickerShowMode
     {
         /// <summary>
-        /// Files will be listed
+        /// Files will be listed under the file input.
         /// </summary>
         List,
+
         /// <summary>
-        /// Files will be inside a dropdown
+        /// Files will be inside a dropdown menu.
         /// </summary>
-        Dropdown
+        Dropdown,
     }
 }

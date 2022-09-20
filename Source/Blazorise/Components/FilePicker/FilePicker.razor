@@ -56,7 +56,7 @@
 
             @if ( ButtonsTemplate is not null )
             {
-                @ButtonsTemplate(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelUploadWithConfirm)))
+                @ButtonsTemplate(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelWithConfirm)))
             }
             else
             {
@@ -64,7 +64,7 @@
                     <Button Color="Color.Secondary" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
                     <Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
 
-                    <Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelUploadWithConfirm">@GetLocalizedString("Cancel")</Button>
+                    <Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelWithConfirm">@GetLocalizedString("Cancel")</Button>
                 </Buttons>
             }
         </div>

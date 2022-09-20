@@ -87,6 +87,11 @@ namespace Blazorise.Utilities
 
 
         //TODO : Test GetBytesReadable vs ToFileSize performance.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static string ToFileSize( long source )
         {
             const int byteConversion = 1024;
