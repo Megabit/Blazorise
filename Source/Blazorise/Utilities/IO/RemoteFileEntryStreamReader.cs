@@ -12,6 +12,8 @@ namespace Blazorise
 {
     internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable, IAsyncDisposable
     {
+        #region Members
+
         private bool disposed;
 
         private readonly int maxMessageSize;
@@ -22,8 +24,12 @@ namespace Blazorise
         private IJSStreamReference? jsStreamReference;
         private readonly Task<Stream> OpenReadStreamTask;
 
+        #endregion
+
+        #region Constructors
+
         public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
-            : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
+          : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
         {
             this.maxMessageSize = maxMessageSize;
             this.maxFileSize = maxFileSize;
@@ -31,6 +37,10 @@ namespace Blazorise
             fillBufferCts = new CancellationTokenSource();
             OpenReadStreamTask = OpenReadStreamAsync( fillBufferCts.Token );
         }
+
+        #endregion
+
+        #region Methods
 
         private async Task<Stream> OpenReadStreamAsync( CancellationToken cancellationToken )
         {
@@ -48,7 +58,7 @@ namespace Blazorise
 
             var stream = await OpenReadStreamTask;
             copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-           return await stream.ReadAsync( destination, copyFileDataCts.Token );
+            return await stream.ReadAsync( destination, copyFileDataCts.Token );
         }
 
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
@@ -70,7 +80,7 @@ namespace Blazorise
                     cancellationToken.ThrowIfCancellationRequested();
 
                     var length = (int)Math.Min( maxMessageSize, FileEntry.Size - position );
-                    
+
                     var buffer = new Memory<byte>( new byte[length], 0, length );
                     await CopyFileDataIntoBuffer( buffer, cancellationToken );
                     await stream.WriteAsync( buffer, cancellationToken );
@@ -167,7 +177,7 @@ namespace Blazorise
                 return ValueTask.FromException( exc );
             }
         }
+
+        #endregion
     }
-
-
 }

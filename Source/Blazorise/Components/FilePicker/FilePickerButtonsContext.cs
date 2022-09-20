@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿#region Using directives
+using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise
 {
-
     /// <summary>
     /// Context for File Picker's Buttons
     /// </summary>
