@@ -459,7 +459,7 @@ namespace Blazorise.Markdown
         /// <summary>
         /// Adds a prefix to the toolbar button classes when set. For example, a value of `"mde"` results in `"mde-bold"` for the Bold button.
         /// </summary>
-        [Parameter] public string ToolbarButtonClassPrefix { get; set; } = "b-mde";
+        [Parameter] public string ToolbarButtonClassPrefix { get; set; } = "mde";
 
         /// <summary>
         /// Occurs after the custom toolbar button is clicked.
