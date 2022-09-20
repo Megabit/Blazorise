@@ -27,21 +27,4 @@
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Resources\Localization\FilePicker\cs.json" />
-    <Content Remove="Resources\Localization\FilePicker\de.json" />
-    <Content Remove="Resources\Localization\FilePicker\en.json" />
-    <Content Remove="Resources\Localization\FilePicker\es.json" />
-    <Content Remove="Resources\Localization\FilePicker\fr.json" />
-    <Content Remove="Resources\Localization\FilePicker\hr.json" />
-    <Content Remove="Resources\Localization\FilePicker\is.json" />
-    <Content Remove="Resources\Localization\FilePicker\it.json" />
-    <Content Remove="Resources\Localization\FilePicker\nl.json" />
-    <Content Remove="Resources\Localization\FilePicker\pl.json" />
-    <Content Remove="Resources\Localization\FilePicker\pt.json" />
-    <Content Remove="Resources\Localization\FilePicker\ru.json" />
-    <Content Remove="Resources\Localization\FilePicker\sk.json" />
-    <Content Remove="Resources\Localization\FilePicker\tr.json" />
-  </ItemGroup>
-
 </Project>
