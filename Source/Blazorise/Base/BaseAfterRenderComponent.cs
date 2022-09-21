@@ -71,6 +71,8 @@ namespace Blazorise
                 if ( disposing )
                 {
                     executeAfterRenderQueue?.Clear();
+
+                    ComponentDisposer.Dispose( this );
                 }
             }
         }
@@ -98,6 +100,8 @@ namespace Blazorise
                     if ( disposing )
                     {
                         executeAfterRenderQueue?.Clear();
+
+                        ComponentDisposer.Dispose( this );
                     }
                 }
 
@@ -116,17 +120,22 @@ namespace Blazorise
         /// <summary>
         /// Indicates if the component is already fully disposed.
         /// </summary>
-        protected bool Disposed { get; private set; }
+        protected internal bool Disposed { get; private set; }
 
         /// <summary>
         /// Indicates if the component is already fully disposed (asynchronously).
         /// </summary>
-        protected bool AsyncDisposed { get; private set; }
+        protected internal bool AsyncDisposed { get; private set; }
 
         /// <summary>
         /// Indicates if component has been rendered in the browser.
         /// </summary>
         protected bool Rendered { get; private set; }
+
+        /// <summary>
+        /// Service that frees the component from the memory.
+        /// </summary>
+        [Inject] protected internal IComponentDisposer ComponentDisposer { get; set; }
 
         #endregion
     }

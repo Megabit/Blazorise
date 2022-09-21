@@ -1624,16 +1624,163 @@ public class Gender
 </Figure>";
 
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
-<FileEdit Filter=""image/*"" />
+<Field>
+    <FileEdit Filter=""image/*"" />
+</Field>
 
 <!-- Accept specific image formats by IANA type -->
-<FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+<Field>
+    <FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+</Field>
 
 <!-- Accept specific image formats by extension -->
-<FileEdit Filter="".jpg, .png, .gif"" />";
+<Field>
+    <FileEdit Filter="".jpg, .png, .gif"" />
+</Field>";
 
-        public const string MultipleFileEditExample = @"<FileEdit Changed=""@OnChanged"" Multiple />
-@code{
+        public const string FilePickerCustomExample = @"@using System.IO
+
+<Field>
+    <FilePicker @ref=""filePickerCustom""
+                Multiple
+                Upload=""OnFileUpload""
+                ShowMode=""FilePickerShowMode.List"">
+        <FileTemplate>
+            <Div Flex=""Flex.JustifyContent.Between"">
+                <Div>
+                    <Heading Size=""HeadingSize.Is5"">@context.File.Name</Heading>
+                    <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
+                </Div>
+                <Div>
+                    @if ( context.File.Status == FileEntryStatus.Ready )
+                    {
+                        <Icon TextColor=""TextColor.Primary"" Name=""IconName.FileUpload"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploading )
+                    {
+                        <Icon TextColor=""TextColor.Warning"" Name=""IconName.Bolt"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploaded )
+                    {
+                        <Icon TextColor=""TextColor.Success"" Name=""IconName.CheckCircle"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Error )
+                    {
+                        <Icon TextColor=""TextColor.Danger"" Name=""IconName.TimesCircle"" />
+                    }
+                </Div>
+            </Div>
+            <Divider Margin=""Margin.Is0"" />
+        </FileTemplate>
+        <ButtonsTemplate>
+            <Progress Value=""@filePickerCustom.GetProgressPercentage()"" />
+            <Buttons>
+                <Button Clicked=""@context.Clear"" Color=""Color.Warning""><Icon Name=""IconName.Clear"" /></Button>
+                <Button Clicked=""@context.Upload"" Color=""Color.Primary""><Icon Name=""IconName.FileUpload"" /></Button>
+            </Buttons>
+        </ButtonsTemplate>
+    </FilePicker>
+</Field>
+
+@code {
+    private FilePicker filePickerCustom;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) ;
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerDropdownExample = @"@using System.IO
+
+<Field>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.Dropdown"" />
+</Field>
+
+@code {
+    string fileContent;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            // A stream is going to be the destination stream we're writing to.
+            using ( var stream = new MemoryStream() )
+            {
+                // Here we're telling the FileEdit where to write the upload result
+                await e.File.WriteToStreamAsync( stream );
+
+                // Once we reach this line it means the file is fully uploaded.
+                // In this case we're going to offset to the beginning of file
+                // so we can read it.
+                stream.Seek( 0, SeekOrigin.Begin );
+
+                // Use the stream reader to read the content of uploaded file,
+                // in this case we can assume it is a textual file.
+                using ( var reader = new StreamReader( stream ) )
+                {
+                    fileContent = await reader.ReadToEndAsync();
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerListExample = @"@using System.IO
+
+<Field>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+</Field>
+
+@code {
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string MultipleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Multiple />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;
@@ -1642,11 +1789,11 @@ public class Gender
 
         public const string OpenReadStreamFileEditExample = @"@using System.IO
 
-<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
 
-@code{
-    const int OneMb = 1024 * 1024;
-
+@code {
     async Task OnChanged( FileChangedEventArgs e )
     {
         try
@@ -1657,16 +1804,9 @@ public class Gender
                 return;
             }
 
-            var buffer = new byte[OneMb];
-            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            using ( MemoryStream result = new MemoryStream() )
             {
-                int readCount = 0;
-                int readBytes;
-                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-                {
-                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
-                    // Do work on the first 1MB of data
-                }
+                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )
@@ -1690,23 +1830,32 @@ public class Gender
     }
 }";
 
-        public const string ResetFileEditExample = @"<FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
-@code{
+        public const string ResetFileEditExample = @"<Field>
+    <FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
+</Field>
+<Field>
+    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
+</Field>
+
+@code {
     FileEdit fileEdit;
 
-    Task OnChanged( FileChangedEventArgs e )
+    Task OnChanged(FileChangedEventArgs e)
     {
         return Task.CompletedTask;
     }
 
-    Task OnSomeButtonClick()
+    Task Reset()
     {
         return fileEdit.Reset().AsTask();
     }
 }";
 
-        public const string SingleFileEditExample = @"<FileEdit Changed=""@OnChanged"" />
-@code{
+        public const string SingleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;
@@ -1715,9 +1864,11 @@ public class Gender
 
         public const string WriteToStreamFileEditExample = @"@using System.IO
 
-<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
 
-@code{
+@code {
     string fileContent;
 
     async Task OnChanged( FileChangedEventArgs e )
@@ -6001,10 +6152,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         return Task.CompletedTask;
     }
 }";
-
-        public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
-<script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 

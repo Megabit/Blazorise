@@ -46,6 +46,32 @@ namespace Blazorise.Modules
 
         #region Methods
 
+        /// <summary>
+        /// Invokes the module instance javascript function.
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected async ValueTask InvokeVoidAsync( string identifier, params object?[]? args )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( identifier, args );
+        }
+
+        /// <summary>
+        /// Invokes the module instance javascript function.
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected async ValueTask<TValue> InvokeAsync<TValue>( string identifier, params object?[]? args )
+        {
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<TValue>( identifier, args );
+        }
+
         /// <inheritdoc/>
         public async ValueTask DisposeAsync()
         {

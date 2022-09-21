@@ -16,7 +16,10 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        ...
+        New <Strong>FilePicker</Strong> component.
+    </UnorderedListItem>    
+    <UnorderedListItem>
+        <Strong>FileEdit</Strong> performance improvements to <Code>WriteToStreamAsync</Code> and <Code>OpenReadStreamAsync</Code> APIs
     </UnorderedListItem>
 </UnorderedList>
 
@@ -49,6 +52,20 @@
     </UnorderedListItem>
     <UnorderedListItem>
         Change all usages of <Code>PageProgressAlert</Code> into <Code>PageProgressProvider</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        The explicit usage of Markdown extension CSS and JS files are not needed and they can be safely removed:
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/easymde/dist/easymde.min.css&quot;&gt;</Code>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code>&lt;script src=&quot;https://unpkg.com/easymde/dist/easymde.min.js&quot;&gt;&lt;/script&gt;</Code>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code>&lt;script src=&quot;https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js&quot;&gt;&lt;/script&gt;</Code>
+            </UnorderedListItem>
+        </UnorderedList>
     </UnorderedListItem>
 </OrderedList>
 
@@ -152,6 +169,35 @@
 
 <Paragraph>
     Introduced <Code>ReadData</Code> support enabling you to provide that to Autocomplete on demand according to the user's searched text.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FileEdit
+</Heading>
+
+<Paragraph>
+    We've noticed that <Code>WriteToStreamAsync</Code> would not update progress on the UI and also freeze when using this API on WebAssembly. This is currently inherit to Blazor WebAssembly as it is single threaded, we've improved on this so the UI should now be able to update while using this API.
+</Paragraph>
+
+<Paragraph>
+    Added missing <Code>CancellationToken</Code> to <Code>OpenReadStreamAsync</Code>
+</Paragraph>
+
+<Paragraph>
+    Both <Code>WriteToStreamAsync</Code> and <Code>OpenReadStreamAsync</Code> should now be more performant as we made changes to accomodate the following new features in .NET6
+    <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#byte-array-support">Byte Array Support</Blazorise.Link>
+    <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net">Stream from Javascript Support</Blazorise.Link>
+    We now highly advise the usage of the <Code>OpenReadStreamAsync</Code> on Blazor WebAssembly as it is very performant.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FilePicker
+</Heading>
+
+<Paragraph>
+   The new <Code>FilePicker</Code> will give you an enhanced File Upload control, with more out of the box options then our <Code>FileEdit</Code> component.
+   - Listing, detailing and controlling the look of the selected files.
+   - Clear and upload buttons with built in progress bar
 </Paragraph>
 
 <Paragraph>

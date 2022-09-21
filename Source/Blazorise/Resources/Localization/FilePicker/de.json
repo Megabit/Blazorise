@@ -1,0 +1,18 @@
+{
+  "culture": "de",
+  "translations": {
+    "Ready to upload": "Bereit zum Hochladen",
+    "Uploaded successfully": "Erfolgreich hochgeladen",
+    "File size is too large": "Die Dateigröße ist zu groß",
+    "Error uploading": "Fehler beim Hochladen",
+    "Or drop files here": "Oder legen Sie Dateien hier ab",
+    "Clear": "Löschen",
+    "Upload": "Hochladen",
+    "Cancel": "Absagen",
+    "Confirm": "Bestätigen",
+    "Remove": "Entfernen",
+    "Are you sure you want to remove the file?": "Möchten Sie die Datei wirklich entfernen?",
+    "Are you sure you want to clear all files?": "Möchten Sie wirklich alle Dateien löschen?",
+    "Are you sure you want to cancel the upload?": "Möchten Sie den Upload wirklich abbrechen?"
+  }
+}
