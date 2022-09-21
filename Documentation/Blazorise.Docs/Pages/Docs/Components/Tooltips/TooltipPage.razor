@@ -105,4 +105,10 @@
     <DocsAttributesItem Name="ZIndex" Type="int?" Default="9999">
         Specifies the z-index CSS on the root popper node.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Interactive" Type="bool" Default="false">
+        Determines if the tooltip has interactive content inside of it, so that it can be hovered over and clicked inside without hiding.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AppendTo" Type="string" Default="body">
+        The element to append the tooltip to. If <Code>Interactive = true</Code>, the default behavior is appendTo: "parent".
+    </DocsAttributesItem>
 </DocsAttributes>
