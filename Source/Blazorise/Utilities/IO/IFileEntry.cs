@@ -87,6 +87,6 @@ namespace Blazorise
         /// <summary>
         /// Cancels any ongoing FileEntry operation.
         /// </summary>
-        public void Cancel();
+        public Task Cancel();
     }
 }

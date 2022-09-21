@@ -50,10 +50,12 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public void Cancel()
+        public Task Cancel()
         {
             writeToStreamcancellationTokenSource?.Cancel();
             openReadStreamcancellationTokenSource?.Cancel();
+
+            return Task.CompletedTask;
         }
 
         #endregion

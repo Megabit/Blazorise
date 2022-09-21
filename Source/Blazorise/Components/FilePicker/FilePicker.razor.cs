@@ -226,12 +226,12 @@ namespace Blazorise
         /// <param name="confirm">Wether to show a confirmation popup.</param>
         public Task Cancel( bool confirm = false )
         {
-            var cancelAction = new Func<Task>( () =>
+            var cancelAction = new Func<Task>( async () =>
             {
                 cts?.Cancel();
-                fileBeingUploaded?.Cancel();
 
-                return Task.CompletedTask;
+                if ( fileBeingUploaded is not null )
+                    await fileBeingUploaded.Cancel();
             } );
 
             if ( confirm )
