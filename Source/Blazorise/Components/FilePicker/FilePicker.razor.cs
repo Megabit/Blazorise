@@ -18,26 +18,22 @@ using static System.Net.WebRequestMethods;
 
 namespace Blazorise
 {
-
     /// <summary>
-    /// Builds upon FileEdit component providing extra file uploading features.
+    /// A wrapper component build upon <see cref="FileEdit"/> component providing extra file uploading features.
     /// </summary>
     public partial class FilePicker : BaseComponent, IAsyncDisposable
     {
         #region Members
-
-        private string ElementContainerId { get; set; }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
         /// Tracks the current file being uploaded.
         /// </summary>
         IFileEntry fileBeingUploaded;
 
-        private _FilePickerConfirmModal _FilePickerConfirmModalRef;
+        /// <summary>
+        /// Holds the reference to the confirmation dialog component.
+        /// </summary>
+        private _FilePickerConfirmModal filePickerConfirmModalRef;
 
         #endregion
 
@@ -168,7 +164,7 @@ namespace Blazorise
             var removeFileAction = () => FileEdit.RemoveFile( file.Id ).AsTask();
 
             if ( confirm )
-                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, removeFileAction );
+                return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, removeFileAction );
             else
                 return removeFileAction.Invoke();
         }
@@ -186,7 +182,7 @@ namespace Blazorise
             };
 
             if ( confirm )
-                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, clearAction );
+                return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, clearAction );
             else
                 return clearAction.Invoke();
         }
@@ -235,7 +231,7 @@ namespace Blazorise
             } );
 
             if ( confirm )
-                return _FilePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.CancelUpload, cancelAction );
+                return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.CancelUpload, cancelAction );
             else
                 return cancelAction.Invoke();
         }
@@ -311,6 +307,14 @@ namespace Blazorise
         /// Accesses the FileEdit
         /// </summary>
         public FileEdit FileEdit;
+
+        /// <summary>
+        /// Gets or sets the main container element id.
+        /// </summary>
+        private string ElementContainerId { get; set; }
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSFilePickerModule"/> instance.
