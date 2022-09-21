@@ -30,7 +30,7 @@ namespace Blazorise.TreeView
 
         #region Properties
 
-        [Parameter] public bool AllExpanded { get; set; }
+        [Parameter] public bool ExpandAll { get; set; }
 
         /// <summary>
         /// Defines the name of the treenode expand icon.
@@ -123,7 +123,7 @@ namespace Blazorise.TreeView
 
         protected override void OnInitialized()
         {
-            if (AllExpanded)
+            if (ExpandAll)
             {
                 ExpandAllNodes(Nodes);
             }

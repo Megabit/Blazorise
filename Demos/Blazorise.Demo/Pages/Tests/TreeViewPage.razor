@@ -10,7 +10,7 @@
             </CardBody>
             <CardBody>
                 <TreeView Nodes="Nodes"
-                          AllExpanded="allExpanded"
+                          ExpandAll="expandAll"
                           @bind-SelectedNode="selectedNode"
                           GetChildNodes="@(item => item.Children)"
                           HasChildNodes="@(item => item.Children?.Any() == true)"

@@ -7,7 +7,7 @@ namespace Blazorise.Demo.Pages.Tests
     public partial class TreeViewPage : ComponentBase
     {
         private TreeNode selectedNode;
-        private bool allExpanded = true;
+        private bool expandAll = true;
 
         private IEnumerable<TreeNode> Nodes = new List<TreeNode>
         {

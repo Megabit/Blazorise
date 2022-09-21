@@ -10,18 +10,12 @@ namespace Blazorise.TreeView
 {
     public partial class _TreeViewNode : BaseComponent
     {
-        #region Members
-
-        private bool expanded = true;
-
-        #endregion
-
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "tree-view" );
-            builder.Append( "tree-view-collapsed", !IsExpanded );
+            builder.Append( "tree-view-collapsed", !Expanded);
 
             base.BuildClasses( builder );
         }
@@ -29,7 +23,7 @@ namespace Blazorise.TreeView
 
         protected void OnToggleNode(TreeNode node)
         {
-            IsExpanded = !node.IsExpanded;
+            Expanded = !node.IsExpanded;
             node.IsExpanded = !node.IsExpanded;
 
             InvokeAsync(StateHasChanged);
@@ -52,9 +46,9 @@ namespace Blazorise.TreeView
 
         [Parameter] public Func<TreeNode, bool> HasChildNodes { get; set; } = node => true;
 
-        [Parameter] public bool IsExpanded { get; set; } = true;
+        [Parameter] public bool Expanded { get; set; } = true;
 
-        [Parameter] public bool AllExpanded { get; set; }
+        [Parameter] public bool ExpandAll { get; set; }
 
         /// <summary>
         /// Defines the name of the treenode expand icon.
