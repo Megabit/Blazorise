@@ -84,7 +84,9 @@ namespace Blazorise
                     TriggerTargetId,
                     MaxWidth = Theme?.TooltipOptions?.MaxWidth,
                     AutodetectInline = autodetectInline,
-                    ZIndex
+                    ZIndex,
+                    Interactive,
+                    AppendTo,
                 } );
             } );
 
@@ -259,6 +261,16 @@ namespace Blazorise
         /// Specifies the z-index CSS on the root popper node.
         /// </summary>
         [Parameter] public int? ZIndex { get; set; } = 9999;
+
+        /// <summary>
+        /// Determines if the tooltip has interactive content inside of it, so that it can be hovered over and clicked inside without hiding.
+        /// </summary>
+        [Parameter] public bool Interactive { get; set; }
+
+        /// <summary>
+        /// The element to append the tooltip to. If <see cref="Interactive"/> = true, the default behavior is appendTo: "parent".
+        /// </summary>
+        [Parameter] public string AppendTo { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
