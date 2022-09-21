@@ -1,0 +1,18 @@
+﻿{
+  "culture": "is",
+  "translations": {
+    "Ready to upload": "Tilbúinn til að hlaða upp",
+    "Uploaded successfully": "Hlaðið upp",
+    "File size is too large": "Skráarstærð er of stór",
+    "Error uploading": "Villa við að hlaða upp",
+    "Or drop files here": "Eða slepptu skrám hér",
+    "Clear": "Hreinsa",
+    "Upload": "Hlaða upp",
+    "Cancel": "Hætta við",
+    "Confirm": "Staðfesta",
+    "Remove": "Fjarlægja",
+    "Are you sure you want to remove the file?": "Ertu viss um að þú viljir fjarlægja skrána?",
+    "Are you sure you want to clear all files?": "Ertu viss um að þú viljir hreinsa allar skrár?",
+    "Are you sure you want to cancel the upload?": "Ertu viss um að þú viljir hætta við upphleðsluna?"
+  }
+}

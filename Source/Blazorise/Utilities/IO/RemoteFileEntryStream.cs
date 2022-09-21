@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -19,154 +20,88 @@ namespace Blazorise
         private readonly ElementReference elementRef;
         private readonly IFileEntry fileEntry;
         private readonly IFileEntryNotifier fileEntryNotifier;
-        private readonly int maxMessageSize;
-        private readonly TimeSpan segmentFetchTimeout;
         private readonly long maxFileSize;
-        private readonly PipeReader pipeReader;
         private readonly CancellationTokenSource fillBufferCts;
         private bool disposed;
         private long position;
-        private bool isReadingCompleted;
+
+        private CancellationTokenSource? copyFileDataCts;
+        private IJSStreamReference? jsStreamReference;
+        private readonly Task<Stream> OpenReadStreamTask;
 
         #endregion
 
         #region Constructors
 
-        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, TimeSpan segmentFetchTimeout, long maxFileSize, CancellationToken cancellationToken )
+        public RemoteFileEntryStream( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, long maxFileSize, CancellationToken cancellationToken )
         {
             this.jsModule = jsModule;
             this.elementRef = elementRef;
             this.fileEntry = fileEntry;
             this.fileEntryNotifier = fileEntryNotifier;
-            this.maxMessageSize = maxMessageSize;
-            this.segmentFetchTimeout = segmentFetchTimeout;
             this.maxFileSize = maxFileSize;
             fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-            var pipe = new Pipe( new( pauseWriterThreshold: this.maxMessageSize, resumeWriterThreshold: this.maxMessageSize ) );
-            pipeReader = pipe.Reader;
 
-            _ = FillBuffer( pipe.Writer, fillBufferCts.Token );
+            OpenReadStreamTask = OpenReadStreamAsync( fillBufferCts.Token );
         }
 
         #endregion
 
         #region Methods
 
-        private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
+        private async Task<Stream> OpenReadStreamAsync( CancellationToken cancellationToken )
         {
-            await fileEntryNotifier.UpdateFileStartedAsync( fileEntry );
+            // This method only gets called once, from the constructor, so we're never overwriting an
+            // existing _jsStreamReference value
+            jsStreamReference = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, cancellationToken );
 
-            if ( maxFileSize < fileEntry.Size )
-            {
-                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.MaxLengthExceeded );
-                return;
-            }
-
-            long position = 0;
-
-            try
-            {
-                while ( position < fileEntry.Size )
-                {
-                    var pipeBuffer = writer.GetMemory( maxMessageSize );
-
-                    try
-                    {
-                        using var readSegmentCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-                        readSegmentCts.CancelAfter( segmentFetchTimeout );
-
-                        var length = (int)Math.Min( maxMessageSize, fileEntry.Size - position );
-                        var base64 = await jsModule.ReadDataAsync( elementRef, fileEntry.Id, position, length, cancellationToken );
-                        var bytes = Convert.FromBase64String( base64 );
-
-                        if ( bytes is null || bytes.Length != length )
-                        {
-                            await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.UnexpectedBufferChunkLength );
-                            await writer.CompleteAsync();
-                            return;
-                        }
-
-                        bytes.CopyTo( pipeBuffer );
-                        writer.Advance( length );
-                        position += length;
-
-                        var result = await writer.FlushAsync( cancellationToken );
-
-                        await Task.WhenAll(
-                            fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, bytes ),
-                            fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytes.Length ) );
-
-                        if ( result.IsCompleted )
-                        {
-                            break;
-                        }
-                    }
-                    catch ( OperationCanceledException oce )
-                    {
-                        await writer.CompleteAsync( oce );
-                        await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.TaskCancelled );
-                        return;
-                    }
-                    catch ( Exception e )
-                    {
-                        await writer.CompleteAsync( e );
-                    }
-                }
-            }
-            finally
-            {
-                if ( !cancellationToken.IsCancellationRequested )
-                {
-                    var success = position == fileEntry.Size;
-                    var overMaxBufferChunkLength = position > fileEntry.Size;
-                    var fileInvalidReason = success
-                        ? FileInvalidReason.None
-                        : overMaxBufferChunkLength
-                            ? FileInvalidReason.UnexpectedBufferChunkLength
-                            : FileInvalidReason.UnexpectedError;
-
-                    await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, success, fileInvalidReason );
-                }
-            }
-
-            await writer.CompleteAsync();
+            return await jsStreamReference.OpenReadStreamAsync(
+                this.maxFileSize,
+                cancellationToken: cancellationToken );
         }
 
-        protected async ValueTask<int> CopyFileDataIntoBuffer( long sourceOffset, Memory<byte> destination, CancellationToken cancellationToken )
+        protected async ValueTask<int> CopyFileDataIntoBuffer( Memory<byte> destination, CancellationToken cancellationToken )
         {
-            if ( isReadingCompleted )
+
+            var stream = await OpenReadStreamTask;
+            copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+            return await stream.ReadAsync( destination, copyFileDataCts.Token );
+        }
+
+        public override Task<int> ReadAsync( byte[] buffer, int offset, int count, CancellationToken cancellationToken )
+            => ReadAsync( new( buffer, offset, count ), cancellationToken ).AsTask();
+        public override async ValueTask<int> ReadAsync( Memory<byte> buffer, CancellationToken cancellationToken = default )
+        {
+            var bytesRead = 0;
+            try
             {
-                return 0;
+                if ( Position == 0 )
+                    await fileEntryNotifier.UpdateFileStartedAsync( fileEntry );
+
+                var bytesAvailableToRead = Length - Position;
+                var maxBytesToRead = (int)Math.Min( bytesAvailableToRead, buffer.Length );
+                if ( maxBytesToRead <= 0 )
+                    return 0;
+
+                bytesRead = await CopyFileDataIntoBuffer( buffer.Slice( 0, maxBytesToRead ), cancellationToken );
+                position += bytesRead;
+
+
+                await Task.WhenAll(
+                    fileEntryNotifier.UpdateFileWrittenAsync( fileEntry, position, buffer.ToArray() ),
+                    fileEntryNotifier.UpdateFileProgressAsync( fileEntry, bytesRead ) );
+
+                if ( position == fileEntry.Size )
+                    await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, true, FileInvalidReason.None );
+
+            }
+            catch ( OperationCanceledException )
+            {
+                await fileEntryNotifier.UpdateFileEndedAsync( fileEntry, false, FileInvalidReason.TaskCancelled );
+                throw;
             }
 
-            int totalBytesCopied = 0;
-
-            while ( destination.Length > 0 )
-            {
-                var result = await pipeReader.ReadAsync( cancellationToken );
-                var bytesToCopy = (int)Math.Min( result.Buffer.Length, destination.Length );
-
-                if ( bytesToCopy == 0 )
-                {
-                    if ( result.IsCompleted )
-                    {
-                        isReadingCompleted = true;
-                        await pipeReader.CompleteAsync();
-                    }
-
-                    break;
-                }
-
-                var slice = result.Buffer.Slice( 0, bytesToCopy );
-                slice.CopyTo( destination.Span );
-
-                pipeReader.AdvanceTo( slice.End );
-
-                totalBytesCopied += bytesToCopy;
-                destination = destination.Slice( bytesToCopy );
-            }
-
-            return totalBytesCopied;
+            return bytesRead;
         }
 
         public override void Flush()
@@ -184,27 +119,7 @@ namespace Blazorise
         public override void Write( byte[] buffer, int offset, int count )
             => throw new NotSupportedException();
 
-        public override Task<int> ReadAsync( byte[] buffer, int offset, int count, CancellationToken cancellationToken )
-            => ReadAsync( new( buffer, offset, count ), cancellationToken ).AsTask();
 
-        public override async ValueTask<int> ReadAsync( Memory<byte> buffer, CancellationToken cancellationToken = default )
-        {
-            int maxBytesToRead = (int)( Length - Position );
-
-            if ( maxBytesToRead > buffer.Length )
-            {
-                maxBytesToRead = buffer.Length;
-            }
-
-            if ( maxBytesToRead <= 0 )
-            {
-                return 0;
-            }
-            var bytesRead = await CopyFileDataIntoBuffer( position, buffer.Slice( 0, maxBytesToRead ), cancellationToken );
-            position += bytesRead;
-
-            return bytesRead;
-        }
 
         protected override void Dispose( bool disposing )
         {
@@ -213,27 +128,22 @@ namespace Blazorise
                 return;
             }
 
-            disposed = true;
-
             fillBufferCts.Cancel();
-            fillBufferCts.Dispose();
-
-            base.Dispose( disposing );
-        }
-
-        public override ValueTask DisposeAsync()
-        {
-            if ( disposed )
+            copyFileDataCts?.Cancel();
+            // If the browser connection is still live, notify the JS side that it's free to release the Blob
+            // and reclaim the memory. If the browser connection is already gone, there's no way for the
+            // notification to get through, but we don't want to fail the .NET-side disposal process for this.
+            try
             {
-                return ValueTask.CompletedTask;
+                _ = jsStreamReference?.DisposeAsync().Preserve();
+            }
+            catch
+            {
             }
 
             disposed = true;
 
-            fillBufferCts.Cancel();
-            fillBufferCts.Dispose();
-
-            return base.DisposeAsync();
+            base.Dispose( disposing );
         }
 
         #endregion

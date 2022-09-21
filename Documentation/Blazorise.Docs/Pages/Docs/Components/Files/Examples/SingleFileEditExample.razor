@@ -1,7 +1,10 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<FileEdit Changed="@OnChanged" />
-@code{
+<Field>
+    <FileEdit Changed="@OnChanged" />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;

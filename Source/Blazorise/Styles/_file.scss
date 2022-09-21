@@ -1,0 +1,43 @@
+﻿.b-file-picker {
+    display: inline-block;
+    width: 100%;
+
+    .b-text-drop {
+        border: 1px solid rgba(0,0,0,0.15);
+        margin-top: 0.5rem;
+        display: block;
+        text-align: center;
+        font-size: 0.75rem;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+    }
+
+    .b-file-picker-file {
+        min-width: 25rem;
+
+        span {
+            display: block;
+        }
+
+        .b-file-picker-file-size, .b-file-picker-file-status {
+            font-size: 0.75rem;
+        }
+    }
+    /*.dropdown {
+        .custom-file {
+            width: auto;
+
+            .custom-file-label {
+                border: 0;
+            }
+        }
+
+        .b-file-picker-files {
+            width: 100%;
+        }
+
+        .b-file-picker-file {
+            margin-right: 1.5rem;
+        }
+    }*/
+}

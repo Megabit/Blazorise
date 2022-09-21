@@ -29,11 +29,19 @@ namespace Blazorise.Modules
         #region Methods       
 
         /// <inheritdoc/>
-        public virtual async ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
+        public virtual async ValueTask<byte[]> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
         {
             var moduleInstance = await Module;
 
-            return await moduleInstance.InvokeAsync<string>( "readFileData", elementRef, fileEntryId, position, length );
+            return await moduleInstance.InvokeAsync<byte[]>( "readFileData", elementRef, fileEntryId, position, length );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default )
+        {
+            var moduleInstance = await Module;
+
+            return await moduleInstance.InvokeAsync<IJSStreamReference>( "readFileDataStream", elementRef, fileEntryId );
         }
 
         #endregion

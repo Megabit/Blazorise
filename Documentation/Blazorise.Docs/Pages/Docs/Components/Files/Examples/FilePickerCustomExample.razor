@@ -1,0 +1,67 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.IO
+
+<Field>
+    <FilePicker @ref="filePickerCustom"
+                Multiple
+                Upload="OnFileUpload"
+                ShowMode="FilePickerShowMode.List">
+        <FileTemplate>
+            <Div Flex="Flex.JustifyContent.Between">
+                <Div>
+                    <Heading Size="HeadingSize.Is5">@context.File.Name</Heading>
+                    <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
+                </Div>
+                <Div>
+                    @if ( context.File.Status == FileEntryStatus.Ready )
+                    {
+                        <Icon TextColor="TextColor.Primary" Name="IconName.FileUpload" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploading )
+                    {
+                        <Icon TextColor="TextColor.Warning" Name="IconName.Bolt" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploaded )
+                    {
+                        <Icon TextColor="TextColor.Success" Name="IconName.CheckCircle" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Error )
+                    {
+                        <Icon TextColor="TextColor.Danger" Name="IconName.TimesCircle" />
+                    }
+                </Div>
+            </Div>
+            <Divider Margin="Margin.Is0" />
+        </FileTemplate>
+        <ButtonsTemplate>
+            <Progress Value="@filePickerCustom.GetProgressPercentage()" />
+            <Buttons>
+                <Button Clicked="@context.Clear" Color="Color.Warning"><Icon Name="IconName.Clear" /></Button>
+                <Button Clicked="@context.Upload" Color="Color.Primary"><Icon Name="IconName.FileUpload" /></Button>
+            </Buttons>
+        </ButtonsTemplate>
+    </FilePicker>
+</Field>
+
+@code {
+    private FilePicker filePickerCustom;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) ;
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}

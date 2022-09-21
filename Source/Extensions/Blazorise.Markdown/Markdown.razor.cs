@@ -278,6 +278,9 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             if ( ImageUploadWritten is not null )
                 return ImageUploadWritten.Invoke( new( fileEntry, position, data ) );
 
@@ -287,6 +290,9 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             ProgressProgress += progressProgress;
 
             var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
@@ -312,7 +318,7 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, SegmentFetchTimeout, ImageMaxSize, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
         }
 
         [JSInvokable]
@@ -475,7 +481,11 @@ namespace Blazorise.Markdown
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.
+        /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
         /// </summary>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
+        /// </remarks>
         [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
 
         /// <summary>
@@ -692,6 +702,12 @@ namespace Blazorise.Markdown
         /// Parent focusable container.
         /// </summary>
         [CascadingParameter] protected IFocusableContainerComponent ParentFocusableContainer { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
+        /// <para>This setting can speed up file transfer considerably.</para>
+        /// </summary>
+        [Parameter] public bool DisableProgressReport { get; set; } = false;
 
         #endregion
     }
