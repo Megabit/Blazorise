@@ -8,6 +8,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Xunit;
 
 namespace Blazorise.Tests.Components
@@ -73,6 +74,10 @@ namespace Blazorise.Tests.Components
         public void DropZone_DisposeWork()
         {
             var container = new DropZone<object>();
+
+            var mockComponentDisposer = new Mock<IComponentDisposer>();
+            container.ComponentDisposer = mockComponentDisposer.Object;
+
             container.Dispose();
         }
 
