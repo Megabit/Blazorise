@@ -22,7 +22,8 @@ export function initialize(element, elementId, options) {
         arrow: options.showArrow,
         allowHTML: true,
         trigger: options.trigger,
-        triggerTarget: triggerTarget
+        triggerTarget: triggerTarget,
+        zIndex: options.zIndex
     };
 
     const alwaysActiveOptions = options.alwaysActive

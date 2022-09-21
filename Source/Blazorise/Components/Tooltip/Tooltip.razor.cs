@@ -84,6 +84,7 @@ namespace Blazorise
                     TriggerTargetId,
                     MaxWidth = Theme?.TooltipOptions?.MaxWidth,
                     AutodetectInline = autodetectInline,
+                    ZIndex
                 } );
             } );
 
@@ -253,6 +254,11 @@ namespace Blazorise
         /// Which element the trigger event listeners are applied to (instead of the reference element).
         /// </summary>
         [Parameter] public string TriggerTargetId { get; set; }
+
+        /// <summary>
+        /// Specifies the z-index CSS on the root popper node.
+        /// </summary>
+        [Parameter] public int? ZIndex { get; set; } = 9999;
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
