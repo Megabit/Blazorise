@@ -87,7 +87,7 @@ namespace Blazorise.DataGrid
             get
             {
                 return Columns
-                    .Where( column => column.IsCommandColumn || column.IsMultiSelectColumn || column.Displayable )
+                    .Where( column => column.IsDisplayable || column.Displayable )
                     .OrderBy( column => column.DisplayOrder );
             }
         }
