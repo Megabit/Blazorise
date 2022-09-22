@@ -13,6 +13,8 @@ export function initialize(element, elementId, options) {
 
     const triggerTarget = options.triggerTargetId ? document.getElementById(options.triggerTargetId) : null;
 
+    const appendTo = determineAppendTo(options.appendTo);
+
     const defaultOptions = {
         theme: 'blazorise',
         content: options.text,
@@ -22,7 +24,10 @@ export function initialize(element, elementId, options) {
         arrow: options.showArrow,
         allowHTML: true,
         trigger: options.trigger,
-        triggerTarget: triggerTarget
+        triggerTarget: triggerTarget,
+        zIndex: options.zIndex,
+        interactive: options.interactive,
+        appendTo: appendTo
     };
 
     const alwaysActiveOptions = options.alwaysActive
@@ -69,4 +74,17 @@ export function updateContent(element, elementId, content) {
             instance.disable();
         }
     }
+}
+
+function determineAppendTo(value) {
+    if (!value || value === "body") {
+        return () => document.body;
+    }
+
+    if (value === "parent")
+        return "parent";
+    else if (value.length > 0 && value[0] === "#")
+        return document.getElementById(value);
+
+    return () => document.body;
 }
