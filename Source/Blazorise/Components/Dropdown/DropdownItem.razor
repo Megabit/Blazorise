@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<a id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+<a id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="() => {}" @onmousedown:preventDefault @attributes="@Attributes" >
     @ChildContent
 </a>

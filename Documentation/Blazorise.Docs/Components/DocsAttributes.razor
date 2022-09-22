@@ -29,7 +29,10 @@
                     @DocsAttributesItem.ChildContent
                 </TableRowCell>
                 <TableRowCell>
-                    <Code Tag="@DocsAttributesItem.TypeTag">@DocsAttributesItem.Type</Code>
+                    @if ( !string.IsNullOrWhiteSpace( DocsAttributesItem.Type ) )
+                    {
+                        <Code Tag="@DocsAttributesItem.TypeTag">@DocsAttributesItem.Type</Code>
+                    }
                 </TableRowCell>
                 <TableRowCell Class="@DocsAttributesItem.DefaultClassNames">
                     @if ( @DocsAttributesItem.Default != null )

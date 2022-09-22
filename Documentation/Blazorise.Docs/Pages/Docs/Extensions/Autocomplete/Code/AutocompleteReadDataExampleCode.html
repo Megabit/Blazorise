@@ -29,6 +29,8 @@
     <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
     <span class="keyword">public</span> IEnumerable&lt;Country&gt; ReadDataCountries;
 
+    <span class="keyword">private</span> Random random = <span class="keyword">new</span>();
+
     <span class="keyword">public</span> <span class="keyword">string</span> selectedSearchValue { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     <span class="keyword">public</span> <span class="keyword">string</span> selectedAutoCompleteText { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
@@ -38,10 +40,16 @@
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
 
-    <span class="keyword">private</span> Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    <span class="keyword">private</span> <span class="keyword">async</span> Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x =&gt; x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-        <span class="keyword">return</span> Task.CompletedTask;
+        <span class="keyword">if</span> ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            <span class="keyword">await</span> Task.Delay( random.Next( <span class="number">100</span> ) );
+            <span class="keyword">if</span> ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x =&gt; x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
     }
 }
 </pre></div>

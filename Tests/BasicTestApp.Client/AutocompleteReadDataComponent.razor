@@ -1,43 +1,42 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
-
-<Autocomplete TItem="Country"
+﻿<Autocomplete TItem="Country"
               TValue="string"
               Data="@ReadDataCountries"
               ReadData="@OnHandleReadData"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Iso)"
-              @bind-SelectedValue="@selectedSearchValue"
-              @bind-SelectedText="selectedAutoCompleteText"
+              @bind-SelectedValue="SelectedValue"
+              @bind-SelectedText="SelectedText"
               Placeholder="Search..."
-              FreeTyping>
+              FreeTyping
+              MinLength="@MinLength"
+              AutoPreSelect="@AutoPreSelect">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
-
-<Field Horizontal>
-    <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected search value: @selectedSearchValue
-    </FieldBody>
-    <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected text value: @selectedAutoCompleteText
-    </FieldBody>
-</Field>
 
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
     public IEnumerable<Country> ReadDataCountries;
-
     private Random random = new();
-
-    public string selectedSearchValue { get; set; }
-    public string selectedAutoCompleteText { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+    [Parameter]
+    public string SelectedValue { get; set; }
+
+    [Parameter]
+    public string SelectedText { get; set; }
+
+    [Parameter]
+    public int MinLength { get; set; } = 1;
+
+    [Parameter]
+    public bool AutoPreSelect { get; set; } = true;
 
     private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {

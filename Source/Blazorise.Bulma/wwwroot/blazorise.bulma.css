@@ -6098,6 +6098,10 @@ ol.is-ordered-list-upper-roman {
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll;
 }
+.b-is-autocomplete .dropdown-menu .dropdown-item.focus {
+  background-color: #f5f5f5;
+  color: #0a0a0a !important;
+}
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
   max-width: 100%;

@@ -48,6 +48,10 @@
 .b-is-autocomplete .ant-dropdown-menu {
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
+
+    .ant-dropdown-menu-item.focus {
+        background-color: #f5f5f5;
+    }
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {

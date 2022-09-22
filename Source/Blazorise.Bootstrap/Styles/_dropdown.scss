@@ -25,6 +25,12 @@
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
+
+    .dropdown-item.focus {
+        color: #16181b !important;
+        text-decoration: none;
+        background-color: #e9ecef;
+    }
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
