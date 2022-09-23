@@ -28,10 +28,8 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Register( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
-        {
-            await InvokeSafeVoidAsync( "registerClosableComponent", dotNetObjectRef, elementRef );
-        }
+        public virtual ValueTask Register( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
+            => InvokeSafeVoidAsync( "registerClosableComponent", dotNetObjectRef, elementRef );
 
         /// <inheritdoc/>
         public virtual async ValueTask Unregister( ICloseActivator component )

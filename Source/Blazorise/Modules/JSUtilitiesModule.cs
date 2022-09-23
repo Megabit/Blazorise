@@ -28,132 +28,68 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask AddClass( ElementReference elementRef, string classname )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "addClass", elementRef, classname );
-        }
+        public virtual ValueTask AddClass( ElementReference elementRef, string classname )
+            => InvokeSafeVoidAsync( "addClass", elementRef, classname );
 
         /// <inheritdoc/>
-        public virtual async ValueTask RemoveClass( ElementReference elementRef, string classname )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "removeClass", elementRef, classname );
-        }
+        public virtual ValueTask RemoveClass( ElementReference elementRef, string classname )
+            => InvokeSafeVoidAsync( "removeClass", elementRef, classname );
 
         /// <inheritdoc/>
-        public virtual async ValueTask ToggleClass( ElementReference elementRef, string classname )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "toggleClass", elementRef, classname );
-        }
+        public virtual ValueTask ToggleClass( ElementReference elementRef, string classname )
+            => InvokeSafeVoidAsync( "toggleClass", elementRef, classname );
 
         /// <inheritdoc/>
-        public virtual async ValueTask AddClassToBody( string classname )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "addClassToBody", classname );
-        }
+        public virtual ValueTask AddClassToBody( string classname )
+            => InvokeSafeVoidAsync( "addClassToBody", classname );
 
         /// <inheritdoc/>
-        public virtual async ValueTask RemoveClassFromBody( string classname )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "removeClassFromBody", classname );
-        }
+        public virtual ValueTask RemoveClassFromBody( string classname )
+            => InvokeSafeVoidAsync( "removeClassFromBody", classname );
 
         /// <inheritdoc/>
-        public virtual async ValueTask<bool> ParentHasClass( ElementReference elementRef, string classname )
-        {
-            var moduleInstance = await Module;
-
-            return await moduleInstance.InvokeAsync<bool>( "parentHasClass", elementRef, classname );
-        }
+        public virtual ValueTask<bool> ParentHasClass( ElementReference elementRef, string classname )
+        => InvokeSafeAsync<bool>( "parentHasClass", elementRef, classname );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "focus", elementRef, elementId, scrollToElement );
-        }
+        public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+            => InvokeSafeVoidAsync( "focus", elementRef, elementId, scrollToElement );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Select( ElementReference elementRef, string elementId, bool focus )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "select", elementRef, elementId, focus );
-        }
+        public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
+            => InvokeSafeVoidAsync( "select", elementRef, elementId, focus );
 
         /// <inheritdoc/>
-        public virtual async ValueTask ScrollAnchorIntoView( string anchorTarget )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "scrollAnchorIntoView", anchorTarget );
-        }
+        public virtual ValueTask ScrollAnchorIntoView( string anchorTarget )
+            => InvokeSafeVoidAsync( "scrollAnchorIntoView", anchorTarget );
 
         /// <inheritdoc/>
-        public virtual async ValueTask SetCaret( ElementReference elementRef, int caret )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "setCaret", elementRef, caret );
-        }
+        public virtual ValueTask SetCaret( ElementReference elementRef, int caret )
+            => InvokeSafeVoidAsync( "setCaret", elementRef, caret );
 
         /// <inheritdoc/>
-        public virtual async ValueTask<int> GetCaret( ElementReference elementRef )
-        {
-            var moduleInstance = await Module;
-
-            return await moduleInstance.InvokeAsync<int>( "getCaret", elementRef );
-        }
+        public virtual ValueTask<int> GetCaret( ElementReference elementRef )
+            => InvokeSafeAsync<int>( "getCaret", elementRef );
 
         /// <inheritdoc/>
-        public virtual async ValueTask SetTextValue( ElementReference elementRef, object value )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeAsync<int>( "setTextValue", elementRef, value );
-        }
+        public virtual ValueTask SetTextValue( ElementReference elementRef, object value )
+            => InvokeSafeVoidAsync( "setTextValue", elementRef, value );
 
         /// <inheritdoc/>
-        public virtual async ValueTask SetProperty( ElementReference elementRef, string property, object value )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "setProperty", elementRef, property, value );
-        }
+        public virtual ValueTask SetProperty( ElementReference elementRef, string property, object value )
+            => InvokeSafeVoidAsync( "setProperty", elementRef, property, value );
 
         /// <inheritdoc/>
-        public virtual async ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            return await moduleInstance.InvokeAsync<DomElement>( "getElementInfo", elementRef, elementId );
-        }
+        public virtual ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
+            => InvokeSafeAsync<DomElement>( "getElementInfo", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask<string> GetUserAgent()
-        {
-            var moduleInstance = await Module;
-
-            return await moduleInstance.InvokeAsync<string>( "getUserAgent" );
-        }
+        public virtual ValueTask<string> GetUserAgent()
+            => InvokeSafeAsync<string>( "getUserAgent" );
 
         /// <inheritdoc/>
-        public async ValueTask CopyToClipboard( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "copyToClipboard", elementRef, elementId );
-        }
+        public ValueTask CopyToClipboard( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "copyToClipboard", elementRef, elementId );
 
         #endregion
 
