@@ -1,6 +1,6 @@
 ﻿---
 title: What To Expect In .NET 7
-description: we analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022
+description: We analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022
 permalink: /blog/what-to-expect-in-net7
 canonical: /blog/what-to-expect-in-net7
 image-url: img/blog/2022-08-29/NET7.png
@@ -11,6 +11,9 @@ posted-on: August 23rd, 2022
 read-time: 5 min
 ---
 
+# What To Expect In .NET 7
+
+In this blog post we will analyze new features currently available in preview 7 of .NET 7, the last preview before the official stable release in November 2022.
 
 ## Microsoft's .NET Release Cycle
 
