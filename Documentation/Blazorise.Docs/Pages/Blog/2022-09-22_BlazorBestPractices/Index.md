@@ -19,9 +19,16 @@ The app or project structure is the arrangement of files, folders and projects i
 
 A typical application consists of a client-side, a server side, a database and an API.
 
-App structure refers to the projects and folders in the solution. Whilst application structure and architecture are different, the lines between are often blurred as applications are structured in a way that depicts the application architecture. 
+App structure refers to the projects and folders in your solution. Whilst application structure and architecture are different, the lines between are often blurred as applications are structured in a way that depicts the application architecture. 
+
+There are a few types of application architectures that your app structure should depict
+
+### Layered Architecture
+
+In a layered architecture, different components of the application are arranged in layers. At the buttom is the database layer, which talks directly to the database.
 
 
+The persistence logic layer sits on top of the database layer and performs interactions with the database such as CRUD. As a result, it is sometimes called the data access layer or the repository layer because it uses the repository pattern to abstract the implementation of the business logic. 
 
 
 Blazor is a new framework for building interactive web UIs using .NET. Blazor apps are composed of reusable web UI components implemented using C#, HTML, and CSS. These components handle user events and can be nested to build complex user interfaces.
