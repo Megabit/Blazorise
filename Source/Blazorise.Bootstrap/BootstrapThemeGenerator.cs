@@ -128,7 +128,6 @@ namespace Blazorise.Bootstrap
                     .Append( $"color: {yiqBackground};" )
                     .Append( $"background-color: {background};" )
                     .Append( $"border-color: {border};" )
-                    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                     .AppendLine( "}" );
 
                 sb
