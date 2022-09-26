@@ -97,7 +97,9 @@ This means that your web app can be more responsive and have a better user exper
 
 ### Service Injection
 
-Service injection is a powerful feature in blazor that allows developers to inject services into their components. Services are typically registered with the dependency injector (DI) container at startup, and then injected into components when they are created.
+Service injection is a powerful feature in blazor that allows developers to inject services into their components making services available throughout the component's lifecycle. Services are typically registered with the dependency injector (DI) container at startup, and then injected into components when they are created.
+
+Services can be injected into components either via the @inject directive or by using the service provider. 
 
 This gives developers the ability to reuse services across their application and also makes it easy to unit test components.
 
