@@ -48,19 +48,70 @@ Although the layered architecture pattern does not specify the number and types 
 However, there are other variations of the layered architecture such as the N-tier architecture and the 4+1 Krueger Architecture which takes this a step further. 
 
 ### Onion Architecture
+
 Unlike the rectangular nature of the layered, the onion architecture is shaped in an onion mimic, with several layers underneath. The onion architecture is used to implement Domain Driven Design or Command Query Responsibility Seperation.
 
+The premise of domain-driven design is that the structure and language of software code (and other artifacts) should match the structure and language of the business domain. CQRS is a pattern that separates reads from writes. 
+
+Clean architecture is a variation of microservices that takes advantage of domain-driven design principles to provide a clear separation of concerns between services.
+
+This separation enables each service to be independently developed, deployed, and scaled without affecting other services in the system.
+
+CQRS is a pattern that can be used in conjunction with microservices or Domain-Driven Design to provide a higher level of abstraction between the data model and the business logic.
+
+By separating these two concerns, it becomes easier to scale each component independently and make changes to the system without impacting other parts of the system.
+
+Other variations of Onion Architecture are the Hexagonal Architecture and Ports and Adapters.
+
+### Microservice Architecture
+
+A more complex implementation of CQRS and Domain-Driven Design can be used in microservices architecture to make sure that different services can scale independently.
 
 
 ## State Management In Blazor Applications
 
-State management is an important part of any application, but it can be especially challenging in single-page applications (SPAs) like Blazor apps.
+In Blazor, state can be managed either on the server or the client. Blazor uses a Razor templating system to generate UI components on the server, which are then downloaded and rendered on the client.
 
-Blazor as a framework is composed of reusable web UI components implemented using C#, HTML, and CSS. These components handle user events and can be nested to build complex user interfaces.
+These components handle user events and can be nested to build complex user interfaces.
 
 This means that each component can have its own state, which can be managed independently from the rest of the application.
 
-There are many different ways to manage state in Blazor apps. We will explore some of the most common approaches and discuss the pros and cons of each and how to choose the right approach for your specific needs.
+One of the unique features of Blazor is that it uses an event-driven programming model, which means that UI updates are automatically propagated to all clients connected to the application.
+
+Server-side state management is useful for scenarios where data needs to be persisted across page refreshes, or when data needs to be shared between users.
+
+Client-side state management is useful for scenarios where data can be cached locally and does not need to be persisted across page refreshes.
+
+While Blazor does not have built-in support for state management, there are a few different ways that you can manage state in your Blazor applications.
+
+We'll explore how to manage state in a Blazor application with component state, service injection, and global state.
 
 
+### Component State
 
+Blazor uses a unique approach to managing state in the UI; instead of using traditional browser techniques like cookies, Blazor uses something called 'component state'.
+
+Component state is a way of keeping track of changes to the UI without having to send information back and forth to the server.
+
+This means that your web app can be more responsive and have a better user experience.
+
+### Service Injection
+
+Service injection is a powerful feature in blazor that allows developers to inject services into their components. Services are typically registered with the dependency injector (DI) container at startup, and then injected into components when they are created.
+
+This gives developers the ability to reuse services across their application and also makes it easy to unit test components.
+
+
+## Error Handling
+
+Error handling is important. Error handling is the process of responding to and recovering from error conditions in your program. No one wants their website or application to crash and burn, so having a good error-handling strategy in place is key. 
+
+One way is to simply let the Exception bubble up to the top and handle it there. Another way is to use try/catch blocks within your code.
+
+Personally, I prefer the try/catch method because it allows me to be more specific with my error handling.
+
+For example, I can catch a particular type of Exception and then handle it accordingly.
+
+This is especially useful if you want to gracefully recover from an error instead of just displaying a generic error message to the user.
+
+We will highlight both methods of Error Handling in Blazor so that you can decide which one is right for your own applications.
