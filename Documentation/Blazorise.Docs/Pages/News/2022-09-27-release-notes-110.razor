@@ -2,13 +2,29 @@
 
 <Seo Canonical="news/release-notes/110" Title="Blazorise v1.1" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.1 release." ImageUrl="img/news/110/v110.png" />
 
+<NewsPageImage Source="img/news/110/v110.png" Text="Blazorise v1.1" />
+
 <NewsPageTitle>
     Announcing Blazorise 1.1
 </NewsPageTitle>
 
-<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="September 1st, 2022" Read="7 min" />
+<Paragraph>
+    After 6 months of development, Blazorise is out and it comes packed with features and quality of life improvements!
+</Paragraph>
 
-<NewsPageImage Source="img/news/110/v110.png" Text="Blazorise v1.1" />
+<Paragraph>
+    Internal changes are hard to showcase, but if you are curious to learn a bit more, we have documented all changes in <Anchor To="https://github.com/Megabit/Blazorise/issues/3575">1.1 ticket on GitHub</Anchor>. Also, don't forget to look at <Anchor To="https://github.com/Megabit/Blazorise/issues/3540">1.0.x fixes</Anchor>, which are also included in this release.
+</Paragraph>
+
+<Paragraph>
+    <Strong>
+        Blazorise 1.1 is compatible with Blazorise 1.0.x projects and is a recommended upgrade for all 1.0.x users.
+    </Strong>
+</Paragraph>
+
+<Paragraph>
+    There are no breaking changes in this release, but we will slowly start with some API changes by making existing APIs obsolete and introducing new as a replacements. Once we reach stable <Strong>v2.0</Strong> the APIs marked with obsolete will eventually be removed.
+</Paragraph>
 
 <NewsPageSubtitle>
     Blazorise 1.1 Highlights 💡
@@ -16,32 +32,67 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        New <Strong>FilePicker</Strong> component.
-    </UnorderedListItem>    
+        New <Strong>FocusTrap</Strong> component.
+    </UnorderedListItem>
     <UnorderedListItem>
-        <Strong>FileEdit</Strong> performance improvements to <Code>WriteToStreamAsync</Code> and <Code>OpenReadStreamAsync</Code> APIs
+        New <Strong>Highlighter</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>FluentValidation</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>FilePicker</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>ModalProvider</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>FilePicker</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>LoadingIndicator</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>FileEdit</Strong> performance improvements to <Code>WriteToStreamAsync</Code> and <Code>OpenReadStreamAsync</Code> APIs.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        DataGrid improvements.
     </UnorderedListItem>
 </UnorderedList>
 
 <NewsPageSubtitle>
-    Migration 🛠
+    Upgrade an existing project
 </NewsPageSubtitle>
 
 <Paragraph>
-    There are no breaking changes, but we will slowly start with some API changes by making existing APIs obsolete and introducing new as a replacements. Once we reach stable <Strong>v2.0</Strong> the APIs marked with obsolete will eventually be removed.
+    To upgrade an existing Blazorise app from <Strong>1.0.x</Strong> to <Strong>1.1</Strong>:
 </Paragraph>
 
-<Paragraph>
-    🛑 Due to a <Anchor To="https://github.com/dotnet/razor-compiler/issues/332">bug in Visual Studio razor tooling</Anchor> you might experience problems if you try to define tuple values as a component parameter. In Blazorise case, this problem might manifest itself on the <Anchor To="docs/components/grid">Row component</Anchor>.
-</Paragraph>
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.1</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Migration
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    1. Tuple Values
+</Heading>
 
 <Paragraph>
-    For example if you have <Code Tag>Row Gutter="(32, 16)"</Code> you will get build errors. To workaround it we have introduced new parameters, named <Code>HorizontalGutter</Code>, and <Code>VerticalGutter</Code>.
+    Due to a <Anchor To="https://github.com/dotnet/razor-compiler/issues/332"> bug in Visual Studio razor tooling</Anchor> you might experience problems if you try to define tuple values as a component parameter. In Blazorise case, this problem might manifest itself on the <Anchor To="docs/components/grid">Row component</Anchor>. For example if you have <Code Tag>Row Gutter="(32, 16)"</Code> you will get build errors. To workaround it we have introduced new parameters, named <Code>HorizontalGutter</Code>, and <Code>VerticalGutter</Code>.
 </Paragraph>
 
 <Paragraph>
     To use them you will just need to define it as <Code Tag>Row HorizontalGutter="32" VerticalGutter="16"</Code>.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    2. Recommended Renames
+</Heading>
 
 <OrderedList>
     <UnorderedListItem>
@@ -53,42 +104,42 @@
     <UnorderedListItem>
         Change all usages of <Code>PageProgressAlert</Code> into <Code>PageProgressProvider</Code>.
     </UnorderedListItem>
-    <UnorderedListItem>
-        The explicit usage of Markdown extension CSS and JS files are not needed and they can be safely removed:
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/easymde/dist/easymde.min.css&quot;&gt;</Code>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code>&lt;script src=&quot;https://unpkg.com/easymde/dist/easymde.min.js&quot;&gt;&lt;/script&gt;</Code>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code>&lt;script src=&quot;https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js&quot;&gt;&lt;/script&gt;</Code>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
 </OrderedList>
+
+<Heading Size="HeadingSize.Is3">
+    3. Recommended Removals
+</Heading>
 
 <Paragraph>
-    Note...
+    The explicit usage of Markdown extension CSS and JS files are not needed and they can be safely removed:
 </Paragraph>
 
-<OrderedList>
+<UnorderedList>
     <UnorderedListItem>
-        ...
+        <Code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/easymde/dist/easymde.min.css&quot;&gt;</Code>
     </UnorderedListItem>
-</OrderedList>
+    <UnorderedListItem>
+        <Code>&lt;script src=&quot;https://unpkg.com/easymde/dist/easymde.min.js&quot;&gt;&lt;/script&gt;</Code>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>&lt;script src=&quot;https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js&quot;&gt;&lt;/script&gt;</Code>
+    </UnorderedListItem>
+</UnorderedList>
 
 <NewsPageSubtitle>
-    Highlights 🚀
+    Features 🚀
 </NewsPageSubtitle>
+
+<Paragraph>
+    Many new features have been added in Blazorise 1.1, both small and large. The following is a list of a few of the larger features that we are excited about in no particular order. For a complete list of all changes you can check out our <Anchor To="https://github.com/Megabit/Blazorise/issues/3575">curated changelog</Anchor>, as well as the <Anchor To="https://github.com/Megabit/Blazorise/issues/3540">1.0.x fixes</Anchor>, which are also included in this release.
+</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     FocusTrap component
 </Heading>
 
 <Paragraph>
-    As a continuous work to improve AODA compatibility we have created a new FocusTrap component. TrapFocus is a component that manages focus for its descendants. This is useful when implementing overlays such as modal dialogs, which should not allow the focus to escape while open.
+    As a continuous work to improve <Anchor To="https://www.aoda.ca/web-accessibility-guidelines-for-compatibility-with-assistive-technology/">AODA compatibility</Anchor> we have created a new FocusTrap component. FocusTrap is a component that manages focus for its descendants. This is useful when implementing overlays such as modal dialogs, which should not allow the input focus to escape while open.
 </Paragraph>
 
 <Paragraph>
@@ -103,6 +154,10 @@
     This is a relatively small component, but it can be beneficial when designing the UI for your application. For example, it helps you visually distinguish parts of the text by highlighting them based on the search term.
 </Paragraph>
 
+<Paragraph>
+    If you wish to use new component look at few of the examples we have created on the <Anchor To="docs/components/highlighter">Highlighter page</Anchor>.
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     FluentValidation component
 </Heading>
@@ -112,7 +167,7 @@
 </Paragraph>
 
 <Paragraph>
-    With the help from <Anchor To="https://github.com/aladotnet" Title="Link to GitHub user">aladotnet</Anchor>, a community member that has implemented the feature and was willing to give it away as part of the Blazorise core repository. He did all the hard work. We have only made minor optimizations to the API and added examples to the documentation.
+    The new <Strong>FluentValidation</Strong> component is created with the help of <Anchor To="https://github.com/aladotnet" Title="Link to GitHub user">aladotnet</Anchor>, a community member that has implemented the feature on his GitHub repository and was willing to give it away as part of the Blazorise core repository. Fortunately, he did all the hard work. As a result, we have only made minor optimizations to the API and added examples to the documentation.
 </Paragraph>
 
 <Paragraph>
@@ -160,7 +215,11 @@
 </Heading>
 
 <Paragraph>
-    Introduced a new component <Code>ModalProvider</Code>. You are now able to programatically decide what custom content or component you want to instantiate inside of your Modal, even with the support of parameters.
+    I believe this feature will be handy for a lot of people.
+</Paragraph>
+
+<Paragraph>
+    The new ModalProvider is used to programmatically decide what custom content or component you want to instantiate inside your Modal, even with the support of parameters.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -195,15 +254,15 @@
 </Heading>
 
 <Paragraph>
-   The new <Code>FilePicker</Code> will give you an enhanced File Upload control, with more out of the box options then our <Code>FileEdit</Code> component.
-   - Listing, detailing and controlling the look of the selected files.
-   - Clear and upload buttons with built in progress bar
+    The new <Code>FilePicker</Code> will give you an enhanced File Upload control, with more out of the box options then our <Code>FileEdit</Code> component.
+    - Listing, detailing and controlling the look of the selected files.
+    - Clear and upload buttons with built in progress bar
 </Paragraph>
 
 <Paragraph>
     Introduced <Code>SuggestSelectedItems</Code> support enabling the already selected options to show up on the suggested items.
 </Paragraph>
-    
+
 <Paragraph>
     Introduced <Code>AutocompleteSelectionMode</Code>
     <UnorderedList>
@@ -211,7 +270,7 @@
         <UnorderedListItem><Strong>Multiple</Strong> : Multiple mode. Selection is multiple.</UnorderedListItem>
         <UnorderedListItem><Strong>Checkbox</Strong> : Checkbox mode. Selection is multiple with checkbox selection support.</UnorderedListItem>
     </UnorderedList>
-    
+
     You may still use the existing <Code>Multiple</Code> parameter to set the <Code>Autocomplete</Code> into Multiple selection mode, however take note that this Parameter has now been marked as <Code>Obsolete</Code> and will be removed in a future version. Please use the new <Code>SelectionMode</Code> Parameter.
 </Paragraph>
 
@@ -229,15 +288,15 @@
 </Paragraph>
 
 <Paragraph>
-    Improved keyboard support. 
-    You can now select items and remove selection using keyboard alone. 
-    Use navigation arrows to select an item in the dropdown. 
+    Improved keyboard support.
+    You can now select items and remove selection using keyboard alone.
+    Use navigation arrows to select an item in the dropdown.
     In multi-select mode use Backspace to remove most recently selected item or use [Shift-]Tab and Enter key to remove any previously selected item.
     Contributed by : <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
 </Paragraph>
 
 <Paragraph>
-    Introduced <Code>AutoSelectFirstItem</Code> parameter for single-select mode. 
+    Introduced <Code>AutoSelectFirstItem</Code> parameter for single-select mode.
     Use this parameter to automatically select the first item from <Code>Data</Code> during <Code>Autocomplete</Code> initialization.
     Contributed by : <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
 </Paragraph>
@@ -298,3 +357,5 @@
 <Paragraph>
     The new feature can be seen on <Anchor To="docs/components/step">Step component</Anchor> page.
 </Paragraph>
+
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="September 1st, 2022" Read="7 min" />
