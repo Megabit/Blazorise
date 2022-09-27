@@ -3,16 +3,18 @@ title: Best practices for building maintainable Blazor apps
 description: Best practices for building and maintaining Blazor applications
 permalink: /blog/blazor-best-practises-part-one
 canonical: /blog/blazor-best-practises-part-one
-image-url: /img/blog/2022-09-22/img.png
+image-url: /img/blog/2022-09-22/Best_practices_for_building_maintainable_Blazor_apps.png
 image-text: image text
 author-name: James Amattey
 author-image: james
-posted-on: September 22nd, 2022
+posted-on: September 28th, 2022
 read-time: 6 min
 ---
 
 In this blog, we will explore some best practices for building maintainable Blazor apps. We will discuss how to structure your app, how to manage state, and how to handle errors.
 By following these best practices, you can build an app that is easier to maintain and more robust.
+
+---
 
 ## App Structure
 The app or project structure is the arrangement of files, folders and projects in your solution. Sometimes these arrangements can be done to depict the architecture of the application but they are not always the same thing.
@@ -23,13 +25,17 @@ App structure refers to the projects and folders in your solution. Whilst applic
 
 There are a few types of application architectures that your app structure should depict
 
+---
+
 ### Layered Architecture
 
 In a layered architecture, different components of the application are arranged in layers. 
 
 Most layered architectures consist of four standard layers: presentation, business, persistence, and database
 
-At the buttom is the database layer, which talks directly to the database. 
+[Layered Architecture!](/img/blog/2022-09-28/1.png)
+
+As shown by the figure above, at the buttom is the database layer, which talks directly to the database by sending and retrieving information from the database. 
 
 The persistence logic layer sits on top of the database layer and performs interactions with the database such as CRUD. As a result, it is sometimes called the data access layer or the repository layer because it uses the repository pattern to abstract the implementation of the business logic. 
 
@@ -37,15 +43,24 @@ The business layer is responsible for executing specific business rules associat
 
 In some cases, the business layer and persistence layer are combined into a single business layer, particularly when the persistence logic is embedded within the business layer components.
 
+The presentation layer is the user interface that displays information in the browser. This could be a [blazor wasm project](blog/what-is-blazor-wasm) where users can send and view information and web pages from the server. 
+
 One of the powerful features of the layered architecture pattern is the separation of concerns among components. Components within a specific layer deal only with logic that pertains to that layer.
 
-Each layer in marked as closed a closed layer. This means that a request originating from the presentation layer must first go through the business layer and then to the persistence layer before finally hitting the database layer. 
+Each layer in marked as a closed layer. This means that a request originating from the presentation layer must first go through the business layer and then to the persistence layer before finally hitting the database layer. 
 
 This type of component classification makes it easy to build effective roles and responsibility models into your architecture, and also makes it easy to develop, test, govern, and maintain applications using this architecture pattern due to well-defined component interfaces and limited component scope.
 
 Although the layered architecture pattern does not specify the number and types of layers that must exist in the pattern, it is very common to see 3 or 4 layers in a typical application.
 
-However, there are other variations of the layered architecture such as the N-tier architecture and the 4+1 Krueger Architecture which takes this a step further. 
+However, there are other variations of the layered architecture such as the N-tier architecture and the 4+1 Krueger Architecture which takes this a step further.
+
+
+Layered architecture is perfect for smaller projects.However when the project gets bigger, maintenance can become a headache. Whilst each layer depicts a seperation of concerns, each layer is tightly coupled to the layers around it.
+
+As a result, a change in the presentation layer will result in other layers. This can lead to spaghetti code as code is often nonreusable with a lot of class inheritance and encapsulation.
+
+---
 
 ### Onion Architecture
 
@@ -53,7 +68,7 @@ Unlike the rectangular nature of the layered, the onion architecture is shaped i
 
 The premise of domain-driven design is that the structure and language of software code (and other artifacts) should match the structure and language of the business domain. CQRS is a pattern that separates reads from writes. 
 
-Clean architecture is a variation of microservices that takes advantage of domain-driven design principles to provide a clear separation of concerns between services.
+Onion architecture is a variation of microservices implementation that takes advantage of domain-driven design principles to provide a clear separation of concerns between services.
 
 This separation enables each service to be independently developed, deployed, and scaled without affecting other services in the system.
 
@@ -62,6 +77,20 @@ CQRS is a pattern that can be used in conjunction with microservices or Domain-D
 By separating these two concerns, it becomes easier to scale each component independently and make changes to the system without impacting other parts of the system.
 
 Other variations of Onion Architecture are the Hexagonal Architecture and Ports and Adapters.
+
+Onion Architecture is based on the inversion of control principle. Onion Architecture is comprised of multiple concentric layers interfacing each other towards the core that represents the domain.
+
+The architecture does not depend on the data layer as in classic multi-tier architectures, but on the actual domain models.
+
+[Onion Architecture!](/img/blog/2022-09-28/2.png)
+
+
+Onion architecture allows each layer to scale independently as they are not tightly coupled to each other. The repository nature of the architecture means that there is an encapsulation of the logic required to access data sources.
+
+The layers are connected through interfaces and can be quickly tested because the application core does not depend on anything. 
+
+
+This leads to  better maintainability and decoupling the infrastructure or technology used to access databases from the domain model layer.
 
 ### Microservice Architecture
 
