@@ -127,6 +127,13 @@ Microservices is a software architecture style in which complex applications are
 
 This means that instead of one large application, the microservices architecture allows you to build individual services that work together.
 
+[Microservices](/img/blog/2022-09-28/3.png)
+
+Monoliths are large, all-in-one applications while microservices are smaller, self-contained applications. Both have their own advantages and disadvantages, but microservices tend to be more scalable and easier to maintain.
+
+> In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API.
+Martin Fowler
+
 One benefit of microservices is that it is easier to scale an application because you can scale each service individually.
 
 This can be especially helpful if you have different parts of your application that receive different levels of traffic.
