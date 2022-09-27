@@ -32,7 +32,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Editing">
-        <Paragraph>The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid just set the <Code>Editable</Code> attribute to true.</Paragraph>
+        <Paragraph>
+            The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid, set the <Code>Editable</Code> attribute to true on the DataGrid, and then set <Code>Editable</Code> to true on each column you wish to be editable.
+        </Paragraph>
 
         <Paragraph>By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.</Paragraph>
         <Paragraph>The grid can work in two different editing modes that can provide different user experiences.</Paragraph>
