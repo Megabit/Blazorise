@@ -9,7 +9,21 @@
 </NewsPageTitle>
 
 <Paragraph>
-    After 6 months of development, Blazorise is out and it comes packed with features and quality of life improvements!
+    It took us way too long, but finally, after six months of hard work, Blazorise 1.1 is out and comes packed with features and quality-of-life improvements!
+</Paragraph>
+
+<Paragraph>
+    So, what happened at that time? To start, we have made a lot of improvements on <Strong>blazorise.com</Strong>. For example, we have improved documentation to include more examples and descriptions. Also, we added a search field for much faster navigation and more internal links between pages.
+</Paragraph>
+
+<Paragraph>
+    One of the most significant changes is that we have finally introduced new <Anchor To="blog">blog pages</Anchor> where we regularly write about C#, Blazor and .NET. Not to mention how-to guides and tutorials where you can learn more about Blazorise.
+</Paragraph>
+
+<hr />
+
+<Paragraph>
+    There are no breaking changes in this release, but we will slowly start with some API changes by making existing APIs obsolete and introducing new APIs as replacements. Once we reach stable <Strong>v2.0</Strong>, the APIs marked with obsolete will eventually be removed.
 </Paragraph>
 
 <Paragraph>
@@ -20,10 +34,6 @@
     <Strong>
         Blazorise 1.1 is compatible with Blazorise 1.0.x projects and is a recommended upgrade for all 1.0.x users.
     </Strong>
-</Paragraph>
-
-<Paragraph>
-    There are no breaking changes in this release, but we will slowly start with some API changes by making existing APIs obsolete and introducing new as a replacements. Once we reach stable <Strong>v2.0</Strong> the APIs marked with obsolete will eventually be removed.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -56,16 +66,20 @@
         <Strong>FileEdit</Strong> performance improvements to <Code>WriteToStreamAsync</Code> and <Code>OpenReadStreamAsync</Code> APIs.
     </UnorderedListItem>
     <UnorderedListItem>
-        DataGrid improvements.
+        <Strong>DataGrid</Strong> improvements and new APIs.
     </UnorderedListItem>
 </UnorderedList>
 
 <NewsPageSubtitle>
-    Upgrade an existing project
+    Upgrade an existing project 👨‍🔧
 </NewsPageSubtitle>
 
+<Heading Size="HeadingSize.Is3">
+    1. Packages
+</Heading>
+
 <Paragraph>
-    To upgrade an existing Blazorise app from <Strong>1.0.x</Strong> to <Strong>1.1</Strong>:
+    To upgrade an existing Blazorise applications from <Strong>1.0.x</Strong> to <Strong>1.1</Strong>:
 </Paragraph>
 
 <UnorderedList>
@@ -74,12 +88,8 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<NewsPageSubtitle>
-    Migration
-</NewsPageSubtitle>
-
 <Heading Size="HeadingSize.Is3">
-    1. Tuple Values
+    2. Tuple Values
 </Heading>
 
 <Paragraph>
@@ -91,7 +101,7 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    2. Recommended Renames
+    3. Recommended Renames
 </Heading>
 
 <OrderedList>
@@ -107,11 +117,11 @@
 </OrderedList>
 
 <Heading Size="HeadingSize.Is3">
-    3. Recommended Removals
+    4. Recommended Removals
 </Heading>
 
 <Paragraph>
-    The explicit usage of Markdown extension CSS and JS files are not needed and they can be safely removed:
+    The explicit usage of Markdown extension CSS and JS files are not needed and they can be safely removed from <Strong>index.html</Strong> or <Strong>_Layout.cshtml</Strong> files.
 </Paragraph>
 
 <UnorderedList>
@@ -127,11 +137,19 @@
 </UnorderedList>
 
 <NewsPageSubtitle>
-    Features 🚀
+    New Features 🚀
 </NewsPageSubtitle>
 
 <Paragraph>
     Many new features have been added in Blazorise 1.1, both small and large. The following is a list of a few of the larger features that we are excited about in no particular order. For a complete list of all changes you can check out our <Anchor To="https://github.com/Megabit/Blazorise/issues/3575">curated changelog</Anchor>, as well as the <Anchor To="https://github.com/Megabit/Blazorise/issues/3540">1.0.x fixes</Anchor>, which are also included in this release.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    .NET 7 Support
+</Heading>
+
+<Paragraph>
+    First, we must mention that Blazorise 1.1 fully supports the new .NET 7 SDK. Currently, it uses the last available RC1, so we will consider it a preview until the final version is released. But until then, you can safely use this version, which should behave like .NET 6.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -178,12 +196,23 @@
     DataGrid
 </Heading>
 
+<Heading Size="HeadingSize.Is4">
+    1. Sort Icon
+</Heading>
+
 <Paragraph>
     Added <Code>ShowDefaultSortIcon</Code> parameter to <Code>DataGrid</Code>. By enabling this parameter, a default sort icon will now display.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    2. PagerOptions
+</Heading>
+
 <Paragraph>
     Introduced <Code>PagerOptions</Code> with the following options:
+</Paragraph>
+<Paragraph>
+
     <UnorderedList>
         <UnorderedListItem><Strong>Size</Strong> : Configures the pager buttons size.</UnorderedListItem>
         <UnorderedListItem><Strong>ButtonRowPosition</Strong> : Configures the button row position.</UnorderedListItem>
@@ -192,19 +221,37 @@
     </UnorderedList>
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    3. ScrollRowOnEdit
+</Heading>
+
 <Paragraph>
     Added <Code>ScrollRowOnEdit</Code> parameter to <Code>DataGrid</Code> <Code>VirtualizeOptions</Code>. When <Code>Virtualize</Code> is set, you may now disable the behaviour of scrolling the row to the top on edit when on <Code>DataGridEditMode.Inline</Code> or <Code>DataGridEditMode.Form</Code> by setting this new option to false.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    4. SelectedRowIndex
+</Heading>
 
 <Paragraph>
     Added <Code>SelectedRowIndex</Code> getter to <Code>DataGrid</Code>. This is an helper so you can quickly find the Zero-based index of your <Code>SelectedRow</Code>. It can be an useful API in conjuction with the <Code>ScrollToRow</Code> method, that takes in a Zero-based index of <Code>DataGrid</Code> row to scroll to.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    5. SortOrder
+</Heading>
+
 <Paragraph>
     Added <Code>SortOrder</Code> parameter to <Code>DataGrid</Code> so when the <Code>DataGrid</Code> sorting mechanism is set to multiple, you are able to configure the order of which the sorting of the columns takes place, this is specially useful, if you want to start the <Code>DataGrid</Code> sorted a certain way.
-    Please do take note, that for the parameter to listen to changes and be able to dynamically be adjusted to the <Code>DataGrid</Code> changes, you should use <Code>bind-SortOrder</Code>.
-    An example is when you have a Column A with a <Code>SortOrder</Code> of 2 And Column B with a <Code>SortOrder</Code> of 1, the moment the user removes the sorting out of Column B, the <Code>DataGrid</Code> will attempt to reset the <Code>SortOrder</Code> back to 0 as to accomodate the natural multiple sorting rules.
 </Paragraph>
+
+<Paragraph>
+    Please do take note, that for the parameter to listen to changes and be able to dynamically be adjusted to the <Code>DataGrid</Code> changes, you should use <Code>bind-SortOrder</Code>. An example is when you have a Column A with a <Code>SortOrder</Code> of 2 And Column B with a <Code>SortOrder</Code> of 1, the moment the user removes the sorting out of Column B, the <Code>DataGrid</Code> will attempt to reset the <Code>SortOrder</Code> back to 0 as to accomodate the natural multiple sorting rules.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    6. PageSize
+</Heading>
 
 <Paragraph>
     Increased default <Code>PageSize</Code> parameter value from <Strong>5</Strong> to <Strong>10</Strong>.
@@ -219,7 +266,11 @@
 </Paragraph>
 
 <Paragraph>
-    The new ModalProvider is used to programmatically decide what custom content or component you want to instantiate inside your Modal, even with the support of parameters.
+    The new ModalProvider component is used to programmatically render what custom content or component you want to instantiate inside your Modal, even with the support of parameters. The usage is similar to MessageProvider, but unlike it, we have more control over what will be rendered. For example, we can define to render entire pages or forms, and ModalProvider will automatically do it for you.
+</Paragraph>
+
+<Paragraph>
+    The usage of new ModalProvider with examples can be see at <Anchor To="docs/services/modal-provider">ModalProvider page</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -227,20 +278,114 @@
 </Heading>
 
 <Paragraph>
-    Introduced <Code>ReadData</Code> support enabling you to provide that to Autocomplete on demand according to the user's searched text.
+    The Autocomplete component has received a lot of love in this release. Feature-wise, I believe it has the highest amount of new features compared to all other components.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    1. ReadData
+</Heading>
+
+<Paragraph>
+    Now it is possible to use the <Code>ReadData</Code> parameter to connect to an outside data source and load Autocomplete data on demand according to the user's searched text.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    2. SuggestSelectedItems
+</Heading>
+
+<Paragraph>
+    Introduced <Code>SuggestSelectedItems</Code> parameter, enabling you to to show up already selected items in the dropdown menu.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    3. AutocompleteSelectionMode
+</Heading>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem><Strong>Default</Strong> : Default mode. Selection is single.</UnorderedListItem>
+        <UnorderedListItem><Strong>Multiple</Strong> : Multiple mode. Selection is multiple.</UnorderedListItem>
+        <UnorderedListItem><Strong>Checkbox</Strong> : Checkbox mode. Selection is multiple with checkbox selection support.</UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    You may still use the existing <Code>Multiple</Code> parameter to set the <Code>Autocomplete</Code> into Multiple selection mode, however take note that this Parameter has now been marked as <Code>Obsolete</Code> and will be removed in a future version. Please use the new <Code>SelectionMode</Code> Parameter.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    4. ConfirmKey
+</Heading>
+
+<Paragraph>
+    Introduced <Code>ConfirmKey</Code> parameter, you are now able to costumize the keyboard keys that should be considered as a Confirmation Key.
+</Paragraph>
+
+<Paragraph>
+    <Blockquote>
+        Take note: If the value has a printed representation, this attribute's value is the same as the char attribute. Otherwise, it's one of the key value strings specified in 'Key values'.
+    </Blockquote>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    5. AutoPreSelect
+</Heading>
+
+<Paragraph>
+    Introduced <Code>AutoPreSelect</Code>, this defaults to true, keeping the current behaviour. By setting it to false, the dropdown that shows the options, will no longer auto select the first item.
+</Paragraph>
+
+<Paragraph>
+    This is specially useful for a use case reported by our users. When you have the <Code>AutoComplete</Code> set to <Code>Multiple</Code> + <Code>FreeTyping</Code>, and want to allow your user to just press the Confirm Key to accept the currently typed text.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    6. Improved keyboard support
+</Heading>
+
+<Paragraph>
+    You can now select items and remove selection using keyboard alone. Use navigation arrows to select an item in the dropdown.In multi-select mode use Backspace to remove most recently selected item or use <Strong>Shift-Tab</Strong> and <Strong>Enter</Strong> key to remove any previously selected item.
+</Paragraph>
+
+<Paragraph>
+    This feature is contributed by <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members, and we thank you for all the effor he has done.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    6. AutoSelectFirstItem
+</Heading>
+
+<Paragraph>
+    Introduced <Code>AutoSelectFirstItem</Code> parameter for single-select mode. Use this parameter to automatically select the first item from <Code>Data</Code> during <Code>Autocomplete</Code> initialization.
+</Paragraph>
+
+<Paragraph>
+    This feature is also contributed by <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     FileEdit
 </Heading>
 
+<Heading Size="HeadingSize.Is4">
+    1. Rendering Improvements
+</Heading>
+
 <Paragraph>
     We've noticed that <Code>WriteToStreamAsync</Code> would not update progress on the UI and also freeze when using this API on WebAssembly. This is currently inherit to Blazor WebAssembly as it is single threaded, we've improved on this so the UI should now be able to update while using this API.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    2. Cancellation Support
+</Heading>
+
 <Paragraph>
-    Added missing <Code>CancellationToken</Code> to <Code>OpenReadStreamAsync</Code>
+    Added missing <Code>CancellationToken</Code> to <Code>OpenReadStreamAsync</Code> so is is now possible to cancel the upload on demand.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    3. Byte Array Stream Support
+</Heading>
 
 <Paragraph>
     Both <Code>WriteToStreamAsync</Code> and <Code>OpenReadStreamAsync</Code> should now be more performant as we made changes to accomodate the following new features in .NET6
@@ -255,50 +400,24 @@
 
 <Paragraph>
     The new <Code>FilePicker</Code> will give you an enhanced File Upload control, with more out of the box options then our <Code>FileEdit</Code> component.
-    - Listing, detailing and controlling the look of the selected files.
-    - Clear and upload buttons with built in progress bar
 </Paragraph>
 
 <Paragraph>
-    Introduced <Code>SuggestSelectedItems</Code> support enabling the already selected options to show up on the suggested items.
-</Paragraph>
-
-<Paragraph>
-    Introduced <Code>AutocompleteSelectionMode</Code>
     <UnorderedList>
-        <UnorderedListItem><Strong>Default</Strong> : Default mode. Selection is single.</UnorderedListItem>
-        <UnorderedListItem><Strong>Multiple</Strong> : Multiple mode. Selection is multiple.</UnorderedListItem>
-        <UnorderedListItem><Strong>Checkbox</Strong> : Checkbox mode. Selection is multiple with checkbox selection support.</UnorderedListItem>
+        <UnorderedListItem>
+            Listing, detailing and controlling the look of the selected files.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Clear and upload buttons with built in progress bar.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Custom templates to render items.
+        </UnorderedListItem>
     </UnorderedList>
-
-    You may still use the existing <Code>Multiple</Code> parameter to set the <Code>Autocomplete</Code> into Multiple selection mode, however take note that this Parameter has now been marked as <Code>Obsolete</Code> and will be removed in a future version. Please use the new <Code>SelectionMode</Code> Parameter.
 </Paragraph>
 
 <Paragraph>
-    Introduced <Code>ConfirmKey</Code> parameter, you are now able to costumize the keyboard keys that should be considered as a Confirmation Key.
-    Take note :
-    If the value has a printed representation, this attribute's value is the same as the char attribute.
-    Otherwise, it's one of the key value strings specified in 'Key values'.
-</Paragraph>
-
-<Paragraph>
-    Introduced <Code>AutoPreSelect</Code>, this defaults to true, keeping the current behaviour. By setting it to false, the dropdown that shows the options, will no longer auto select the first item.
-    This is specially useful for a use case reported by our users.
-    When you have the <Code>AutoComplete</Code> set to <Code>Multiple</Code> + <Code>FreeTyping</Code>, and want to allow your user to just press the Confirm Key to accept the currently typed text.
-</Paragraph>
-
-<Paragraph>
-    Improved keyboard support.
-    You can now select items and remove selection using keyboard alone.
-    Use navigation arrows to select an item in the dropdown.
-    In multi-select mode use Backspace to remove most recently selected item or use [Shift-]Tab and Enter key to remove any previously selected item.
-    Contributed by : <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
-</Paragraph>
-
-<Paragraph>
-    Introduced <Code>AutoSelectFirstItem</Code> parameter for single-select mode.
-    Use this parameter to automatically select the first item from <Code>Data</Code> during <Code>Autocomplete</Code> initialization.
-    Contributed by : <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>, one of our community members.
+    The new component with many examples and code samples can be see at <Anchor To="docs/components/file-picker">FilePicker component page</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -306,7 +425,7 @@
 </Heading>
 
 <Paragraph>
-    Introduced <Code>ItemTemplate</Code> Parameter, you may now costumize the content that renders in each of the <Code>ListView</Code>'s items.
+    Introduced <Code>ItemTemplate</Code> parameter, you may now costumize the content that renders in each of the <Code>ListView</Code>'s items.
 </Paragraph>
 
 <Paragraph>
@@ -334,10 +453,6 @@
     All our <Code>Clicked</Code> parameters on a <Code Tag>Button</Code>, <Code Tag>Link</Code>, <Code Tag>Tab</Code>, and other components, can now recieve a <Code>MouseEventArgs</Code> as an event parameter. This feature will allow you to determine how the clicked event was raised and what buttons and keys were pressed.
 </Paragraph>
 
-<NewsPageSubtitle>
-    PRs
-</NewsPageSubtitle>
-
 <Heading Size="HeadingSize.Is3">
     Steps Navigation
 </Heading>
@@ -358,4 +473,77 @@
     The new feature can be seen on <Anchor To="docs/components/step">Step component</Anchor> page.
 </Paragraph>
 
-<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="September 1st, 2022" Read="7 min" />
+<NewsPageSubtitle>
+    PRs 💪
+</NewsPageSubtitle>
+
+<Paragraph>
+    As you have probably already noticed, we had a lot of contributions in this release, some small and some larger. So we would want once again to mention some of them that stood out and helped us make Blazorise great.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    <Anchor To="https://github.com/glutio" Target="Target.Blank">glutio</Anchor>
+</Heading>
+
+<Paragraph>
+    Glutio was really productive with new features in this release.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedListItem>
+        Improved keyboard support, and introduced of AutoSelectFirstItem on Autocomplete component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        He created an entirely new <Strong>LoadingIndicator</Strong> component.
+    </UnorderedListItem>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    <Anchor To="https://github.com/Jimmys20" Target="Target.Blank">Jimmys20</Anchor>
+</Heading>
+
+<Paragraph>
+    Jimmy helped us to improve <Strong>Steps</Strong> navigation by adding a constraint feature that enables us to control which step can be navigated.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    <Anchor To="https://github.com/EnsignPayton" Target="Target.Blank">EnsignPayton</Anchor>
+</Heading>
+
+<Paragraph>
+    A transient service in .NET dependency injection can lead to some nasty memory leaks. Disposing such services is hard, and EnsignPayton has helped to come up with a working solution. Based on our internal testing, memory leaks should now be minimal, if any. We hope this optimization will lead to fever errors in production environments.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    <Anchor To="https://github.com/aladotnet" Target="Target.Blank">aladotnet</Anchor>
+</Heading>
+
+<Paragraph>
+    The <Strong>aladotnet</Strong> has created a <Strong>FluentValidation</Strong> component and he was willing to give it away as part of the Blazorise core repository.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Support 📞
+</NewsPageSubtitle>
+
+<Paragraph>
+    If you want to help the project and already work for a large organization, please consider purchasing a commercial license to assist us in becoming a sustainable business. Then we'll be able to resume work on Blazorise.
+</Paragraph>
+
+<Paragraph>
+    With a commercial license, you get premium forum support as well as access to our private repositories and community-licensed themes. To learn more, visit us at <Anchor To="https://commercial.blazorise.com/" Target="Target.Blank">Blazorise Commercial</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Thanks, and stay tuned for more 🤝
+</NewsPageSubtitle>
+
+<Paragraph>
+    We are a small organization, so any help is highly appreciated. We'd like to thank everyone who contributed to making this release a reality.
+</Paragraph>
+
+<Paragraph>
+    This is not the end of the 1.x branch. A new 1.2 milestone is already in works so you can expect some more exciting features coming in the next few months.
+</Paragraph>
+
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="September 27st, 2022" Read="10 min" />
