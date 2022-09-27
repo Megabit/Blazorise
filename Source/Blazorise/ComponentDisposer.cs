@@ -73,14 +73,23 @@ namespace Blazorise
         /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
         private IList<object> LoadServiceProviderDisposableList()
         {
-            if ( disposablesGetter is null )
-                disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
+            try
+            {
+                if ( disposablesGetter is null )
+                    disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
 
-            var disposables = disposablesGetter( ServiceProvider );
+                var disposables = disposablesGetter( ServiceProvider );
 
-            disposePossible = !disposables.IsNullOrEmpty();
+                disposePossible = !disposables.IsNullOrEmpty();
 
-            return disposables;
+                return disposables;
+            }
+            catch
+            {
+                disposePossible = false;
+            }
+
+            return new List<object>();
         }
 
         #endregion
