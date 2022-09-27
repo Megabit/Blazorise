@@ -16,12 +16,12 @@ By following these best practices, you can build an app that is easier to mainta
 
 ---
 
-## App Structure
-The app or project structure is the arrangement of files, folders and projects in your solution. Sometimes these arrangements can be done to depict the architecture of the application but they are not always the same thing.
+## App Structure & Architecture
+The app or project structure is the arrangement of files, folders, and projects in your solution. Sometimes these arrangements can be done to depict the architecture of the application but they are not always the same thing.
 
-A typical application consists of a client-side, a server side, a database and an API.
+A typical application consists of a client-side, a server-side, a database, and an API.
 
-App structure refers to the projects and folders in your solution. Whilst application structure and architecture are different, the lines between are often blurred as applications are structured in a way that depicts the application architecture. 
+App structure refers to the projects and folders in your solution. Whilst application structure and architecture are different, the lines between them are often blurred as applications are structured in a way that depicts the application architecture. 
 
 There are a few types of application architectures that your app structure should depict
 
@@ -35,7 +35,7 @@ Most layered architectures consist of four standard layers: presentation, busine
 
 [Layered Architecture!](/img/blog/2022-09-28/1.png)
 
-As shown by the figure above, at the buttom is the database layer, which talks directly to the database by sending and retrieving information from the database. 
+As shown by the figure above, at the bottom is the database layer, which talks directly to the database by sending and retrieving information from the database. 
 
 The persistence logic layer sits on top of the database layer and performs interactions with the database such as CRUD. As a result, it is sometimes called the data access layer or the repository layer because it uses the repository pattern to abstract the implementation of the business logic. 
 
@@ -47,7 +47,7 @@ The presentation layer is the user interface that displays information in the br
 
 One of the powerful features of the layered architecture pattern is the separation of concerns among components. Components within a specific layer deal only with logic that pertains to that layer.
 
-Each layer in marked as a closed layer. This means that a request originating from the presentation layer must first go through the business layer and then to the persistence layer before finally hitting the database layer. 
+Each layer is marked as a closed layer. This means that a request originating from the presentation layer must first go through the business layer and then to the persistence layer before finally hitting the database layer. 
 
 This type of component classification makes it easy to build effective roles and responsibility models into your architecture, and also makes it easy to develop, test, govern, and maintain applications using this architecture pattern due to well-defined component interfaces and limited component scope.
 
@@ -57,15 +57,15 @@ However, there are other variations of the layered architecture such as the N-ti
 
 There is no one-size-fits-all answer to the question of what are the best practices for layered architecture. However, some general guidelines that can be followed include designing each layer with a well-defined purpose, keeping the layers loosely coupled, and ensuring that each layer has adequate abstraction.
 
-It is important to choose an appropriate level of granularity for each layer and to carefully consider how changes in one layer will affect other layers.
+- Choose an appropriate level of granularity for each layer and carefully consider how changes in one layer will affect other layers.
 
-Keep the layers separate and independent from one another. This ensures that changes in one layer don't unintentionally break something in another layer.
+- Keep the layers separate and independent from one another. This ensures that changes in one layer don't unintentionally break something in another layer.
 
-Additionally, it's important to design each layer with a well-defined purpose and interface. This makes the code more maintainable and easier to understand.
+- Design each layer with a well-defined purpose and interface. This makes the code more maintainable and easier to understand.
 
-Finally, make sure to thoroughly test each layer before deploying your application. 
+- Test each layer before deploying your application. 
 
-Layered architecture is perfect for smaller projects. However when the project gets bigger, maintenance can become a headache. Whilst each layer depicts a seperation of concerns, layers can easily become tightly coupled to the layers around it.
+Layered architecture is perfect for smaller projects. However, when the project gets bigger, maintenance can become a headache. Whilst each layer depicts separation of concerns, layers can easily become tightly coupled to the layers around them.
 
 As a result, a change in the presentation layer can cause a break in other layers. This can lead to spaghetti code and eventual code smells. Be careful not to overuse layers - too many layers can make your code difficult to understand and maintain.
 
@@ -75,9 +75,9 @@ Always remember that you can refactor your code if you find that your current ar
 
 ### Onion Architecture
 
-Onion Architecture was introduced by Jeffrey Palermo to provide a better way to build applications in perspective of better testability, maintainability, and dependability. Onion Architecture addresses the challenges faced with 3-tier and n-tier architectures, and to provide a solution for common problems.
+Onion Architecture was introduced by Jeffrey Palermo to provide a better way to build applications from the perspective of better testability, maintainability, and dependability. Onion Architecture addresses the challenges faced with 3-tier and n-tier architectures and provides a solution for common problems.
 
-Unlike the rectangular nature of the layered, the onion architecture is shaped in an onion mimic, with several layers underneath. The onion architecture is an implementation of Domain Driven Design and Command Query Responsibility Seperation.
+Unlike the rectangular nature of the layered, the onion architecture is shaped in an onion mimic, with several layers underneath. The onion architecture is an implementation of Domain Driven Design and Command Query Responsibility Separation (CQRS).
 
 The premise of domain-driven design is that the structure and language of software code (and other artifacts) should match the structure and language of the business domain. CQRS is a pattern that separates reads from writes. 
 
@@ -93,7 +93,7 @@ Other variations of Onion Architecture are the Hexagonal Architecture and Ports 
 
 Onion Architecture is based on the inversion of control principle. Onion Architecture is comprised of multiple concentric layers interfacing each other towards the core that represents the domain.
 
-The architecture does not depend on the data layer as in classic multi-tier architectures, but on the actual domain models.
+The architecture does not depend on the data layer as in classic multi-tier architectures but the actual domain models.
 
 [Onion Architecture!](/img/blog/2022-09-28/2.png)
 
@@ -103,7 +103,7 @@ Onion architecture allows each layer to scale independently as they are not tigh
 The layers are connected through interfaces and can be quickly tested because the application core does not depend on anything. 
 
 
-This leads to  better maintainability and decoupling the infrastructure or technology used to access databases from the domain model layer.
+This leads to better maintainability and decoupling of the infrastructure or technology used to access databases from the domain model layer.
 
 Onion architecture is a software development approach that aims to create loosely coupled applications that are resilient to change.
 
@@ -113,9 +113,11 @@ When applied to software development, onion architecture can help create applica
 
 Additionally, because onion architecture promotes loose coupling, it can also make it easier to integrate new features or components into an existing application.
 
-Keep your domain model separate from your infrastructure code
+- Keep your domain model separate from your infrastructure code
 
-Focus on business rules and not on implementation details and design for testability and flexibility.
+- Focus on business rules and not on implementation details and design for testability and flexibility.
+
+---
 
 ### Microservice Architecture
 
@@ -123,7 +125,7 @@ A more complex implementation of CQRS and Domain-Driven Design can be used in mi
 
 Microservices is a software architecture style in which complex applications are composed of small, independently deployable services. In a microservices architecture, each service is responsible for a specific function and communicates with other services using well-defined APIs.
 
-This means that instead of one large application, microservices architecture allows you to build individual services that work together.
+This means that instead of one large application, the microservices architecture allows you to build individual services that work together.
 
 One benefit of microservices is that it is easier to scale an application because you can scale each service individually.
 
@@ -133,21 +135,21 @@ Another benefit of microservices is that it makes it easier to update and deploy
 
 If you need to make a change to one service, you can deploy the new version of that service without affecting the other services in your application.
 
-There are many benefits to using a microservices architecture, but there are also some best practices that should be followed in order to get the most out of this type of architecture.
+There are many benefits to using a microservices architecture, but there are also some best practices that should be followed to get the most out of this type of architecture.
 
-First and foremost, it is important to keep each microservice small and focused on a single responsibility. This will help to keep the codebase manageable and make it easier to deploy and scale individual services as needed.
+- First and foremost, it is important to keep each microservice small and focused on a single responsibility. This will help to keep the codebase manageable and make it easier to deploy and scale individual services as needed.
 
-Additionally, it is important to design your services with loose coupling in mind so that they can be easily replaced or modified without affecting the rest of the system.
+- Additionally, it is important to design your services with loose coupling in mind so that they can be easily replaced or modified without affecting the rest of the system.
 
-Make sure to properly monitor and log all activities within your microservices environment so that you can quickly identify and fix any issues that may arise.
+- Make sure to properly monitor and log all activities within your microservices environment so that you can quickly identify and fix any issues that may arise.
+
+- Designing for failure means that you should anticipate and plan for service outages. Loose coupling refers to the idea that services should be independent of each other so that they can be changed or updated without affecting other services.
+
+- Visibility and monitoring are important because you need to be able to see what is happening with your services to identify and fix problems.
 
 Overall, microservices architecture best practices include designing for failure, loose coupling, and visibility and monitoring.
 
-Designing for failure means that you should anticipate and plan for service outages. Loose coupling refers to the idea that services should be independent of each other so that they can be changed or updated without affecting other services.
-
-Visibility and monitoring are important because you need to be able to see what is happening with your services in order to identify and fix problems.
-
-By following these practices, organizations can create scalable and maintainable microservices architectures.
+---
 
 ## State Management In Blazor Applications
 
@@ -155,7 +157,7 @@ In Blazor, state can be managed either on the server or the client. Blazor uses 
 
 These components handle user events and can be nested to build complex user interfaces.
 
-This means that each component can have its own state, which can be managed independently from the rest of the application.
+This means that each component can have its state, which can be managed independently from the rest of the application.
 
 One of the unique features of Blazor is that it uses an event-driven programming model, which means that UI updates are automatically propagated to all clients connected to the application.
 
@@ -167,40 +169,41 @@ While Blazor does not have built-in support for state management, there are a fe
 
 We'll explore how to manage state in a Blazor application with component state, service injection, and global state.
 
+---
 
 ### Component State
 
 Blazor uses a unique approach to managing state in the UI; instead of using traditional browser techniques like cookies, Blazor uses something called 'component state'.
 
-Component state is a way of keeping track of changes to the UI without having to send information back and forth to the server.
+A component state is a way of keeping track of changes to the UI without having to send information back and forth to the server.
 
 This means that your web app can be more responsive and have a better user experience.
 
 There are many different ways to manage component state, and the best approach depends on the specific needs of your application.
 
-However, there are some general best practices that can help you keep your code organized and maintainable.
+However, some general best practices can help you keep your code organized and maintainable.
 
-First, try to avoid using complex data structures for component state. If you need to use nested data, consider breaking it up into smaller pieces that can be managed independently.
+- Avoid using complex data structures for component state. If you need to use nested data, consider breaking it up into smaller pieces that can be managed independently for easy updates and debugging. 
 
-This will make it easier to update and debug your code. Second, create a central store for all of your application's state data.
+- Create a central store for all of your application's state data to keep track of what data is being used by which components and help prevent duplication of effort when multiple components need access to the same data.
 
-This will make it easier to keep track of what data is being used by which components, and helps prevent duplication of effort when multiple components need access to the same data.
+- Unit test your code thoroughly with extensive test coverage before deploying it to production. This will help ensure that your state management system is working as intended, and can catch any potential errors before they cause problems in your live application.
 
-Be sure to unit test your code thoroughly before deploying it to production. This will help ensure that your state management system is working as intended, and can catch any potential errors before they cause problems in your live application.
+- Avoid mutating states directly - use the setState() method instead.
 
-Additionally avoid mutating state directly - use the setState() method instead.
+- Breaking up large components into smaller, more manageable pieces can help reduce complexity and improve organization.
 
-Breaking up large components into smaller, more manageable pieces can help reduce complexity and improve organization.
+- Keep your state as simple as possible - only include the necessary data.
 
-Keep your state as simple as possible - only include the data that is absolutely necessary.
+- Unsubscribe from any event handlers or subscriptions when a component unmounts!
 
-Finally, don't forget to unsubscribe from any event handlers or subscriptions when a component unmounts!
+--- 
 
 ### Global State
 
 Global state management is the process of managing the data that is available to all components in an application.
 
-In a traditional web application, state is typically managed in the server-side session. However, in a modern web application with a complex client-side UI, it is often necessary to manage state in the client as well.
+In a traditional web application, state is typically managed in the server-side session. However, in a modern web application with a complex client-side UI, it is often necessary to manage the state of the client as well.
 
 This data can be things like the current user, the list of items in a shopping cart, or any other piece of information that needs to be accessed by multiple components.
 
@@ -209,10 +212,16 @@ The benefits of using global state management are that it can help to keep your 
 There are a few best practices to follow:
 
 - Keep your global state as small as possible.
+
 - Only allow trusted code to access your global state.
+
 - Be careful when mutating your global state.
+
 - Make sure your global state is properly initialized before using it.
+
 - Use a reliable library or framework for managing your global state if you can't do it yourself.
+
+---
 
 ### Service Injection
 
@@ -220,14 +229,17 @@ Service injection is a powerful feature in blazor that allows developers to inje
 
 Services can be injected into components either via the @inject directive or by using the service provider. 
 
-This gives developers the ability to reuse services across their application and also makes it easy to unit test components.
+This gives developers the ability to reuse services across their applications and also makes it easy to unit test components.
 
-There are a few best practices when it comes to service injection state management: - Keep services stateless so that they can be easily injected into different parts of the application as needed.
+There are a few best practices when it comes to service injection state management:
 
-Avoid using singletons for services, as this can lead to tight coupling and difficult testing. - Use dependency injection containers to manage service dependencies and lifecycles.
+- Keep services stateless so that they can be easily injected into different parts of the application as needed.
 
-This will make it easier to inject services into your application as needed.
+- Avoid using singletons for services, as this can lead to tight coupling and difficult testing. 
 
+- Use dependency injection containers to manage service dependencies and lifecycles. This will make it easier to inject services into your application as needed.
+
+---
 
 ## Error Handling
 
@@ -235,7 +247,7 @@ Error handling is important. Error handling is the process of responding to and 
 
 One way is to simply let the Exception bubble up to the top and handle it there. Another way is to use try/catch blocks within your code.
 
-Personally, I prefer the try/catch method because it allows me to be more specific with my error handling.
+I prefer the try/catch method because it allows me to be more specific with my error handling.
 
 For example, I can catch a particular type of Exception and then handle it accordingly.
 
@@ -249,19 +261,29 @@ We will highlight the best practices for error handling in Blazor.
 - Anticipate and prevent errors before they happen;
 - Test your error-handling code to make sure it works as expected.
 
-## Conclusion
+---
+
+## General Blazor Tips and Best Practices
 
 If you're looking to get started with Blazor web application development, there are a few best practices to keep in mind.
 
-First, be sure to create a responsive design that works well on mobile devices.
+- First, be sure to create a responsive design that works well on mobile devices.
 
-Second, take advantage of Blazor's server-side rendering capabilities to improve performance. And finally, make use of JavaScript interop when necessary to access browser APIs or other external libraries.
+- Also, take advantage of Blazor's server-side rendering capabilities to improve performance. And finally, make use of JavaScript interop when necessary to access browser APIs or other external libraries.
 
-Developers should make sure that they use the proper event handling when working with user input.
+- Developers should make sure that they use the proper event handling when working with user input.
 
-Additionally, developers should be aware of the potential performance issues that can arise from using too many JavaScript interop calls.
+- Additionally, developers should be aware of the potential performance issues that can arise from using too many JavaScript interop calls.
 
-Finally, it is important to test Blazor applications thoroughly before deploying them to production.
+- Finally, it is important to test Blazor applications thoroughly before deploying them to production.
 
-By following these best practices, developers can ensure that their Blazor applications are of the highest quality.
+---
+
+## Conclusion
+
+Blazor is a powerful web development tool that can help you create rich and interactive web applications. However, like any tool, it has its own set of best practices that should be followed to get the most out of it.
+
+By following these best practices, you can ensure that your Blazor application is high-performing and user-friendly.
+
+Blazorise has production-ready UI components to efficiently help you build rich client experiences faster. Read our [documentation](/docs) to get started and build the next billion-dollar product today.
 
