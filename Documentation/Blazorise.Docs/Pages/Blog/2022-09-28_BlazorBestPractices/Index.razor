@@ -1,0 +1,521 @@
+@page "/blog/blazor-best-practises-part-one"
+
+<Seo Canonical="/blog/blazor-best-practises-part-one" Title="Best practices for building maintainable Blazor apps" Description="Best practices for building and maintaining Blazor applications" ImageUrl="/img/blog/2022-09-22/Best_practices_for_building_maintainable_Blazor_apps.png" />
+
+<BlogPageImage Source="/img/blog/2022-09-22/Best_practices_for_building_maintainable_Blazor_apps.png" Text="" />
+
+<BlogPageParagraph>
+    In this blog, we will explore some best practices for building maintainable Blazor apps. We will discuss how to structure your app, how to manage state, and how to handle errors.Markdig.Syntax.Inlines.LineBreakInlineBy following these best practices, you can build an app that is easier to maintain and more robust.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    App Structure & Architecture
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    The app or project structure is the arrangement of files, folders, and projects in your solution. Sometimes these arrangements can be done to depict the architecture of the application but they are not always the same thing.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    A typical application consists of a client-side, a server-side, a database, and an API.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    App structure refers to the projects and folders in your solution. Whilst application structure and architecture are different, the lines between them are often blurred as applications are structured in a way that depicts the application architecture.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There are a few types of application architectures that your app structure should depict
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Layered Architecture
+</Heading>
+
+<BlogPageParagraph>
+    In a layered architecture, different components of the application are arranged in layers.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Most layered architectures consist of four standard layers: presentation, business, persistence, and database
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Anchor To="/img/blog/2022-09-28/1.png" Title="Link to Layered Architecture!">Layered Architecture!</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    As shown by the figure above, at the bottom is the database layer, which talks directly to the database by sending and retrieving information from the database.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The persistence logic layer sits on top of the database layer and performs interactions with the database such as CRUD. As a result, it is sometimes called the data access layer or the repository layer because it uses the repository pattern to abstract the implementation of the business logic.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The business layer is responsible for executing specific business rules associated with the request related to accomplishing functional requirements.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In some cases, the business layer and persistence layer are combined into a single business layer, particularly when the persistence logic is embedded within the business layer components.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The presentation layer is the user interface that displays information in the browser. This could be a <Anchor To="blog/what-is-blazor-wasm" Title="Link to blazor wasm project">blazor wasm project</Anchor> where users can send and view information and web pages from the server.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    One of the powerful features of the layered architecture pattern is the separation of concerns among components. Components within a specific layer deal only with logic that pertains to that layer.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Each layer is marked as a closed layer. This means that a request originating from the presentation layer must first go through the business layer and then to the persistence layer before finally hitting the database layer.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This type of component classification makes it easy to build effective roles and responsibility models into your architecture, and also makes it easy to develop, test, govern, and maintain applications using this architecture pattern due to well-defined component interfaces and limited component scope.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Although the layered architecture pattern does not specify the number and types of layers that must exist in the pattern, it is very common to see 3 or 4 layers in a typical application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    However, there are other variations of the layered architecture such as the N-tier architecture and the 4+1 Krueger Architecture which takes this a step further.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There is no one-size-fits-all answer to the question of what are the best practices for layered architecture. However, some general guidelines that can be followed include designing each layer with a well-defined purpose, keeping the layers loosely coupled, and ensuring that each layer has adequate abstraction.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Choose an appropriate level of granularity for each layer and carefully consider how changes in one layer will affect other layers.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Keep the layers separate and independent from one another. This ensures that changes in one layer don't unintentionally break something in another layer.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Design each layer with a well-defined purpose and interface. This makes the code more maintainable and easier to understand.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Test each layer before deploying your application.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageParagraph>
+    Layered architecture is perfect for smaller projects. However, when the project gets bigger, maintenance can become a headache. Whilst each layer depicts separation of concerns, layers can easily become tightly coupled to the layers around them.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    As a result, a change in the presentation layer can cause a break in other layers. This can lead to spaghetti code and eventual code smells. Be careful not to overuse layers - too many layers can make your code difficult to understand and maintain.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Always remember that you can refactor your code if you find that your current architecture isn't working well for your project.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Onion Architecture
+</Heading>
+
+<BlogPageParagraph>
+    Onion Architecture was introduced by Jeffrey Palermo to provide a better way to build applications from the perspective of better testability, maintainability, and dependability. Onion Architecture addresses the challenges faced with 3-tier and n-tier architectures and provides a solution for common problems.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Unlike the rectangular nature of the layered, the onion architecture is shaped in an onion mimic, with several layers underneath. The onion architecture is an implementation of Domain Driven Design and Command Query Responsibility Separation (CQRS).
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The premise of domain-driven design is that the structure and language of software code (and other artifacts) should match the structure and language of the business domain. CQRS is a pattern that separates reads from writes.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Onion architecture is a variation of microservices implementation that takes advantage of domain-driven design principles to provide a clear separation of concerns between services.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This separation enables each service to be independently developed, deployed, and scaled without affecting other services in the system.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    CQRS is a pattern that can be used in conjunction with microservices or Domain-Driven Design to provide a higher level of abstraction between the data model and the business logic.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    By separating these two concerns, it becomes easier to scale each component independently and make changes to the system without impacting other parts of the system.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Other variations of Onion Architecture are the Hexagonal Architecture and Ports and Adapters.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Onion Architecture is based on the inversion of control principle. Onion Architecture is comprised of multiple concentric layers interfacing each other towards the core that represents the domain.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The architecture does not depend on the data layer as in classic multi-tier architectures but the actual domain models.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Anchor To="/img/blog/2022-09-28/2.png" Title="Link to Onion Architecture!">Onion Architecture!</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Onion architecture allows each layer to scale independently as they are not tightly coupled to each other. The repository nature of the architecture means that there is an encapsulation of the logic required to access data sources.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The layers are connected through interfaces and can be quickly tested because the application core does not depend on anything.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This leads to better maintainability and decoupling of the infrastructure or technology used to access databases from the domain model layer.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Onion architecture is a software development approach that aims to create loosely coupled applications that are resilient to change.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The main principles of onion architecture are separation of concerns, single responsibility, and dependency inversion.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    When applied to software development, onion architecture can help create applications that are more modular and easier to maintain.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Additionally, because onion architecture promotes loose coupling, it can also make it easier to integrate new features or components into an existing application.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Keep your domain model separate from your infrastructure code
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Focus on business rules and not on implementation details and design for testability and flexibility.
+    </BlogPageListItem>
+</BlogPageList>
+
+<Heading Size="HeadingSize.Is3">
+    Microservice Architecture
+</Heading>
+
+<BlogPageParagraph>
+    A more complex implementation of CQRS and Domain-Driven Design can be used in microservices architecture to make sure that different services can scale independently.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Microservices is a software architecture style in which complex applications are composed of small, independently deployable services. In a microservices architecture, each service is responsible for a specific function and communicates with other services using well-defined APIs.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This means that instead of one large application, the microservices architecture allows you to build individual services that work together.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Anchor To="/img/blog/2022-09-28/3.png" Title="Link to Microservices">Microservices</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Monoliths are large, all-in-one applications while microservices are smaller, self-contained applications. Both have their own advantages and disadvantages, but microservices tend to be more scalable and easier to maintain.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API.Markdig.Syntax.Inlines.LineBreakInlineMartin Fowler
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    One benefit of microservices is that it is easier to scale an application because you can scale each service individually.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This can be especially helpful if you have different parts of your application that receive different levels of traffic.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Another benefit of microservices is that it makes it easier to update and deploy your application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    If you need to make a change to one service, you can deploy the new version of that service without affecting the other services in your application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There are many benefits to using a microservices architecture, but there are also some best practices that should be followed to get the most out of this type of architecture.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        First and foremost, it is important to keep each microservice small and focused on a single responsibility. This will help to keep the codebase manageable and make it easier to deploy and scale individual services as needed.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Additionally, it is important to design your services with loose coupling in mind so that they can be easily replaced or modified without affecting the rest of the system.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Make sure to properly monitor and log all activities within your microservices environment so that you can quickly identify and fix any issues that may arise.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Designing for failure means that you should anticipate and plan for service outages. Loose coupling refers to the idea that services should be independent of each other so that they can be changed or updated without affecting other services.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Visibility and monitoring are important because you need to be able to see what is happening with your services to identify and fix problems.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageParagraph>
+    Overall, microservices architecture best practices include designing for failure, loose coupling, and visibility and monitoring.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    State Management In Blazor Applications
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    In Blazor, state can be managed either on the server or the client. Blazor uses a Razor templating system to generate UI components on the server, which are then downloaded and rendered on the client.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    These components handle user events and can be nested to build complex user interfaces.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This means that each component can have its state, which can be managed independently from the rest of the application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    One of the unique features of Blazor is that it uses an event-driven programming model, which means that UI updates are automatically propagated to all clients connected to the application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Server-side state management is useful for scenarios where data needs to be persisted across page refreshes, or when data needs to be shared between users.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Client-side state management is useful for scenarios where data can be cached locally and does not need to be persisted across page refreshes.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    While Blazor does not have built-in support for state management, there are a few different ways that you can manage state in your Blazor applications.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    We'll explore how to manage state in a Blazor application with component state, service injection, and global state.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Component State
+</Heading>
+
+<BlogPageParagraph>
+    Blazor uses a unique approach to managing state in the UI; instead of using traditional browser techniques like cookies, Blazor uses something called 'component state'.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    A component state is a way of keeping track of changes to the UI without having to send information back and forth to the server.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This means that your web app can be more responsive and have a better user experience.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There are many different ways to manage component state, and the best approach depends on the specific needs of your application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    However, some general best practices can help you keep your code organized and maintainable.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Avoid using complex data structures for component state. If you need to use nested data, consider breaking it up into smaller pieces that can be managed independently for easy updates and debugging.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Create a central store for all of your application's state data to keep track of what data is being used by which components and help prevent duplication of effort when multiple components need access to the same data.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Unit test your code thoroughly with extensive test coverage before deploying it to production. This will help ensure that your state management system is working as intended, and can catch any potential errors before they cause problems in your live application.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Avoid mutating states directly - use the setState() method instead.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Breaking up large components into smaller, more manageable pieces can help reduce complexity and improve organization.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Keep your state as simple as possible - only include the necessary data.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Unsubscribe from any event handlers or subscriptions when a component unmounts!
+    </BlogPageListItem>
+</BlogPageList>
+
+<Heading Size="HeadingSize.Is3">
+    Global State
+</Heading>
+
+<BlogPageParagraph>
+    Global state management is the process of managing the data that is available to all components in an application.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In a traditional web application, state is typically managed in the server-side session. However, in a modern web application with a complex client-side UI, it is often necessary to manage the state of the client as well.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This data can be things like the current user, the list of items in a shopping cart, or any other piece of information that needs to be accessed by multiple components.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The benefits of using global state management are that it can help to keep your code organized, and it can make it easier to debug your code.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There are a few best practices to follow:
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Keep your global state as small as possible.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Only allow trusted code to access your global state.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Be careful when mutating your global state.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Make sure your global state is properly initialized before using it.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Use a reliable library or framework for managing your global state if you can't do it yourself.
+    </BlogPageListItem>
+</BlogPageList>
+
+<Heading Size="HeadingSize.Is3">
+    Service Injection
+</Heading>
+
+<BlogPageParagraph>
+    Service injection is a powerful feature in blazor that allows developers to inject services into their components making services available throughout the component's lifecycle. Services are typically registered with the dependency injector (DI) container at startup, and then injected into components when they are created.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Services can be injected into components either via the @inject directive or by using the service provider.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This gives developers the ability to reuse services across their applications and also makes it easy to unit test components.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There are a few best practices when it comes to service injection state management:
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Keep services stateless so that they can be easily injected into different parts of the application as needed.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Avoid using singletons for services, as this can lead to tight coupling and difficult testing.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Use dependency injection containers to manage service dependencies and lifecycles. This will make it easier to inject services into your application as needed.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageSubtitle>
+    Error Handling
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Error handling is important. Error handling is the process of responding to and recovering from error conditions in your program. No one wants their website or application to crash and burn, so having a good error-handling strategy in place is key.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    One way is to simply let the Exception bubble up to the top and handle it there. Another way is to use try/catch blocks within your code.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    I prefer the try/catch method because it allows me to be more specific with my error handling.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    For example, I can catch a particular type of Exception and then handle it accordingly.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This is especially useful if you want to gracefully recover from an error instead of just displaying a generic error message to the user.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    We will highlight the best practices for error handling in Blazor.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        The most important thing to remember when handling errors is that you should never let the user see an error message. Always try to handle the error gracefully and provide a helpful message to the user.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        If an error does occur, handle it gracefully and provide as much information as possible to the user so they can recover from the error
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Additionally, it's important to log all errors so that you can track down and fix any issues.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Anticipate and prevent errors before they happen;
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Test your error-handling code to make sure it works as expected.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageSubtitle>
+    General Blazor Tips and Best Practices
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    If you're looking to get started with Blazor web application development, there are a few best practices to keep in mind.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        First, be sure to create a responsive design that works well on mobile devices.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Also, take advantage of Blazor's server-side rendering capabilities to improve performance. And finally, make use of JavaScript interop when necessary to access browser APIs or other external libraries.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Developers should make sure that they use the proper event handling when working with user input.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Additionally, developers should be aware of the potential performance issues that can arise from using too many JavaScript interop calls.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Finally, it is important to test Blazor applications thoroughly before deploying them to production.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageSubtitle>
+    Conclusion
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Blazor is a powerful web development tool that can help you create rich and interactive web applications. However, like any tool, it has its own set of best practices that should be followed to get the most out of it.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    By following these best practices, you can ensure that your Blazor application is high-performing and user-friendly.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Blazorise has production-ready UI components to efficiently help you build rich client experiences faster. Read our <Anchor To="/docs" Title="Link to documentation">documentation</Anchor> to get started and build the next billion-dollar product today.
+</BlogPageParagraph>
+
+<BlogPagePostInto UserName="James Amattey" ImageName="james" PostedOn="September 28th, 2022" Read="6 min" />
