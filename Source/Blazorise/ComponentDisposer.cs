@@ -29,9 +29,11 @@ namespace Blazorise
     {
         #region Members
 
+        private bool loaded;
+
         private bool disposePossible;
 
-        private readonly IList<object> disposables;
+        private IList<object> disposables;
 
         private const string PROPERTY_DISPOSABLES = "Disposables";
 
@@ -48,7 +50,6 @@ namespace Blazorise
         public ComponentDisposer( IServiceProvider serviceProvider )
         {
             ServiceProvider = serviceProvider;
-            disposables = LoadServiceProviderDisposableList();
         }
 
         #endregion
@@ -57,6 +58,12 @@ namespace Blazorise
 
         public void Dispose<TComponent>( TComponent component ) where TComponent : IComponent
         {
+            if ( !loaded )
+            {
+                disposables = LoadServiceProviderDisposableList();
+                loaded = true;
+            }
+
             if ( !disposePossible )
                 return;
 
@@ -73,23 +80,15 @@ namespace Blazorise
         /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
         private IList<object> LoadServiceProviderDisposableList()
         {
-            try
-            {
-                if ( disposablesGetter is null )
-                    disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
 
-                var disposables = disposablesGetter( ServiceProvider );
+            if ( disposablesGetter is null )
+                disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
 
-                disposePossible = !disposables.IsNullOrEmpty();
+            var disposables = disposablesGetter( ServiceProvider );
 
-                return disposables;
-            }
-            catch
-            {
-                disposePossible = false;
-            }
+            disposePossible = !disposables.IsNullOrEmpty();
 
-            return new List<object>();
+            return disposables;
         }
 
         #endregion
