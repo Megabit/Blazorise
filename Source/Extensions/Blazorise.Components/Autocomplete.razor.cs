@@ -787,6 +787,17 @@ namespace Blazorise.Components
         }
 
         /// <summary>
+        /// Determines if Autocomplete can be closed
+        /// </summary>
+        /// <returns>True if Autocomplete can be closed.</returns>
+        /// 
+        [Obsolete( "IsSafeToClose is deprecated. This API now always returns true." )]
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
+        {
+            return Task.FromResult( true );
+        }
+
+        /// <summary>
         /// Opens the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
         /// </summary>
         /// <returns></returns>
