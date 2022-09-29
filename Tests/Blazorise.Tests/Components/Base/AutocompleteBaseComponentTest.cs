@@ -22,7 +22,7 @@ namespace Blazorise.Tests.Components
 
             focus( comp );
 
-            this.JSInterop.VerifyInvoke( "focus" );
+            comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
         }
 
         public void TestClear<TComponent>( Action<IRenderedComponent<TComponent>> clear, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
@@ -265,7 +265,7 @@ namespace Blazorise.Tests.Components
 
             focus( comp );
 
-            this.JSInterop.VerifyInvoke( "focus" );
+            comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
         }
 
         public void TestClear<TComponent>( Action<IRenderedComponent<TComponent>> clear, Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
