@@ -1838,6 +1838,10 @@ textarea.ant-input.ant-input-static {
   padding-right: 0;
 }
 
+.ant-focus-trap {
+  display: contents;
+}
+
 .ant-row {
   margin-left: -15px;
   margin-right: -15px;

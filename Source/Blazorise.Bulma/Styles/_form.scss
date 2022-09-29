@@ -121,3 +121,7 @@ select[readonly] {
         display: none;
     }
 }
+
+.focus-trap {
+    display: contents;
+}
