@@ -128,8 +128,12 @@
     <DocsAttributesItem Name="SelectedTextChanged" Type="EventCallback<string>">
         Raises an event after the selected text has changed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentSearchChanged" Type="EventCallback<string>">
+        Occurs on every search text change.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SearchChanged" Type="EventCallback<string>">
         Occurs on every search text change.
+        SearchChanged is deprecated and will be removed in a future version, please use CurrentSearchChanged instead.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Placeholder" Type="string">
         Placeholder for the empty search field.
@@ -239,8 +243,11 @@
     <DocsAttributesItem Name="RemoveMultipleTextAndValue">
         Removes a Multiple Selection.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ResetSelected">
+    <DocsAttributesItem Name="Clear">
         Clears the selected value and the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResetSelected">
+        Clears the current selection.
     </DocsAttributesItem>
     <DocsAttributesItem Name="OpenDropdown">
         Opens the Autocomplete Dropdown.
