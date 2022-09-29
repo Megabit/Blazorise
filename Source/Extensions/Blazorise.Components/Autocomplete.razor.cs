@@ -736,10 +736,33 @@ namespace Blazorise.Components
         }
 
         /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
+        {
+            if ( textEditRef != null )
+                return textEditRef.Focus( scrollToElement );
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
         /// Closes the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
         /// </summary>
         /// <returns></returns>
-        public async Task Close()
+        public Task Close()
+        {
+            return Close( CloseReason.UserClosing );
+        }
+
+        /// <summary>
+        /// Closes the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
+        /// </summary>
+        /// <param name="closeReason">Specifies the reason for a component close event.</param>
+        /// <returns></returns>
+        public async Task Close( CloseReason closeReason )
         {
             canShowDropDown = false;
             await ResetActiveItemIndex();
@@ -790,7 +813,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets whether the <typeparamref name="TValue"/> is selected.
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         public bool IsSelectedvalue( TValue value )
         {
