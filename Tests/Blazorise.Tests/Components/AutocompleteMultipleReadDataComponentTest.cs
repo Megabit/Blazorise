@@ -17,6 +17,18 @@ namespace Blazorise.Tests.Components
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
+        [Fact]
+        public void Focus_ShouldFocus()
+        {
+            TestFocus<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        }
+
+        [Fact]
+        public void Clear_ShouldReset()
+        {
+            TestClear<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts.ToArray() );
+        }
+
         [Theory]
         [InlineData( new[] { "Portugal", "Croatia" }, "" )]
         [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]

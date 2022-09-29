@@ -19,6 +19,19 @@ namespace Blazorise.Tests.Components
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
+        [Fact]
+        public void Focus_ShouldFocus()
+        {
+            TestFocus<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        }
+
+        [Fact]
+        public void Clear_ShouldReset()
+        {
+            TestClear<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
+        }
+
+
         [Theory]
         [InlineData( "Portugal" )]
         [InlineData( "Antarctica" )]
