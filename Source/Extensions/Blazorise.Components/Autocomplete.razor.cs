@@ -689,13 +689,24 @@ namespace Blazorise.Components
         }
 
         /// <summary>
-        /// Clears the selected value and the search field.
+        /// Clears the current selection.
         /// </summary>
         public async Task ResetSelected()
         {
             await ResetActiveItemIndex();
             await ResetSelectedText();
             await ResetSelectedValue();
+        }
+
+        /// <summary>
+        /// Clears the selected value and the search field.
+        /// </summary>
+        public async Task Clear()
+        {
+            await ResetSelected();
+            
+            CurrentSearch = string.Empty;
+            await CurrentSearchChanged.InvokeAsync( CurrentSearch );
         }
 
         private Task UpdateActiveFilterIndex( int activeItemIndex )
