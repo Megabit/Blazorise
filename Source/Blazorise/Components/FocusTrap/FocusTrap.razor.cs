@@ -25,6 +25,8 @@ namespace Blazorise
 
         private bool shiftTabPressed;
 
+        private bool shouldRender = true;
+
         #endregion
 
         #region Methods
@@ -99,10 +101,23 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual void OnKeyPressedHandler( KeyboardEventArgs args )
         {
+            shouldRender = false;
+
             if ( args.Key == "Tab" )
             {
                 shiftTabPressed = args.ShiftKey;
             }
+        }
+
+        /// <inheritdoc/>
+        protected override bool ShouldRender()
+        {
+            if ( shouldRender )
+                return true;
+
+            shouldRender = true;
+
+            return false;
         }
 
         #endregion

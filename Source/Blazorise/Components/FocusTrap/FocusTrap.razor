@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseFocusableContainerComponent
 <CascadingValue Value="@this" IsFixed="true">
-    <div @ref="@containerRef" @onkeydown="@OnKeyPressedHandler" @onkeyup="@OnKeyPressedHandler">
+    <div @ref="@containerRef" @onkeydown="@OnKeyPressedHandler" @onkeyup="@OnKeyPressedHandler" tabindex="-1">
         <div tabindex="@FocusableTabIndex" @ref="@startSecondRef" @onfocus="@OnFocusEndHandler"></div>
         <div tabindex="@FocusableTabIndex" @ref="@startFirstRef" @onfocus="@OnFocusEndHandler"></div>
         @ChildContent
