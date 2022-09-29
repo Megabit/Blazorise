@@ -256,8 +256,7 @@ namespace Blazorise.Components
             }
             else
             {
-                currentSearch = text;
-                await CurrentSearchChanged.InvokeAsync( currentSearch );
+                await SetCurrentSearch( text );
 
                 if ( ManualReadMode )
                     await InvokeReadData();
@@ -486,6 +485,7 @@ namespace Blazorise.Components
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
                     CurrentSearchChanged.InvokeAsync( currentSearch ),
+                    SearchChanged.InvokeAsync( currentSearch ),
                     SelectedTextChanged.InvokeAsync( selectedText )
                 );
             }
@@ -558,6 +558,15 @@ namespace Blazorise.Components
         {
             currentSearch = string.Empty;
             await CurrentSearchChanged.InvokeAsync( currentSearch );
+        }
+
+        private async Task SetCurrentSearch( string searchValue )
+        {
+            currentSearch = searchValue;
+            await Task.WhenAll(
+                CurrentSearchChanged.InvokeAsync( currentSearch ),
+                SearchChanged.InvokeAsync( CurrentSearch )
+            );
         }
 
         private Task ResetActiveItemIndex()
@@ -704,9 +713,7 @@ namespace Blazorise.Components
         public async Task Clear()
         {
             await ResetSelected();
-            
-            CurrentSearch = string.Empty;
-            await CurrentSearchChanged.InvokeAsync( CurrentSearch );
+            await SetCurrentSearch( string.Empty );
         }
 
         private Task UpdateActiveFilterIndex( int activeItemIndex )
@@ -1163,9 +1170,15 @@ namespace Blazorise.Components
         }
 
         /// <summary>
-        /// Gets or sets the currently selected item text.
+        /// Occurs on every search text change.
         /// </summary>
         [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
+
+        /// <summary>
+        /// Occurs on every search text change.
+        /// </summary>
+        [Obsolete( "SearchChanged is deprecated and will be removed in a future version, please use CurrentSearchChanged instead." )] 
+        [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
         /// <summary>
         /// Currently selected items values.
