@@ -65,7 +65,7 @@ namespace Blazorise
         /// Gets the string representing the disabled state.
         /// </summary>
         protected string DisabledString
-            => Disabled.ToString().ToLowerInvariant();
+            => Disabled ? bool.TrueString.ToLowerInvariant() : null;
 
         /// <summary>
         /// Holds the information about the Blazorise global options.

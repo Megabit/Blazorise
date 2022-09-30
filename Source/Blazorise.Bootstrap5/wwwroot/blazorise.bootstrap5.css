@@ -831,6 +831,10 @@ input[readonly=readonly][type=range]::-ms-thumb {
   height: 0.55rem;
 }
 
+.focus-trap {
+  display: contents;
+}
+
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;

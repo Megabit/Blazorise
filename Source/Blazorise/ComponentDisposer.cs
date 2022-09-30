@@ -1,13 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -29,6 +25,8 @@ namespace Blazorise
     {
         #region Members
 
+        private readonly IJSRuntime jsRuntime;
+
         private bool disposePossible;
 
         private readonly IList<object> disposables;
@@ -44,9 +42,12 @@ namespace Blazorise
         /// <summary>
         /// Default constructor.
         /// </summary>
+        /// <param name="jsRuntime">Instance of a JavaScript runtime to which calls may be dispatched.</param>
         /// <param name="serviceProvider">Service provider used to retrieve registered components.</param>
-        public ComponentDisposer( IServiceProvider serviceProvider )
+        public ComponentDisposer( IJSRuntime jsRuntime, IServiceProvider serviceProvider )
         {
+            this.jsRuntime = jsRuntime;
+
             ServiceProvider = serviceProvider;
             disposables = LoadServiceProviderDisposableList();
         }
@@ -73,28 +74,31 @@ namespace Blazorise
         /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
         private IList<object> LoadServiceProviderDisposableList()
         {
-            try
-            {
-                if ( disposablesGetter is null )
-                    disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
-
-                var disposables = disposablesGetter( ServiceProvider );
-
-                disposePossible = !disposables.IsNullOrEmpty();
-
-                return disposables;
-            }
-            catch
+            if ( IsWebAssembly )
             {
                 disposePossible = false;
+
+                return new List<object>();
             }
 
-            return new List<object>();
+            if ( disposablesGetter is null )
+                disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
+
+            var disposables = disposablesGetter( ServiceProvider );
+
+            disposePossible = !disposables.IsNullOrEmpty();
+
+            return disposables;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Indicates if the current app is running in webassembly mode.
+        /// </summary>
+        protected bool IsWebAssembly => jsRuntime is IJSInProcessRuntime;
 
         /// <summary>
         /// Gets the reference to the <see cref="IServiceProvider"/>.

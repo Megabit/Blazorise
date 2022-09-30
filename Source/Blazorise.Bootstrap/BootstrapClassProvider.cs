@@ -324,6 +324,12 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region FocusTrap
+
+        public override string FocusTrap() => "focus-trap";
+
+        #endregion
+
         #region Control
 
         public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";

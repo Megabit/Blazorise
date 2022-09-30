@@ -1,4 +1,5 @@
-﻿<Autocomplete TItem="Country"
+﻿<Autocomplete @ref="AutoCompleteRef"
+              TItem="Country"
               TValue="string"
               Data="@ReadDataCountries"
               ReadData="@OnHandleReadData"
@@ -14,11 +15,13 @@
 </Autocomplete>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    [Inject] public CountryData CountryData { get; set; }
+
     public IEnumerable<Country> Countries;
+
     public IEnumerable<Country> ReadDataCountries;
-    private Random random = new();
+
+    public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,15 +41,14 @@
     [Parameter]
     public bool AutoPreSelect { get; set; } = true;
 
-    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
+
         if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
         {
-            await Task.Delay( random.Next( 100 ) );
-            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
-            {
-                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-            }
+            ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
         }
+
+        return Task.CompletedTask;
     }
 }
