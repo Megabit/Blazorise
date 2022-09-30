@@ -1,23 +1,26 @@
-﻿<Autocomplete TItem="Country"
-                TValue="string"
-                Data="@ReadDataCountries"
-                ReadData="@OnHandleReadData"
-                TextField="@(( item ) => item.Name)"
-                ValueField="@(( item ) => item.Iso)"
+﻿<Autocomplete @ref="AutoCompleteRef"
+              TItem="Country"
+              TValue="string"
+              Data="@ReadDataCountries"
+              ReadData="@OnHandleReadData"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
               @bind-SelectedValues="SelectedValues"
               @bind-SelectedTexts="SelectedTexts"
-                Placeholder="Search..."
-                FreeTyping
-                SelectionMode="AutocompleteSelectionMode.Multiple">
+              Placeholder="Search..."
+              FreeTyping
+              SelectionMode="AutocompleteSelectionMode.Multiple">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
-@code{
-    [Inject]
-    public CountryData CountryData { get; set; }
+@code {
+    [Inject] public CountryData CountryData { get; set; }
+
     public IEnumerable<Country> Countries;
+
     public IEnumerable<Country> ReadDataCountries;
-    private Random random = new();
+
+    public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -36,11 +39,9 @@
     {
         if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
         {
-            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
-            {
-                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-            }
+            ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
         }
+
         return Task.CompletedTask;
     }
 }

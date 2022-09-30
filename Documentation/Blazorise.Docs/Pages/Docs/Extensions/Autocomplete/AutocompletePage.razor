@@ -128,6 +128,15 @@
     <DocsAttributesItem Name="SelectedTextChanged" Type="EventCallback<string>">
         Raises an event after the selected text has changed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentSearch" Type="string">
+        Gets or sets the currently selected item text. CurrentSearch is deprecated and will be removed in a future version, please use Search instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentSearchChanged" Type="EventCallback<string>">
+        Occurs on every search text change. CurrentSearchChanged is deprecated and will be removed in a future version, please use SearchChanged instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Search" Type="string">
+        Gets or sets the currently selected item text.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SearchChanged" Type="EventCallback<string>">
         Occurs on every search text change.
     </DocsAttributesItem>
@@ -239,8 +248,11 @@
     <DocsAttributesItem Name="RemoveMultipleTextAndValue">
         Removes a Multiple Selection.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ResetSelected">
+    <DocsAttributesItem Name="Clear">
         Clears the selected value and the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResetSelected">
+        Clears the current selection.
     </DocsAttributesItem>
     <DocsAttributesItem Name="OpenDropdown">
         Opens the Autocomplete Dropdown.
@@ -259,5 +271,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="GetItemByText">
         Gets a TItem from <see cref="Data" /> by using the provided TextField.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IsSafeToClose">
+        IsSafeToClose is deprecated. This API now always returns true.
     </DocsAttributesItem>
 </DocsAttributes>

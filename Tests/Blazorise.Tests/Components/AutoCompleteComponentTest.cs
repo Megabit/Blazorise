@@ -20,6 +20,18 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
+        public void Focus_ShouldFocus()
+        {
+            TestFocus<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        }
+
+        [Fact]
+        public void Clear_ShouldReset()
+        {
+            TestClear<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Fact]
         public void InitialSelectedValue_ShouldSet_SelectedText()
         {
             TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText);
