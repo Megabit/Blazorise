@@ -26,7 +26,7 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void Clear_ShouldReset()
         {
-            TestClear<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts.ToArray() );
+            TestClear<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
         }
 
         [Theory]

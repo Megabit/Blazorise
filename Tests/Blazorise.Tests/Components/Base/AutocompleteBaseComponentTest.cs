@@ -284,10 +284,10 @@ namespace Blazorise.Tests.Components
             //var input = comp.Find( ".b-is-autocomplete input" );
             //var inputText = input.GetAttribute( "value" );
 
-            var badges = comp.FindAll( ".b-is-autocomplete .badge" );
+            //var badges = comp.FindAll( ".b-is-autocomplete .badge" );
 
             //comp.WaitForAssertion( () => Assert.Empty( inputText ), TestExtensions.WaitTime );
-            comp.WaitForAssertion( () => Assert.Empty( badges ), TestExtensions.WaitTime );
+            //comp.WaitForAssertion( () => Assert.Empty( badges ), TestExtensions.WaitTime );
             comp.WaitForAssertion( () => Assert.Empty( getSelectedTexts( comp ) ), TestExtensions.WaitTime );
         }
 
