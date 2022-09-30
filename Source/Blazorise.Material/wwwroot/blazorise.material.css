@@ -567,6 +567,10 @@ select[readonly] optgroup {
   display: none;
 }
 
+.focus-trap {
+  display: contents;
+}
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0;

@@ -324,6 +324,12 @@ namespace Blazorise.Bootstrap5
 
         #endregion
 
+        #region FocusTrap
+
+        public override string FocusTrap() => "focus-trap";
+
+        #endregion
+
         #region Control
 
         public override string ControlCheck() => "form-check";

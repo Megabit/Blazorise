@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -12,8 +13,6 @@ namespace Blazorise
     public partial class FocusTrap : BaseFocusableContainerComponent
     {
         #region Members
-
-        private ElementReference containerRef;
 
         private ElementReference startFirstRef;
 
@@ -51,6 +50,14 @@ namespace Blazorise
             }
 
             return base.OnAfterRenderAsync( firstRender );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.FocusTrap() );
+
+            base.BuildClasses( builder );
         }
 
         /// <summary>

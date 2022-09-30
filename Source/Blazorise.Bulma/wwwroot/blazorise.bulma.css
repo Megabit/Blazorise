@@ -6314,6 +6314,10 @@ select[readonly] optgroup {
   display: none;
 }
 
+.focus-trap {
+  display: contents;
+}
+
 .hero.is-primary {
   background-color: #00d1b2;
   color: #fff;

@@ -322,6 +322,12 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region FocusTrap
+
+        public override string FocusTrap() => "ant-focus-trap";
+
+        #endregion
+
         #region Control
 
         public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";

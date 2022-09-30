@@ -310,6 +310,12 @@ namespace Blazorise
 
         #endregion
 
+        #region FocusTrap
+
+        public abstract string FocusTrap();
+
+        #endregion
+
         #region Control
 
         public abstract string ControlCheck();
