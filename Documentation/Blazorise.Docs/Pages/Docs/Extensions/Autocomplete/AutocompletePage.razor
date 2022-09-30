@@ -128,12 +128,17 @@
     <DocsAttributesItem Name="SelectedTextChanged" Type="EventCallback<string>">
         Raises an event after the selected text has changed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentSearch" Type="string">
+        Gets or sets the currently selected item text. CurrentSearch is deprecated and will be removed in a future version, please use Search instead.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="CurrentSearchChanged" Type="EventCallback<string>">
-        Occurs on every search text change.
+        Occurs on every search text change. CurrentSearchChanged is deprecated and will be removed in a future version, please use SearchChanged instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Search" Type="string">
+        Gets or sets the currently selected item text.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SearchChanged" Type="EventCallback<string>">
         Occurs on every search text change.
-        SearchChanged is deprecated and will be removed in a future version, please use CurrentSearchChanged instead.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Placeholder" Type="string">
         Placeholder for the empty search field.
