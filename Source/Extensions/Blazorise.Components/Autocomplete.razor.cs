@@ -560,6 +560,18 @@ namespace Blazorise.Components
             await CurrentSearchChanged.InvokeAsync( currentSearch );
         }
 
+        private async Task ResetSelectedValues()
+        {
+            selectedValues?.Clear();
+            await SelectedValuesChanged.InvokeAsync( selectedValues );
+        }
+
+        private async Task ResetSelectedTexts()
+        {
+            SelectedTexts?.Clear();
+            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+        }
+
         private async Task SetCurrentSearch( string searchValue )
         {
             currentSearch = searchValue;
@@ -713,6 +725,8 @@ namespace Blazorise.Components
         public async Task Clear()
         {
             await ResetSelected();
+            await ResetSelectedTexts();
+            await ResetSelectedValues();
             await SetCurrentSearch( string.Empty );
         }
 
