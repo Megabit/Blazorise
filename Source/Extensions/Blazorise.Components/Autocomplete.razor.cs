@@ -147,7 +147,11 @@ namespace Blazorise.Components
                 if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                 {
                     currentSearch = SelectedText;
-                    await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+                    await Task.WhenAll(
+                        CurrentSearchChanged.InvokeAsync( currentSearch ),
+                        SearchChanged.InvokeAsync( currentSearch )
+                    );
                 }
             }
 
@@ -166,7 +170,11 @@ namespace Blazorise.Components
                         if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                         {
                             currentSearch = SelectedText;
-                            await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+                            await Task.WhenAll(
+                                CurrentSearchChanged.InvokeAsync( currentSearch ),
+                                SearchChanged.InvokeAsync( currentSearch )
+                            );
                         }
                     }
                 }
@@ -227,6 +235,7 @@ namespace Blazorise.Components
 
                     await Task.WhenAll(
                         CurrentSearchChanged.InvokeAsync( currentSearch ),
+                        SearchChanged.InvokeAsync( currentSearch ),
                         SelectedTextChanged.InvokeAsync( selectedText ),
                         SelectedValueChanged.InvokeAsync( selectedValue )
                     );
@@ -557,7 +566,11 @@ namespace Blazorise.Components
         private async Task ResetCurrentSearch()
         {
             currentSearch = string.Empty;
-            await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+            await Task.WhenAll(
+                CurrentSearchChanged.InvokeAsync( currentSearch ),
+                SearchChanged.InvokeAsync( currentSearch )
+            );
         }
 
         private async Task ResetSelectedValues()
@@ -575,6 +588,7 @@ namespace Blazorise.Components
         private async Task SetCurrentSearch( string searchValue )
         {
             currentSearch = searchValue;
+
             await Task.WhenAll(
                 CurrentSearchChanged.InvokeAsync( currentSearch ),
                 SearchChanged.InvokeAsync( CurrentSearch )
@@ -1188,6 +1202,7 @@ namespace Blazorise.Components
         /// Gets or sets the currently selected item text.
         /// </summary>
         [Parameter]
+        [Obsolete( "CurrentSearch is deprecated and will be removed in a future version, please use Search instead." )]
         public string CurrentSearch
         {
             get => currentSearch ?? currentSearchParam ?? string.Empty;
@@ -1197,12 +1212,22 @@ namespace Blazorise.Components
         /// <summary>
         /// Occurs on every search text change.
         /// </summary>
+        [Obsolete( "CurrentSearchChanged is deprecated and will be removed in a future version, please use SearchChanged instead." )]
         [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
+        [Parameter]
+        public string Search
+        {
+            get => CurrentSearch;
+            set => CurrentSearch = value;
+        }
 
         /// <summary>
         /// Occurs on every search text change.
         /// </summary>
-        [Obsolete( "SearchChanged is deprecated and will be removed in a future version, please use CurrentSearchChanged instead." )] 
         [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
         /// <summary>
