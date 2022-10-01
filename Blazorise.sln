@@ -106,7 +106,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Generator", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LoadingIndicator", "Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj", "{570C2383-EE8C-4F02-91E8-E59B879EDCD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.MAUI", "Demos\Blazorise.Demo.MAUI\Blazorise.Demo.MAUI.csproj", "{F9515890-3956-47A7-A8BB-B27333F4FC57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -286,6 +288,12 @@ Global
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -336,6 +344,7 @@ Global
 		{F4C121CA-C204-43C4-AF1D-DEE56392526F} = {700B33A3-A855-46C3-BD5A-C6954FC7274B}
 		{570C2383-EE8C-4F02-91E8-E59B879EDCD2} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{F9515890-3956-47A7-A8BB-B27333F4FC57} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
