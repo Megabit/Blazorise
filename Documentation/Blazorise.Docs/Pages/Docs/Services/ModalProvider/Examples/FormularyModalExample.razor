@@ -7,7 +7,6 @@
     <CloseButton />
 </ModalHeader>
 <ModalBody>
-
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">First Name</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
@@ -34,7 +33,6 @@
     <Button Color="Color.Secondary" Clicked="ModalService.Hide">Close</Button>
 </ModalFooter>
 @code {
-
     private Employee model = new();
     private bool isValid = true;
     [Inject] public IModalService ModalService { get; set; }

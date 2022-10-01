@@ -7070,7 +7070,7 @@ builder.Services
 <Paragraph>@Value</Paragraph>
 
 @code {
-    [Parameter ] public long Value { get; set; }
+    [Parameter] public long Value { get; set; }
 }";
 
         public const string CustomStructureModalExample = @"<ModalHeader>
@@ -7102,7 +7102,6 @@ builder.Services
     <CloseButton />
 </ModalHeader>
 <ModalBody>
-
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
@@ -7129,7 +7128,6 @@ builder.Services
     <Button Color=""Color.Secondary"" Clicked=""ModalService.Hide"">Close</Button>
 </ModalFooter>
 @code {
-
     private Employee model = new();
     private bool isValid = true;
     [Inject] public IModalService ModalService { get; set; }
@@ -7249,7 +7247,6 @@ builder.Services
 
         public const string ModalServiceOptionsExample = @"<Button Clicked=""InstantiateModal""></Button>
 @code {
-
     [Inject] public IModalService ModalService { get; set; }
 
     public Task InstantiateModal()
