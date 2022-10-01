@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Components;
 using Blazorise.Tests.Extensions;
@@ -16,11 +17,11 @@ namespace Blazorise.Tests.Components
     public class AutocompleteBaseComponentTest : TestContext
     {
 
-        public void TestFocus<TComponent>( Action<IRenderedComponent<TComponent>> focus ) where TComponent : IComponent
+        public void TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
         {
             var comp = RenderComponent<TComponent>();
 
-            focus( comp );
+            comp.InvokeAsync( async () => await focus( comp ) );
 
             comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
         }
@@ -264,11 +265,11 @@ namespace Blazorise.Tests.Components
 
     public class AutocompleteMultipleBaseComponentTest : TestContext
     {
-        public void TestFocus<TComponent>( Action<IRenderedComponent<TComponent>> focus ) where TComponent : IComponent
+        public void TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
         {
             var comp = RenderComponent<TComponent>();
 
-            focus( comp );
+            comp.InvokeAsync( async () => await focus( comp ) );
 
             comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
         }
