@@ -11,7 +11,7 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The modal provider component provides an abstraction on top of Blazorize's <Code Tag>Modal</Code>, enabling you to programatically instantiate modals with custom content/components.
+    The modal provider component provides an abstraction on top of Blazorize's <Anchor To="docs/components/modal">Modal component</Anchor>, enabling you to programatically instantiate modals with custom content/components.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -32,9 +32,9 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="The IModalService">
         The <Code>IModalService</Code> is an important feature that lets you control <Code Tag>ModalProvider</Code> instantiation.
-        You are provided with various overloads of <Code>Show</Code> to instantiate the <Code Tag>Modal</Code> to your liking.
+        You are provided with various overloads of <Code>Show()</Code> to instantiate the <Code Tag>Modal</Code> to your liking.
         This will return a <Code>ModalInstance</Code> that represents the <Code Tag>Modal</Code> you've instantiated with all of its configuration.
-        You may also use the provided <Code>Hide</Code> to close Modals.
+        You may also use the provided <Code>Hide()</Code> method to close modals.
     </DocsPageSectionHeader>
 </DocsPageSection>
 
@@ -51,24 +51,28 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Closing the instantiated Modals">
-        <Code Tag>ModalProvider</Code> will only keep track of the modals that have been instantiated by itself.
-        To close a Modal:
-
-        <UnorderedList>
-            <UnorderedListItem>
-                You can use Blazorise's <Code Tag>CloseButton</Code> component, which automatically knows how to close the currently opened <Code Tag>Modal</Code>.
-            </UnorderedListItem>
-            <UnorderedListItem>
-                Use the provided <Code>IModalService</Code> and call <Code>IModelService.Hide()</Code>, this will close the last opened <Code Tag>Modal</Code> tracked by the <Code Tag>ModalProvider</Code>.
-            </UnorderedListItem>
-            <UnorderedListItem>
-                You may keep track of the <Code>ModalInstance</Code> and call <Code>IModalService.Hide(modalInstance)</Code>, this will close the provided instance.
-            </UnorderedListItem>
-            <UnorderedListItem>
-                You may keep track of the <Code>ModalInstance</Code> and call <Code>modalInstance.ModalRef.Hide()</Code>.
-            </UnorderedListItem>
-        </UnorderedList>
-
+        <Paragraph>
+            <Code Tag>ModalProvider</Code> will only keep track of the modals that have been instantiated by itself.
+        </Paragraph>
+        <Paragraph>
+            To close a Modal:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    You can use Blazorise's <Code Tag>CloseButton</Code> component, which automatically knows how to close the currently opened <Code Tag>Modal</Code>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Use the provided <Code>IModalService</Code> and call <Code>IModelService.Hide()</Code>, this will close the last opened <Code Tag>Modal</Code> tracked by the <Code Tag>ModalProvider</Code>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    You may keep track of the <Code>ModalInstance</Code> and call <Code>IModalService.Hide(modalInstance)</Code>, this will close the provided instance.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    You may keep track of the <Code>ModalInstance</Code> and call <Code>modalInstance.ModalRef.Hide()</Code>.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
@@ -85,7 +89,10 @@
         <ModalProviderInstantiationExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ModalProviderInstantiationExample" />
-    <Divider></Divider>
+    <Divider />
+    <Paragraph>
+        <Strong>ShowCounter.razor</Strong>
+    </Paragraph>
     <DocsPageSectionSource Code="CounterExample" />
 </DocsPageSection>
 
@@ -100,25 +107,32 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Instantiate a modal with custom structure">
-        If you want to customize the modal structure, you can do so, by setting <Code>UseModalStructure</Code> to <Code>false</Code> and providing the structure inside the custom content you are instantiating.
-        You may do this by providing your custom html or by using the internal <Code>Modal</Code> components.
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>ModalHeader</Code>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code Tag>ModalBody</Code>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code Tag>ModalFooter</Code>
-            </UnorderedListItem>
-        </UnorderedList>
+        <Paragraph>
+            If you want to customize the modal structure, you can do so, by setting <Code>UseModalStructure</Code> to <Code>false</Code> and providing the structure inside the custom content you are instantiating.
+            You may do this by providing your custom html or by using the internal <Code>Modal</Code> components.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Code Tag>ModalHeader</Code>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code Tag>ModalBody</Code>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code Tag>ModalFooter</Code>
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ModalProviderCustomStructureExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ModalProviderCustomStructureExample" />
     <Divider></Divider>
+    <Paragraph>
+        <Strong>CustomStructureModalExample.razor</Strong>
+    </Paragraph>
     <DocsPageSectionSource Code="CustomStructureModalExample" />
 </DocsPageSection>
 
@@ -133,6 +147,9 @@
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ModalProviderFormularyExample" />
     <Divider></Divider>
+    <Paragraph>
+        <Strong>FormularyModalExample.razor</Strong>
+    </Paragraph>
     <DocsPageSectionSource Code="FormularyModalExample" />
 </DocsPageSection>
 
