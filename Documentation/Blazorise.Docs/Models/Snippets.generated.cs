@@ -7065,6 +7065,161 @@ builder.Services
 
 <MessageProvider />";
 
+        public const string CounterExample = @"<Heading>Counter</Heading>
+
+<Paragraph>@Value</Paragraph>
+
+@code {
+    [Parameter ] public long Value { get; set; }
+}";
+
+        public const string CustomStructureModalExample = @"<ModalHeader>
+    <ModalTitle>My Custom Structure</ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody MaxHeight=""70"">
+    Welcome @UserName!
+</ModalBody>
+<ModalFooter>
+    <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+</ModalFooter>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    [Parameter] public string UserName { get; set; }
+
+    private async Task Confirm()
+    {
+        await ModalService.Hide();
+    }
+}";
+
+        public const string FormularyModalExample = @"<ModalHeader>
+    <ModalTitle>
+        Please fill in the formulary
+    </ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.Email""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    @if ( !isValid )
+    {
+        <Paragraph>
+            <Label>Invalid Submission!</Label>
+        </Paragraph>
+    }
+</ModalBody>
+<ModalFooter>
+    <Button Color=""Color.Success "" Clicked=""Confirm"">Confirm</Button>
+    <Button Color=""Color.Secondary"" Clicked=""ModalService.Hide"">Close</Button>
+</ModalFooter>
+@code {
+
+    private Employee model = new();
+    private bool isValid = true;
+    [Inject] public IModalService ModalService { get; set; }
+    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }
+    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }
+
+    private async Task Confirm()
+    {
+        if ( OnValidate is not null )
+            isValid = await OnValidate( model );
+
+        if ( !isValid )
+        {
+            return;
+        }
+
+        await OnSuccess( model );
+        await ModalService.Hide();
+    }
+}";
+
+        public const string ModalProviderCustomRenderFragmentExample = @"<Button Color=""Color.Primary"" Clicked=""ShowRenderFragment"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private RenderFragment customFragment => __builder =>
+    {
+        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+    };
+
+    public Task ShowRenderFragment()
+    {
+        return ModalService.Show( ""My Custom RenderFragment!"", customFragment );
+    }
+}";
+
+        public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+        <TextEdit @bind-Text=""userName""></TextEdit>
+    </FieldBody>
+</Field>
+
+<Button Color=""Color.Primary"" Clicked=""ShowCustomStructure"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+    private string userName = ""John Doe"";
+
+    public Task ShowCustomStructure()
+    {
+        return ModalService.Show<CustomStructureModalExample>( parameters => parameters.Add( x => x.UserName, userName ), new ModalInstanceOptions() { UseModalStructure = false } );
+    }
+}";
+
+        public const string ModalProviderFormularyExample = @"<Paragraph>
+    @formularyMessage
+</Paragraph>
+<Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private string formularyMessage = """";
+
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return ModalService.Show<FormularyModalExample>( x =>
+        {
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
+        },
+        new ModalInstanceOptions()
+            {
+                UseModalStructure = false
+            } );
+    }
+
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
+
+    private Task FormularySuccess( Employee employee )
+    {
+        formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
+        return InvokeAsync( StateHasChanged );
+    }
+}";
+
         public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
 @code {
@@ -7074,7 +7229,7 @@ builder.Services
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
-        return ModalService.Show<Counter>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+        return ModalService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
     }
 }";
 
