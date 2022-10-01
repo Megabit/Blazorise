@@ -30,14 +30,12 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageParagraph>
-        <DocsPageSectionHeader Title="The IModalService">
-            The <Code>IModalService</Code> is an important feature that lets you control <Code Tag>ModalProvider</Code> instantiation.
-            You are provided with various overloads of <Code>Show</Code> to instantiate the <Code Tag>Modal</Code> to your liking.
-            This will return a <Code>ModalInstance</Code> that represents the <Code Tag>Modal</Code> you've instantiated with all of its configuration.
-            You may also use the provided <Code>Hide</Code> to close Modals.
-        </DocsPageSectionHeader>
-    </DocsPageParagraph>
+    <DocsPageSectionHeader Title="The IModalService">
+        The <Code>IModalService</Code> is an important feature that lets you control <Code Tag>ModalProvider</Code> instantiation.
+        You are provided with various overloads of <Code>Show</Code> to instantiate the <Code Tag>Modal</Code> to your liking.
+        This will return a <Code>ModalInstance</Code> that represents the <Code Tag>Modal</Code> you've instantiated with all of its configuration.
+        You may also use the provided <Code>Hide</Code> to close Modals.
+    </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
@@ -52,28 +50,26 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageParagraph>
-        <DocsPageSectionHeader Title="Closing the instantiated Modals">
-            <Code Tag>ModalProvider</Code> will only keep track of the modals that have been instantiated by itself.
-            To close a Modal:
+    <DocsPageSectionHeader Title="Closing the instantiated Modals">
+        <Code Tag>ModalProvider</Code> will only keep track of the modals that have been instantiated by itself.
+        To close a Modal:
 
-            <UnorderedList>
-                <UnorderedListItem>
-                    You can use Blazorise's <Code Tag>CloseButton</Code> component, which automatically knows how to close the currently opened <Code Tag>Modal</Code>.
-                </UnorderedListItem>
-                <UnorderedListItem>
-                    Use the provided <Code>IModalService</Code> and call <Code>IModelService.Hide()</Code>, this will close the last opened <Code Tag>Modal</Code> tracked by the <Code Tag>ModalProvider</Code>.
-                </UnorderedListItem>
-                <UnorderedListItem>
-                    You may keep track of the <Code>ModalInstance</Code> and call <Code>IModalService.Hide(modalInstance)</Code>, this will close the provided instance.
-                </UnorderedListItem>
-                <UnorderedListItem>
-                    You may keep track of the <Code>ModalInstance</Code> and call <Code>modalInstance.ModalRef.Hide()</Code>.
-                </UnorderedListItem>
-            </UnorderedList>
+        <UnorderedList>
+            <UnorderedListItem>
+                You can use Blazorise's <Code Tag>CloseButton</Code> component, which automatically knows how to close the currently opened <Code Tag>Modal</Code>.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                Use the provided <Code>IModalService</Code> and call <Code>IModelService.Hide()</Code>, this will close the last opened <Code Tag>Modal</Code> tracked by the <Code Tag>ModalProvider</Code>.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                You may keep track of the <Code>ModalInstance</Code> and call <Code>IModalService.Hide(modalInstance)</Code>, this will close the provided instance.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                You may keep track of the <Code>ModalInstance</Code> and call <Code>modalInstance.ModalRef.Hide()</Code>.
+            </UnorderedListItem>
+        </UnorderedList>
 
-        </DocsPageSectionHeader>
-    </DocsPageParagraph>
+    </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSubtitle>
