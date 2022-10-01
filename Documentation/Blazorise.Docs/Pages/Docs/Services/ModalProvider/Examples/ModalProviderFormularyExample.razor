@@ -1,0 +1,35 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Paragraph>
+    @formularyMessage
+</Paragraph>
+<Button Color="Color.Primary" Clicked="ShowFormulary">Show</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private string formularyMessage = "";
+
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return ModalService.Show<FormularyModalExample>( x =>
+        {
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
+        },
+        new ModalInstanceOptions()
+            {
+                UseModalStructure = false
+            } );
+    }
+
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
+
+    private Task FormularySuccess( Employee employee )
+    {
+        formularyMessage = $"Employee : {employee.FirstName} saved successfully!";
+        return InvokeAsync( StateHasChanged );
+    }
+}

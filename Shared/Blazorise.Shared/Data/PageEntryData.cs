@@ -140,7 +140,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/helpers/utilities", "Utilities" ),
 
                 new PageEntry( "docs/services/message", "Message", "Message service is used for quick user confirmation actions." ),
-                new PageEntry( "docs/services/modal-provider", "Modals", "Programatically instantiate modals with custom content." ),
+                new PageEntry( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
                 new PageEntry( "docs/services/notification", "Notification", "Notification service is used to provide feedback to the user." ),
                 new PageEntry( "docs/services/page-progress", "Page Progress", "Page Progress service is used to provide a page loading indicator to the user." ),
                 new PageEntry( "docs/faq", "FAQ" ),
