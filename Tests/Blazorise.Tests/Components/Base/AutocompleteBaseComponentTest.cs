@@ -9,6 +9,7 @@ using Blazorise.Components;
 using Blazorise.Tests.Extensions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Xunit;
 #endregion
 
@@ -26,23 +27,19 @@ namespace Blazorise.Tests.Components
             comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
         }
 
-        public void TestClear<TComponent>( Action<IRenderedComponent<TComponent>> clear, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+        public void TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
         {
             var comp = RenderComponent<TComponent>( parameters =>
                 parameters.TryAdd( "SelectedValue", "CN" )
             );
 
-            clear( comp );
+            comp.InvokeAsync( async () => await clear( comp ) );
+            comp.Render();
 
-            //var validateInputTest = () =>
-            //{
-            //    var input = comp.Find( ".b-is-autocomplete input" );
-            //    var inputText = input.GetAttribute( "value" );
-            //    Assert.Empty( inputText );
-            //};
+            var input = comp.Find( ".b-is-autocomplete input" );
+            var inputText = input.GetAttribute( "value" );
 
-
-            //comp.WaitForAssertion( () => validateInputTest(), TestExtensions.WaitTime );
+            comp.WaitForAssertion( () => Assert.Empty( inputText ), TestExtensions.WaitTime );
             comp.WaitForAssertion( () => Assert.Null( getSelectedText( comp ) ), TestExtensions.WaitTime );
         }
 
@@ -274,21 +271,22 @@ namespace Blazorise.Tests.Components
             comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
         }
 
-        public void TestClear<TComponent>( Action<IRenderedComponent<TComponent>> clear, Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
+        public void TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
         {
             var comp = RenderComponent<TComponent>( parameters =>
                 parameters.TryAdd( "SelectedValues", new List<string> { "PT", "HR" } )
             );
 
-            clear( comp );
+            comp.InvokeAsync( async () => await clear( comp ) );
+            comp.Render();
 
-            //var input = comp.Find( ".b-is-autocomplete input" );
-            //var inputText = input.GetAttribute( "value" );
+            var input = comp.Find( ".b-is-autocomplete input" );
+            var inputText = input.GetAttribute( "value" );
 
-            //var badges = comp.FindAll( ".b-is-autocomplete .badge" );
+            var badges = comp.FindAll( ".b-is-autocomplete .badge" );
 
-            //comp.WaitForAssertion( () => Assert.Empty( inputText ), TestExtensions.WaitTime );
-            //comp.WaitForAssertion( () => Assert.Empty( badges ), TestExtensions.WaitTime );
+            comp.WaitForAssertion( () => Assert.Empty( inputText ), TestExtensions.WaitTime );
+            comp.WaitForAssertion( () => Assert.Empty( badges ), TestExtensions.WaitTime );
             comp.WaitForAssertion( () => Assert.Empty( getSelectedTexts( comp ) ), TestExtensions.WaitTime );
         }
 
