@@ -28,66 +28,36 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
-        }
+        public virtual ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+            => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
-        }
+        public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
         /// <inheritdoc/>
         public virtual ValueTask Activate( ElementReference elementRef, string elementId, object options )
-        {
-            return ValueTask.CompletedTask;
-        }
+            => ValueTask.CompletedTask;
 
         /// <inheritdoc/>
-        public virtual async ValueTask UpdateValue( ElementReference elementRef, string elementId, object value )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "updateValue", elementRef, elementId, value );
-        }
+        public virtual ValueTask UpdateValue( ElementReference elementRef, string elementId, object value )
+            => InvokeSafeVoidAsync( "updateValue", elementRef, elementId, value );
 
         /// <inheritdoc/>
-        public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
-        }
+        public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+            => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
         /// <inheritdoc/>
-        public virtual async ValueTask UpdateLocalization( ElementReference elementRef, string elementId, object localization )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "updateLocalization", elementRef, elementId, localization );
-        }
+        public virtual ValueTask UpdateLocalization( ElementReference elementRef, string elementId, object localization )
+            => InvokeSafeVoidAsync( "updateLocalization", elementRef, elementId, localization );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "focus", elementRef, elementId, scrollToElement );
-        }
+        public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+            => InvokeSafeVoidAsync( "focus", elementRef, elementId, scrollToElement );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Select( ElementReference elementRef, string elementId, bool focus )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "select", elementRef, elementId, focus );
-        }
+        public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
+            => InvokeSafeVoidAsync( "select", elementRef, elementId, focus );
 
         #endregion
 

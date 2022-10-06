@@ -28,12 +28,8 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Register( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "registerClosableComponent", dotNetObjectRef, elementRef );
-        }
+        public virtual ValueTask Register( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
+            => InvokeSafeVoidAsync( "registerClosableComponent", dotNetObjectRef, elementRef );
 
         /// <inheritdoc/>
         public virtual async ValueTask Unregister( ICloseActivator component )
@@ -41,9 +37,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "unregisterClosableComponent", component.ElementRef );
+            await InvokeSafeVoidAsync( "unregisterClosableComponent", component.ElementRef );
         }
 
         #endregion

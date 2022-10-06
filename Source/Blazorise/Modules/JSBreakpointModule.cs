@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
@@ -28,12 +27,8 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask RegisterBreakpoint( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "registerBreakpointComponent", dotNetObjectRef, elementId );
-        }
+        public virtual ValueTask RegisterBreakpoint( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
+            => InvokeSafeVoidAsync( "registerBreakpointComponent", dotNetObjectRef, elementId );
 
         /// <inheritdoc/>
         public virtual async ValueTask UnregisterBreakpoint( IBreakpointActivator component )
@@ -41,20 +36,16 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "unregisterBreakpointComponent", component.ElementId );
+            await InvokeSafeVoidAsync( "unregisterBreakpointComponent", component.ElementId );
         }
 
         /// <inheritdoc/>
         public virtual async ValueTask<string> GetBreakpoint()
         {
             if ( IsUnsafe )
-                return await Task.FromResult<string>( null );
+                return default;
 
-            var moduleInstance = await Module;
-
-            return await moduleInstance.InvokeAsync<string>( "getBreakpoint" );
+            return await InvokeSafeAsync<string>( "getBreakpoint" );
         }
 
         #endregion

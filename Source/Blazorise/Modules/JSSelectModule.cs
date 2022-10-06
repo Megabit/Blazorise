@@ -31,23 +31,17 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "setSelectedOptions", elementId, values );
-        }
+        public virtual ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values )
+            => InvokeSafeVoidAsync( "setSelectedOptions", elementId, values );
 
         /// <inheritdoc/>
         public virtual async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )
         {
-            var moduleInstance = await Module;
-
             // All of this is because Blazor is not serializing types as it should! In this case nullable types
             // are not working (enum?, int?, etc.) so we need to do it manually.
 
             // Get the selected values from JS as strings.
-            var stringValues = await moduleInstance.InvokeAsync<string[]>( "getSelectedOptions", elementId );
+            var stringValues = await InvokeSafeAsync<string[]>( "getSelectedOptions", elementId );
 
             return stringValues?.Select( value =>
             {
