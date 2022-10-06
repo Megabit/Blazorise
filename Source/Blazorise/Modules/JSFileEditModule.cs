@@ -31,23 +31,23 @@ namespace Blazorise.Modules
 
         /// <inheritdoc/>
         public virtual ValueTask Initialize( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
-            => InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId );
+            => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId );
 
         /// <inheritdoc/>
         public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
-            => InvokeVoidAsync( "destroy", elementRef, elementId );
+            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
         /// <inheritdoc/>
         public virtual ValueTask Reset( ElementReference elementRef, string elementId )
-            =>InvokeVoidAsync( "reset", elementRef, elementId );
+            => InvokeSafeVoidAsync( "reset", elementRef, elementId );
 
         /// <inheritdoc/>
         public virtual ValueTask RemoveFile( ElementReference elementRef, string elementId, int fileId )
-            => InvokeVoidAsync( "removeFile", elementRef, elementId, fileId );
+            => InvokeSafeVoidAsync( "removeFile", elementRef, elementId, fileId );
 
         /// <inheritdoc/>
         public virtual ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
-            => InvokeVoidAsync( "open", elementRef, elementId );
+            => InvokeSafeVoidAsync( "open", elementRef, elementId );
 
         #endregion
 

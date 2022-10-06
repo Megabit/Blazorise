@@ -28,12 +28,8 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, object options )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, options );
-        }
+        public virtual ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+            => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
 
         /// <inheritdoc/>
         public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
@@ -41,9 +37,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
+            await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
         }
 
         #endregion

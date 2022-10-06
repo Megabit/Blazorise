@@ -4339,7 +4339,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         var model = e.Model as BarChartModel;
 
-        Console.WriteLine( $""Handling event for {nameof( BarChartModel )}: X:{model.X} Y:{model.Y}"" );
+        Console.WriteLine( $""Handling event for {nameof( BarChartModel )}: x:{model.X} y:{model.Y}"" );
         return Task.CompletedTask;
     }
 }";
@@ -7382,6 +7382,7 @@ builder.Services
 <link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.1.0"" rel=""stylesheet"" />
 
 <script src=""_content/Blazorise/blazorise.js?v=1.1.1.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.1.0""></script>
 <script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.1.0""></script>";
 
     }
