@@ -39,5 +39,31 @@ namespace Blazorise
 
             return Expression.Lambda<Func<object, T>>( Expression.Convert( property, typeof( T ) ), parameterExp ).Compile();
         }
+
+        /// <summary>
+        /// Gets a field in an unknown instance.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static T GetField<T>( object instance, string propertyName )
+            => CreateFieldGetter<T>( instance, propertyName )( instance );
+
+        /// <summary>
+        /// Generates a function getter for a field in an unknown instance.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static Func<object, T> CreateFieldGetter<T>( object instance, string propertyName )
+        {
+            var parameterExp = Expression.Parameter( typeof( object ), "instance" );
+            var castExp = Expression.TypeAs( parameterExp, instance.GetType() );
+            var property = Expression.Field( castExp, propertyName );
+
+            return Expression.Lambda<Func<object, T>>( Expression.Convert( property, typeof( T ) ), parameterExp ).Compile();
+        }
     }
 }
