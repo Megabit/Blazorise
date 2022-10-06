@@ -50,9 +50,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "unregisterClosableLightComponent", elementRef );
+            await InvokeSafeVoidAsync( "unregisterClosableLightComponent", elementRef );
         }
 
         #endregion
