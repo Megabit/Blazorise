@@ -1,10 +1,6 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise
@@ -22,7 +18,7 @@ namespace Blazorise
         /// <param name="propertyName"></param>
         /// <returns></returns>
         public static T GetProperty<T>( object instance, string propertyName )
-            => CreatePropertyGetter<T>( instance, propertyName )(instance);
+            => CreatePropertyGetter<T>( instance, propertyName )( instance );
 
         /// <summary>
         /// Generates a function getter for a property in an unknown instance.
@@ -45,25 +41,25 @@ namespace Blazorise
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
-        /// <param name="propertyName"></param>
+        /// <param name="fieldName"></param>
         /// <returns></returns>
-        public static T GetField<T>( object instance, string propertyName )
-            => CreateFieldGetter<T>( instance, propertyName )( instance );
+        public static T GetField<T>( object instance, string fieldName )
+            => CreateFieldGetter<T>( instance, fieldName )( instance );
 
         /// <summary>
         /// Generates a function getter for a field in an unknown instance.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
-        /// <param name="propertyName"></param>
+        /// <param name="fieldName"></param>
         /// <returns></returns>
-        public static Func<object, T> CreateFieldGetter<T>( object instance, string propertyName )
+        public static Func<object, T> CreateFieldGetter<T>( object instance, string fieldName )
         {
             var parameterExp = Expression.Parameter( typeof( object ), "instance" );
             var castExp = Expression.TypeAs( parameterExp, instance.GetType() );
-            var property = Expression.Field( castExp, propertyName );
+            var field = Expression.Field( castExp, fieldName );
 
-            return Expression.Lambda<Func<object, T>>( Expression.Convert( property, typeof( T ) ), parameterExp ).Compile();
+            return Expression.Lambda<Func<object, T>>( Expression.Convert( field, typeof( T ) ), parameterExp ).Compile();
         }
     }
 }

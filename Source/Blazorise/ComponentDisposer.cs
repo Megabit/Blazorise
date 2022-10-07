@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
