@@ -52,7 +52,7 @@ namespace Blazorise.Modules
         /// <param name="identifier"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected async ValueTask InvokeVoidAsync( string identifier, params object?[]? args )
+        protected async ValueTask InvokeVoidAsync( string identifier, params object[] args )
         {
             var moduleInstance = await Module;
 
@@ -65,7 +65,7 @@ namespace Blazorise.Modules
         /// <param name="identifier"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected async ValueTask<TValue> InvokeAsync<TValue>( string identifier, params object?[]? args )
+        protected async ValueTask<TValue> InvokeAsync<TValue>( string identifier, params object[] args )
         {
             var moduleInstance = await Module;
 

@@ -20,8 +20,8 @@ namespace Blazorise
         private readonly long maxFileSize;
 
         private readonly CancellationTokenSource fillBufferCts;
-        private CancellationTokenSource? copyFileDataCts;
-        private IJSStreamReference? jsStreamReference;
+        private CancellationTokenSource copyFileDataCts;
+        private IJSStreamReference jsStreamReference;
         private readonly Task<Stream> OpenReadStreamTask;
 
         #endregion

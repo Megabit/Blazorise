@@ -25,8 +25,8 @@ namespace Blazorise
         private bool disposed;
         private long position;
 
-        private CancellationTokenSource? copyFileDataCts;
-        private IJSStreamReference? jsStreamReference;
+        private CancellationTokenSource copyFileDataCts;
+        private IJSStreamReference jsStreamReference;
         private readonly Task<Stream> OpenReadStreamTask;
 
         #endregion
