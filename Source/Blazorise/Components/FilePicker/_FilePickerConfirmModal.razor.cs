@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Internal confirmation dialog used by the <see cref="FilePicker"/> component.
+    /// </summary>
     public partial class _FilePickerConfirmModal : ComponentBase
     {
         #region Members
