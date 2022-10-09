@@ -62,7 +62,8 @@ namespace Blazorise
 
         public void Dispose<TComponent>( TComponent component ) where TComponent : IComponent
         {
-            if ( !active ) return;
+            if ( !active )
+                return;
 
             if ( !disposePossible && !retried )
             {
