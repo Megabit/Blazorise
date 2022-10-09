@@ -24,6 +24,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool active;
+
         private bool disposePossible;
 
         private bool retried;
@@ -31,6 +33,8 @@ namespace Blazorise
         private IList<object> disposables;
 
         private const string FIELD_DISPOSABLES = "_disposables";
+
+        private const string DEFAULT_DOTNET_SERVICEPROVIDER = "ServiceProviderEngineScope";
 
         private static Func<object, IList<object>> disposablesGetter;
 
@@ -45,7 +49,11 @@ namespace Blazorise
         public ComponentDisposer( IServiceProvider serviceProvider )
         {
             ServiceProvider = serviceProvider;
-            disposables = LoadServiceProviderDisposableList();
+            
+            active = ServiceProvider.GetType().Name.Equals( DEFAULT_DOTNET_SERVICEPROVIDER, StringComparison.InvariantCultureIgnoreCase );
+
+            if ( active ) 
+                disposables = LoadServiceProviderDisposableList();
         }
 
         #endregion
@@ -54,14 +62,16 @@ namespace Blazorise
 
         public void Dispose<TComponent>( TComponent component ) where TComponent : IComponent
         {
+            if ( !active )
+                return;
+
             if ( !disposePossible && !retried )
             {
                 disposables = LoadServiceProviderDisposableList();
                 retried = true;
             }
 
-            if ( !disposePossible )
-                return;
+            if ( !disposePossible ) return;
 
             if ( component is BaseAfterRenderComponent afterRenderComponent && ( afterRenderComponent.Disposed || afterRenderComponent.AsyncDisposed ) )
             {
