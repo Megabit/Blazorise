@@ -6,3 +6,4 @@
 [assembly: InternalsVisibleTo( "Blazorise.Bulma" )]
 [assembly: InternalsVisibleTo( "Blazorise.Material" )]
 [assembly: InternalsVisibleTo( "Blazorise.Markdown" )]
+[assembly: InternalsVisibleTo( "Blazorise.Tests" )]

@@ -12,6 +12,13 @@ namespace Blazorise
     /// </summary>
     public class FileEntry : IFileEntry
     {
+        #region members
+
+        CancellationTokenSource writeToStreamcancellationTokenSource;
+        CancellationTokenSource openReadStreamcancellationTokenSource;
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -26,18 +33,29 @@ namespace Blazorise
         /// <inheritdoc/>
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken = default )
         {
-            await Owner.WriteToStreamAsync( this, stream, cancellationToken );
+            writeToStreamcancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+            await Owner.WriteToStreamAsync( this, stream, writeToStreamcancellationTokenSource.Token );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( long maxAllowedSize = 512000, CancellationToken cancellationToken = default )
         {
+            openReadStreamcancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
             if ( Size > maxAllowedSize )
             {
                 throw new IOException( $"Supplied file with size {Size} bytes exceeds the maximum of {maxAllowedSize} bytes." );
             }
 
-            return Owner.OpenReadStream( this, cancellationToken );
+            return Owner.OpenReadStream( this, openReadStreamcancellationTokenSource.Token );
+        }
+
+        /// <inheritdoc/>
+        public Task Cancel()
+        {
+            writeToStreamcancellationTokenSource?.Cancel();
+            openReadStreamcancellationTokenSource?.Cancel();
+
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -71,6 +89,9 @@ namespace Blazorise
 
         /// <inheritdoc/>
         public string ErrorMessage { get; set; }
+
+        /// <inheritdoc/>
+        public FileEntryStatus Status { get; set; }
 
         #endregion
     }

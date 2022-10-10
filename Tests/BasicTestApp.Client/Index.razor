@@ -2,30 +2,11 @@
     Select test:
     <select @bind=@SelectedComponentTypeName>
         <option value="none">Choose...</option>
-        <option value="BasicTestApp.Client.ElementIdComponent">ElementId</option>
-        <option value="BasicTestApp.Client.TextOnlyComponent">Plain text</option>
-        <option value="BasicTestApp.Client.ButtonComponent">Button</option>
-        <option value="BasicTestApp.Client.ButtonOnlyComponent">ButtonOnly</option>
-        <option value="BasicTestApp.Client.DropdownComponent">Dropdown</option>
-        <option value="BasicTestApp.Client.NumericEditComponent">NumericEditComponent</option>
-        <option value="BasicTestApp.Client.TextEditComponent">TextEdit</option>
-        <option value="BasicTestApp.Client.SelectComponent">SelectComponent</option>
-        <option value="BasicTestApp.Client.SelectNavigationsComponent">SelectNavigationsComponent</option>
-        <option value="BasicTestApp.Client.ValidateNumericEditComponent">ValidateNumericEditComponent</option>
-        <option value="BasicTestApp.Client.ValidateTextEditComponent">ValidateTextEditComponent</option>
-        <option value="BasicTestApp.Client.ValidateSelectComponent">ValidateSelectComponent</option>
-        <option value="BasicTestApp.Client.ValidateAnnotationsComponent">ValidateAnnotationsComponent</option>
-        <option value="BasicTestApp.Client.AsyncValidateTextEditComponent">AsyncValidateTextEditComponent</option>
-        <option value="BasicTestApp.Client.ButtonComponent">ButtonComponent</option>
-        <option value="BasicTestApp.Client.CloseButtonComponent">CloseButtonComponent</option>
-        <option value="BasicTestApp.Client.TabsComponent">TabsComponent</option>
-        <option value="BasicTestApp.Client.RadioGroupComponent">RadioGroupComponent</option>
-        <option value="BasicTestApp.Client.DateEditComponent">DateEditComponent</option>
-        <option value="BasicTestApp.Client.DatePickerComponent">DatePickerComponent</option>
-        <option value="BasicTestApp.Client.DataGridComponent">DataGridComponent</option>
-        <option value="BasicTestApp.Client.DataGridMultiSelectComponent">DataGridMultiSelectComponent</option>
-        <option value="BasicTestApp.Client.DataGridDetailRowComponent">DataGridDetailRowComponent</option>
-        <option value="BasicTestApp.Client.DataGridAggregateRowComponent">DataGridAggregateRowComponent</option>
+        @foreach ( var component in components.OrderBy( x => x ) )
+        {
+            <option value='@($"BasicTestApp.Client.{component}")'>@component</option>
+        }
+
     </select>
 
     @if ( SelectedComponentType != null )
@@ -40,6 +21,39 @@
 </app>
 
 @code {
+    string[] components =
+    {
+        "ElementIdComponent",
+        "TextOnlyComponent",
+        "ButtonComponent",
+        "ButtonOnlyComponent",
+        "DropdownComponent",
+        "NumericEditComponent",
+        "TextEditComponent",
+        "SelectComponent",
+        "SelectNavigationsComponent",
+        "ValidateNumericEditComponent",
+        "ValidateTextEditComponent",
+        "ValidateSelectComponent",
+        "ValidateAnnotationsComponent",
+        "AsyncValidateTextEditComponent",
+        "ButtonComponent",
+        "CloseButtonComponent",
+        "TabsComponent",
+        "RadioGroupComponent",
+        "DateEditComponent",
+        "DatePickerComponent",
+        "DateEditComponent",
+        "DataGridComponent",
+        "DataGridMultiSelectComponent",
+        "DataGridDetailRowComponent",
+        "DataGridAggregateRowComponent",
+        "AutocompleteComponent",
+        "AutocompleteMultipleComponent",
+        "AutocompleteReadDataComponent",
+        "AutocompleteMultipleReadDataComponent",
+        "AutocompleteCheckboxComponent"
+    };
     string SelectedComponentTypeName { get; set; } = "none";
 
     Type SelectedComponentType

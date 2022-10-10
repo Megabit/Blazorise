@@ -80,6 +80,12 @@
 <DocsPageParagraph Title="Progressed">
     Similar to the <Code>Written</Code>, this event will also be called while file is writing to the destination stream but it will
     contain only the progress and percentage on how much the file is being uploaded.
+
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> If <Code>Progressed</Code>  and <Code>Written</Code> events aren't important to you, we highly advise you the usage of the <Code>DisableProgressReport</Code> Parameter, as it will improve file transfer significantly.
+        </AlertDescription>
+    </Alert>
 </DocsPageParagraph>
 
 <DocsPageParagraph Title="Started">
@@ -109,6 +115,13 @@
     <DocsPageSectionHeader Title="OpenReadStream">
         Using <Code>OpenReadStream</Code> on the file you can process the file as it is streamed from the browser to your code,
         this is mirrors the API found in <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads" Target="Target.Blank">ASP.NET Core Input File component</Blazorise.Link>, for example
+
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> We highly advise the usage of this api on Blazor WebAssembly as it is very performant.
+            </AlertDescription>
+        </Alert>
+
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <WriteToStreamFileEditExample />
@@ -133,6 +146,12 @@
 </DocsPageSubtitle>
 
 <DocsAttributes>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
+        Input content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Feedback" Type="RenderFragment">
+        Placeholder for validation messages.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="AutoReset" Type="bool" Default="true">
         If true file input will be automatically reset after it has being uploaded.
     </DocsAttributesItem>
@@ -151,6 +170,9 @@
     <DocsAttributesItem Name="MaxChunkSize" Type="int" Default="20480">
         Max chunk size (in bytes) when uploading the file.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SegmentFetchTimeout" Type="TimeSpan" Default="TimeSpan.FromMinutes(1)">
+        Gets or sets the Segment Fetch Timeout when uploading the file.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple files can be selected.
     </DocsAttributesItem>
@@ -168,5 +190,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxFileSize" Type="long" Default="long.MaxValue">
         Maximum file size in bytes, checked before starting upload (note: never trust client, always check file size at server-side). Defaults to long.MaxValue.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
+        Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+        This setting can speed up file transfer considerably.
     </DocsAttributesItem>
 </DocsAttributes>

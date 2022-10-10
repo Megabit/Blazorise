@@ -1624,16 +1624,163 @@ public class Gender
 </Figure>";
 
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
-<FileEdit Filter=""image/*"" />
+<Field>
+    <FileEdit Filter=""image/*"" />
+</Field>
 
 <!-- Accept specific image formats by IANA type -->
-<FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+<Field>
+    <FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+</Field>
 
 <!-- Accept specific image formats by extension -->
-<FileEdit Filter="".jpg, .png, .gif"" />";
+<Field>
+    <FileEdit Filter="".jpg, .png, .gif"" />
+</Field>";
 
-        public const string MultipleFileEditExample = @"<FileEdit Changed=""@OnChanged"" Multiple />
-@code{
+        public const string FilePickerCustomExample = @"@using System.IO
+
+<Field>
+    <FilePicker @ref=""filePickerCustom""
+                Multiple
+                Upload=""OnFileUpload""
+                ShowMode=""FilePickerShowMode.List"">
+        <FileTemplate>
+            <Div Flex=""Flex.JustifyContent.Between"">
+                <Div>
+                    <Heading Size=""HeadingSize.Is5"">@context.File.Name</Heading>
+                    <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
+                </Div>
+                <Div>
+                    @if ( context.File.Status == FileEntryStatus.Ready )
+                    {
+                        <Icon TextColor=""TextColor.Primary"" Name=""IconName.FileUpload"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploading )
+                    {
+                        <Icon TextColor=""TextColor.Warning"" Name=""IconName.Bolt"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploaded )
+                    {
+                        <Icon TextColor=""TextColor.Success"" Name=""IconName.CheckCircle"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Error )
+                    {
+                        <Icon TextColor=""TextColor.Danger"" Name=""IconName.TimesCircle"" />
+                    }
+                </Div>
+            </Div>
+            <Divider Margin=""Margin.Is0"" />
+        </FileTemplate>
+        <ButtonsTemplate>
+            <Progress Value=""@filePickerCustom.GetProgressPercentage()"" />
+            <Buttons>
+                <Button Clicked=""@context.Clear"" Color=""Color.Warning""><Icon Name=""IconName.Clear"" /></Button>
+                <Button Clicked=""@context.Upload"" Color=""Color.Primary""><Icon Name=""IconName.FileUpload"" /></Button>
+            </Buttons>
+        </ButtonsTemplate>
+    </FilePicker>
+</Field>
+
+@code {
+    private FilePicker filePickerCustom;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) ;
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerDropdownExample = @"@using System.IO
+
+<Field>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.Dropdown"" />
+</Field>
+
+@code {
+    string fileContent;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            // A stream is going to be the destination stream we're writing to.
+            using ( var stream = new MemoryStream() )
+            {
+                // Here we're telling the FileEdit where to write the upload result
+                await e.File.WriteToStreamAsync( stream );
+
+                // Once we reach this line it means the file is fully uploaded.
+                // In this case we're going to offset to the beginning of file
+                // so we can read it.
+                stream.Seek( 0, SeekOrigin.Begin );
+
+                // Use the stream reader to read the content of uploaded file,
+                // in this case we can assume it is a textual file.
+                using ( var reader = new StreamReader( stream ) )
+                {
+                    fileContent = await reader.ReadToEndAsync();
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerListExample = @"@using System.IO
+
+<Field>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+</Field>
+
+@code {
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string MultipleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Multiple />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;
@@ -1642,11 +1789,11 @@ public class Gender
 
         public const string OpenReadStreamFileEditExample = @"@using System.IO
 
-<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
 
-@code{
-    const int OneMb = 1024 * 1024;
-
+@code {
     async Task OnChanged( FileChangedEventArgs e )
     {
         try
@@ -1657,16 +1804,9 @@ public class Gender
                 return;
             }
 
-            var buffer = new byte[OneMb];
-            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            using ( MemoryStream result = new MemoryStream() )
             {
-                int readCount = 0;
-                int readBytes;
-                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-                {
-                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
-                    // Do work on the first 1MB of data
-                }
+                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )
@@ -1690,23 +1830,32 @@ public class Gender
     }
 }";
 
-        public const string ResetFileEditExample = @"<FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
-@code{
+        public const string ResetFileEditExample = @"<Field>
+    <FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
+</Field>
+<Field>
+    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
+</Field>
+
+@code {
     FileEdit fileEdit;
 
-    Task OnChanged( FileChangedEventArgs e )
+    Task OnChanged(FileChangedEventArgs e)
     {
         return Task.CompletedTask;
     }
 
-    Task OnSomeButtonClick()
+    Task Reset()
     {
         return fileEdit.Reset().AsTask();
     }
 }";
 
-        public const string SingleFileEditExample = @"<FileEdit Changed=""@OnChanged"" />
-@code{
+        public const string SingleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;
@@ -1715,9 +1864,11 @@ public class Gender
 
         public const string WriteToStreamFileEditExample = @"@using System.IO
 
-<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
 
-@code{
+@code {
     string fileContent;
 
     async Task OnChanged( FileChangedEventArgs e )
@@ -1852,7 +2003,7 @@ public class Gender
     </Alert>
 </Container>";
 
-        public const string GridGutterExample = @"<Row Gutter=""(32, 16)"">
+        public const string GridGutterExample = @"<Row HorizontalGutter=""32"" VerticalGutter=""16"">
     <Column ColumnSize=""ColumnSize.Is8"">
         <Alert Color=""Color.Primary"" Visible>
             I have padding
@@ -3864,7 +4015,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.0.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.1.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -3954,7 +4105,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
               Placeholder=""Search...""
-              Multiple
+              SelectionMode=""AutocompleteSelectionMode.Multiple""
               FreeTyping
               @bind-SelectedValues=""multipleSelectionData""
               @bind-SelectedTexts=""multipleSelectionTexts"">
@@ -3965,7 +4116,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Selected Values: @string.Join(',', multipleSelectionData)
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Texts: @string.Join(',', multipleSelectionTexts)
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
     </FieldBody>
 </Field>
 
@@ -3982,7 +4133,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 
     List<string> multipleSelectionData;
-    List<string> multipleSelectionTexts = new();
+    List<string> multipleSelectionTexts;
 }";
 
         public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
@@ -4013,6 +4164,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     public IEnumerable<Country> Countries;
     public IEnumerable<Country> ReadDataCountries;
 
+    private Random random = new();
+
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
 
@@ -4022,11 +4175,54 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         await base.OnInitializedAsync();
     }
 
-    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
     }
+}";
+
+        public const string AutocompleteSuggestMultipleCheckboxExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              Placeholder=""Search...""
+              SelectionMode=""AutocompleteSelectionMode.Checkbox""
+              CloseOnSelection=""false""
+              @bind-SelectedValues=""multipleSelectionData""
+              @bind-SelectedTexts=""multipleSelectionTexts"">
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Values: @string.Join(',', multipleSelectionData)
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        await base.OnInitializedAsync();
+    }
+
+    List<string> multipleSelectionData;
+    List<string> multipleSelectionTexts;
 }";
 
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
@@ -5493,6 +5689,91 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 }";
 
+        public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
+
+<Validations @ref=""@fluentValidations"" Mode=""ValidationMode.Manual"" Model=""@person"" HandlerType=""typeof(FluentValidationHandler)"">
+    <Validation>
+        <Field>
+            <FieldLabel>First name</FieldLabel>
+            <TextEdit Placeholder=""Enter first name..."" @bind-Text=""@person.FirstName"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Last name</FieldLabel>
+            <TextEdit Placeholder=""Enter last name..."" @bind-Text=""@person.LastName"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Age</FieldLabel>
+            <NumericEdit Placeholder=""Enter age..."" @bind-Value=""@person.Age"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </NumericEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Color=""Color.Primary"" Clicked=""@OnSavePerson"">Save</Button>
+
+@code {
+    Validations fluentValidations;
+
+    Person person = new();
+
+    protected async Task OnSavePerson()
+    {
+        if ( await fluentValidations.ValidateAll() )
+        {
+            // the person is validated and we can proceed with the saving process
+        }
+    }
+}";
+
+        public const string FluentValidationAbstractValidatorExample = @"public class PersonValidator : AbstractValidator<Person>
+{
+    public PersonValidator()
+    {
+        RuleFor( vm => vm.FirstName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.LastName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.Age )
+            .GreaterThanOrEqualTo( 18 );
+    }
+}";
+
+        public const string FluentValidationImportExample = @"@using Blazorise.FluentValidation";
+
+        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation";
+
+        public const string FluentValidationRegisterValidatorsExample = @"using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+using Blazorise.FluentValidation;
+
+builder.Services
+    .AddBlazorise()
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons()
+    .AddBlazoriseFluentValidation();
+
+services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
+
         public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
@@ -5916,10 +6197,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         return Task.CompletedTask;
     }
 }";
-
-        public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
-<script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
 
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
@@ -6904,11 +7181,11 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.0.0-preview1"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.0.0-preview1"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.1.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.1.0.0-preview1""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.0.0-preview1""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.1.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.1.0""></script>";
 
     }
 }

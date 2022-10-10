@@ -13,6 +13,12 @@ namespace Blazorise.Tests.Mocks
     {
         public MockButton( Dropdown parentDropdown = null, Addons parentAddons = null, Buttons parentButtons = null )
         {
+            var mockComponentDisposer = new Mock<IComponentDisposer>();
+            this.ComponentDisposer = mockComponentDisposer.Object;
+
+            mockComponentDisposer
+                .Setup( r => r.Dispose( It.IsAny<BaseAfterRenderComponent>() ) );
+
             var mockRunner = new Mock<IJSUtilitiesModule>();
 
             mockRunner

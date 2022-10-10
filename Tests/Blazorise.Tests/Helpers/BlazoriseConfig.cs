@@ -18,6 +18,7 @@ namespace Blazorise.Tests.Helpers
     {
         public static void AddBootstrapProviders( TestServiceProvider services )
         {
+            services.AddSingleton<IComponentDisposer, ComponentDisposer>();
             services.AddSingleton<IIdGenerator>( new IdGenerator() );
             services.AddSingleton<IEditContextValidator>( sp => new EditContextValidator( new ValidationMessageLocalizerAttributeFinder(), sp ) );
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
@@ -111,6 +112,8 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "import", _ => true ).SetVoidResult();
                 module.SetupVoid( "registerClosableComponent", _ => true ).SetVoidResult();
                 module.SetupVoid( "unregisterClosableComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "registerClosableLightComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "unregisterClosableLightComponent", _ => true ).SetVoidResult();
             }
 
             public static void AddNumericEdit( BunitJSInterop jsInterop )
@@ -129,6 +132,8 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "import", _ => true ).SetVoidResult();
                 module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
                 module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
+                module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
+                module.SetupVoid( "focus", _ => true ).SetVoidResult();
             }
 
             public static void AddModal( BunitJSInterop jsInterop )
@@ -140,7 +145,6 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "open", _ => true ).SetVoidResult();
                 module.SetupVoid( "close", _ => true ).SetVoidResult();
             }
-
 
 
             public static void AddTable( BunitJSInterop jsInterop )

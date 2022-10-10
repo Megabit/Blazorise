@@ -1,3 +1,8 @@
+import "./vendors/easymde.js?v=1.1.1.0";
+import "./vendors/highlight.js?v=1.1.1.0";
+
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.1.1.0\" />");
+
 const _instances = [];
 
 export function initialize(dotNetObjectRef, element, elementId, options) {
@@ -125,7 +130,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         status: options.status,
         styleSelectedText: options.styleSelectedText,
         syncSideBySidePreviewScroll: options.syncSideBySidePreviewScroll,
-        unorderedListStyle: options.unorderedListStyle
+        unorderedListStyle: options.unorderedListStyle,
+        toolbarButtonClassPrefix: options.toolbarButtonClassPrefix
     };
 
     if (!mdeOptions.status) {

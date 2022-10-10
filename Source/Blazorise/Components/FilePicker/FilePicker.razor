@@ -1,0 +1,125 @@
+﻿@namespace Blazorise
+@using Blazorise.Extensions
+@inherits BaseComponent
+
+<div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker">
+    @if ( ShowMode == FilePickerShowMode.Dropdown )
+    {
+        <Addons>
+            <Addon AddonType="AddonType.Body">
+                @FileComponentFragment
+            </Addon>
+            <Addon AddonType="AddonType.End">
+                <Dropdown RightAligned>
+                    <DropdownToggle Color="Color.Light">
+                        (@(FileEdit.Files?.Count() ?? 0))
+                    </DropdownToggle>
+
+                    @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
+                    {
+                        <DropdownMenu Class="b-file-picker-files">
+                            @foreach ( var file in FileEdit.Files )
+                            {
+                                <DropdownItem @key="@file" Class="b-file-picker-file">
+                                    @FileContentFragment(file)
+                                </DropdownItem>
+                            }
+                        </DropdownMenu>
+                    }
+                </Dropdown>
+            </Addon>
+        </Addons>
+    }
+    else
+    {
+        @FileComponentFragment
+    }
+
+    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
+
+    @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
+    {
+        <div Class="b-file-picker-files-container">
+            @if ( ShowMode == FilePickerShowMode.List )
+            {
+                <ListGroup Class="b-file-picker-files" Margin="Blazorise.Margin.Is2.OnY">
+                    @foreach ( var file in FileEdit.Files )
+                    {
+                        <ListGroupItem @key="file.Id" Class="b-file-picker-file">
+                            @FileContentFragment(file)
+                        </ListGroupItem>
+                    }
+                </ListGroup>
+            }
+
+            @if ( ButtonsTemplate is not null )
+            {
+                @ButtonsTemplate(new (EventCallback.Factory.Create(this, ClearWithConfirm), EventCallback.Factory.Create(this, UploadAll), EventCallback.Factory.Create(this, CancelWithConfirm)))
+            }
+            else
+            {
+                <Buttons Float="Blazorise.Float.End">
+                    <Button Color="Color.Secondary" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString("Clear")</Button>
+                    <Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString("Upload")</Button>
+
+                    <Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelWithConfirm">@GetLocalizedString("Cancel")</Button>
+                </Buttons>
+            }
+        </div>
+    }
+</div>
+
+<CascadingValue Value="this" IsFixed>
+    <_FilePickerConfirmModal @ref="@filePickerConfirmModalRef" />
+</CascadingValue>
+
+@code {
+    private RenderFragment FileComponentFragment => __builder =>
+    {
+        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
+              Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
+            <ChildContent>
+                @ChildTemplate
+            </ChildContent>
+            <Feedback>
+                @Feedback
+            </Feedback>
+        </FileEdit>
+    };
+
+    private RenderFragment<IFileEntry> FileContentFragment => file => __builder =>
+    {
+        @if ( FileTemplate is not null )
+        {
+            @FileTemplate(new (file, EventCallback.Factory.Create<IFileEntry>(this, RemoveFileWithConfirm)))
+        }
+        else
+        {
+            <Row>
+                <Column>
+                    <Span Class="b-file-picker-file-name">@file.Name</Span>
+                    <Span Class="b-file-picker-file-size">@GetFileSizeReadable(file)</Span>
+                    @if ( IsFileBeingUploaded( file ) && !DisableProgressReport )
+                    {
+                        var progressPercentage = GetProgressPercentage();
+
+                        <Progress Value="@progressPercentage">@progressPercentage %</Progress>
+                    }
+                    else
+                    {
+                        <Span Class="b-file-picker-file-status">@GetFileStatus(file)</Span>
+                    }
+                </Column>
+                <Column ColumnSize="ColumnSize.IsAuto">
+                    <Buttons>
+                        <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Danger" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm(file))"><Icon Name="IconName.Times"></Icon></Button>
+                        @if ( file.Status != FileEntryStatus.Uploaded )
+                        {
+                            <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Primary" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async() => await UploadFile(file))"><Icon Name="IconName.FileUpload"></Icon></Button>
+                        }
+                    </Buttons>
+                </Column>
+            </Row>
+        }
+    };
+}

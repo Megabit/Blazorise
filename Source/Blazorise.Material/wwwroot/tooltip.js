@@ -1,4 +1,4 @@
-import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=1.1.0.0-preview1";
+import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=1.1.1.0";
 
 export function initialize(element, elementId, options) {
     baseInitialize(element, elementId, options);

@@ -1,0 +1,18 @@
+{
+  "culture": "sk",
+  "translations": {
+    "Ready to upload": "Pripravené na odovzdanie",
+    "Uploaded successfully": "Odovzdané úspešne",
+    "File size is too large": "Veľkosť súboru je príliš veľká",
+    "Error uploading": "Chyba pri nahrávaní",
+    "Or drop files here": "Alebo sem presuňte súbory",
+    "Clear": "Jasný",
+    "Upload": "Nahrať",
+    "Cancel": "Zrušiť",
+    "Confirm": "Potvrďte",
+    "Remove": "Odstrániť",
+    "Are you sure you want to remove the file?": "Naozaj chcete súbor odstrániť?",
+    "Are you sure you want to clear all files?": "Naozaj chcete vymazať všetky súbory?",
+    "Are you sure you want to cancel the upload?": "Naozaj chcete zrušiť nahrávanie?"
+  }
+}

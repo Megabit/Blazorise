@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -52,6 +54,7 @@ namespace Blazorise
         private void BuildCloseClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BadgeClose() );
+            builder.Append( ClassProvider.BadgeColor( Color ) );
         }
 
         /// <summary>
@@ -61,6 +64,18 @@ namespace Blazorise
         protected Task OnCloseClickedHandler()
         {
             return CloseClicked.InvokeAsync();
+        }
+
+        /// <summary>
+        /// Handles the close button onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected Task OnCloseKeyDownHandler( KeyboardEventArgs args )
+        {
+            if ( ( args.Code == "Enter" || args.Code == "NumpadEnter" ) && !args.IsModifierKey() )
+                return CloseClicked.InvokeAsync();
+
+            return Task.CompletedTask;
         }
 
         #endregion

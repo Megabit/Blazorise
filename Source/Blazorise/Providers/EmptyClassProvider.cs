@@ -311,6 +311,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region FocusTrap
+
+        public string FocusTrap() => null;
+
+        #endregion
+
         #region Control
 
         public string ControlCheck() => null;

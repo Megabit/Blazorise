@@ -36,6 +36,14 @@ namespace Blazorise.Modules
         }
 
         /// <inheritdoc/>
+        public virtual async ValueTask RegisterLight( ElementReference elementRef )
+        {
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "registerClosableLightComponent", elementRef );
+        }
+
+        /// <inheritdoc/>
         public virtual async ValueTask Unregister( ICloseActivator component )
         {
             if ( IsUnsafe )
@@ -44,6 +52,17 @@ namespace Blazorise.Modules
             var moduleInstance = await Module;
 
             await moduleInstance.InvokeVoidAsync( "unregisterClosableComponent", component.ElementRef );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask UnregisterLight( ElementReference elementRef )
+        {
+            if ( IsUnsafe )
+                return;
+
+            var moduleInstance = await Module;
+
+            await moduleInstance.InvokeVoidAsync( "unregisterClosableLightComponent", elementRef );
         }
 
         #endregion

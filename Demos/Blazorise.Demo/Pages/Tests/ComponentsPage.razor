@@ -26,7 +26,7 @@
                     </FieldBody>
                 </Field>
             </CardBody>
-             <CardBody>
+            <CardBody>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -103,7 +103,7 @@
                                       Placeholder="Search..."
                                       Filter="AutocompleteFilter.StartsWith"
                                       FreeTyping="autocompleteFreeTyping"
-                                      CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                                      CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
@@ -146,10 +146,10 @@
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
                                       Placeholder="Search..."
-                                      Multiple
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
                                       MinLength="1"
+                                      SelectionMode="AutocompleteSelectionMode.Checkbox"
                                       @bind-SelectedValues="multipleSelectionData"
                                       @bind-SelectedTexts="multipleSelectionTexts">
                         </Autocomplete>
@@ -157,10 +157,10 @@
                 </Field>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Values: @string.Join(',', multipleSelectionData)
+                        Selected Values: @(multipleSelectionData != null ? string.Join( ',', multipleSelectionData ) : "");
                     </FieldBody>
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Texts: @string.Join(',', multipleSelectionTexts)
+                        Selected Texts: @(multipleSelectionTexts != null ? string.Join( ',', multipleSelectionTexts ) : "");
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -175,6 +175,12 @@
                 <CardTitle>Autocomplete : ReadData</CardTitle>
             </CardHeader>
             <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@autocompleteReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -182,8 +188,12 @@
                                       TValue="string"
                                       Data="@ReadDataCountries"
                                       ReadData="HandleReadData"
+                                      @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteReadDataText"
+                                      FreeTyping="autocompleteReadDataFreeTyping"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
+                                      MinLength="0"
                                       Placeholder="Search...">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
@@ -196,6 +206,14 @@
                         </Autocomplete>
                     </FieldBody>
                 </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected search value: @selectedAutoCompleteReadDataSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteReadDataText
+                    </FieldBody>
+                </Field>
             </CardBody>
         </Card>
     </Column>
@@ -205,6 +223,12 @@
                 <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
             </CardHeader>
             <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@multipleAutocompleteReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -214,11 +238,12 @@
                                       ReadData="HandleMultipleReadData"
                                       TextField="@((item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search..."
-                                      Multiple
+                                      Placeholder="Search..." MinLength="0"
+                                      SelectionMode="AutocompleteSelectionMode.Multiple"
                                       CloseOnSelection="false"
                                       @bind-SelectedValues="multipleReadDataSelectionData"
-                                      @bind-SelectedTexts="multipleReadDataSelectionTexts">
+                                      @bind-SelectedTexts="multipleReadDataSelectionTexts"
+                                      FreeTyping="multipleAutocompleteReadDataFreeTyping">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
@@ -228,6 +253,14 @@
                                 <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
                             </ItemContent>
                         </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Values: @(multipleReadDataSelectionData != null ? string.Join( ',', multipleReadDataSelectionData ) : "");
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Texts: @(multipleReadDataSelectionTexts != null ? string.Join( ',', multipleReadDataSelectionTexts ) : "");
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -307,14 +340,18 @@
 
     private string selectedAutoCompleteSearchValue { get; set; }
     private string selectedAutoCompleteText { get; set; }
+    private string selectedAutoCompleteReadDataSearchValue { get; set; }
+    private string selectedAutoCompleteReadDataText { get; set; }
     private bool autocompleteFreeTyping = false;
+    private bool autocompleteReadDataFreeTyping = false;
 
-    private List<string> multipleReadDataSelectionData;
+    private List<string> multipleReadDataSelectionData = new();
     private List<string> multipleReadDataSelectionTexts;
 
     private List<string> multipleSelectionData;
-    private List<string> multipleSelectionTexts = new();
+    private List<string> multipleSelectionTexts;
     private bool multipleAutocompleteFreeTyping = false;
+    private bool multipleAutocompleteReadDataFreeTyping = false;
 
 
     private string selectedListValue { get; set; }
@@ -327,16 +364,28 @@
     private ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     private Random random = new();
 
-    private Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
     }
 
-    private Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    private async Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
-        ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
-        return Task.CompletedTask;
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
+            }
+        }
     }
 
     protected override async Task OnInitializedAsync()

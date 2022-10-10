@@ -40,6 +40,9 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler( MouseEventArgs eventArgs )
         {
+            if ( parentPaginationItemState.Disabled )
+                return Task.CompletedTask;
+
             return Clicked.InvokeAsync( Page );
         }
 

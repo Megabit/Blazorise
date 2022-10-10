@@ -326,6 +326,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region FocusTrap
+
+        public override string FocusTrap() => "focus-trap";
+
+        #endregion
+
         #region Control
 
         public override string ControlCheck() => "control";

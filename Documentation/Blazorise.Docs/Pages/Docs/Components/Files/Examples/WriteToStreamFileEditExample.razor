@@ -1,9 +1,11 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 @using System.IO
 
-<FileEdit Changed="@OnChanged" Written="@OnWritten" Progressed="@OnProgressed" />
+<Field>
+    <FileEdit Changed="@OnChanged" Written="@OnWritten" Progressed="@OnProgressed" />
+</Field>
 
-@code{
+@code {
     string fileContent;
 
     async Task OnChanged( FileChangedEventArgs e )

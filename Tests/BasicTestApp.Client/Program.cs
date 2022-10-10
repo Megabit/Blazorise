@@ -25,6 +25,7 @@ namespace BasicTestApp.Client
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
             builder.Services.AddScoped<Blazorise.Shared.Data.CountryData>();
             builder.RootComponents.Add<Index>( "root" );

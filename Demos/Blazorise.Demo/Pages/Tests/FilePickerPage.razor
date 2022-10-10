@@ -1,0 +1,224 @@
+﻿@page "/tests/file-picker";
+@using System.Diagnostics
+@using System.IO
+@using Blazorise.Extensions
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Options</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@disableProgressReport">Disable Report Progress</Check>
+                        <Paragraph>By disabling progress report, file transfer can be significantly improved.</Paragraph>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is2.OnY">
+            <CardHeader>
+                <CardTitle>Standard Upload</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <FilePicker @ref=filePicker
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUpload"
+                            ShowMode="FilePickerShowMode.List"
+                            DisableProgressReport="@disableProgressReport">
+                </FilePicker>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is2.OnY">
+            <CardHeader>
+                <CardTitle>Buffered Upload</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <FilePicker @ref=filePickerBuffered
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUploadBuffered"
+                            ShowMode="FilePickerShowMode.List"
+                            DisableProgressReport="@disableProgressReport">
+                </FilePicker>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dropdown Show Mode</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <FilePicker @ref=filePickerDropdown
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUpload"
+                            ShowMode="FilePickerShowMode.Dropdown"
+                            DisableProgressReport="@disableProgressReport">
+                </FilePicker>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Custom</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <FilePicker @ref=filePickerCustom
+                            Multiple
+                            MaxChunkSize=FileEditMaxChunkSize
+                            Written=OnFilePartReceived
+                            Ended=OnFileUploadEnded
+                            Progressed=OnFileUploadProgressChanged
+                            Upload="OnFileUploadBuffered"
+                            ShowMode="FilePickerShowMode.List"
+                            DisableProgressReport="@disableProgressReport">
+                    <FileTemplate>
+                        <Div Flex="Flex.JustifyContent.Between">
+                            <Div>
+                                <Heading Size="HeadingSize.Is5">@context.File.Name</Heading>
+                                <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
+                            </Div>
+                            <Div>
+                                @if ( context.File.Status == FileEntryStatus.Ready )
+                                {
+                                    <Icon TextColor="TextColor.Primary" Name="IconName.FileUpload" />
+                                }
+                                else if ( context.File.Status == FileEntryStatus.Uploading )
+                                {
+                                    <Icon TextColor="TextColor.Warning" Name="IconName.Bolt" />
+                                }
+                                else if ( context.File.Status == FileEntryStatus.Uploaded )
+                                {
+                                    <Icon TextColor="TextColor.Success" Name="IconName.CheckCircle" />
+                                }
+                                else if ( context.File.Status == FileEntryStatus.Error )
+                                {
+                                    <Icon TextColor="TextColor.Danger" Name="IconName.TimesCircle" />
+                                }
+                            </Div>
+                        </Div>
+                        <Divider Margin="Margin.Is0" />
+                    </FileTemplate>
+                    <ButtonsTemplate>
+                        @if ( !disableProgressReport )
+                        {
+                            <Progress Value="@filePickerCustom.GetProgressPercentage()" />
+                        }
+                        <Buttons>
+                            <Button Clicked="@context.Clear" Color="Color.Warning"><Icon Name="IconName.Clear" /></Button>
+                            <Button Clicked="@context.Upload" Color="Color.Primary"><Icon Name="IconName.FileUpload" /></Button>
+                        </Buttons>
+                    </ButtonsTemplate>
+                </FilePicker>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private bool disableProgressReport = false;
+    private Stopwatch sw = new();
+    private readonly int FileEditMaxChunkSize = 24 * 1024;
+    private FilePicker filePicker { get; set; }
+    private FilePicker filePickerBuffered { get; set; }
+    private FilePicker filePickerDropdown { get; set; }
+    private FilePicker filePickerCustom { get; set; }
+
+    private async Task FileChanged( Microsoft.AspNetCore.Components.Forms.InputFileChangeEventArgs e )
+    {
+        sw.Restart();
+        using ( MemoryStream result = new MemoryStream() )
+        {
+            await InvokeAsync( async () => await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) );
+        }
+        sw.Stop();
+        Console.WriteLine( "file upload using buffer took " + sw.ElapsedMilliseconds + " ms" );
+    }
+
+    private void OnFileUploadEnded( FileEndedEventArgs e )
+    {
+        Console.WriteLine( $"File {e.File.Name} upload {( e.Success ? "succeeded" : "failed" )}." );
+    }
+
+    private async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        var bytes = await FileUpload( e.File );
+    }
+
+    private async Task OnFileUploadBuffered( FileUploadEventArgs e )
+    {
+        var bytes = await FileUploadBuffered( e.File );
+    }
+
+    private async Task<byte[]> FileUpload( IFileEntry file )
+    {
+        sw.Restart();
+        byte[] result = await Read( file );
+        sw.Stop();
+        Console.WriteLine( "file upload without explicit buffering took " + sw.ElapsedMilliseconds + " ms" );
+        return result;
+    }
+
+    private async Task<byte[]> FileUploadBuffered( IFileEntry file )
+    {
+        sw.Restart();
+        byte[] result = await ReadBuffered( file );
+        sw.Stop();
+        Console.WriteLine( "file upload using buffer took " + sw.ElapsedMilliseconds + " ms" );
+        return result;
+    }
+
+    private async Task<byte[]> Read( IFileEntry file )
+    {
+        using ( var stream = new MemoryStream() )
+        {
+            await file.WriteToStreamAsync( stream );
+            stream.Seek( 0, SeekOrigin.Begin );
+            return stream.ToArray();
+        }
+    }
+
+    private async Task<byte[]> ReadBuffered( IFileEntry file )
+    {
+        using ( MemoryStream result = new MemoryStream() )
+        {
+            await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            return result.ToArray();
+        }
+    }
+
+    private void OnFilePartReceived( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $"File part received. Position: {e.Position} Received data size: {e.Data.Length}" );
+    }
+
+    private void OnFileUploadProgressChanged( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $"File upload progress: {e.Percentage:0.0} %" );
+    }
+}

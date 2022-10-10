@@ -2052,6 +2052,11 @@ namespace Blazorise.DataGrid
         [Parameter] public string[] ValidationsSummaryErrors { get; set; }
 
         /// <summary>
+        /// Defines the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
+        /// </summary>
+        [Parameter] public Type ValidationsHandlerType { get; set; }
+
+        /// <summary>
         /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.
         /// </summary>
         [Parameter] public DataGridLocalizers Localizers { get; set; }

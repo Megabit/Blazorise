@@ -27,7 +27,8 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
-            serviceCollection.Replace( ServiceDescriptor.Transient<IComponentActivator, ComponentActivator>() );
+            serviceCollection.AddScoped<IComponentActivator, ComponentActivator>();
+            serviceCollection.AddScoped<IComponentDisposer, ComponentDisposer>();
 
             // If options handler is not defined we will get an exception so
             // we need to initialize an empty action.
@@ -104,6 +105,7 @@ namespace Blazorise
             { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },
             { typeof( IJSColorPickerModule ), typeof( JSColorPickerModule ) },
             { typeof( IJSFileEditModule ), typeof( JSFileEditModule ) },
+            { typeof( IJSFilePickerModule ), typeof( JSFilePickerModule ) },
             { typeof( IJSFileModule ), typeof( JSFileModule ) },
             { typeof( IJSTableModule ), typeof( JSTableModule ) },
             { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },

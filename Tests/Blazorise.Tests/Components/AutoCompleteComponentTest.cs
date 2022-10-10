@@ -8,34 +8,86 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Blazorise.Tests.Components
 {
-    public class AutoCompleteComponentTest : TestContext
+    public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
-        public AutoCompleteComponentTest()
+        public AutocompleteComponentTest()
         {
             BlazoriseConfig.AddBootstrapProviders( Services );
-            BlazoriseConfig.JSInterop.AddTextEdit(this.JSInterop);
+            BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
             BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
             BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
             BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
         }
 
         [Fact]
+        public void Focus_ShouldFocus()
+        {
+            TestFocus<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        }
+
+        [Fact]
+        public void Clear_ShouldReset()
+        {
+            TestClear<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Fact]
         public void InitialSelectedValue_ShouldSet_SelectedText()
         {
-            // setup
-            var comp = RenderComponent<AutocompleteComponent>();
-            var selectedText = comp.Instance.selectedAutoCompleteText;
-            var expectedSelectedText = "China";
+            TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText);
+        }
 
-            // test
-            var input = comp.Find( ".b-is-autocomplete input" );
-            var inputText = input.GetAttribute( "value" );
-            
-            // validate
-            // validate Dropdown initialize / textfield initialize
-            this.JSInterop.VerifyInvoke( "initialize", 2 );
-            Assert.Equal( expectedSelectedText, selectedText );
-            Assert.Equal( expectedSelectedText, inputText );
+        [Theory]
+        [InlineData( "Portugal")]
+        [InlineData( "Antarctica")]
+        [InlineData( "United Kingdom" )]
+        [InlineData( "China" )]
+        public void SelectValue_ShouldSet( string expectedText )
+        {
+            TestSelectValue<AutocompleteComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Theory]
+        [InlineData( "MyCustomValue" )]
+        public void FreeTypedValue_ShouldSet( string freeTyped )
+        {
+            TestFreeTypedValue<AutocompleteComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Theory]
+        [InlineData( true, "Portuga", "Portugal" )]
+        [InlineData( true, "Chin", "China" )]
+        [InlineData( true, "United King", "United Kingdom" )]
+        [InlineData( false, "Portuga", "Portuga" )]
+        [InlineData( false, "Chin", "Chin" )]
+        [InlineData( false, "United King", "United King" )]
+        public void FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
+        {
+            TestFreeTypedValue_AutoPreSelect<AutocompleteComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
+        }
+
+        [Fact]
+        public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()
+        {
+            TestHasPreselection<AutocompleteComponent>();
+        }
+
+        [Fact]
+        public void AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
+        {
+            TestHasNotPreselection<AutocompleteComponent>();
+        }
+
+        [Fact]
+        public void MinLength_0_ShouldShowOptions_OnFocus()
+        {
+            TestMinLen0ShowsOptions<AutocompleteComponent>();
+        }
+
+        [Fact]
+        public void MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+        {
+            TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
         }
 
         [Theory]
@@ -44,22 +96,7 @@ namespace Blazorise.Tests.Components
         [InlineData( "GB", "United Kingdom" )]
         public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
         {
-            // setup
-            var comp = RenderComponent<AutocompleteComponent>(
-                 parameters =>
-                    parameters.Add( x => x.selectedSearchValue, selectedValue ) );
-
-            var selectedText = comp.Instance.selectedAutoCompleteText;
-
-            // test
-            var input = comp.Find( ".b-is-autocomplete input" );
-            var inputText = input.GetAttribute( "value" );
-
-            // validate
-            // validate Dropdown initialize / textfield initialize
-            this.JSInterop.VerifyInvoke( "initialize", 2 );
-            Assert.Equal( expectedSelectedText, selectedText );
-            Assert.Equal( expectedSelectedText, inputText );
+            TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
         }
     }
 }
