@@ -174,7 +174,9 @@ export function setOptions(canvasId, options, optionsJsonString, optionsObject) 
         // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
         // instead of through the options.
         if (options.aspectRatio) {
-            chart.aspectRatio = options.aspectRatio;
+            chart._aspectRatio = options.aspectRatio;
+
+            chart.resize();
         }
     }
 }
