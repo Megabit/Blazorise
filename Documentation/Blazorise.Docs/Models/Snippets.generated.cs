@@ -5804,7 +5804,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string FluentValidationImportExample = @"@using Blazorise.FluentValidation";
 
-        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation";
+        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation
+Install-Package FluentValidation.DependencyInjectionExtensions";
 
         public const string FluentValidationRegisterValidatorsExample = @"using Blazorise;
 using Blazorise.Bootstrap;
