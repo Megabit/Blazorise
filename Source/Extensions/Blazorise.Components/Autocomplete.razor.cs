@@ -144,7 +144,7 @@ namespace Blazorise.Components
                     }
                 }
 
-                if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
+                if ( !IsMultiple && CurrentSearch != SelectedText )
                 {
                     currentSearch = SelectedText;
 
