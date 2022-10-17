@@ -10,7 +10,7 @@
     {
         Random random = <span class="keyword">new</span>();
         <span class="keyword">var</span> newValue = random.NextInt64( <span class="number">100</span> );
-        <span class="keyword">return</span> ModalService.Show&lt;Counter&gt;( <span class="string">&quot;My Custom Content!&quot;</span>, x =&gt; x.Add( x =&gt; x.Value, newValue ) );
+        <span class="keyword">return</span> ModalService.Show&lt;CounterExample&gt;( <span class="string">&quot;My Custom Content!&quot;</span>, x =&gt; x.Add( x =&gt; x.Value, newValue ) );
     }
 }
 </pre></div>

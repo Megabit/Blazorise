@@ -1,0 +1,55 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<ModalHeader>
+    <ModalTitle>
+        Please fill in the formulary
+    </ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">First Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+            <TextEdit @bind-Text="model.FirstName"></TextEdit>
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+            <TextEdit @bind-Text="model.Email"></TextEdit>
+        </FieldBody>
+    </Field>
+
+    @if ( !isValid )
+    {
+        <Paragraph>
+            <Label>Invalid Submission!</Label>
+        </Paragraph>
+    }
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Success " Clicked="Confirm">Confirm</Button>
+    <Button Color="Color.Secondary" Clicked="ModalService.Hide">Close</Button>
+</ModalFooter>
+@code {
+    private Employee model = new();
+    private bool isValid = true;
+    [Inject] public IModalService ModalService { get; set; }
+    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }
+    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }
+
+    private async Task Confirm()
+    {
+        if ( OnValidate is not null )
+            isValid = await OnValidate( model );
+
+        if ( !isValid )
+        {
+            return;
+        }
+
+        await OnSuccess( model );
+        await ModalService.Hide();
+    }
+}

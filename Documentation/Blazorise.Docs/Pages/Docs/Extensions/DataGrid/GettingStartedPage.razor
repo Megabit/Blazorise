@@ -498,6 +498,58 @@
     <DocsAttributesItem Name="SortOrderChanged" Type="EventCallback<int>">
         Raises an event every time that SortOrder is changed.
     </DocsAttributesItem>
+</DocsAttributes>
 
+<DocsPageSubtitle>
+    Methods
+</DocsPageSubtitle>
 
+<DocsAttributes>
+    <DocsAttributesItem Name="New">
+        Sets the DataGrid into the New state mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Edit">
+        Sets the DataGrid into the Edit state mode for the specified item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Delete">
+        Deletes the specified item from the <Code>Data</Code> source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Save">
+        Save the internal state of the editing items.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cancel">
+        Cancels the editing of DataGrid item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Select">
+        Selects the specified item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Sort">
+        Sorts the Data for the specified column.
+        Note that <Code>Sortable</Code> must be enabled to be able to sort!
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Paginate">
+        Triggers the DataGrid to change data source page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClearFilter">
+        Clears all filters from the grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterData">
+        Forces the internal DataGrid data to be filtered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UpdateCellEditValue">
+        Updates the cell of the current editing item that matches the <Code>fieldName</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadCellEditValue">
+        Reads the cell value of the current editing item that matches the <Code>fieldName</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ToggleDetailRow">
+        Toggles DetailRow while evaluating the <Code>DetailRowTrigger</Code> if provided.
+        Use <Code>forceDetailRow</Code> to ignore <Code>DetailRowTrigger</Code> and toggle the DetailRow.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToPixels">
+        If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided pixels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToRow">
+        If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided row.
+    </DocsAttributesItem>
 </DocsAttributes>

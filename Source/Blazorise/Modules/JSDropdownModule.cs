@@ -28,12 +28,8 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string altTargetElementId, string menuElementId, string showElementId, object options )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId, targetElementId, altTargetElementId, menuElementId, showElementId, options );
-        }
+        public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string altTargetElementId, string menuElementId, string showElementId, object options )
+            => InvokeSafeVoidAsync( "initialize", elementRef, elementId, targetElementId, altTargetElementId, menuElementId, showElementId, options );
 
         /// <inheritdoc/>
         public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
@@ -41,9 +37,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
+            await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
         }
 
         /// <inheritdoc/>
@@ -52,9 +46,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "show", elementRef, elementId );
+            await InvokeSafeVoidAsync( "show", elementRef, elementId );
         }
 
         /// <inheritdoc/>
@@ -63,9 +55,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "hide", elementRef, elementId );
+            await InvokeSafeVoidAsync( "hide", elementRef, elementId );
         }
 
         #endregion

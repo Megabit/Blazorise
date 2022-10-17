@@ -113,6 +113,19 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
+    Testing with bUnit
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    For testing purposes, there is currently an internal Blazorise Service that should be configured as Transient so the bUnit test engine does not throw an error.
+    You should add this setup:
+    <Code>ctx.Services.AddBlazorise().Replace(ServiceDescriptor.Transient&lt;IComponentActivator, ComponentActivator&gt;());</Code>
+
+    Other than that it should pretty much work out of the box. Let us know if you're having any difficulties.
+    For some testing examples, you can look at some of our <Blazorise.Link To="https://github.com/Megabit/Blazorise/tree/master/Tests/Blazorise.Tests" Target="Target.Blank">tests</Blazorise.Link>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
     Javascript resources
 </DocsPageSubtitle>
 
