@@ -1,0 +1,213 @@
+﻿@page "/docs/services/modal-provider"
+
+<Seo Canonical="/docs/services/modal-provider" Title="Blazorise ModalProvider component" Description="The modal provider component provides an abstraction on top of Blazorize's Modal, enabling you to programatically instantiate modals with custom content/components." />
+
+<DocsPageTitle Path="Services/Modal provider">
+    Blazorise ModalProvider component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Programatically instantiate modals with custom content.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The modal provider component provides an abstraction on top of Blazorize's <Anchor To="docs/components/modal">Modal component</Anchor>, enabling you to programatically instantiate modals with custom content/components.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Usage">
+        <Paragraph>
+            You need to place <Code Tag>ModalProvider</Code> somewhere in your application
+            razor code. It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in
+            the following example.
+        </Paragraph>
+        <Paragraph>
+            A <Code>IModalService</Code> will be registered by Blazorise providing you with an API to programatically instantiate modals.
+            Examples are provided further below.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ModalProviderUsageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="The IModalService">
+        The <Code>IModalService</Code> is an important feature that lets you control <Code Tag>ModalProvider</Code> instantiation.
+        You are provided with various overloads of <Code>Show()</Code> to instantiate the <Code Tag>Modal</Code> to your liking.
+        This will return a <Code>ModalInstance</Code> that represents the <Code Tag>Modal</Code> you've instantiated with all of its configuration.
+        You may also use the provided <Code>Hide()</Code> method to close modals.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Options">
+        You may provide options to <Code Tag>ModalProvider</Code> globally by setting them on the <Code Tag>ModalProvider</Code> component itself.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ModalProviderOptionsExample" />
+    <DocsPageSectionHeader>
+        Optionally you can override these when instantiating a modal through the <Code>ModalService</Code> usage.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ModalServiceOptionsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Closing the instantiated Modals">
+        <Paragraph>
+            <Code Tag>ModalProvider</Code> will only keep track of the modals that have been instantiated by itself.
+        </Paragraph>
+        <Paragraph>
+            To close a Modal:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    You can use Blazorise's <Code Tag>CloseButton</Code> component, which automatically knows how to close the currently opened <Code Tag>Modal</Code>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Use the provided <Code>IModalService</Code> and call <Code>IModelService.Hide()</Code>, this will close the last opened <Code Tag>Modal</Code> tracked by the <Code Tag>ModalProvider</Code>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    You may keep track of the <Code>ModalInstance</Code> and call <Code>IModalService.Hide(modalInstance)</Code>, this will close the provided instance.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    You may keep track of the <Code>ModalInstance</Code> and call <Code>modalInstance.ModalRef.Hide()</Code>.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate a modal with a custom component">
+        Instantiates a modal with a counter example taking in the counter number from the provided parameter.
+        <Code>ModalService.Show</Code> provides various overloads you can use to instantiate your custom content.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalProviderInstantiationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalProviderInstantiationExample" />
+    <Divider />
+    <Paragraph>
+        <Strong>ShowCounter.razor</Strong>
+    </Paragraph>
+    <DocsPageSectionSource Code="CounterExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate a modal with a custom render fragment">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalProviderCustomRenderFragmentExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalProviderCustomRenderFragmentExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate a modal with custom structure">
+        <Paragraph>
+            If you want to customize the modal structure, you can do so, by setting <Code>UseModalStructure</Code> to <Code>false</Code> and providing the structure inside the custom content you are instantiating.
+            You may do this by providing your custom html or by using the internal <Code>Modal</Code> components.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Code Tag>ModalHeader</Code>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code Tag>ModalBody</Code>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code Tag>ModalFooter</Code>
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalProviderCustomStructureExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalProviderCustomStructureExample" />
+    <Divider></Divider>
+    <Paragraph>
+        <Strong>CustomStructureModalExample.razor</Strong>
+    </Paragraph>
+    <DocsPageSectionSource Code="CustomStructureModalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Interaction">
+        Since you can pass in parameters into your component, you can take advantage of this to interact with your <Code Tag>Modal</Code>.
+        A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from "outside".
+        The following example, setups a simple formulary showcasing this.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalProviderFormularyExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalProviderFormularyExample" />
+    <Divider></Divider>
+    <Paragraph>
+        <Strong>FormularyModalExample.razor</Strong>
+    </Paragraph>
+    <DocsPageSectionSource Code="FormularyModalExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    You will find that <Code Tag>ModalProvider</Code> provides most regular <Code Tag>Modal</Code> parameters for you to override the modal behaviour.
+</DocsPageParagraph>
+
+<DocsAttributes Title="ModalProvider">
+    <DocsAttributesItem Name="UseModalStructure" Type="boolean" Default="true">
+        Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
+        Handles the visibility of modal dialog.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the modal visibility state changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opening" Type="Func<ModalOpeningEventArgs, Task>">
+        Occurs before the modal is opened and can be used to prevent the modal from opening.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Func<ModalClosingEventArgs, Task>">
+        Occurs before the modal is closed and can be used to prevent the modal from closing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Occurs after the modal has opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Occurs after the modal has closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToTop" Type="boolean" Default="true">
+        If true modal will scroll to top when opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
+        If true the the backdrop will be rendered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="boolean" Default="true">
+        Gets or sets whether the component has any animations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="150">
+        Gets or sets the animation duration.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RenderMode" Type="ModalRenderMode" Default="Default">
+        Defines how the modal content will be rendered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FocusTrap" Type="bool?" Default="true">
+        Defines if the modal should keep the input focus at all times.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Centered" Type="boolean" Default="false">
+        Centers the modal vertically.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="boolean" Default="false">
+        Scrolls the modal content independent of the page itself.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="ModalSize" Default="Default">
+        Changes the size of the modal.
+    </DocsAttributesItem>
+</DocsAttributes>

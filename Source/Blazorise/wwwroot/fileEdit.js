@@ -59,6 +59,15 @@ export function reset(element, elementId) {
     }
 }
 
+export function open(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    element.click();
+}
+
 // Reduce to purely serializable data, plus build an index by ID
 function mapElementFilesToFileEntries(element) {
     element._blazorFilesById = {};

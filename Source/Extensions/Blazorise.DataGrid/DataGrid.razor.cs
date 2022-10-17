@@ -429,7 +429,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Deleted the specified item from the <see cref="Data"/> source.
+        /// Deletes the specified item from the <see cref="Data"/> source.
         /// </summary>
         /// <param name="item">Item to delete.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -663,7 +663,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Updated the cell of the current editing item that matches the <paramref name="fieldName"/>.
+        /// Updates the cell of the current editing item that matches the <paramref name="fieldName"/>.
         /// </summary>
         /// <param name="fieldName">Cell field name.</param>
         /// <param name="value">New cell value.</param>
