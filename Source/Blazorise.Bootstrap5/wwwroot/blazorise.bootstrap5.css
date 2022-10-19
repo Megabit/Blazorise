@@ -180,6 +180,10 @@ input[type=button].btn-block {
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
   max-width: 100%;
   width: 100%;
   cursor: text;
@@ -196,6 +200,15 @@ input[type=button].btn-block {
   background-color: transparent;
   max-width: inherit;
   width: auto;
+  flex-grow: 1;
+}
+.b-is-autocomplete.b-is-autocomplete-multipleselection > .badge {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+  flex-grow: initial;
+}
+.b-is-autocomplete.b-is-autocomplete-multipleselection .dropdown-menu {
+  top: 100%;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
   color: #495057;
