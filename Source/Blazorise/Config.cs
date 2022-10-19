@@ -51,7 +51,8 @@ namespace Blazorise
                 serviceCollection.AddScoped( mapping.Key, mapping.Value );
             }
 
-            serviceCollection.AddSingleton<BlazoriseLicenseProvider>(); // registered as singleton so that runs once per application instance
+            // TODO need to be Scoped for WASM and Singleton for  server-side
+            serviceCollection.AddScoped<BlazoriseLicenseProvider>(); // registered as singleton so that runs once per application instance
             serviceCollection.AddScoped<BlazoriseLicenseChecker>();     // registered as scoped so that it runs once per user session
 
             return serviceCollection;
