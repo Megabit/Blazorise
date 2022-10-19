@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="Blazorise.Licensing.AssemblyBuildDateAttribute">
-      <_Parameter1>$([System.DateTime]::Now)</_Parameter1>
+      <_Parameter1>$([System.DateTime]::Now.ToString( "yyyyMMddHHmmss" ))</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
