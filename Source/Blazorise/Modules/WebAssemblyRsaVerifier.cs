@@ -1,0 +1,67 @@
+﻿#region Using directives
+using System.Text;
+using System;
+using System.Threading.Tasks;
+using Blazorise.Licensing.Signing;
+using Microsoft.JSInterop;
+#endregion
+
+namespace Blazorise.Modules
+{
+    /// <summary>
+    /// Default implementation of the RSA JS module.
+    /// </summary>
+    internal class WebAssemblyRsaVerifier : BaseJSModule, /*IJSRsa,*/ IVerifier
+    {
+        #region Members
+
+        private readonly string publicKey;
+
+        private readonly byte[] publicKeyBytes;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default module constructor.
+        /// </summary>
+        /// <param name="jsRuntime">JavaScript runtime instance.</param>
+        /// <param name="versionProvider">Version provider.</param>
+        public WebAssemblyRsaVerifier( IJSRuntime jsRuntime, IVersionProvider versionProvider, string publicKey )
+            : base( jsRuntime, versionProvider )
+        {
+            this.publicKey = publicKey;
+            this.publicKeyBytes = Convert.FromBase64String( publicKey );
+        }
+
+        #endregion
+
+        #region Methods
+
+        public async Task<bool> Verify( string content, string signature )
+        {
+            var bytesContent = Encoding.UTF8.GetBytes( content );
+            var bytesSignature = Convert.FromBase64String( signature );
+            UnConfuse( bytesSignature );
+            return await InvokeSafeAsync<bool>( "verify", publicKeyBytes, bytesContent, bytesSignature );
+        }
+
+        private static void UnConfuse( byte[] bytes )
+        {
+            for ( int i = 0; i < bytes.Length; i++ )
+            {
+                bytes[i] ^= Blazorise.Licensing.Constants.ConfusingBytes[i % Blazorise.Licensing.Constants.ConfusingBytes.Length];
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <inheritdoc/>
+        public override string ModuleFileName => $"./_content/Blazorise/rsa.js?v={VersionProvider.Version}";
+
+        #endregion        
+    }
+}

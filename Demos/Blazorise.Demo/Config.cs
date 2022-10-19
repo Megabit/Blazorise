@@ -15,6 +15,7 @@ namespace Blazorise.Demo
             services
                 .AddBlazorise( options =>
                 {
+                    options.LicenseKey = "";
                     options.Immediate = true;
                 } )
                 .AddBlazoriseRichTextEdit( options =>
