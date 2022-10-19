@@ -6104,28 +6104,34 @@ ol.is-ordered-list-upper-roman {
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
   max-width: 100%;
   width: 100%;
   cursor: text;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
   border-color: #dbdbdb;
   border-style: solid;
   border-width: 1px;
   border-radius: 0.25rem;
 }
+.b-is-autocomplete.b-is-autocomplete-multipleselection .field {
+  flex-grow: 1;
+}
 .b-is-autocomplete.b-is-autocomplete-multipleselection input {
-  display: inline-block;
   border: none;
   box-shadow: none;
   outline: none;
   background-color: transparent;
   max-width: inherit;
-  width: auto;
+  width: 100%;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection .tag {
   align-self: center;
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+  flex-grow: initial;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
   outline: 0;

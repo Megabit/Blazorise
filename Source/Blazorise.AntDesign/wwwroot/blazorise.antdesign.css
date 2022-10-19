@@ -1413,12 +1413,13 @@
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
   max-width: 100%;
   width: 100%;
   cursor: text;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
   align-items: center;
   border: 1px solid #d9d9d9;
   border-radius: 0.25rem;
@@ -1431,6 +1432,12 @@
   background-color: transparent;
   max-width: inherit;
   width: auto;
+  flex-grow: 1;
+}
+.b-is-autocomplete.b-is-autocomplete-multipleselection > .ant-tag {
+  margin-bottom: 0.25rem;
+  line-height: 1.5715;
+  flex-grow: initial;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
   border-color: #40a9ff;
