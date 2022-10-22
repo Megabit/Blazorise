@@ -22,7 +22,7 @@ namespace Blazorise
 
         private readonly BackgroundWorker backgroundWorker;
 
-        private static readonly string PublicKey = "BgIAAACkAABSU0ExAAQAAAEAAQClrL7lCAg7/SyES2q0zM+EN4lFwSQXznI4ItGRtMsMcSJgOGdTkF+hzR/iEVflVSAYe8z8dbNiucNJjWqFsO4o3eMIqn2CHgFZwhZZM2JIpVmqNkoLaUTo+WmlV0YIadWWSzi8UZAUS+hqHjTCPQFkB4FnWlB8d8apMJbVvxKwxg==";
+        private static readonly string PublicKey = "MIIBCgKCAQEAuWaYibdLKZjYHDBS6K2EWBV9TSWhMiJU/67jN1keOphiINQVzk6RYCuazPUyFrZwx6iCwlLMBMxRB7wEiRITIhEOULlRDK2o2AwFTCG7px3SCVNDoMi0C6zrj090iBhbGDUZpX9TA06XWEq+LUzIQncNa4OPtkqIWxAGVAKxQr9CbAYIrOEPA3cANQQUUIjCn2HjhojTzWzHhFEB245epO7TWiuo8KQGxVUQXiWHkJuX7nLsgkd3CeBIgqwh+trm/JRxCiY7TkghXPY+N+TIOQPBrTO3cHUnuyGEPloU0J7B5RToqwHzwdjaz2HKA5cQAw1xnHmiYU1ixxrWDphTKQIDAQAB";
 
         public BlazoriseLicenseProvider( BlazoriseOptions options, IJSRuntime jsRuntime, IVersionProvider versionProvider )
         {
@@ -62,6 +62,7 @@ namespace Blazorise
                         ? BlazoriseLicenseResult.Licensed
                         : BlazoriseLicenseResult.Trial;
                 }
+                Console.WriteLine( Result.ToString( "g" ) );
             }
             catch ( Exception exc )
             {

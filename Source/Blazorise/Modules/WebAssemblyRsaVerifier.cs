@@ -41,12 +41,18 @@ namespace Blazorise.Modules
 
         public async Task<bool> Verify( string content, string signature )
         {
-            var bytesContent = Encoding.UTF8.GetBytes( content );
-            var bytesSignature = Convert.FromBase64String( signature );
-            UnConfuse( bytesSignature );
-            return await InvokeSafeAsync<bool>( "verify", publicKeyBytes, bytesContent, bytesSignature );
+            //var bytesContent = Encoding.UTF8.GetBytes( content );
+            //var bytesSignature = Convert.FromBase64String( signature );
+            //UnConfuse( bytesSignature );
+
+            //No idea why... but the content here is not right. Newline is represented by \n. While in the original it is by \r\n. 
+            //Let's just run a replace for now...
+            content = content.Replace( "\n", "\r\n" );
+            var result = await InvokeSafeAsync<bool>( "verify", publicKeyBytes, content, signature );
+            return result;
         }
 
+        //The UnConfuse should be centralized? I have seen it in 3 separate places, Im CONFUSED!!
         private static void UnConfuse( byte[] bytes )
         {
             for ( int i = 0; i < bytes.Length; i++ )

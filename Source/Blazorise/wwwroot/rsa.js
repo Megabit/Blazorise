@@ -1,31 +1,30 @@
-﻿//import "./vendors/jsencrypt.js";
+﻿import "./vendors/jsencrypt.min.js";
 
-//export function verify(publicKeyBase64, bytesContent, bytesSignature) {
-//    try {
-//        // Verify with the public key...
-//        var jsEncrypt = new JSEncrypt();
-//        jsEncrypt.setPublicKey(`-----BEGIN PUBLIC KEY-----
-////MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDGsBK/1ZYwqcZ3fFBaZ4EHZAE9
-////wjQeauhLFJBRvDhLltVpCEZXpWn56ERpC0o2qlmlSGIzWRbCWQEegn2qCOPdKO6w
-////hWqNScO5YrN1/Mx7GCBV5VcR4h/NoV+QU2c4YCJxDMu0kdEiOHLOFyTBRYk3hM/M
-////tGpLhCz9OwgI5b6spQIDAQAB
-////-----END PUBLIC KEY-----`);
-//        var verified = jsEncrypt.verify(bytesContent, bytesSignature, CryptoJS.SHA512);
-
-//        // Now a simple check to see if the round-trip worked.
-//        if (verified) {
-//            console.log('It works!!!');
-//        }
-//        else {
-//            console.log('Something went wrong....');
-//        }
-//    } catch (error) {
-//        console.error(error);
-//    }
+export function verify(publicKeyBase64, bytesContent, bytesSignature) {
+    try {
+        console.log(bytesContent);
+        console.log(bytesSignature);
+        // Verify with the public key...
+        var jsEncrypt = new JSEncrypt();
+        jsEncrypt.setPublicKey(`MIIBCgKCAQEAuWaYibdLKZjYHDBS6K2EWBV9TSWhMiJU/67jN1keOphiINQVzk6RYCuazPUyFrZwx6iCwlLMBMxRB7wEiRITIhEOULlRDK2o2AwFTCG7px3SCVNDoMi0C6zrj090iBhbGDUZpX9TA06XWEq+LUzIQncNa4OPtkqIWxAGVAKxQr9CbAYIrOEPA3cANQQUUIjCn2HjhojTzWzHhFEB245epO7TWiuo8KQGxVUQXiWHkJuX7nLsgkd3CeBIgqwh+trm/JRxCiY7TkghXPY+N+TIOQPBrTO3cHUnuyGEPloU0J7B5RToqwHzwdjaz2HKA5cQAw1xnHmiYU1ixxrWDphTKQIDAQAB`);
+        var verified = jsEncrypt.verify(bytesContent, bytesSignature, CryptoJS.SHA256);
 
 
-//    return false;
-//}
+        // Now a simple check to see if the round-trip worked.
+        if (verified) {
+            console.log('It works!!!');
+            return true;
+        }
+        else {
+            console.log('Something went wrong....');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+
+    return false;
+}
 
 //import "./vendors/forge.js";
 
