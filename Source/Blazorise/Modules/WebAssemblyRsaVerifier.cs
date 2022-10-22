@@ -41,14 +41,16 @@ namespace Blazorise.Modules
 
         public async Task<bool> Verify( string content, string signature )
         {
-            //var bytesContent = Encoding.UTF8.GetBytes( content );
-            //var bytesSignature = Convert.FromBase64String( signature );
-            //UnConfuse( bytesSignature );
-
             //No idea why... but the content here is not right. Newline is represented by \n. While in the original it is by \r\n. 
             //Let's just run a replace for now...
             content = content.Replace( "\n", "\r\n" );
-            var result = await InvokeSafeAsync<bool>( "verify", publicKeyBytes, content, signature );
+
+            var bytesSignature = Convert.FromBase64String( signature );
+            UnConfuse( bytesSignature );
+            signature = Convert.ToBase64String( bytesSignature );
+
+            var result = await InvokeSafeAsync<bool>( "verify", publicKey, content, signature );
+
             return result;
         }
 

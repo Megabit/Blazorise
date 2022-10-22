@@ -62,7 +62,6 @@ namespace Blazorise
                         ? BlazoriseLicenseResult.Licensed
                         : BlazoriseLicenseResult.Trial;
                 }
-                Console.WriteLine( Result.ToString( "g" ) );
             }
             catch ( Exception exc )
             {

@@ -6,9 +6,8 @@ export function verify(publicKeyBase64, bytesContent, bytesSignature) {
         console.log(bytesSignature);
         // Verify with the public key...
         var jsEncrypt = new JSEncrypt();
-        jsEncrypt.setPublicKey(`MIIBCgKCAQEAuWaYibdLKZjYHDBS6K2EWBV9TSWhMiJU/67jN1keOphiINQVzk6RYCuazPUyFrZwx6iCwlLMBMxRB7wEiRITIhEOULlRDK2o2AwFTCG7px3SCVNDoMi0C6zrj090iBhbGDUZpX9TA06XWEq+LUzIQncNa4OPtkqIWxAGVAKxQr9CbAYIrOEPA3cANQQUUIjCn2HjhojTzWzHhFEB245epO7TWiuo8KQGxVUQXiWHkJuX7nLsgkd3CeBIgqwh+trm/JRxCiY7TkghXPY+N+TIOQPBrTO3cHUnuyGEPloU0J7B5RToqwHzwdjaz2HKA5cQAw1xnHmiYU1ixxrWDphTKQIDAQAB`);
-        var verified = jsEncrypt.verify(bytesContent, bytesSignature, CryptoJS.SHA256);
-
+        jsEncrypt.setPublicKey(publicKeyBase64);
+        var verified = jsEncrypt.verify(bytesContent, bytesSignature, CryptoJS.SHA512);
 
         // Now a simple check to see if the round-trip worked.
         if (verified) {
@@ -25,61 +24,6 @@ export function verify(publicKeyBase64, bytesContent, bytesSignature) {
 
     return false;
 }
-
-//import "./vendors/forge.js";
-
-//export function verify(publicKeyBase64, bytesContent, bytesSignature) {
-//    try {
-
-
-//        //        var publicKey = forge.pki.publicKeyFromPem(`-----BEGIN PUBLIC KEY-----
-//        //MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDGsBK/1ZYwqcZ3fFBaZ4EHZAE9
-//        //wjQeauhLFJBRvDhLltVpCEZXpWn56ERpC0o2qlmlSGIzWRbCWQEegn2qCOPdKO6w
-//        //hWqNScO5YrN1/Mx7GCBV5VcR4h/NoV+QU2c4YCJxDMu0kdEiOHLOFyTBRYk3hM/M
-//        //tGpLhCz9OwgI5b6spQIDAQAB
-//        //-----END PUBLIC KEY-----`);
-
-//        //        var rsa = forge.pki.rsa;
-//        //        var md = forge.md.sha512.create();
-//        //        md.update(bytesContent, 'utf8');
-//        //        var verified = publicKey.verify(md.digest().bytes(), base64ArrayBuffer(bytesSignature));
-
-
-
-
-//        //var rsa = forge.pki.rsa;
-//        //var publicKey = rsa.setPublicKey(mod, exponent);
-
-//        //var md = forge.md.sha512.create();
-//        //md.update(content, 'utf8');
-//        //var verified = publicKey.verify(md.digest().bytes(), signature);
-
-
-
-
-
-//        //var pkstr = '-----BEGIN PUBLIC KEY-----' + publicKeyBase64 + '-----END PUBLIC KEY-----'; // not friendly
-//        //var pk = forge.pki.publicKeyFromPem(publicKeyBase64);
-//        //var bytes = pk.encrypt("text to protect"); // `bytes` cost me a night
-//        //var encrypted = forge.util.encode64(bytes);
-
-//        //var pkstr = '-----BEGIN PUBLIC KEY-----' + publicKeyBase64 + '-----END PUBLIC KEY-----'; // not friendly
-//        //var publicKey = forge.pki.publicKeyFromPem(pkstr);
-
-
-
-//        //var rsa = forge.pki.rsa;
-
-//        //const publicKey = rsa.setPublicKey(publicKeyBase64);
-
-//        //var md = forge.md.sha512.create();
-//        //md.update(content, 'utf8');
-//        //var verified = publicKey.verify(md.digest().bytes(), signature);
-//    } catch (error) {
-//        console.error(error);
-//    }
-//    return false;
-//}
 
 function base64ArrayBuffer(arrayBuffer) {
     var base64 = ''
