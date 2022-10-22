@@ -41,10 +41,6 @@ namespace Blazorise.Modules
 
         public async Task<bool> Verify( string content, string signature )
         {
-            //No idea why... but the content here is not right. Newline is represented by \n. While in the original it is by \r\n. 
-            //Let's just run a replace for now...
-            content = content.Replace( "\n", "\r\n" );
-
             var bytesSignature = Convert.FromBase64String( signature );
             UnConfuse( bytesSignature );
             signature = Convert.ToBase64String( bytesSignature );
