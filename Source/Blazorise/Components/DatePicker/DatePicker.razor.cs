@@ -205,7 +205,7 @@ namespace Blazorise
                     results.Add( Formaters.FormatDateValueAsString( value, DateFormat ) );
                 }
 
-                return String.Join( SelectionMode == DateInputSelectionMode.Multiple ? ", " : " to ", results );
+                return string.Join( SelectionMode == DateInputSelectionMode.Multiple ? ", " : CurrentRangeSeparator, results );
             }
             else
             {
@@ -221,7 +221,7 @@ namespace Blazorise
         {
             if ( SelectionMode != DateInputSelectionMode.Single )
             {
-                var values = value?.Split( SelectionMode == DateInputSelectionMode.Multiple ? ", " : " to " );
+                var values = value?.Split( SelectionMode == DateInputSelectionMode.Multiple ? ", " : CurrentRangeSeparator );
 
                 if ( values?.Length > 0 )
                 {
@@ -320,8 +320,6 @@ namespace Blazorise
 
         private object GetLocalizationObject()
         {
-            var strings = Localizer.GetStrings();
-
             return new
             {
                 FirstDayOfWeek = (int)FirstDayOfWeek,
@@ -381,7 +379,8 @@ namespace Blazorise
                         Localizer["December"]
                     }
                 },
-                amPM = new[] { Localizer["AM"], Localizer["PM"] }
+                amPM = new[] { Localizer["AM"], Localizer["PM"] },
+                RangeSeparator = RangeSeparator ?? Localizer["RangeSeparator"],
             };
         }
 
@@ -411,6 +410,11 @@ namespace Blazorise
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the range separator based on the current locale settings.
+        /// </summary>
+        protected string CurrentRangeSeparator => RangeSeparator ?? Localizer.GetString( "RangeSeparator" ) ?? " to ";
 
         /// <summary>
         /// Gets the string representation of the input mode.
@@ -451,6 +455,11 @@ namespace Blazorise
         /// Defines the mode in which the dates can be selected.
         /// </summary>
         [Parameter] public DateInputSelectionMode SelectionMode { get; set; } = DateInputSelectionMode.Single;
+
+        /// <summary>
+        /// Overrides the range separator that is used to separate date values when <see cref="SelectionMode"/> is set to <see cref="DateInputSelectionMode.Range"/>.
+        /// </summary>
+        [Parameter] public string RangeSeparator { get; set; }
 
         /// <summary>
         /// Gets or sets the input date value.
