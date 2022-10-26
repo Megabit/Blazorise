@@ -254,7 +254,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Show a browser picker for file input.
+        /// Show a browser picker for the file input.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task ShowPicker()

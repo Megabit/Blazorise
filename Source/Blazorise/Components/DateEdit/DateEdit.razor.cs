@@ -98,7 +98,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Show a browser picker for date input.
+        /// Show a browser picker for the date input.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         public Task ShowPicker()
