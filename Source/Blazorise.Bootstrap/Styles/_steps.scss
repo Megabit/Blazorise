@@ -70,7 +70,8 @@
 
 .step-text {
     color: $step-text-color;
-    word-break: break-all;
+    word-break: keep-all;
+    text-align: center;
     margin-top: 0.25em;
 }
 

@@ -2933,9 +2933,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>
-        <Step Name=""step1"">Step 1</Step>
-        <Step Name=""step2"">Step 2</Step>
-        <Step Name=""step3"">Step 3</Step>
+        <Step Name=""step1"">Create campaign settings</Step>
+        <Step Name=""step2"">Create an ad group</Step>
+        <Step Name=""step3"">Create an add</Step>
         <Step Name=""step4"">
             <Marker>
                 <Icon Name=""IconName.Flag"" />
