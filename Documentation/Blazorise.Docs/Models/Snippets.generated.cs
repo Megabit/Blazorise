@@ -1229,6 +1229,19 @@ public class Gender
 
         public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
+        public const string DateEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>dateEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <DateEdit @ref=""@dateEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    DateEdit<DateTime> dateEditRef;
+}";
+
         public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
 
 @code{
@@ -1637,6 +1650,19 @@ public class Gender
 <Field>
     <FileEdit Filter="".jpg, .png, .gif"" />
 </Field>";
+
+        public const string FileEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>fileEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <FileEdit @ref=""@fileEditRef"" />
+</Field>
+
+@code {
+    FileEdit fileEditRef;
+}";
 
         public const string FilePickerCustomExample = @"@using System.IO
 
@@ -3599,6 +3625,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
 
         public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
+
+        public const string TimeEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <TimeEdit @ref=""@timeEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    TimeEdit<DateTime> timeEditRef;
+}";
 
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
