@@ -106,7 +106,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Generator", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LoadingIndicator", "Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj", "{570C2383-EE8C-4F02-91E8-E59B879EDCD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
