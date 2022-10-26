@@ -6142,7 +6142,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
     <Toolbar>
         <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
-        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" Text=""My Custom Button"" />
         <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
     </Toolbar>
 </Markdown>
