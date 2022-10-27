@@ -169,6 +169,7 @@ export function updateLocalization(element, elementId, localization) {
             picker.l10n.months = localization.months;
             picker.l10n.weekdays = localization.weekdays;
             picker.l10n.amPM = localization.amPM;
+            picker.l10n.rangeSeparator = localization.rangeSeparator;
         }
 
         if (picker.weekdayContainer) {
