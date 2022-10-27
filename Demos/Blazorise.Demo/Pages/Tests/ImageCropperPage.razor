@@ -1,0 +1,37 @@
+﻿@page "/tests/imagecropper"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Image Cropper Component (based on <Anchor To="https://fengyuanchen.github.io/cropperjs/">Cropper.js</Anchor>)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png" />
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Button Clicked="GetCroppedImage">Get Cropped Image</Button>
+                    </Column>
+                    <Column>
+                        <img src="@result" width="250" height="250" />
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private ImageCropper cropper;
+    private string result;
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.ExtractBase64Image(250, 250);
+    }
+
+}
