@@ -1,40 +1,64 @@
 import "./vendors/cropper.min.js?v=1.5.11";
 
-class ImageCropper {
-    constructor(image) {
-        this.image = image;
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.0.7.0";
+
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.ImageCropper/blazorise.imagecropper.css?v=1.0.7.0\" />");
+
+const _instances = [];
+
+export function initialize(dotNetAdapter, element, elementId, options) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    const instance = {
+        options: options,
+        adapter: dotNetAdapter,
+        cropper: null,
+    };
+
+    instance.cropper = new Cropper(element, options);
+
+    //registerToEvents(dotNetAdapter, instance.player);
+
+    _instances[elementId] = instance;
+}
+
+export function updateOptions(element, elementId, options) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        instance.cropper.destroy();
     }
 
-    update( options ) {
-        if (this.disposed)
-            return;
-        if (this.cropper) {
-            this.cropper.destroy();
-        }
-        this.cropper = new Cropper( this.image, options );
-    }
+    initialize(instance.adapter, element, elementId, options);
+}
 
-    crop( width, height ) {
-        if (this.disposed)
-            return "";
-        const canvas = this.cropper.getCroppedCanvas({
-            width: width,
-            height: height,
-        });
-        if (!canvas) {
-            return "";
+export function destroy(element, elementId) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (instance) {
+        if (instance.cropper) {
+            instance.cropper.destroy();
         }
+
+        delete instances[elementId];
+    }
+}
+
+export function cropBase64(element, elementId, options) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.cropper) {
+        const canvas = instance.cropper.getCroppedCanvas(options);
         return canvas.toDataURL();
     }
-    destroy() {
-        if (this.disposed)
-            return;
-        this.disposed = true;
-        this.cropper.destroy();
-        this.cropper = undefined;
-    }
+
+    return "";
 }
 
-export function createCropper(image) {
-    return new ImageCropper(image);
-}

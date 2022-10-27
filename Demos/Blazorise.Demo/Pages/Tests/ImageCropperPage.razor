@@ -54,6 +54,6 @@
 
     private async Task GetCroppedImage()
     {
-        result  = await cropper.CropAsync(250, 250);
+        result  = await cropper.CropAsBase64ImageAsync(new() {Width = 250, Height = 250});
     }
 }

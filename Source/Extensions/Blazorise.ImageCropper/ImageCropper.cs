@@ -9,18 +9,32 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.ImageCropper
 {
+    /// <summary>
+    /// Blazorise Image Cropper component based on <see href="https://fengyuanchen.github.io/cropperjs/">CropperJS</see>.
+    /// </summary>
     public class ImageCropper : BaseComponent, IAsyncDisposable
     {
-        private JSImageCropper cropper;
-
+        /// <summary>
+        /// The aspect ratio of the image cropper
+        /// </summary>
         [Parameter] public AspectRatio Ratio { get; set; } = AspectRatio.Ratio1_1;
+
+        /// <summary>
+        /// The original image source
+        /// </summary>
         [Parameter] public string Source { get; set; }
+
+        /// <summary>
+        /// The alt text of the image
+        /// </summary>
         [Parameter] public string Alt { get; set; }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         [Inject] private IVersionProvider VersionProvider { get; set; }
+
         private JSCropperModule JSModule { get; set; }
+        private DotNetObjectReference<ImageCropper> DotNetObjectRef { get; set; }
 
         /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder ) => builder
@@ -39,16 +53,18 @@ namespace Blazorise.ImageCropper
         {
             if ( disposing && Rendered )
             {
-                if ( cropper != null )
-                {
-                    await cropper.DisposeAsync();
-                }
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
                 await JSModule.SafeDisposeAsync();
+
+                if ( DotNetObjectRef != null )
+                {
+                    DotNetObjectRef.Dispose();
+                    DotNetObjectRef = null;
+                }
             }
 
             await base.DisposeAsync( disposing );
-
         }
 
         /// <inheritdoc/>
@@ -58,8 +74,7 @@ namespace Blazorise.ImageCropper
 
             if ( firstRender )
             {
-                cropper = await JSModule.CreateCropperAsync( ElementRef );
-                await RefreshCropperAsync();
+                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, GetOptions() );
             }
         }
 
@@ -68,28 +83,34 @@ namespace Blazorise.ImageCropper
         {
             await base.SetParametersAsync( parameters );
 
-            await RefreshCropperAsync();
-        }
-
-        private async Task RefreshCropperAsync()
-        {
             if ( Rendered )
             {
-                await cropper.UpdateAsync( new() { AspectRatio = Ratio.Value } );
+                await JSModule.UpdateOptions( ElementRef, ElementId, GetOptions() );
             }
         }
+
+        private JSCropperOptions GetOptions() => new()
+        {
+            AspectRatio = Ratio.Value
+        };
 
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
+            DotNetObjectRef ??= DotNetObjectReference.Create( this );
 
             return base.OnInitializedAsync();
         }
 
-        public async Task<string> CropAsync( int width, int height )
+        /// <summary>
+        /// Get the cropped image as Base64 image.
+        /// </summary>
+        /// <param name="options">the cropping options</param>
+        /// <returns>the cropped image</returns>
+        public async Task<string> CropAsBase64ImageAsync( CropOptions options )
         {
-            return await cropper.CropImage( width, height );
+            return await JSModule.CropBase64( ElementRef, ElementId, options );
         }
     }
 }
