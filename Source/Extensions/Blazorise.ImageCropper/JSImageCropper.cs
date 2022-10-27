@@ -4,12 +4,14 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.ImageCropper;
 
-public class ImageCropperInstance
+internal class JSImageCropper
 {
+    private readonly IJSRuntime runtime;
     private readonly IJSObjectReference objReference;
 
-    public ImageCropperInstance( IJSObjectReference objReference )
+    public JSImageCropper( IJSRuntime runtime, IJSObjectReference objReference )
     {
+        this.runtime = runtime;
         this.objReference = objReference;
     }
     public bool IsDisposed { get; private set; }
@@ -33,11 +35,11 @@ public class ImageCropperInstance
         return await objReference.InvokeAsync<string>( "crop", width, height );
     }
 
-    public async ValueTask UpdateAsync( double ratio )
+    public async ValueTask UpdateAsync( JSCropperOptions options )
     {
         if ( IsDisposed )
             return;
 
-        await objReference.InvokeVoidAsync( "update", ratio );
+        await objReference.InvokeVoidAsync( "update", options );
     }
 }

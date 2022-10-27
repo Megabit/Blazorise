@@ -6,10 +6,32 @@
             <CardHeader>
                 <CardTitle>Image Cropper Component (based on <Anchor To="https://fengyuanchen.github.io/cropperjs/">Cropper.js</Anchor>)</CardTitle>
             </CardHeader>
-            <CardBody>
+               <CardBody>
                 <Row>
                     <Column>
-                        <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png" />
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Aspect Ratio
+                                </FieldLabel>
+                                <FieldBody>
+                                    <RadioGroup TValue="double?" @bind-CheckedValue="@ratio" Buttons>
+                                        <Radio Value="@AspectRatio.Ratio16_9.Value">16:9</Radio>
+                                        <Radio Value="@AspectRatio.Ratio4_3.Value">4:3</Radio>
+                                        <Radio Value="@AspectRatio.Ratio1_1.Value">1:1</Radio>
+                                        <Radio Value="@AspectRatio.Ratio2_3.Value">2:3</Radio>
+                                        <Radio Value="@AspectRatio.RatioFree.Value">Free</Radio>
+                                    </RadioGroup>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+            </CardBody>
+         <CardBody>
+                <Row>
+                    <Column>
+                        <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png" Ratio="@new(ratio)" />
                     </Column>
                 </Row>
                 <Row>
@@ -28,10 +50,10 @@
 @code {
     private ImageCropper cropper;
     private string result;
+    private double? ratio = 1.0;
 
     private async Task GetCroppedImage()
     {
-        result = await cropper.ExtractBase64Image(250, 250);
+        result  = await cropper.CropAsync(250, 250);
     }
-
 }

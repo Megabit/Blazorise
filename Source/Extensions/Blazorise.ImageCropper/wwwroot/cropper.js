@@ -4,18 +4,17 @@ class ImageCropper {
     constructor(image) {
         this.image = image;
     }
-    update(ratio) {
+
+    update( options ) {
         if (this.disposed)
             return;
         if (this.cropper) {
             this.cropper.destroy();
         }
-        this.cropper = new Cropper(this.image, {
-            aspectRatio: ratio,
-            viewMode: 1
-        });
+        this.cropper = new Cropper( this.image, options );
     }
-    crop(width, height) {
+
+    crop( width, height ) {
         if (this.disposed)
             return "";
         const canvas = this.cropper.getCroppedCanvas({
@@ -38,13 +37,4 @@ class ImageCropper {
 
 export function createCropper(image) {
     return new ImageCropper(image);
-}
-
-export function getImageUrl(inputId) {
-    const input = document.getElementById(inputId);
-    if (!input || input.files.length === 0) {
-        return undefined;
-    }
-    var file = input.files[0];
-    return URL.createObjectURL(file);
 }

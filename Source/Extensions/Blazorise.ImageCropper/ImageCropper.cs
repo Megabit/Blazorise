@@ -11,10 +11,9 @@ namespace Blazorise.ImageCropper
 {
     public class ImageCropper : BaseComponent, IAsyncDisposable
     {
-        private JSObjectUrl createdObjectUrl;
-        private ImageCropperInstance cropper;
+        private JSImageCropper cropper;
 
-        [Parameter] public double Ratio { get; set; } = 1.0;
+        [Parameter] public AspectRatio Ratio { get; set; } = AspectRatio.Ratio1_1;
         [Parameter] public string Source { get; set; }
         [Parameter] public string Alt { get; set; }
 
@@ -40,11 +39,6 @@ namespace Blazorise.ImageCropper
         {
             if ( disposing && Rendered )
             {
-                if ( createdObjectUrl != null )
-                {
-                    await createdObjectUrl.DisposeAsync();
-                }
-
                 if ( cropper != null )
                 {
                     await cropper.DisposeAsync();
@@ -60,24 +54,29 @@ namespace Blazorise.ImageCropper
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
+            await base.OnAfterRenderAsync( firstRender );
+
             if ( firstRender )
             {
                 cropper = await JSModule.CreateCropperAsync( ElementRef );
-                await cropper.UpdateAsync( Ratio );
+                await RefreshCropperAsync();
             }
-
-            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            await base.SetParametersAsync( parameters );
+
+            await RefreshCropperAsync();
+        }
+
+        private async Task RefreshCropperAsync()
+        {
             if ( Rendered )
             {
-                await cropper.UpdateAsync( Ratio );
+                await cropper.UpdateAsync( new() { AspectRatio = Ratio.Value } );
             }
-
-            await base.SetParametersAsync( parameters );
         }
 
         /// <inheritdoc/>
@@ -88,10 +87,9 @@ namespace Blazorise.ImageCropper
             return base.OnInitializedAsync();
         }
 
-        public async Task<string> ExtractBase64Image( int width, int height )
+        public async Task<string> CropAsync( int width, int height )
         {
-            var base64data = await cropper.CropImage( width, height );
-            return base64data;
+            return await cropper.CropImage( width, height );
         }
     }
 }

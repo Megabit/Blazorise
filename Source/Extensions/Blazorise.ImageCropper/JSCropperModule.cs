@@ -5,27 +5,19 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.ImageCropper
 {
-    public class JSCropperModule : BaseJSModule
+    internal class JSCropperModule : BaseJSModule
     {
         public JSCropperModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
             : base( jsRuntime, versionProvider )
         {
         }
 
-        public async ValueTask<ImageCropperInstance> CreateCropperAsync( ElementReference image )
+        public async ValueTask<JSImageCropper> CreateCropperAsync( ElementReference image )
         {
             var moduleInstance = await Module;
 
             var cropper = await moduleInstance.InvokeAsync<IJSObjectReference>( "createCropper", image );
-            return new ImageCropperInstance( cropper );
-        }
-
-        public async ValueTask<JSObjectUrl> GetInputImageAsync( string inputElementId )
-        {
-            var moduleInstance = await Module;
-
-            var url = await moduleInstance.InvokeAsync<string>( "getImageUrl", inputElementId );
-            return new JSObjectUrl( url, JSRuntime );
+            return new JSImageCropper( JSRuntime, cropper );
         }
 
         /// <inheritdoc/>
