@@ -33,7 +33,7 @@ if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
 
 const _instances = [];
 
-export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) {
+export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject, pluginNames) {
     if (dataJsonString) {
         data = JSON.parse(dataJsonString);
     }
@@ -69,7 +69,7 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     canvas = canvas || document.getElementById(canvasId);
 
     if (canvas) {
-        const chart = createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options);
+        const chart = createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, pluginNames);
 
         // save references to all elements
         _instances[canvasId] = {
@@ -97,22 +97,29 @@ export function changeChartType(canvas, canvasId, type) {
 
         chart.destroy();
 
-        chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvas, type, data, options);
+        chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvas, type, data, options, instance.pluginNames);
 
         _instances[canvasId].chart = chart;
     }
 }
 
-function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options) {
+function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, pluginNames) {
     // save the copy of the received options
     const originalOptions = deepClone(options);
 
     options = compileOptionCallbacks(options);
 
+    const plugins = [];
+
+    if (pluginNames && pluginNames.includes("dataLabels") && ChartDataLabels) {
+        plugins.push(ChartDataLabels);
+    }
+
     const chart = new Chart(canvas, {
         type: type,
         data: data,
-        options: options
+        options: options,
+        plugins: plugins
     });
 
     chart.originalOptions = originalOptions;

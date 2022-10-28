@@ -16,10 +16,28 @@ namespace Blazorise.Charts.DataLabels
     /// <typeparam name="TItem">Generic dataset value type.</typeparam>
     public partial class ChartDataLabels<TItem> : BaseComponent, IAsyncDisposable
     {
+        #region Members
+
+        private const string PluginName = "DataLabels";
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
+        {
+            if ( ParentChart is not null )
+            {
+                ParentChart.Initialized += OnParentChartInitialized;
+
+                ParentChart.NotifyPluginInitialized( PluginName );
+            }
+
+            return base.OnInitializedAsync();
+        }
+
+        private async void OnParentChartInitialized( object sender, EventArgs e )
         {
             if ( JSModule == null )
             {
@@ -29,9 +47,9 @@ namespace Blazorise.Charts.DataLabels
                 {
                     await JSModule.SetDataLabels( ParentChart.ElementId, Datasets, Options );
                 } );
-            }
 
-            return base.OnInitializedAsync();
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         /// <inheritdoc/>
@@ -40,6 +58,13 @@ namespace Blazorise.Charts.DataLabels
             if ( disposing && Rendered )
             {
                 await JSModule.SafeDisposeAsync();
+
+                if ( ParentChart is not null )
+                {
+                    ParentChart.Initialized -= OnParentChartInitialized;
+
+                    ParentChart.NotifyPluginRemoved( PluginName );
+                }
             }
 
             await base.DisposeAsync( disposing );
