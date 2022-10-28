@@ -25,6 +25,21 @@
                                 </FieldBody>
                             </Field>
                         </Fields>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    View Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <RadioGroup TValue="ViewMode" @bind-CheckedValue="@viewMode" Buttons>
+                                        <Radio Value="@ViewMode.Mode0">VM0</Radio>
+                                        <Radio Value="@ViewMode.Mode1">VM1</Radio>
+                                        <Radio Value="@ViewMode.Mode2">VM2</Radio>
+                                        <Radio Value="@ViewMode.Mode3">VM3</Radio>
+                                    </RadioGroup>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
                     </Column>
                 </Row>
             </CardBody>
@@ -35,7 +50,10 @@
                             Image Cropper
                         </FieldLabel>
                         <FieldBody>
-                            <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png" Ratio="@new(ratio)" PreviewSelector=".preview" />
+                            <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png" 
+                                          Ratio="@new(ratio)" 
+                                          ViewMode="@viewMode"
+                                          PreviewSelector=".preview" />
                         </FieldBody>
                     </Column>
                     <Column>
@@ -66,6 +84,7 @@
     private ImageCropper cropper;
     private string result;
     private double? ratio = 1.0;
+    private ViewMode viewMode;
 
     private async Task GetCroppedImage()
     {

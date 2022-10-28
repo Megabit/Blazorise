@@ -20,6 +20,11 @@ namespace Blazorise.ImageCropper
         [Parameter] public AspectRatio Ratio { get; set; } = AspectRatio.Ratio1_1;
 
         /// <summary>
+        /// Define the view mode of the cropper
+        /// </summary>
+        [Parameter] public ViewMode ViewMode { get; set; } = ViewMode.Mode0;
+
+        /// <summary>
         /// The original image source
         /// </summary>
         [Parameter] public string Source { get; set; }
@@ -97,7 +102,8 @@ namespace Blazorise.ImageCropper
         private JSCropperOptions GetOptions() => new()
         {
             AspectRatio = Ratio.Value,
-            Preview = PreviewSelector
+            Preview = PreviewSelector,
+            ViewMode = (int)ViewMode
         };
 
         /// <inheritdoc/>
