@@ -111,8 +111,16 @@ function createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, 
 
     const plugins = [];
 
-    if (pluginNames && pluginNames.includes("dataLabels") && ChartDataLabels) {
-        plugins.push(ChartDataLabels);
+    if (pluginNames) {
+        if (pluginNames.includes("DataLabels") && ChartDataLabels) {
+            plugins.push(ChartDataLabels);
+        }
+
+        if (pluginNames.includes("Streaming")) {
+            plugins.push({
+                duration: 20000
+            });
+        }
     }
 
     const chart = new Chart(canvas, {
