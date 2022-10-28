@@ -29,6 +29,11 @@ namespace Blazorise.ImageCropper
         /// </summary>
         [Parameter] public string Alt { get; set; }
 
+        /// <summary>
+        /// The alt text of the image
+        /// </summary>
+        [Parameter] public string PreviewSelector { get; set; }
+
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
         [Inject] private IVersionProvider VersionProvider { get; set; }
@@ -91,7 +96,8 @@ namespace Blazorise.ImageCropper
 
         private JSCropperOptions GetOptions() => new()
         {
-            AspectRatio = Ratio.Value
+            AspectRatio = Ratio.Value,
+            Preview = PreviewSelector
         };
 
         /// <inheritdoc/>
