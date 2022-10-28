@@ -29,6 +29,8 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     instance.cropper = new Cropper(element, options);
 
+    registerEvents(element, dotNetAdapter);
+
     _instances[elementId] = instance;
 }
 
@@ -69,3 +71,31 @@ export function cropBase64(element, elementId, options) {
     return "";
 }
 
+function registerEvents(element, dotNetAdapter) {
+    element.addEventListener('cropstart', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "CropStart");
+    });
+
+    element.addEventListener('cropmove', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "CropMove");
+    });
+
+    element.addEventListener('cropend', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "CropEnd");
+    });
+
+    element.addEventListener('crop', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "Crop");
+    });
+
+    element.addEventListener('zoom', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "Zoom");
+    });
+}
+
+function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
+    dotNetAdapter.invokeMethodAsync(methodName, ...args)
+        .catch((reason) => {
+            console.error(reason);
+        });
+}

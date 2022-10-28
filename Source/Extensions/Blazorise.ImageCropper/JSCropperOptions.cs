@@ -1,6 +1,6 @@
 ﻿namespace Blazorise.ImageCropper;
 
-internal sealed class JSCropperOptions
+internal sealed record JSCropperOptions
 {
     public double? AspectRatio { get; set; } = 1.0;
     public int ViewMode { get; set; } = 1;

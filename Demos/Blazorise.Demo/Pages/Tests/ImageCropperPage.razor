@@ -54,6 +54,7 @@
                                           Ratio="@new(ratio)"
                                           ViewMode="@viewMode"
                                           Radius="@radius"
+                                          Crop="OnCrop"
                                           PreviewSelector=".preview" />
                         </FieldBody>
                     </Column>
@@ -91,5 +92,10 @@
     private async Task GetCroppedImage()
     {
         result = await cropper.CropAsBase64ImageAsync(new() { Width = 250, Height = 250 });
+    }
+
+    private void OnCrop()
+    {
+        Console.WriteLine("Crop");
     }
 }

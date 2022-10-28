@@ -41,6 +41,31 @@ namespace Blazorise.ImageCropper
         [Parameter] public string PreviewSelector { get; set; }
 
         /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box starts to change.
+        /// </summary>
+        [Parameter] public EventCallback CropStart { get; set; }
+
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box is changing.
+        /// </summary>
+        [Parameter] public EventCallback CropMove { get; set; }
+
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box stops changing.
+        /// </summary>
+        [Parameter] public EventCallback CropEnd { get; set; }
+
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box changes.
+        /// </summary>
+        [Parameter] public EventCallback Crop { get; set; }
+
+        /// <summary>
+        /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
+        /// </summary>
+        [Parameter] public EventCallback Zoom { get; set; }
+
+        /// <summary>
         /// The cropper radius
         /// </summary>
         [Parameter] public int? Radius { get; set; }
@@ -50,7 +75,8 @@ namespace Blazorise.ImageCropper
         [Inject] private IVersionProvider VersionProvider { get; set; }
 
         private JSCropperModule JSModule { get; set; }
-        private DotNetObjectReference<ImageCropper> DotNetObjectRef { get; set; }
+        private DotNetObjectReference<ImageCropperAdapter> adapter;
+        private JSCropperOptions appliedOptions;
 
         /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder ) => builder
@@ -73,10 +99,10 @@ namespace Blazorise.ImageCropper
 
                 await JSModule.SafeDisposeAsync();
 
-                if ( DotNetObjectRef != null )
+                if ( adapter != null )
                 {
-                    DotNetObjectRef.Dispose();
-                    DotNetObjectRef = null;
+                    adapter.Dispose();
+                    adapter = null;
                 }
             }
 
@@ -90,7 +116,8 @@ namespace Blazorise.ImageCropper
 
             if ( firstRender )
             {
-                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, GetOptions() );
+                GetOptions( out var options );
+                await JSModule.Initialize( adapter, ElementRef, ElementId, options );
             }
         }
 
@@ -101,23 +128,37 @@ namespace Blazorise.ImageCropper
 
             if ( Rendered )
             {
-                await JSModule.UpdateOptions( ElementRef, ElementId, GetOptions() );
+                if ( GetOptions( out var options ) )
+                {
+                    await JSModule.UpdateOptions( ElementRef, ElementId, options );
+                }
             }
         }
 
-        private JSCropperOptions GetOptions() => new()
+        private bool GetOptions( out JSCropperOptions options )
         {
-            AspectRatio = Ratio.Value,
-            Preview = PreviewSelector,
-            ViewMode = (int)ViewMode,
-            Radius = Radius
-        };
+            options = new()
+            {
+                AspectRatio = Ratio.Value,
+                Preview = PreviewSelector,
+                ViewMode = (int)ViewMode,
+                Radius = Radius
+            };
+
+            if ( appliedOptions != options )
+            {
+                appliedOptions = options;
+                return true;
+            }
+
+            return false;
+        }
 
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
-            DotNetObjectRef ??= DotNetObjectReference.Create( this );
+            adapter ??= DotNetObjectReference.Create( new ImageCropperAdapter( this ) );
 
             return base.OnInitializedAsync();
         }
@@ -138,5 +179,11 @@ namespace Blazorise.ImageCropper
             builder.Append( "b-image-cropper-source" );
             base.BuildClasses( builder );
         }
+
+        internal async ValueTask NotifyCropStart() => await CropStart.InvokeAsync();
+        internal async ValueTask NotifyCropMove() => await CropMove.InvokeAsync();
+        internal async ValueTask NotifyCropEnd() => await CropEnd.InvokeAsync();
+        internal async ValueTask NotifyCrop() => await Crop.InvokeAsync();
+        internal async ValueTask NotifyZoom() => await Zoom.InvokeAsync();
     }
 }

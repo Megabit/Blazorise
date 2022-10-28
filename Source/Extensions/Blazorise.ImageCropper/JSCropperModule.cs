@@ -12,11 +12,11 @@ namespace Blazorise.ImageCropper
         {
         }
 
-        public async ValueTask Initialize( DotNetObjectReference<ImageCropper> dotNetObjectReference, ElementReference elementRef, string elementId, JSCropperOptions options )
+        public async ValueTask Initialize( DotNetObjectReference<ImageCropperAdapter> adapterReference, ElementReference elementRef, string elementId, JSCropperOptions options )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
+            await moduleInstance.InvokeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
         }
 
         public async ValueTask Destroy( ElementReference elementRef, string elementId )
