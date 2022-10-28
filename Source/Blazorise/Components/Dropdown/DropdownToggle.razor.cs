@@ -5,6 +5,7 @@ using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -115,8 +116,9 @@ namespace Blazorise
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler()
+        protected async Task ClickHandler( MouseEventArgs eventArgs )
         {
             if ( Disabled )
                 return;
@@ -124,7 +126,7 @@ namespace Blazorise
             if ( ParentDropdown != null )
                 await ParentDropdown.Toggle( ElementId );
 
-            await Clicked.InvokeAsync();
+            await Clicked.InvokeAsync( eventArgs );
         }
 
 
@@ -330,7 +332,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the toggle button is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// The applied theme.

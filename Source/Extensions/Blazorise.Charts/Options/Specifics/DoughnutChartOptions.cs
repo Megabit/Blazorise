@@ -10,6 +10,6 @@ namespace Blazorise.Charts
         /// The percentage of the chart that is cut out of the middle.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public new int? CutoutPercentage { get; set; } = 50;
+        public new int? CutoutPercentage { get; set; }
     }
 }

@@ -1277,6 +1277,8 @@ public class Gender
     DatePicker<DateTime?> datePicker;
 }";
 
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
+
         public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
 
         public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
@@ -1363,6 +1365,71 @@ public class Gender
         new DropItem() { Name = ""Strawberry"", Group = ""Fruit"", Image = ""img/fruit/strawberry.png"", Fruit = true },
         new DropItem() { Name = ""Cherry"", Group = ""Basket"", Image = ""img/fruit/cherry.png"", Fruit = true },
         new DropItem() { Name = ""Cabbage"", Group = ""Vegetable"", Image = ""img/fruit/cabbage.png"" },
+    };
+
+    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    {
+        dropItem.Item.Group = dropItem.DropZoneName;
+    }
+}";
+
+        public const string DragDropReorderingExample = @"@*<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+    <ChildContent>
+        @for ( int i = 1; i < 4; i++ )
+        {
+            var dropzone = i.ToString();
+
+            <Card>
+                <CardBody>
+                    <ListGroup>
+                        <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
+                        <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"" />
+                    </ListGroup>
+                </CardBody>
+            </Card>
+        }
+    </ChildContent>
+    <ItemTemplate>
+        <ListGroupItem>
+            @context.Name
+        </ListGroupItem>
+    </ItemTemplate>
+</DropContainer>*@
+
+<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+    <ChildContent>
+        @for ( int i = 1; i < 4; i++ )
+        {
+            var dropzone = i.ToString();
+
+            <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+                <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
+            </DropZone>
+        }
+    </ChildContent>
+    <ItemTemplate>
+        <Card Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
+            <CardBody>
+                @context.Name
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+@code {
+    public class DropItem
+    {
+        public string Name { get; init; }
+
+        public string Group { get; set; }
+    }
+
+    private List<DropItem> items = new()
+    {
+        new DropItem() { Name = ""Item 1"", Group = ""1"" },
+        new DropItem() { Name = ""Item 2"", Group = ""1"" },
+        new DropItem() { Name = ""Item 3"", Group = ""1"" },
+        new DropItem() { Name = ""Item 4"", Group = ""2"" },
+        new DropItem() { Name = ""Item 5"", Group = ""2"" },
     };
 
     private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
@@ -1557,16 +1624,163 @@ public class Gender
 </Figure>";
 
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
-<FileEdit Filter=""image/*"" />
+<Field>
+    <FileEdit Filter=""image/*"" />
+</Field>
 
 <!-- Accept specific image formats by IANA type -->
-<FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+<Field>
+    <FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+</Field>
 
 <!-- Accept specific image formats by extension -->
-<FileEdit Filter="".jpg, .png, .gif"" />";
+<Field>
+    <FileEdit Filter="".jpg, .png, .gif"" />
+</Field>";
 
-        public const string MultipleFileEditExample = @"<FileEdit Changed=""@OnChanged"" Multiple />
-@code{
+        public const string FilePickerCustomExample = @"@using System.IO
+
+<Field>
+    <FilePicker @ref=""filePickerCustom""
+                Multiple
+                Upload=""OnFileUpload""
+                ShowMode=""FilePickerShowMode.List"">
+        <FileTemplate>
+            <Div Flex=""Flex.JustifyContent.Between"">
+                <Div>
+                    <Heading Size=""HeadingSize.Is5"">@context.File.Name</Heading>
+                    <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
+                </Div>
+                <Div>
+                    @if ( context.File.Status == FileEntryStatus.Ready )
+                    {
+                        <Icon TextColor=""TextColor.Primary"" Name=""IconName.FileUpload"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploading )
+                    {
+                        <Icon TextColor=""TextColor.Warning"" Name=""IconName.Bolt"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Uploaded )
+                    {
+                        <Icon TextColor=""TextColor.Success"" Name=""IconName.CheckCircle"" />
+                    }
+                    else if ( context.File.Status == FileEntryStatus.Error )
+                    {
+                        <Icon TextColor=""TextColor.Danger"" Name=""IconName.TimesCircle"" />
+                    }
+                </Div>
+            </Div>
+            <Divider Margin=""Margin.Is0"" />
+        </FileTemplate>
+        <ButtonsTemplate>
+            <Progress Value=""@filePickerCustom.GetProgressPercentage()"" />
+            <Buttons>
+                <Button Clicked=""@context.Clear"" Color=""Color.Warning""><Icon Name=""IconName.Clear"" /></Button>
+                <Button Clicked=""@context.Upload"" Color=""Color.Primary""><Icon Name=""IconName.FileUpload"" /></Button>
+            </Buttons>
+        </ButtonsTemplate>
+    </FilePicker>
+</Field>
+
+@code {
+    private FilePicker filePickerCustom;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) ;
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerDropdownExample = @"@using System.IO
+
+<Field>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.Dropdown"" />
+</Field>
+
+@code {
+    string fileContent;
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            // A stream is going to be the destination stream we're writing to.
+            using ( var stream = new MemoryStream() )
+            {
+                // Here we're telling the FileEdit where to write the upload result
+                await e.File.WriteToStreamAsync( stream );
+
+                // Once we reach this line it means the file is fully uploaded.
+                // In this case we're going to offset to the beginning of file
+                // so we can read it.
+                stream.Seek( 0, SeekOrigin.Begin );
+
+                // Use the stream reader to read the content of uploaded file,
+                // in this case we can assume it is a textual file.
+                using ( var reader = new StreamReader( stream ) )
+                {
+                    fileContent = await reader.ReadToEndAsync();
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerListExample = @"@using System.IO
+
+<Field>
+    <FilePicker Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+</Field>
+
+@code {
+
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string MultipleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Multiple />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;
@@ -1575,11 +1789,11 @@ public class Gender
 
         public const string OpenReadStreamFileEditExample = @"@using System.IO
 
-<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
 
-@code{
-    const int OneMb = 1024 * 1024;
-
+@code {
     async Task OnChanged( FileChangedEventArgs e )
     {
         try
@@ -1590,16 +1804,9 @@ public class Gender
                 return;
             }
 
-            var buffer = new byte[OneMb];
-            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            using ( MemoryStream result = new MemoryStream() )
             {
-                int readCount = 0;
-                int readBytes;
-                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-                {
-                    Console.WriteLine( $""Read:{readCount++} {readBytes / (double)OneMb} MB"" );
-                    // Do work on the first 1MB of data
-                }
+                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )
@@ -1623,23 +1830,32 @@ public class Gender
     }
 }";
 
-        public const string ResetFileEditExample = @"<FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
-@code{
+        public const string ResetFileEditExample = @"<Field>
+    <FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
+</Field>
+<Field>
+    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
+</Field>
+
+@code {
     FileEdit fileEdit;
 
-    Task OnChanged( FileChangedEventArgs e )
+    Task OnChanged(FileChangedEventArgs e)
     {
         return Task.CompletedTask;
     }
 
-    Task OnSomeButtonClick()
+    Task Reset()
     {
         return fileEdit.Reset().AsTask();
     }
 }";
 
-        public const string SingleFileEditExample = @"<FileEdit Changed=""@OnChanged"" />
-@code{
+        public const string SingleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" />
+</Field>
+
+@code {
     Task OnChanged( FileChangedEventArgs e )
     {
         return Task.CompletedTask;
@@ -1648,9 +1864,11 @@ public class Gender
 
         public const string WriteToStreamFileEditExample = @"@using System.IO
 
-<FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
 
-@code{
+@code {
     string fileContent;
 
     async Task OnChanged( FileChangedEventArgs e )
@@ -1698,6 +1916,38 @@ public class Gender
     {
         Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
     }
+}";
+
+        public const string BasicFocusTrapExample = @"<Card>
+    <CardBody>
+        <Switch TValue=""bool"" @bind-Checked=""@focusTrapActive"">Active</Switch>
+    </CardBody>
+    <CardBody>
+        <FocusTrap Active=""@focusTrapActive"">
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit Autofocus />
+                </FieldBody>
+            </Field>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Last Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Address</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+        </FocusTrap>
+    </CardBody>
+</Card>
+
+@code {
+    bool focusTrapActive = false;
 }";
 
         public const string BasicContainerExample = @"<Container>
@@ -1753,7 +2003,7 @@ public class Gender
     </Alert>
 </Container>";
 
-        public const string GridGutterExample = @"<Row Gutter=""(32, 16)"">
+        public const string GridGutterExample = @"<Row HorizontalGutter=""32"" VerticalGutter=""16"">
     <Column ColumnSize=""ColumnSize.Is8"">
         <Alert Color=""Color.Primary"" Visible>
             I have padding
@@ -1790,6 +2040,66 @@ public class Gender
         </Alert>
     </Column>
 </Row>";
+
+        public const string BasicHighlighterExample = @"<Field>
+    <FieldLabel>Search value</FieldLabel>
+    <FieldBody>
+        <TextEdit @bind-Text=""@searchValue"" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key=""sentence"">
+            <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" />
+        </ListGroupItem>
+    }
+</ListGroup>
+@code {
+    string searchValue = ""item"";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
+}";
+
+        public const string DynamicHighlighterExample = @"<Fields>
+    <Field>
+        <FieldLabel>Search value</FieldLabel>
+        <FieldBody>
+            <TextEdit @bind-Text=""@searchValue"" />
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Until Next Boundary</FieldLabel>
+        <FieldBody>
+            <Switch @bind-Checked=""@untilNextBoundary""></Switch>
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Case Sensitive</FieldLabel>
+        <FieldBody>
+            <Switch @bind-Checked=""@caseSensitive""></Switch>
+        </FieldBody>
+    </Field>
+</Fields>
+
+<Card>
+    <CardBody>
+        <Highlighter Text=""@sentence"" HighlightedText=""@searchValue"" UntilNextBoundary=""@untilNextBoundary"" CaseSensitive=""@caseSensitive"" />
+    </CardBody>
+</Card>
+@code {
+    string searchValue = ""y"";
+    bool untilNextBoundary;
+    bool caseSensitive;
+
+    string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
+}";
 
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
@@ -2246,7 +2556,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
 
-        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" Decimals=""0"" />
+        public const string NumericPickerIntegerExample = @"<NumericPicker @bind-Value=""@value"" />
 
 @code{
     int value;
@@ -2256,6 +2566,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 @code{
     decimal value = 15;
+}";
+
+        public const string NumericPickerMouseWheelExample = @"<NumericPicker @bind-Value=""@value"" ModifyValueOnWheel WheelOn=""NumericWheelOn.Hover"" />
+
+@code {
+    decimal value;
 }";
 
         public const string NumericPickerStepExample = @"<NumericPicker @bind-Value=""@value"" Step=""10"" />
@@ -2443,6 +2759,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <ProgressBar Color=""Color.Info"" Value=""20"" />
 </Progress>";
 
+        public const string MultipleProgressHideValueExample = @"<Progress ShowValue=""false"">
+    <ProgressBar Value=""15"" />
+    <ProgressBar Color=""Color.Success"" Value=""30"" />
+    <ProgressBar Color=""Color.Info"" Value=""20"" />
+</Progress>";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
@@ -2611,9 +2933,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>
-        <Step Name=""step1"">Step 1</Step>
-        <Step Name=""step2"">Step 2</Step>
-        <Step Name=""step3"">Step 3</Step>
+        <Step Name=""step1"">Create campaign settings</Step>
+        <Step Name=""step2"">Create an ad group</Step>
+        <Step Name=""step3"">Create an add</Step>
         <Step Name=""step4"">
             <Marker>
                 <Icon Name=""IconName.Flag"" />
@@ -2646,6 +2968,57 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         selectedStep = name;
 
         return Task.CompletedTask;
+    }
+}";
+
+        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""NavigationAllowed"">
+    <Items>
+        <Step Name=""1"">Step 1</Step>
+        <Step Name=""2"">Step 2</Step>
+        <Step Name=""3"">Step 3</Step>
+        <Step Name=""4"">Step 4</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""1"">
+            Step 1
+        </StepPanel>
+        <StepPanel Name=""2"">
+            <Field>
+                <FieldLabel>Email address</FieldLabel>
+                <TextEdit @bind-Text=""email"" Placeholder=""Enter email"">
+                    <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
+                </TextEdit>
+            </Field>
+        </StepPanel>
+        <StepPanel Name=""3"">
+            Step 3
+        </StepPanel>
+        <StepPanel Name=""4"">
+            Step 4
+        </StepPanel>
+    </Content>
+</Steps>
+<Div Display=""Display.Flex"" Class=""justify-content-center"">
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""() => stepsRef.PreviousStep()"">
+        Previous
+    </Button>
+    <Button Color=""Color.Primary"" Clicked=""() => stepsRef.NextStep()"">
+        Next
+    </Button>
+</Div>
+@code {
+    private Steps stepsRef;
+    private string email;
+    private string selectedStep = ""2"";
+
+    private bool NavigationAllowed( StepNavigationContext context )
+    {
+        if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
+        {
+            return false;
+        }
+
+        return true;
     }
 }";
 
@@ -3225,6 +3598,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
 
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
@@ -3580,6 +3955,68 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
 
+        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+    @foreach ( var availableAnimation in Animations.GetNames() )
+    {
+        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+    }
+</Select>
+
+@if ( showAnimate )
+{
+    <Div ElementId=""#b-animate"">
+        <Animate Anchor=""#b-animate"" Auto Animation=""selectedAnimation"" DelayMilliseconds=""500"">
+            <Card Margin=""Margin.Is4.OnY"">
+                <CardBody>
+                    <CardTitle Size=""5"">Animation Example</CardTitle>
+                    <CardText>
+                        Some content.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
+}
+<Button Color=""Color.Primary"" Clicked=""@Animate"">
+    @buttonText
+</Button>
+@code {
+    private IAnimation selectedAnimation = Animations.FadeIn;
+    private bool showAnimate = false;
+    private string buttonText = ""Animate!"";
+
+    private Task OnSelectedAnimationChanged( string selectedAnimationName )
+    {
+        showAnimate = false;
+
+        if ( Animations.TryParse( selectedAnimationName, out var animation ) )
+            selectedAnimation = animation;
+        else
+            selectedAnimation = null;
+
+        return Task.CompletedTask;
+    }
+
+    private async Task Animate()
+    {
+        if ( !showAnimate )
+        {
+            showAnimate = true;
+            await InvokeAsync( StateHasChanged );
+            buttonText = ""Restart!"";
+        }
+        else
+        {
+            showAnimate = false;
+            buttonText = ""Animate!"";
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+}";
+
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.2.0""></script>";
+
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
@@ -3668,7 +4105,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
               Placeholder=""Search...""
-              Multiple
+              SelectionMode=""AutocompleteSelectionMode.Multiple""
               FreeTyping
               @bind-SelectedValues=""multipleSelectionData""
               @bind-SelectedTexts=""multipleSelectionTexts"">
@@ -3679,7 +4116,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         Selected Values: @string.Join(',', multipleSelectionData)
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Texts: @string.Join(',', multipleSelectionTexts)
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
     </FieldBody>
 </Field>
 
@@ -3696,7 +4133,96 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 
     List<string> multipleSelectionData;
-    List<string> multipleSelectionTexts = new();
+    List<string> multipleSelectionTexts;
+}";
+
+        public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@ReadDataCountries""
+              ReadData=""@OnHandleReadData""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              @bind-SelectedValue=""@selectedSearchValue""
+              @bind-SelectedText=""selectedAutoCompleteText""
+              Placeholder=""Search...""
+              FreeTyping>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected search value: @selectedSearchValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected text value: @selectedAutoCompleteText
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
+
+    private Random random = new();
+
+    public string selectedSearchValue { get; set; }
+    public string selectedAutoCompleteText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
+    }
+}";
+
+        public const string AutocompleteSuggestMultipleCheckboxExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              Placeholder=""Search...""
+              SelectionMode=""AutocompleteSelectionMode.Checkbox""
+              CloseOnSelection=""false""
+              @bind-SelectedValues=""multipleSelectionData""
+              @bind-SelectedTexts=""multipleSelectionTexts"">
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Values: @string.Join(',', multipleSelectionData)
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        await base.OnInitializedAsync();
+    }
+
+    List<string> multipleSelectionData;
+    List<string> multipleSelectionTexts;
 }";
 
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
@@ -3762,14 +4288,59 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ChartEventExample = @"<Chart @ref=""barChart"" Type=""ChartType.Bar"" TItem=""double"" Clicked=""@OnClicked"" />
-@code{
+@code {
     Chart<double> barChart;
 
-    void OnClicked( ChartMouseEventArgs e )
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate( Labels, GetBarChartDataset() );
+    }
+
+    private BarChartDataset<double> GetBarChartDataset()
+    {
+        return new()
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                BorderWidth = 1
+            };
+    }
+
+    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double> {
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
+    }
+
+    Task OnClicked( ChartMouseEventArgs e )
     {
         var model = e.Model as BarChartModel;
 
-        Console.WriteLine( $""{model.X}-{model.Y}"" );
+        Console.WriteLine( $""Handling event for {nameof( BarChartModel )}: x:{model.X} y:{model.Y}"" );
+        return Task.CompletedTask;
     }
 }";
 
@@ -4204,6 +4775,77 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridContextMenuExample = @"@using System.Drawing
+
+<DataGrid @ref=""@dataGridRef""
+          TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          RowContextMenu=""@OnRowContextMenu""
+          RowContextMenuPreventDefault=""true""
+          Responsive
+          Editable>
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+</DataGrid>
+
+@if ( showContextMenu )
+{
+    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;"")"">
+        <ListGroup>
+            <ListGroupItem Clicked=""@(()=>OnContextItemEditClicked(contextMenuEmployee))"">
+                <Icon Name=""IconName.Edit"" TextColor=""TextColor.Secondary"" /> Edit
+            </ListGroupItem>
+            <ListGroupItem Clicked=""@(()=>OnContextItemDeleteClicked(contextMenuEmployee))"">
+                <Icon Name=""IconName.Delete"" TextColor=""TextColor.Danger"" /> Delete
+            </ListGroupItem>
+        </ListGroup>
+    </Div>
+}
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+    private DataGrid<Employee> dataGridRef;
+
+    bool showContextMenu = false;
+    Employee contextMenuEmployee;
+    Point contextMenuPos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    protected Task OnRowContextMenu( DataGridRowMouseEventArgs<Employee> eventArgs )
+    {
+        showContextMenu = true;
+        contextMenuEmployee = eventArgs.Item;
+        contextMenuPos = eventArgs.MouseEventArgs.Client;
+
+        return Task.CompletedTask;
+    }
+
+    protected async Task OnContextItemEditClicked( Employee employee )
+    {
+        await dataGridRef.Edit( employee );
+
+        showContextMenu = false;
+    }
+
+    protected async Task OnContextItemDeleteClicked( Employee employee )
+    {
+        await dataGridRef.Delete( employee );
+
+        showContextMenu = false;
     }
 }";
 
@@ -5092,6 +5734,92 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 }";
 
+        public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
+
+<Validations @ref=""@fluentValidations"" Mode=""ValidationMode.Manual"" Model=""@person"" HandlerType=""typeof(FluentValidationHandler)"">
+    <Validation>
+        <Field>
+            <FieldLabel>First name</FieldLabel>
+            <TextEdit Placeholder=""Enter first name..."" @bind-Text=""@person.FirstName"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Last name</FieldLabel>
+            <TextEdit Placeholder=""Enter last name..."" @bind-Text=""@person.LastName"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Age</FieldLabel>
+            <NumericEdit Placeholder=""Enter age..."" @bind-Value=""@person.Age"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </NumericEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Color=""Color.Primary"" Clicked=""@OnSavePerson"">Save</Button>
+
+@code {
+    Validations fluentValidations;
+
+    Person person = new();
+
+    protected async Task OnSavePerson()
+    {
+        if ( await fluentValidations.ValidateAll() )
+        {
+            // the person is validated and we can proceed with the saving process
+        }
+    }
+}";
+
+        public const string FluentValidationAbstractValidatorExample = @"public class PersonValidator : AbstractValidator<Person>
+{
+    public PersonValidator()
+    {
+        RuleFor( vm => vm.FirstName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.LastName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.Age )
+            .GreaterThanOrEqualTo( 18 );
+    }
+}";
+
+        public const string FluentValidationImportExample = @"@using Blazorise.FluentValidation";
+
+        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation
+Install-Package FluentValidation.DependencyInjectionExtensions";
+
+        public const string FluentValidationRegisterValidatorsExample = @"using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+using Blazorise.FluentValidation;
+
+builder.Services
+    .AddBlazorise()
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons()
+    .AddBlazoriseFluentValidation();
+
+services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
+
         public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
@@ -5099,6 +5827,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
+
+        public const string IconGlobalSettingsExample = @"services.AddBlazorise( options =>
+{
+    options.IconStyle = IconStyle.Light;
+    options.IconSize = IconSize.Small;
+} );";
 
         public const string IconNamesExample = @"<Icon Name=""Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail"" />";
 
@@ -5129,13 +5863,41 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 +   .AddFontAwesomeIcons();";
 
         public const string BasicListViewExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Static""
-            MaxHeight=""300px"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Static""
+          MaxHeight=""300px"">
 </ListView>
 
-@code{
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Static""
+          MaxHeight=""300px"">
+    <ItemTemplate>
+        <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
+            <Heading Margin=""Margin.Is2.FromBottom"">@context.Item.Iso</Heading>
+            <Small>@context.Item.Capital</Small>
+        </Div>
+        <Paragraph Margin=""Margin.Is2.FromBottom"">@context.Text</Paragraph>
+    </ItemTemplate>
+</ListView>
+
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -5148,21 +5910,22 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ListViewSelectableExample = @"<ListView TItem=""Country""
-            Data=""Countries""
-            TextField=""(item) => item.Name""
-            Mode=""ListGroupMode.Selectable""
-            MaxHeight=""300px""
-            @bind-SelectedItem=""@selectedListViewItem"">
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Selectable""
+          MaxHeight=""300px""
+          @bind-SelectedItem=""@selectedListViewItem"">
 </ListView>
 
 <Field Horizontal>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected Item Text: @selectedListViewItem?.Name
+        Selected Item: @selectedListViewItem?.Name
     </FieldBody>
 </Field>
 
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -5176,12 +5939,210 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string LoadingIndicatorAddScopedExample = @"services.AddLoadingIndicator();";
+
+        public const string LoadingIndicatorAnimationExample = @"<LoadingIndicator @ref=""loadingIndicator"" FullScreen FadeIn>
+    <ChildContent>
+        <Button Clicked=""ShowIndicator"" Color=""Color.Primary"">Show indicator</Button>
+    </ChildContent>
+    <IndicatorTemplate>
+        <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""TimeSpan.FromMilliseconds( 700 )"">
+            <Div>
+                <SpinKit Type=""SpinKitType.Wave"" Size=""100px"" />
+            </Div>
+        </Animate>
+    </IndicatorTemplate>
+</LoadingIndicator>
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task ShowIndicator()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorApplicationBusyExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+@code 
+{
+    async Task DoWork()
+    {
+        await ApplicationLoadingIndicatorService.Show();
+        
+        // do work ...
+        
+        await ApplicationLoadingIndicatorService.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorApplicationWrapperExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+	<Found>...</Found>
+	<NotFound>...</NotFound>
+</Router>
+
+<ApplicationLoadingIndicator />";
+
+        public const string LoadingIndicatorBasicExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code 
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task UpdateChart()
+    {
+        await loadingIndicator.Show();
+
+        await Task.Delay(3000); // Do work ...
+
+        await loadingIndicator.Hide();
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}";
+
+        public const string LoadingIndicatorBusyBindingExample  = @"<LoadingIndicator @binding-Visible=""running"">
+    <ChildContent>
+		<Button Disabled=""running"" Clicked=""Start"" />
+    </ChildContent>
+    <IndicatorTemplate>
+		<Button Clicked=""Cancel"" />
+    </IndicatorTemplate>
+</LoadingIndicator>
+
+@code
+{
+    bool running;
+
+    async Task Start()
+    {
+        if ( !running )
+        {
+            running = true;
+            await StartLongRunningTask();
+        }
+    }
+
+    async Task Cancel()
+    {
+        await CancelTask();
+        running = false;
+	}
+}";
+
+        public const string LoadingIndicatorBusyFormExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<form action=""/action_page.php"">
+    <fieldset disabled=""ApplicationLoadingIndicatorService.Visible""> 
+        <label for=""fname"">Message:</label>
+        <input type=""text"" id=""message"" name=""message"">
+        <input type=""submit"" value=""Send"">
+     </fieldset>
+</form>";
+
+        public const string LoadingIndicatorBusyReferenceExample = @"<LoadingIndicator @ref=""loadingIndicator"">
+    <Button Disabled=""loadingIndicator.Visible"" Clicked=""DoWork""/>
+</LoadingIndicator>
+
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        if ( !loadingIndicator.Visible )
+        {
+            await loadingIndicator.Show();
+            
+            // do work...
+            
+            await loadingIndicator.Hide();
+        }
+    }
+}";
+
+        public const string LoadingIndicatorBusyServiceExample = @"@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Button Disabled=""ApplicationLoadingIndicatorService.Visible"" />";
+
+        public const string LoadingIndicatorCascadingBusyExample = @"<Button Clicked=""DoWork"" />
+
+@code
+{
+    [CascadingParameter]
+    LoadingIndicator loadingIndicator;
+
+    async Task DoWork()
+    {
+        await loadingIndicator.Show();
+        
+        // do work ...
+        
+        await loadingIndicator.Hide();
+    }
+}";
+
+        public const string LoadingIndicatorCascadingWrapperExample = @"<LoadingIndicator FullScreen>
+    @Body
+</LoadingIndicator>";
+
+        public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
+
+        public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
+
+        public const string LoadingIndicatorTwoWayBindingExample = @"<LoadingIndicator @bind-Visible=""@visible"">
+    <LineChart TItem=""double"" Data=""lineChartData"" />
+</LoadingIndicator>
+
+<Button Clicked=""UpdateChart"" Color=""Color.Primary"">Update</Button>
+@code
+{
+    bool visible;
+
+    async Task UpdateChart()
+    {
+        visible = true;
+
+        await Task.Delay( 3000 ); // Do work ...
+
+        visible = false;
+    }
+
+    // sample data
+    ChartData<double> lineChartData = new()
+    {
+        Labels = new() { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" },
+        Datasets = new() { new LineChartDataset<double>()
+        {
+            Data = new List<double>() { 70, 90, 50, 60, 80, 100 },
+        }}
+    };
+}";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
     <Toolbar>
         <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
-        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" Text=""My Custom Button"" />
         <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
     </Toolbar>
 </Markdown>
@@ -5283,10 +6244,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string StaticFilesMarkdownExample = @"<link href=""https://unpkg.com/easymde/dist/easymde.min.css"" rel=""stylesheet"" />
-<script src=""https://unpkg.com/easymde/dist/easymde.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js""></script>";
-
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
@@ -5384,32 +6341,47 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 
-        public const string SelectListExample = @"<SelectList TItem=""MySelectModel""
+        public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
-            Data=""@myDdlData""
-            TextField=""@((item)=>item.MyTextField)""
-            ValueField=""@((item)=>item.MyValueField)""
-            SelectedValue=""@selectedListValue""
-            SelectedValueChanged=""@MyListValueChangedHandler""
+            Data=""@IndexedCountries""
+            TextField=""@((item)=>item.Name)""
+            ValueField=""@((item)=>item.Id)""
+            @bind-SelectedValue=""@selectedListValue""
             DefaultItemText=""Choose your country"" />
 
-@code{
-    public class MySelectModel
+@code {
+    public class MyCountryModel
     {
-        public int MyValueField { get; set; }
-        public string MyTextField { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 
     static string[] Countries = { ""Albania"", ""Andorra"", ""Armenia"", ""Austria"", ""Azerbaijan"", ""Belarus"", ""Belgium"", ""Bosnia & Herzegovina"", ""Bulgaria"", ""Croatia"", ""Cyprus"", ""Czech Republic"", ""Denmark"", ""Estonia"", ""Finland"", ""France"", ""Georgia"", ""Germany"", ""Greece"", ""Hungary"", ""Iceland"", ""Ireland"", ""Italy"", ""Kosovo"", ""Latvia"", ""Liechtenstein"", ""Lithuania"", ""Luxembourg"", ""Macedonia"", ""Malta"", ""Moldova"", ""Monaco"", ""Montenegro"", ""Netherlands"", ""Norway"", ""Poland"", ""Portugal"", ""Romania"", ""Russia"", ""San Marino"", ""Serbia"", ""Slovakia"", ""Slovenia"", ""Spain"", ""Sweden"", ""Switzerland"", ""Turkey"", ""Ukraine"", ""United Kingdom"", ""Vatican City"" };
-    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+    static IEnumerable<MyCountryModel> IndexedCountries = Enumerable.Range( 1, Countries.Length ).Select( x => new MyCountryModel { Name = Countries[x - 1], Id = x } );
 
     int selectedListValue { get; set; } = 3;
+}";
 
-    void MyListValueChangedHandler( int newValue )
+        public const string SelectListMultipleExample = @"<SelectList TItem=""MyFruitModel""
+            TValue=""int""
+            Data=""@IndexedFruits""
+            TextField=""@((item)=>item.Name)""
+            ValueField=""@((item)=>item.Id)""
+            Multiple
+            @bind-SelectedValues=""@selectedListValues""
+            DefaultItemText=""Choose your fruit"" />
+
+@code {
+    public class MyFruitModel
     {
-        selectedListValue = newValue;
-        StateHasChanged();
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
+
+    static string[] Fruits = { ""Avocado"", ""Banana"", ""Blackberries"", ""Blueberries"", ""Cherries"", ""Cranberries"", ""Lemon"", ""Mango"", ""Orange"", ""Pineapple"", ""Watermelon"" };
+    static IEnumerable<MyFruitModel> IndexedFruits = Enumerable.Range( 1, Fruits.Length ).Select( x => new MyFruitModel { Name = Fruits[x - 1], Id = x } );
+
+    IReadOnlyList<int> selectedListValues { get; set; }
 }";
 
         public const string SidebarDynamicExample = @"<Sidebar Data=""@sidebarInfo"" />
@@ -5647,7 +6619,8 @@ builder.Services
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
 <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
 
-<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -5680,6 +6653,7 @@ builder.Services
 	<div id=""app""></div>
 
 	<!-- inside of body section and after the div/app tag  -->
+	<!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 	<script src=""https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
 	<script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
 	<script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"" integrity=""sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"" crossorigin=""anonymous""></script>
@@ -5717,6 +6691,7 @@ builder.Services
   <div id=""app""></div>
 
   <!-- inside of body section and after the div/app tag  -->
+  <!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
   <script src=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"" integrity=""sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"" crossorigin=""anonymous""></script>
 </body>
 </html>";
@@ -5780,12 +6755,14 @@ builder.Services
 <link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />
 
 <!-- Optional JavaScript -->
+<!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 <!-- jQuery first, then Popper.js, then Material JS -->
 <script src=""https://code.jquery.com/jquery-3.3.1.slim.min.js""></script>
 <script src=""https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js""></script>
 <script src=""https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js""></script>
-<script src=""js/material.min.js""></script>
 
+<!-- Mandatory JavaScript -->
+<script src=""js/material.min.js""></script>
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
@@ -6137,7 +7114,202 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<MessageAlert />";
+<MessageProvider />";
+
+        public const string CounterExample = @"<Heading>Counter</Heading>
+
+<Paragraph>@Value</Paragraph>
+
+@code {
+    [Parameter] public long Value { get; set; }
+}";
+
+        public const string CustomStructureModalExample = @"<ModalHeader>
+    <ModalTitle>My Custom Structure</ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody MaxHeight=""70"">
+    Welcome @UserName!
+</ModalBody>
+<ModalFooter>
+    <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+</ModalFooter>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    [Parameter] public string UserName { get; set; }
+
+    private async Task Confirm()
+    {
+        await ModalService.Hide();
+    }
+}";
+
+        public const string FormularyModalExample = @"<ModalHeader>
+    <ModalTitle>
+        Please fill in the formulary
+    </ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.Email""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    @if ( !isValid )
+    {
+        <Paragraph>
+            <Label>Invalid Submission!</Label>
+        </Paragraph>
+    }
+</ModalBody>
+<ModalFooter>
+    <Button Color=""Color.Success "" Clicked=""Confirm"">Confirm</Button>
+    <Button Color=""Color.Secondary"" Clicked=""ModalService.Hide"">Close</Button>
+</ModalFooter>
+@code {
+    private Employee model = new();
+    private bool isValid = true;
+    [Inject] public IModalService ModalService { get; set; }
+    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }
+    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }
+
+    private async Task Confirm()
+    {
+        if ( OnValidate is not null )
+            isValid = await OnValidate( model );
+
+        if ( !isValid )
+        {
+            return;
+        }
+
+        await OnSuccess( model );
+        await ModalService.Hide();
+    }
+}";
+
+        public const string ModalProviderCustomRenderFragmentExample = @"<Button Color=""Color.Primary"" Clicked=""ShowRenderFragment"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private RenderFragment customFragment => __builder =>
+    {
+        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+    };
+
+    public Task ShowRenderFragment()
+    {
+        return ModalService.Show( ""My Custom RenderFragment!"", customFragment );
+    }
+}";
+
+        public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+        <TextEdit @bind-Text=""userName""></TextEdit>
+    </FieldBody>
+</Field>
+
+<Button Color=""Color.Primary"" Clicked=""ShowCustomStructure"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+    private string userName = ""John Doe"";
+
+    public Task ShowCustomStructure()
+    {
+        return ModalService.Show<CustomStructureModalExample>( parameters => parameters.Add( x => x.UserName, userName ), new ModalInstanceOptions() { UseModalStructure = false } );
+    }
+}";
+
+        public const string ModalProviderFormularyExample = @"<Paragraph>
+    @formularyMessage
+</Paragraph>
+<Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private string formularyMessage = """";
+
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return ModalService.Show<FormularyModalExample>( x =>
+        {
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
+        },
+        new ModalInstanceOptions()
+            {
+                UseModalStructure = false
+            } );
+    }
+
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
+
+    private Task FormularySuccess( Employee employee )
+    {
+        formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
+        return InvokeAsync( StateHasChanged );
+    }
+}";
+
+        public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task ShowCounter()
+    {
+        Random random = new();
+        var newValue = random.NextInt64( 100 );
+        return ModalService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+    }
+}";
+
+        public const string ModalProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
+
+        public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<ModalProvider />";
+
+        public const string ModalServiceOptionsExample = @"<Button Clicked=""InstantiateModal""></Button>
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task InstantiateModal()
+    {
+        return ModalService.Show<ModalServiceOptionsExample>( ""Override Options Example"", new ModalInstanceOptions()
+        {
+            Animated = false,
+            UseModalStructure = false,
+            Size = ModalSize.Small
+        } );
+    }
+}";
 
         public const string BasicNotificationServiceExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
 
@@ -6157,7 +7329,7 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<NotificationAlert />";
+<NotificationProvider />";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>
@@ -6208,15 +7380,16 @@ builder.Services
     <NotFound>...</NotFound>
 </Router>
 
-<PageProgressAlert />";
+<PageProgressProvider />";
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.0.7.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.0.7.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.2.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.0.7.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.0.7.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.2.0""></script>";
 
     }
 }

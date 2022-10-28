@@ -33,13 +33,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files">
-        Include CSS and JS links into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="StaticFilesMarkdownExample" />
-</DocsPageSection>
-
-<DocsPageSection>
     <DocsPageSectionHeader Title="Example" />
     <DocsPageSectionContent Outlined FullWidth>
         <MarkdownExample />
@@ -94,7 +87,6 @@
     <DocsAttributesItem Name="ValueChanged" Type="EventCallback<string>" Default="Solid">
         An event that occurs after the markdown value has changed.
     </DocsAttributesItem>
-
     <DocsAttributesItem Name="AutoDownloadFontAwesome" Type="bool?" Default="null">
         If set to true, force downloads Font Awesome (used for icons). If set to false, prevents downloading.
     </DocsAttributesItem>
@@ -137,6 +129,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ToolbarTips" Type="bool" Default="true">
         If set to false, disable toolbar button tips. Defaults to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ToolbarButtonClassPrefix" Type="string" Default="mde">
+        Adds a prefix to the toolbar button classes when set. For example, a value of <Code>"mde"</Code> results in <Code>"mde-bold"</Code> for the Bold button.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CustomButtonClicked" Type="EventCallback<MarkdownButtonEventArgs>" Default="">
         Occurs after the custom toolbar button is clicked.
@@ -284,5 +279,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="UnorderedListStyle" Type="string" Default="*">
         can be *, - or +. Defaults to *.
+    </DocsAttributesItem>
+        <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
+        Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
+        This setting can speed up file transfer considerably.
     </DocsAttributesItem>
 </DocsAttributes>

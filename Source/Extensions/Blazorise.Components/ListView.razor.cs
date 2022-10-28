@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Blazorise.Components.ListView;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Components
@@ -16,18 +18,34 @@ namespace Blazorise.Components
     {
         #region Methods
 
-        protected Task SelectedListGroupItemChanged( string text )
+        private string GetItemText( TItem item )
         {
-            SelectedItem = GetItemBySelectedText( text );
+            if ( item is null || TextField is null )
+                return string.Empty;
+
+            return TextField.Invoke( item );
+        }
+
+        private string GetItemValue( TItem item )
+        {
+            if ( item is null || ValueField is null )
+                return string.Empty;
+
+            return ValueField.Invoke( item );
+        }
+
+        protected Task SelectedListGroupItemChanged( string value )
+        {
+            SelectedItem = GetItemBySelectedValue( value );
 
             return SelectedItemChanged.InvokeAsync( SelectedItem );
         }
 
-        private TItem GetItemBySelectedText( string selectedText )
+        private TItem GetItemBySelectedValue( string selectedValue )
         {
-            if ( Data is not null && TextField is not null )
+            if ( !Data.IsNullOrEmpty() && ValueField is not null )
             {
-                return Data.FirstOrDefault( x => TextField.Invoke( x ) == selectedText );
+                return Data.FirstOrDefault( x => ValueField.Invoke( x ) == selectedValue );
             }
 
             return default;
@@ -82,6 +100,12 @@ namespace Blazorise.Components
         [Parameter] public Func<TItem, string> TextField { get; set; }
 
         /// <summary>
+        /// Method used to get the value field from the supplied data source.
+        /// </summary>
+        [EditorRequired]
+        [Parameter] public Func<TItem, string> ValueField { get; set; }
+
+        /// <summary>
         /// Currently selected item.
         /// </summary>
         [Parameter] public TItem SelectedItem { get; set; }
@@ -123,6 +147,11 @@ namespace Blazorise.Components
         /// Specifies the content to be rendered inside this <see cref="ListView{TItem}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
+        /// </summary>
+        [Parameter] public RenderFragment<ItemContext<TItem>> ItemTemplate { get; set; }
 
         #endregion
     }

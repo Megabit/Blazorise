@@ -1,0 +1,18 @@
+{
+  "culture": "cs-CZ",
+  "translations": {
+    "Ready to upload": "Připraveno k nahrání",
+    "Uploaded successfully": "Úspěšně nahráno",
+    "File size is too large": "Velikost souboru je příliš velká",
+    "Error uploading": "Chyba při nahrávání",
+    "Or drop files here": "Nebo sem přetáhněte soubory",
+    "Clear": "Vymazat",
+    "Upload": "Nahrát",
+    "Cancel": "Zrušení",
+    "Confirm": "Potvrdit",
+    "Remove": "Odstranit",
+    "Are you sure you want to remove the file?": "Opravdu chcete soubor odstranit?",
+    "Are you sure you want to clear all files?": "Opravdu chcete vymazat všechny soubory?",
+    "Are you sure you want to cancel the upload?": "Opravdu chcete zrušit nahrávání?"
+  }
+}

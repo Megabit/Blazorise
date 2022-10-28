@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -28,8 +29,9 @@ namespace Blazorise
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler()
+        protected async Task ClickHandler( MouseEventArgs eventArgs )
         {
             // We must have priority over what get's closed once we click on close button.
             // For example, there can be Alert placed inside of Modal, and Close Button inside of Alert.
@@ -46,7 +48,7 @@ namespace Blazorise
                 }
             }
 
-            await Clicked.InvokeAsync();
+            await Clicked.InvokeAsync( eventArgs );
         }
 
         #endregion
@@ -60,14 +62,25 @@ namespace Blazorise
             => AutoClose.GetValueOrDefault( Options?.AutoCloseParent ?? true );
 
         /// <summary>
+        /// Gets the string representing the disabled state.
+        /// </summary>
+        protected string DisabledString
+            => Disabled ? bool.TrueString.ToLowerInvariant() : null;
+
+        /// <summary>
         /// Holds the information about the Blazorise global options.
         /// </summary>
         [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <summary>
+        /// Flag to indicate that the button is not responsive for user interaction.
+        /// </summary>
+        [Parameter] public bool Disabled { get; set; }
+
+        /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// If true, the parent <see cref="Alert"/> or <see cref="Modal"/> with be automatically closed

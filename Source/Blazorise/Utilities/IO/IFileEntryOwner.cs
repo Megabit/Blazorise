@@ -16,8 +16,9 @@ namespace Blazorise
         /// </summary>
         /// <param name="fileEntry">Currently processed file entry.</param>
         /// <param name="stream">Target stream.</param>
+        /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        Task WriteToStreamAsync( FileEntry fileEntry, Stream stream );
+        Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default );
 
         /// <summary>
         /// Opens the stream for reading the uploaded file.

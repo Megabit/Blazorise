@@ -1,0 +1,38 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Autocomplete TItem="Country"
+              TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              Placeholder="Search..."
+              SelectionMode="AutocompleteSelectionMode.Checkbox"
+              CloseOnSelection="false"
+              @bind-SelectedValues="multipleSelectionData"
+              @bind-SelectedTexts="multipleSelectionTexts">
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected Values: @string.Join(',', multipleSelectionData)
+    </FieldBody>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };
+        await base.OnInitializedAsync();
+    }
+
+    List<string> multipleSelectionData;
+    List<string> multipleSelectionTexts;
+}

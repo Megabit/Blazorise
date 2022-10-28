@@ -1,19 +1,24 @@
-﻿<Autocomplete TItem="Country"
-                TValue="string"
-                Data="@Countries"
-                TextField="@(( item ) => item.Name)"
-                ValueField="@(( item ) => item.Iso)"
-                @bind-SelectedValue="selectedSearchValue"
-                @bind-SelectedText="selectedAutoCompleteText"
-                Placeholder="Search..."
-                FreeTyping>
+﻿<Autocomplete @ref="AutoCompleteRef"
+              TItem="Country"
+              TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-SelectedValue="SelectedValue"
+              @bind-SelectedText="SelectedText"
+              Placeholder="Search..."
+              FreeTyping
+              MinLength="@MinLength"
+              AutoPreSelect="@AutoPreSelect">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
-@code{
-    [Inject]
-    public CountryData CountryData { get; set; }
+@code {
+    [Inject] public CountryData CountryData { get; set; }
+    
     public IEnumerable<Country> Countries;
+
+    public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -22,8 +27,14 @@
     }
 
     [Parameter]
-    public string selectedSearchValue { get; set; } = "CN";
+    public string SelectedValue { get; set; }
 
     [Parameter]
-    public string selectedAutoCompleteText { get; set; }
+    public string SelectedText { get; set; }
+
+    [Parameter]
+    public int MinLength { get; set; } = 1;
+
+    [Parameter]
+    public bool AutoPreSelect { get; set; } = true;
 }

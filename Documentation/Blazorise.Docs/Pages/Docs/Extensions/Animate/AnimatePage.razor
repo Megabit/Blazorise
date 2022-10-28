@@ -1,0 +1,128 @@
+﻿@page "/docs/extensions/animate"
+
+<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn to use and work with the Blazorise Animate component that provides a wrapper that will animate your content." />
+
+<DocsPageTitle Path="Extensions/Animate">
+    Blazorise Animate component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Animate your content by wrapping it with the <Code>Animate</Code> component.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Animate component provides a wrapper that will animate your content. It is based on the <Blazorise.Link Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS javascript library</Blazorise.Link>. 
+</DocsPageParagraph>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Paragraph>Blazorise acts as a wrapper for the animation functionality provided by the aos library. If you're having any issues please make sure to also take a look at the aos library repository.</Paragraph>
+        
+        <Paragraph>There might be certain content, that due to how they are structured/styled might not be possible to animate.</Paragraph>
+        <Paragraph>It is not possible to animate:</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>Modal</UnorderedListItem>
+        </UnorderedList>
+    </AlertDescription>
+</Alert>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        Take note, that certain elements in the page may affect how the aos library finds the "offset" element necessary to trigger the animation. It is known that Sidebars for instance can affect this behaviour. 
+        To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
+
+        For example, the animate example given below, is configured as explained.
+    </AlertDescription>
+
+</Alert>
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The Animate extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        Add <Code>animate.js</Code> to your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="AnimateResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnimateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnimateExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="ElementId" Type="string">
+        Gets or sets the animate element id.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animation" Type="IAnimation">
+        Gets or sets the animation effect.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Easing" Type="IEasing">
+        Gets or sets the easing effect.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Duration" Type="TimeSpan?">
+        Gets os sets the total duration of the animation.
+        Values from 0 to 3000, with step 50ms.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DurationMilliseconds" Type="int?">
+        Gets os sets the total duration of the animation, in milliseconds.
+        Values from 0 to 3000, with step 50ms.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Delay" Type="TimeSpan?">
+        Gets os sets the delay of the animation before it runs automatically, or manually.
+        Values from 0 to 3000, with step 50ms.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DelayMilliseconds" Type="int?">
+        Gets os sets the delay in milliseconds of the animation before it runs automatically, or manually.
+        Values from 0 to 3000, with step 50ms.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mirror" Type="bool?">
+        Whether elements should animate out while scrolling past them.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Once" Type="bool?">
+        Whether animation should happen only once - while scrolling down.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Anchor" Type="string">
+        Element whose offset will be used to trigger animation instead of an actual one.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnchorPlacement" Type="string">
+        Defines which position of the element regarding to window should trigger the animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="OptionsName" Type="Options">
+        Defines the custom name of the options to get from the configuration.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Options" Type="AnimateOptions">
+        Defines the animate options.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Auto" Type="bool" Default="true">
+        True if the animation will be executed automatically. Otherwise if false it needs to be run manually with Run method.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Attributes" Type="Dictionary<string, object>">
+        Captures all the custom attribute that are not part of Animate component.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
+        Specifies the content to be rendered inside this Animate.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -40,7 +41,7 @@ namespace Blazorise
 
             dragging = true;
 
-            ParentContainer.StartTransaction( Item, ZoneName, OnDroppedSucceeded, OnDroppedCanceled );
+            ParentContainer.StartTransaction( Item, ZoneName ?? string.Empty, Index, OnDroppedSucceeded, OnDroppedCanceled );
 
             await DragStarted.InvokeAsync();
         }
@@ -57,6 +58,18 @@ namespace Blazorise
             {
                 await DragEnded.InvokeAsync( Item );
             }
+        }
+
+        private void OnDragEnterHandler()
+        {
+            if ( ParentContainer == null || ParentContainer.TransactionInProgress == false )
+                return;
+
+            ParentContainer.UpdateTransactionIndex( Index );
+        }
+
+        private void OnDragLeaveHandler()
+        {
         }
 
         private async Task OnDroppedSucceeded()
@@ -109,6 +122,9 @@ namespace Blazorise
         {
             get => disabled; set
             {
+                if ( disabled == value )
+                    return;
+
                 disabled = value;
 
                 DirtyClasses();
@@ -124,6 +140,16 @@ namespace Blazorise
         /// The classname that is applied when a dragging operation is in progress.
         /// </summary>
         [Parameter] public string DraggingClass { get; set; }
+
+        /// <summary>
+        /// Defines the index of the draggable item.
+        /// </summary>
+        [Parameter] public int Index { get; set; } = -1;
+
+        /// <summary>
+        /// If true, the item content will not be rendered.
+        /// </summary>
+        [Parameter] public bool HideContent { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="_Draggable{TItem}"/>.

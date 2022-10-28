@@ -24,6 +24,9 @@ namespace Blazorise.Charts
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
 
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
+
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
 
@@ -111,6 +114,9 @@ namespace Blazorise.Charts
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
 
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
+
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
 
@@ -146,6 +152,9 @@ namespace Blazorise.Charts
     {
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
+
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
 
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
@@ -183,6 +192,9 @@ namespace Blazorise.Charts
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
 
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
+
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
 
@@ -212,6 +224,9 @@ namespace Blazorise.Charts
     {
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
+
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
 
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
@@ -258,6 +273,9 @@ namespace Blazorise.Charts
 
     public class ScatterChartModel : ChartModel
     {
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
+
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
 
@@ -291,6 +309,9 @@ namespace Blazorise.Charts
 
     public class BubbleChartModel : ChartModel
     {
+        [JsonPropertyName( "datasetLabel" )]
+        public string DatasetLabel { get; set; }
+
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
 

@@ -25,9 +25,18 @@
     width: 100%;
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
+
+    .dropdown-item.focus {
+        color: #1e2125 !important;
+        background-color: #e9ecef;
+    }
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
     max-width: 100%;
     width: 100%;
     cursor: text;
@@ -44,6 +53,17 @@
         background-color: transparent;
         max-width: inherit;
         width: auto;
+        flex-grow: 1;
+    }
+
+    > .badge {
+        margin-bottom: 0.25rem;
+        line-height: 1.5;
+        flex-grow: initial;
+    }
+
+    .dropdown-menu {
+        top: 100%;
     }
 
     @include form-control-focus

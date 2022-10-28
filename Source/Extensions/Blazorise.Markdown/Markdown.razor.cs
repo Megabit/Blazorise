@@ -19,6 +19,7 @@ namespace Blazorise.Markdown
     public partial class Markdown : BaseComponent,
         IFileEntryOwner,
         IFileEntryNotifier,
+        IFocusableComponent,
         IAsyncDisposable
     {
         #region Members
@@ -26,6 +27,11 @@ namespace Blazorise.Markdown
         private DotNetObjectReference<Markdown> dotNetObjectRef;
 
         private List<MarkdownToolbarButton> toolbarButtons;
+
+        /// <summary>
+        /// Internal value for autofocus flag.
+        /// </summary>
+        private bool autofocus;
 
         #endregion
 
@@ -50,6 +56,28 @@ namespace Blazorise.Markdown
             }
 
             await base.SetParametersAsync( parameters );
+
+            // For modals we need to make sure that autofocus is applied every time the modal is opened.
+            if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && this.autofocus != autofocus )
+            {
+                this.autofocus = autofocus;
+
+                if ( autofocus )
+                {
+                    if ( ParentFocusableContainer != null )
+                    {
+                        ParentFocusableContainer.NotifyFocusableComponentInitialized( this );
+                    }
+                    else
+                    {
+                        ExecuteAfterRender( () => Focus() );
+                    }
+                }
+                else
+                {
+                    ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -118,6 +146,7 @@ namespace Blazorise.Markdown
                     StyleSelectedText,
                     SyncSideBySidePreviewScroll,
                     UnorderedListStyle,
+                    ToolbarButtonClassPrefix
                 } );
 
                 Initialized = true;
@@ -249,6 +278,9 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             if ( ImageUploadWritten is not null )
                 return ImageUploadWritten.Invoke( new( fileEntry, position, data ) );
 
@@ -258,6 +290,9 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             ProgressProgress += progressProgress;
 
             var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
@@ -274,16 +309,16 @@ namespace Blazorise.Markdown
         }
 
         /// <inheritdoc/>
-        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
         {
             return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, ImageMaxSize )
-                .WriteToStreamAsync( stream, CancellationToken.None );
+                .WriteToStreamAsync( stream, cancellationToken );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, SegmentFetchTimeout, ImageMaxSize, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
         }
 
         [JSInvokable]
@@ -293,6 +328,12 @@ namespace Blazorise.Markdown
                 return ErrorCallback.Invoke( errorMessage );
 
             return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task Focus( bool scrollToElement = true )
+        {
+            await JSModule.Focus( ElementId, scrollToElement );
         }
 
         #endregion
@@ -422,6 +463,11 @@ namespace Blazorise.Markdown
         [Parameter] public bool ToolbarTips { get; set; } = true;
 
         /// <summary>
+        /// Adds a prefix to the toolbar button classes when set. For example, a value of `"mde"` results in `"mde-bold"` for the Bold button.
+        /// </summary>
+        [Parameter] public string ToolbarButtonClassPrefix { get; set; } = "mde";
+
+        /// <summary>
         /// Occurs after the custom toolbar button is clicked.
         /// </summary>
         [Parameter] public EventCallback<MarkdownButtonEventArgs> CustomButtonClicked { get; set; }
@@ -435,7 +481,11 @@ namespace Blazorise.Markdown
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.
+        /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
         /// </summary>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
+        /// </remarks>
         [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
 
         /// <summary>
@@ -647,6 +697,17 @@ namespace Blazorise.Markdown
         /// can be *, - or +. Defaults to *.
         /// </summary>
         [Parameter] public string UnorderedListStyle { get; set; } = "*";
+
+        /// <summary>
+        /// Parent focusable container.
+        /// </summary>
+        [CascadingParameter] protected IFocusableContainerComponent ParentFocusableContainer { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
+        /// <para>This setting can speed up file transfer considerably.</para>
+        /// </summary>
+        [Parameter] public bool DisableProgressReport { get; set; } = false;
 
         #endregion
     }

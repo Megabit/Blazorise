@@ -6098,30 +6098,40 @@ ol.is-ordered-list-upper-roman {
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll;
 }
+.b-is-autocomplete .dropdown-menu .dropdown-item.focus {
+  background-color: #f5f5f5;
+  color: #0a0a0a !important;
+}
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
   max-width: 100%;
   width: 100%;
   cursor: text;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
   border-color: #dbdbdb;
   border-style: solid;
   border-width: 1px;
   border-radius: 0.25rem;
 }
+.b-is-autocomplete.b-is-autocomplete-multipleselection .field {
+  flex-grow: 1;
+}
 .b-is-autocomplete.b-is-autocomplete-multipleselection input {
-  display: inline-block;
   border: none;
   box-shadow: none;
   outline: none;
   background-color: transparent;
   max-width: inherit;
-  width: auto;
+  width: 100%;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection .tag {
   align-self: center;
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+  flex-grow: initial;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
   outline: 0;
@@ -6308,6 +6318,10 @@ select[readonly] {
 select[readonly] option,
 select[readonly] optgroup {
   display: none;
+}
+
+.focus-trap {
+  display: contents;
 }
 
 .hero.is-primary {

@@ -16,9 +16,9 @@ namespace Blazorise
 
         private object name;
 
-        private IconStyle iconStyle = IconStyle.Solid;
+        private IconStyle? iconStyle;
 
-        private IconSize iconSize = IconSize.Default;
+        private IconSize? iconSize;
 
         #endregion
 
@@ -27,8 +27,12 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( IconProvider.Icon( Name, IconStyle ) );
-            builder.Append( IconProvider.IconSize( IconSize ), IconSize != IconSize.Default );
+            builder.Append( IconProvider.Icon( Name, GetIconStyle() ) );
+
+            var iconSize = GetIconSize();
+
+            if ( iconSize != Blazorise.IconSize.Default )
+                builder.Append( IconProvider.IconSize( GetIconSize() ) );
 
             base.BuildClasses( builder );
         }
@@ -36,10 +40,11 @@ namespace Blazorise
         /// <summary>
         /// Handles the icon onclick event.
         /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnClickHandler()
+        protected Task OnClickHandler( MouseEventArgs eventArgs )
         {
-            return Clicked.InvokeAsync();
+            return Clicked.InvokeAsync( eventArgs );
         }
 
         /// <summary>
@@ -60,9 +65,26 @@ namespace Blazorise
             return MouseOut.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Get the icon style based on the current settings.
+        /// </summary>
+        /// <returns>Icon style.</returns>
+        protected IconStyle GetIconStyle() => Options.IconStyle ?? IconStyle ?? Blazorise.IconStyle.Solid;
+
+        /// <summary>
+        /// Get the icon size based on the current settings.
+        /// </summary>
+        /// <returns>Icon size.</returns>
+        protected IconSize GetIconSize() => Options.IconSize ?? IconSize ?? Blazorise.IconSize.Default;
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Holds the information about the Blazorise global options.
+        /// </summary>
+        [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <summary>
         /// An icon provider that is responsible to give the icon a class-name.
@@ -88,7 +110,7 @@ namespace Blazorise
         /// Suggested icon style.
         /// </summary>
         [Parameter]
-        public IconStyle IconStyle
+        public IconStyle? IconStyle
         {
             get => iconStyle;
             set
@@ -103,7 +125,7 @@ namespace Blazorise
         /// Defines the icon size.
         /// </summary>
         [Parameter]
-        public IconSize IconSize
+        public IconSize? IconSize
         {
             get => iconSize;
             set
@@ -117,7 +139,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the icon is clicked.
         /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
         /// <summary>
         /// Occurs when the mouse has entered the icon area.

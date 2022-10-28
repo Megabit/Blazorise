@@ -359,11 +359,7 @@
                                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
-                            <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
-                            </DisplayTemplate>
-                        </DataGridCheckColumn>
+                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" />
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{

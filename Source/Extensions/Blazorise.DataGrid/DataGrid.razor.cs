@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Configuration;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
@@ -237,7 +236,7 @@ namespace Blazorise.DataGrid
         {
             Aggregates.Add( aggregate );
         }
-        
+
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await CheckMultipleSelectionSetEmpty( parameters );
@@ -254,7 +253,7 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if( ManualReadMode || VirtualizeManualReadMode )
+                if ( ManualReadMode || VirtualizeManualReadMode )
                     await Reload();
 
                 return;
@@ -336,7 +335,7 @@ namespace Blazorise.DataGrid
             {
                 VirtualizeOptions ??= new();
 
-                if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup )
+                if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && VirtualizeOptions.ScrollRowOnEdit )
                     virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
             }
             else
@@ -430,7 +429,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Deleted the specified item from the <see cref="Data"/> source.
+        /// Deletes the specified item from the <see cref="Data"/> source.
         /// </summary>
         /// <param name="item">Item to delete.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -664,7 +663,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Updated the cell of the current editing item that matches the <paramref name="fieldName"/>.
+        /// Updates the cell of the current editing item that matches the <paramref name="fieldName"/>.
         /// </summary>
         /// <param name="fieldName">Cell field name.</param>
         /// <param name="value">New cell value.</param>
@@ -814,6 +813,11 @@ namespace Blazorise.DataGrid
         internal Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
         {
             return RowDoubleClicked.InvokeAsync( eventArgs );
+        }
+
+        internal Task OnRowContextMenuCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowContextMenu.InvokeAsync( eventArgs );
         }
 
         protected internal int ResolveItemIndex( TItem item )
@@ -1084,10 +1088,15 @@ namespace Blazorise.DataGrid
 
                 if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
                 {
+                    var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
+                    column.SetSortOrder( nextOrderToSort );
                     SortByColumns.Add( column );
                 }
                 else if ( column.CurrentSortDirection == SortDirection.Default )
+                {
                     SortByColumns.Remove( column );
+                    column.ResetSortOrder();
+                }
 
                 if ( changeSortDirection )
                     InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
@@ -1155,7 +1164,7 @@ namespace Blazorise.DataGrid
             {
                 var firstSort = true;
 
-                foreach ( var sortByColumn in SortByColumns )
+                foreach ( var sortByColumn in SortByColumns.OrderBy( x => x.SortOrder ) )
                 {
                     Func<TItem, object> sortFunction = sortByColumn.GetValueForSort;
 
@@ -1627,6 +1636,11 @@ namespace Blazorise.DataGrid
         [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
 
         /// <summary>
+        /// Gets or sets Pager options.
+        /// </summary>
+        [Parameter] public DataGridPagerOptions PagerOptions { get; set; }
+
+        /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
         /// </summary>
         [Parameter] public bool Resizable { get; set; }
@@ -1841,6 +1855,16 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowDoubleClicked { get; set; }
 
         /// <summary>
+        /// Event called after the row has requested a context menu.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowContextMenu { get; set; }
+
+        /// <summary>
+        /// Used to prevent the default action for an <see cref="RowContextMenu"/> event.
+        /// </summary>
+        [Parameter] public bool RowContextMenuPreventDefault { get; set; }
+
+        /// <summary>
         /// Occurs after the selected page has changed.
         /// </summary>
         [Parameter] public EventCallback<DataGridPageChangedEventArgs> PageChanged { get; set; }
@@ -2028,6 +2052,11 @@ namespace Blazorise.DataGrid
         [Parameter] public string[] ValidationsSummaryErrors { get; set; }
 
         /// <summary>
+        /// Defines the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
+        /// </summary>
+        [Parameter] public Type ValidationsHandlerType { get; set; }
+
+        /// <summary>
         /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.
         /// </summary>
         [Parameter] public DataGridLocalizers Localizers { get; set; }
@@ -2068,10 +2097,32 @@ namespace Blazorise.DataGrid
         [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets whether default sort icon should display.
+        /// </summary>
+        [Parameter] public bool ShowDefaultSortIcon { get; set; }
+
+        /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.
         /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
+
+        /// <summary>
+        /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
+        /// </summary>
+        public int SelectedRowIndex
+        {
+            get
+            {
+                var selectedRowDataIdx = Data.Index( x => x.IsEqual( SelectedRow ) );
+
+                return Virtualize
+                        ? selectedRowDataIdx
+                        : ( selectedRowDataIdx == -1 )
+                            ? -1
+                            : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
+            }
+        }
 
         #endregion
     }

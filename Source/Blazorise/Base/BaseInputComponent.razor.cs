@@ -57,9 +57,9 @@ namespace Blazorise
 
                 if ( autofocus )
                 {
-                    if ( ParentModal != null )
+                    if ( ParentFocusableContainer != null )
                     {
-                        ParentModal.NotifyFocusableComponentInitialized( this );
+                        ParentFocusableContainer.NotifyFocusableComponentInitialized( this );
                     }
                     else
                     {
@@ -68,7 +68,7 @@ namespace Blazorise
                 }
                 else
                 {
-                    ParentModal?.NotifyFocusableComponentRemoved( this );
+                    ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace Blazorise
                 ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
 
-            ParentModal?.NotifyFocusableComponentRemoved( this );
+            ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
 
             if ( Theme != null )
             {
@@ -524,14 +524,14 @@ namespace Blazorise
         [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
 
         /// <summary>
-        /// Parent modal dialog.
+        /// Parent focusable container.
         /// </summary>
-        [CascadingParameter] protected Modal ParentModal { get; set; }
+        [CascadingParameter] protected IFocusableContainerComponent ParentFocusableContainer { get; set; }
 
         /// <summary>
         /// Cascaded theme settings.
         /// </summary>
-        [CascadingParameter] public Theme Theme { get; set; }
+        [CascadingParameter] protected Theme Theme { get; set; }
 
         #endregion
     }

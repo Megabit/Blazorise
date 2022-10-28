@@ -1,4 +1,9 @@
-﻿namespace Blazorise.Animate
+﻿#region Using directives
+using System.Collections.Generic;
+using System.Linq;
+#endregion
+
+namespace Blazorise.Animate
 {
     /// <summary>
     /// Holds the list of all supported animations.
@@ -33,5 +38,33 @@
         public static IAnimation ZoomOutDown => new ZoomOutDownAnimation();
         public static IAnimation ZoomOutLeft => new ZoomOutLeftAnimation();
         public static IAnimation ZoomOutRight => new ZoomOutRightAnimation();
+
+        private static IEnumerable<string> availableAnimationNames = null;
+
+        public static bool TryParse( string value, out IAnimation result )
+        {
+            try
+            {
+                var animationProp = typeof( Animations ).GetProperty( value, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static );
+
+                result = (IAnimation)animationProp.GetValue( null, null );
+
+                return true;
+            }
+            catch
+            {
+                result = default;
+
+                return false;
+            }
+        }
+
+        public static IEnumerable<string> GetNames()
+        {
+            if ( availableAnimationNames == null )
+                availableAnimationNames = typeof( Animations ).GetProperties( System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static ).Select( x => x.Name );
+
+            return availableAnimationNames;
+        }
     }
 }

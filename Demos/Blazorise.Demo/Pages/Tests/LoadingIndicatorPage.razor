@@ -1,0 +1,200 @@
+﻿@page "/tests/loadingindicator"
+@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Using Reference and Binding</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LoadingIndicator id="spinner" @ref="lineChartIndicator" @bind-Visible="lineChartBusy" @bind-Initializing="lineChartInitializing" Overflow="Overflow.Hidden"
+                                  SpinnerWidth="@(spinnerWidth == 0 ? null : $"{spinnerWidth}%")" SpinnerHeight="@(spinnerHeight == 0 ? null : $"{spinnerHeight}%")"
+                                  IndicatorHorizontalPlacement="spinnerHorizontal" IndicatorVerticalPlacement="spinnerVertical"
+                                  IndicatorPadding="usePadding ? Padding.Is5 : null">
+                    <LineChart @ref="lineChart" Data="lineChartData" />
+                </LoadingIndicator>
+            </CardBody>
+            <CardBody>
+                <Button Clicked="() => lineChartIndicator.Show()" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Visible</Button>
+                <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Visible</Check>
+                <Check TValue="bool" @bind-Checked="lineChartInitializing" Inline>Initializing</Check>
+            </CardBody>
+            <CardBody>
+                Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
+                Height (null, 1% .. 100%)<Slider Min="0" Max="100" @bind-Value="spinnerHeight" />
+                Horizontal Placement
+                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerHorizontal">
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Start">Start</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.End">End</SelectItem>
+                </Select>
+                Vertical Placement
+                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerVertical">
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Top">Top</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
+                    <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>
+                </Select>
+                <Check TValue="bool" @bind-Checked="usePadding" Inline>Use IndicatorPadding</Check>
+                @if ( usePadding )
+                {
+                    <style>
+                        #spinner .b-loading-indicator-overlay {
+                            background-clip: content-box,padding-box;
+                            background-image: linear-gradient(rgba(255, 255, 224, 0.5), rgba(255, 255, 224, 0.5)), linear-gradient(rgba(195, 192, 255, 0.2), rgb(195, 192, 255, 0.2))
+                        }
+                    </style>
+                }
+                <Check TValue="bool" @bind-Checked="showBorder" Inline>Show border</Check>
+                @if ( showBorder )
+                {
+                    <style>
+                        #spinner, #spinner svg {
+                            border: solid 1px red;
+                        }
+                    </style>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Wrapping Inline Content and Disabling on Busy</CardTitle>
+            </CardHeader>
+            <CardBody>
+                Message
+                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
+                    <TextEdit Disabled="textEditIndicator.Visible" Text="disabled when busy" />
+                </LoadingIndicator>
+                <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
+            </CardBody>
+        </Card>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Using Service Instance and Templating</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
+                    <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Set</Button>
+                </LoadingIndicator>
+                <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
+                    <Button Margin="Margin.Is2.OnX" Clicked="ShowMultipleIndicators" Color="Color.Primary">Multiple</Button>
+                </LoadingIndicator>
+                <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
+                    <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Indicators</Button>
+                </LoadingIndicator>
+            </CardBody>
+            <CardBody>
+                <Button Clicked="ShowApplicationIndicator" Color="Color.Secondary">Application Busy Service</Button>
+            </CardBody>
+            <CardBody>
+                <LoadingIndicator @ref="customIndicator" FullScreen Inline>
+                    <IndicatorTemplate>
+                        <Div Display="Display.Flex" Style="flex-direction:column">
+                            <SpinKit Type="SpinKitType.Circle" Size="100px" />
+                            <Button Margin="Margin.Is5.OnY" Clicked="() => customIndicator.Hide()" Color="Color.Primary">Stop</Button>
+                        </Div>
+                    </IndicatorTemplate>
+                    <ChildContent>
+                        <Button Clicked="() => customIndicator.Show()" Color="Color.Secondary">Using Spinner Template</Button>
+                    </ChildContent>
+                </LoadingIndicator>
+            </CardBody>
+        </Card>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Customizing Appearance</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.IsHalf">
+                        <LoadingIndicator @ref="customBasicIndicator" Visible SpinnerColor="@spinnerColor" SpinnerBackground="@spinnerBackground" SpinnerHeight="100%" SpinnerWidth="100%" IndicatorBackground="@screenColor">
+                            <LineChart @ref="lineChart" Data="lineChartData" />
+                        </LoadingIndicator>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsHalf">
+                        Spinner color<ColorPicker @bind-Color="spinnerColor" />
+                        Spinner background color<ColorPicker @bind-Color="spinnerBackground" />
+                        Screen color<ColorPicker @bind-Color="screenColor" />
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    [CascadingParameter]
+    public LoadingIndicator CascadingLoadingIndicator { get; set; }
+
+    private LineChart<double> lineChart;
+    private LoadingIndicator lineChartIndicator;
+    private bool lineChartBusy;
+    private bool lineChartInitializing = false;
+
+    private int spinnerWidth = 0;
+    private int spinnerHeight = 30;
+    private LoadingIndicatorPlacement spinnerHorizontal = LoadingIndicatorPlacement.Middle;
+    private LoadingIndicatorPlacement spinnerVertical = LoadingIndicatorPlacement.Middle;
+    private bool usePadding;
+    private bool showBorder;
+
+    private string spinnerColor = "skyblue";
+    private string spinnerBackground = "pink";
+    private string screenColor = "rgba(255, 255, 255, 0.7)";
+
+    private LoadingIndicatorService sharedLoadingIndicatorService = new();
+
+    private LoadingIndicator textEditIndicator;
+    private LoadingIndicator customBasicIndicator;
+    private LoadingIndicator customIndicator;
+
+    private ChartData<double> lineChartData = new()
+        {
+            Labels = new() { "Jan", "Feb", "Mar", "Apr", "May", "Jun" },
+            Datasets = new() {
+                new LineChartDataset<double>()
+                {
+                    Data = new List<double>() { 100, 120, 40, 70, 110, 50 },
+                }
+            }
+        };
+
+    async Task ShowApplicationIndicator()
+    {
+        await ApplicationLoadingIndicatorService.Show();
+        await Task.Delay( 3000 );
+        await ApplicationLoadingIndicatorService.Hide();
+    }
+
+    async Task ShowApplicationIndicatorCascading()
+    {
+        await CascadingLoadingIndicator.Show();
+        await Task.Delay( 3000 );
+        await CascadingLoadingIndicator.Hide();
+    }
+
+    async Task ShowCustomBasicIndicator()
+    {
+        await customBasicIndicator.Show();
+        await Task.Delay( 3000 );
+        await customBasicIndicator.Hide();
+    }
+
+    async Task ShowInlineBusy()
+    {
+        await textEditIndicator.Show();
+        await Task.Delay( 3000 );
+        await textEditIndicator.Hide();
+    }
+
+    async Task ShowMultipleIndicators()
+    {
+        await sharedLoadingIndicatorService.Show();
+        await Task.Delay( 5000 );
+        await sharedLoadingIndicatorService.Hide();
+    }
+}

@@ -413,3 +413,7 @@ input[readonly="readonly"][type=range] {
         height: .55rem;
     }
 }
+
+.focus-trap {
+    display: contents;
+}

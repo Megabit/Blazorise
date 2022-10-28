@@ -49,7 +49,7 @@ namespace Blazorise.Modules
 
         /// <inheritdoc/>
         public virtual ValueTask<bool> ParentHasClass( ElementReference elementRef, string classname )
-        => InvokeSafeAsync<bool>( "parentHasClass", elementRef, classname );
+            => InvokeSafeAsync<bool>( "parentHasClass", elementRef, classname );
 
         /// <inheritdoc/>
         public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
@@ -62,6 +62,10 @@ namespace Blazorise.Modules
         /// <inheritdoc/>
         public virtual ValueTask ScrollAnchorIntoView( string anchorTarget )
             => InvokeSafeVoidAsync( "scrollAnchorIntoView", anchorTarget );
+
+        /// <inheritdoc/>
+        public virtual ValueTask ScrollElementIntoView( string elementId, bool smooth = true )
+            => InvokeSafeVoidAsync( "scrollElementIntoView", elementId, smooth );
 
         /// <inheritdoc/>
         public virtual ValueTask SetCaret( ElementReference elementRef, int caret )

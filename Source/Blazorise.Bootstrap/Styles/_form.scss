@@ -381,3 +381,7 @@ input[readonly="readonly"][type=range] {
         pointer-events: none;
     }
 }
+
+.focus-trap {
+    display: contents;
+}

@@ -9,6 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Component that handles the <see cref="IMessageService"/> to show the message dialog.
     /// </summary>
+    [Obsolete( "MessageAlert is deprecated, please use MessageProvider instead." )]
     public partial class MessageAlert : BaseComponent, IDisposable
     {
         #region Methods
@@ -129,25 +130,25 @@ namespace Blazorise
         /// If true, message will be centered.
         /// </summary>
         protected virtual bool CenterMessage
-           => Options?.CenterMessage ?? true;
+            => Size == ModalSize.Fullscreen ? false : Options?.CenterMessage ?? true;
 
         /// <summary>
         /// If true, message will be scrollable.
         /// </summary>
         protected virtual bool ScrollableMessage
-           => Options?.ScrollableMessage ?? true;
+            => Size == ModalSize.Fullscreen ? false : Options?.ScrollableMessage ?? true;
 
         /// <summary>
         /// If true, an icon will be shown along with the message.
         /// </summary>
         protected virtual bool ShowMessageIcon
-           => Options?.ShowMessageIcon ?? true;
+            => Options?.ShowMessageIcon ?? true;
 
         /// <summary>
         /// If true, the close button will be visible.
         /// </summary>
         protected virtual bool ShowCloseButton
-           => Options?.ShowCloseButton ?? false;
+            => Options?.ShowCloseButton ?? false;
 
         /// <summary>
         /// Gets the message icon based on the predefined message type.
@@ -194,6 +195,18 @@ namespace Blazorise
             => Options?.OkButtonClass;
 
         /// <summary>
+        /// Gets the css class for the title.
+        /// </summary>
+        protected virtual string TitleClass
+            => Options?.TitleClass;
+
+        /// <summary>
+        /// Gets the css class for the message text.
+        /// </summary>
+        protected virtual string MessageClass
+            => Options?.MessageClass;
+
+        /// <summary>
         /// Gets the Confirm button text.
         /// </summary>
         protected virtual string ConfirmButtonText
@@ -228,6 +241,30 @@ namespace Blazorise
         /// </summary>
         protected virtual string CancelButtonClass
             => Options?.CancelButtonClass;
+
+        /// <summary>
+        /// Gets the OK button padding.
+        /// </summary>
+        protected virtual IFluentSpacing OkButtonPadding
+            => Options?.OkButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
+        /// <summary>
+        /// Gets the cancel button padding.
+        /// </summary>
+        protected virtual IFluentSpacing CancelButtonPadding
+            => Options?.CancelButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
+        /// <summary>
+        /// Gets the confirm button padding.
+        /// </summary>
+        protected virtual IFluentSpacing ConfirmButtonPadding
+            => Options?.ConfirmButtonPadding ?? Blazorise.Padding.Is2.OnX;
+
+        /// <summary>
+        /// Gets the modal size.
+        /// </summary>
+        protected virtual ModalSize Size
+            => Options?.Size ?? ModalSize.Default;
 
         /// <summary>
         /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.

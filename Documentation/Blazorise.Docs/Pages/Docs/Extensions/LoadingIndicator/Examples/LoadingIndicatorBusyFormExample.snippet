@@ -1,0 +1,9 @@
+﻿@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<form action="/action_page.php">
+    <fieldset disabled="ApplicationLoadingIndicatorService.Visible"> 
+        <label for="fname">Message:</label>
+        <input type="text" id="message" name="message">
+        <input type="submit" value="Send">
+     </fieldset>
+</form> 

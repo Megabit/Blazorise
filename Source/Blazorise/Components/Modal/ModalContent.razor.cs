@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +10,7 @@ namespace Blazorise
     /// <summary>
     /// Main wrapper for the content area of the modal component.
     /// </summary>
-    public partial class ModalContent : BaseComponent
+    public partial class ModalContent : BaseComponent, IDisposable
     {
         #region Members
 
@@ -21,6 +23,31 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            if ( ParentModal != null )
+            {
+                ParentModal._Opened += OnModalOpened;
+            }
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentModal != null )
+                {
+                    ParentModal._Opened -= OnModalOpened;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
@@ -49,6 +76,11 @@ namespace Blazorise
             HasModalFooter = true;
         }
 
+        private void OnModalOpened()
+        {
+            ExecuteAfterRender( FocusTrapRef.SetFocus );
+        }
+
         #endregion
 
         #region Properties
@@ -74,6 +106,21 @@ namespace Blazorise
         /// Currently used only by bulma https://bulma.io/documentation/components/modal/
         /// </summary>
         protected virtual bool AsDialog => false;
+
+        /// <summary>
+        /// True if modal should keep the input focus.
+        /// </summary>
+        protected bool IsFocusTrap => ParentModal?.FocusTrap ?? Options?.ModalFocusTrap ?? true;
+
+        /// <summary>
+        /// Gets or sets the <see cref="FocusTrap"/> reference.
+        /// </summary>
+        protected FocusTrap FocusTrapRef { get; set; }
+
+        /// <summary>
+        /// Holds the information about the Blazorise global options.
+        /// </summary>
+        [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <summary>
         /// Centers the modal vertically.

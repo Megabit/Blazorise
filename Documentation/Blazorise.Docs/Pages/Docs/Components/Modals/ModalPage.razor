@@ -100,7 +100,7 @@
 </Heading>
 
 <DocsPageParagraph>
-    Modal dialogs are disruptive by nature and should be used sparingly. Do not use them to communicate nonessential information, such as success messages like "Logged in", "Copied", etc. Instead, use <Anchor To="docs/services/notification">Notifications</Anchor> when appropriate.
+    Modal dialogs are disruptive by nature and should be used sparingly. Do not use them to communicate nonessential information, such as success messages like "Logged in", "Copied", etc. Instead, use <Anchor To="docs/services/notification-provider">Notifications</Anchor> when appropriate.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -163,6 +163,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="RenderMode" Type="ModalRenderMode" Default="Default">
         Defines how the modal content will be rendered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FocusTrap" Type="bool?" Default="true">
+        Defines if the modal should keep the input focus at all times.
     </DocsAttributesItem>
 </DocsAttributes>
 

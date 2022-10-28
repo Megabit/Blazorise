@@ -1,0 +1,17 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="ShowRenderFragment">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private RenderFragment customFragment => __builder =>
+    {
+        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+    };
+
+    public Task ShowRenderFragment()
+    {
+        return ModalService.Show( "My Custom RenderFragment!", customFragment );
+    }
+}

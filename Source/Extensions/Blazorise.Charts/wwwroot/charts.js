@@ -1,4 +1,4 @@
-import { parseFunction, deepClone } from "./utilities.js?v=1.0.7.0";
+import { parseFunction, deepClone } from "./utilities.js?v=1.1.2.0";
 
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
 const _ChartTitleCallbacks = function (item) {
@@ -174,7 +174,9 @@ export function setOptions(canvasId, options, optionsJsonString, optionsObject) 
         // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
         // instead of through the options.
         if (options.aspectRatio) {
-            chart.aspectRatio = options.aspectRatio;
+            chart._aspectRatio = options.aspectRatio;
+
+            chart.resize();
         }
     }
 }

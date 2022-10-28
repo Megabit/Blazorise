@@ -30,6 +30,15 @@ namespace Blazorise.Modules
         ValueTask Reset( ElementReference elementRef, string elementId );
 
         /// <summary>
+        /// Removes a file from the current file selection.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <param name="fileId">ID of the file to remove.</param>
+        /// <returns></returns>
+        ValueTask RemoveFile( ElementReference elementRef, string elementId, int fileId );
+
+        /// <summary>
         /// Opens the file dialog.
         /// </summary>
         /// <param name="elementRef">Reference to the rendered element.</param>

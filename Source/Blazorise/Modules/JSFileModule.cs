@@ -29,8 +29,12 @@ namespace Blazorise.Modules
         #region Methods       
 
         /// <inheritdoc/>
-        public virtual ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
-            => InvokeSafeAsync<string>( "readFileData", elementRef, fileEntryId, position, length );
+        public virtual ValueTask<byte[]> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
+            => InvokeSafeAsync<byte[]>( "readFileData", elementRef, fileEntryId, position, length );
+
+        /// <inheritdoc/>
+        public virtual ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default )
+            => InvokeSafeAsync<IJSStreamReference>( "readFileDataStream", elementRef, fileEntryId );
 
         #endregion
 

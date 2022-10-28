@@ -1,3 +1,4 @@
-﻿<Bar Padding="Padding.Is1" Background="Background.Dark">
-    <Heading Color="TextColor.Muted" Size="HeadingSize.Is6">Something to display</Heading>
+﻿@inject IVersionProvider VersionProvider
+<Bar Padding="Padding.Is1" Background="Background.Dark">
+    <Heading TextAlignment="TextAlignment.Center" Width="Width.Is100" TextColor="TextColor.White" Size="HeadingSize.Is6">@($"Blazorise v{VersionProvider.MilestoneVersion}")</Heading>
 </Bar>

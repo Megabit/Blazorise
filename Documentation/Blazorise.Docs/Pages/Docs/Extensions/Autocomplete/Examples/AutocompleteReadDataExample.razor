@@ -1,0 +1,53 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Autocomplete TItem="Country"
+              TValue="string"
+              Data="@ReadDataCountries"
+              ReadData="@OnHandleReadData"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-SelectedValue="@selectedSearchValue"
+              @bind-SelectedText="selectedAutoCompleteText"
+              Placeholder="Search..."
+              FreeTyping>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+<Field Horizontal>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected search value: @selectedSearchValue
+    </FieldBody>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected text value: @selectedAutoCompleteText
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
+
+    private Random random = new();
+
+    public string selectedSearchValue { get; set; }
+    public string selectedAutoCompleteText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
+    }
+}

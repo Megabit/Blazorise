@@ -1,4 +1,4 @@
-﻿namespace Blazorise.DataGrid.Configuration
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// Defines the options for <see cref="DataGrid{TItem}"/> virtualize mode.
@@ -22,5 +22,11 @@
         /// in the page.
         /// </summary>
         public int OverscanCount { get; set; } = 10;
+
+        /// <summary>
+        /// If DataGrid goes into DataGridEditMode.Inline or DataGridEditMode.Form, scrolls the row to the top.
+        /// Defaults to true.
+        /// </summary>
+        public bool ScrollRowOnEdit { get; set; } = true;
     }
 }

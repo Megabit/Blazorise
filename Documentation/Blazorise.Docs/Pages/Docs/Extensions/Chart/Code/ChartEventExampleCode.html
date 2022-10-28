@@ -3,14 +3,59 @@
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Chart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">barChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ChartType</span><span class="enumValue">.Bar</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnClicked</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
-<span class="atSign">&#64;</span>code{
+<span class="atSign">&#64;</span>code {
     Chart&lt;<span class="keyword">double</span>&gt; barChart;
 
-    <span class="keyword">void</span> OnClicked( ChartMouseEventArgs e )
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    {
+        <span class="keyword">if</span> ( firstRender )
+        {
+            <span class="keyword">await</span> HandleRedraw();
+        }
+    }
+
+    <span class="keyword">async</span> Task HandleRedraw()
+    {
+        <span class="keyword">await</span> barChart.Clear();
+
+        <span class="keyword">await</span> barChart.AddLabelsDatasetsAndUpdate( Labels, GetBarChartDataset() );
+    }
+
+    <span class="keyword">private</span> BarChartDataset&lt;<span class="keyword">double</span>&gt; GetBarChartDataset()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+            {
+                Label = <span class="string">&quot;# of randoms&quot;</span>,
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                BorderWidth = <span class="number">1</span>
+            };
+    }
+
+    <span class="keyword">string</span>[] Labels = { <span class="string">&quot;Red&quot;</span>, <span class="string">&quot;Blue&quot;</span>, <span class="string">&quot;Yellow&quot;</span>, <span class="string">&quot;Green&quot;</span>, <span class="string">&quot;Purple&quot;</span>, <span class="string">&quot;Orange&quot;</span> };
+    List&lt;<span class="keyword">string</span>&gt; backgroundColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, <span class="number">0</span>.2f ) };
+    List&lt;<span class="keyword">string</span>&gt; borderColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, 1f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, 1f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, 1f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, 1f ) };
+
+    List&lt;<span class="keyword">double</span>&gt; RandomizeData()
+    {
+        <span class="keyword">var</span> r = <span class="keyword">new</span> Random( DateTime.Now.Millisecond );
+
+        <span class="keyword">return</span> <span class="keyword">new</span> List&lt;<span class="keyword">double</span>&gt; {
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble() };
+    }
+
+    Task OnClicked( ChartMouseEventArgs e )
     {
         <span class="keyword">var</span> model = e.Model <span class="keyword">as</span> BarChartModel;
 
-        Console.WriteLine( $<span class="string">&quot;{model.X}-{model.Y}&quot;</span> );
+        Console.WriteLine( $<span class="string">&quot;Handling event for {nameof( BarChartModel )}: x:{model.X} y:{model.Y}&quot;</span> );
+        <span class="keyword">return</span> Task.CompletedTask;
     }
 }
 </pre></div>

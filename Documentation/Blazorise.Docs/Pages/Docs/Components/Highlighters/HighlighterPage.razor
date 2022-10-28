@@ -1,0 +1,61 @@
+﻿@page "/docs/components/highlighter"
+
+<Seo Canonical="/docs/components/highlighter" Title="Blazorise Highlighter component" Description="Learn to use and work with the Blazorise TrapFocus component is a component that manages focus for its descendants." />
+
+<DocsPageTitle Path="Components/Highlighter">
+    Blazorise Highlighter component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Visually highlight part of the text based on the search term.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Highlighter is Blazor component that changes format of wanted words and phrases, to make them more notable in text on web page (e.g. for database search results). You can change anything you can imagine, including font size, color, bold, italic, underline, background color etc., or simply use css styling.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicHighlighterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicHighlighterExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Boundaries">
+        If you wish to highlight the text until the next regex boundary occurs, set the <Code>UntilNextBoundary</Code> property to true, or the <Code>CaseSensitive</Code> property to true if you want a case-sensitive highlight.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DynamicHighlighterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DynamicHighlighterExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Text" Type="string">
+        The whole text in which a <Code>HighlightedText</Code> will be highlighted.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HighlightedText" Type="string">
+        The search term to be highlighted.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaseSensitive" Type="bool" Default="false">
+        Whether or not the highlighted text is case sensitive.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NextBoundary" Type="string" Default=".*?\\b">
+        A regex expression used for searching the word boundaries.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UntilNextBoundary" Type="bool" Default="false">
+        If true, highlights the text until the next word boundary.
+    </DocsAttributesItem>
+</DocsAttributes>

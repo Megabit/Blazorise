@@ -1,0 +1,20 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Field Horizontal>
+    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">User Name</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+        <TextEdit @bind-Text="userName"></TextEdit>
+    </FieldBody>
+</Field>
+
+<Button Color="Color.Primary" Clicked="ShowCustomStructure">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+    private string userName = "John Doe";
+
+    public Task ShowCustomStructure()
+    {
+        return ModalService.Show<CustomStructureModalExample>( parameters => parameters.Add( x => x.UserName, userName ), new ModalInstanceOptions() { UseModalStructure = false } );
+    }
+}

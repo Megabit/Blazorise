@@ -1,0 +1,54 @@
+﻿<Autocomplete @ref="AutoCompleteRef"
+              TItem="Country"
+              TValue="string"
+              Data="@ReadDataCountries"
+              ReadData="@OnHandleReadData"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-SelectedValue="SelectedValue"
+              @bind-SelectedText="SelectedText"
+              Placeholder="Search..."
+              FreeTyping
+              MinLength="@MinLength"
+              AutoPreSelect="@AutoPreSelect">
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+@code {
+    [Inject] public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+
+    public IEnumerable<Country> ReadDataCountries;
+
+    public Autocomplete<Country, string> AutoCompleteRef { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    [Parameter]
+    public string SelectedValue { get; set; }
+
+    [Parameter]
+    public string SelectedText { get; set; }
+
+    [Parameter]
+    public int MinLength { get; set; } = 1;
+
+    [Parameter]
+    public bool AutoPreSelect { get; set; } = true;
+
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+        }
+
+        return Task.CompletedTask;
+    }
+}

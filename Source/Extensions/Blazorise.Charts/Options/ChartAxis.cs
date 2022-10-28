@@ -20,13 +20,13 @@ namespace Blazorise.Charts
         /// Align pixel values to device pixels.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? AlignToPixels { get; set; } = false;
+        public bool? AlignToPixels { get; set; }
 
         /// <summary>
         /// Controls the axis global visibility (visible when <c>true</c>, hidden when <c>false</c>). When display: <c>"auto"</c>, the axis is visible only if at least one associated dataset is visible.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Display { get; set; } = true;
+        public object Display { get; set; }
 
         /// <summary>
         /// Grid line configuration. <see href="https://www.chartjs.org/docs/latest/axes/styling.html#grid-line-configuration">more...</see>
@@ -50,13 +50,13 @@ namespace Blazorise.Charts
         /// Reverse the scale.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Reverse { get; set; } = false;
+        public bool? Reverse { get; set; }
 
         /// <summary>
         /// Should the data be stacked.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Stacked { get; set; } = false;
+        public bool? Stacked { get; set; }
 
         /// <summary>
         /// Adjustment used when calculating the maximum data value. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
@@ -86,7 +86,7 @@ namespace Blazorise.Charts
         /// The weight used to sort the axis. Higher weights are further away from the chart area.
         /// </summary>
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Weight { get; set; } = 0d;
+        public double? Weight { get; set; }
 
         /// <summary>
         /// Defines options for the scale title. Note that this only applies to cartesian axes.

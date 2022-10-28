@@ -1,0 +1,43 @@
+﻿@page "/docs/components/focus-trap"
+
+<Seo Canonical="/docs/components/focus-trap" Title="Blazorise FocusTrap component" Description="Learn to use and work with the Blazorise TrapFocus is a component that manages focus for its descendants." />
+
+<DocsPageTitle Path="Components/FocusTrap">
+    Blazorise FocusTrap component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Manages focus of the forms and its input elements.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    TrapFocus is a component that manages focus for its descendants. This is useful when implementing overlays such as modal dialogs, which should not allow the focus to escape while open.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    When <Code>Active="true"</Code> the trap is enabled, and pressing <Code>Tab</Code> or <Code>Shift+Tab</Code> will rotate focus within the inner focusable elements of the component.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        By default, the component moves the focus to its descendants as soon as it activated.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicFocusTrapExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicFocusTrapExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Active" Type="bool" Default="false">
+        If true the TAB focus will be activated.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -351,6 +351,9 @@ html, body * {
 .b-docs-page .b-docs-page-section-content.b-docs-page-section-content-fullwidth > .b-docs-page-section-content-inner {
   width: 100%;
 }
+.b-docs-page .b-docs-page-section-content:not(.b-docs-page-section-content-outlined) {
+  padding-left: 0;
+}
 .b-docs-page .b-docs-page-section-content.b-docs-page-section-content-outlined {
   border: 1px solid #e3e3e3;
 }
@@ -600,6 +603,11 @@ code {
 .b-news .b-news-content p dl {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+}
+.b-news .b-news-content p .blockquote {
+  border-left: 4px solid #d6d6d7;
+  padding: 0 0 0 1.25rem;
+  margin: 0 0 1.25rem 0;
 }
 .b-news .b-news-content h2 {
   padding-bottom: 0.5em;

@@ -18,10 +18,24 @@ namespace Blazorise.Modules
         ValueTask Register( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef );
 
         /// <summary>
+        /// Registers the component to be listened for closing events.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask RegisterLight( ElementReference elementRef );
+
+        /// <summary>
         /// Removes the component from the closable listener.
         /// </summary>
         /// <param name="component">Component activator.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         ValueTask Unregister( ICloseActivator component );
+
+        /// <summary>
+        /// Removes the component from the light closable listener.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask UnregisterLight( ElementReference elementRef );
     }
 }

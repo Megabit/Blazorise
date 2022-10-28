@@ -32,12 +32,25 @@ namespace Blazorise.Modules
             => InvokeSafeVoidAsync( "registerClosableComponent", dotNetObjectRef, elementRef );
 
         /// <inheritdoc/>
+        public virtual ValueTask RegisterLight( ElementReference elementRef )
+            => InvokeSafeVoidAsync( "registerClosableLightComponent", elementRef );
+
+        /// <inheritdoc/>
         public virtual async ValueTask Unregister( ICloseActivator component )
         {
             if ( IsUnsafe )
                 return;
 
             await InvokeSafeVoidAsync( "unregisterClosableComponent", component.ElementRef );
+        }
+
+        /// <inheritdoc/>
+        public virtual async ValueTask UnregisterLight( ElementReference elementRef )
+        {
+            if ( IsUnsafe )
+                return;
+
+            await InvokeSafeVoidAsync( "unregisterClosableLightComponent", elementRef );
         }
 
         #endregion

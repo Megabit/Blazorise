@@ -1,4 +1,6 @@
 ﻿@page "/tests/validations"
+@using System.Threading
+@using Blazorise.FluentValidation
 <Row>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
@@ -508,9 +510,55 @@
         </Modal>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card>
+            <CardHeader>
+                <CardTitle>Fluent Validation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validations @ref="@fluentValidations" Mode="ValidationMode.Manual" Model="@person" HandlerType="typeof(FluentValidationHandler)">
+                    <Validation>
+                        <Field>
+                            <FieldLabel>First name</FieldLabel>
+                            <TextEdit Placeholder="Enter first name..." @bind-Text="@person.FirstName">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field>
+                            <FieldLabel>Last name</FieldLabel>
+                            <TextEdit Placeholder="Enter last name..." @bind-Text="@person.LastName">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field>
+                            <FieldLabel>Age</FieldLabel>
+                            <NumericEdit Placeholder="Enter age..." @bind-Value="@person.Age">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </NumericEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+
+                <Button Color="Color.Primary" Clicked="@OnSavePerson">Save</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code {
     Validations validations;
     Validations annotationsValidations;
+    Validations fluentValidations;
 
     Modal modalRef;
     Validations modalValidations;
@@ -519,10 +567,15 @@
     User user = new();
     User manualUser = new();
 
+    Person person = new();
+
     string passwordAuto;
     string passwordManual;
 
     Random random = new();
+
+    [Inject] PersonValidator PersonValidator { get; set; }
+
 
     async Task ValidateNameAsync( ValidatorEventArgs e, System.Threading.CancellationToken cancellationToken )
     {
@@ -626,5 +679,15 @@
     Task CloseUserModal()
     {
         return modalRef.Hide();
+    }
+
+    protected async Task OnSavePerson()
+    {
+        //var result = await PersonValidator.ValidateAsync( person, CancellationToken.None );
+
+        //Console.WriteLine( "Validated: " + result.IsValid );
+
+        if ( !await fluentValidations.ValidateAll() )
+            return;
     }
 }

@@ -144,7 +144,7 @@
     <DocsAttributesItem Name="CurrentPage" Type="int" Default="1">
         Current page number.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PageSize" Type="int" Default="5">
+    <DocsAttributesItem Name="PageSize" Type="int" Default="10">
         Maximum number of items for each page.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Striped" Type="bool" Default="false">
@@ -207,35 +207,17 @@
     <DocsAttributesItem Name="PageSizeChanged" Type="EventCallback<int>">
         Occurs after the page size has changed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
-        Define the display template for empty data cell.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
-        Define the display template for empty data collection.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
-        Define the display template for empty filter data collection.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
-        Define the display template for empty filter data collection.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="PopupSize" Type="ModalSize" Default="Default">
         Defines the size of popup modal.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PopupClosing" Type="Func<ModalClosingEventArgs, Task>">
         Occurs before the popup dialog is closed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
-        Template for custom title of edit popup dialog
-    </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemCreator" Type="Func<TItem>">
         Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="NewItemDefaultSetter" Type="Action<TItem>">
         Action will be called for setting default values of property, when create new entry
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderTemplate<PageButtonContext>">
-        Define the format a pagination button
     </DocsAttributesItem>
     <DocsAttributesItem Name="UseValidation" Type="bool" Default="false">
         If true, validation will be used when editing the fields
@@ -251,6 +233,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ValidationsSummaryErrors" Type="string[]" Default="null">
         List of custom error messages for the validations summary.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationsHandlerType" Type="Type" Default="null">
+        Defines the default handler type that will be used by the validation, unless it is overriden by <Code>Validation.HandlerType</Code> property.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SortMode" Type="DataGridSortMode" Default="Multiple">
         Defines whether the user can sort only by one column or by multiple.
@@ -297,6 +282,69 @@
     <DocsAttributesItem Name="DetailRowStartsVisible" Type="bool" Default="true">
         Controls whether DetailRow will start visible if DetailRowTemplate is set. DetailRowTrigger will be evaluated if set.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="PagerOptions" Type="DataGridPagerOptions" Default="null">
+        Gets or sets Pager options.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowContextMenu" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the row has requested a context menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
+        Used to prevent the default action for an <Code>RowContextMenu</Code> event.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DataGrid Templates">
+    <DocsAttributesItem Name="DataGridColumns" Type="RenderFragment">
+        Template for holding the datagrid columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DataGridAggregates" Type="RenderFragment">
+        Template for holding the datagrid aggregate columns.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
+        Define the display template for empty data cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
+        Define the display template for empty data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EmptyFilterTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoadingTemplate" Type="RenderFragment">
+        Define the display template for empty filter data collection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonRowTemplate" Type="RenderFragment<ButtonRowContext<TItem>>">
+        Gets or sets content of button row of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FirstPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of first button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LastPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of last button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PreviousPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of previous button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NextPageButtonTemplate" Type="RenderFragment">
+        Gets or sets content of next button of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageButtonTemplate" Type="RenderFragment<PageButtonContext>">
+        Gets or sets content of page buttons of pager.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsPerPageTemplate" Type="RenderFragment">
+        Gets or sets content of items per page of grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsShortTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of total items grid for small devices.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of total items grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<TItem>">
+        Gets or sets content of total items grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
+        Template for custom title of edit popup dialog
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
@@ -308,6 +356,24 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="OverscanCount" Type="int">
         Gets or sets a value that determines how many additional items will be rendered before and after the visible region. This help to reduce the frequency of rendering during scrolling. However, higher values mean that more elements will be present in the page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollRowOnEdit" Type="bool" Default="true">
+        If DataGrid goes into DataGridEditMode.Inline or DataGridEditMode.Form, scrolls the row to the top.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="DataGridPagerOptions">
+    <DocsAttributesItem Name="ButtonSize" Type="Size" Default="Size.Default">
+        Configures the pager buttons size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonRowPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Button Row Position.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PaginationPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Pagination Position.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Total Items Position.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -422,5 +488,68 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
         Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowDefaultSortIcon" Type="bool" Default="false">
+        Gets or sets whether default sort icon should display.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortOrder" Type="int">
+        Gets or sets the order for sorting when Sorting is set to multiple.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortOrderChanged" Type="EventCallback<int>">
+        Raises an event every time that SortOrder is changed.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Methods
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="New">
+        Sets the DataGrid into the New state mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Edit">
+        Sets the DataGrid into the Edit state mode for the specified item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Delete">
+        Deletes the specified item from the <Code>Data</Code> source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Save">
+        Save the internal state of the editing items.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cancel">
+        Cancels the editing of DataGrid item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Select">
+        Selects the specified item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Sort">
+        Sorts the Data for the specified column.
+        Note that <Code>Sortable</Code> must be enabled to be able to sort!
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Paginate">
+        Triggers the DataGrid to change data source page.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClearFilter">
+        Clears all filters from the grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterData">
+        Forces the internal DataGrid data to be filtered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UpdateCellEditValue">
+        Updates the cell of the current editing item that matches the <Code>fieldName</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadCellEditValue">
+        Reads the cell value of the current editing item that matches the <Code>fieldName</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ToggleDetailRow">
+        Toggles DetailRow while evaluating the <Code>DetailRowTrigger</Code> if provided.
+        Use <Code>forceDetailRow</Code> to ignore <Code>DetailRowTrigger</Code> and toggle the DetailRow.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToPixels">
+        If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided pixels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScrollToRow">
+        If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided row.
     </DocsAttributesItem>
 </DocsAttributes>

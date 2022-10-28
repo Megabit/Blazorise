@@ -13,7 +13,7 @@
 <DocsPageParagraph>
     The <Code>Autocomplete</Code> component provides suggestions while you type into the field. The component is in essence
     a text box which, at runtime, filters data in a drop-down by a <Code>Filter</Code> operator when a user captures a value.
-    You may also enable <Code>FreeTyping</Code> and <Code>AutoComplete</Code> can be used to just provide suggestions based on user input.
+    You may also enable <Code>FreeTyping</Code> and <Code>Autocomplete</Code> can be used to just provide suggestions based on user input.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -63,6 +63,22 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Searching with data on demand (ReadData)">
+        Frequently, you'll want to read data on demand rather than loading everything into memory at startup. You can do it with the <Code>ReadData</Code> API.
+        It will provide you with enough information for you to call an external data-source, which will return new data, which you can then reassign to the <Code>Data</Code> parameter.
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> Make sure to check the <Code>CancellationToken</Code> before commiting your values to <Code>Data</Code>. This will make sure to avoid race conditions and keep your <Code>Data</Code> updated according to the user's last key stroke.
+            </AlertDescription>
+        </Alert>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteReadDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteReadDataExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Extending with custom item content">
         Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
     </DocsPageSectionHeader>
@@ -70,6 +86,17 @@
         <AutocompleteItemContentExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="AutocompleteItemContentExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Suggesting already selected items && Checkbox support">
+        You can use <Code>SuggestSelectedItems</Code> to suggest already selected items, and optionally use <Code>SuggestMultipleCheckbox</Code> to additionally add checkbox selection.
+        <Strong>Note: </Strong> Make sure to set <Code>CloseOnSelection</Code> to false if you want to keep the dropdown open whenever an item is selected.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteSuggestMultipleCheckboxExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteSuggestMultipleCheckboxExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -100,6 +127,15 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedTextChanged" Type="EventCallback<string>">
         Raises an event after the selected text has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentSearch" Type="string">
+        Gets or sets the currently selected item text. CurrentSearch is deprecated and will be removed in a future version, please use Search instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentSearchChanged" Type="EventCallback<string>">
+        Occurs on every search text change. CurrentSearchChanged is deprecated and will be removed in a future version, please use SearchChanged instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Search" Type="string">
+        Gets or sets the currently selected item text.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SearchChanged" Type="EventCallback<string>">
         Occurs on every search text change.
@@ -148,6 +184,7 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Allows for multiple selection.
+        Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MultipleBadgeColor" Type="Color" Default="Color.Primary">
         Sets the Badge color for the multiple selection values.
@@ -168,7 +205,74 @@
         Specifies the item content to be rendered inside each dropdown item.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CloseOnSelection" Type="bool" Default="true">
-        Specifies whether Autocomplete's dropdown closes on selection. This is only evaluated when the Autocomplete's Multiple is set to true.
+        Specifies whether Autocomplete's dropdown closes on selection. This is only evaluated when multiple selection is set.
         Defauls to true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadData" Type="EventCallback<AutoCompleteReadDataEventArgs>">
+        Event handler used to load data manually by based on the current search value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SuggestSelectedItems" Type="bool" Default="false">
+        Suggests already selected option(s) when presenting the options.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ConfirmKey" Type="string[]" Default='new[] { "Enter", "NumpadEnter" }'>
+        Gets or sets an array of the keyboard pressed values for the ConfirmKey.
+        If this is null or empty, there will be no confirmation key.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoPreSelect" Type="bool" Default="true">
+        Gets or sets whether Autocomplete auto preselects the first item when the drop down opens.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoSelectFirstItem" Type="bool" Default="false">
+        Gets or sets whether Autocomplete auto preselects the first item from the data list on initialization. This overrides initial SelectedValue.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="AutocompleteSelectionMode" Default="AutocompleteSelectionMode.Default">
+        Gets or sets the Autocomplete Selection Mode.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+
+<DocsPageSubtitle>
+    Methods
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="ScrollItemIntoView">
+        Scrolls an item into view.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Reload">
+        Triggers the reload of the Autocomplete data.
+        Makes sure not to reload if the Autocomplete is in a loading state.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AddMultipleTextAndValue">
+        Adds a Multiple Selection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RemoveMultipleTextAndValue">
+        Removes a Multiple Selection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clear">
+        Clears the selected value and the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResetSelected">
+        Clears the current selection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="OpenDropdown">
+        Opens the Autocomplete Dropdown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Close">
+        Closes the Autocomplete Dropdown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IsSelectedvalue">
+        Gets whether the TValue is selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IsSelectedItem">
+        Gets whether the TItem is selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetItemByValue">
+        Gets a TItem from <Code>Data</Code> by using the provided ValueField.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetItemByText">
+        Gets a TItem from <Code>Data</Code> by using the provided TextField.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IsSafeToClose">
+        IsSafeToClose is deprecated. This API now always returns true.
     </DocsAttributesItem>
 </DocsAttributes>

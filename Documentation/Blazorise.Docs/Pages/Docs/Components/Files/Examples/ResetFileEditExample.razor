@@ -1,15 +1,21 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<FileEdit @ref="@fileEdit" AutoReset="false" Changed="@OnChanged" />
-@code{
+<Field>
+    <FileEdit @ref="@fileEdit" AutoReset="false" Changed="@OnChanged" />
+</Field>
+<Field>
+    <Button Color="Color.Primary" Clicked="Reset">Reset</Button>
+</Field>
+
+@code {
     FileEdit fileEdit;
 
-    Task OnChanged( FileChangedEventArgs e )
+    Task OnChanged(FileChangedEventArgs e)
     {
         return Task.CompletedTask;
     }
 
-    Task OnSomeButtonClick()
+    Task Reset()
     {
         return fileEdit.Reset().AsTask();
     }

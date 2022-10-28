@@ -1,0 +1,51 @@
+﻿@page "/tests/focus-trap";
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Focus Trap</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    The focus trap allows you to restrict TAB key navigation inside the component.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Switch TValue="bool" Checked="@focusTrapActive" CheckedChanged="@OnFocusTrapActiveChanged">Active</Switch>
+            </CardBody>
+            <CardBody>
+                <FocusTrap @ref="focusTrapRef" Active="@focusTrapActive">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">First Name</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                            <TextEdit Autofocus />
+                        </FieldBody>
+                    </Field>
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Last Name</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                            <TextEdit />
+                        </FieldBody>
+                    </Field>
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Address</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                            <TextEdit />
+                        </FieldBody>
+                    </Field>
+                </FocusTrap>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    bool focusTrapActive = false;
+    FocusTrap focusTrapRef;
+
+    Task OnFocusTrapActiveChanged( bool active )
+    {
+        focusTrapActive = active;
+
+        return Task.CompletedTask;
+    }
+}

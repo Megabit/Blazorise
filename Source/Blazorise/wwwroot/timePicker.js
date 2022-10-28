@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.0.7.0";
-import * as utilities from "./utilities.js?v=1.0.7.0";
+﻿import "./vendors/flatpickr.js?v=1.1.2.0";
+import * as utilities from "./utilities.js?v=1.1.2.0";
 
 const _pickers = [];
 
@@ -49,6 +49,7 @@ export function initialize(element, elementId, options) {
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
+        inline: options.inline || false
     });
 
     if (options) {
@@ -99,6 +100,10 @@ export function updateOptions(element, elementId, options) {
         if (options.readOnly.changed) {
             picker.altInput.readOnly = options.readOnly.value;
             picker.set("clickOpens", !options.readOnly.value);
+        }
+
+        if (options.inline.changed) {
+            picker.set("inline", options.inline.value || false);
         }
     }
 }

@@ -18,8 +18,9 @@ namespace Blazorise.Tests.Helpers
     {
         public static void AddBootstrapProviders( TestServiceProvider services )
         {
+            services.AddSingleton<IComponentDisposer, ComponentDisposer>();
             services.AddSingleton<IIdGenerator>( new IdGenerator() );
-            services.AddSingleton<IEditContextValidator>( new EditContextValidator( new ValidationMessageLocalizerAttributeFinder() ) );
+            services.AddSingleton<IEditContextValidator>( sp => new EditContextValidator( new ValidationMessageLocalizerAttributeFinder(), sp ) );
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
             services.AddSingleton<IBehaviourProvider>( new BootstrapBehaviourProvider() );
@@ -54,9 +55,9 @@ namespace Blazorise.Tests.Helpers
             services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
             services.AddScoped<IJSFileEditModule, JSFileEditModule>();
             services.AddScoped<IJSTableModule, JSTableModule>();
-            services.AddScoped<IJSSelectModule, JSSelectModule>();
             services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
             services.AddScoped<IJSDropdownModule, JSDropdownModule>();
+            services.AddScoped<IJSDragDropModule, JSDragDropModule>();
 
             services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
             services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
@@ -111,6 +112,8 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "import", _ => true ).SetVoidResult();
                 module.SetupVoid( "registerClosableComponent", _ => true ).SetVoidResult();
                 module.SetupVoid( "unregisterClosableComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "registerClosableLightComponent", _ => true ).SetVoidResult();
+                module.SetupVoid( "unregisterClosableLightComponent", _ => true ).SetVoidResult();
             }
 
             public static void AddNumericEdit( BunitJSInterop jsInterop )
@@ -123,21 +126,14 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "destroy", _ => true ).SetVoidResult();
             }
 
-            public static void AddSelect( BunitJSInterop jsInterop )
-            {
-                AddUtilities( jsInterop );
-
-                var module = jsInterop.SetupModule( new JSSelectModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
-                module.SetupVoid( "import", _ => true ).SetVoidResult();
-                module.Setup<String[]>( "getSelectedOptions", _ => true ).SetResult( Array.Empty<string>() );
-            }
-
             public static void AddUtilities( BunitJSInterop jsInterop )
             {
                 var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
                 module.SetupVoid( "import", _ => true ).SetVoidResult();
                 module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
-                module.Setup<string>( "getUserAgent",  _ => true ).SetResult( String.Empty ); 
+                module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
+                module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
+                module.SetupVoid( "focus", _ => true ).SetVoidResult();
             }
 
             public static void AddModal( BunitJSInterop jsInterop )
@@ -149,7 +145,6 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "open", _ => true ).SetVoidResult();
                 module.SetupVoid( "close", _ => true ).SetVoidResult();
             }
-
 
 
             public static void AddTable( BunitJSInterop jsInterop )
@@ -171,7 +166,6 @@ namespace Blazorise.Tests.Helpers
                 AddTextEdit( jsInterop );
                 AddModal( jsInterop );
                 AddTable( jsInterop );
-                AddSelect( jsInterop );
                 AddClosable( jsInterop );
                 AddDropdown( jsInterop );
 
@@ -189,6 +183,15 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "destroy", _ => true );
                 module.SetupVoid( "show", _ => true );
                 module.SetupVoid( "hide", _ => true );
+            }
+
+            public static void AddDragDrop( BunitJSInterop jsInterop )
+            {
+                AddUtilities( jsInterop );
+
+                var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+                module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+                module.SetupVoid( "destroy", _ => true ).SetVoidResult();
             }
         }
 

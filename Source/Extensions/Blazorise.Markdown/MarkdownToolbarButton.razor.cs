@@ -95,6 +95,11 @@ namespace Blazorise.Markdown
         [Parameter] public string Icon { get; set; }
 
         /// <summary>
+        /// Gets or sets the text that appears along with the button.
+        /// </summary>
+        [Parameter] public string Text { get; set; }
+
+        /// <summary>
         /// Gets or sets the small tooltip that appears via the <c>title=""</c> attribute.
         /// </summary>
         [Parameter] public string Title { get; set; }

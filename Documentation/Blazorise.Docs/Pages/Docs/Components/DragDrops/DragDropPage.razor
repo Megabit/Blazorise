@@ -50,6 +50,18 @@
     <DocsPageSectionSource Code="BasicDragDropExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Reorder items">
+        <Paragraph>
+            Items can be reordered inside each dropzone with the <Code>AllowReorder</Code> bool set to true on the dropzone.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DragDropReorderingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DragDropReorderingExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -123,5 +135,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ItemDraggingClass" Type="string" Default="null">
         Classname that is applied to the drag item when it is being dragged.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AllowReorder" Type="bool" Default="false">
+        If true, the reordering of the items will be enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="OnlyZone" Type="bool" Default="false">
+        If true, will only act as a dropable zone and not render any items.
     </DocsAttributesItem>
 </DocsAttributes>

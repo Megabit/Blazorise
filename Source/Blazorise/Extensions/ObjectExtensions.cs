@@ -20,6 +20,12 @@ namespace Blazorise.Extensions
         /// <returns>True if the specified objects are equal; otherwise, false.</returns>
         public static bool IsEqual<T>( this T x, T y )
         {
+            if ( x == null && y == null )
+                return true;
+
+            if ( x == null || y == null )
+                return false;
+
             return EqualityComparer<T>.Default.Equals( x, y );
         }
 

@@ -66,6 +66,16 @@
     <DocsPageSectionSource Code="MultipleDatePickerExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Inline Calendar">
+        To always show the calendar you just need to set <Code>Inline</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <InlineDatePickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="InlineDatePickerExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Format
 </DocsPageSubtitle>
@@ -269,5 +279,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DisabledDates" Type="IEnumerable<TValue>" Default="null">
         List of disabled dates that the user should not be able to pick.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
+        Display the calendar in an always-open state with the inline option.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -85,6 +85,21 @@ namespace Blazorise
         public bool? EnableNumericStep { get; set; }
 
         /// <summary>
+        /// If true, modal will keep input focus.
+        /// </summary>
+        public bool? ModalFocusTrap { get; set; } = true;
+
+        /// <summary>
+        /// Defines the default icon style. Can be overriden on an each individual icon.
+        /// </summary>
+        public IconStyle? IconStyle { get; set; }
+
+        /// <summary>
+        /// Defines the default icon size. Can be overriden on an each individual icon.
+        /// </summary>
+        public IconSize? IconSize { get; set; }
+
+        /// <summary>
         /// Gets the service provider.
         /// </summary>
         public IServiceProvider Services => serviceProvider;

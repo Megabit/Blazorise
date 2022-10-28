@@ -1,0 +1,75 @@
+﻿@page "/tests/animate"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Animate</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
+                        <Animate Animation="Animations.FadeRight" DelayMilliseconds="500">
+                            <Card Margin="Margin.Is4.OnY">
+                                <CardImage Source="assets/images/gallery/9.jpg" Alt="Placeholder image">
+                                </CardImage>
+                                <CardBody>
+                                    <CardTitle Size="5">Fade Example</CardTitle>
+                                    <CardText>
+                                        Some content.
+                                    </CardText>
+                                    <Button Color="Color.Primary">Button</Button>
+                                </CardBody>
+                            </Card>
+                        </Animate>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
+                        <Animate Animation="Animations.FlipUp" DelayMilliseconds="500">
+                            <Card Margin="Margin.Is4.OnY">
+                                <CardImage Source="assets/images/gallery/9.jpg" Alt="Placeholder image">
+                                </CardImage>
+                                <CardBody>
+                                    <CardTitle Size="5">Flip Example</CardTitle>
+                                    <CardText>
+                                        Some content.
+                                    </CardText>
+                                    <Button Color="Color.Primary">Button</Button>
+                                </CardBody>
+                            </Card>
+                        </Animate>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
+                        <Animate Animation="Animations.ZoomIn" DelayMilliseconds="500">
+                            <Card Margin="Margin.Is4.OnY">
+                                <CardImage Source="assets/images/gallery/9.jpg" Alt="Placeholder image">
+                                </CardImage>
+                                <CardBody>
+                                    <CardTitle Size="5">Zoom In Example</CardTitle>
+                                    <CardText>
+                                        Some content.
+                                    </CardText>
+                                    <Button Color="Color.Primary">Button</Button>
+                                </CardBody>
+                            </Card>
+                        </Animate>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
+                        <Animate Animation="Animations.ZoomOut" DelayMilliseconds="500">
+                            <Card Margin="Margin.Is4.OnY">
+                                <CardImage Source="assets/images/gallery/9.jpg" Alt="Placeholder image">
+                                </CardImage>
+                                <CardBody>
+                                    <CardTitle Size="5">Slide Example</CardTitle>
+                                    <CardText>
+                                        Some content.
+                                    </CardText>
+                                    <Button Color="Color.Primary">Button</Button>
+                                </CardBody>
+                            </Card>
+                        </Animate>
+                    </Column>
+
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -29,7 +29,7 @@ namespace Blazorise.DataGrid
 
         private int currentPage = 1;
 
-        private int currentPageSize = 5;
+        private int currentPageSize = 10;
 
         private int? totalItems;
 

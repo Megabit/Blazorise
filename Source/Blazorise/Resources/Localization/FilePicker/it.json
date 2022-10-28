@@ -1,0 +1,18 @@
+{
+  "culture": "it",
+  "translations": {
+    "Ready to upload": "Pronto per il caricamento",
+    "Uploaded successfully": "Caricato con successo",
+    "File size is too large": "La dimensione del file è troppo grande",
+    "Error uploading": "Errore durante il caricamento",
+    "Or drop files here": "Oppure trascina i file qui",
+    "Clear": "Chiaro",
+    "Upload": "Caricamento",
+    "Cancel": "Annulla",
+    "Confirm": "Confermare",
+    "Remove": "Rimuovere",
+    "Are you sure you want to remove the file?": "Sei sicuro di voler rimuovere il file?",
+    "Are you sure you want to clear all files?": "Sei sicuro di voler cancellare tutti i file?",
+    "Are you sure you want to cancel the upload?": "Sei sicuro di voler annullare il caricamento?"
+  }
+}

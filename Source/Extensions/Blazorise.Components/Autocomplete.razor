@@ -6,25 +6,25 @@
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
-        @if ( Multiple && !SelectedTexts.IsNullOrEmpty() )
+        @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
         {
             @foreach ( var selectedText in SelectedTexts )
             {
-                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleText( selectedText )">@selectedText</Badge>
+                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
             }
         }
 
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"
-                  Text="@SelectedText"
+                  Text="@CurrentSearch"
                   TextChanged="@OnTextChangedHandler"
                   Placeholder="@Placeholder"
                   Size="@Size"
                   Disabled="@Disabled"
                   TabIndex="@TabIndex"
                   KeyDown="@OnTextKeyDownHandler"
-                  FocusIn="@OnTextFocusInHandler"
-                  Blur="@OnTextBlurHandler"
+                  OnFocus="OnTextFocusHandler"
+                  Blur="OnTextBlurHandler"
                   Immediate="@Immediate"
                   Debounce="@Debounce"
                   DebounceInterval="@DebounceInterval"
@@ -36,43 +36,63 @@
             </Feedback>
         </TextEdit>
     </Validation>
-    <DropdownMenu @ref="DropdownMenuRef">
+    <DropdownMenu>
         @if ( NotFoundVisible )
         {
             <DropdownItem Disabled>
-                @NotFoundContent( SelectedText )
+                @NotFoundContent( CurrentSearch )
             </DropdownItem>
         }
 
         @if ( DropdownVisible )
         {
-            // once the menu is opened we need to register it as closable so that user could properly close it with escape key
-            // without accidentally triggering the parent component closing
-            if ( !jsRegistered )
-            {
-                jsRegistered = true;
-
-                ExecuteAfterRender( async () =>
-                {
-                    await JSClosableModule.Register( dotNetObjectRef, ElementRef );
-                } );
-            }
-
             for ( int i = 0; i < FilteredData.Count; ++i )
             {
                 var item = FilteredData[i];
+                var isActiveItem = IsSuggestedActiveItem( item );
+                var isFocusedItem = i == ActiveItemIndex;
 
                 var text = GetItemText( item );
                 var value = GetItemValue( item );
 
-                @if ( ItemContent is not null )
-                {
-                    <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@ItemContent(new (item, value, text))</DropdownItem>
-                }
-                else
-                {
-                    <DropdownItem @key="item" Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
-                }
+                <DropdownItem ElementId="@DropdownItemId(i)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(i)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
+                    @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+                    {
+                        <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is1.OnY" Class="@DropdownCheckboxItemClassNames">
+                            <Div Margin="Margin.Is1">
+                                @if ( isActiveItem )
+                                {
+                                    <Icon Name="IconName.CheckSquare" TextColor="isFocusedItem ? TextColor.Primary : TextColor.White"></Icon>
+                                }
+                                else
+                                {
+                                    <Icon Name="IconName.Square" TextColor="TextColor.Primary"></Icon>
+                                }
+                            </Div>
+                            <Div Margin="Margin.Is1.OnY">
+                                @if ( ItemContent is not null )
+                                {
+                                    @ItemContent(new (item, value, text))
+                                }
+                                else
+                                {
+                                    @text
+                                }
+                            </Div>
+                        </Div>
+                    }
+                    else
+                    {
+                        @if ( ItemContent is not null )
+                        {
+                            @ItemContent(new (item, value, text))
+                        }
+                        else
+                        {
+                            @text
+                        }
+                    }
+                </DropdownItem>
             }
         }
     </DropdownMenu>

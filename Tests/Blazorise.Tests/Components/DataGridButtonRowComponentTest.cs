@@ -2,6 +2,7 @@
 using System.Linq;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
+using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -30,14 +31,15 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.Find( "#btnNew" ).Click();
-            comp.Find( "#btnSave" ).Click();
+            comp.Click( "#btnNew" );
+            comp.Click( "#btnSave" );
 
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
-            Assert.Equal( startingDataCount + 1, currentDataCount );
+            var expectedResult = startingDataCount + 1;
+            comp.WaitForAssertion( () => Assert.Equal(expectedResult, comp.Instance.InMemoryData.Count), System.TimeSpan.FromSeconds(3) );
         }
 
         [Theory]
@@ -52,20 +54,18 @@ namespace Blazorise.Tests.Components
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
 
             // test
-            comp.Find( "tr.table-row-selectable" ).Click();
-            comp.Find( "#btnEdit" ).Click();
+            comp.Click( "tr.table-row-selectable" );
+            comp.Click( "#btnEdit" );
 
+            comp.Input( "input", updatedName,
+                ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
-            var firstInput = comp.Find( "input" );
-            firstInput.SetAttribute( "value", updatedName );
-            firstInput.Input( updatedName );
-
-            comp.Find( "#btnSave" ).Click();
+            comp.Click( "#btnSave" );
 
             var currentName = comp.Instance.InMemoryData[0].Name;
 
             // validate
-            Assert.Contains( comp.Instance.InMemoryData, x => x.Name == updatedName );
+            comp.WaitForAssertion( () => Assert.Contains( comp.Instance.InMemoryData, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
         }
 
         [Theory]
@@ -80,13 +80,14 @@ namespace Blazorise.Tests.Components
             var startingDataCount = comp.Instance.InMemoryData.Count;
 
             // test
-            comp.Find( "tr.table-row-selectable" ).Click();
-            comp.Find( "#btnDelete" ).Click();
+            comp.Click( "tr.table-row-selectable" );
+            comp.Click( "#btnDelete" );
 
             var currentDataCount = comp.Instance.InMemoryData.Count;
 
             // validate
-            Assert.Equal( startingDataCount - 1, currentDataCount );
+            var expectedResult = startingDataCount -1;
+            comp.WaitForAssertion( () => Assert.Equal( expectedResult, currentDataCount ), System.TimeSpan.FromSeconds( 3 ) );
         }
     }
 }

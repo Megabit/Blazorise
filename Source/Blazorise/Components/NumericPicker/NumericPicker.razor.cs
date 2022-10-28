@@ -46,6 +46,29 @@ namespace Blazorise
         /// </summary>
         private bool hasValueToChangeOnBlur;
 
+        /// <summary>
+        /// True if the TValue is an integer type.
+        /// </summary>
+        private bool isIntegerType;
+
+        /// <summary>
+        /// Contains the correct inputmode for the input element, based in the TValue.
+        /// </summary>
+        private string inputMode;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default NumericPicker constructor.
+        /// </summary>
+        public NumericPicker()
+        {
+            isIntegerType = TypeHelper.IsInteger( typeof( TValue ) );
+            inputMode = isIntegerType ? "numeric" : "decimal";
+        }
+
         #endregion
 
         #region Methods
@@ -55,7 +78,7 @@ namespace Blazorise
         {
             if ( Rendered )
             {
-                var decimalsChanged = parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
+                var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
                 var decimalSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalSeparator ), out var paramDecimalSeparator ) && !DecimalSeparator.IsEqual( paramDecimalSeparator );
                 var alternativeDecimalSeparatorChanged = parameters.TryGetValue<string>( nameof( AlternativeDecimalSeparator ), out var paramAlternativeDecimalSeparator ) && !AlternativeDecimalSeparator.IsEqual( paramAlternativeDecimalSeparator );
 
@@ -76,17 +99,21 @@ namespace Blazorise
                 var allowDecimalPaddingChanged = parameters.TryGetValue<NumericAllowDecimalPadding>( nameof( AllowDecimalPadding ), out var paramAllowDecimalPadding ) && !AllowDecimalPadding.IsEqual( paramAllowDecimalPadding );
                 var alwaysAllowDecimalSeparatorChanged = parameters.TryGetValue<bool>( nameof( AlwaysAllowDecimalSeparator ), out var paramAlwaysAllowDecimalSeparator ) && !AlwaysAllowDecimalSeparator.IsEqual( paramAlwaysAllowDecimalSeparator );
 
+                var modifyValueOnWheelChanged = parameters.TryGetValue<bool>( nameof( ModifyValueOnWheel ), out var paramModifyValueOnWheel ) && !ModifyValueOnWheel.IsEqual( paramModifyValueOnWheel );
+                var wheelOnChanged = parameters.TryGetValue<NumericWheelOn>( nameof( WheelOn ), out var paramWheelOn ) && !WheelOn.IsEqual( paramWheelOn );
+
                 if ( decimalsChanged || decimalSeparatorChanged || alternativeDecimalSeparatorChanged
                     || groupSeparatorChanged || groupSpacingChanged
                     || currencySymbolChanged || currencySymbolPlacementChanged
                     || roundingMethodChanged
                     || minChanged || maxChanged
                     || selectAllOnFocusChanged
-                    || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged )
+                    || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged
+                    || modifyValueOnWheelChanged )
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
-                        Decimals = new { Changed = decimalsChanged, Value = paramDecimals },
+                        Decimals = new { Changed = decimalsChanged, Value = GetDecimals() },
                         DecimalSeparator = new { Changed = decimalSeparatorChanged, Value = paramDecimalSeparator },
                         AlternativeDecimalSeparator = new { Changed = alternativeDecimalSeparatorChanged, Value = paramAlternativeDecimalSeparator },
                         GroupSeparator = new { Changed = groupSeparatorChanged, Value = paramGroupSeparator },
@@ -100,6 +127,8 @@ namespace Blazorise
                         Max = new { Changed = maxChanged, Value = paramMax },
                         MinMaxLimitsOverride = new { Changed = minMaxLimitsOverrideChanged, Value = paramMinMaxLimitsOverride },
                         SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
+                        ModifyValueOnWheel = new { Changed = modifyValueOnWheelChanged, Value = paramModifyValueOnWheel },
+                        WheelOn = new { Changed = wheelOnChanged, Value = paramWheelOn },
                     } ) );
                 }
 
@@ -151,7 +180,7 @@ namespace Blazorise
                 Immediate = IsImmediate,
                 Debounce = IsDebounce,
                 DebounceInterval = DebounceIntervalValue,
-                Decimals,
+                Decimals = GetDecimals(),
                 DecimalSeparator,
                 AlternativeDecimalSeparator,
                 GroupSeparator,
@@ -168,6 +197,8 @@ namespace Blazorise
                 TypeMax = maxFromType,
                 Step,
                 SelectAllOnFocus,
+                ModifyValueOnWheel,
+                WheelOn = WheelOn.ToNumericWheelOn(),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -246,9 +277,9 @@ namespace Blazorise
                 short @short => Converters.FormatValue( @short, CurrentCultureInfo ),
                 int @int => Converters.FormatValue( @int, CurrentCultureInfo ),
                 long @long => Converters.FormatValue( @long, CurrentCultureInfo ),
-                float @float => Converters.FormatValue( @float, CurrentCultureInfo, Decimals ),
-                double @double => Converters.FormatValue( @double, CurrentCultureInfo, Decimals ),
-                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo, Decimals ),
+                float @float => Converters.FormatValue( @float, CurrentCultureInfo, GetDecimals() ),
+                double @double => Converters.FormatValue( @double, CurrentCultureInfo, GetDecimals() ),
+                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo, GetDecimals() ),
                 sbyte @sbyte => Converters.FormatValue( @sbyte, CurrentCultureInfo ),
                 ushort @ushort => Converters.FormatValue( @ushort, CurrentCultureInfo ),
                 uint @uint => Converters.FormatValue( @uint, CurrentCultureInfo ),
@@ -382,6 +413,12 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Returns the numbers of allowed decimals.
+        /// </summary>
+        /// <returns>Number of decimals.</returns>
+        protected int GetDecimals() => isIntegerType ? 0 : Decimals;
+
         #endregion
 
         #region Properties
@@ -420,6 +457,11 @@ namespace Blazorise
                 return CultureInfo.InvariantCulture;
             }
         }
+
+        /// <summary>
+        /// Gets the correct inputmode for the input element, based in the TValue.
+        /// </summary>
+        protected string InputMode => inputMode;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSNumericPickerModule"/> instance.
@@ -544,6 +586,16 @@ namespace Blazorise
         /// If true, selects all the text entered in the input field once it receives the focus.
         /// </summary>
         [Parameter] public bool SelectAllOnFocus { get; set; }
+
+        /// <summary>
+        /// Determine if the element value can be incremented / decremented with the mouse wheel.
+        /// </summary>
+        [Parameter] public bool ModifyValueOnWheel { get; set; }
+
+        /// <summary>
+        /// Used in conjonction with the <see cref="ModifyValueOnWheel"/> option, defines when the wheel event will increment or decrement the element value, either when the element is focused, or hovered.
+        /// </summary>
+        [Parameter] public NumericWheelOn WheelOn { get; set; }
 
         #endregion
     }

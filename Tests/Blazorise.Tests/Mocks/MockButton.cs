@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Moq;
 #endregion
 
@@ -12,6 +13,12 @@ namespace Blazorise.Tests.Mocks
     {
         public MockButton( Dropdown parentDropdown = null, Addons parentAddons = null, Buttons parentButtons = null )
         {
+            var mockComponentDisposer = new Mock<IComponentDisposer>();
+            this.ComponentDisposer = mockComponentDisposer.Object;
+
+            mockComponentDisposer
+                .Setup( r => r.Dispose( It.IsAny<BaseAfterRenderComponent>() ) );
+
             var mockRunner = new Mock<IJSUtilitiesModule>();
 
             mockRunner
@@ -44,7 +51,7 @@ namespace Blazorise.Tests.Mocks
 
         public Task Click()
         {
-            return ClickHandler();
+            return ClickHandler( new MouseEventArgs() );
         }
 
         private bool OnFocusCalled( ElementReference elementReference, string elementId, bool scrollToElement )

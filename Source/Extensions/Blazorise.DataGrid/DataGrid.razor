@@ -59,9 +59,16 @@
                                         {
                                             @column.SortDirectionTemplate( column.CurrentSortDirection )
                                         }
-                                        else if ( column.CurrentSortDirection != SortDirection.Default )
+                                        else 
                                         {
-                                            <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                            if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
+                                            {
+                                                <Icon Name="@IconName.Sort" />
+                                            }
+                                            else if ( column.CurrentSortDirection != SortDirection.Default )
+                                            {
+                                                <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                            }
                                         }
                                     }
                                 </TableHeaderCell>

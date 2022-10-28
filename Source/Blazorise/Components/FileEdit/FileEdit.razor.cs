@@ -11,6 +11,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using static System.Net.WebRequestMethods;
 #endregion
 
 namespace Blazorise
@@ -35,6 +36,13 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets the internal progress state for the current item being processed.
+        /// </summary>
+        /// <returns></returns>
+        internal (double Progress, long ProgressProgress, long ProgressTotal) GetCurrentProgress()
+            => (Progress, ProgressProgress, ProgressTotal);
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
@@ -117,13 +125,22 @@ namespace Blazorise
             // Because of that we're going to skip CurrentValueHandler and implement all the
             // update logic here.
 
+            var updatedFiles = InternalValue?.Where( x => files.Any( file => file.Id == x.Id ) ).ToList() ?? new();
             foreach ( var file in files )
             {
-                // So that method invocations on the file can be dispatched back here
-                file.Owner = (IFileEntryOwner)(object)this;
+                if ( !updatedFiles.Any( x => x.Id == file.Id ) )
+                {
+                    // So that method invocations on the file can be dispatched back here
+                    file.Owner = (IFileEntryOwner)(object)this;
+
+                    if ( MaxFileSize < file.Size )
+                        file.Status = FileEntryStatus.ExceedsMaximumSize;
+
+                    updatedFiles.Add( file );
+                }
             }
 
-            InternalValue = files;
+            InternalValue = updatedFiles.ToArray();
 
             // send the value to the validation for processing
             if ( ParentValidation != null )
@@ -149,34 +166,45 @@ namespace Blazorise
         /// <inheritdoc/>
         public Task UpdateFileStartedAsync( IFileEntry fileEntry )
         {
-            // reset all
             ProgressProgress = 0;
             ProgressTotal = fileEntry.Size;
             Progress = 0;
 
+            fileEntry.Status = FileEntryStatus.Uploading;
             return Started.InvokeAsync( new( fileEntry ) );
         }
 
         /// <inheritdoc/>
         public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
         {
+            if ( success )
+                fileEntry.Status = FileEntryStatus.Uploaded;
+            else
+                fileEntry.Status = FileEntryStatus.Error;
+
             if ( AutoReset )
             {
-                await Reset();
+                await InvokeAsync( async () => await Reset() );
             }
 
-            await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) );
+            await InvokeAsync( async () => await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) ) );
         }
 
         /// <inheritdoc/>
         public Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
-            return Written.InvokeAsync( new( fileEntry, position, data ) );
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
+            return InvokeAsync( async () => await Written.InvokeAsync( new( fileEntry, position, data ) ) );
         }
 
         /// <inheritdoc/>
         public Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
+            if ( DisableProgressReport )
+                return Task.CompletedTask;
+
             ProgressProgress += progressProgress;
 
             var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
@@ -185,23 +213,23 @@ namespace Blazorise
             {
                 Progress = progress;
 
-                return Progressed.InvokeAsync( new( fileEntry, Progress ) );
+                return InvokeAsync( async () => await Progressed.InvokeAsync( new( fileEntry, Progress ) ) );
             }
 
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
         {
             return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
-                .WriteToStreamAsync( stream, CancellationToken.None );
+                .WriteToStreamAsync( stream, cancellationToken );
         }
 
         /// <inheritdoc/>
         public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
         {
-            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, SegmentFetchTimeout, MaxFileSize, cancellationToken );
+            return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxFileSize, cancellationToken );
         }
 
         /// <summary>
@@ -216,9 +244,23 @@ namespace Blazorise
             return JSFileEditModule.Reset( ElementRef, ElementId );
         }
 
+        /// <summary>
+        /// Removes a file from the current file selection.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public ValueTask RemoveFile( int fileId )
+        {
+            return JSFileEditModule.RemoveFile( ElementRef, ElementId, fileId );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the currently added files.
+        /// </summary>
+        public IFileEntry[] Files => InternalValue;
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
@@ -311,7 +353,11 @@ namespace Blazorise
 
         /// <summary>
         /// Gets or sets the max chunk size when uploading the file.
+        /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
         /// </summary>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
+        /// </remarks>
         [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
 
         /// <summary>
@@ -326,7 +372,7 @@ namespace Blazorise
         [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
         /// <summary>
-        /// Occurs every time the selected file(s) has changed.
+        /// Occurs every time the selected file has changed, including when the reset operation is executed.
         /// </summary>
         [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
@@ -359,6 +405,12 @@ namespace Blazorise
         /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
         [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+        /// <para>This setting can speed up file transfer considerably.</para>
+        /// </summary>
+        [Parameter] public bool DisableProgressReport { get; set; } = false;
 
         #endregion
     }
