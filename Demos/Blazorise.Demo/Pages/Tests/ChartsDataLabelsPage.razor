@@ -1,0 +1,15 @@
+﻿@page "/tests/charts/datalabels"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LineChart @ref="lineChart" TItem="int" Options="@lineChartOptions">
+                    <ChartDataLabels TItem="int" Datasets="@dataLabelsDatasets" Options="@dataLabelsOptions" />
+                </LineChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
