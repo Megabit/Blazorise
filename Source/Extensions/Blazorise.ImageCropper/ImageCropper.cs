@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
@@ -38,6 +39,11 @@ namespace Blazorise.ImageCropper
         /// The alt text of the image
         /// </summary>
         [Parameter] public string PreviewSelector { get; set; }
+
+        /// <summary>
+        /// The cropper radius
+        /// </summary>
+        [Parameter] public int? Radius { get; set; }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -103,7 +109,8 @@ namespace Blazorise.ImageCropper
         {
             AspectRatio = Ratio.Value,
             Preview = PreviewSelector,
-            ViewMode = (int)ViewMode
+            ViewMode = (int)ViewMode,
+            Radius = Radius
         };
 
         /// <inheritdoc/>
@@ -123,6 +130,13 @@ namespace Blazorise.ImageCropper
         public async Task<string> CropAsBase64ImageAsync( CropOptions options )
         {
             return await JSModule.CropBase64( ElementRef, ElementId, options );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( "b-image-cropper-source" );
+            base.BuildClasses( builder );
         }
     }
 }

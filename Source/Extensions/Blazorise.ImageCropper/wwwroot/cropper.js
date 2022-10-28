@@ -18,9 +18,16 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         cropper: null,
     };
 
-    instance.cropper = new Cropper(element, options);
+    options.ready = () => {
+        if (options.radius) {
+            const cropper = instance.cropper.cropper;
+            const borderRadius = options.radius + '%';
+            cropper.getElementsByClassName('cropper-face')[0].style.borderRadius = borderRadius;
+            cropper.getElementsByClassName('cropper-view-box')[0].style.borderRadius = borderRadius;
+        }
+    };
 
-    //registerToEvents(dotNetAdapter, instance.player);
+    instance.cropper = new Cropper(element, options);
 
     _instances[elementId] = instance;
 }

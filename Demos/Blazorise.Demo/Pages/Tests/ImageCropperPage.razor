@@ -6,53 +6,54 @@
             <CardHeader>
                 <CardTitle>Image Cropper Component (based on <Anchor To="https://fengyuanchen.github.io/cropperjs/">Cropper.js</Anchor>)</CardTitle>
             </CardHeader>
-               <CardBody>
-                <Row>
-                    <Column>
-                        <Fields>
-                            <Field>
-                                <FieldLabel>
-                                    Aspect Ratio
-                                </FieldLabel>
-                                <FieldBody>
-                                    <RadioGroup TValue="double?" @bind-CheckedValue="@ratio" Buttons>
-                                        <Radio Value="@AspectRatio.Ratio16_9.Value">16:9</Radio>
-                                        <Radio Value="@AspectRatio.Ratio4_3.Value">4:3</Radio>
-                                        <Radio Value="@AspectRatio.Ratio1_1.Value">1:1</Radio>
-                                        <Radio Value="@AspectRatio.Ratio2_3.Value">2:3</Radio>
-                                        <Radio Value="@AspectRatio.RatioFree.Value">Free</Radio>
-                                    </RadioGroup>
-                                </FieldBody>
-                            </Field>
-                        </Fields>
-                        <Fields>
-                            <Field>
-                                <FieldLabel>
-                                    View Mode
-                                </FieldLabel>
-                                <FieldBody>
-                                    <RadioGroup TValue="ViewMode" @bind-CheckedValue="@viewMode" Buttons>
-                                        <Radio Value="@ViewMode.Mode0">VM0</Radio>
-                                        <Radio Value="@ViewMode.Mode1">VM1</Radio>
-                                        <Radio Value="@ViewMode.Mode2">VM2</Radio>
-                                        <Radio Value="@ViewMode.Mode3">VM3</Radio>
-                                    </RadioGroup>
-                                </FieldBody>
-                            </Field>
-                        </Fields>
-                    </Column>
-                </Row>
+            <CardBody>
+                <Field>
+                    <FieldLabel>
+                        Aspect Ratio
+                    </FieldLabel>
+                    <FieldBody>
+                        <RadioGroup @bind-CheckedValue="@ratio" Buttons>
+                            <Radio Value="@AspectRatio.Ratio16_9.Value">16:9</Radio>
+                            <Radio Value="@AspectRatio.Ratio4_3.Value">4:3</Radio>
+                            <Radio Value="@AspectRatio.Ratio1_1.Value">1:1</Radio>
+                            <Radio Value="@AspectRatio.Ratio2_3.Value">2:3</Radio>
+                            <Radio Value="@AspectRatio.RatioFree.Value">Free</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>
+                        View Mode
+                    </FieldLabel>
+                    <FieldBody>
+                        <RadioGroup @bind-CheckedValue="@viewMode" Buttons>
+                            <Radio Value="@ViewMode.Mode0">VM0</Radio>
+                            <Radio Value="@ViewMode.Mode1">VM1</Radio>
+                            <Radio Value="@ViewMode.Mode2">VM2</Radio>
+                            <Radio Value="@ViewMode.Mode3">VM3</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>
+                        Crop Radius @radius%
+                    </FieldLabel>
+                    <FieldBody>
+                        <Slider @bind-Value="@radius" Min="0" Max="90" />
+                    </FieldBody>
+                </Field>
             </CardBody>
-         <CardBody>
+            <CardBody>
                 <Row>
                     <Column>
                         <FieldLabel>
                             Image Cropper
                         </FieldLabel>
                         <FieldBody>
-                            <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png" 
-                                          Ratio="@new(ratio)" 
+                            <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png"
+                                          Ratio="@new(ratio)"
                                           ViewMode="@viewMode"
+                                          Radius="@radius"
                                           PreviewSelector=".preview" />
                         </FieldBody>
                     </Column>
@@ -61,13 +62,13 @@
                             Preview
                         </FieldLabel>
                         <FieldBody>
-                            <div class="preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden"/>
+                            <div class="preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
                             <div class="preview" style="margin: 10px; width: 100px; height: 100px; overflow: hidden" />
                             <div class="preview" style="margin: 10px; width: 50px; height: 50px; overflow: hidden" />
                         </FieldBody>
                     </Column>
                 </Row>
-                <Row>
+                <Row Margin="Margin.Is3">
                     <Column>
                         <Button Clicked="GetCroppedImage">Get Cropped Image</Button>
                     </Column>
@@ -83,11 +84,12 @@
 @code {
     private ImageCropper cropper;
     private string result;
+    private int radius;
     private double? ratio = 1.0;
     private ViewMode viewMode;
 
     private async Task GetCroppedImage()
     {
-        result  = await cropper.CropAsBase64ImageAsync(new() {Width = 250, Height = 250});
+        result = await cropper.CropAsBase64ImageAsync(new() { Width = 250, Height = 250 });
     }
 }
