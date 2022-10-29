@@ -4404,6 +4404,152 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>";
 
+        public const string ChartDataLabelsExample = @"<LineChart @ref=""@lineChart"" TItem=""int"" Options=""@lineChartOptions"">
+    <ChartDataLabels TItem=""int"" Datasets=""@lineDataLabelsDatasets"" Options=""@lineDataLabelsOptions"" />
+</LineChart>
+
+@code {
+    private LineChart<int> lineChart;
+
+    // define regular chart options
+    LineChartOptions lineChartOptions = new()
+    {
+        AspectRatio = 5d / 3d,
+        Layout = new()
+        {
+            Padding = new()
+            {
+                Top = 32,
+                Right = 16,
+                Bottom = 16,
+                Left = 8
+            }
+        },
+        Elements = new()
+        {
+            Line = new()
+            {
+                Fill = false,
+                Tension = 0.4,
+            }
+        },
+        Scales = new()
+        {
+            Y = new()
+            {
+                Stacked = true,
+            }
+        },
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Display = false
+            }
+        }
+    };
+
+    // define specific dataset styles by targeting them with the DatasetIndex
+    List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+    {
+        new()
+        {
+            DatasetIndex = 0,
+            Options = new()
+            {
+                BackgroundColor = BackgroundColors[0],
+                Align = ""start"",
+                Anchor = ""start""
+            }
+        },
+        new()
+        {
+            DatasetIndex = 1,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[1],
+            }
+        },
+        new()
+        {
+            DatasetIndex = 2,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[2],
+                Align = ""end"",
+                Anchor = ""end""
+            }
+        },
+    };
+
+    // some shared options for all data-labels
+    ChartDataLabelsOptions lineDataLabelsOptions = new()
+    {
+        BorderRadius = 4,
+        Color = ""#ffffff"",
+        Font = new()
+        {
+            Weight = ""bold""
+        },
+        Formatter = ChartMathFormatter.Round,
+        Padding = new( 6 )
+    };
+
+    private static string[] Labels = new string[] { ""1"", ""2"", ""3"", ""4"", ""5"", ""6"" };
+    private static string[] BackgroundColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private static string[] BorderColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private Random random = new( DateTime.Now.Millisecond );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw( lineChart, GetLineChartDataset );
+
+            await lineChart.Clear();
+
+            await lineChart.AddLabelsDatasetsAndUpdate( Labels,
+                GetLineChartDataset( 0 ),
+                GetLineChartDataset( 1 ),
+                GetLineChartDataset( 2 ) );
+        }
+    }
+
+    private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<int, TDataSet> getDataSet )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels,
+            getDataSet( 0 ),
+            getDataSet( 1 ),
+            getDataSet( 2 ) );
+    }
+
+    private LineChartDataset<int> GetLineChartDataset( int colorIndex )
+    {
+        return new()
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData( 2, 9 ),
+                BackgroundColor = BackgroundColors[colorIndex],
+                BorderColor = BorderColors[colorIndex],
+                PointBorderColor = Enumerable.Repeat( BorderColors.First(), 6 ).ToList(),
+            };
+    }
+
+    List<int> RandomizeData( int min, int max )
+    {
+        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();
+    }
+}";
+
+        public const string ChartDataLabelsNugetInstallExample = @"Install-Package Blazorise.Charts.DataLabels";
+
+        public const string ChartDataLabelsResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0""></script>";
+
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
                     Options=""new ChartStreamingOptions { Delay = 2000 }""

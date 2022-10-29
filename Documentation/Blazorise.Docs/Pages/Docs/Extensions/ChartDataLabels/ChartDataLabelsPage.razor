@@ -1,0 +1,82 @@
+﻿@page "/docs/extensions/chart-datalabels"
+
+<Seo Canonical="/docs/extensions/chart-datalabels" Title="Blazorise Chart DataLabels component" Description="Learn to use and work with the Blazorise DataLabels extension, Chart.js plugin for display labels on data for any type of charts." />
+
+<DocsPageTitle Path="Extensions/Chart DataLabels">
+    Blazorise Chart DataLabels
+</DocsPageTitle>
+
+<DocsPageLead>
+    Display labels on data for any type of charts.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    DataLabels is made possible with the help of <Anchor To="https://chartjs-plugin-datalabels.netlify.app/" Title="Link to chart DataLabels plugin" Target="Target.Blank">chartjs-plugin-datalabels</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install chart streaming extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartDataLabelsNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        Include the necessary files into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartDataLabelsResourcesExample" />
+    <DocsPageSectionContent FullWidth>
+        <Alert Visible Color="Color.Warning">
+            <AlertMessage>
+                IMPORTANT
+            </AlertMessage>
+            <AlertDescription>
+                chartjs-plugin-datalabels must be loaded after the Chart.js library!
+            </AlertDescription>
+        </Alert>
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Line Chart">
+        <Paragraph>
+            The plugin options can be changed at 2 different levels and are evaluated with the following priority:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>Per dataset: with <Code>Datasets</Code> parameter</UnorderedListItem>
+                <UnorderedListItem>Per chart: with <Code>Options</Code> parameter</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            In the following example, we are using both. With <Code>Options</Code>, we're defining the shared styles, and with <Code>Datasets</Code> we're defining the styles for specific datasets.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartDataLabelsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartDataLabelsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Attributes
+</DocsPageSubtitle>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Datasets" Type="List<ChartDataLabelsDataset>" Default="null">
+        List of datalabels to apply to the parent chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Options" Type="ChartDataLabelsOptions" Default="null">
+        Datalabels that will be set to the options instead of to the datasets.
+    </DocsAttributesItem>
+</DocsAttributes>
