@@ -55,6 +55,7 @@
             Options = <span class="keyword">new</span>()
             {
                 BackgroundColor = BackgroundColors[<span class="number">0</span>],
+                BorderColor = BorderColors[<span class="number">0</span>],
                 Align = <span class="string">&quot;start&quot;</span>,
                 Anchor = <span class="string">&quot;start&quot;</span>
             }
@@ -65,6 +66,7 @@
             Options = <span class="keyword">new</span> ()
             {
                 BackgroundColor = BackgroundColors[<span class="number">1</span>],
+                BorderColor = BorderColors[<span class="number">1</span>],
             }
         },
         <span class="keyword">new</span>()
@@ -73,6 +75,7 @@
             Options = <span class="keyword">new</span> ()
             {
                 BackgroundColor = BackgroundColors[<span class="number">2</span>],
+                BorderColor = BorderColors[<span class="number">2</span>],
                 Align = <span class="string">&quot;end&quot;</span>,
                 Anchor = <span class="string">&quot;end&quot;</span>
             }
@@ -128,13 +131,12 @@
     <span class="keyword">private</span> LineChartDataset&lt;<span class="keyword">int</span>&gt; GetLineChartDataset( <span class="keyword">int</span> colorIndex )
     {
         <span class="keyword">return</span> <span class="keyword">new</span>()
-            {
-                Label = <span class="string">&quot;# of randoms&quot;</span>,
-                Data = RandomizeData( <span class="number">2</span>, <span class="number">9</span> ),
-                BackgroundColor = BackgroundColors[colorIndex],
-                BorderColor = BorderColors[colorIndex],
-                PointBorderColor = Enumerable.Repeat( BorderColors.First(), <span class="number">6</span> ).ToList(),
-            };
+        {
+            Label = <span class="string">&quot;# of randoms&quot;</span>,
+            Data = RandomizeData( <span class="number">2</span>, <span class="number">9</span> ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
     }
 
     List&lt;<span class="keyword">int</span>&gt; RandomizeData( <span class="keyword">int</span> min, <span class="keyword">int</span> max )

@@ -59,6 +59,7 @@ namespace Blazorise.Demo.Pages.Tests
                 Options = new()
                 {
                     BackgroundColor = BackgroundColors[0],
+                    BorderColor = BorderColors[0],
                     Align = "start",
                     Anchor = "start"
                 }
@@ -69,6 +70,7 @@ namespace Blazorise.Demo.Pages.Tests
                 Options = new ()
                 {
                     BackgroundColor = BackgroundColors[1],
+                    BorderColor = BorderColors[1],
                 }
             },
             new()
@@ -77,6 +79,7 @@ namespace Blazorise.Demo.Pages.Tests
                 Options = new ()
                 {
                     BackgroundColor = BackgroundColors[2],
+                    BorderColor = BorderColors[2],
                     Align = "end",
                     Anchor = "end"
                 }
@@ -152,6 +155,7 @@ namespace Blazorise.Demo.Pages.Tests
                 Options = new()
                 {
                     BackgroundColor = BackgroundColors[0],
+                    BorderColor = BorderColors[0],
                     Align = "end",
                     Anchor = "start"
                 }
@@ -162,6 +166,7 @@ namespace Blazorise.Demo.Pages.Tests
                 Options = new ()
                 {
                     BackgroundColor = BackgroundColors[1],
+                    BorderColor = BorderColors[1],
                 }
             },
             new()
@@ -170,6 +175,7 @@ namespace Blazorise.Demo.Pages.Tests
                 Options = new ()
                 {
                     BackgroundColor = BackgroundColors[2],
+                    BorderColor = BorderColors[2],
                     Align = "center",
                     Anchor = "center"
                 }
@@ -233,7 +239,6 @@ namespace Blazorise.Demo.Pages.Tests
                 Data = RandomizeData( 2, 9 ),
                 BackgroundColor = BackgroundColors[colorIndex],
                 BorderColor = BorderColors[colorIndex],
-                PointBorderColor = Enumerable.Repeat( BorderColors.First(), 6 ).ToList(),
             };
         }
 

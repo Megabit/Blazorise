@@ -4458,6 +4458,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Options = new()
             {
                 BackgroundColor = BackgroundColors[0],
+                BorderColor = BorderColors[0],
                 Align = ""start"",
                 Anchor = ""start""
             }
@@ -4468,6 +4469,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Options = new ()
             {
                 BackgroundColor = BackgroundColors[1],
+                BorderColor = BorderColors[1],
             }
         },
         new()
@@ -4476,6 +4478,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Options = new ()
             {
                 BackgroundColor = BackgroundColors[2],
+                BorderColor = BorderColors[2],
                 Align = ""end"",
                 Anchor = ""end""
             }
@@ -4531,13 +4534,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     private LineChartDataset<int> GetLineChartDataset( int colorIndex )
     {
         return new()
-            {
-                Label = ""# of randoms"",
-                Data = RandomizeData( 2, 9 ),
-                BackgroundColor = BackgroundColors[colorIndex],
-                BorderColor = BorderColors[colorIndex],
-                PointBorderColor = Enumerable.Repeat( BorderColors.First(), 6 ).ToList(),
-            };
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData( 2, 9 ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
     }
 
     List<int> RandomizeData( int min, int max )
