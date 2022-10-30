@@ -1,25 +1,6 @@
 ﻿namespace Blazorise.ImageCropper;
 
 /// <summary>
-/// Cropped Image Smoothing Quality
-/// </summary>
-public enum ImageSmoothingQuality
-{
-    /// <summary>
-    /// Low quality.
-    /// </summary>
-    Low,
-    /// <summary>
-    /// Medium quality.
-    /// </summary>
-    Medium,
-    /// <summary>
-    /// High quality.
-    /// </summary>
-    High
-}
-
-/// <summary>
 /// Define the view mode of the cropper. If you set viewMode to 0, the crop box can extend outside the canvas,
 /// while a value of 1, 2, or 3 will restrict the crop box to the size of the canvas. viewMode of 2 or 3 will
 /// additionally restrict the canvas to the container. There is no difference between 2 and 3 when the proportions
