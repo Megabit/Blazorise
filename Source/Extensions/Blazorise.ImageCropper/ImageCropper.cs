@@ -15,6 +15,138 @@ namespace Blazorise.ImageCropper
     /// </summary>
     public class ImageCropper : BaseComponent, IAsyncDisposable
     {
+        #region Members
+
+        private DotNetObjectReference<ImageCropperAdapter> adapter;
+
+        private JSCropperOptions appliedOptions;
+
+        #endregion
+
+        #region Methods
+
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            await base.SetParametersAsync( parameters );
+
+            if ( Rendered )
+            {
+                if ( GetOptions( out var options ) )
+                {
+                    await JSModule.UpdateOptions( ElementRef, ElementId, options );
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnInitializedAsync()
+        {
+            JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
+            adapter ??= DotNetObjectReference.Create( new ImageCropperAdapter( this ) );
+
+            return base.OnInitializedAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            await base.OnAfterRenderAsync( firstRender );
+
+            if ( firstRender )
+            {
+                GetOptions( out var options );
+                await JSModule.Initialize( adapter, ElementRef, ElementId, options );
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( "b-image-cropper-source" );
+            base.BuildClasses( builder );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildRenderTree( RenderTreeBuilder builder ) => builder
+            .OpenElement( "img" )
+            .Id( ElementId )
+            .Attribute( "src", Source )
+            .Attribute( "alt", Alt )
+            .Class( ClassNames )
+            .Style( StyleNames )
+            .Attributes( Attributes )
+            .ElementReferenceCapture( capturedRef => ElementRef = capturedRef )
+            .CloseElement();
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing && Rendered )
+            {
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                await JSModule.SafeDisposeAsync();
+
+                if ( adapter != null )
+                {
+                    adapter.Dispose();
+                    adapter = null;
+                }
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
+        private bool GetOptions( out JSCropperOptions options )
+        {
+            options = new()
+            {
+                AspectRatio = Ratio.Value,
+                Preview = PreviewSelector,
+                ViewMode = (int)ViewMode,
+                Radius = Radius
+            };
+
+            if ( appliedOptions != options )
+            {
+                appliedOptions = options;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get the cropped image as Base64 image.
+        /// </summary>
+        /// <param name="options">the cropping options</param>
+        /// <returns>the cropped image</returns>
+        public async Task<string> CropAsBase64ImageAsync( CropOptions options )
+        {
+            return await JSModule.CropBase64( ElementRef, ElementId, options );
+        }
+
+        internal async ValueTask NotifyCropStart() => await CropStart.InvokeAsync();
+
+        internal async ValueTask NotifyCropMove() => await CropMove.InvokeAsync();
+
+        internal async ValueTask NotifyCropEnd() => await CropEnd.InvokeAsync();
+
+        internal async ValueTask NotifyCrop() => await Crop.InvokeAsync();
+
+        internal async ValueTask NotifyZoom() => await Zoom.InvokeAsync();
+
+        #endregion
+
+        #region Properties
+
+        private JSCropperModule JSModule { get; set; }
+
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        [Inject] private IVersionProvider VersionProvider { get; set; }
+
         /// <summary>
         /// The aspect ratio of the image cropper
         /// </summary>
@@ -70,120 +202,6 @@ namespace Blazorise.ImageCropper
         /// </summary>
         [Parameter] public int? Radius { get; set; }
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
-
-        [Inject] private IVersionProvider VersionProvider { get; set; }
-
-        private JSCropperModule JSModule { get; set; }
-        private DotNetObjectReference<ImageCropperAdapter> adapter;
-        private JSCropperOptions appliedOptions;
-
-        /// <inheritdoc/>
-        protected override void BuildRenderTree( RenderTreeBuilder builder ) => builder
-            .OpenElement( "img" )
-            .Id( ElementId )
-            .Attribute( "src", Source )
-            .Attribute( "alt", Alt )
-            .Class( ClassNames )
-            .Style( StyleNames )
-            .Attributes( Attributes )
-            .ElementReferenceCapture( capturedRef => ElementRef = capturedRef )
-            .CloseElement();
-
-        /// <inheritdoc/>
-        protected override async ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing && Rendered )
-            {
-                await JSModule.SafeDestroy( ElementRef, ElementId );
-
-                await JSModule.SafeDisposeAsync();
-
-                if ( adapter != null )
-                {
-                    adapter.Dispose();
-                    adapter = null;
-                }
-            }
-
-            await base.DisposeAsync( disposing );
-        }
-
-        /// <inheritdoc/>
-        protected override async Task OnAfterRenderAsync( bool firstRender )
-        {
-            await base.OnAfterRenderAsync( firstRender );
-
-            if ( firstRender )
-            {
-                GetOptions( out var options );
-                await JSModule.Initialize( adapter, ElementRef, ElementId, options );
-            }
-        }
-
-        /// <inheritdoc/>
-        public override async Task SetParametersAsync( ParameterView parameters )
-        {
-            await base.SetParametersAsync( parameters );
-
-            if ( Rendered )
-            {
-                if ( GetOptions( out var options ) )
-                {
-                    await JSModule.UpdateOptions( ElementRef, ElementId, options );
-                }
-            }
-        }
-
-        private bool GetOptions( out JSCropperOptions options )
-        {
-            options = new()
-            {
-                AspectRatio = Ratio.Value,
-                Preview = PreviewSelector,
-                ViewMode = (int)ViewMode,
-                Radius = Radius
-            };
-
-            if ( appliedOptions != options )
-            {
-                appliedOptions = options;
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc/>
-        protected override Task OnInitializedAsync()
-        {
-            JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
-            adapter ??= DotNetObjectReference.Create( new ImageCropperAdapter( this ) );
-
-            return base.OnInitializedAsync();
-        }
-
-        /// <summary>
-        /// Get the cropped image as Base64 image.
-        /// </summary>
-        /// <param name="options">the cropping options</param>
-        /// <returns>the cropped image</returns>
-        public async Task<string> CropAsBase64ImageAsync( CropOptions options )
-        {
-            return await JSModule.CropBase64( ElementRef, ElementId, options );
-        }
-
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( "b-image-cropper-source" );
-            base.BuildClasses( builder );
-        }
-
-        internal async ValueTask NotifyCropStart() => await CropStart.InvokeAsync();
-        internal async ValueTask NotifyCropMove() => await CropMove.InvokeAsync();
-        internal async ValueTask NotifyCropEnd() => await CropEnd.InvokeAsync();
-        internal async ValueTask NotifyCrop() => await Crop.InvokeAsync();
-        internal async ValueTask NotifyZoom() => await Zoom.InvokeAsync();
+        #endregion
     }
 }
