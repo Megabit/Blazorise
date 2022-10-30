@@ -10,7 +10,8 @@ public record struct AspectRatio( double? Value )
     /// </summary>
     /// <param name="width">ratio width</param>
     /// <param name="height">ratio height</param>
-    public AspectRatio( int width, int height ) : this( (double)width / height )
+    public AspectRatio( int width, int height )
+        : this( (double)width / height )
     {
     }
 
