@@ -12,31 +12,17 @@ namespace Blazorise.ImageCropper
         {
         }
 
-        public async ValueTask Initialize( DotNetObjectReference<ImageCropperAdapter> adapterReference, ElementReference elementRef, string elementId, JSCropperOptions options )
+        public ValueTask Initialize( DotNetObjectReference<ImageCropperAdapter> adapterReference, ElementReference elementRef, string elementId, JSCropperOptions options )
+            => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
+
+        public ValueTask Destroy( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+
+        public ValueTask UpdateOptions( ElementReference elementRef, string elementId, JSCropperOptions options )
+            => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
+
+        public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, CropOptions options )
         {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
-        }
-
-        public async ValueTask Destroy( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
-        }
-
-        public async ValueTask UpdateOptions( ElementReference elementRef, string elementId, JSCropperOptions options )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
-        }
-
-        public async ValueTask<string> CropBase64( ElementReference elementRef, string elementId, CropOptions options )
-        {
-            var moduleInstance = await Module;
-
             var cropOptions = new
             {
                 width = options.Width,
@@ -56,11 +42,10 @@ namespace Blazorise.ImageCropper
                 }
             };
 
-            return await moduleInstance.InvokeAsync<string>( "cropBase64", elementRef, elementId, cropOptions );
+            return InvokeSafeAsync<string>( "cropBase64", elementRef, elementId, cropOptions );
         }
 
         /// <inheritdoc/>
         public override string ModuleFileName => $"./_content/Blazorise.ImageCropper/cropper.js?v={VersionProvider.Version}";
-
     }
 }
