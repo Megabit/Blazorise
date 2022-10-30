@@ -1,4 +1,4 @@
-import "./vendors/cropper.min.js?v=1.2.0.0";
+import "./vendors/cropper.js?v=1.2.0.0";
 
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.0.0";
 
