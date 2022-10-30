@@ -1,8 +1,8 @@
-import "./vendors/cropper.min.js?v=1.5.11";
+import "./vendors/cropper.min.js?v=1.2.0.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.0.7.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.0.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.ImageCropper/blazorise.imagecropper.css?v=1.0.7.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.ImageCropper/blazorise.imagecropper.css?v=1.2.0.0\" />");
 
 const _instances = [];
 
