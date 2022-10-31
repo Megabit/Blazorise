@@ -380,7 +380,7 @@ namespace Blazorise
                     }
                 },
                 amPM = new[] { Localizer["AM"], Localizer["PM"] },
-                RangeSeparator = RangeSeparator ?? Localizer["RangeSeparator"],
+                RangeSeparator = CurrentRangeSeparator,
             };
         }
 
