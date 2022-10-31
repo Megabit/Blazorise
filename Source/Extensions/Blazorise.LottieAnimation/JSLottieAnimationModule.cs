@@ -29,13 +29,22 @@ public class JSLottieAnimationModule : BaseJSModule, IJSDestroyableModule
 
     #region Methods
 
-    public virtual async ValueTask Initialize( DotNetObjectReference<LottieAnimation> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+    /// <summary>
+    /// Initializes a new Lottie Animation instance
+    /// </summary>
+    /// <param name="dotNetObjectReference">Reference to the <see cref="LottieAnimation"/> component</param>
+    /// <param name="elementRef">Reference to the container element</param>
+    /// <param name="elementId">Id of the container element</param>
+    /// <param name="options">Animation configuration options</param>
+    /// <returns>A <see cref="IJSObjectReference"/> to the Animation object</returns>
+    public virtual async ValueTask<IJSObjectReference> Initialize( DotNetObjectReference<LottieAnimation> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
     {
         var moduleInstance = await Module;
 
-        await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
+        return await moduleInstance.InvokeAsync<IJSObjectReference>( "initialize", dotNetObjectReference, elementRef, elementId, options );
     }
-    
+
+    /// <inheritdoc />
     public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
     {
         var moduleInstance = await Module;
