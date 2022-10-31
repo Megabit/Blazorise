@@ -38,10 +38,16 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override async Task OnFirstAfterRenderAsync()
     {
-        JSAnimationReference = await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
+        var callback = new JSInteropCallback<EnteredFrameEventArgs>( (enterFrameEvent) =>
         {
-            Path
-        } );
+            Console.WriteLine(enterFrameEvent);
+        });
+        
+        JSAnimationReference = await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new AnimationConfigWithPath( Path )
+        {
+            Autoplay = true,
+            EnterFrameCallback = callback
+        });
     }
 
     /// <inheritdoc/>

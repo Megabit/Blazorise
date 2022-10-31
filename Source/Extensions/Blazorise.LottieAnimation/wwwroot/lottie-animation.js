@@ -18,6 +18,9 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     }
     
     instance.animation = lottie.loadAnimation(options);
+    registerToEvents(instance);
+
+    _instances[elementId] = instance;
     
     return instance.animation;
 }
@@ -34,4 +37,20 @@ export function destroy(element, elementId) {
 
         delete instances[elementId];
     }
+}
+
+function invokeCallbackAsync(callback, ...args) {
+    callback.invokeMethodAsync('InvokeAsync', ...args)
+        .catch((reason) => {
+            console.error(reason);
+        });
+}
+
+function registerToEvents(instance) {
+    instance.animation.addEventListener('enterFrame', (event) => {
+        if(instance.options.enterFrameCallback)
+        {
+            invokeCallbackAsync(instance.options.enterFrameCallback, event);
+        }
+    });
 }
