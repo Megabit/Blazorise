@@ -143,7 +143,6 @@ namespace Blazorise
         private void OnInputValueDebounce( object sender, string value )
         {
             InvokeAsync( () => CurrentValueHandler( value ) );
-            InvokeAsync( StateHasChanged );
         }
 
         /// <inheritdoc/>
