@@ -76,6 +76,16 @@
     <DocsPageSectionSource Code="MarkdownShortcutsExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Preview Render">
+        Sometimes you don't want to render preview with the built-in parser. In those situations you can make use of <Code>PreviewRender</Code> callback to override the preview HTML.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MarkdownPreviewRenderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownPreviewRenderExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Attributes
 </DocsPageSubtitle>
@@ -280,8 +290,11 @@
     <DocsAttributesItem Name="UnorderedListStyle" Type="string" Default="*">
         can be *, - or +. Defaults to *.
     </DocsAttributesItem>
-        <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
+    <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
         Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
         This setting can speed up file transfer considerably.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PreviewRender" Type="Func<string, Task<string>>" Default="null">
+        Custom function for parsing the plaintext Markdown and returning HTML. Used when user previews.
     </DocsAttributesItem>
 </DocsAttributes>

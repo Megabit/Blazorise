@@ -116,6 +116,13 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         nativeSpellcheck: options.nativeSpellcheck,
         parsingConfig: options.parsingConfig,
         previewClass: options.previewClass,
+        previewRender: options.usePreviewRender ? (plainText, preview) => {
+            dotNetObjectRef.invokeMethodAsync("NotifyPreviewRender", plainText).then((htmlText) => {
+                preview.innerHTML = htmlText;
+            }).catch((error) => {
+                console.error(error);
+            });
+        } : null,
         previewImagesInEditor: options.previewImagesInEditor,
         promptTexts: options.promptTexts,
         promptURLs: options.promptURLs,
