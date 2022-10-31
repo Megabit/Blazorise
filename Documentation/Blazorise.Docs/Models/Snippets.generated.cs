@@ -6137,6 +6137,8 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     };
 }";
 
+        public const string BasicLottieAnimationExample = @"<LottieAnimation />";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">

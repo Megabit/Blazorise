@@ -1,0 +1,53 @@
+﻿@page "/docs/extensions/lottie-animation"
+
+<Seo Canonical="/docs/extensions/lottie-animation" Title="Blazorise Lottie Animation Component" Description="Learn to use and work with the Blazorise Lottie Animation component, a component used to embed JSON-based Lottie animations." />
+
+<DocsPageTitle Path="Extensions/LottieAnimation">
+    Blazorise Lottie Animation Component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A <Code>LottieAnimation</Code> component used to embed JSON-based Lottie animations.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LottieAnimationNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ImportLottieAnimationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        To play the video you just need to define the <Code>Source</Code> of the video.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicLottieAnimationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicVideoExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is2">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Controls" Type="bool" Default="true">
+        Gets or sets the controls visibility of the player.
+    </DocsAttributesItem>
+</DocsAttributes>
