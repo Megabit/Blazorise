@@ -51,7 +51,8 @@ export function initialize(element, elementId, options) {
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
-        inline: options.inline || false
+        inline: options.inline || false,
+        disableMobile: true
     };
 
     if (options.selectionMode)
