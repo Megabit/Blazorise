@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
@@ -20,6 +21,49 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
+        public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueHasBeenFound()
+        {
+            var changedCount = 0;
+            var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ ) );
+
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            var input = "Portugal";
+
+            foreach ( var key in input )
+            {
+                await Input( autoComplete, key.ToString() );
+            }
+
+            Assert.Equal( 1, changedCount );
+        }
+
+        [Fact]
+        public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueIsAlreadySet_But_ValueHasNotBeenFound()
+        {
+            var changedCount = 0;
+            var selectedValue = "PT";
+            var comp = RenderComponent<AutocompleteComponent>( p =>
+            {
+                p.Add( x => x.SelectedValue, selectedValue );
+                p.Add( x => x.SelectedValueChanged, ( x ) => { selectedValue = x;  changedCount++; } );
+            }
+
+            );
+
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            var input = "A Random Value!";
+
+            foreach ( var key in input )
+            {
+                await Input( autoComplete, key.ToString() );
+            }
+
+            Assert.Equal( 1, changedCount );
+            Assert.Equal( default, selectedValue );
+        }
+
+        [Fact]
         public void Focus_ShouldFocus()
         {
             TestFocus<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
@@ -34,12 +78,12 @@ namespace Blazorise.Tests.Components
         [Fact]
         public void InitialSelectedValue_ShouldSet_SelectedText()
         {
-            TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText);
+            TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText );
         }
 
         [Theory]
-        [InlineData( "Portugal")]
-        [InlineData( "Antarctica")]
+        [InlineData( "Portugal" )]
+        [InlineData( "Antarctica" )]
         [InlineData( "United Kingdom" )]
         [InlineData( "China" )]
         public void SelectValue_ShouldSet( string expectedText )
