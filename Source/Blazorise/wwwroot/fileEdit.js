@@ -65,7 +65,12 @@ export function open(element, elementId) {
     if (!element)
         return;
 
-    element.click();
+    if ('showPicker' in HTMLInputElement.prototype) {
+        element.showPicker();
+    }
+    else {
+        element.click();
+    }
 }
 
 // Reduce to purely serializable data, plus build an index by ID
