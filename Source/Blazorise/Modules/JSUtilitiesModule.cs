@@ -60,6 +60,10 @@ namespace Blazorise.Modules
             => InvokeSafeVoidAsync( "select", elementRef, elementId, focus );
 
         /// <inheritdoc/>
+        public virtual ValueTask ShowPicker( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "showPicker", elementRef, elementId );
+
+        /// <inheritdoc/>
         public virtual ValueTask ScrollAnchorIntoView( string anchorTarget )
             => InvokeSafeVoidAsync( "scrollAnchorIntoView", anchorTarget );
 

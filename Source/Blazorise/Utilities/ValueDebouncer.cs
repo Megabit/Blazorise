@@ -27,6 +27,8 @@ namespace Blazorise.Utilities
         /// </summary>
         public event EventHandler<string> Debounce;
 
+        private readonly object locker = new();
+
         #endregion
 
         #region Constructors
@@ -53,7 +55,10 @@ namespace Blazorise.Utilities
         /// <param name="eventArgs">Timer event arguments.</param>
         private void OnElapsed( object source, ElapsedEventArgs eventArgs )
         {
-            Debounce?.Invoke( this, value );
+            lock ( locker )
+            {
+                Debounce?.Invoke( this, value );
+            }
         }
 
         #endregion
@@ -68,9 +73,12 @@ namespace Blazorise.Utilities
         {
             timer.Stop();
 
-            this.value = value;
+            lock ( locker )
+            {
+                this.value = value;
 
-            timer.Start();
+                timer.Start();
+            }
         }
 
         /// <summary>
@@ -82,7 +90,10 @@ namespace Blazorise.Utilities
             {
                 timer.Stop();
 
-                Debounce?.Invoke( this, value );
+                lock ( locker )
+                {
+                    Debounce?.Invoke( this, value );
+                }
             }
         }
 
