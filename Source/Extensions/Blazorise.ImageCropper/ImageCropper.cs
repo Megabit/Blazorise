@@ -19,7 +19,7 @@ namespace Blazorise.ImageCropper
 
         private DotNetObjectReference<ImageCropperAdapter> adapter;
 
-        private JSCropperOptions appliedOptions;
+        private readonly ImageCropperState state = new();
 
         #endregion
 
@@ -36,6 +36,14 @@ namespace Blazorise.ImageCropper
                 {
                     await JSModule.UpdateOptions( ElementRef, ElementId, options );
                 }
+
+                if ( Source != state.Source )
+                {
+                    state.Source = Source;
+                    await JSModule.Replace( ElementRef, ElementId, Source );
+                }
+
+                await EnableCropper();
             }
         }
 
@@ -55,8 +63,12 @@ namespace Blazorise.ImageCropper
 
             if ( firstRender )
             {
+                state.Source = Source;
+
                 GetOptions( out var options );
                 await JSModule.Initialize( adapter, ElementRef, ElementId, options );
+
+                await EnableCropper();
             }
         }
 
@@ -108,13 +120,22 @@ namespace Blazorise.ImageCropper
                 Radius = Radius
             };
 
-            if ( appliedOptions != options )
+            if ( state.Options != options )
             {
-                appliedOptions = options;
+                state.Options = options;
                 return true;
             }
 
             return false;
+        }
+
+        private async ValueTask EnableCropper()
+        {
+            if ( state.Enabled != Enabled )
+            {
+                state.Enabled = Enabled;
+                await JSModule.Enable( ElementRef, ElementId, Enabled );
+            }
         }
 
         /// <summary>
@@ -122,20 +143,79 @@ namespace Blazorise.ImageCropper
         /// </summary>
         /// <param name="options">the cropping options</param>
         /// <returns>the cropped image</returns>
-        public async Task<string> CropAsBase64ImageAsync( CropOptions options )
-        {
-            return await JSModule.CropBase64( ElementRef, ElementId, options );
-        }
+        public ValueTask<string> CropAsBase64ImageAsync( CropOptions options )
+            => JSModule.CropBase64( ElementRef, ElementId, options );
 
-        internal async ValueTask NotifyCropStart() => await CropStart.InvokeAsync();
+        /// <summary>Move the canvas (image wrapper) with relative offsets.</summary>
+        /// <param name="offsetX">Moving size (px) in the horizontal direction.</param>
+        /// <param name="offsetY">Moving size (px) in the vertical direction.</param>
+        public async ValueTask Move( int offsetX, int offsetY )
+            => await JSModule.Move( ElementRef, ElementId, offsetX, offsetY );
 
-        internal async ValueTask NotifyCropMove() => await CropMove.InvokeAsync();
+        /// <summary>
+        /// Move the canvas (image wrapper) to an absolute point.
+        /// </summary>
+        /// <param name="x">The left value of the canvas</param>
+        /// <param name="y">The top value of the canvas</param>
+        public async ValueTask MoveTo( int x, int y )
+            => await JSModule.MoveTo( ElementRef, ElementId, x, y );
 
-        internal async ValueTask NotifyCropEnd() => await CropEnd.InvokeAsync();
+        /// <summary>
+        /// Zoom the canvas (image wrapper) with a relative ratio.
+        /// </summary>
+        /// <param name="ratio">Zoom in: requires a positive number (ratio &gt; 0), Zoom out: requires a negative number (ratio &lt; 0)</param>
+        public async ValueTask Zoom( double ratio )
+            => await JSModule.Zoom( ElementRef, ElementId, ratio );
 
-        internal async ValueTask NotifyCrop() => await Crop.InvokeAsync();
+        /// <summary>
+        /// Zoom the canvas (image wrapper) to an absolute ratio.
+        /// </summary>
+        /// <param name="ratio">Requires a positive number (ratio &gt; 0)</param>
+        /// <param name="x">The coordinate of the center point for zooming, base on the top left corner of the cropper container.</param>
+        /// <param name="y">The coordinate of the center point for zooming, base on the top left corner of the cropper container.</param>
+        public async ValueTask ZoomTo( double ratio, int x, int y )
+            => await JSModule.ZoomTo( ElementRef, ElementId, ratio, x, y );
 
-        internal async ValueTask NotifyZoom() => await Zoom.InvokeAsync();
+        /// <summary>
+        /// Zoom the canvas (image wrapper) to an absolute ratio.
+        /// </summary>
+        /// <param name="ratio">Requires a positive number (ratio &gt; 0)</param>
+        public async ValueTask ZoomTo( double ratio )
+            => await JSModule.ZoomTo( ElementRef, ElementId, ratio );
+
+        /// <summary>
+        /// Rotate the image to a relative degree.
+        /// </summary>
+        /// <param name="degree">Rotate right: requires a positive number (degree &gt; 0), Rotate left: requires a negative number (degree &lt; 0)</param>
+        public async ValueTask Rotate( int degree )
+            => await JSModule.Rotate( ElementRef, ElementId, degree );
+
+        /// <summary>
+        /// Rotate the image to an absolute degree.
+        /// </summary>
+        /// <param name="degree">the absolute degree</param>
+        public async ValueTask RotateTo( int degree )
+            => await JSModule.RotateTo( ElementRef, ElementId, degree );
+
+        /// <summary>
+        /// Scale the image.
+        /// </summary>
+        /// <param name="scaleX">The scaling factor applies to the abscissa of the image.</param>
+        /// <param name="scaleY">The scaling factor to apply on the ordinate of the image.</param>
+        /// <returns></returns>
+        public async ValueTask Scale( int scaleX, int scaleY )
+            => await JSModule.Scale( ElementRef, ElementId, scaleX, scaleY );
+
+
+        internal async ValueTask NotifyCropStart() => await CropStarted.InvokeAsync();
+
+        internal async ValueTask NotifyCropMove() => await CropMoved.InvokeAsync();
+
+        internal async ValueTask NotifyCropEnd() => await CropEnded.InvokeAsync();
+
+        internal async ValueTask NotifyCrop() => await Cropped.InvokeAsync();
+
+        internal async ValueTask NotifyZoom() => await Zoomed.InvokeAsync();
 
         #endregion
 
@@ -175,32 +255,37 @@ namespace Blazorise.ImageCropper
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
-        [Parameter] public EventCallback CropStart { get; set; }
+        [Parameter] public EventCallback CropStarted { get; set; }
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box is changing.
         /// </summary>
-        [Parameter] public EventCallback CropMove { get; set; }
+        [Parameter] public EventCallback CropMoved { get; set; }
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box stops changing.
         /// </summary>
-        [Parameter] public EventCallback CropEnd { get; set; }
+        [Parameter] public EventCallback CropEnded { get; set; }
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
-        [Parameter] public EventCallback Crop { get; set; }
+        [Parameter] public EventCallback Cropped { get; set; }
 
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
-        [Parameter] public EventCallback Zoom { get; set; }
+        [Parameter] public EventCallback Zoomed { get; set; }
 
         /// <summary>
         /// The cropper radius
         /// </summary>
         [Parameter] public int? Radius { get; set; }
+
+        /// <summary>
+        /// Is the cropper enabled
+        /// </summary>
+        [Parameter] public bool Enabled { get; set; }
 
         #endregion
     }
