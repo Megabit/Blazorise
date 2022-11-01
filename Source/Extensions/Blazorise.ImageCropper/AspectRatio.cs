@@ -18,25 +18,25 @@ public record struct AspectRatio( double? Value )
     /// <summary>
     /// 16:9 aspect ratio
     /// </summary>
-    public static AspectRatio Ratio16_9 = new( 16, 9 );
+    public static AspectRatio Is16x9 = new( 16, 9 );
 
     /// <summary>
     /// 4:3 aspect ratio
     /// </summary>
-    public static AspectRatio Ratio4_3 = new( 4, 3 );
+    public static AspectRatio Is4x3 = new( 4, 3 );
 
     /// <summary>
     /// 1:1 aspect ratio
     /// </summary>
-    public static AspectRatio Ratio1_1 = new( 1 );
+    public static AspectRatio Is1x1 = new( 1 );
 
     /// <summary>
     /// 2:3 aspect ratio
     /// </summary>
-    public static AspectRatio Ratio2_3 = new( 2, 3 );
+    public static AspectRatio Is2x3 = new( 2, 3 );
 
     /// <summary>
     /// Free aspect ratio
     /// </summary>
-    public static AspectRatio RatioFree = new( null );
+    public static AspectRatio IsFree = new( null );
 }

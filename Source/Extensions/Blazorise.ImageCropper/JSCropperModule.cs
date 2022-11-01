@@ -22,7 +22,7 @@ namespace Blazorise.ImageCropper
         public ValueTask UpdateOptions( ElementReference elementRef, string elementId, JSCropperOptions options )
             => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
-        public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, CropOptions options )
+        public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, ImageCropperCropOptions options )
         {
             var cropOptions = new
             {
@@ -36,9 +36,9 @@ namespace Blazorise.ImageCropper
                 imageSmoothingEnabled = options.ImageSmoothingEnabled,
                 imageSmoothingQuality = options.ImageSmoothingQuality switch
                 {
-                    ImageSmoothingQuality.Low => "low",
-                    ImageSmoothingQuality.Medium => "medium",
-                    ImageSmoothingQuality.High => "high",
+                    ImageCropperImageSmoothingQuality.Low => "low",
+                    ImageCropperImageSmoothingQuality.Medium => "medium",
+                    ImageCropperImageSmoothingQuality.High => "high",
                     _ => "low"
                 }
             };

@@ -143,7 +143,7 @@ namespace Blazorise.ImageCropper
         /// </summary>
         /// <param name="options">the cropping options</param>
         /// <returns>the cropped image</returns>
-        public ValueTask<string> CropAsBase64ImageAsync( CropOptions options )
+        public ValueTask<string> CropAsBase64ImageAsync( ImageCropperCropOptions options )
             => JSModule.CropBase64( ElementRef, ElementId, options );
 
         /// <summary>Move the canvas (image wrapper) with relative offsets.</summary>
@@ -230,12 +230,12 @@ namespace Blazorise.ImageCropper
         /// <summary>
         /// The aspect ratio of the image cropper
         /// </summary>
-        [Parameter] public AspectRatio Ratio { get; set; } = AspectRatio.Ratio1_1;
+        [Parameter] public AspectRatio Ratio { get; set; } = AspectRatio.Is1x1;
 
         /// <summary>
         /// Define the view mode of the cropper
         /// </summary>
-        [Parameter] public ViewMode ViewMode { get; set; } = ViewMode.Mode0;
+        [Parameter] public ImageCropperViewMode ViewMode { get; set; } = ImageCropperViewMode.Default;
 
         /// <summary>
         /// The original image source

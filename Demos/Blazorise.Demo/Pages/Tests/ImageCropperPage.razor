@@ -13,11 +13,11 @@
                     </FieldLabel>
                     <FieldBody>
                         <RadioGroup @bind-CheckedValue="@ratio" Buttons>
-                            <Radio Value="@AspectRatio.Ratio16_9.Value">16:9</Radio>
-                            <Radio Value="@AspectRatio.Ratio4_3.Value">4:3</Radio>
-                            <Radio Value="@AspectRatio.Ratio1_1.Value">1:1</Radio>
-                            <Radio Value="@AspectRatio.Ratio2_3.Value">2:3</Radio>
-                            <Radio Value="@AspectRatio.RatioFree.Value">Free</Radio>
+                            <Radio Value="@AspectRatio.Is16x9.Value">16:9</Radio>
+                            <Radio Value="@AspectRatio.Is4x3.Value">4:3</Radio>
+                            <Radio Value="@AspectRatio.Is1x1.Value">1:1</Radio>
+                            <Radio Value="@AspectRatio.Is2x3.Value">2:3</Radio>
+                            <Radio Value="@AspectRatio.IsFree.Value">Free</Radio>
                         </RadioGroup>
                     </FieldBody>
                 </Field>
@@ -27,10 +27,10 @@
                     </FieldLabel>
                     <FieldBody>
                         <RadioGroup @bind-CheckedValue="@viewMode" Buttons>
-                            <Radio Value="@ViewMode.Mode0">VM0</Radio>
-                            <Radio Value="@ViewMode.Mode1">VM1</Radio>
-                            <Radio Value="@ViewMode.Mode2">VM2</Radio>
-                            <Radio Value="@ViewMode.Mode3">VM3</Radio>
+                            <Radio Value="@ImageCropperViewMode.Default">Default</Radio>
+                            <Radio Value="@ImageCropperViewMode.ExceedToCanvas">Exceed To Canvas</Radio>
+                            <Radio Value="@ImageCropperViewMode.FitContainer">Fit Container</Radio>
+                            <Radio Value="@ImageCropperViewMode.FillFitContainer">Fill Fit Container</Radio>
                         </RadioGroup>
                     </FieldBody>
                 </Field>
@@ -111,7 +111,7 @@
     private string result;
     private int radius;
     private double? ratio = 1.0;
-    private ViewMode viewMode;
+    private ImageCropperViewMode viewMode;
     private bool enabled = true;
 
     private async Task GetCroppedImage()

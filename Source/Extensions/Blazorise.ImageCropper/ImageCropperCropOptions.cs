@@ -3,7 +3,7 @@
 /// <summary>
 /// Image Cropper crop options
 /// </summary>
-public class CropOptions
+public class ImageCropperCropOptions
 {
     /// <summary>
     /// The destination width of the output canvas.
@@ -48,5 +48,5 @@ public class CropOptions
     /// <summary>
     /// Set the quality of image smoothing, one of "low" (default), "medium", or "high".
     /// </summary>
-    public ImageSmoothingQuality ImageSmoothingQuality { get; set; } = ImageSmoothingQuality.Low;
+    public ImageCropperImageSmoothingQuality ImageSmoothingQuality { get; set; } = ImageCropperImageSmoothingQuality.Low;
 }
