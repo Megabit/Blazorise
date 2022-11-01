@@ -71,17 +71,19 @@ export function cropBase64(element, elementId, options) {
     return "";
 }
 
-export function executeCropperAction(element, elementId, methodName) {
+export function executeCropperAction(element, elementId, methodName, ...args) {
     const instance = _instances[elementId];
 
     if (!instance)
         return;
 
-    var args = Array.prototype.slice.call(arguments, 3);
-    console.log(methodName);
-    console.log(args);
+    const method = instance.cropper[methodName];
+    if (!method) {
+        console.error("Blazorise Image Cropper: Unknown cropperjs method " + methodName);
+        return;
+    }
 
-    return instance.cropper[methodName].apply(instance.cropper, args);
+    return method.apply(instance.cropper, ...args);
 }
 
 function registerEvents(element, dotNetAdapter) {

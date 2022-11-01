@@ -1,4 +1,5 @@
 ﻿@page "/tests/imagecropper"
+@using System.Security.Cryptography.X509Certificates
 
 <Row>
     <Column>
@@ -43,10 +44,10 @@
                     </FieldBody>
                 </Field>
                 <Field>
-                    <FieldLabel>
-                    </FieldLabel>
                     <FieldBody>
                         <Check @bind-Checked="@enabled">Enabled</Check>
+                        <Check TValue="bool" Checked="@flipX" CheckedChanged="FlipX">Flip X</Check>
+                        <Check TValue="bool" Checked="@flipY" CheckedChanged="FlipY">Flip Y</Check>
                     </FieldBody>
                 </Field>
                 <Field>
@@ -113,6 +114,7 @@
     private double? ratio = 1.0;
     private ImageCropperViewMode viewMode;
     private bool enabled = true;
+    private bool flipX, flipY;
 
     private async Task GetCroppedImage()
     {
@@ -121,6 +123,18 @@
 
     private void OnCrop()
     {
-        Console.WriteLine("Crop");
+        // Console.WriteLine("Crop");
+    }
+
+    private async Task FlipX(bool flip)
+    {
+        flipX = flip;
+        await cropper.Scale(flipX ? -1 : 1, flipY ? -1 : 1);
+    }
+
+    private async Task FlipY(bool flip)
+    {
+        flipY = flip;
+        await cropper.Scale(flipX ? -1 : 1, flipY ? -1 : 1);
     }
 }
