@@ -214,12 +214,9 @@ namespace Blazorise
         protected abstract Task OnInternalValueChanged( TValue value );
 
         /// <inheritdoc/>
-        public virtual async Task Focus( bool scrollToElement = true )
+        public virtual Task Focus( bool scrollToElement = true )
         {
-            // workaround from: https://github.com/dotnet/aspnetcore/issues/30070#issuecomment-823938686
-            await Task.Yield();
-
-            await JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement );
+            return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
         }
 
         /// <summary>

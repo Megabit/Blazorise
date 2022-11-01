@@ -129,10 +129,11 @@ namespace Blazorise.Markdown.Providers
                 yield return new
                 {
                     Name = Class( button.Action, button.Name ),
-                    Value = button.Value,
+                    button.Value,
                     Action = Event( button.Action ),
                     ClassName = IconClass( button.Action, button.Icon ),
-                    Title = button.Title,
+                    button.Text,
+                    button.Title,
                 };
             }
         }

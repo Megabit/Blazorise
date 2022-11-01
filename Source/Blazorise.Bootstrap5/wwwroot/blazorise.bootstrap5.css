@@ -1111,7 +1111,8 @@ li.list-group-item-action {
 
 .step-text {
   color: #adb5bd;
-  word-break: break-all;
+  word-break: keep-all;
+  text-align: center;
   margin-top: 0.25em;
 }
 
