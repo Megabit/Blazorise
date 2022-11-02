@@ -22,12 +22,57 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 
     #region Methods
 
-    public override Task SetParametersAsync( ParameterView parameters )
+    /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var pathChanged                 = parameters.TryGetValue<string>( nameof(Path), out var path );
-        var enteredFrameCallbackChanged = parameters.TryGetValue<EventCallback<EnteredFrameEventArgs>>( nameof(EnteredFrame), out var enteredFrameCallback );
-        
-        return base.SetParametersAsync( parameters );
+        if ( Rendered )
+        {
+            var pathChanged     = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
+            var loopChanged     = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
+            var autoplayChanged = parameters.TryGetValue<bool>( nameof(Autoplay), out var autoPlay ) && autoPlay != Autoplay;
+            var rendererChanged = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
+
+            var directionChanged = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
+            var speedChanged     = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && speed != Speed;
+
+            if ( pathChanged || loopChanged || rendererChanged )
+            {
+                // Changing these settings requires a full re-initialization of the animation
+                ExecuteAfterRender( async () =>
+                {
+                    await InitializeAnimation( new
+                    {
+                        path,
+                        loop,
+                        autoPlay,
+                        renderer,
+                        direction,
+                        speed
+                    } );
+                } );
+            }
+            else
+            {
+                // These settings can be changed without reinitializing
+                if ( speedChanged )
+                {
+                    ExecuteAfterRender( async () =>
+                    {
+                        await SetSpeed( speed );
+                    } );
+                }
+
+                if ( directionChanged )
+                {
+                    ExecuteAfterRender( async () =>
+                    {
+                        await SetDirection( direction );
+                    } );
+                }
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -46,9 +91,14 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override async Task OnFirstAfterRenderAsync()
     {
-        JSAnimationReference = await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new AnimationConfigWithPath( Path )
+        await InitializeAnimation( new
         {
-            Autoplay = true
+            Path,
+            Loop,
+            Autoplay,
+            Renderer,
+            Direction,
+            Speed
         } );
     }
 
@@ -57,8 +107,6 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     {
         if ( disposing && Rendered )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
-
             await JSModule.SafeDisposeAsync();
 
             if ( DotNetObjectRef != null )
@@ -67,14 +115,51 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                 DotNetObjectRef = null;
             }
 
-            if ( JSAnimationReference != null )
-            {
-                await JSAnimationReference.DisposeAsync();
-                JSAnimationReference = null;
-            }
+            await DisposeAnimation();
         }
 
         await base.DisposeAsync( disposing );
+    }
+
+    /// <summary>
+    /// Disposes the Lottie animation and the reference
+    /// </summary>
+    protected async ValueTask DisposeAnimation()
+    {
+        if ( JSAnimationReference != null )
+        {
+            await JSAnimationReference.InvokeVoidAsync( "destroy" );
+            await JSAnimationReference.DisposeAsync();
+            JSAnimationReference = null;
+        }
+    }
+
+    /// <summary>
+    /// Initializes the JS animation 
+    /// </summary>
+    /// <param name="configuration">Animation configuration</param>
+    protected virtual async ValueTask InitializeAnimation( object configuration )
+    {
+        await DisposeAnimation();
+        JSAnimationReference = await JSModule.InitializeAnimation( DotNetObjectRef, ElementRef, ElementId, configuration );
+    }
+
+    /// <summary>
+    /// Set the animation direction
+    /// </summary>
+    /// <param name="direction">Animation playback direction</param>
+    protected virtual async ValueTask SetDirection( AnimationDirection direction )
+    {
+        await JSAnimationReference.InvokeVoidAsync( "setDirection", direction );
+    }
+
+    /// <summary>
+    /// Set the animation playback speed
+    /// </summary>
+    /// <param name="speed">Animation playback speed</param>
+    protected virtual async ValueTask SetSpeed( double speed )
+    {
+        await JSAnimationReference.InvokeVoidAsync( "setSpeed", speed );
     }
 
     #endregion
@@ -105,8 +190,41 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     [Inject]
     private IVersionProvider VersionProvider { get; set; }
 
+    /// <summary>
+    /// Relative path to the animation object
+    /// </summary>
     [Parameter]
     public string Path { get; set; }
+
+    /// <summary>
+    /// Whether or not the animation should loop, or a number of times the animation should loop.
+    /// </summary>
+    [Parameter]
+    public LoopingConfiguration Loop { get; set; } = true;
+
+    /// <summary>
+    /// Whether or not the animation should start playing as soon as it's ready
+    /// </summary>
+    [Parameter]
+    public bool Autoplay { get; set; } = true;
+
+    /// <summary>
+    /// Renderer to use
+    /// </summary>
+    [Parameter]
+    public Renderer Renderer { get; set; } = Renderer.SVG;
+
+    /// <summary>
+    /// Animation playback direction
+    /// </summary>
+    [Parameter]
+    public AnimationDirection Direction { get; set; } = AnimationDirection.Forward;
+
+    /// <summary>
+    /// Animation playback speed
+    /// </summary>
+    [Parameter]
+    public double Speed { get; set; } = 1.0;
 
     /// <summary>
     /// Triggered when animation playback enters a new frame

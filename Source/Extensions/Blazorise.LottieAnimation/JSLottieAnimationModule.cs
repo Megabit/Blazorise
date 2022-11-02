@@ -12,7 +12,7 @@ namespace Blazorise.LottieAnimation;
 /// <summary>
 /// Default implementation of the lottie JS module.
 /// </summary>
-public class JSLottieAnimationModule : BaseJSModule, IJSDestroyableModule
+public class JSLottieAnimationModule : BaseJSModule
 {
     #region Constructors
 
@@ -37,19 +37,11 @@ public class JSLottieAnimationModule : BaseJSModule, IJSDestroyableModule
     /// <param name="elementId">Id of the container element</param>
     /// <param name="options">Animation configuration options</param>
     /// <returns>A <see cref="IJSObjectReference"/> to the Animation object</returns>
-    public virtual async ValueTask<IJSObjectReference> Initialize( DotNetObjectReference<LottieAnimation> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+    public virtual async ValueTask<IJSObjectReference> InitializeAnimation( DotNetObjectReference<LottieAnimation> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
     {
         var moduleInstance = await Module;
 
-        return await moduleInstance.InvokeAsync<IJSObjectReference>( "initialize", dotNetObjectReference, elementRef, elementId, options );
-    }
-
-    /// <inheritdoc />
-    public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
+        return await moduleInstance.InvokeAsync<IJSObjectReference>( "initializeAnimation", dotNetObjectReference, elementRef, elementId, options );
     }
 
     #endregion

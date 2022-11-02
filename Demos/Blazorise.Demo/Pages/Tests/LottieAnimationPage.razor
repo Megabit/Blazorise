@@ -1,24 +1,24 @@
 ﻿@page "/tests/lottie-animation"
 
 <LottieAnimation 
+    Style="height: 250px;"
     Path="@_path"
-    EnteredFrame="@OnEnteredFrame"
-    onclick="@OnClick"
+    Direction="@_animationDirection"
+    Speed="@_speed"
+    Loop="@_loop"
 />
 <TextEdit @bind-Text="@_path"/>
+<NumericPicker @bind-Value="@_speed" Step=".5m" Min="0" Max="5"/>
+<Check @bind-Checked="@_loop">Loop</Check>
+<Select TValue="@AnimationDirection" @bind-SelectedValue="_animationDirection">
+    <SelectItem Value="@AnimationDirection.Forward">Forward</SelectItem>
+    <SelectItem Value="@AnimationDirection.Backward">Backward</SelectItem>
+</Select>
 
 @code {
 
     private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
-
-    private Action<EnteredFrameEventArgs> OnEnteredFrame { get; set; }
-
-    private void OnClick()
-    {
-        OnEnteredFrame = args =>
-        {
-            Console.WriteLine(args);
-        };
-    }
-
+    private AnimationDirection _animationDirection = AnimationDirection.Forward;
+    private double _speed = 1.0;
+    private bool _loop = false;
 }
