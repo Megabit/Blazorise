@@ -1,0 +1,21 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+static Expression&lt;Func&lt;ScriptableOptionsContext, string&gt;&gt; TestScriptableColor = ( context ) =&gt; context.Active ? &quot;#ff0000&quot; : &quot;#4bc0c0&quot;;
+
+List<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartDataLabelsDataset</span><span class="htmlTagDelimiter">&gt;</span> lineDataLabelsDatasets = new()
+{
+    new()
+    {
+        DatasetIndex = 0,
+        Options = new()
+        {
+            BackgroundColor = TestScriptableColor,
+            BorderColor = TestScriptableColor,
+            Align = &quot;start&quot;,
+            Anchor = &quot;start&quot;
+        }
+    },
+    ...
+};
+</pre></div>
+</div>
