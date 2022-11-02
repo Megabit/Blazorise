@@ -16,10 +16,6 @@ namespace Blazorise.LottieAnimation;
 /// </summary>
 public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 {
-    #region Members
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
@@ -35,9 +31,12 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             var directionChanged = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
             var speedChanged     = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && speed != Speed;
 
-            if ( pathChanged || loopChanged || rendererChanged )
+            var enteredFrameChanged = parameters.TryGetValue<EventCallback<EnteredFrameEventArgs>>( nameof(EnteredFrame), out var enteredFrame ) && enteredFrame.HasDelegate != EnteredFrame.HasDelegate;
+
+            var reinitializationRequired = pathChanged || loopChanged || rendererChanged;
+            if ( reinitializationRequired )
             {
-                // Changing these settings requires a full re-initialization of the animation
+                // Changing these settings requires a full reinitialization of the animation
                 ExecuteAfterRender( async () =>
                 {
                     await InitializeAnimation( new
@@ -47,7 +46,8 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                         autoPlay,
                         renderer,
                         direction,
-                        speed
+                        speed,
+                        RegisteredEvents = GetRegisteredEvents()
                     } );
                 } );
             }
@@ -67,6 +67,14 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                     ExecuteAfterRender( async () =>
                     {
                         await SetDirection( direction );
+                    } );
+                }
+
+                if ( enteredFrameChanged )
+                {
+                    ExecuteAfterRender(async () =>
+                    {
+                        await UpdateRegisteredEvents();
                     } );
                 }
             }
@@ -98,7 +106,8 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             Autoplay,
             Renderer,
             Direction,
-            Speed
+            Speed,
+            RegisteredEvents = GetRegisteredEvents()
         } );
     }
 
@@ -161,6 +170,46 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     {
         await JSAnimationReference.InvokeVoidAsync( "setSpeed", speed );
     }
+
+    /// <summary>
+    /// Updates the animations list of registered events
+    /// </summary>
+    protected virtual async ValueTask UpdateRegisteredEvents()
+    {
+        var registeredEvents = GetRegisteredEvents();
+        await JSAnimationReference.InvokeVoidAsync( "updateRegisteredEvents", registeredEvents );
+    }
+
+    /// <summary>
+    /// Returns all the events that currently have registered delegates
+    /// </summary>
+    /// <returns>All the events that currently have registered delegates</returns>
+    protected virtual HashSet<string> GetRegisteredEvents()
+    {
+        HashSet<string> registeredEvents = new();
+
+        if ( EnteredFrame.HasDelegate )
+        {
+            registeredEvents.Add( "enterFrame" );
+        }
+
+        return registeredEvents;
+    }
+
+    #region Event Notifiers
+    
+    /// <summary>
+    /// Notifies the lottie animation component that a new frame has been entered. Should not be called directly by the user!
+    /// </summary>
+    /// <param name="eventArgs">Enter frame event args</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [JSInvokable]
+    public async ValueTask NotifyEnteredFrame(EnteredFrameEventArgs eventArgs)
+    {
+        await EnteredFrame.InvokeAsync( eventArgs );
+    }
+
+    #endregion
 
     #endregion
 

@@ -6,7 +6,9 @@
     Direction="@_animationDirection"
     Speed="@_speed"
     Loop="@_loop"
+    EnteredFrame="@OnEnteredFrame"
 />
+<Slider Value="_currentFrame" Max="_totalFrames" />
 <TextEdit @bind-Text="@_path"/>
 <NumericPicker @bind-Value="@_speed" Step=".5m" Min="0" Max="5"/>
 <Check @bind-Checked="@_loop">Loop</Check>
@@ -20,5 +22,13 @@
     private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
     private AnimationDirection _animationDirection = AnimationDirection.Forward;
     private double _speed = 1.0;
-    private bool _loop = false;
+    private bool _loop = true;
+    private double _currentFrame = 0;
+    private double _totalFrames = 0;
+
+    private void OnEnteredFrame(EnteredFrameEventArgs args)
+    {
+        _currentFrame = args.CurrentTime;
+        _totalFrames = args.TotalTime;
+    }
 }

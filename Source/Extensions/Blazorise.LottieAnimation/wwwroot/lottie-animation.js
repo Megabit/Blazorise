@@ -15,21 +15,28 @@ export function initializeAnimation(dotNetAdapter, element, elementId, options) 
     animation.setDirection( options.direction );
     animation.setSpeed( options.speed );
     
+    animation.registeredEvents = new Set(options.registeredEvents);
+    registerEvents(dotNetAdapter, animation);
+    
     return animation;
 }
 
-// function invokeCallbackAsync(callback, ...args) {
-//     callback.invokeMethodAsync('InvokeAsync', ...args)
-//         .catch((reason) => {
-//             console.error(reason);
-//         });
-// }
-//
-// function registerToEvents(instance) {
-//     instance.animation.addEventListener('enterFrame', (event) => {
-//         if(instance.options.enterFrameCallback)
-//         {
-//             invokeCallbackAsync(instance.options.enterFrameCallback, event);
-//         }
-//     });
-// }
+function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
+    dotNetAdapter.invokeMethodAsync(methodName, ...args)
+        .catch((reason) => {
+            console.error(reason);
+        });
+}
+
+function registerEvents(dotNetAdapter, animation) {
+    animation.updateRegisteredEvents = (registeredEvents) => {
+        animation.registeredEvents = new Set(registeredEvents);
+    }
+    
+    animation.addEventListener('enterFrame', (event) => {
+        if(animation.registeredEvents.has('enterFrame'))
+        {
+            invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnteredFrame", event);
+        }
+    });
+}
