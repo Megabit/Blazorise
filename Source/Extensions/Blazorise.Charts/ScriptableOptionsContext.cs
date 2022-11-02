@@ -19,27 +19,11 @@ namespace Blazorise.Charts
         public bool Active { get; set; }
 
         /// <summary>
-        /// The associated chart.
-        /// </summary>
-        [JsonPropertyName( "chart" )]
-        [JavascriptMemberAttribute( MemberName = "chart" )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public dynamic Chart { get; set; }
-
-        /// <summary>
         /// The index of the associated data.
         /// </summary>
         [JsonPropertyName( "dataIndex" )]
         [JavascriptMemberAttribute( MemberName = "dataIndex" )]
         public int DataIndex { get; set; }
-
-        /// <summary>
-        /// The dataset at index datasetIndex.
-        /// </summary>
-        [JsonPropertyName( "dataset" )]
-        [JavascriptMemberAttribute( MemberName = "dataset" )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public dynamic Dataset { get; set; }
 
         /// <summary>
         /// The index of the associated dataset.
