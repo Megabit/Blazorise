@@ -1,5 +1,8 @@
 ﻿#region Using directives
+using System;
 using System.Text.Json.Serialization;
+using System.Linq.Expressions;
+using Blazorise.Charts;
 #endregion
 
 namespace Blazorise.Charts.DataLabels
@@ -7,34 +10,44 @@ namespace Blazorise.Charts.DataLabels
     public class ChartDataLabelsOptions
     {
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Align { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> Align { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Anchor { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> Anchor { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BackgroundColor { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> BackgroundColor { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string BorderColor { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> BorderColor { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BorderRadius { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> BorderRadius { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BorderWidth { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> BorderWidth { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Clamp { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<bool?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<bool?, ScriptableOptionsContext> Clamp { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Clip { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<bool?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<bool?, ScriptableOptionsContext> Clip { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Color { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> Color { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Display { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<object, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<object, ScriptableOptionsContext> Display { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public ChartFont Font { get; set; }
@@ -49,30 +62,38 @@ namespace Blazorise.Charts.DataLabels
         public object Listeners { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Offset { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> Offset { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Opacity { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> Opacity { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public ChartPadding? Padding { get; set; }
+        public ChartPadding Padding { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Rotation { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> Rotation { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string TextAlign { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> TextAlign { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string TextStrokeColor { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> TextStrokeColor { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? TextStrokeWidth { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> TextStrokeWidth { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? TextShadowBlur { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<double?, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<double?, ScriptableOptionsContext> TextShadowBlur { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string TextShadowColor { get; set; }
+        [JsonConverter( typeof( ScriptableOptionsConverter<string, ScriptableOptionsContext> ) )]
+        public ScriptableOptions<string, ScriptableOptionsContext> TextShadowColor { get; set; }
     }
 }

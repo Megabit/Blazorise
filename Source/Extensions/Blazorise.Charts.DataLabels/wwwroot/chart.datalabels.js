@@ -1,4 +1,5 @@
 import { getChart } from "../Blazorise.Charts/charts.js?v=1.1.2.0";
+import { parseFunction } from "../Blazorise.Charts/utilities.js?v=1.1.2.0";
 
 export function setDataLabels(canvasId, datasets, options) {
     const chart = getChart(canvasId);
@@ -14,6 +15,8 @@ export function setDataLabels(canvasId, datasets, options) {
 
         if (datasets) {
             datasets.forEach((dataset) => {
+                compileDatasetsOptionsCallbacks(dataset.options);
+
                 setDatasetDataLabels(chart, dataset.datasetIndex, adjustOptions(dataset.options));
             });
         }
@@ -38,6 +41,20 @@ function adjustOptions(options) {
             options.formatter = Math.ceil;
         }
     }
+
+    return options;
+}
+
+function compileDatasetsOptionsCallbacks(options) {
+    if (!options) {
+        return;
+    }
+
+    Object.keys(options).forEach(function (key) {
+        if (options[key] && options[key].startsWith("function")) {
+            options[key] = parseFunction(options[key]);
+        }
+    });
 
     return options;
 }

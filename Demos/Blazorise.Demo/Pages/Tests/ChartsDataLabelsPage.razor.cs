@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Charts;
 using Blazorise.Charts.DataLabels;
@@ -147,6 +148,8 @@ namespace Blazorise.Demo.Pages.Tests
             }
         };
 
+        static Expression<Func<ScriptableOptionsContext, string>> TestScriptableColor = ( context ) => context.Active ? "#ff0000" : "#4bc0c0";
+
         List<ChartDataLabelsDataset> barDataLabelsDatasets = new()
         {
             new()
@@ -154,8 +157,10 @@ namespace Blazorise.Demo.Pages.Tests
                 DatasetIndex = 0,
                 Options = new()
                 {
-                    BackgroundColor = BackgroundColors[0],
-                    BorderColor = BorderColors[0],
+                    BackgroundColor = TestScriptableColor,
+                    BorderColor = TestScriptableColor,
+                    // BackgroundColor = BackgroundColors[0],
+                    //BorderColor = BorderColors[0],
                     Align = "end",
                     Anchor = "start"
                 }
