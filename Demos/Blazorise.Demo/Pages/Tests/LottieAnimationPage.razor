@@ -1,9 +1,24 @@
 ﻿@page "/tests/lottie-animation"
 
 <LottieAnimation 
-    Path="https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json"
+    Path="@_path"
+    EnteredFrame="@OnEnteredFrame"
+    onclick="@OnClick"
 />
+<TextEdit @bind-Text="@_path"/>
 
 @code {
-    
+
+    private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
+
+    private Action<EnteredFrameEventArgs> OnEnteredFrame { get; set; }
+
+    private void OnClick()
+    {
+        OnEnteredFrame = args =>
+        {
+            Console.WriteLine(args);
+        };
+    }
+
 }

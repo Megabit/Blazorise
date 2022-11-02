@@ -17,10 +17,18 @@ namespace Blazorise.LottieAnimation;
 public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 {
     #region Members
-    
+
     #endregion
-    
+
     #region Methods
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        var pathChanged                 = parameters.TryGetValue<string>( nameof(Path), out var path );
+        var enteredFrameCallbackChanged = parameters.TryGetValue<EventCallback<EnteredFrameEventArgs>>( nameof(EnteredFrame), out var enteredFrameCallback );
+        
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
@@ -38,16 +46,10 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override async Task OnFirstAfterRenderAsync()
     {
-        var callback = new JSInteropCallback<EnteredFrameEventArgs>( (enterFrameEvent) =>
-        {
-            Console.WriteLine(enterFrameEvent);
-        });
-        
         JSAnimationReference = await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new AnimationConfigWithPath( Path )
         {
-            Autoplay = true,
-            EnterFrameCallback = callback
-        });
+            Autoplay = true
+        } );
     }
 
     /// <inheritdoc/>
@@ -74,7 +76,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 
         await base.DisposeAsync( disposing );
     }
-    
+
     #endregion
 
     #region Parameters
@@ -91,7 +93,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// Gets or sets the <see cref="JSLottieAnimationModule"/> instance.
     /// </summary>
     protected JSLottieAnimationModule JSModule { get; private set; }
-    
+
     /// <summary>
     /// Gets or sets the reference to the JS lottie animation object
     /// </summary>
@@ -102,18 +104,21 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 
     [Inject]
     private IVersionProvider VersionProvider { get; set; }
-    
-    [Parameter] public string Path { get; set; }
-    
+
+    [Parameter]
+    public string Path { get; set; }
+
     /// <summary>
-    /// Sent when animation playback enters a new frame
+    /// Triggered when animation playback enters a new frame
     /// </summary>
-    [Parameter] public Func<EnteredFrameEventArgs, Task> EnteredFrame { get; set; }
-    
+    [Parameter]
+    public EventCallback<EnteredFrameEventArgs> EnteredFrame { get; set; }
+
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="LottieAnimation"/>.
     /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
