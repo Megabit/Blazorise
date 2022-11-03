@@ -31,15 +31,17 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     {
         if ( Rendered )
         {
-            var pathChanged      = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
-            var rendererChanged  = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
-            var directionChanged = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
-            var speedChanged     = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && Math.Abs( speed - Speed ) > .001;
-            var loopChanged      = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
-            var pausedChanged    = parameters.TryGetValue<bool>( nameof(Paused), out var paused ) && paused != Paused;
+            var pathChanged                 = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
+            var rendererChanged             = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
+            var directionChanged            = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
+            var speedChanged                = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && Math.Abs( speed - Speed ) > .001;
+            var loopChanged                 = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
+            var pausedChanged               = parameters.TryGetValue<bool>( nameof(Paused), out var paused ) && paused != Paused;
+            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof(CurrentFrameChanged), out var currentFrameChanged ) && currentFrameChanged.HasDelegate;
 
             _frameSyncRequired = parameters.TryGetValue<double>( nameof(CurrentFrame), out var currentFrame )
                                  && ( _lastReportedFrame.HasValue && Math.Abs( currentFrame - _lastReportedFrame.Value ) > .001 );
+
             
             var reinitializationRequired = pathChanged || rendererChanged;
             if ( reinitializationRequired )
@@ -52,6 +54,11 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                 ExecuteAfterRender( async () =>
                 {
                     // These settings can be changed without reinitializing
+                    if ( currentFrameDelegateChanged )
+                    {
+                        await SynchronizeSendCurrentFrame();
+                    }
+                    
                     if ( speedChanged )
                     {
                         await SynchronizeSpeed();
@@ -146,7 +153,8 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             Autoplay = !Paused,
             Renderer,
             Direction,
-            Speed
+            Speed,
+            EnterFrameEnabled = CurrentFrameChanged.HasDelegate
         } );
     }
 
@@ -204,6 +212,16 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
         {
             await JSAnimationReference.InvokeVoidAsync( "play" );
         }
+    }
+
+    /// <summary>
+    /// Enables or disables the sending of the Current frame notification
+    ///
+    /// The current frame event is triggered extremely frequently, so we only send it if someone is listening.
+    /// </summary>
+    protected virtual async Task SynchronizeSendCurrentFrame()
+    {
+        await JSAnimationReference.InvokeVoidAsync( "setSendCurrentFrame", CurrentFrameChanged.HasDelegate );
     }
 
     #region Event Notifiers

@@ -14,11 +14,16 @@ export function initializeAnimation(dotNetAdapter, element, elementId, options) 
     const animation = lottie.loadAnimation(options);
     animation.setDirection( options.direction );
     animation.setSpeed( options.speed );
+    
+    animation.setSendCurrentFrame = function(shouldSend) {
+        this.sendCurrentFrame = shouldSend;
+    }
 
     animation.setLoop = function(loop) {
         this.loop = loop;
     }
     
+    animation.setSendCurrentFrame(options.sendCurrentFrame);
     registerEvents(dotNetAdapter, animation);
     
     return animation;
@@ -34,8 +39,10 @@ async function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
 function registerEvents(dotNetAdapter, animation) {
     animation.addEventListener('enterFrame', async (event) => {
         
-        if( animation.frameChangeNotificationSent )
+        if( !animation.sendCurrentFrame || animation.frameChangeNotificationSent )
         {
+            // We've either already sent an event that hasn't been processed yet,
+            // or nobody is listening for the events
             return;
         }
         
