@@ -48,7 +48,7 @@
                             Paused="@_paused"
                             Loop="@_loop"
                             @bind-CurrentFrame="@_currentFrame"
-                            Loaded="o => _totalFrames = o.TotalFrames"
+                            Loaded="OnLoaded"
                             Completed="@Stop"
                         />
                     </Column>
@@ -102,6 +102,11 @@
     {
         _paused = true;
         _currentFrame = 0;
+    }
+
+    private void OnLoaded(LoadedEventArgs eventArgs)
+    {
+        _totalFrames = eventArgs.TotalFrames;
     }
 
     private void OnSliderValueChanged(double sliderValue)

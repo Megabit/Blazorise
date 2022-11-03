@@ -31,19 +31,19 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     {
         if ( Rendered )
         {
-            var pathChanged                 = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
-            var rendererChanged             = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
-            var directionChanged            = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
-            var speedChanged                = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && Math.Abs( speed - Speed ) > .001;
-            var loopChanged                 = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
-            var pausedChanged               = parameters.TryGetValue<bool>( nameof(Paused), out var paused ) && paused != Paused;
-            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof(CurrentFrameChanged), out var currentFrameChanged ) 
-                                              && (currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate);
+            var pathChanged      = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
+            var rendererChanged  = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
+            var directionChanged = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
+            var speedChanged     = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && Math.Abs( speed - Speed ) > .001;
+            var loopChanged      = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
+            var pausedChanged    = parameters.TryGetValue<bool>( nameof(Paused), out var paused ) && paused != Paused;
+            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof(CurrentFrameChanged), out var currentFrameChanged )
+                                              && ( currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate );
 
             _frameSyncRequired = parameters.TryGetValue<double>( nameof(CurrentFrame), out var currentFrame )
                                  && ( _lastReportedFrame.HasValue && Math.Abs( currentFrame - _lastReportedFrame.Value ) > .001 );
 
-            
+
             var reinitializationRequired = pathChanged || rendererChanged;
             if ( reinitializationRequired )
             {
@@ -59,7 +59,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                     {
                         await SynchronizeSendCurrentFrame();
                     }
-                    
+
                     if ( speedChanged )
                     {
                         await SynchronizeSpeed();
@@ -331,18 +331,6 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter]
     public EventCallback<double> CurrentFrameChanged { get; set; }
-
-    /// <summary>
-    /// Sets the first frame that should be included in the animation playback
-    /// </summary>
-    [Parameter]
-    public double? FirstFrame { get; set; }
-
-    /// <summary>
-    /// Sets the final frame that should be included in the animation playback
-    /// </summary>
-    [Parameter]
-    public double? LastFrame { get; set; }
 
     /// <summary>
     /// Called when the animation completes
