@@ -1,34 +1,68 @@
 ﻿@page "/tests/lottie-animation"
 
-<LottieAnimation 
-    Style="height: 250px;"
-    Path="@_path"
-    Direction="@_animationDirection"
-    Speed="@_speed"
-    Loop="@_loop"
-    EnteredFrame="@OnEnteredFrame"
-/>
-<Slider Value="_currentFrame" Max="_totalFrames" />
-<TextEdit @bind-Text="@_path"/>
-<NumericPicker @bind-Value="@_speed" Step=".5m" Min="0" Max="5"/>
-<Check @bind-Checked="@_loop">Loop</Check>
-<Select TValue="@AnimationDirection" @bind-SelectedValue="_animationDirection">
-    <SelectItem Value="@AnimationDirection.Forward">Forward</SelectItem>
-    <SelectItem Value="@AnimationDirection.Backward">Backward</SelectItem>
-</Select>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Lottie Animation Player</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LottieAnimation 
+                    @ref="@animationRef"
+                    Style="height: 250px;"
+                    Path="@_path"
+                    Direction="@_animationDirection"
+                    Speed="@_speed"
+                    Loop="@_loop"
+                    Paused="@_paused"
+                    @bind-CurrentFrame="@_currentFrame"
+                    Loaded="o => _totalFrames = o.TotalFrames"
+                />
+            </CardBody>
+            <CardBody>
+                <Buttons>
+                    <Button Color="Color.Primary" Clicked="() => _paused = !_paused">
+                        @if (_paused)
+                        {
+                            <Icon Name="IconName.Play"/>
+                        }
+                        else
+                        {
+                            <Icon Name="IconName.Pause"/>
+                        }
+                    </Button>
+                    <Button Color="Color.Primary" Clicked="@OnStop">
+                        <Icon Name="IconName.Stop" />
+                    </Button>
+                </Buttons>
+                <TextEdit @bind-Text="@_path" />
+                <NumericEdit @bind-Value="@_speed" Step=".25m" />
+                <Button Color="Color.Primary" Clicked="() => _animationDirection = _animationDirection == AnimationDirection.Forward ? AnimationDirection.Backward : AnimationDirection.Forward">
+                    Direction: @_animationDirection
+                </Button>
+                <Button Color="Color.Primary" Clicked="() => _loop = !_loop">
+                    Loop: @_loop
+                </Button>
+                <h1>Current Frame: @_currentFrame</h1>
+                <h1>Total Frames: @_totalFrames</h1>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 
 @code {
-
+    LottieAnimation animationRef;
     private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
     private AnimationDirection _animationDirection = AnimationDirection.Forward;
     private double _speed = 1.0;
     private bool _loop = true;
+    private bool _paused = false;
     private double _currentFrame = 0;
     private double _totalFrames = 0;
 
-    private void OnEnteredFrame(EnteredFrameEventArgs args)
+    private void OnStop()
     {
-        _currentFrame = args.CurrentTime;
-        _totalFrames = args.TotalTime;
+        _paused = true;
+        _currentFrame = 0;
     }
 }

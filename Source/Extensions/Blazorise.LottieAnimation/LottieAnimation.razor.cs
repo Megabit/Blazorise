@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +17,13 @@ namespace Blazorise.LottieAnimation;
 /// </summary>
 public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 {
+    #region Members
+
+    private double? _lastReportedFrame;
+    private bool    _frameSyncRequired = false;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
@@ -23,60 +31,51 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     {
         if ( Rendered )
         {
-            var pathChanged     = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
-            var loopChanged     = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
-            var autoplayChanged = parameters.TryGetValue<bool>( nameof(Autoplay), out var autoPlay ) && autoPlay != Autoplay;
-            var rendererChanged = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
-
+            var pathChanged      = parameters.TryGetValue<string>( nameof(Path), out var path ) && path != Path;
+            var rendererChanged  = parameters.TryGetValue<Renderer>( nameof(Renderer), out var renderer ) && renderer != Renderer;
             var directionChanged = parameters.TryGetValue<AnimationDirection>( nameof(Direction), out var direction ) && direction != Direction;
-            var speedChanged     = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && speed != Speed;
+            var speedChanged     = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && Math.Abs( speed - Speed ) > .001;
+            var loopChanged      = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
+            var pausedChanged    = parameters.TryGetValue<bool>( nameof(Paused), out var paused ) && paused != Paused;
 
-            var enteredFrameChanged = parameters.TryGetValue<EventCallback<EnteredFrameEventArgs>>( nameof(EnteredFrame), out var enteredFrame ) && enteredFrame.HasDelegate != EnteredFrame.HasDelegate;
-
-            var reinitializationRequired = pathChanged || loopChanged || rendererChanged;
+            _frameSyncRequired = parameters.TryGetValue<double>( nameof(CurrentFrame), out var currentFrame )
+                                 && ( _lastReportedFrame.HasValue && Math.Abs( currentFrame - _lastReportedFrame.Value ) > .001 );
+            
+            var reinitializationRequired = pathChanged || rendererChanged;
             if ( reinitializationRequired )
             {
                 // Changing these settings requires a full reinitialization of the animation
-                ExecuteAfterRender( async () =>
-                {
-                    await InitializeAnimation( new
-                    {
-                        path,
-                        loop,
-                        autoPlay,
-                        renderer,
-                        direction,
-                        speed,
-                        RegisteredEvents = GetRegisteredEvents()
-                    } );
-                } );
+                ExecuteAfterRender( SynchronizeAnimation );
             }
             else
             {
-                // These settings can be changed without reinitializing
-                if ( speedChanged )
+                ExecuteAfterRender( async () =>
                 {
-                    ExecuteAfterRender( async () =>
+                    // These settings can be changed without reinitializing
+                    if ( speedChanged )
                     {
-                        await SetSpeed( speed );
-                    } );
-                }
+                        await SynchronizeSpeed();
+                    }
 
-                if ( directionChanged )
-                {
-                    ExecuteAfterRender( async () =>
+                    if ( directionChanged )
                     {
-                        await SetDirection( direction );
-                    } );
-                }
+                        await SynchronizeDirection();
+                    }
 
-                if ( enteredFrameChanged )
-                {
-                    ExecuteAfterRender(async () =>
+                    if ( loopChanged )
                     {
-                        await UpdateRegisteredEvents();
-                    } );
-                }
+                        await SynchronizeLoop();
+                    }
+
+                    if ( _frameSyncRequired )
+                    {
+                        await SynchronizeCurrentFrame();
+                    }
+                    else if ( pausedChanged )
+                    {
+                        await SynchronizePaused();
+                    }
+                } );
             }
         }
 
@@ -99,16 +98,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override async Task OnFirstAfterRenderAsync()
     {
-        await InitializeAnimation( new
-        {
-            Path,
-            Loop,
-            Autoplay,
-            Renderer,
-            Direction,
-            Speed,
-            RegisteredEvents = GetRegisteredEvents()
-        } );
+        await SynchronizeAnimation();
     }
 
     /// <inheritdoc/>
@@ -144,69 +134,125 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Initializes the JS animation 
+    /// Synchronizes the JS animation with the current animation configuration
     /// </summary>
-    /// <param name="configuration">Animation configuration</param>
-    protected virtual async ValueTask InitializeAnimation( object configuration )
+    protected virtual async Task SynchronizeAnimation()
     {
         await DisposeAnimation();
-        JSAnimationReference = await JSModule.InitializeAnimation( DotNetObjectRef, ElementRef, ElementId, configuration );
-    }
-
-    /// <summary>
-    /// Set the animation direction
-    /// </summary>
-    /// <param name="direction">Animation playback direction</param>
-    protected virtual async ValueTask SetDirection( AnimationDirection direction )
-    {
-        await JSAnimationReference.InvokeVoidAsync( "setDirection", direction );
-    }
-
-    /// <summary>
-    /// Set the animation playback speed
-    /// </summary>
-    /// <param name="speed">Animation playback speed</param>
-    protected virtual async ValueTask SetSpeed( double speed )
-    {
-        await JSAnimationReference.InvokeVoidAsync( "setSpeed", speed );
-    }
-
-    /// <summary>
-    /// Updates the animations list of registered events
-    /// </summary>
-    protected virtual async ValueTask UpdateRegisteredEvents()
-    {
-        var registeredEvents = GetRegisteredEvents();
-        await JSAnimationReference.InvokeVoidAsync( "updateRegisteredEvents", registeredEvents );
-    }
-
-    /// <summary>
-    /// Returns all the events that currently have registered delegates
-    /// </summary>
-    /// <returns>All the events that currently have registered delegates</returns>
-    protected virtual HashSet<string> GetRegisteredEvents()
-    {
-        HashSet<string> registeredEvents = new();
-
-        if ( EnteredFrame.HasDelegate )
+        JSAnimationReference = await JSModule.InitializeAnimation( DotNetObjectRef, ElementRef, ElementId, new
         {
-            registeredEvents.Add( "enterFrame" );
+            Path,
+            Loop,
+            Autoplay = !Paused,
+            Renderer,
+            Direction,
+            Speed
+        } );
+    }
+
+    /// <summary>
+    /// Synchronizes the JS animation direction with the current direction
+    /// </summary>
+    protected virtual async Task SynchronizeDirection()
+    {
+        await JSAnimationReference.InvokeVoidAsync( "setDirection", Direction );
+    }
+
+    /// <summary>
+    /// Synchronizes the JS animation speed with the current speed
+    /// </summary>
+    protected virtual async Task SynchronizeSpeed()
+    {
+        await JSAnimationReference.InvokeVoidAsync( "setSpeed", Speed );
+    }
+
+    /// <summary>
+    /// Synchronizes the JS animation loop setting with the current loop setting
+    /// </summary>
+    protected virtual async Task SynchronizeLoop()
+    {
+        await JSAnimationReference.InvokeVoidAsync( "setLoop", Loop );
+    }
+
+    /// <summary>
+    /// Synchronizes the JS animation current frame with the current frame
+    /// </summary>
+    protected virtual async Task SynchronizeCurrentFrame()
+    {
+        if ( Paused )
+        {
+            await JSAnimationReference.InvokeVoidAsync( "goToAndStop", CurrentFrame, true );
+        }
+        else
+        {
+            await JSAnimationReference.InvokeVoidAsync( "goToAndPlay", CurrentFrame, true );
         }
 
-        return registeredEvents;
+        _frameSyncRequired = false;
+    }
+
+    /// <summary>
+    /// Synchronizes the JS animation playback with the current playback
+    /// </summary>
+    protected virtual async Task SynchronizePaused()
+    {
+        if ( Paused )
+        {
+            await JSAnimationReference.InvokeVoidAsync( "pause" );
+        }
+        else
+        {
+            await JSAnimationReference.InvokeVoidAsync( "play" );
+        }
     }
 
     #region Event Notifiers
-    
+
     /// <summary>
-    /// Notifies the lottie animation component that a new frame has been entered. Should not be called directly by the user!
+    /// Notifies the lottie animation component that the animation has completed. Should not be called directly by the user!
     /// </summary>
-    /// <param name="eventArgs">Enter frame event args</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public async ValueTask NotifyEnteredFrame(EnteredFrameEventArgs eventArgs)
+    public Task NotifyCompleted()
     {
-        await EnteredFrame.InvokeAsync( eventArgs );
+        return Completed.InvokeAsync();
+    }
+
+    /// <summary>
+    /// Notifies the lottie animation component that an animation loop has completed. Should not be called directly by the user!
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [JSInvokable]
+    public Task NotifyLoopCompleted()
+    {
+        return LoopCompleted.InvokeAsync();
+    }
+
+    /// <summary>
+    /// Notifies the lottie animation component that the animation has finished loading. Should not be called directly by the user!
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [JSInvokable]
+    public Task NotifyLoaded( LoadedEventArgs args )
+    {
+        return Loaded.InvokeAsync( args );
+    }
+
+    /// <summary>
+    /// Notifies the lottie animation component that the current frame has changed. Should not be called directly by the user!
+    /// </summary>
+    /// <param name="currentFrame">Enter frame event args</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [JSInvokable]
+    public async Task NotifyCurrentFrameChanged( double currentFrame )
+    {
+        if ( _frameSyncRequired )
+        {
+            return;
+        }
+
+        _lastReportedFrame = currentFrame;
+        await CurrentFrameChanged.InvokeAsync( currentFrame );
     }
 
     #endregion
@@ -214,6 +260,88 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Parameters
+
+    /// <summary>
+    /// Relative path to the animation object
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public string Path { get; set; }
+
+    /// <summary>
+    /// Whether or not the animation should loop, or a number of times the animation should loop.
+    /// </summary>
+    [Parameter]
+    public LoopingConfiguration Loop { get; set; } = true;
+
+    /// <summary>
+    /// Renderer to use
+    /// </summary>
+    [Parameter]
+    public Renderer Renderer { get; set; } = Renderer.SVG;
+
+    /// <summary>
+    /// Animation playback direction
+    /// </summary>
+    [Parameter]
+    public AnimationDirection Direction { get; set; } = AnimationDirection.Forward;
+
+    /// <summary>
+    /// Animation playback speed
+    /// </summary>
+    [Parameter]
+    public double Speed { get; set; } = 1.0;
+
+    /// <summary>
+    /// Whether or not the animation is paused
+    /// </summary>
+    [Parameter]
+    public bool Paused { get; set; } = false;
+
+    /// <summary>
+    /// Current playback frame
+    /// </summary>
+    [Parameter]
+    public double CurrentFrame { get; set; } = 0;
+
+    /// <summary>
+    /// Called when the current frame changes
+    ///
+    /// Warning: This event is triggered extremely frequently. Subscribing to this event can cause a significant increase
+    /// in the amount of messages sent over the websocket if using Blazor Server.
+    /// </summary>
+    [Parameter]
+    public EventCallback<double> CurrentFrameChanged { get; set; }
+
+    /// <summary>
+    /// Sets the first frame that should be included in the animation playback
+    /// </summary>
+    [Parameter]
+    public double? FirstFrame { get; set; }
+
+    /// <summary>
+    /// Sets the final frame that should be included in the animation playback
+    /// </summary>
+    [Parameter]
+    public double? LastFrame { get; set; }
+
+    /// <summary>
+    /// Called when the animation completes
+    /// </summary>
+    [Parameter]
+    public EventCallback Completed { get; set; }
+
+    /// <summary>
+    /// Called when a loop completes
+    /// </summary>
+    [Parameter]
+    public EventCallback LoopCompleted { get; set; }
+
+    /// <summary>
+    /// Called when the animation finishes loading and the elements have been added to the DOM
+    /// </summary>
+    [Parameter]
+    public EventCallback<LoadedEventArgs> Loaded { get; set; }
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
@@ -238,54 +366,6 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 
     [Inject]
     private IVersionProvider VersionProvider { get; set; }
-
-    /// <summary>
-    /// Relative path to the animation object
-    /// </summary>
-    [Parameter]
-    public string Path { get; set; }
-
-    /// <summary>
-    /// Whether or not the animation should loop, or a number of times the animation should loop.
-    /// </summary>
-    [Parameter]
-    public LoopingConfiguration Loop { get; set; } = true;
-
-    /// <summary>
-    /// Whether or not the animation should start playing as soon as it's ready
-    /// </summary>
-    [Parameter]
-    public bool Autoplay { get; set; } = true;
-
-    /// <summary>
-    /// Renderer to use
-    /// </summary>
-    [Parameter]
-    public Renderer Renderer { get; set; } = Renderer.SVG;
-
-    /// <summary>
-    /// Animation playback direction
-    /// </summary>
-    [Parameter]
-    public AnimationDirection Direction { get; set; } = AnimationDirection.Forward;
-
-    /// <summary>
-    /// Animation playback speed
-    /// </summary>
-    [Parameter]
-    public double Speed { get; set; } = 1.0;
-
-    /// <summary>
-    /// Triggered when animation playback enters a new frame
-    /// </summary>
-    [Parameter]
-    public EventCallback<EnteredFrameEventArgs> EnteredFrame { get; set; }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="LottieAnimation"/>.
-    /// </summary>
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

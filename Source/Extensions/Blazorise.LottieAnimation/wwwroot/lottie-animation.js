@@ -14,29 +14,51 @@ export function initializeAnimation(dotNetAdapter, element, elementId, options) 
     const animation = lottie.loadAnimation(options);
     animation.setDirection( options.direction );
     animation.setSpeed( options.speed );
+
+    animation.setLoop = function(loop) {
+        this.loop = loop;
+    }
     
-    animation.registeredEvents = new Set(options.registeredEvents);
     registerEvents(dotNetAdapter, animation);
     
     return animation;
 }
 
-function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
-    dotNetAdapter.invokeMethodAsync(methodName, ...args)
+async function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
+    await dotNetAdapter.invokeMethodAsync(methodName, ...args)
         .catch((reason) => {
             console.error(reason);
         });
 }
 
 function registerEvents(dotNetAdapter, animation) {
-    animation.updateRegisteredEvents = (registeredEvents) => {
-        animation.registeredEvents = new Set(registeredEvents);
-    }
-    
-    animation.addEventListener('enterFrame', (event) => {
-        if(animation.registeredEvents.has('enterFrame'))
+    animation.addEventListener('enterFrame', async (event) => {
+        
+        if( animation.frameChangeNotificationSent )
         {
-            invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnteredFrame", event);
+            return;
         }
+        
+        animation.frameChangeNotificationSent = true;
+        
+        await invokeDotNetMethodAsync(dotNetAdapter, "NotifyCurrentFrameChanged", event.currentTime);
+
+        animation.frameChangeNotificationSent = false;
+    });
+
+    animation.addEventListener('DOMLoaded', () => {
+        const dataInfo = {
+            currentFrame: animation.currentFrame,
+            totalFrames: animation.totalFrames
+        };
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyLoaded", dataInfo);
+    });
+
+    animation.addEventListener('loopComplete', () => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyLoopCompleted");
+    });
+
+    animation.addEventListener('complete', () => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyCompleted");
     });
 }
