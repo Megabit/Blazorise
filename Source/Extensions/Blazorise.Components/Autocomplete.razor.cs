@@ -128,7 +128,16 @@ namespace Blazorise.Components
                 if ( !string.IsNullOrEmpty( SelectedText ) )
                 {
                     var item = GetItemByText( SelectedText );
-                    if ( item != null )
+                    if ( item is null )
+                    {
+                        if ( !FreeTyping )
+                        {
+                            await ResetSelectedText();
+                        }
+                        selectedValue = new( default );
+                        await SelectedValueChanged.InvokeAsync( selectedValue );
+                    }
+                    else
                     {
                         NullableT<TValue> value = new( GetItemValue( item ) );
                         if ( !SelectedValue.IsEqual( value ) )
@@ -136,11 +145,6 @@ namespace Blazorise.Components
                             selectedValue = new( value );
                             await SelectedValueChanged.InvokeAsync( value );
                         }
-                    }
-                    else if ( !FreeTyping )
-                    {
-                        selectedTextParam = null;
-                        await SelectedTextChanged.InvokeAsync( selectedTextParam );
                     }
                 }
 
@@ -159,7 +163,11 @@ namespace Blazorise.Components
             if ( selectedValueParamChanged )
             {
                 var item = GetItemByValue( SelectedValue );
-                if ( item != null )
+                if ( item is null )
+                {
+                    await ResetSelectedValue();
+                }
+                else
                 {
                     string text = GetItemText( item );
                     if ( text != SelectedText )
@@ -177,11 +185,6 @@ namespace Blazorise.Components
                             );
                         }
                     }
-                }
-                else
-                {
-                    selectedValue = new( default );
-                    await SelectedValueChanged.InvokeAsync( selectedValue );
                 }
             }
 
@@ -553,7 +556,7 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedText()
         {
-            var notifyChange = selectedText is not null;
+            var notifyChange = SelectedText is not null;
 
             selectedText = null;
             if ( notifyChange )

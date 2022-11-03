@@ -9,7 +9,7 @@
               SelectedText="@SelectedText"
               SelectedTextChanged="@OnSelectedTextChanged"
               Placeholder="Search..."
-              FreeTyping
+              FreeTyping="@FreeTyping"
               MinLength="@MinLength"
               AutoPreSelect="@AutoPreSelect">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
@@ -34,12 +34,14 @@
         return SelectedValueChanged.InvokeAsync(e);
     }
 
-        private Task OnSelectedTextChanged(string e)
+    private Task OnSelectedTextChanged(string e)
     {
         SelectedText = e;
         return SelectedTextChanged.InvokeAsync( e );
     }
 
+    [Parameter]
+    public bool FreeTyping { get; set; } = true;
 
     [Parameter]
     public string SelectedValue { get; set; }

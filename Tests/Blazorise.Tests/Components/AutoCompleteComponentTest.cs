@@ -73,14 +73,15 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public async Task SelectedTextChanged_ShouldOnlyTrigger_IfValueIsAlreadySet_But_TextHasNotBeenFound()
+        public async Task SelectedTextChanged_NoFreeTyping_ShouldOnlyTrigger_IfValueIsAlreadySet_But_TextHasNotBeenFound()
         {
             var changedCount = 0;
-            var selectedValue = "Portugal";
+            var selectedText = "Portugal";
             var comp = RenderComponent<AutocompleteComponent>( p =>
             {
-                p.Add( x => x.SelectedText, selectedValue );
-                p.Add( x => x.SelectedTextChanged, ( x ) => { selectedValue = x; changedCount++; } );
+                p.Add( x => x.FreeTyping, false );
+                p.Add( x => x.SelectedText, selectedText );
+                p.Add( x => x.SelectedTextChanged, ( x ) => { selectedText = x; changedCount++; } );
             }
 
             );
@@ -91,7 +92,7 @@ namespace Blazorise.Tests.Components
             await Input( autoComplete, input );
 
             Assert.Equal( 1, changedCount );
-            Assert.Equal( default, selectedValue );
+            Assert.Equal( default, selectedText );
         }
 
         [Fact]
