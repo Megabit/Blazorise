@@ -37,7 +37,8 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             var speedChanged                = parameters.TryGetValue<double>( nameof(Speed), out var speed ) && Math.Abs( speed - Speed ) > .001;
             var loopChanged                 = parameters.TryGetValue<LoopingConfiguration>( nameof(Loop), out var loop ) && loop != Loop;
             var pausedChanged               = parameters.TryGetValue<bool>( nameof(Paused), out var paused ) && paused != Paused;
-            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof(CurrentFrameChanged), out var currentFrameChanged ) && currentFrameChanged.HasDelegate;
+            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof(CurrentFrameChanged), out var currentFrameChanged ) 
+                                              && (currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate);
 
             _frameSyncRequired = parameters.TryGetValue<double>( nameof(CurrentFrame), out var currentFrame )
                                  && ( _lastReportedFrame.HasValue && Math.Abs( currentFrame - _lastReportedFrame.Value ) > .001 );
@@ -154,7 +155,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             Renderer,
             Direction,
             Speed,
-            EnterFrameEnabled = CurrentFrameChanged.HasDelegate
+            SendCurrentFrame = CurrentFrameChanged.HasDelegate
         } );
     }
 

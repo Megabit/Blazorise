@@ -7,51 +7,98 @@
                 <CardTitle>Lottie Animation Player</CardTitle>
             </CardHeader>
             <CardBody>
-                <LottieAnimation 
-                    @ref="@animationRef"
-                    Style="height: 250px;"
-                    Path="@_path"
-                    Direction="@_animationDirection"
-                    Speed="@_speed"
-                    Loop="@_loop"
-                    Paused="@_paused"
-                    @bind-CurrentFrame="@_currentFrame"
-                    Loaded="o => _totalFrames = o.TotalFrames"
-                />
-            </CardBody>
-            <CardBody>
-                <Buttons>
-                    <Button Color="Color.Primary" Clicked="() => _paused = !_paused">
+                <Row Style="margin: 30px 0">
+                    <Column>
+                        <Field>
+                            <FieldLabel>Animation Path</FieldLabel>
+                            <TextEdit @bind-Text="@_path"/>
+                        </Field>
+                    </Column>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Background Color</FieldLabel>
+                            <ColorPicker @bind-Color="@_backgroundColor"/>
+                        </Field>
+                    </Column>
+                </Row>
+                <Row Style="margin: 30px 0">
+                    <Column>
+                        <LottieAnimation
+                            Style="@("height: 250px; background-color:" + _backgroundColor)"
+                            Path="@_path"
+                            Direction="@_animationDirection"
+                            Speed="@_speed"
+                            Paused="@_paused"
+                            Loop="@_loop"
+                            @bind-CurrentFrame="@_currentFrame"
+                            Loaded="o => _totalFrames = o.TotalFrames"
+                            Completed="@Stop"
+                        />
+                    </Column>
+                </Row>
+                <Row Style="margin: 30px 0">
+                    <Column Style="display: flex; justify-content: center" ColumnSize="ColumnSize.IsAuto">
                         @if (_paused)
                         {
-                            <Icon Name="IconName.Play"/>
+                            <Button Clicked="() => _paused = false">
+                                <Icon Name="IconName.Play" Color="@Color.Primary"/>
+                            </Button>
                         }
                         else
                         {
-                            <Icon Name="IconName.Pause"/>
+                            <Button Clicked="() => _paused = true">
+                                <Icon Name="IconName.Pause"/>
+                            </Button>
+                        }
+                        <Button Clicked="Stop">
+                            <Icon Name="IconName.Stop"/>
+                        </Button>
+                    </Column>
+                    <Column Style="display: flex; justify-content: center">
+                        <Slider TValue="double" Value="@_currentFrame" ValueChanged="@OnSliderValueChanged" Min="0" Max="_totalFrames"/>
+                    </Column>
+                    <Column Style="display: flex; justify-content: center" ColumnSize="ColumnSize.IsAuto">
+                        <div style="display: flex; justify-content: center; align-items: center; width: 100px">
+                            @((int)_currentFrame) / @_totalFrames
+                        </div>
+                        <Button Clicked="() => _loop = !_loop">
+                            <Icon Name="IconName.Sync" style="@("color: " + (_loop ? "black" : "lightgray"))"/>
+                        </Button>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Animated Button</CardTitle>
+                <CardBody>
+                    <Button Clicked="() => _buttonAnimationPaused = false" Color="Color.Primary" Style="height: 100px; width: 100px;">
+                        @if (_buttonAnimationPaused)
+                        {
+                            <RenderFragment>
+                                Click Me!
+                            </RenderFragment>
+                        }
+                        else
+                        {
+                            <LottieAnimation
+                                Paused="@_buttonAnimationPaused"
+                                Loop="false"
+                                Path="https://assets1.lottiefiles.com/datafiles/8UjWgBkqvEF5jNoFcXV4sdJ6PXpS6DwF7cK4tzpi/Check Mark Success/Check Mark Success Data.json"
+                            />
                         }
                     </Button>
-                    <Button Color="Color.Primary" Clicked="@OnStop">
-                        <Icon Name="IconName.Stop" />
-                    </Button>
-                </Buttons>
-                <TextEdit @bind-Text="@_path" />
-                <NumericEdit @bind-Value="@_speed" Step=".25m" />
-                <Button Color="Color.Primary" Clicked="() => _animationDirection = _animationDirection == AnimationDirection.Forward ? AnimationDirection.Backward : AnimationDirection.Forward">
-                    Direction: @_animationDirection
-                </Button>
-                <Button Color="Color.Primary" Clicked="() => _loop = !_loop">
-                    Loop: @_loop
-                </Button>
-                <h1>Current Frame: @_currentFrame</h1>
-                <h1>Total Frames: @_totalFrames</h1>
-            </CardBody>
+                </CardBody>
+            </CardHeader>
         </Card>
     </Column>
 </Row>
 
 @code {
-    LottieAnimation animationRef;
     private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
     private AnimationDirection _animationDirection = AnimationDirection.Forward;
     private double _speed = 1.0;
@@ -59,10 +106,20 @@
     private bool _paused = false;
     private double _currentFrame = 0;
     private double _totalFrames = 0;
+    private string _backgroundColor = "transparent";
+    
+    private bool _buttonAnimationPaused = true;
 
-    private void OnStop()
+    private void Stop()
     {
         _paused = true;
         _currentFrame = 0;
     }
+
+    private void OnSliderValueChanged(double sliderValue)
+    {
+        Stop();
+        _currentFrame = sliderValue;
+    }
+
 }
