@@ -153,6 +153,7 @@ namespace Blazorise.Components
                     currentSearch = SelectedText;
 
                     await Task.WhenAll(
+                        ResetSelectedValue(),
                         CurrentSearchChanged.InvokeAsync( currentSearch ),
                         SearchChanged.InvokeAsync( currentSearch )
                     );
@@ -565,7 +566,7 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedValue()
         {
-            var notifyChange = selectedValue is not null && ( selectedValue?.Value?.Equals( default( TValue ) ) ?? false );
+            var notifyChange = SelectedValue is not null;
 
             selectedValue = new( default );
             if ( notifyChange )
