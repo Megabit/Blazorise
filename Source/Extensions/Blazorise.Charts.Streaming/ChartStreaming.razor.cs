@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -21,28 +20,41 @@ namespace Blazorise.Charts.Streaming
     /// <typeparam name="TItem">Data point type.</typeparam>
     public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAsyncDisposable
     {
+        #region Members
+
+        private const string PluginName = "Streaming";
+
+        #endregion
+
         #region Methods
 
         protected override Task OnInitializedAsync()
         {
-            if ( JSModule == null )
+            if ( ParentChart is not null )
             {
-                JSModule = new JSChartStreamingModule( JSRuntime, VersionProvider );
+                ParentChart.Initialized += OnParentChartInitialized;
+
+                ParentChart.NotifyPluginInitialized( PluginName );
             }
 
             return base.OnInitializedAsync();
         }
 
-        protected override async Task OnAfterRenderAsync( bool firstRender )
+        private async void OnParentChartInitialized( object sender, EventArgs e )
         {
-            if ( firstRender && ParentChart != null )
+            if ( JSModule == null )
             {
-                DotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
+                JSModule = new JSChartStreamingModule( JSRuntime, VersionProvider );
 
-                await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementRef, ParentChart.ElementId, Vertical, Options );
+                ExecuteAfterRender( async () =>
+                {
+                    DotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
+
+                    await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementRef, ParentChart.ElementId, Vertical, Options );
+                } );
+
+                await InvokeAsync( StateHasChanged );
             }
-
-            await base.OnAfterRenderAsync( firstRender );
         }
 
         protected override async ValueTask DisposeAsync( bool disposing )
@@ -57,6 +69,13 @@ namespace Blazorise.Charts.Streaming
                 {
                     DotNetObjectRef.Dispose();
                     DotNetObjectRef = null;
+                }
+
+                if ( ParentChart is not null )
+                {
+                    ParentChart.Initialized -= OnParentChartInitialized;
+
+                    ParentChart.NotifyPluginRemoved( PluginName );
                 }
             }
 
