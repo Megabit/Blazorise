@@ -7,7 +7,7 @@
                 <CardTitle>Lottie Animation Player</CardTitle>
             </CardHeader>
             <CardBody>
-                <Row Style="margin: 30px 0">
+                <Row>
                     <Column>
                         <Field>
                             <FieldLabel>Animation Path</FieldLabel>
@@ -18,6 +18,23 @@
                         <Field>
                             <FieldLabel>Background Color</FieldLabel>
                             <ColorPicker @bind-Color="@_backgroundColor"/>
+                        </Field>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Speed</FieldLabel>
+                            <NumericEdit TValue="double" Value="@_speed" ValueChanged="@OnSpeedValueChanged" Step=".5m" Min="0" Max="3"/>
+                        </Field>
+                    </Column>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Direction</FieldLabel>
+                            <Select @bind-SelectedValue="@_animationDirection">
+                                <SelectItem Value="AnimationDirection.Forward">Forward</SelectItem>
+                                <SelectItem Value="AnimationDirection.Backward">Backward</SelectItem>
+                            </Select>
                         </Field>
                     </Column>
                 </Row>
@@ -36,7 +53,7 @@
                         />
                     </Column>
                 </Row>
-                <Row Style="margin: 30px 0">
+                <Row>
                     <Column Style="display: flex; justify-content: center" ColumnSize="ColumnSize.IsAuto">
                         @if (_paused)
                         {
@@ -70,33 +87,6 @@
         </Card>
     </Column>
 </Row>
-<Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Animated Button</CardTitle>
-                <CardBody>
-                    <Button Clicked="() => _buttonAnimationPaused = false" Color="Color.Primary" Style="height: 100px; width: 100px;">
-                        @if (_buttonAnimationPaused)
-                        {
-                            <RenderFragment>
-                                Click Me!
-                            </RenderFragment>
-                        }
-                        else
-                        {
-                            <LottieAnimation
-                                Paused="@_buttonAnimationPaused"
-                                Loop="false"
-                                Path="https://assets1.lottiefiles.com/datafiles/8UjWgBkqvEF5jNoFcXV4sdJ6PXpS6DwF7cK4tzpi/Check Mark Success/Check Mark Success Data.json"
-                            />
-                        }
-                    </Button>
-                </CardBody>
-            </CardHeader>
-        </Card>
-    </Column>
-</Row>
 
 @code {
     private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
@@ -107,8 +97,6 @@
     private double _currentFrame = 0;
     private double _totalFrames = 0;
     private string _backgroundColor = "transparent";
-    
-    private bool _buttonAnimationPaused = true;
 
     private void Stop()
     {
@@ -120,6 +108,11 @@
     {
         Stop();
         _currentFrame = sliderValue;
+    }
+
+    private void OnSpeedValueChanged(double speedValue)
+    {
+        _speed = Math.Clamp(speedValue, 0, 5);
     }
 
 }
