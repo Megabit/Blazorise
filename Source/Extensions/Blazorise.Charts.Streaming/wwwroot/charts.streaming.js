@@ -20,8 +20,6 @@ export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOpti
 
         chart.update();
     }
-
-    return true;
 }
 
 export function destroy(canvas, canvasId) {
@@ -47,8 +45,6 @@ export function addData(canvasId, datasetIndex, newData) {
     if (chart) {
         chart.data.datasets[datasetIndex].data.push(newData);
     }
-
-    return true;
 }
 
 function getStreamingOptions(dotNetAdapter, vertical, chartOptions, streamOptions) {
@@ -56,9 +52,11 @@ function getStreamingOptions(dotNetAdapter, vertical, chartOptions, streamOption
         type: "realtime",
         realtime: {
             duration: streamOptions.duration,
+            ttl: streamOptions.ttl,
             refresh: streamOptions.refresh,
             delay: streamOptions.delay,
             frameRate: streamOptions.frameRate,
+            pause: streamOptions.pause,
             onRefresh: function (chart) {
                 dotNetAdapter.invokeMethodAsync("Refresh")
                     .catch((reason) => {
@@ -96,4 +94,47 @@ function getStreamingOptions(dotNetAdapter, vertical, chartOptions, streamOption
     }
 
     return horizontalScalesOptions;
+}
+
+function getRealtimeOptions(chart) {
+    if (chart && chart.options && chart.options.scales) {
+        const scales = chart.options.scales;
+
+        if (scales.x && scales.x.realtime) {
+            return scales.x.realtime;
+        }
+        else if (scales.x && scales.x.realtime) {
+            return scales.x.realtime;
+        }
+    }
+
+    return null;
+}
+
+export function pause(canvasId, animate) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        const realtimeOptions = getRealtimeOptions(chart);
+
+        if (realtimeOptions) {
+            realtimeOptions.pause = true;
+
+            chart.update(animate ? null : "none");
+        }
+    }
+}
+
+export function play(canvasId, animate) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        const realtimeOptions = getRealtimeOptions(chart);
+
+        if (realtimeOptions) {
+            realtimeOptions.pause = false;
+
+            chart.update(animate ? null : "none");
+        }
+    }
 }

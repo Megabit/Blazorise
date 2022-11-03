@@ -16,6 +16,8 @@ namespace Blazorise.Demo.Pages.Tests
         private BarChart<LiveDataPoint> horizontalBarChart;
         private BarChart<LiveDataPoint> verticalBarChart;
 
+        private ChartStreaming<LiveDataPoint> horizontalLineChartStreaming;
+
         private Random random = new( DateTime.Now.Millisecond );
 
         private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
@@ -161,6 +163,16 @@ namespace Blazorise.Demo.Pages.Tests
             }
 
             await horizontalLineChart.Update();
+        }
+
+        private async Task PauseHorizontalLineChart()
+        {
+            await horizontalLineChartStreaming.Pause();
+        }
+
+        private async Task PlayHorizontalLineChart()
+        {
+            await horizontalLineChartStreaming.Play();
         }
 
         private async Task AddNewVerticalLineDataSet()
