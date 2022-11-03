@@ -30,23 +30,20 @@ namespace Blazorise.Tests.Components
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
             var input = "Portugal";
 
-            foreach ( var key in input )
-            {
-                await Input( autoComplete, key.ToString() );
-            }
+            await Input( autoComplete, input );
 
             Assert.Equal( 1, changedCount );
         }
 
         [Fact]
-        public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueIsAlreadySet_But_ValueHasNotBeenFound()
+        public async Task SelectedValueChanged_ShouldOnlyTrigger_IfValueIsAlreadySet_But_ValueHasNotBeenFound()
         {
             var changedCount = 0;
             var selectedValue = "PT";
             var comp = RenderComponent<AutocompleteComponent>( p =>
             {
                 p.Add( x => x.SelectedValue, selectedValue );
-                p.Add( x => x.SelectedValueChanged, ( x ) => { selectedValue = x;  changedCount++; } );
+                p.Add( x => x.SelectedValueChanged, ( x ) => { selectedValue = x; changedCount++; } );
             }
 
             );
@@ -54,10 +51,44 @@ namespace Blazorise.Tests.Components
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
             var input = "A Random Value!";
 
-            foreach ( var key in input )
+            await Input( autoComplete, input );
+
+            Assert.Equal( 1, changedCount );
+            Assert.Equal( default, selectedValue );
+        }
+
+        [Fact]
+        public async Task SelectedTextChanged_ShouldOnlyTrigger_WhenValueHasBeenFound()
+        {
+            var changedCount = 0;
+            var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ ) );
+
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            var input = "Portugal";
+
+            await Input( autoComplete, input );
+
+            Assert.Equal( 1, changedCount );
+        }
+
+        [Fact]
+        public async Task SelectedTextChanged_ShouldOnlyTrigger_IfValueIsAlreadySet_But_TextHasNotBeenFound()
+        {
+            var changedCount = 0;
+            var selectedValue = "Portugal";
+            var comp = RenderComponent<AutocompleteComponent>( p =>
             {
-                await Input( autoComplete, key.ToString() );
+                p.Add( x => x.SelectedText, selectedValue );
+                p.Add( x => x.SelectedTextChanged, ( x ) => { selectedValue = x; changedCount++; } );
             }
+
+            );
+
+            var autoComplete = comp.Find( ".b-is-autocomplete input" );
+            var input = "A Random Value!";
+
+            await Input( autoComplete, input );
 
             Assert.Equal( 1, changedCount );
             Assert.Equal( default, selectedValue );

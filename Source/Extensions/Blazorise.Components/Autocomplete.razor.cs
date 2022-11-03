@@ -553,14 +553,20 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedText()
         {
+            var notifyChange = selectedText is not null;
+
             selectedText = null;
-            await SelectedTextChanged.InvokeAsync( selectedText );
+            if ( notifyChange )
+                await SelectedTextChanged.InvokeAsync( selectedText );
         }
 
         private async Task ResetSelectedValue()
         {
+            var notifyChange = selectedValue is not null && ( selectedValue?.Value?.Equals( default( TValue ) ) ?? false );
+
             selectedValue = new( default );
-            await SelectedValueChanged.InvokeAsync( default );
+            if ( notifyChange )
+                await SelectedValueChanged.InvokeAsync( default );
         }
 
         private async Task ResetCurrentSearch()
