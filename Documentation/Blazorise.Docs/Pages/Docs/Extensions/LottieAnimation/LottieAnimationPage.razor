@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    A <Code>LottieAnimation</Code> component used to embed JSON-based Lottie animations.
+    A <Code>LottieAnimation</Code> component used to embed JSON-based <Anchor To="https://airbnb.io/lottie/" Title="Link to lottie documentation" Target="Target.Blank">Lottie</Anchor> animations.
 </DocsPageLead>
 
 <DocsPageSubtitle>
@@ -34,12 +34,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        To play the video you just need to define the <Code>Source</Code> of the video.
+        To embed an animation you just need to define the <Code>Path</Code> of the animation.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicLottieAnimationExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicVideoExample" />
+    <DocsPageSectionSource Code="BasicLottieAnimationExample" />
 </DocsPageSection>
 
 <Heading Size="HeadingSize.Is2">
@@ -47,7 +47,37 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Controls" Type="bool" Default="true">
-        Gets or sets the controls visibility of the player.
+    <DocsAttributesItem Name="Completed" Type="EventCallback" default="null">
+        Occurs once the animation completes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentFrame" Type="double" default="0">
+        Gets or sets the current playback frame.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentFrameChanged" Type="EventCallback<double>" default="null">
+        Occurs whenever the current frame changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="Direction" default="Forward">
+        Controls the animation playback direction.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loaded" Type="EventCallback<LoadedEventArgs>" default="null">
+        Occurs once the data for the animation has loaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loop" Type="LoopingConfiguration" default="true">
+        True to loop the animation. If a number is provided then it specifies the number of times to loop.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoopCompleted" Type="EventCallback" default="null">
+        Occurs whenever a loop of the animation completes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Path" Type="string" default="null">
+        Gets or sets the source path for the animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Paused" Type="bool" default="false">
+        Controls whether or not the animation is paused.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Renderer" Type="Renderer" default="SVG">
+        Gets or sets the renderer to use for the animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Speed" Type="double" default="1.0">
+        Controls the playback speed.
     </DocsAttributesItem>
 </DocsAttributes>

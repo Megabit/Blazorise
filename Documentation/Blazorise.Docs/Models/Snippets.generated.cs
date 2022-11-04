@@ -6137,7 +6137,9 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     };
 }";
 
-        public const string BasicLottieAnimationExample = @"<LottieAnimation />";
+        public const string BasicLottieAnimationExample = @"<LottieAnimation 
+    Path=""https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json""
+/>";
 
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
