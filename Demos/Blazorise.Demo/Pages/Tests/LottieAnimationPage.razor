@@ -11,7 +11,7 @@
                     <Column>
                         <Field>
                             <FieldLabel>Animation Path</FieldLabel>
-                            <TextEdit @bind-Text="@_path"/>
+                            <TextEdit Text="@_path" TextChanged="@OnPathChanged"/>
                         </Field>
                     </Column>
                     <Column>
@@ -40,17 +40,18 @@
                 </Row>
                 <Row Style="margin: 30px 0">
                     <Column>
-                        <LottieAnimation
-                            Style="@("height: 250px; background-color:" + _backgroundColor)"
-                            Path="@_path"
-                            Direction="@_animationDirection"
-                            Speed="@_speed"
-                            Paused="@_paused"
-                            Loop="@_loop"
-                            @bind-CurrentFrame="@_currentFrame"
-                            Loaded="OnLoaded"
-                            Completed="@Stop"
-                        />
+                        <LoadingIndicator @bind-Visible="@_loading">
+                            <LottieAnimation
+                                Style="@("height: 250px; background-color:" + _backgroundColor)"
+                                Path="@_path"
+                                Direction="@_animationDirection"
+                                Speed="@_speed"
+                                Paused="@_paused"
+                                Loop="@_loop"
+                                @bind-CurrentFrame="@_currentFrame"
+                                Loaded="OnLoaded"
+                                Completed="@Stop"/>
+                        </LoadingIndicator>
                     </Column>
                 </Row>
                 <Row>
@@ -94,6 +95,7 @@
     private double _speed = 1.0;
     private bool _loop = true;
     private bool _paused = false;
+    private bool _loading = true;
     private double _currentFrame = 0;
     private double _totalFrames = 0;
     private string _backgroundColor = "transparent";
@@ -107,6 +109,7 @@
     private void OnLoaded(LoadedEventArgs eventArgs)
     {
         _totalFrames = eventArgs.TotalFrames;
+        _loading = false;
     }
 
     private void OnSliderValueChanged(double sliderValue)
@@ -118,6 +121,12 @@
     private void OnSpeedValueChanged(double speedValue)
     {
         _speed = Math.Clamp(speedValue, 0, 5);
+    }
+
+    private void OnPathChanged(string path)
+    {
+        _path = path;
+        _loading = true;
     }
 
 }
