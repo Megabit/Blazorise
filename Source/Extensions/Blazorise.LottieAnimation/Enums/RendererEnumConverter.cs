@@ -3,21 +3,23 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.LottieAnimation;
 
+/// <summary>
+/// JSON converter for a <see cref="Renderer"/>. Used for JSInterop.
+/// </summary>
 public class RendererEnumConverter : JsonStringEnumConverter
 {
-    public RendererEnumConverter() : base(new LowerCaseNamingPolicy())
+    /// <summary>
+    /// Creates a new <see cref="RendererEnumConverter"/> instance
+    /// </summary>
+    public RendererEnumConverter() : base( new LowerCaseNamingPolicy() )
     {
     }
 
-    #region Nested type: LowerCaseNamingPolicy
-
     private class LowerCaseNamingPolicy : JsonNamingPolicy
     {
-        public override string ConvertName(string name)
+        public override string ConvertName( string name )
         {
             return name.ToLower();
         }
     }
-
-    #endregion
 }

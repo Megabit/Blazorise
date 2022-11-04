@@ -19,8 +19,15 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 {
     #region Members
 
+    /// <summary>
+    /// The current frame as reported by the animation itself
+    /// </summary>
     private double? _lastReportedFrame;
-    private bool    _frameSyncRequired = false;
+
+    /// <summary>
+    /// Indicates whether or not a synchronization is required for the current frame
+    /// </summary>
+    private bool _frameSyncRequired = false;
 
     #endregion
 
@@ -40,21 +47,21 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof(CurrentFrameChanged), out var currentFrameChanged )
                                               && ( currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate );
 
+            // Frame synchronization is required whenever the user manually changes the value of the CurrentFrame
             _frameSyncRequired = parameters.TryGetValue<double>( nameof(CurrentFrame), out var currentFrame )
                                  && ( _lastReportedFrame.HasValue && Math.Abs( currentFrame - _lastReportedFrame.Value ) > .001 );
 
-
+            // Changing the path or renderer requires us to fully reinitialize the animation
             var reinitializationRequired = pathChanged || rendererChanged;
+
             if ( reinitializationRequired )
             {
-                // Changing these settings requires a full reinitialization of the animation
                 ExecuteAfterRender( SynchronizeAnimation );
             }
             else
             {
                 ExecuteAfterRender( async () =>
                 {
-                    // These settings can be changed without reinitializing
                     if ( currentFrameDelegateChanged )
                     {
                         await SynchronizeSendCurrentFrame();
@@ -81,6 +88,8 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                     }
                     else if ( pausedChanged )
                     {
+                        // Synchronizing the current frame will already synchronize the pause setting, so we only need
+                        // to do it manually if we're not synchronizing the frame
                         await SynchronizePaused();
                     }
                 } );
@@ -96,8 +105,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
         if ( JSModule == null )
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
-
-            JSModule = new JSLottieAnimationModule( JSRuntime, VersionProvider );
+            JSModule        =   new JSLottieAnimationModule( JSRuntime, VersionProvider );
         }
 
         return base.OnInitializedAsync();
@@ -106,6 +114,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override async Task OnFirstAfterRenderAsync()
     {
+        // Perform the initial load of the animation
         await SynchronizeAnimation();
     }
 
@@ -155,6 +164,8 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             Renderer,
             Direction,
             Speed,
+            // We only want to send the current frame if someone is listening for updates, otherwise we can skip it to
+            // save on bandwidth
             SendCurrentFrame = CurrentFrameChanged.HasDelegate
         } );
     }
@@ -267,6 +278,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     {
         if ( _frameSyncRequired )
         {
+            // We're in the process of manually setting the current frame on the animation, so skip this update.
             return;
         }
 
@@ -281,7 +293,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     #region Parameters
 
     /// <summary>
-    /// Relative path to the animation object
+    /// Relative or absolute path to the animation object
     /// </summary>
     [Parameter]
     [EditorRequired]

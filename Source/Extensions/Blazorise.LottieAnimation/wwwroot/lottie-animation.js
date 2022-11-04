@@ -2,6 +2,14 @@ import './vendors/lottie.js?v=1.1.2.0';
 
 import {getRequiredElement} from "../Blazorise/utilities.js?v=1.1.2.0";
 
+/**
+ * Initializes a new animation instance
+ * @param dotNetAdapter Reference to the dotnet object
+ * @param element Container element reference
+ * @param elementId Container element Id
+ * @param options Animation configuration options
+ * @returns Reference to the Lottie Animation
+ */
 export function initializeAnimation(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
@@ -15,10 +23,12 @@ export function initializeAnimation(dotNetAdapter, element, elementId, options) 
     animation.setDirection( options.direction );
     animation.setSpeed( options.speed );
     
+    // Add a function to set a flag for whether or not we're sending current frame updates
     animation.setSendCurrentFrame = function(shouldSend) {
         this.sendCurrentFrame = shouldSend;
     }
 
+    // Add a function to set the loop property
     animation.setLoop = function(loop) {
         this.loop = loop;
     }
@@ -42,7 +52,8 @@ function registerEvents(dotNetAdapter, animation) {
         if( !animation.sendCurrentFrame || animation.frameChangeNotificationSent )
         {
             // We've either already sent an event that hasn't been processed yet,
-            // or nobody is listening for the events
+            // or nobody is listening for the events. Skip sending this event to save
+            // on bandwidth.
             return;
         }
         
