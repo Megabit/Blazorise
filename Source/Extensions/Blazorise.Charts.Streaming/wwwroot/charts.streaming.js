@@ -1,10 +1,6 @@
 import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js?v=1.1.2.0";
 import { deepClone } from "../Blazorise.Charts/utilities.js?v=1.1.2.0";
 
-Chart.defaults.set('plugins.streaming', {
-    duration: 20000
-});
-
 export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOptions) {
     const chart = getChart(canvasId);
 

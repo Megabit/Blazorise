@@ -1,0 +1,27 @@
+﻿@page "/tests/charts/datalabels"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LineChart @ref="lineChart" TItem="int" Options="@lineChartOptions">
+                    <ChartDataLabels TItem="int" Datasets="@lineDataLabelsDatasets" Options="@lineDataLabelsOptions" />
+                </LineChart>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Bar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <BarChart @ref="barChart" TItem="int" Options="@barChartOptions">
+                    <ChartDataLabels TItem="int" Datasets="@barDataLabelsDatasets" Options="@barDataLabelsOptions" />
+                </BarChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

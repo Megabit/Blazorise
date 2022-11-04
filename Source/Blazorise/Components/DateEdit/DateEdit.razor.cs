@@ -97,6 +97,15 @@ namespace Blazorise
             return Blur.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Show a browser picker for the date input.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ShowPicker()
+        {
+            return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
+        }
+
         #endregion
 
         #region Properties

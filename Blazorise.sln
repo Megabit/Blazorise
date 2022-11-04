@@ -108,6 +108,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LoadingIndicator"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.DataLabels", "Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj", "{35CA950A-1A6C-41D8-A29A-A1B8AC881674}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.LottieAnimation", "Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj", "{0200832C-D0DD-4AD9-AE5F-3322474E501F}"
 EndProject
 Global
@@ -288,10 +290,6 @@ Global
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0200832C-D0DD-4AD9-AE5F-3322474E501F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0200832C-D0DD-4AD9-AE5F-3322474E501F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0200832C-D0DD-4AD9-AE5F-3322474E501F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0200832C-D0DD-4AD9-AE5F-3322474E501F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -342,7 +340,6 @@ Global
 		{F4C121CA-C204-43C4-AF1D-DEE56392526F} = {700B33A3-A855-46C3-BD5A-C6954FC7274B}
 		{570C2383-EE8C-4F02-91E8-E59B879EDCD2} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{55C2652B-18A3-4B28-935A-67D78BFE6E8C} = {9731051E-0AA7-411E-A76A-987854F034DA}
-		{0200832C-D0DD-4AD9-AE5F-3322474E501F} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

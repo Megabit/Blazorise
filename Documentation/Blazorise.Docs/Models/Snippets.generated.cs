@@ -1229,6 +1229,19 @@ public class Gender
 
         public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
+        public const string DateEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>dateEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <DateEdit @ref=""@dateEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    DateEdit<DateTime> dateEditRef;
+}";
+
         public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
 
 @code{
@@ -1637,6 +1650,19 @@ public class Gender
 <Field>
     <FileEdit Filter="".jpg, .png, .gif"" />
 </Field>";
+
+        public const string FileEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>fileEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <FileEdit @ref=""@fileEditRef"" />
+</Field>
+
+@code {
+    FileEdit fileEditRef;
+}";
 
         public const string FilePickerCustomExample = @"@using System.IO
 
@@ -3600,6 +3626,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
 
+        public const string TimeEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <TimeEdit @ref=""@timeEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    TimeEdit<DateTime> timeEditRef;
+}";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
@@ -4403,6 +4442,172 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
         public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>";
+
+        public const string ChartDataLabelsExample = @"<LineChart @ref=""@lineChart"" TItem=""int"" Options=""@lineChartOptions"">
+    <ChartDataLabels TItem=""int"" Datasets=""@lineDataLabelsDatasets"" Options=""@lineDataLabelsOptions"" />
+</LineChart>
+
+@code {
+    private LineChart<int> lineChart;
+
+    // define regular chart options
+    LineChartOptions lineChartOptions = new()
+    {
+        AspectRatio = 5d / 3d,
+        Layout = new()
+        {
+            Padding = new()
+            {
+                Top = 32,
+                Right = 16,
+                Bottom = 16,
+                Left = 8
+            }
+        },
+        Elements = new()
+        {
+            Line = new()
+            {
+                Fill = false,
+                Tension = 0.4,
+            }
+        },
+        Scales = new()
+        {
+            Y = new()
+            {
+                Stacked = true,
+            }
+        },
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Display = false
+            }
+        }
+    };
+
+    // define specific dataset styles by targeting them with the DatasetIndex
+    List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+    {
+        new()
+        {
+            DatasetIndex = 0,
+            Options = new()
+            {
+                BackgroundColor = BackgroundColors[0],
+                BorderColor = BorderColors[0],
+                Align = ""start"",
+                Anchor = ""start""
+            }
+        },
+        new()
+        {
+            DatasetIndex = 1,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[1],
+                BorderColor = BorderColors[1],
+            }
+        },
+        new()
+        {
+            DatasetIndex = 2,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[2],
+                BorderColor = BorderColors[2],
+                Align = ""end"",
+                Anchor = ""end""
+            }
+        },
+    };
+
+    // some shared options for all data-labels
+    ChartDataLabelsOptions lineDataLabelsOptions = new()
+    {
+        BorderRadius = 4,
+        Color = ""#ffffff"",
+        Font = new()
+        {
+            Weight = ""bold""
+        },
+        Formatter = ChartMathFormatter.Round,
+        Padding = new( 6 )
+    };
+
+    private static string[] Labels = new string[] { ""1"", ""2"", ""3"", ""4"", ""5"", ""6"" };
+    private static string[] BackgroundColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private static string[] BorderColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private Random random = new( DateTime.Now.Millisecond );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw( lineChart, GetLineChartDataset );
+
+            await lineChart.Clear();
+
+            await lineChart.AddLabelsDatasetsAndUpdate( Labels,
+                GetLineChartDataset( 0 ),
+                GetLineChartDataset( 1 ),
+                GetLineChartDataset( 2 ) );
+        }
+    }
+
+    private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<int, TDataSet> getDataSet )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels,
+            getDataSet( 0 ),
+            getDataSet( 1 ),
+            getDataSet( 2 ) );
+    }
+
+    private LineChartDataset<int> GetLineChartDataset( int colorIndex )
+    {
+        return new()
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData( 2, 9 ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
+    }
+
+    List<int> RandomizeData( int min, int max )
+    {
+        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();
+    }
+}";
+
+        public const string ChartDataLabelsNugetInstallExample = @"Install-Package Blazorise.Charts.DataLabels";
+
+        public const string ChartDataLabelsResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0""></script>";
+
+        public const string ChartDataLabelsScriptableExample = @"static Expression<Func<ScriptableOptionsContext, string>> TestScriptableColor = ( context ) => context.Active ? ""#ff0000"" : ""#4bc0c0"";
+
+List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+{
+    new()
+    {
+        DatasetIndex = 0,
+        Options = new()
+        {
+            BackgroundColor = TestScriptableColor,
+            BorderColor = TestScriptableColor,
+            Align = ""start"",
+            Anchor = ""start""
+        }
+    },
+    ...
+};";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -6189,6 +6394,24 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 }";
 
         public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+
+        public const string MarkdownPreviewRenderExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" PreviewRender=""@PreviewRender"" />
+
+@code {
+    string markdownValue = ""# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`."";
+
+    Task OnMarkdownValueChanged( string value )
+    {
+        markdownValue = value;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task<string> PreviewRender( string plainText )
+    {
+        return Task.FromResult( Markdig.Markdown.ToHtml( markdownValue ?? string.Empty ) );
+    }
+}";
 
         public const string MarkdownShortcutsExample = @"<Markdown Shortcuts=""@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = ""Cmd+E"" })"" />";
 

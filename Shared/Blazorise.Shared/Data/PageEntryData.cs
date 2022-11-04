@@ -85,6 +85,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/animate", "Animate", "" ),
                 new PageEntry( "docs/extensions/autocomplete", "Autocomplete", "The Autocomplete component offers simple and flexible type-ahead functionality." ),
                 new PageEntry( "docs/extensions/chart", "Chart", "Simple yet flexible charting for designers & developers." ),
+                new PageEntry( "docs/extensions/chart-datalabels", "Chart DataLabels", "Display labels on data for any type of charts." ),
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
                 new PageEntry( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
                 new PageEntry( "docs/extensions/datagrid/aggregates", "DataGrid Aggregates" ),
