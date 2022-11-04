@@ -8,8 +8,8 @@ public enum AnimationDirection
     /// <summary>
     /// Animation is playing forwards
     /// </summary>
-    Forward  = 1,
-    
+    Forward = 1,
+
     /// <summary>
     /// Animation is playing backwards
     /// </summary>

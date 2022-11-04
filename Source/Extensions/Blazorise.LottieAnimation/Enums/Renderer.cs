@@ -5,7 +5,7 @@ namespace Blazorise.LottieAnimation;
 /// <summary>
 /// Available Animation Renderers
 /// </summary>
-[JsonConverter( typeof(RendererEnumConverter) )]
+[JsonConverter( typeof( RendererEnumConverter ) )]
 public enum Renderer
 {
     /// <summary>

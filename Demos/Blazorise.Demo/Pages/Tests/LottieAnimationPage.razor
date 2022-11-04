@@ -11,13 +11,13 @@
                     <Column>
                         <Field>
                             <FieldLabel>Animation Path</FieldLabel>
-                            <TextEdit Text="@_path" TextChanged="@OnPathChanged"/>
+                            <TextEdit Text="@_path" TextChanged="@OnPathChanged" />
                         </Field>
                     </Column>
                     <Column>
                         <Field>
                             <FieldLabel>Background Color</FieldLabel>
-                            <ColorPicker @bind-Color="@_backgroundColor"/>
+                            <ColorPicker @bind-Color="@_backgroundColor" />
                         </Field>
                     </Column>
                 </Row>
@@ -25,7 +25,7 @@
                     <Column>
                         <Field>
                             <FieldLabel>Speed</FieldLabel>
-                            <NumericEdit TValue="double" Value="@_speed" ValueChanged="@OnSpeedValueChanged" Step=".5m" Min="0" Max="3"/>
+                            <NumericEdit TValue="double" Value="@_speed" ValueChanged="@OnSpeedValueChanged" Step=".5m" Min="0" Max="3" />
                         </Field>
                     </Column>
                     <Column>
@@ -41,16 +41,15 @@
                 <Row Style="margin: 30px 0">
                     <Column>
                         <LoadingIndicator @bind-Visible="@_loading">
-                            <LottieAnimation
-                                Style="@("height: 250px; background-color:" + _backgroundColor)"
-                                Path="@_path"
-                                Direction="@_animationDirection"
-                                Speed="@_speed"
-                                Paused="@_paused"
-                                Loop="@_loop"
-                                @bind-CurrentFrame="@_currentFrame"
-                                Loaded="OnLoaded"
-                                Completed="@Stop"/>
+                            <LottieAnimation Style="@("height: 250px; background-color:" + _backgroundColor)"
+                                             Path="@_path"
+                                             Direction="@_animationDirection"
+                                             Speed="@_speed"
+                                             Paused="@_paused"
+                                             Loop="@_loop"
+                                             @bind-CurrentFrame="@_currentFrame"
+                                             Loaded="OnLoaded"
+                                             Completed="@Stop" />
                         </LoadingIndicator>
                     </Column>
                 </Row>
@@ -59,28 +58,28 @@
                         @if (_paused)
                         {
                             <Button Clicked="() => _paused = false">
-                                <Icon Name="IconName.Play" Color="@Color.Primary"/>
+                                <Icon Name="IconName.Play" Color="@Color.Primary" />
                             </Button>
                         }
                         else
                         {
                             <Button Clicked="() => _paused = true">
-                                <Icon Name="IconName.Pause"/>
+                                <Icon Name="IconName.Pause" />
                             </Button>
                         }
                         <Button Clicked="Stop">
-                            <Icon Name="IconName.Stop"/>
+                            <Icon Name="IconName.Stop" />
                         </Button>
                     </Column>
                     <Column Style="display: flex; justify-content: center">
-                        <Slider TValue="double" Value="@_currentFrame" ValueChanged="@OnSliderValueChanged" Min="0" Max="_totalFrames"/>
+                        <Slider TValue="double" Value="@_currentFrame" ValueChanged="@OnSliderValueChanged" Min="0" Max="_totalFrames" />
                     </Column>
                     <Column Style="display: flex; justify-content: center" ColumnSize="ColumnSize.IsAuto">
                         <div style="display: flex; justify-content: center; align-items: center; width: 100px">
                             @((int)_currentFrame) / @_totalFrames
                         </div>
                         <Button Clicked="() => _loop = !_loop">
-                            <Icon Name="IconName.Sync" style="@("color: " + (_loop ? "black" : "lightgray"))"/>
+                            <Icon Name="IconName.Sync" style="@("color: " + (_loop ? "black" : "lightgray"))" />
                         </Button>
                     </Column>
                 </Row>

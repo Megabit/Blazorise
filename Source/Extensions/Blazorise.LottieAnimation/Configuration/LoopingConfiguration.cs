@@ -5,7 +5,7 @@ namespace Blazorise.LottieAnimation;
 /// <summary>
 /// Describes how an animation should loop.
 /// </summary>
-[JsonConverter( typeof(LoopConfigurationJsonConverter) )]
+[JsonConverter( typeof( LoopConfigurationJsonConverter ) )]
 public record LoopingConfiguration
 {
     /// <summary>
