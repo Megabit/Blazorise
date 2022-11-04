@@ -48,11 +48,56 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    Pixels Per Module
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="pixelsPerModule" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     As Anchor
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Switch @bind-Checked="asAnchor">
-                                    </Switch>
+                                    <Switch @bind-Checked="asAnchor"></Switch>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Draw Quiet Zones
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Switch @bind-Checked="drawQuietZones"></Switch>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Base64 PNG Image
+                                </FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="base64PngIcon" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Pixels Per Module
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="iconSizePercent" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Pixels Per Module
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="iconBorderWidth" ShowStepButtons="false" Decimals="0" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -65,12 +110,12 @@
                         @if ( asAnchor )
                         {
                             <Anchor To="@text" Target="Target.Blank">
-                                <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                                <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" PixelsPerModule="@pixelsPerModule" DrawQuietZones="@drawQuietZones" Icon="@base64PngIcon" IconSizePercent="@iconSizePercent" IconBorderWidth="@iconBorderWidth" />
                             </Anchor>
                         }
                         else
                         {
-                            <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                            <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" PixelsPerModule="@pixelsPerModule" DrawQuietZones="@drawQuietZones" Icon="@base64PngIcon" IconSizePercent="@iconSizePercent" IconBorderWidth="@iconBorderWidth" />
                         }
                     </Column>
                 </Row>
@@ -84,5 +129,10 @@
     private EccLevel eccLevel = EccLevel.L;
     private string darkColor = "black";
     private string lightColor = "white";
+    private int pixelsPerModule = 10;
     private bool asAnchor = false;
+    private bool drawQuietZones = true;
+    private string base64PngIcon = "iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAAA3UlEQVRIie2VPwrCMBSHv4o4CS6ewAt4Bye9gEfwCl7BM+gd3JwdRKWnENSxq4MVrIMvEErtnyStoPngB80jL19JWgKecgyAA3CU50YYARGQSCKpKfZS37mUzoBYk6o8gLnM0evWdIBVhjCdpUtxH9iWkGbFmCFwMpQai6fAzUKayBqlCXh/KE9LaSJrLIBWkbQLrB0I09kAvTxxWINUJdRF6S2Ii7bEgrs+CD5McvLz53kKD70uviZuG/Q4OZ7/22ov9uLGxdecnqqX/qXKC02kwfZGOgPjKmLP7/ACLCKp7769VB8AAAAASUVORK5CYII=";
+    private int iconSizePercent = 15;
+    private int iconBorderWidth = 6;
 }

@@ -1,11 +1,15 @@
 ﻿#region Using directives
 using System;
+using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.QRCode.Enums;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using QRCoder;
+using static QRCoder.Base64QRCode;
 #endregion
 
 namespace Blazorise.QRCode
@@ -63,30 +67,53 @@ namespace Blazorise.QRCode
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            var darkColor = GetColorBytes( DarkColor );
-            var lightColor = GetColorBytes( LightColor );
+            var darkColor = GetColor( DarkColor );
+            var lightColor = GetColor( LightColor );
 
             using var data = Payload == null
                 ? generator.CreateQrCode( Value, eccLevel )
-                : generator.CreateQrCode( Payload, eccLevel );
+                : generator.CreateQrCode( Payload.ToString(), eccLevel );
 
-            var code = new PngByteQRCode( data );
-            var bytes = code.GetGraphic( PixelsPerModule, darkColor, lightColor, DrawQuietZones );
+            var code = new Base64QRCode( data );
 
-            const string pngData = "data:image/png;base64, ";
-            return pngData + Convert.ToBase64String( bytes );
-        }
-
-        private static byte[] GetColorBytes( string color )
-        {
-            byte[] bytes = null;
-
-            if ( HtmlColorCodeParser.TryParse( color, out var red, out var green, out var blue ) )
+            if ( !string.IsNullOrEmpty( Icon ) )
             {
-                bytes = new[] { red, green, blue, byte.MaxValue };
+                using ( var image = GetImage( Icon ) )
+                {
+                    var imageType = GetImageType( IconImageType );
+
+                    return $"data:image/png;base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, image, IconSizePercent, IconBorderWidth, DrawQuietZones, imageType )}";
+                }
             }
 
-            return bytes;
+            return $"data:image/png;base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, DrawQuietZones )}";
+        }
+
+        private static System.Drawing.Color GetColor( string color )
+        {
+            if ( HtmlColorCodeParser.TryParse( color, out var red, out var green, out var blue ) )
+            {
+                return System.Drawing.Color.FromArgb( byte.MaxValue, red, green, blue );
+            }
+
+            return System.Drawing.Color.Empty;
+        }
+
+        private static Bitmap GetImage( string base64 )
+        {
+            using var ms = new MemoryStream( Convert.FromBase64String( base64 ) );
+
+            return new Bitmap( ms );
+        }
+
+        private static ImageType GetImageType( IconImageType iconImageType )
+        {
+            return iconImageType switch
+            {
+                IconImageType.Gif => ImageType.Gif,
+                IconImageType.Jpeg => ImageType.Jpeg,
+                _ => ImageType.Png,
+            };
         }
 
         #endregion
@@ -132,6 +159,26 @@ namespace Blazorise.QRCode
         /// Draw quiet zones (blank margins around QR Code image).
         /// </summary>
         [Parameter] public bool DrawQuietZones { get; set; } = true;
+
+        /// <summary>
+        /// The icon that is places in the middle of the QRCode, in base64 format.
+        /// </summary>
+        [Parameter] public string Icon { get; set; }
+
+        /// <summary>
+        /// Defines how much space the icon will occupy within the QRCode.
+        /// </summary>
+        [Parameter] public int IconSizePercent { get; set; } = 15;
+
+        /// <summary>
+        /// Defines how large the borders will be for the icon that is placed within the QRCode.
+        /// </summary>
+        [Parameter] public int IconBorderWidth { get; set; } = 6;
+
+        /// <summary>
+        /// Defines the icon image file format.
+        /// </summary>
+        [Parameter] public IconImageType IconImageType { get; set; } = IconImageType.Png;
 
         #endregion
     }
