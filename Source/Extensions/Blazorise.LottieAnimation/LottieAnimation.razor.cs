@@ -1,13 +1,9 @@
 ﻿#region Using directives
-
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-
 #endregion
 
 namespace Blazorise.LottieAnimation;
@@ -292,76 +288,6 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
 
     #region Parameters
 
-    /// <summary>
-    /// Relative or absolute path to the animation object
-    /// </summary>
-    [Parameter]
-    [EditorRequired]
-    public string Path { get; set; }
-
-    /// <summary>
-    /// Whether or not the animation should loop, or a number of times the animation should loop.
-    /// </summary>
-    [Parameter]
-    public LoopingConfiguration Loop { get; set; } = true;
-
-    /// <summary>
-    /// Renderer to use
-    /// </summary>
-    [Parameter]
-    public Renderer Renderer { get; set; } = Renderer.SVG;
-
-    /// <summary>
-    /// Animation playback direction
-    /// </summary>
-    [Parameter]
-    public AnimationDirection Direction { get; set; } = AnimationDirection.Forward;
-
-    /// <summary>
-    /// Animation playback speed
-    /// </summary>
-    [Parameter]
-    public double Speed { get; set; } = 1.0;
-
-    /// <summary>
-    /// Whether or not the animation is paused
-    /// </summary>
-    [Parameter]
-    public bool Paused { get; set; } = false;
-
-    /// <summary>
-    /// Current playback frame
-    /// </summary>
-    [Parameter]
-    public double CurrentFrame { get; set; } = 0;
-
-    /// <summary>
-    /// Called when the current frame changes
-    ///
-    /// Warning: This event is triggered extremely frequently. Subscribing to this event can cause a significant increase
-    /// in the amount of messages sent over the websocket if using Blazor Server.
-    /// </summary>
-    [Parameter]
-    public EventCallback<double> CurrentFrameChanged { get; set; }
-
-    /// <summary>
-    /// Called when the animation completes
-    /// </summary>
-    [Parameter]
-    public EventCallback Completed { get; set; }
-
-    /// <summary>
-    /// Called when a loop completes
-    /// </summary>
-    [Parameter]
-    public EventCallback LoopCompleted { get; set; }
-
-    /// <summary>
-    /// Called when the animation finishes loading and the elements have been added to the DOM
-    /// </summary>
-    [Parameter]
-    public EventCallback<LoadedEventArgs> Loaded { get; set; }
-
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
@@ -380,11 +306,74 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// </summary>
     protected IJSObjectReference JSAnimationReference { get; private set; }
 
-    [Inject]
-    private IJSRuntime JSRuntime { get; set; }
+    /// <summary>
+    /// Gets or sets the JS runtime.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
 
-    [Inject]
-    private IVersionProvider VersionProvider { get; set; }
+    /// <summary>
+    /// Gets or sets the version provider.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Relative or absolute path to the animation object
+    /// </summary>
+    [EditorRequired]
+    [Parameter] public string Path { get; set; }
+
+    /// <summary>
+    /// Whether or not the animation should loop, or a number of times the animation should loop.
+    /// </summary>
+    [Parameter] public LoopingConfiguration Loop { get; set; } = true;
+
+    /// <summary>
+    /// Renderer to use
+    /// </summary>
+    [Parameter] public Renderer Renderer { get; set; } = Renderer.SVG;
+
+    /// <summary>
+    /// Animation playback direction
+    /// </summary>
+    [Parameter] public AnimationDirection Direction { get; set; } = AnimationDirection.Forward;
+
+    /// <summary>
+    /// Animation playback speed
+    /// </summary>
+    [Parameter] public double Speed { get; set; } = 1.0;
+
+    /// <summary>
+    /// Whether or not the animation is paused
+    /// </summary>
+    [Parameter] public bool Paused { get; set; } = false;
+
+    /// <summary>
+    /// Current playback frame
+    /// </summary>
+    [Parameter] public double CurrentFrame { get; set; } = 0;
+
+    /// <summary>
+    /// Called when the current frame changes
+    ///
+    /// Warning: This event is triggered extremely frequently. Subscribing to this event can cause a significant increase
+    /// in the amount of messages sent over the websocket if using Blazor Server.
+    /// </summary>
+    [Parameter] public EventCallback<double> CurrentFrameChanged { get; set; }
+
+    /// <summary>
+    /// Called when the animation completes
+    /// </summary>
+    [Parameter] public EventCallback Completed { get; set; }
+
+    /// <summary>
+    /// Called when a loop completes
+    /// </summary>
+    [Parameter] public EventCallback LoopCompleted { get; set; }
+
+    /// <summary>
+    /// Called when the animation finishes loading and the elements have been added to the DOM
+    /// </summary>
+    [Parameter] public EventCallback<LoadedEventArgs> Loaded { get; set; }
 
     #endregion
 }
