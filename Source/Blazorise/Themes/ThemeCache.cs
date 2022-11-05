@@ -17,8 +17,7 @@ namespace Blazorise.Themes
 
         private readonly int maxCacheSize;
 
-
-        private readonly Dictionary<Theme, ThemeCachedResource> cachedThemes = new();
+        private readonly Dictionary<int, ThemeCachedResource> cachedThemes = new();
 
 
         private readonly object mutex = new();
@@ -48,9 +47,10 @@ namespace Blazorise.Themes
 
             lock ( mutex )
             {
-                PrepareCache( theme );
+                var cacheHash = theme.GetHashCode();
+                PrepareCache( cacheHash );
 
-                cachedThemes[theme].Variables = variables;
+                cachedThemes[cacheHash].Variables = variables;
             }
         }
 
@@ -62,20 +62,21 @@ namespace Blazorise.Themes
 
             lock ( mutex )
             {
-                PrepareCache( theme );
+                var cacheHash = theme.GetHashCode();
+                PrepareCache( cacheHash );
 
-                cachedThemes[theme].Styles = styles;
+                cachedThemes[cacheHash].Styles = styles;
             }
         }
 
-        private void PrepareCache( Theme theme )
+        private void PrepareCache( int themeCacheKey )
         {
-            if ( !cachedThemes.ContainsKey( theme ) )
+            if ( !cachedThemes.ContainsKey( themeCacheKey ) )
             {
                 if ( cachedThemes.Count + 1 > maxCacheSize )
                     UncacheTheme();
 
-                cachedThemes.Add( theme, new() );
+                cachedThemes.Add( themeCacheKey, new() );
             }
         }
 
@@ -89,7 +90,7 @@ namespace Blazorise.Themes
         {
             lock ( mutex )
             {
-                variables = cachedThemes.GetValueOrDefault( theme )?.Variables;
+                variables = cachedThemes.GetValueOrDefault( theme.GetHashCode() )?.Variables;
                 return variables is not null;
             }
         }
@@ -99,7 +100,7 @@ namespace Blazorise.Themes
         {
             lock ( mutex )
             {
-                styles = cachedThemes.GetValueOrDefault( theme )?.Styles;
+                styles = cachedThemes.GetValueOrDefault( theme.GetHashCode() )?.Styles;
                 return styles is not null;
             }
         }

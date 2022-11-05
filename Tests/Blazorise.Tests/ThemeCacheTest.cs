@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Themes;
 using Xunit;
@@ -23,7 +24,7 @@ namespace Blazorise.Tests
         public void TryGetVariablesFromCache_ReturnsVariablesCachedBy_CacheVariables()
         {
             // setup
-            var theme =  InitFullyInstantiatedTheme();
+            var theme = InitFullyInstantiatedTheme();
 
             // test
             themeCache.CacheVariables( theme, "xyz" );
@@ -38,7 +39,7 @@ namespace Blazorise.Tests
         public void TryGetVariablesFromCache_ReturnsVariablesCachedBy_AnEqualTheme_CacheVariables()
         {
             // setup
-            var theme =  InitFullyInstantiatedTheme();
+            var theme = InitFullyInstantiatedTheme();
             var theme2 = InitFullyInstantiatedTheme();
 
             // test
@@ -134,18 +135,46 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void EqualThemes_AreEqual()
+        public void DictionaryCache_RemovesSuccessfully()
+        {
+            // setup
+            Dictionary<Theme, string> cache = new();
+            var theme = InitFullyInstantiatedTheme();
+            cache.Add( theme with { }, "" );
+
+            cache.Remove( cache.First().Key );
+
+            // validate
+            Assert.Empty( cache );
+        }
+
+
+        [Fact]
+        public void EqualThemes_FullyInstiated_AreEqual()
         {
             // setup
             var theme1 = InitFullyInstantiatedTheme();
             theme1.Changed += OnThemeChanged;
             var theme2 = InitFullyInstantiatedTheme();
             theme2.Changed += OnThemeChanged;
-            // test
-            var areEqual = theme1.Equals( theme2 );
 
             // validate
-            Assert.True( areEqual );
+            Assert.Equal( theme1, theme2 );
+            Assert.Equal( theme1.GetHashCode(), theme2.GetHashCode() );
+        }
+
+        [Fact]
+        public void EqualThemes_AreEqual()
+        {
+            // setup
+            var theme1 = new Theme();
+            theme1.Changed += OnThemeChanged;
+            var theme2 = new Theme();
+            theme2.Changed += OnThemeChanged;
+
+            // validate
+            Assert.Equal( theme1, theme2 );
+            Assert.Equal( theme1.GetHashCode(), theme2.GetHashCode() );
         }
 
         [Fact]
@@ -155,11 +184,9 @@ namespace Blazorise.Tests
             var theme1 = InitFullyInstantiatedTheme();
             var theme2 = InitFullyInstantiatedTheme();
             theme2.Changed += OnThemeChanged;
-            // test
-            var areEqual = theme1.Equals( theme2 );
 
             // validate
-            Assert.True( areEqual );
+            Assert.Equal( theme1, theme2 );
         }
 
         private void OnThemeChanged( object sender, EventArgs eventArgs )
@@ -174,11 +201,8 @@ namespace Blazorise.Tests
             var theme1 = new Theme() { TextColorOptions = new() { Danger = "danger" } };
             var theme2 = new Theme() { TextColorOptions = new() { Danger = "warning" } };
 
-            // test
-            var areEqual = theme1.Equals( theme2 );
-
             // validate
-            Assert.False( areEqual );
+            Assert.NotEqual( theme1, theme2 );
         }
     }
 }
