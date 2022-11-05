@@ -18,12 +18,12 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <summary>
     /// The current frame as reported by the animation itself
     /// </summary>
-    private double? _lastReportedFrame;
+    private double? lastReportedFrame;
 
     /// <summary>
     /// Indicates whether or not a synchronization is required for the current frame
     /// </summary>
-    private bool _frameSyncRequired = false;
+    private bool frameSyncRequired = false;
 
     #endregion
 
@@ -40,12 +40,11 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             var speedChanged = parameters.TryGetValue<double>( nameof( Speed ), out var speed ) && Math.Abs( speed - Speed ) > .001;
             var loopChanged = parameters.TryGetValue<LoopingConfiguration>( nameof( Loop ), out var loop ) && loop != Loop;
             var pausedChanged = parameters.TryGetValue<bool>( nameof( Paused ), out var paused ) && paused != Paused;
-            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof( CurrentFrameChanged ), out var currentFrameChanged )
-                                              && ( currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate );
+            var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof( CurrentFrameChanged ), out var currentFrameChanged ) && ( currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate );
 
             // Frame synchronization is required whenever the user manually changes the value of the CurrentFrame
-            _frameSyncRequired = parameters.TryGetValue<double>( nameof( CurrentFrame ), out var currentFrame )
-                                 && ( _lastReportedFrame.HasValue && Math.Abs( currentFrame - _lastReportedFrame.Value ) > .001 );
+            frameSyncRequired = parameters.TryGetValue<double>( nameof( CurrentFrame ), out var currentFrame )
+                                 && ( lastReportedFrame.HasValue && Math.Abs( currentFrame - lastReportedFrame.Value ) > .001 );
 
             // Changing the path or renderer requires us to fully reinitialize the animation
             var reinitializationRequired = pathChanged || rendererChanged;
@@ -78,7 +77,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
                         await SynchronizeLoop();
                     }
 
-                    if ( _frameSyncRequired )
+                    if ( frameSyncRequired )
                     {
                         await SynchronizeCurrentFrame();
                     }
@@ -204,7 +203,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             await JSAnimationReference.InvokeVoidAsync( "goToAndPlay", CurrentFrame, true );
         }
 
-        _frameSyncRequired = false;
+        frameSyncRequired = false;
     }
 
     /// <summary>
@@ -272,13 +271,13 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     [JSInvokable]
     public async Task NotifyCurrentFrameChanged( double currentFrame )
     {
-        if ( _frameSyncRequired )
+        if ( frameSyncRequired )
         {
             // We're in the process of manually setting the current frame on the animation, so skip this update.
             return;
         }
 
-        _lastReportedFrame = currentFrame;
+        lastReportedFrame = currentFrame;
         await CurrentFrameChanged.InvokeAsync( currentFrame );
     }
 
