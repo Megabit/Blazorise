@@ -177,17 +177,6 @@
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
-                            <BarDropdown @bind-Visible="@sideBarSpecificationsMenuVisible">
-                                <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.List" /> Specifications
-                                </BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/specifications">Specifications</BarDropdownItem>
-                                    <BarDropdownItem To="docs/specifications/autocomplete">Autocomplete</BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                        <BarItem>
                             <BarDropdown @bind-Visible="@sideBarHelpersMenuVisible">
                                 <BarDropdownToggle>
                                     <BarIcon IconName="IconName.Flask" />
@@ -221,6 +210,17 @@
                                     <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities">Utilities</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarSpecificationsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Book" /> Specifications
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/specifications">Introduction</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/autocomplete">Autocomplete</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>

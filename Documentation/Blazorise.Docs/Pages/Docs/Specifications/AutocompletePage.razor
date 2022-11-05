@@ -1,9 +1,9 @@
 ﻿@page "/docs/specifications/autocomplete"
 
-<Seo Canonical="/docs/specifications/autocomplete" Title="Blazorise Specifications : Autocomplete" Description="Learn about how Blazorise Autocomplete works." />
+<Seo Canonical="/docs/specifications/autocomplete" Title="Blazorise Specifications: Autocomplete" Description="Learn about Blazorise Autocomplete component and how it works and behaves under the certain scenarios, according to the defined parameters." />
 
 <DocsPageTitle Path="Specifications/Autocomplete">
-    Blazorise Specifications : Autocomplete
+    Blazorise Specifications: Autocomplete
 </DocsPageTitle>
 
 
@@ -13,11 +13,11 @@
 
 <DocsPageParagraph>
     When active, the Autocomplete will attempt to select the first option upon initializing. This will trigger the change events.
-    This is specially usefull when you've specified <code>ReadData</code>.
+    This is specially usefull when you've specified <Code>ReadData</Code>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    This option is only available when the Autocomplete is in <code>AutocompleteSelectionMode.Default</code>.
+    This option is only available when the Autocomplete is in <Code>AutocompleteSelectionMode.Default</Code>.
 </DocsPageParagraph>
 
 
@@ -26,13 +26,13 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    When disabled, the first option in the <code>Autocomplete</code> suggestion's box will no longer be "PreSelected".
+    When disabled, the first option in the <Code>Autocomplete</Code> suggestion's box will no longer be "PreSelected".
 </DocsPageParagraph>
 
 <DocsPageParagraph>
     This is specially useful for a corner case.
-    If you would like your User to input a Free typed value (by using <code>FreeTyping</code>) you might want to consider disabling this option.
-    In this manner, your User may Enter a similar value to the one's suggested by the <code>Autocomplete</code>, however this will make it so the confirmation Key does not Select the "PreSelected" option.
+    If you would like your User to input a Free typed value (by using <Code>FreeTyping</Code>) you might want to consider disabling this option.
+    In this manner, your User may Enter a similar value to the one's suggested by the <Code>Autocomplete</Code>, however this will make it so the confirmation Key does not Select the "PreSelected" option.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -47,11 +47,11 @@
     <TableBody>
         <TableRowCell>
             Pressing the commit key will commit the first option.
-            <Image Source="@($"img/specifications/autocomplete/AutoPreSelect.gif")"></Image>
+            <Image Source="@($"img/specifications/autocomplete/AutoPreSelect.gif")" Text="AutoPreSelect image" />
         </TableRowCell>
         <TableRowCell>
             Pressing the commit key will not commit the first option, as it is not PreSelected.
-            <Image Source="@($"img/specifications/autocomplete/AutoPreSelectFalse.gif")"></Image>
+            <Image Source="@($"img/specifications/autocomplete/AutoPreSelectFalse.gif")" Text="AutoPreSelect Disabled image" />
         </TableRowCell>
     </TableBody>
 </Table>
@@ -61,24 +61,26 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    By default <code>Autocomplete</code> will close the suggestion's box upon the value being confirmed. 
-    However you might want it to remain open, this is specially usefull if you have the <code>Autocomplete</code> set to <code>AutocompleteSelectionMode.Multiple</code> or <code>AutocompleteSelectionMode.Checkbox</code>
+    By default <Code>Autocomplete</Code> will close the suggestion's box upon the value being confirmed.
+    However you might want it to remain open, this is specially usefull if you have the <Code>Autocomplete</Code> set to <Code>AutocompleteSelectionMode.Multiple</Code> or <Code>AutocompleteSelectionMode.Checkbox</Code>
     Here's an example:
-    <Image Source="@($"img/specifications/autocomplete/CloseOnSelection.gif")"></Image>
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    <Image Source="@($"img/specifications/autocomplete/CloseOnSelection.gif")" Text="CloseOnSelection image" />
+</DocsPageParagraph>
 
 <DocsPageLead>
     MinLength
 </DocsPageLead>
 
 <DocsPageParagraph>
-    This <code>Parameter</code> is quite self descriptive, it'll start displaying eligibile options from a defined minimum length, it defaults to the value of 1.
+    This <Code>Parameter</Code> is quite self descriptive, it'll start displaying eligibile options from a defined minimum length, it defaults to the value of 1.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    A recurring question, is how to display every <code>Autocomplete</code> option upon focus.
-    Setting this <code>Parameter</code>  to the value of 0 is how you do it.
+    A recurring question, is how to display every <Code>Autocomplete</Code> option upon focus.
+    Setting this <Code>Parameter</Code>  to the value of 0 is how you do it.
 </DocsPageParagraph>
 
 <DocsPageLead>
@@ -86,17 +88,17 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Sometimes it's important to know when to expect a <code>Parameter</code> Changed <code>EventCallback</code> will trigger.
+    Sometimes it's important to know when to expect a <Code>Parameter</Code> Changed <Code>EventCallback</Code> will trigger.
     The following table displays some common combinations which we find important for you to know.
 </DocsPageParagraph>
 
 <Table>
     <TableHeader>
         <TableRow>
-            <TableHeaderCell>SelectedValueChanged</TableHeaderCell>
-            <TableHeaderCell>FreeTyping</TableHeaderCell>
-            <TableHeaderCell>No FreeTyping</TableHeaderCell>
-            <TableHeaderCell>AutoSelectFirstItem</TableHeaderCell>
+            <TableHeaderCell Style="width:25%;">SelectedValueChanged</TableHeaderCell>
+            <TableHeaderCell Style="width:30%;">FreeTyping</TableHeaderCell>
+            <TableHeaderCell Style="width:30%;">No FreeTyping</TableHeaderCell>
+            <TableHeaderCell Style="width:15%;">AutoSelectFirstItem</TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -107,7 +109,7 @@
             <TableRowCell>
                 <Icon Name="IconName.Check"></Icon>
                 <Paragraph>
-                    <code>Multiple="false"</code>
+                    <Code>Multiple="false"</Code>
                 </Paragraph>
             </TableRowCell>
         </TableRow>
@@ -142,10 +144,10 @@
 <Table>
     <TableHeader>
         <TableRow>
-            <TableHeaderCell>SelectedTextChanged</TableHeaderCell>
-            <TableHeaderCell>FreeTyping</TableHeaderCell>
-            <TableHeaderCell>No FreeTyping</TableHeaderCell>
-            <TableHeaderCell>AutoSelectFirstItem</TableHeaderCell>
+            <TableHeaderCell Style="width:25%;">SelectedValueChanged</TableHeaderCell>
+            <TableHeaderCell Style="width:30%;">FreeTyping</TableHeaderCell>
+            <TableHeaderCell Style="width:30%;">No FreeTyping</TableHeaderCell>
+            <TableHeaderCell Style="width:15%;">AutoSelectFirstItem</TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -154,9 +156,10 @@
             <TableRowCell></TableRowCell>
             <TableRowCell></TableRowCell>
             <TableRowCell>
+
                 <Icon Name="IconName.Check"></Icon>
                 <Paragraph>
-                    <code>Multiple="false"</code>
+                    <Code>Multiple="false"</Code>
                 </Paragraph>
             </TableRowCell>
         </TableRow>
@@ -180,4 +183,3 @@
         </TableRow>
     </TableBody>
 </Table>
-
