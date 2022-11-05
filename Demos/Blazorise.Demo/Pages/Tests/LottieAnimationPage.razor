@@ -32,8 +32,8 @@
                         <Field>
                             <FieldLabel>Direction</FieldLabel>
                             <Select @bind-SelectedValue="@_animationDirection">
-                                <SelectItem Value="AnimationDirection.Forward">Forward</SelectItem>
-                                <SelectItem Value="AnimationDirection.Backward">Backward</SelectItem>
+                                <SelectItem Value="LottieAnimationDirection.Forward">Forward</SelectItem>
+                                <SelectItem Value="LottieAnimationDirection.Backward">Backward</SelectItem>
                             </Select>
                         </Field>
                     </Column>
@@ -90,7 +90,7 @@
 
 @code {
     private string _path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
-    private AnimationDirection _animationDirection = AnimationDirection.Forward;
+    private LottieAnimationDirection _animationDirection = LottieAnimationDirection.Forward;
     private double _speed = 1.0;
     private bool _loop = true;
     private bool _paused = false;
@@ -105,7 +105,7 @@
         _currentFrame = 0;
     }
 
-    private void OnLoaded(LoadedEventArgs eventArgs)
+    private void OnLoaded(LottieAnimationLoadedEventArgs eventArgs)
     {
         _totalFrames = eventArgs.TotalFrames;
         _loading = false;

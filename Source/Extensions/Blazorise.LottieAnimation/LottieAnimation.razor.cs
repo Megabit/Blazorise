@@ -35,10 +35,10 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
         if ( Rendered )
         {
             var pathChanged = parameters.TryGetValue<string>( nameof( Path ), out var path ) && path != Path;
-            var rendererChanged = parameters.TryGetValue<Renderer>( nameof( Renderer ), out var renderer ) && renderer != Renderer;
-            var directionChanged = parameters.TryGetValue<AnimationDirection>( nameof( Direction ), out var direction ) && direction != Direction;
+            var rendererChanged = parameters.TryGetValue<LottieAnimationRenderer>( nameof( Renderer ), out var renderer ) && renderer != Renderer;
+            var directionChanged = parameters.TryGetValue<LottieAnimationDirection>( nameof( Direction ), out var direction ) && direction != Direction;
             var speedChanged = parameters.TryGetValue<double>( nameof( Speed ), out var speed ) && Math.Abs( speed - Speed ) > .001;
-            var loopChanged = parameters.TryGetValue<LoopingConfiguration>( nameof( Loop ), out var loop ) && loop != Loop;
+            var loopChanged = parameters.TryGetValue<LoopConfiguration>( nameof( Loop ), out var loop ) && loop != Loop;
             var pausedChanged = parameters.TryGetValue<bool>( nameof( Paused ), out var paused ) && paused != Paused;
             var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof( CurrentFrameChanged ), out var currentFrameChanged ) && ( currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate );
 
@@ -258,7 +258,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public Task NotifyLoaded( LoadedEventArgs args )
+    public Task NotifyLoaded( LottieAnimationLoadedEventArgs args )
     {
         return Loaded.InvokeAsync( args );
     }
@@ -324,17 +324,17 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Whether or not the animation should loop, or a number of times the animation should loop.
     /// </summary>
-    [Parameter] public LoopingConfiguration Loop { get; set; } = true;
+    [Parameter] public LoopConfiguration Loop { get; set; } = true;
 
     /// <summary>
     /// Renderer to use
     /// </summary>
-    [Parameter] public Renderer Renderer { get; set; } = Renderer.SVG;
+    [Parameter] public LottieAnimationRenderer Renderer { get; set; } = LottieAnimationRenderer.Svg;
 
     /// <summary>
     /// Animation playback direction
     /// </summary>
-    [Parameter] public AnimationDirection Direction { get; set; } = AnimationDirection.Forward;
+    [Parameter] public LottieAnimationDirection Direction { get; set; } = LottieAnimationDirection.Forward;
 
     /// <summary>
     /// Animation playback speed
@@ -372,7 +372,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Called when the animation finishes loading and the elements have been added to the DOM
     /// </summary>
-    [Parameter] public EventCallback<LoadedEventArgs> Loaded { get; set; }
+    [Parameter] public EventCallback<LottieAnimationLoadedEventArgs> Loaded { get; set; }
 
     #endregion
 }

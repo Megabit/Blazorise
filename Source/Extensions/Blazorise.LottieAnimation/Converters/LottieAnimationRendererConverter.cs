@@ -4,14 +4,15 @@ using System.Text.Json.Serialization;
 namespace Blazorise.LottieAnimation;
 
 /// <summary>
-/// JSON converter for a <see cref="Renderer"/>. Used for JSInterop.
+/// JSON converter for a <see cref="LottieAnimationRenderer"/>. Used for JSInterop.
 /// </summary>
-public class RendererEnumConverter : JsonStringEnumConverter
+public class LottieAnimationRendererConverter : JsonStringEnumConverter
 {
     /// <summary>
-    /// Creates a new <see cref="RendererEnumConverter"/> instance
+    /// Creates a new <see cref="LottieAnimationRendererConverter"/> instance.
     /// </summary>
-    public RendererEnumConverter() : base( new LowerCaseNamingPolicy() )
+    public LottieAnimationRendererConverter()
+        : base( new LowerCaseNamingPolicy() )
     {
     }
 

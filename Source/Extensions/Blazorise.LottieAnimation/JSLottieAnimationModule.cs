@@ -37,12 +37,8 @@ public class JSLottieAnimationModule : BaseJSModule
     /// <param name="elementId">Id of the container element</param>
     /// <param name="options">Animation configuration options</param>
     /// <returns>A <see cref="IJSObjectReference"/> to the Animation object</returns>
-    public virtual async ValueTask<IJSObjectReference> InitializeAnimation( DotNetObjectReference<LottieAnimation> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
-    {
-        var moduleInstance = await Module;
-
-        return await moduleInstance.InvokeAsync<IJSObjectReference>( "initializeAnimation", dotNetObjectReference, elementRef, elementId, options );
-    }
+    public virtual ValueTask<IJSObjectReference> InitializeAnimation( DotNetObjectReference<LottieAnimation> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+        => InvokeSafeAsync<IJSObjectReference>( "initializeAnimation", dotNetObjectReference, elementRef, elementId, options );
 
     #endregion
 

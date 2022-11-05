@@ -3,20 +3,20 @@
 /// <summary>
 /// Event arguments for the EnterFrame event
 /// </summary>
-public record EnteredFrameEventArgs
+public record LottieAnimationEnteredFrameEventArgs
 {
     /// <summary>
-    /// Current frame time
+    /// Gets the current frame time.
     /// </summary>
     public double CurrentTime { get; init; }
 
     /// <summary>
-    /// Total time for the entire animation
+    /// Gets the total time for the entire animation.
     /// </summary>
     public double TotalTime { get; init; }
 
     /// <summary>
-    /// Direction of animation playback
+    /// Gets the direction of animation playback.
     /// </summary>
-    public AnimationDirection Direction { get; init; }
+    public LottieAnimationDirection Direction { get; init; }
 }
