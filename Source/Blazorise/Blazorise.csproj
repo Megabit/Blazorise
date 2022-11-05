@@ -1,30 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\Build\Blazorise.props" />
+	<Import Project="..\..\Build\Blazorise.props" />
 
-  <PropertyGroup>
-    <PackageTags>blazorise blazor components</PackageTags>
-    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageTags>blazorise blazor components</PackageTags>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="compilerconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Localization\**\*.json" />
-    <EmbeddedResource Include="Resources\Localization\**\*.json" />
-    <None Remove="Resources\Localization\*.json" />
-    <EmbeddedResource Include="Resources\Localization\*.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Resources\Localization\**\*.json" />
+		<EmbeddedResource Include="Resources\Localization\**\*.json" />
+		<None Remove="Resources\Localization\*.json" />
+		<EmbeddedResource Include="Resources\Localization\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" />
+		<ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<!-- Exclude the output of source generators from the compilation -->
+		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>__SOURCEGENERATED__</CompilerGeneratedFilesOutputPath>
+	</PropertyGroup>
 
 </Project>

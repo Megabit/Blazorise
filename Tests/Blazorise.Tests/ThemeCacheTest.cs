@@ -1,4 +1,7 @@
-﻿using Blazorise.Themes;
+﻿using System;
+using System.Collections.Generic;
+using Blazorise.DataGrid.Utils;
+using Blazorise.Themes;
 using Xunit;
 
 namespace Blazorise.Tests
@@ -12,11 +15,15 @@ namespace Blazorise.Tests
             themeCache = new( new( null, options => { } ) );
         }
 
+
+        private Theme InitFullyInstantiatedTheme()
+            => RecursiveObjectActivator.CreateInstance<Theme>();
+
         [Fact]
         public void TryGetVariablesFromCache_ReturnsVariablesCachedBy_CacheVariables()
         {
             // setup
-            var theme = new Theme();
+            var theme =  InitFullyInstantiatedTheme();
 
             // test
             themeCache.CacheVariables( theme, "xyz" );
@@ -28,10 +35,26 @@ namespace Blazorise.Tests
         }
 
         [Fact]
+        public void TryGetVariablesFromCache_ReturnsVariablesCachedBy_AnEqualTheme_CacheVariables()
+        {
+            // setup
+            var theme =  InitFullyInstantiatedTheme();
+            var theme2 = InitFullyInstantiatedTheme();
+
+            // test
+            themeCache.CacheVariables( theme, "xyz" );
+            var success = themeCache.TryGetVariablesFromCache( theme2, out var variables );
+
+            // validate
+            Assert.True( success );
+            Assert.Equal( "xyz", variables );
+        }
+
+        [Fact]
         public void TryGetStylesFromCache_ReturnsStylesCachedBy_CacheStyles()
         {
             // setup
-            var theme = new Theme();
+            var theme = InitFullyInstantiatedTheme();
 
             // test
             themeCache.CacheStyles( theme, "xyz" );
@@ -48,7 +71,7 @@ namespace Blazorise.Tests
             // setup
             var maxCachedStyles = 10;
 
-            var firstCachedTheme = new Theme();
+            var firstCachedTheme = InitFullyInstantiatedTheme();
             themeCache.CacheStyles( firstCachedTheme, "xyz" );
 
             // test
@@ -69,7 +92,7 @@ namespace Blazorise.Tests
             // setup
             var maxCachedStyles = 10;
 
-            var firstCachedTheme = new Theme();
+            var firstCachedTheme = InitFullyInstantiatedTheme();
             themeCache.CacheStyles( firstCachedTheme, "xyz" );
 
             // test
@@ -114,14 +137,34 @@ namespace Blazorise.Tests
         public void EqualThemes_AreEqual()
         {
             // setup
-            var theme1 = new Theme();
-            var theme2 = new Theme();
-
+            var theme1 = InitFullyInstantiatedTheme();
+            theme1.Changed += OnThemeChanged;
+            var theme2 = InitFullyInstantiatedTheme();
+            theme2.Changed += OnThemeChanged;
             // test
             var areEqual = theme1.Equals( theme2 );
 
             // validate
             Assert.True( areEqual );
+        }
+
+        [Fact]
+        public void EqualThemes_DifferentChangedEvent_AreEqual()
+        {
+            // setup
+            var theme1 = InitFullyInstantiatedTheme();
+            var theme2 = InitFullyInstantiatedTheme();
+            theme2.Changed += OnThemeChanged;
+            // test
+            var areEqual = theme1.Equals( theme2 );
+
+            // validate
+            Assert.True( areEqual );
+        }
+
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+
         }
 
         [Fact]
