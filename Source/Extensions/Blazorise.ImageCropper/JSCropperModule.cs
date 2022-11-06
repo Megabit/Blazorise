@@ -84,7 +84,6 @@ namespace Blazorise.ImageCropper
             => CallCropperAction( elementRef, elementId, "scale", scaleX, scaleY );
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.ImageCropper/cropper.js?v={VersionProvider.Version}";
-
+        public override string ModuleFileName => $"./_content/Blazorise.ImageCropper/blazorise.imagecropper.js?v={VersionProvider.Version}";
     }
 }
