@@ -133,7 +133,7 @@ namespace {namespaceName}
             {
 
                 if ( isCollection )
-                { 
+                {
                     sb.AppendLine( $"{STANDARD_SPACING}foreach ( var hashItem in {prop} )" );
                     sb.AppendLine( $"{STANDARD_SPACING}{{" );
                     sb.AppendLine( $"{STANDARD_SPACING}\thash.Add( hashItem );" );
@@ -150,7 +150,6 @@ namespace {namespaceName}
         {
             public List<ClassDeclarationSyntax> Classes { get; } = new List<ClassDeclarationSyntax>();
             public List<RecordDeclarationSyntax> Records { get; } = new List<RecordDeclarationSyntax>();
-
 
             public void OnVisitSyntaxNode( SyntaxNode syntaxNode )
             {
@@ -172,8 +171,6 @@ namespace {namespaceName}
                     Records.Add( recordDeclaration );
                 }
             }
-
-
         }
     }
 }

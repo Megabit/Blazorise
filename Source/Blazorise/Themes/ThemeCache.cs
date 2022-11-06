@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
 #endregion
@@ -14,11 +13,9 @@ namespace Blazorise.Themes
     {
         #region Members
 
-
         private readonly int maxCacheSize;
 
         private readonly Dictionary<int, ThemeCachedResource> cachedThemes = new();
-
 
         private readonly object mutex = new();
 
