@@ -39,8 +39,8 @@ export function initializeAnimation(dotNetAdapter, element, elementId, options) 
     return animation;
 }
 
-async function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
-    await dotNetAdapter.invokeMethodAsync(methodName, ...args)
+function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
+    return dotNetAdapter.invokeMethodAsync(methodName, ...args)
         .catch((reason) => {
             console.error(reason);
         });
@@ -59,9 +59,10 @@ function registerEvents(dotNetAdapter, animation) {
         
         animation.frameChangeNotificationSent = true;
         
-        await invokeDotNetMethodAsync(dotNetAdapter, "NotifyCurrentFrameChanged", event.currentTime);
-
-        animation.frameChangeNotificationSent = false;
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyCurrentFrameChanged", event.currentTime)
+            .then(() => {
+                animation.frameChangeNotificationSent = false;
+            })
     });
 
     animation.addEventListener('DOMLoaded', () => {
