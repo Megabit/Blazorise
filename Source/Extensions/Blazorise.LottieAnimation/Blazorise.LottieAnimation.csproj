@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <Import Project="..\..\..\Build\Blazorise.props" />
-  
+
   <PropertyGroup>
     <PackageTags>blazorise blazor lottie</PackageTags>
   </PropertyGroup>

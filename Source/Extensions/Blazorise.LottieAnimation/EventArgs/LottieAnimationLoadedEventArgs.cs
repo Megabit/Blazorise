@@ -1,17 +1,17 @@
 ﻿namespace Blazorise.LottieAnimation;
 
 /// <summary>
-/// Event arguments passed when the animation has loaded
+/// Event arguments passed when the animation has loaded.
 /// </summary>
-public record LoadedEventArgs
+public record LottieAnimationLoadedEventArgs
 {
     /// <summary>
-    /// Current frame of the animation
+    /// Gets the current frame of the animation.
     /// </summary>
     public double CurrentFrame { get; init; }
 
     /// <summary>
-    /// Total frames for the entire animation
+    /// Gets the total frames for the entire animation.
     /// </summary>
     public double TotalFrames { get; init; }
 };

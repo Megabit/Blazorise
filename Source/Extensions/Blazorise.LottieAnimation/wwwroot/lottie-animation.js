@@ -1,6 +1,6 @@
 import './vendors/lottie.js?v=1.1.2.0';
 
-import {getRequiredElement} from "../Blazorise/utilities.js?v=1.1.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.1.2.0";
 
 /**
  * Initializes a new animation instance
@@ -13,29 +13,29 @@ import {getRequiredElement} from "../Blazorise/utilities.js?v=1.1.2.0";
 export function initializeAnimation(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
-    if (!element)
-    {
+    if (!element) {
         return;
     }
-    
+
     options.container = element;
+
     const animation = lottie.loadAnimation(options);
-    animation.setDirection( options.direction );
-    animation.setSpeed( options.speed );
-    
+    animation.setDirection(options.direction);
+    animation.setSpeed(options.speed);
+
     // Add a function to set a flag for whether or not we're sending current frame updates
-    animation.setSendCurrentFrame = function(shouldSend) {
+    animation.setSendCurrentFrame = function (shouldSend) {
         this.sendCurrentFrame = shouldSend;
     }
 
     // Add a function to set the loop property
-    animation.setLoop = function(loop) {
+    animation.setLoop = function (loop) {
         this.loop = loop;
     }
-    
+
     animation.setSendCurrentFrame(options.sendCurrentFrame);
     registerEvents(dotNetAdapter, animation);
-    
+
     return animation;
 }
 
@@ -48,15 +48,13 @@ function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
 
 function registerEvents(dotNetAdapter, animation) {
     animation.addEventListener('enterFrame', async (event) => {
-        
-        if( !animation.sendCurrentFrame || animation.frameChangeNotificationSent )
-        {
+        if (!animation.sendCurrentFrame || animation.frameChangeNotificationSent) {
             // We've either already sent an event that hasn't been processed yet,
             // or nobody is listening for the events. Skip sending this event to save
             // on bandwidth.
             return;
         }
-        
+
         animation.frameChangeNotificationSent = true;
         
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyCurrentFrameChanged", event.currentTime)
