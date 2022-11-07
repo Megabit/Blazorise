@@ -1,14 +1,11 @@
 ﻿#region Using directives
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
-using Microsoft.VisualBasic;
 #endregion
 
 namespace Blazorise.ImageCropper
@@ -35,14 +32,12 @@ namespace Blazorise.ImageCropper
                 var aspectRatioChanged = parameters.TryGetValue<ImageCropperAspectRatio>( nameof( AspectRatio ), out var paramAspectRatio ) && paramAspectRatio != AspectRatio;
                 var viewModeChanged = parameters.TryGetValue<ImageCropperViewMode>( nameof( ViewMode ), out var paramViewMode ) && paramViewMode != ViewMode;
                 var previewSelectorChanged = parameters.TryGetValue<string>( nameof( PreviewSelector ), out var paramPreviewSelector ) && paramPreviewSelector != PreviewSelector;
-                var radiusChanged = parameters.TryGetValue<int?>( nameof( Radius ), out var paramRadius ) && paramRadius != Radius;
                 var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
 
                 if ( sourceChanged
                     || aspectRatioChanged
                     || viewModeChanged
                     || previewSelectorChanged
-                    || radiusChanged
                     || enabledChanged )
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
@@ -51,7 +46,6 @@ namespace Blazorise.ImageCropper
                         AspectRatio = new { Changed = aspectRatioChanged, Value = paramAspectRatio },
                         ViewMode = new { Changed = viewModeChanged, Value = paramViewMode },
                         Preview = new { Changed = previewSelectorChanged, Value = paramPreviewSelector },
-                        Radius = new { Changed = radiusChanged, Value = paramRadius },
                         Enabled = new { Changed = enabledChanged, Value = paramEnabled },
                     } ) );
                 }
@@ -76,18 +70,8 @@ namespace Blazorise.ImageCropper
                     AspectRatio = AspectRatio.Value,
                     ViewMode = (int)ViewMode,
                     Preview = PreviewSelector,
-                    Radius,
                     Enabled
                 } );
-
-                //state.Source = Source;
-
-                //if ( GetOptions( out var options ) )
-                //{
-                //    await JSModule.Initialize( adapter, ElementRef, ElementId, options );
-                //}
-
-                //await EnableCropper();
             }
         }
 
@@ -128,34 +112,6 @@ namespace Blazorise.ImageCropper
 
             await base.DisposeAsync( disposing );
         }
-
-        //private bool GetOptions( out JSCropperOptions options )
-        //{
-        //    options = new()
-        //    {
-        //        AspectRatio = Ratio.Value,
-        //        Preview = PreviewSelector,
-        //        ViewMode = (int)ViewMode,
-        //        Radius = Radius
-        //    };
-
-        //    if ( state.Options != options )
-        //    {
-        //        state.Options = options;
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-        //private async ValueTask EnableCropper()
-        //{
-        //    if ( state.Enabled != Enabled )
-        //    {
-        //        state.Enabled = Enabled;
-        //        await JSModule.Enable( ElementRef, ElementId, Enabled );
-        //    }
-        //}
 
         /// <summary>
         /// Get the cropped image as Base64 image.
@@ -295,11 +251,6 @@ namespace Blazorise.ImageCropper
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
         [Parameter] public EventCallback Zoomed { get; set; }
-
-        /// <summary>
-        /// The cropper radius.
-        /// </summary>
-        [Parameter] public int? Radius { get; set; }
 
         /// <summary>
         /// Is the cropper enabled.

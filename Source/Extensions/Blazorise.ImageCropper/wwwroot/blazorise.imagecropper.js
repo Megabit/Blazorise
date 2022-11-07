@@ -18,15 +18,6 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         cropper: null,
     };
 
-    options.ready = () => {
-        if (options.radius) {
-            const cropper = instance.cropper.cropper;
-            const borderRadius = options.radius + '%';
-            cropper.getElementsByClassName('cropper-face')[0].style.borderRadius = borderRadius;
-            cropper.getElementsByClassName('cropper-view-box')[0].style.borderRadius = borderRadius;
-        }
-    };
-
     instance.cropper = new Cropper(element, options);
 
     registerEvents(element, dotNetAdapter);
@@ -57,12 +48,6 @@ export function updateOptions(element, elementId, options) {
 
         if (options.preview.changed) {
             cropper.options.preview = options.preview.value || '';
-        }
-
-        if (options.radius.changed) {
-            const borderRadius = (options.radius.value || 0) + '%';
-            cropper.getElementsByClassName('cropper-face')[0].style.borderRadius = borderRadius;
-            cropper.getElementsByClassName('cropper-view-box')[0].style.borderRadius = borderRadius;
         }
 
         if (options.enabled.changed) {

@@ -5868,13 +5868,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <ImageCropper @ref=""cropper"" Source=""img/gallery/amongus.png""
-                          Ratio=""@new(ratio)""
-                          ViewMode=""@viewMode""
-                          Radius=""@radius""
-                          Enabled=""@enabled""
-                          Cropped=""OnCropped""
-                          PreviewSelector="".image-cropper-preview"" />
+            <ImageCropper @ref=""cropper"" Source=""img/gallery/amongus.png"" PreviewSelector="".image-cropper-preview"" />
         </FieldBody>
     </Column>
     <Column>

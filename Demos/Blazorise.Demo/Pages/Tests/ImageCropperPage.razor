@@ -36,14 +36,6 @@
                     </FieldBody>
                 </Field>
                 <Field>
-                    <FieldLabel>
-                        Crop Radius @radius%
-                    </FieldLabel>
-                    <FieldBody>
-                        <Slider @bind-Value="@radius" Min="0" Max="90" />
-                    </FieldBody>
-                </Field>
-                <Field>
                     <FieldBody>
                         <Check @bind-Checked="@enabled">Enabled</Check>
                         <Check TValue="bool" Checked="@flipX" CheckedChanged="FlipX">Flip X</Check>
@@ -77,10 +69,9 @@
                             <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png"
                                           AspectRatio="@new(ratio)"
                                           ViewMode="@viewMode"
-                                          Radius="@radius"
                                           Enabled="@enabled"
                                           Cropped="OnCropped"
-                                          PreviewSelector=".preview" />
+                                          PreviewSelector=".image-cropper-preview" />
                         </FieldBody>
                     </Column>
                     <Column>
@@ -88,9 +79,9 @@
                             Preview
                         </FieldLabel>
                         <FieldBody>
-                            <div class="preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
-                            <div class="preview" style="margin: 10px; width: 100px; height: 100px; overflow: hidden" />
-                            <div class="preview" style="margin: 10px; width: 50px; height: 50px; overflow: hidden" />
+                            <div class="image-cropper-preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
+                            <div class="image-cropper-preview" style="margin: 10px; width: 100px; height: 100px; overflow: hidden" />
+                            <div class="image-cropper-preview" style="margin: 10px; width: 50px; height: 50px; overflow: hidden" />
                         </FieldBody>
                     </Column>
                 </Row>
@@ -110,7 +101,6 @@
 @code {
     private ImageCropper cropper;
     private string result;
-    private int radius;
     private double? ratio = 1.0;
     private ImageCropperViewMode viewMode;
     private bool enabled = true;
