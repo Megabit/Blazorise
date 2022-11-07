@@ -32,10 +32,47 @@
     <DocsPageSectionSource Code="ChartStreamingResourcesExample" />
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Example" />
+    <DocsPageSectionHeader Title="Basic Example" />
     <DocsPageSectionContent Outlined FullWidth>
         <ChartStreamingExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ChartStreamingExample" />
 </DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Pause/Play">
+        Making the stream pause and play is very simple. You only need to add a <Code>@@ref</Code> to the <Code>ChartStreaming</Code> and the call <Code>.Pause()</Code> or <Code>.Play()</Code> methods.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartStreamingPauseExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartStreamingPauseExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Methods
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Pause()</Code></TableRowCell>
+            <TableRowCell>Pauses the current chart streaming.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Play()</Code></TableRowCell>
+            <TableRowCell>Plays the current chart streaming.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
