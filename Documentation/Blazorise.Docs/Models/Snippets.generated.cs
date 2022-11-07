@@ -5898,7 +5898,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 @code {
     private ImageCropper cropper;
     private string result;
-    private int radius;
     private double? ratio = 1.0;
     private ImageCropperViewMode viewMode;
     private bool enabled = true;
