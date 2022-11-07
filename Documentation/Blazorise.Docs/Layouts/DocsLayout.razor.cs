@@ -27,6 +27,8 @@ namespace Blazorise.Docs.Layouts
 
         private bool sideBarServicesMenuVisible;
 
+        private bool sideBarSpecificationsMenuVisible;
+
         private bool sideBarExtensionsMenuVisible;
 
         private bool sideBarHelpersMenuVisible;
