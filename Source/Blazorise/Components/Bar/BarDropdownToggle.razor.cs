@@ -40,6 +40,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownToggle( ParentDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
+            builder.Append( ClassProvider.BarDropdownToggleDisabled( ParentDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true, IsDisabled ) );
 
             base.BuildClasses( builder );
         }
@@ -90,6 +91,8 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         protected Task ClickHandler( MouseEventArgs eventArgs )
         {
+            if ( IsDisabled )
+                return Task.CompletedTask;
 
             if ( ParentBarDropdown != null )
                 return ParentBarDropdown.Toggle( ElementId );
@@ -149,6 +152,11 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
+        /// Returns true if this BarDropdown should be disabled.
+        /// </summary>
+        protected internal bool IsDisabled => ParentBarItem?.Disabled == true;
+
+        /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
         /// </summary>
         [Inject] public IJSClosableModule JSClosableModule { get; set; }
@@ -192,6 +200,11 @@ namespace Blazorise
         /// Gets or sets the reference to the parent dropdown.
         /// </summary>
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="BarItem"/> component in which this <see cref="BarDropdownToggle"/> is placed.
+        /// </summary>
+        [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="BarDropdownToggle"/>.

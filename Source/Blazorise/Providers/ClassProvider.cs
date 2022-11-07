@@ -670,6 +670,8 @@ namespace Blazorise
 
         public abstract string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
+        public abstract string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
+
         public abstract string BarDropdownItem( BarMode mode );
 
         public abstract string BarDropdownDivider( BarMode mode );

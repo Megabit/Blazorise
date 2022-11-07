@@ -682,6 +682,8 @@ namespace Blazorise.AntDesign
 
         public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 
+        public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled ? "ant-menu-submenu-disabled" : null;
+
         public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 
         public override string BarDropdownDivider( BarMode mode ) => "ant-menu-item-divider";

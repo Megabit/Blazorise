@@ -34,5 +34,10 @@
                 }
             }
         }
+
+        .navbar-link.b-bar-dropdown-toggle.navbar-link-disabled {
+            pointer-events: none;
+            opacity: .65;
+        }
     }
 }
