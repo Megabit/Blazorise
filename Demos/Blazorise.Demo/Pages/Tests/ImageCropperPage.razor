@@ -14,11 +14,11 @@
                     </FieldLabel>
                     <FieldBody>
                         <RadioGroup @bind-CheckedValue="@ratio" Buttons>
-                            <Radio Value="@AspectRatio.Is16x9.Value">16:9</Radio>
-                            <Radio Value="@AspectRatio.Is4x3.Value">4:3</Radio>
-                            <Radio Value="@AspectRatio.Is1x1.Value">1:1</Radio>
-                            <Radio Value="@AspectRatio.Is2x3.Value">2:3</Radio>
-                            <Radio Value="@AspectRatio.IsFree.Value">Free</Radio>
+                            <Radio Value="@ImageCropperAspectRatio.Is16x9.Value">16:9</Radio>
+                            <Radio Value="@ImageCropperAspectRatio.Is4x3.Value">4:3</Radio>
+                            <Radio Value="@ImageCropperAspectRatio.Is1x1.Value">1:1</Radio>
+                            <Radio Value="@ImageCropperAspectRatio.Is2x3.Value">2:3</Radio>
+                            <Radio Value="@ImageCropperAspectRatio.IsFree.Value">Free</Radio>
                         </RadioGroup>
                     </FieldBody>
                 </Field>
@@ -75,11 +75,11 @@
                         </FieldLabel>
                         <FieldBody>
                             <ImageCropper @ref="cropper" Source="_content/Blazorise.Demo/img/amongus.png"
-                                          Ratio="@new(ratio)"
+                                          AspectRatio="@new(ratio)"
                                           ViewMode="@viewMode"
                                           Radius="@radius"
                                           Enabled="@enabled"
-                                          Crop="OnCrop"
+                                          Cropped="OnCropped"
                                           PreviewSelector=".preview" />
                         </FieldBody>
                     </Column>
@@ -118,23 +118,23 @@
 
     private async Task GetCroppedImage()
     {
-        result = await cropper.CropAsBase64ImageAsync(new() { Width = 250, Height = 250 });
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
     }
 
-    private void OnCrop()
+    private void OnCropped()
     {
         // Console.WriteLine("Crop");
     }
 
-    private async Task FlipX(bool flip)
+    private async Task FlipX( bool flip )
     {
         flipX = flip;
-        await cropper.Scale(flipX ? -1 : 1, flipY ? -1 : 1);
+        await cropper.Scale( flipX ? -1 : 1, flipY ? -1 : 1 );
     }
 
-    private async Task FlipY(bool flip)
+    private async Task FlipY( bool flip )
     {
         flipY = flip;
-        await cropper.Scale(flipX ? -1 : 1, flipY ? -1 : 1);
+        await cropper.Scale( flipX ? -1 : 1, flipY ? -1 : 1 );
     }
 }

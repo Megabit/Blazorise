@@ -41,10 +41,38 @@ export function updateOptions(element, elementId, options) {
         return;
 
     if (instance.cropper) {
-        instance.cropper.destroy();
-    }
+        const cropper = instance.cropper;
 
-    initialize(instance.adapter, element, elementId, options);
+        if (options.source.changed) {
+            cropper.replace(options.source.value);
+        }
+
+        if (options.aspectRatio.changed) {
+            cropper.setAspectRatio(options.aspectRatio.value || NaN);
+        }
+
+        if (options.viewMode.changed) {
+            cropper.options.viewMode = options.viewMode.value || 0;
+        }
+
+        if (options.preview.changed) {
+            cropper.options.preview = options.preview.value || '';
+        }
+
+        if (options.radius.changed) {
+            const borderRadius = (options.radius.value || 0) + '%';
+            cropper.getElementsByClassName('cropper-face')[0].style.borderRadius = borderRadius;
+            cropper.getElementsByClassName('cropper-view-box')[0].style.borderRadius = borderRadius;
+        }
+
+        if (options.enabled.changed) {
+            if (options.enabled.value) {
+                cropper.enable();
+            } else {
+                cropper.disable();
+            }
+        }
+    }
 }
 
 export function destroy(element, elementId) {

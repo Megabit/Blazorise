@@ -1,11 +1,14 @@
 ﻿#region Using directives
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
+using Microsoft.VisualBasic;
 #endregion
 
 namespace Blazorise.ImageCropper
@@ -19,8 +22,6 @@ namespace Blazorise.ImageCropper
 
         private DotNetObjectReference<ImageCropperAdapter> adapter;
 
-        private readonly ImageCropperState state = new();
-
         #endregion
 
         #region Methods
@@ -28,32 +29,35 @@ namespace Blazorise.ImageCropper
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            await base.SetParametersAsync( parameters );
-
             if ( Rendered )
             {
-                if ( GetOptions( out var options ) )
-                {
-                    await JSModule.UpdateOptions( ElementRef, ElementId, options );
-                }
+                var sourceChanged = parameters.TryGetValue<string>( nameof( Source ), out var paramSource ) && paramSource != Source;
+                var aspectRatioChanged = parameters.TryGetValue<ImageCropperAspectRatio>( nameof( AspectRatio ), out var paramAspectRatio ) && paramAspectRatio != AspectRatio;
+                var viewModeChanged = parameters.TryGetValue<ImageCropperViewMode>( nameof( ViewMode ), out var paramViewMode ) && paramViewMode != ViewMode;
+                var previewSelectorChanged = parameters.TryGetValue<string>( nameof( PreviewSelector ), out var paramPreviewSelector ) && paramPreviewSelector != PreviewSelector;
+                var radiusChanged = parameters.TryGetValue<int?>( nameof( Radius ), out var paramRadius ) && paramRadius != Radius;
+                var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
 
-                if ( Source != state.Source )
+                if ( sourceChanged
+                    || aspectRatioChanged
+                    || viewModeChanged
+                    || previewSelectorChanged
+                    || radiusChanged
+                    || enabledChanged )
                 {
-                    state.Source = Source;
-                    await JSModule.Replace( ElementRef, ElementId, Source );
+                    ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                    {
+                        Source = new { Changed = sourceChanged, Value = paramSource },
+                        AspectRatio = new { Changed = aspectRatioChanged, Value = paramAspectRatio },
+                        ViewMode = new { Changed = viewModeChanged, Value = paramViewMode },
+                        Preview = new { Changed = previewSelectorChanged, Value = paramPreviewSelector },
+                        Radius = new { Changed = radiusChanged, Value = paramRadius },
+                        Enabled = new { Changed = enabledChanged, Value = paramEnabled },
+                    } ) );
                 }
-
-                await EnableCropper();
             }
-        }
 
-        /// <inheritdoc/>
-        protected override Task OnInitializedAsync()
-        {
-            JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
-            adapter ??= DotNetObjectReference.Create( new ImageCropperAdapter( this ) );
-
-            return base.OnInitializedAsync();
+            await base.SetParametersAsync( parameters );
         }
 
         /// <inheritdoc/>
@@ -63,12 +67,27 @@ namespace Blazorise.ImageCropper
 
             if ( firstRender )
             {
-                state.Source = Source;
+                JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
+                adapter ??= DotNetObjectReference.Create( new ImageCropperAdapter( this ) );
 
-                GetOptions( out var options );
-                await JSModule.Initialize( adapter, ElementRef, ElementId, options );
+                await JSModule.Initialize( adapter, ElementRef, ElementId, new
+                {
+                    Source,
+                    AspectRatio = AspectRatio.Value,
+                    ViewMode = (int)ViewMode,
+                    Preview = PreviewSelector,
+                    Radius,
+                    Enabled
+                } );
 
-                await EnableCropper();
+                //state.Source = Source;
+
+                //if ( GetOptions( out var options ) )
+                //{
+                //    await JSModule.Initialize( adapter, ElementRef, ElementId, options );
+                //}
+
+                //await EnableCropper();
             }
         }
 
@@ -110,33 +129,33 @@ namespace Blazorise.ImageCropper
             await base.DisposeAsync( disposing );
         }
 
-        private bool GetOptions( out JSCropperOptions options )
-        {
-            options = new()
-            {
-                AspectRatio = Ratio.Value,
-                Preview = PreviewSelector,
-                ViewMode = (int)ViewMode,
-                Radius = Radius
-            };
+        //private bool GetOptions( out JSCropperOptions options )
+        //{
+        //    options = new()
+        //    {
+        //        AspectRatio = Ratio.Value,
+        //        Preview = PreviewSelector,
+        //        ViewMode = (int)ViewMode,
+        //        Radius = Radius
+        //    };
 
-            if ( state.Options != options )
-            {
-                state.Options = options;
-                return true;
-            }
+        //    if ( state.Options != options )
+        //    {
+        //        state.Options = options;
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        private async ValueTask EnableCropper()
-        {
-            if ( state.Enabled != Enabled )
-            {
-                state.Enabled = Enabled;
-                await JSModule.Enable( ElementRef, ElementId, Enabled );
-            }
-        }
+        //private async ValueTask EnableCropper()
+        //{
+        //    if ( state.Enabled != Enabled )
+        //    {
+        //        state.Enabled = Enabled;
+        //        await JSModule.Enable( ElementRef, ElementId, Enabled );
+        //    }
+        //}
 
         /// <summary>
         /// Get the cropped image as Base64 image.
@@ -228,27 +247,27 @@ namespace Blazorise.ImageCropper
         [Inject] private IVersionProvider VersionProvider { get; set; }
 
         /// <summary>
-        /// The aspect ratio of the image cropper
+        /// Defines the aspect ratio of the image cropper.
         /// </summary>
-        [Parameter] public AspectRatio Ratio { get; set; } = AspectRatio.Is1x1;
+        [Parameter] public ImageCropperAspectRatio AspectRatio { get; set; } = ImageCropperAspectRatio.Is1x1;
 
         /// <summary>
-        /// Define the view mode of the cropper
+        /// Defines the view mode of the cropper.
         /// </summary>
         [Parameter] public ImageCropperViewMode ViewMode { get; set; } = ImageCropperViewMode.Default;
 
         /// <summary>
-        /// The original image source
+        /// The original image source.
         /// </summary>
         [Parameter] public string Source { get; set; }
 
         /// <summary>
-        /// The alt text of the image
+        /// The alt text of the image.
         /// </summary>
         [Parameter] public string Alt { get; set; }
 
         /// <summary>
-        /// The alt text of the image
+        /// The CSS selector the preview image.
         /// </summary>
         [Parameter] public string PreviewSelector { get; set; }
 
@@ -278,14 +297,14 @@ namespace Blazorise.ImageCropper
         [Parameter] public EventCallback Zoomed { get; set; }
 
         /// <summary>
-        /// The cropper radius
+        /// The cropper radius.
         /// </summary>
         [Parameter] public int? Radius { get; set; }
 
         /// <summary>
-        /// Is the cropper enabled
+        /// Is the cropper enabled.
         /// </summary>
-        [Parameter] public bool Enabled { get; set; }
+        [Parameter] public bool Enabled { get; set; } = true;
 
         #endregion
     }

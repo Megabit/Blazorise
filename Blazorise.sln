@@ -104,7 +104,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.QRCode", "Source\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Generator", "Documentation\Blazorise.Docs.Generator\Blazorise.Docs.Generator.csproj", "{F4C121CA-C204-43C4-AF1D-DEE56392526F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.ImageCropper", "Source\Extensions\Blazorise.ImageCropper\Blazorise.ImageCropper.csproj", "{B2FCEA00-25B2-4691-8AE3-084F4828B41E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.ImageCropper", "Source\Extensions\Blazorise.ImageCropper\Blazorise.ImageCropper.csproj", "{B2FCEA00-25B2-4691-8AE3-084F4828B41E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LoadingIndicator", "Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj", "{570C2383-EE8C-4F02-91E8-E59B879EDCD2}"
 EndProject

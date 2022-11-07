@@ -5862,6 +5862,69 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 	.AddBootstrapProviders()
 +   .AddFontAwesomeIcons();";
 
+        public const string BasicImageCropperExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <ImageCropper @ref=""cropper"" Source=""img/gallery/amongus.png""
+                          Ratio=""@new(ratio)""
+                          ViewMode=""@viewMode""
+                          Radius=""@radius""
+                          Enabled=""@enabled""
+                          Cropped=""OnCropped""
+                          PreviewSelector="".image-cropper-preview"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <Row>
+            <Column>
+                <FieldBody>
+                    <div class=""image-cropper-preview"" style=""margin: 10px; width: 150px; height: 150px; overflow: hidden"" />
+                </FieldBody>
+            </Column>
+        </Row>
+        <Row>
+            <Column>
+                <Row Margin=""Margin.Is3.FromTop"">
+                    <Column>
+                        <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
+                    </Column>
+                    <Column>
+                        <img src=""@result"" width=""250"" height=""250"" />
+                    </Column>
+                </Row>
+            </Column>
+        </Row>
+    </Column>
+</Row>
+
+
+@code {
+    private ImageCropper cropper;
+    private string result;
+    private int radius;
+    private double? ratio = 1.0;
+    private ImageCropperViewMode viewMode;
+    private bool enabled = true;
+    private bool flipX, flipY;
+
+    private Task OnCropped()
+    {
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+}";
+
+        public const string ImageCropperNugetInstallExample = @"Install-Package Blazorise.ImageCropper";
+
+        public const string ImportImageCropperExample = @"@using Blazorise.ImageCropper";
+
         public const string BasicListViewExample = @"<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""

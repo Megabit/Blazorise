@@ -13,13 +13,13 @@ namespace Blazorise.ImageCropper
         {
         }
 
-        public ValueTask Initialize( DotNetObjectReference<ImageCropperAdapter> adapterReference, ElementReference elementRef, string elementId, JSCropperOptions options )
+        public ValueTask Initialize( DotNetObjectReference<ImageCropperAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
             => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
 
         public ValueTask Destroy( ElementReference elementRef, string elementId )
             => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
-        public ValueTask UpdateOptions( ElementReference elementRef, string elementId, JSCropperOptions options )
+        public ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
             => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
         public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, ImageCropperCropOptions options )
