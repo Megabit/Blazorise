@@ -103,8 +103,8 @@ function getRealtimeOptions(chart) {
         if (scales.x && scales.x.realtime) {
             return scales.x.realtime;
         }
-        else if (scales.x && scales.x.realtime) {
-            return scales.x.realtime;
+        else if (scales.y && scales.y.realtime) {
+            return scales.y.realtime;
         }
     }
 
