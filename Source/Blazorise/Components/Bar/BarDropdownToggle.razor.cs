@@ -90,7 +90,10 @@ namespace Blazorise
         /// <returns>Returns the awaitable task.</returns>
         protected Task ClickHandler( MouseEventArgs eventArgs )
         {
-            if ( ParentBarDropdown != null && !IsDisabled )
+            if ( IsDisabled )
+                return Task.CompletedTask;
+
+            if ( ParentBarDropdown != null )
                 return ParentBarDropdown.Toggle( ElementId );
 
             return Clicked.InvokeAsync( eventArgs );
