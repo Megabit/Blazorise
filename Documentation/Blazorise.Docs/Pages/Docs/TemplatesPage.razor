@@ -1,8 +1,8 @@
 ﻿@page "/docs/templates"
 
-<Seo Canonical="/docs/templates" Title="Blazorise Templates Guide" Description="Blazorise Templates bring you an easy way to quickly get started with any provider." />
+<Seo Canonical="/docs/templates" Title="Blazorise Templates Guide" Description="The Blazorise Templates allows you to quickly setup a Blazor project of your choice (Server or WebAssembly), with any of our Providers, and with a default starting look.." />
 
-<DocsPageTitle Path="Start">
+<DocsPageTitle Path="Templates">
     Blazorise Templates Guide
 </DocsPageTitle>
 
@@ -12,7 +12,7 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Blazorise Templates are based on the <Anchor To="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new" Target="Target.Blank">dotnet templates</Anchor> feature.
+    The Blazorise Templates are based on the <Link To="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new" Target="Target.Blank">dotnet templates</Link> feature.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -21,7 +21,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        You do so by using the CLI <Anchor To="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-install" Target="Target.Blank">dotnet new install</Anchor> feature.
+        You do so by using the CLI <Link To="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-install" Target="Target.Blank">dotnet new install</Link> feature.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TemplatesInstallExample" />
 </DocsPageSection>
@@ -31,26 +31,43 @@
         We use our Templates versioning to match & install the latest corresponding Blazorise major & minor version.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
-        For example:
-        <UnorderedList>
-            <UnorderedListItem>
-                Blazorise.Templates::1.1.* will always try to install the latest 1.1 Blazorise
-            </UnorderedListItem>
-            <UnorderedListItem>
-                Blazorise.Templates::1.2.* will always try to install the latest 1.2 Blazorise
-            </UnorderedListItem>
-        </UnorderedList>
-        If you want to install a specific version do some by passing in the version.
+        <Paragraph>
+            For example:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    Blazorise.Templates: <Strong>1.1.*</Strong> will always try to install the latest 1.1 Blazorise
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Blazorise.Templates: <Strong>1.2.*</Strong> will always try to install the latest 1.2 Blazorise
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            If you want to install a specific version do some by passing in the version.
+        </Paragraph>
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TemplatesVersionInstallExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Step 2: With Blazorise.Templates installed you may now use the CLI or the Visual Studio IDE to create your new Blazorise solution!
+    Step 2: Create New Project
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    With <Strong>Blazorise.Templates</Strong> installed you may now use the <Strong>CLI</Strong> or the <Strong>Visual Studio IDE</Strong> to create your new Blazorise solution!
+</DocsPageParagraph>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="CLI" />
+    <DocsPageSectionHeader Title="CLI">
+        <Paragraph>
+            Blazorise CLI is the fastest way to start a new solution with the Blazorise components.
+        </Paragraph>
+        <Paragraph>
+            The <Code>new blazorise</Code> command creates a Blazorise solution or other artifacts based on an Blazorise template. Blazorise CLI has several parameters to create a new Blazorise solution. In this document we will show you some sample commands to create a new solution.
+        </Paragraph>
+    </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TemplatesCLIUsageExample" />
 </DocsPageSection>
 
@@ -65,43 +82,53 @@
     Options
 </DocsPageSubtitle>
 
-<DocsAttributes>
-    <DocsAttributesItem Name="BlazorHost -bh" Type="Choice" Default="Server">
-        <UnorderedList>
-            <UnorderedListItem>
-                Server
-            </UnorderedListItem>
-            <UnorderedListItem>
-                WebAssembly
-            </UnorderedListItem>
-        </UnorderedList>
+<DocsAttributes Ordered="false">
+    <DocsAttributesItem Name="-bh" Type="Choice" Default="Server">
+        <Paragraph>
+            Specifies the project blazor host type.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    Server
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    WebAssembly
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Provider -p" Type="Choice" Default="Server">
-        <UnorderedList>
-            <UnorderedListItem>
-                Bootstrap4
-            </UnorderedListItem>
-            <UnorderedListItem>
-                Bootstrap5
-            </UnorderedListItem>
-            <UnorderedListItem>
-                Material
-            </UnorderedListItem>
-            <UnorderedListItem>
-                AntDesign
-            </UnorderedListItem>
-            <UnorderedListItem>
-                Bulma
-            </UnorderedListItem>
-        </UnorderedList>
+    <DocsAttributesItem Name="-p" Type="Choice" Default="Server">
+        <Paragraph>
+            Specifies the Blazorise CSS provider that will be used to render components.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    Bootstrap4
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Bootstrap5
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Material
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    AntDesign
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Bulma
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Use top-level statements -ut" Type="bool" Default="true">Whether the program entry point, should use <Anchor To="https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/top-level-statements">top level statements</Anchor>. </DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Primary Color -tcolor-primary" Type="string" Default="#0288D1">The Theme's starting primary color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Secondary Color -tcolor-secondary" Type="string" Default="#A65529">The Theme's starting secondary color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Success Color -tcolor-success" Type="string" Default="#23C02E">The Theme's starting success color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Info Color -tcolor-info" Type="string" Default="#9BD8FE">The Theme's starting info color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Warning Color -tcolor-warning" Type="string" Default="#F8B86C">The Theme's starting warning color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Danger Color -tcolor-danger" Type="string" Default="#F95741">The Theme's starting danger color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Light Color -tcolor-light" Type="string" Default="#F0F0F0">The Theme's starting light color.</DocsAttributesItem>
-    <DocsAttributesItem Name="Theme's Dark Color -tcolor-dark" Type="string" Default="#535353">The Theme's starting dark color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-ut" Type="bool" Default="true">Whether the program entry point, should use <Link To="https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/top-level-statements">top level statements</Link>. </DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-primary" Type="string" Default="#0288D1">The Theme's starting primary color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-secondary" Type="string" Default="#A65529">The Theme's starting secondary color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-success" Type="string" Default="#23C02E">The Theme's starting success color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-info" Type="string" Default="#9BD8FE">The Theme's starting info color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-warning" Type="string" Default="#F8B86C">The Theme's starting warning color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-danger" Type="string" Default="#F95741">The Theme's starting danger color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-light" Type="string" Default="#F0F0F0">The Theme's starting light color.</DocsAttributesItem>
+    <DocsAttributesItem Name="-tcolor-dark" Type="string" Default="#535353">The Theme's starting dark color.</DocsAttributesItem>
 </DocsAttributes>
