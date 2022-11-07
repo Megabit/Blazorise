@@ -3953,7 +3953,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js"" type=""module""></script>";
 
-        public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseProject -p Bootstrap5 -bh Server -ut false";
+        public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
         public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
 

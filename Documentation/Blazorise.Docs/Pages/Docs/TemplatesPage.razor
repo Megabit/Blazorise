@@ -37,15 +37,15 @@
         <Paragraph>
             <UnorderedList>
                 <UnorderedListItem>
-                    Blazorise.Templates: <Strong>1.1.*</Strong> will always try to install the latest 1.1 Blazorise
+                    Blazorise.Templates: <Strong>1.1.*</Strong> will always try to install the latest <Strong>1.1</Strong> Blazorise
                 </UnorderedListItem>
                 <UnorderedListItem>
-                    Blazorise.Templates: <Strong>1.2.*</Strong> will always try to install the latest 1.2 Blazorise
+                    Blazorise.Templates: <Strong>1.2.*</Strong> will always try to install the latest <Strong>1.2</Strong> Blazorise
                 </UnorderedListItem>
             </UnorderedList>
         </Paragraph>
         <Paragraph>
-            If you want to install a specific version do some by passing in the version.
+            If you want to install a specific version, you may do so by passing in the desired version.
         </Paragraph>
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TemplatesVersionInstallExample" />
@@ -59,13 +59,17 @@
     With <Strong>Blazorise.Templates</Strong> installed you may now use the <Strong>CLI</Strong> or the <Strong>Visual Studio IDE</Strong> to create your new Blazorise solution!
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Both options provide you with several parameters to create a new Blazorise solution. In this document you will find some sample commands to create your customized solution.
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="CLI">
         <Paragraph>
             Blazorise CLI is the fastest way to start a new solution with the Blazorise components.
         </Paragraph>
         <Paragraph>
-            The <Code>new blazorise</Code> command creates a Blazorise solution or other artifacts based on an Blazorise template. Blazorise CLI has several parameters to create a new Blazorise solution. In this document we will show you some sample commands to create a new solution.
+            The <Code>new blazorise</Code> command creates a Blazorise solution or other artifacts based on an Blazorise template. Take note that you may ommit the options and the defaults for those will be considered.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TemplatesCLIUsageExample" />
@@ -73,7 +77,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Visual Studio IDE">
-        When creating a new Project, you will find a new Project Type, Blazorise App.
+        When creating a new Project, you will find a new Project Type, <Strong>Blazorise App</Strong>.
     </DocsPageSectionHeader>
     <Image Source="img/templates/BlazoriseTemplates.png" Text="Blazorise Templates"></Image>
 </DocsPageSection>
@@ -83,6 +87,21 @@
 </DocsPageSubtitle>
 
 <DocsAttributes Ordered="false">
+    <DocsAttributesItem Name="-f" Type="Choice" Default="net7.0">
+        <Paragraph>
+            The target framework for the project.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    net6.0
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    net7.0
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsAttributesItem>
     <DocsAttributesItem Name="-bh" Type="Choice" Default="Server">
         <Paragraph>
             Specifies the project blazor host type.
