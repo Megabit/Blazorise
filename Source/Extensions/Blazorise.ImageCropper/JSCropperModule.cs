@@ -36,9 +36,9 @@ namespace Blazorise.ImageCropper
                 imageSmoothingEnabled = options.ImageSmoothingEnabled,
                 imageSmoothingQuality = options.ImageSmoothingQuality switch
                 {
-                    ImageCropperImageSmoothingQuality.Low => "low",
-                    ImageCropperImageSmoothingQuality.Medium => "medium",
-                    ImageCropperImageSmoothingQuality.High => "high",
+                    ImageCropperSmoothingQuality.Low => "low",
+                    ImageCropperSmoothingQuality.Medium => "medium",
+                    ImageCropperSmoothingQuality.High => "high",
                     _ => "low"
                 }
             };

@@ -3,7 +3,7 @@
 /// <summary>
 /// Cropped Image Smoothing Quality
 /// </summary>
-public enum ImageCropperImageSmoothingQuality
+public enum ImageCropperSmoothingQuality
 {
     /// <summary>
     /// Low quality.

@@ -48,5 +48,5 @@ public class ImageCropperCropOptions
     /// <summary>
     /// Set the quality of image smoothing, one of "low" (default), "medium", or "high".
     /// </summary>
-    public ImageCropperImageSmoothingQuality ImageSmoothingQuality { get; set; } = ImageCropperImageSmoothingQuality.Low;
+    public ImageCropperSmoothingQuality ImageSmoothingQuality { get; set; } = ImageCropperSmoothingQuality.Low;
 }
