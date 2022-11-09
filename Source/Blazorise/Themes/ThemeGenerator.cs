@@ -236,10 +236,10 @@ namespace Blazorise
             //var buttonColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantButtonColorLevel ?? 8 ) );
             //var buttonHoverColor = ThemeColorLevel( theme, buttonColor, options?.VariantButtonHoverColorLevel ?? 4 );
 
-            Variables[$"{ThemeVariables.SnackbarBackground}-{ variant }"] = ToHex( backgroundColor );
-            Variables[$"{ThemeVariables.SnackbarTextColor}-{ variant }"] = ToHex( textColor );
-            Variables[$"{ThemeVariables.SnackbarButtonColor}-{ variant }"] = ToHex( buttonColor );
-            Variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{ variant }"] = ToHex( buttonHoverColor );
+            Variables[$"{ThemeVariables.SnackbarBackground}-{variant}"] = ToHex( backgroundColor );
+            Variables[$"{ThemeVariables.SnackbarTextColor}-{variant}"] = ToHex( textColor );
+            Variables[$"{ThemeVariables.SnackbarButtonColor}-{variant}"] = ToHex( buttonColor );
+            Variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{variant}"] = ToHex( buttonHoverColor );
         }
 
         /// <summary>

@@ -49,13 +49,7 @@ namespace Blazorise.Tests.Components
 
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-            autoComplete.Focus();
-            autoComplete.Input( freeTypedValue );
-
-            foreach ( var item in freeTypedValue )
-            {
-                autoComplete.KeyDown( item );
-            }
+            Input( autoComplete, freeTypedValue );
 
             autoComplete.KeyDown( Key.Enter );
 
@@ -70,13 +64,7 @@ namespace Blazorise.Tests.Components
 
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-            autoComplete.Focus();
-            autoComplete.Input( freeTypedValue );
-
-            foreach ( var item in freeTypedValue )
-            {
-                autoComplete.KeyDown( item );
-            }
+            Input( autoComplete, freeTypedValue );
 
             WaitAndEnterFirstOption( comp, expectedValue, false );
 
@@ -84,12 +72,20 @@ namespace Blazorise.Tests.Components
             comp.WaitForAssertion( () => Assert.Equal( expectedValue, getSelectedText( comp ) ), TestExtensions.WaitTime );
         }
 
+        protected static async Task Input( AngleSharp.Dom.IElement autoComplete, string freeTypedValue )
+        {
+            await autoComplete.FocusAsync( new() );
+            await autoComplete.InputAsync( new() { Value = freeTypedValue } );
+
+            foreach ( var item in freeTypedValue )
+            {
+                await autoComplete.KeyDownAsync( new() { Key = item.ToString() } );
+            }
+        }
 
         public void TestSelectValue<TComponent>( string expectedText, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
         {
-            var comp = RenderComponent<TComponent>(
-                     parameters =>
-                        parameters.TryAdd( "SelectedValue", (string[])null ) );
+            var comp = RenderComponent<TComponent>();
 
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
