@@ -689,6 +689,9 @@ namespace Blazorise.Bootstrap
                 : "nav-link dropdown-toggle"
             : "b-bar-link b-bar-dropdown-toggle";
 
+        public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
+            => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
+
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
         public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";

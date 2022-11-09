@@ -698,6 +698,9 @@ namespace Blazorise.Bulma
                 : "navbar-link b-bar-dropdown-toggle"
             : "b-bar-link b-bar-dropdown-toggle";
 
+        public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
+            => mode == Blazorise.BarMode.Horizontal && disabled ? "navbar-link-disabled" : null;
+
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
 
         public override string BarDropdownDivider( BarMode mode ) => "navbar-divider";
