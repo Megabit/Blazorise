@@ -4582,6 +4582,10 @@ ol.is-ordered-list-upper-roman {
   margin-left: 0rem;
   margin-right: 0.1rem;
 }
+.b-bar-horizontal .nav-item.dropdown.has-dropdown .navbar-link.b-bar-dropdown-toggle.navbar-link-disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
 
 .button.is-secondary {
   background-color: #6c757d;
