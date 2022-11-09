@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 #endregion
 
@@ -13,7 +12,7 @@ namespace Blazorise.ImageCropper
     /// <summary>
     /// Blazorise Image Cropper component based on <see href="https://fengyuanchen.github.io/cropperjs/">CropperJS</see>.
     /// </summary>
-    public class ImageCropper : BaseComponent, IAsyncDisposable
+    public partial class ImageCropper : BaseComponent, IAsyncDisposable
     {
         #region Members
 
@@ -81,18 +80,6 @@ namespace Blazorise.ImageCropper
             builder.Append( "b-image-cropper-source" );
             base.BuildClasses( builder );
         }
-
-        /// <inheritdoc/>
-        protected override void BuildRenderTree( RenderTreeBuilder builder ) => builder
-            .OpenElement( "img" )
-            .Id( ElementId )
-            .Attribute( "src", Source )
-            .Attribute( "alt", Alt )
-            .Class( ClassNames )
-            .Style( StyleNames )
-            .Attributes( Attributes )
-            .ElementReferenceCapture( capturedRef => ElementRef = capturedRef )
-            .CloseElement();
 
         /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
