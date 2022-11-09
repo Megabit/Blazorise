@@ -18,7 +18,15 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         cropper: null,
     };
 
-    instance.cropper = new Cropper(element, options);
+    const cropper = new Cropper(element, options);
+
+    if (options.enabled) {
+        cropper.enable();
+    } else {
+        cropper.disable();
+    }
+
+    instance.cropper = cropper;
 
     registerEvents(element, dotNetAdapter);
 
