@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.1.2.0";
-import * as utilities from "./utilities.js?v=1.1.2.0";
+﻿import "./vendors/flatpickr.js?v=1.1.3.0";
+import * as utilities from "./utilities.js?v=1.1.3.0";
 
 const _pickers = [];
 
@@ -51,7 +51,8 @@ export function initialize(element, elementId, options) {
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
-        inline: options.inline || false
+        inline: options.inline || false,
+        disableMobile: true
     };
 
     if (options.selectionMode)
@@ -169,6 +170,7 @@ export function updateLocalization(element, elementId, localization) {
             picker.l10n.months = localization.months;
             picker.l10n.weekdays = localization.weekdays;
             picker.l10n.amPM = localization.amPM;
+            picker.l10n.rangeSeparator = localization.rangeSeparator;
         }
 
         if (picker.weekdayContainer) {

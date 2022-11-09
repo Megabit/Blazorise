@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "./utilities.js?v=1.1.2.0";
+﻿import { getRequiredElement } from "./utilities.js?v=1.1.3.0";
 
 const _instances = [];
 let nextFileId = 0;
@@ -65,7 +65,12 @@ export function open(element, elementId) {
     if (!element)
         return;
 
-    element.click();
+    if ('showPicker' in HTMLInputElement.prototype) {
+        element.showPicker();
+    }
+    else {
+        element.click();
+    }
 }
 
 // Reduce to purely serializable data, plus build an index by ID

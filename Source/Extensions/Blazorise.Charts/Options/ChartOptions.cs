@@ -22,6 +22,12 @@ namespace Blazorise.Charts
         public ChartParsing Parsing { get; set; }
 
         [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public ChartElements Elements { get; set; }
+
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        public ChartLayout Layout { get; set; }
+
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
         public string IndexAxis { get; set; }
 
         /// <summary>

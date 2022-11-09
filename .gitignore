@@ -266,3 +266,7 @@ Documentation/Blazorise.Docs.Server/wwwroot/img/blog/.DS_Store
 # Ignore VS Code
 .vscode/*
 .vscode/settings.json
+
+
+# Source Generation directory
+__SOURCEGENERATED__/
